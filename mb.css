@@ -7,24 +7,3 @@ body {
   
   
 }
-
-/* GENERAL STYLE */
-* {
-  box-sizing: border-box; 
-}
-button{
-  white-space: nowrap;
-}
-node{display: none;}
-
-
-h4{
-margin-block-start:0px;
-margin-block-end:0px;
-font-size:14px;
-line-height:20px;
-text-transform: Uppercase;
-
-}
-
-
