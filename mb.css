@@ -1,9 +1,1371 @@
 body {
   background-image: url('https://tinyurl.com/MBParchment1');
-  background-position: center;
   background-repeat: no-repeat; 
   background-size: cover;
   height: 100%; 
   
   
 }
+
+/* GENERAL STYLE */
+* {
+  box-sizing: border-box; 
+}
+button{
+  white-space: nowrap;
+}
+node{display: none;}
+
+
+h4{
+margin-block-start:0px;
+margin-block-end:0px;
+font-size:14px;
+line-height:20px;
+text-transform: Uppercase;
+
+}
+
+
+
+
+/* SECTION NESTING STYLE */
+section section{
+  background-color:#ffffff80;
+border-radius: 0.6em;
+color:inherit;
+  font-family:Bitter;
+  font-size:18px; 
+  font-style:inherit;
+  line-height:1.25em; 
+  margin:0px 0px;
+  padding:10px 10px; 
+  text-align:left; 
+}
+
+  /* SCROLL */
+.mbscroll{
+  background-color:#ffffff80;
+  background-image: url('https://tinyurl.com/MBParchment3');
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border-radius: 0.6em;
+  box-shadow: 0px 0px 5px saddlebrown;
+  color:inherit;
+  font-family:Bitter;
+  font-size:18px; 
+  font-style:inherit;
+  font-weight:normal;
+  line-height:1.25em; 
+  margin:10px 0px;
+  padding:10px; 
+  text-align:left; 
+
+}
+
+
+/* FLEX SECTION */
+.flex{
+display:flex;  
+flex-direction: row;
+flex-wrap: wrap;
+align-items: stretch;
+padding:5px 0px 5px 0px;
+margin:-5px;
+}
+.flex > div {
+  flex: 250px; 
+  margin:5px 5px;
+}
+.flex > .spacer{
+  margin:0px 5px;
+  order:99999999;
+}
+/*
+@media (max-width: 400px) {
+  .flex {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  align-items: stretch;
+  }
+}*/
+.spacer{
+  margin:0px;
+  padding:0px;
+  font-size: 1px;
+  line-height: 1px;
+}
+
+/* STYLES FOR DAY LIST */
+.mbDayHeader{
+  display:none;
+}
+/*  .mbCalCB > .mbbanner > .mbscroll > .mbDayHeader{*/
+.mbbanner > .mbscroll > .mbDayHeader:first-child {
+  display:inline;
+}
+
+.mbCalCB > .mbbanner > .mbscroll > .mbDayContent{
+  display:none;
+}
+
+
+/* STYLES FOR DEFLIST */
+.DefList section{
+  padding-left:30px;
+}
+.DefList section b:first-child{
+margin-left:-30px;
+padding-right:10px;
+}
+
+.mbRef{
+  /* 20230220: Evelyn: Created for showing right aligned references */
+  float:right;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 17.5px;
+  
+  text-align:right;
+}
+
+/* OTHER STYLES */
+
+p a{font-family: inherit;color:inherit; margin:2px 0px;text-decoration:underline;transition: all 0.25s ease; }
+p a:visited{font-family: inherit;color:inherit; }
+p a:hover{font-family: inherit;color:#00ff00;cursor:pointer }
+p a:active{font-family: inherit;}
+
+a{
+  cursor:pointer;
+  font-weight:inherit;
+  white-space: nowrap;
+}
+
+h1{
+  color: saddlebrown;
+font-size:36px;
+line-height:1.1em;
+margin:3px 0px;
+padding:0px;
+}
+h2{
+  color: saddlebrown;
+  font-size:24px;
+  line-height:1.1em;
+margin:0px 0px;
+padding:0px;
+}
+h3{
+  color: saddlebrown;
+font-size:22px;
+line-height:1.1em;
+margin:0px 0px;
+padding:0px;
+}
+h3c{
+  color: saddlebrown;
+display:block;
+font-size:22px;
+font-weight:bold;
+line-height:1.25em;
+margin:0px 0px;
+padding:0px;
+}
+hr{
+  background-color: saddlebrown; 
+  border: 0px;
+  border-radius: 2px; 
+height: 3px;
+margin:5px 0px;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
+}
+table{
+margin-left:auto;
+margin-right:auto;
+}
+
+
+.post-title{margin-bottom:1em;}
+.item-view .post-share-buttons{display:none;}
+.post-share-buttons {display:none;margin:0px;}
+.post-share-buttons-top{display:none;margin:0px;}
+
+.mbCardRM{
+  float:none;
+  text-align:center;
+}
+.mbbgs .mbCardRM{
+float:none;
+text-align:center;
+}
+
+@media only screen and (min-width:500px){
+.mbCardRM{
+  float:right;
+  clear:right;
+}
+}
+.mbMC3{
+column-count: 1; 
+column-gap: 0em; 
+}
+
+@media only screen and (min-width:500px){
+.mbMC3{
+column-count: 2; 
+column-gap: 2em; 
+}
+}
+@media only screen and (min-width:750px){
+.mbMC3{
+column-count: 3; 
+column-gap: 2em; 
+}
+}
+
+
+.locbanner {background-color:#000000; background-size:cover; color:#ffffff; border:0px solid #000000; border-radius:0px; display:block; font-size:18px; line-height:1.1em; margin: 2px 0px;padding:10px; width:100%; text-align:left; font-family:Bitter;}
+.locbanner:hover {box-shadow: 0 0px 12px 0 rgba(255, 255, 255, 1);cursor:default;}
+
+.av50 {height:50px; width:50px; border-radius:50%;border: 4px solid #ffffff;margin:0; padding:0;}
+
+
+.button {
+color: black; padding: 16px 32px; border-radius: 8px; text-align: center; 
+text-decoration: none; display: inline-block; font-family: inherit; font-size: medium 
+4px 2px; transition-duration: 0.4s; cursor: pointer;
+}
+
+.choice { background-color: white; color: black; border: 2px solid #666666; width: 100%;}
+.choice:hover { background-color: #666666; color: white; width: 100%;}
+.locex { padding: 8px 16px; background-color: white; color: black; border: 2px solid #1155CC; border-radius: 0px; width: 300px; text-align: left}
+.locex:hover { padding: 8px 16px; background-color: #1155CC; color: white; }
+.recap { background-color: #C0C0C0; border:0px solid #666666; border-radius: 0px;color:#000000;  font-size:18px;padding:8px;text-align:left;width: 100%;}.recap:hover { background-color: #E0E0E0;}
+
+.post-wrapper, #comments {
+  background-color:#fff2cccc;
+}
+
+
+/* For Anchor Position */
+/* Ref: http://darktef.github.io/posts/2017-03-offset-html-anchors-for-fixed-header-with-css */
+:target { 
+display: block;
+position: relative;
+top: -90px; 
+visibility: hidden;
+}
+
+ctr{text-align:center;}
+hide {display:none}
+jq{
+  color:brown;
+  font-size: 14px;
+  font-weight: bold;
+}
+jq::before{content:"[Loading:"}
+jq::after{content:"] "}
+hl{
+  background-color:yellow; 
+  color:black;
+}
+
+/*COLORS*/
+.TD{ /*TODO*/
+color:yellow;
+}
+.WT{ /*WAIT*/
+color:saddlebrown;  
+}  
+/*MAGIC BAKERY*/
+
+
+mbHL{
+  background-color:LemonChiffon;   
+}
+.mbHL{
+  background-color:LemonChiffon;  
+}
+
+mbAA{ /*Arcacia Award*/
+color: #e66;
+display:block;
+font-weight:bold;
+text-align:center;
+}
+mbAA::before{content:"💗 ";font-weight:normal;}
+mbAA::after{content:" Arcacia Award.";}
+mbAct{ /* Action/Acting */
+display:block;
+font-weight:bold;
+text-align:center; 
+}
+mbAct::before{content:"** ";}
+mbAct::after{content:" **";}
+mbBest{ /*Best*/
+color: Goldenrod;
+display:block;
+font-weight:bold;
+text-align:center;
+}
+mbBest::before{content:"👑 ";font-weight:normal;}  
+mbCardinal{ /* Cardinal Message */
+color: #cc0000;
+display:block;
+font-weight:bold;
+text-align:center; 
+}
+mbCardinal::before{content:"🔴 ";font-weight:normal;}
+mbClue{ /*Clue*/
+color: SlateBlue;
+display:block;
+font-weight:bold;
+text-align:center;
+}
+mbClue::after{content:" 🔍";font-weight:normal;}
+mbClue::before{content:"🔍";font-weight:normal;}
+mbComplete{ /* Mission Accomplished */
+color: #38761d;
+display:block;
+font-weight:bold;
+text-align:center; 
+}
+mbComplete::before{content:"\2705\0020";font-weight:normal;}
+mbElm{ /* Elemental Affinity */
+  font-size: 14px;
+font-weight:bold;
+}
+mbDMG{ /* Damage Messages */
+color: #cc0000;
+display:block;
+font-weight:bold;
+text-align:center;  
+}
+mbDamage{ /* Damage Messages Inline */
+color: #cc0000;
+font-weight:bold;
+}
+mbDMG::before{content:"\2694 \FE0F \20";font-weight:normal;}
+
+mbKey{ /* Key Item */
+  color: purple;
+display:block;
+text-align:center; 
+}
+mbKey::before{content:"Key Item Received: "; font-weight:bold;}
+mbKudo{ /* Kudo */
+color: #e06666;
+display:block;
+font-weight:bold;
+text-align:center; 
+}
+mbKudo::before{content:"💟 ";font-weight:normal;}
+mbMerit{ /*Merit*/
+color: purple;
+display:block;
+font-weight:bold;
+text-align:center;
+}
+mbMerit::before{content:"\2B50 \20";font-weight:normal;}
+.mbRankr{
+  float:right;
+  font-size:36px;
+  font-weight: bold;
+  margin-top:10px;
+}
+mbREC{ /*Recognition*/
+color: #0b5394;
+display:block;
+font-weight:bold;
+text-align:center;
+}
+mbREC::before{content:"🏅 ";font-weight:normal;}
+mbRP{ /*Roleplay Award*/
+color: #351c75;
+display:block;
+font-weight:bold;
+text-align:center;
+}
+mbRP::before{content:"🦄 ";font-weight:normal;}
+mbRP::after{content:" Roleplay Award.";}
+mbSkill{ /*Skill Definition*/
+color: #38761d;
+display:block;
+font-weight:bold;
+text-align:center;
+}
+mbSkill::before{content:"📗 ";font-weight:normal;}
+mbSpell{ /* Spell Effect */
+color: darkblue;
+display:block;
+font-weight:bold;
+text-align:center;
+}
+mbSpell::before{content:"🌟 ";font-weight:normal;}
+mbTele{ /*Teleport*/
+color: #0b5394;
+display:block;
+font-weight:bold;
+text-align:center;
+}
+mbTele::before{content:"💠 ";font-weight:normal;}
+todo{ /* Todo Notes */
+color: #cc0000;
+display:inline;
+font-weight:bold;
+}
+todo::before{content:"TODO: ";font-size: 12px;}
+
+
+.mbIcon {
+  background-color:rgba(0,0,0,0);
+  background-position: 50% 50%; 
+  background-size:cover; 
+  display:inline-block;
+  /*filter: blur(0.03rem) contrast(1.2);*/
+  height:20px; 
+  line-height:1.1em;
+  margin:1px 0px 0px 0px;
+  padding:0;
+  vertical-align:top;
+  width:20px; 
+}
+
+.mbavem {
+  background-color:rgba(0,0,0,0);
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border-radius:50%;
+  border: 2px solid saddlebrown;
+  box-shadow: 0px 0px 0px saddlebrown;
+  box-sizing: border-box;
+  display:inline-block;
+  height:20px; 
+  line-height:1.1em;
+  margin:0;
+  padding:0;
+  vertical-align:middle;
+  width:20px; 
+}
+.mbOP{
+  border-radius:50%;
+  border: 2px solid saddlebrown;
+  box-shadow: 0px 0px 0px #000000;
+  display:inline-block;
+  height:1em; 
+  line-height:1em;
+  margin:0;
+  padding:0;
+  vertical-align:middle;
+  width:1em; 
+}
+
+.mbav24r {
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border-radius:50%;
+  border: 0px solid #ffffff;
+  box-shadow: 0px 0px 0px saddlebrown;
+  box-sizing: border-box;
+  float:right;
+  height:24px; 
+  margin:0; 
+  padding:0;
+  text-align:right;
+  text-shadow: 0px 0px 0px #ffffff;
+  width:24px; 
+}
+.mbav50t {
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border-radius:50%;
+  border: 4px solid saddlebrown;
+  box-shadow: 0px 0px 4px saddlebrown;
+  box-sizing: border-box;
+  color:saddlebrown;
+  display:inline-block;
+  font-size:16px;
+  height:50px; 
+  line-height:0.5em; 
+  margin:0; 
+  padding:0;
+  text-align:center;
+  text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
+  width:50px; 
+}
+.mbav50tp {
+  background-position: 50% 50%; 
+  background-size:cover; 
+  box-sizing: border-box;
+  color:saddlebrown;
+  display:inline-block;
+  font-size:16px;
+  height:50px; 
+  line-height:0.5em; 
+  margin:0; 
+  padding:0;
+  text-align:center;
+  text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff; ;
+  width:50px; 
+}
+.mbav50tr {
+  
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border-radius:50%;
+  border: 0px solid saddlebrown;
+  box-sizing: border-box;
+  display:inline-block;
+  height:55px; 
+  line-height:1em; 
+  margin:0;    
+  padding:0;
+  text-align:right;
+  text-shadow: 0px 0px 4px #ffffff;
+  width:55px; 
+}
+.mbav50trg {
+  background-color: greenyellow;
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border-radius:10px;
+  border: 7px solid green;
+  box-shadow: 0px 0px 4px greenyellow;
+  box-sizing: border-box;
+  display:inline-block;
+  height:55px; 
+  line-height:1em; 
+  margin:0px;    
+  padding:0;
+  text-align:right;
+  text-shadow: 0px 0px 4px #ffffff;
+  width:55px; 
+}
+.mbav50cr {
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border-radius:50%;
+  border: 4px solid saddlebrown;
+  box-shadow: 0px 0px 4px saddlebrown;
+  box-sizing: border-box;
+  float:right;
+  height:50px; 
+  line-height:1em; 
+  margin:0; 
+  padding:0;
+  text-align:center;
+  text-shadow: 0px 0px 4px #ffffff;
+  width:50px; 
+}
+.mbav50l {
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border-radius:50%;
+  border: 4px solid saddlebrown;
+  box-shadow: 0px 0px 4px saddlebrown;
+  box-sizing: border-box;
+  color:saddlebrown;
+  float:left;
+  height:50px; 
+  margin:0; 
+  padding:0;
+  text-align:center;
+  text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff; ;
+  width:50px; 
+}
+.mbav50r {
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border-radius:50%;
+  border: 4px solid saddlebrown;
+  box-shadow: 0px 0px 4px saddlebrown;
+  box-sizing: border-box;
+  float:right;
+  height:50px; 
+  line-height:1em; 
+  margin:-4px -4px -4px 4px;     
+  padding:0;
+  position:relative;
+  text-align:right;
+  text-shadow: 0px 0px 4px #ffffff;
+  width:50px; 
+  z-index:1
+}
+.mbav50rc {
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border-radius:50%;
+  border: 4px solid saddlebrown;
+  box-shadow: 0px 0px 4px saddlebrown;
+  box-sizing: border-box;
+  float:right;
+  height:50px; 
+  line-height:1em; 
+  margin:0; 
+  padding:0;
+  text-align:center;
+  text-shadow: 0px 0px 4px #ffffff;
+  width:50px; 
+}
+.mbav50lp {
+  background-position: 50% 50%; 
+  background-size:cover; 
+  box-sizing: border-box;
+  float:left;
+  height:50px; 
+  margin:0; 
+  padding:0;
+  text-align:right;
+  text-shadow: 0px 0px 4px #ffffff;
+  width:50px; 
+}
+.mbav50rp {
+  background-position: 50% 50%; 
+  background-size:cover; 
+  box-sizing: border-box;
+  float:right;
+  height:50px; 
+  margin:0; 
+  padding:0;
+  text-align:right;
+  text-shadow: 0px 0px 4px #ffffff;
+  width:50px; 
+}
+.mbavcard {
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border-radius:10px;
+  border: 4px solid saddlebrown;
+  box-shadow: 0px 0px 5px saddlebrown;
+  box-sizing: border-box;
+  height:150px; 
+  margin:0; 
+  padding:0;
+  text-align:center;
+  text-shadow: 0px 0px 4px #ffffff;
+  width:180px; 
+}
+.mbav100r {
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border-radius:50%;
+  border: 4px solid saddlebrown;
+  box-shadow: 0px 0px 5px saddlebrown;
+  box-sizing: border-box;
+  float:right;
+  height:100px; 
+  margin:0; 
+  margin-left:5px;
+  padding:0;
+  text-align:center;
+  text-shadow: 0px 0px 4px #ffffff;
+  width:100px; 
+}
+
+/* ICONS (20x20 px)*/
+.iLyre{background-image:url('https://github.com/MagicBakery/Images/blob/main/Lyre.png?raw=true');}
+
+/* Avatars */
+.mb3B {background-image:url('https://tinyurl.com/MB3B2');}
+.mb44 {background-image:url('https://tinyurl.com/MB443');}
+.mbAlbatross {background-image:url('https://github.com/MagicBakery/Images/blob/main/Albatross%20Spite.png?raw=true')}
+.mbAlice {background-image:url('https://github.com/MagicBakery/Images/blob/main/Alice.png?raw=true');}
+.mbAmelia {background-image:url('https://tinyurl.com/MBAmelia1');}
+.mbArcacia {background-image:url('https://tinyurl.com/MBArcacia1');}
+.mbBlack {background-image:url('https://tinyurl.com/MBBlack1');}
+.mbCardinal {background-image:url('https://tinyurl.com/MBCardinalL');} /*https://tinyurl.com/MBCardinal2*/
+.mbCasey {background-image:url('https://tinyurl.com/MBCasey1');}
+.mbChatGPT {background-image:url('https://github.com/MagicBakery/Images/blob/main/ChatGPT4.png?raw=true');}
+.mbEmi {background-image:url('https://github.com/MagicBakery/Images/blob/main/Emi.png?raw=true');}
+.mbEvelyn {background-image:url('https://tinyurl.com/MBEvelyn3');}
+.mbFina {background-image:url('https://tinyurl.com/MBFina1');}
+.mbGaia {background-image:url('https://tinyurl.com/MBGaia3');}
+.mbHelen {background-image:url('https://tinyurl.com/MBHelen1');}
+.mbIvy {background-image:url('https://tinyurl.com/MBIvy2');}
+.mbJames {background-image:url('https://tinyurl.com/MBJames1');}
+.mbKen {background-image:url('https://tinyurl.com/MBKen1');}
+.mbKisaragi {background-image:url('https://tinyurl.com/MBKisaragi1');}
+.mbLedia {background-image:url('https://tinyurl.com/MBLedia2');}
+.mbLRRH {background-image:url('https://tinyurl.com/MBLRRH1');}
+.mbMelody {background-image:url('https://github.com/MagicBakery/Images/blob/main/Melody%20BW.png?raw=true');}
+.mbMikela {background-image:url('https://tinyurl.com/MBMikela1');}
+.mbNaomi { background-image:url('https://github.com/MagicBakery/Images/blob/main/Naomi%202.png?raw=true')}
+.mbNatalie {background-image:url('https://github.com/MagicBakery/Images/blob/main/Natalie%20(2).png?raw=true');}
+.mbNatasha {background-image:url('https://github.com/MagicBakery/Images/blob/main/Natasha.png?raw=true');}
+.mbNeil {background-image:url('https://tinyurl.com/MBNeil1');}
+.mbP4 {background-image:url('https://tinyurl.com/MBP411');}
+.mbPatricia {background-image:url('https://tinyurl.com/MBPatricia1');}
+.mbPhone {background-image:url('https://github.com/MagicBakery/Images/blob/main/Phone3.png?raw=true')}
+.mbRS {background-image:url('https://github.com/MagicBakery/Images/blob/main/RS.png?raw=true');}
+.mbRobert {background-image:url('https://tinyurl.com/MBRobert1');}
+.mbSasha {background-image:url('https://tinyurl.com/MBSasha2');}
+.mbSirius {background-image:url('https://github.com/MagicBakery/Images/blob/main/Sirius.png?raw=true');}
+.mbSkyle {background-image:url('https://github.com/MagicBakery/Images/blob/main/Skyle.png?raw=true')}
+.mbStar {background-image:url('https://tinyurl.com/MBStar1');}
+.mbStarTree {background-image:url('https://tinyurl.com/MBStarTree1');}
+.mbSylvia {background-image:url('https://tinyurl.com/MBSylvia1');}
+.mbTanya {background-image:url('https://tinyurl.com/MBTanya3');}
+.mbV {background-image:url('https://tinyurl.com/MBV1002');}
+.mbVivi {background-image:url('https://tinyurl.com/MBVivi1');}
+.mbVladanya {background-image:url('https://tinyurl.com/MBVladanya');}
+.mbZoey {background-image:url('https://tinyurl.com/MBZoey1');}
+
+.mbav50pl {
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border-radius:10px;
+  border: 4px solid saddlebrown;
+  box-shadow: 0px 0px 4px saddlebrown;
+  box-sizing: border-box;
+  color: #ffffff;
+  float:left;
+  height:50px; 
+  margin:-5px 5px 0px -5px; 
+  padding:0px;
+  text-align:center;
+  text-shadow: 0px 0px 4px #ffffff;
+  width:50px; 
+}   
+.mbav50pr {
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border-radius:10px;
+  border: 4px solid saddlebrown;
+  box-shadow: 0px 0px 4px saddlebrown;
+  box-sizing: border-box;
+  color: #ffffff;
+  float:right;
+  height:50px; 
+  margin:-5px -5px 0px 5px; 
+  padding:0px;
+  text-align:center;
+  text-shadow: 0px 0px 4px #ffffff;
+  width:50px; 
+}   
+.mbav100pr {
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border-radius:10px;
+  border: 4px solid saddlebrown;
+  box-shadow: 0px 0px 4px #808080;
+  box-sizing: border-box;
+  float:right;
+  height:100px; 
+  margin:0px 0px 0px 5px; 
+  padding:0;
+  text-align:center;
+  text-shadow: 0px 0px 4px #ffffff;
+  width:100px; 
+}
+  
+.mbNB{
+  border: 2px solid rgba(139,69,19,0); /*saddlebrown*/
+  border-radius:0px;
+  box-shadow: none;
+  background-repeat: no-repeat;
+}
+
+.mbbanner {
+  background-image:url('https://tinyurl.com/MBParchment2');
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border: 4px solid saddlebrown;  
+  border-radius: 20px; 
+  box-shadow: 0px 0px 8px #808080;
+  color: saddlebrown;
+  display:block; 
+  font-size:18px; 
+  line-height:1.25em; 
+  margin: 0;
+  padding:10px; 
+  text-align:left; 
+  font-family:Bitter;
+}
+  .mbApproval{
+border-color:firebrick;
+color:firebrick;
+line-height:1em; 
+text-align:center;
+text-shadow: none;
+}	  
+.mbbg { 
+  background-image: url('https://tinyurl.com/MBParchment1');
+  border:0px solid #ffffff; 
+  border-radius: 20px;
+  box-shadow: 0px 0px 8px #808080;
+margin-top:-16px;
+margin-bottom:0px;
+margin-left:0px;
+margin-right:0px;
+  padding: 10px;
+}
+.mbbgs { 
+  background-image: url('https://tinyurl.com/MBParchment1');
+  border:0px solid #ffffff; 
+  border-radius: 20px;
+  box-shadow: 0px 0px 8px #808080;
+margin:0px;
+  padding: 10px;
+}
+.mbbgLight{background-image: url('https://tinyurl.com/MBParchment2');}
+.mbbgLighter{background-image: url('https://tinyurl.com/MBParchment3');}
+.mbbgGreen{background-image: url('https://tinyurl.com/MBParchmentGreen');}
+.mbbgLime{background-image: url('https://tinyurl.com/MBParchmentLime');}
+
+
+
+.mbbutton, .mbbuttonc, .mbbuttonEx, .mbbuttonIn{
+  background-color:#ffffcc00;
+  border: 0px; 
+  border-radius: 0.68em; 
+  color:inherit;
+  font-family:inherit;
+  font-weight:bold;
+  
+}
+.mbNote{
+  background-color:#ffffcc00;
+  border: 0px; 
+  border-radius: 0.68em; 
+  color:inherit;
+  font-family:inherit;
+}
+.mbbuttonc{
+  text-align:center;
+}
+div .mbbutton .mbNote{
+  margin-top:0px
+}
+
+.mbbuttonCal {
+  border: 0px; 
+color:saddlebrown;
+  font-family:inherit;
+  font-weight:bold;
+}
+.mbbuttonCal:hover{
+background-color:saddlebrown; 
+border-radius:4px;
+  color:#ffffff;
+cursor:pointer;
+}
+.mbbuttonCalAV {
+  background-position: 50% 50%; 
+  background-size:24px 24px; 
+background-repeat: no-repeat;
+border-radius:50%;  
+color:rgba(0,0,0,0);
+  font-family:inherit;
+  font-weight:bold;
+padding:8px
+
+}
+.mbbuttonCalAV:hover{
+background-color:saddlebrown; 
+background-image: url('');
+border-radius:4px;
+  color:#ffffff;
+cursor:pointer;
+font-weight:bold;
+}
+.mbbuttonIcon{
+  background-color:#ffffcc00;
+  border: 0px; 
+  border-radius: 0.68em; 
+  color:inherit;
+  font-family:Bitter;
+  font-weight:normal;
+}
+.mbbutton:hover, .mbbuttonc:hover, .mbbuttonIcon:hover, .mbbutton:hover h3, .mbbuttonc:hover h3, .mbNote:hover{
+  background-color:saddlebrown; 
+border-radius: 0.68em; 
+  color:#ffffff;
+cursor:pointer;
+}
+
+.mbbuttonEx:hover{
+  background-color:DeepSkyBlue; 
+  color:#ffffff;
+}
+.mbbuttonIn:hover{
+  background-color:DarkGreen; 
+  color:#ffffff;
+}
+.mbListCap{
+  background-color:saddlebrown;
+  border-radius:2px;
+  box-sizing:border-box;
+  color:white;    
+  float:left;
+  margin:0px 0px 0px -30px;
+  text-align:center;
+  width:25px;
+}
+.mbListCapNC{
+  border-radius:2px;
+  box-sizing:border-box;
+  float:left;
+  font-weight: bolder;
+  margin:0px 0px 0px -36px;
+  text-align:center;
+  width:30px;
+}
+.mbILB25{
+  border-radius:2px;
+  box-sizing:border-box; 
+  color:white;
+  display:inline-block;
+  margin:0px 0px 0px 0px;
+  text-align:center;
+  width:25px;
+}
+.mbILB30{
+  border-radius:2px;
+  box-sizing:border-box; 
+  color:white;
+  display:inline-block;
+  margin:0px 0px 0px 0px;
+  text-align:center;
+  width:30px;
+}
+.mbILB35{
+  border-radius:2px;
+  box-sizing:border-box; 
+  color:white;
+  display:inline-block;
+  margin:0px 0px 0px 0px;
+  text-align:center;
+  width:35px;
+}
+.mbRankNone{background-color:none}
+.mbRankQtyLL{background-color:saddlebrown;}
+.mbRankQtyL{background-color:darkgoldenrod;}
+.mbRankQty{background-color:gold;}
+.mbRankQtyH{background-color:yellowgreen;}
+.mbRankQtyHH{background-color:green;}
+.mbRankQtyHHH{background-color:darkgreen;}
+.mbRankSS::before{content:"👑";}
+.mbRankSS{background-color:none;color:gold;}
+.mbRankS::before{content:"S";}
+.mbRankS{background-color:none;color:gold; text-shadow: -1px -1px 0 darkgoldenrod, 1px -1px 0 darkgoldenrod, -1px 1px 0 darkgoldenrod, 1px 1px 0 darkgoldenrod;}
+.mbRankA::before{content:"A";}
+.mbRankA{background-color:none;color:firebrick;}
+.mbRankB::before{content:"B";}
+.mbRankB{background-color:none;color:green;}
+.mbRankC::before{content:"C";}
+.mbRankC{background-color:none;color:darkgoldenrod;}
+.mbRankD::before{content:"D";}
+.mbRankD{background-color:none;color:saddlebrown;}
+.mbRankH::before{content:"H";}
+.mbRankH{background-color:none;color:midnightblue;}
+.mbRankU::before{content:"U";}
+.mbRankU{background-color:none;color:dimgray;}
+
+
+.mbRankBlkSS::before{content:"👑";}
+.mbRankBlkSS{background-color:darkgreen;color:white; font-weight:bold; }
+.mbRankBlkS::before{content:"👑";}
+.mbRankBlkS{background-color:darkgreen;color:white;font-weight:bold; }
+.mbRankBlkA::before{content:"🍀";}
+.mbRankBlkA{background-color:green;color:white;font-weight:bold;}
+.mbRankBlkB::before{content:"🍵";}
+.mbRankBlkB{background-color:yellowgreen;color:white;font-weight:bold;}
+.mbRankBlkC::before{content:"🍮";}
+.mbRankBlkC{background-color:gold;color:white;font-weight:bold;}
+.mbRankBlkD::before{content:"🍯";}
+.mbRankBlkD{background-color:darkgoldenrod;color:white;font-weight:bold;}
+.mbRankBlkU::before{content:"🤎";}
+.mbRankBlkU{background-color:saddlebrown;color:saddlebrown;font-weight:bold;}
+
+
+
+.mbCalCB{
+background-color:#b37441;
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border: 4px solid white;  
+  border-radius: 20px; 
+box-shadow: 0px 0px 8px #808080;
+  color: white;
+  display:block; 
+  font-family:Bitter;  
+  font-size:16px; 
+  line-height:1.25em; 
+  margin: 5px 0px;
+  padding:0px; 
+  text-align:center; 
+}
+.mbCalendar{
+background-color: rgba(255,229,153,0.35);
+}
+.mbCalendar th{
+background-color: saddlebrown;
+color:#ffffff;
+font-size: 12px;
+text-align:center;
+}
+.mbCalendar td{
+text-align:center;
+height:24px;
+width:43px;
+}
+.mbCalendarb{
+background-color: rgba(255,229,153,0.35);
+}
+.mbCalendarb th{
+background-color: saddlebrown;
+border: 1px solid saddlebrown;
+color:#ffffff;
+font-size: 12px;
+text-align:center;
+}
+.mbCalendarb td{
+border: 1px solid saddlebrown;
+text-align:center;
+height:40px;
+  
+line-height:1em;
+width:45px;
+}
+.mbCalendarb img{
+  image-rendering: auto;
+}
+
+.mbCB{
+clear:both;
+}
+.mbCL{
+clear:left;
+}
+.mbChalkboard{
+background-color:#303030;
+border:4px solid white;
+border-radius:4px;
+box-shadow:0px 0px 4px #000000;
+color:white;
+margin:10px;
+padding:10px;
+font-family:consolas;
+}
+.mbCharCard{
+  background-color:#b37441;
+  background-image:url('https://tinyurl.com/MBParchment2');
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border: 4px solid white;  
+  border-radius: 10px; 
+  box-shadow: 0px 0px 8px #808080;
+  color: #783f04;
+  display:inline-block; 
+  font-family:Bitter;  
+  font-size:16px; 
+  line-height:1.25em; 
+  margin: 0px 5px 5px 5px;
+  padding:5px; 
+  text-align:center; 
+  height:324px;
+  width:225px;
+  vertical-align:top;
+}
+.mbCharCardImg {
+  background-position: 50% 50%; 
+  background-size:cover; 
+border: 4px solid saddlebrown;  
+  border-radius:5px;
+height:150px; 
+line-height:1em; 
+  margin:5px 0px; 
+  padding:0;
+  background-repeat: no-repeat;
+  text-align:center;
+}
+  .mbCharCardText{
+  background-color:#ffffff80;
+background-image: url('https://tinyurl.com/MBParchment3');
+background-position: 50% 50%; 
+background-size:cover; 
+border-radius: 5px;
+color:inherit;
+  font-family:Bitter;
+  font-size:14px; 
+  font-style:inherit;
+  line-height:1.25em; 
+  margin:5px;
+  padding:5px; 
+  text-align:left; 
+height:100px;
+vertical-align:bottom;
+}
+.mbCharCardTitle{
+  background-color:saddlebrown;
+border-radius: 10px;
+color:white;
+  font-family:Bitter;
+  font-size:14px; 
+  font-style:inherit;
+  line-height:1.25em; 
+  margin:5px;
+  padding:5px; 
+  text-align:left; 
+height:24px;
+vertical-align:bottom;
+}
+.mbCharCardTitle2{
+  background-color:#ffffffB0;
+  border-radius: 5px;
+  color:inherit;
+  font-family:Bitter;
+  font-weight:bold;
+  font-size:18px; 
+  font-style:inherit;
+  line-height:1em; 
+  margin:0px 0px;
+  padding:5px; 
+  text-align:center; 
+  white-space:nowrap;
+}
+.mbCharCardSubtitle{
+  border-radius: 5px;
+  color:inherit;
+  font-family:Bitter;
+  font-weight:bold;
+  font-size:14px; 
+  font-style:inherit;
+  line-height:1em; 
+  margin:-2px 0px 0px 0px;
+  padding:0px 5px; 
+  text-align:center; 
+}  
+.mbCharCardTitle3L{
+  background-color:#ffffffB0;
+  border-radius: 5px;
+  color:inherit;
+  font-family:Bitter;
+  font-weight:bold;
+  font-size:18px; 
+  font-style:inherit;
+  line-height:1em; 
+  margin:0px 0px;
+  padding:5px; 
+  text-align:left; 
+}
+.mbCharCardDesc{
+background-color:#ffffffB0;
+border-radius: 5px;
+color:inherit;
+  font-family:Bitter;
+font-weight:bold;
+  font-size:14px; 
+  font-style:inherit;
+  line-height:1.1em; 
+  margin:0px 0px 3px 0px;
+  padding:5px 5px; 
+  text-align:center; 
+height:105px;
+}  
+.mbCharCardDescInner{
+  display: table-cell; 
+  vertical-align: middle;
+  height:100px;
+}  
+.mbCharPage{
+background-color:#b37441;
+background-image:url('https://tinyurl.com/MBParchment2');
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border: 4px solid white;  
+  border-radius: 10px; 
+  box-shadow: 0px 0px 8px #808080;
+  color: #783f04;
+  display:block; 
+  font-family:Bitter;  
+  font-size:16px; 
+  line-height:1.25em; 
+  margin: 10px 0px;
+  padding:5px; 
+}
+.mbda{
+  background-color:rgba(255,229,153,0.50);
+  border:4px solid; 
+  border-color:#ffffff; 
+  border-radius:20px; 
+  font-family:Bitter;
+  font-size:18px;
+  margin-top:10px;
+  padding:10px; 
+}
+.mbhide{
+  display:none;
+}
+.mbhr{
+  background-color: saddlebrown; 
+  border: 0px;
+  border-radius: 2px; 
+height: 3px;
+margin:5px 0px;
+}
+.mbhr0{
+  background-color: saddlebrown; 
+  border: 0px;
+  border-radius: 1px; 
+  height: 2px;
+  margin:0px;
+  margin-top:-2px;
+  margin-bottom:2px;
+}  
+.mbIndent{
+  padding-left:25px;
+}
+.mbinline{
+  display:inline;
+}
+.mblb{
+  background-color:rgba(255,229,153,0.75); 
+  background-size:cover; 
+  border:4px solid #ffffff; 
+  border-radius:20px;
+  box-shadow: 0px 0px 8px #808080;
+  color:#5b0f00; 
+  display:block; 
+  font-family:Bitter;
+  font-size:18px; 
+  line-height:1.1em; 
+  margin: 2px 0px;
+  padding:10px; 
+  text-align:left; 
+}
+.mblb:hover {
+  box-shadow: 0 0px 12px 0 rgba(255, 255, 255, 1);
+  cursor:default;
+}
+.mblbdone{
+  background-color:rgba(219,244,153,0.75);
+/*background-image: url('https://tinyurl.com/MBParchmentLime');*/
+}
+.mbMP{ /* Map Pin */
+  position:absolute;
+  /*margin-top:-15px;
+    margin-left:-10.5px;*/
+  margin-top:-16px;
+    margin-left:-15px;
+  top:50%;
+  left:50%;
+  text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
+}
+.mbp{
+  font-family:Bitter;
+  font-size:18px; 
+  line-height:1.25em; 
+  margin:0px;
+  padding:0px; 
+  text-align:left; 
+}
+.mbpc{
+  font-family:Bitter;
+  font-size:18px; 
+  line-height:1.25em; 
+  margin:0px;
+  padding:0px; 
+  text-align:center; 
+}
+.mbpdc:first-letter{ /*Drop Cap*/
+  font-size:50px; 
+  line-height:44px;
+  float:left;
+  font-family:Bitter;
+  margin:0px;
+  padding:0px;
+  padding-right:4px; 
+}
+.mbscore{ /*Drop Cap*/
+font-size:50px; 
+  line-height:44px;
+float:left;
+  font-family:courier;
+font-weight:bold;
+letter-spacing: -5px;
+  margin:0px 3px 0px -8px;
+  padding:0px;
+padding-right:4px; 
+}
+.mbpf{
+  font-family:Consolas;
+  font-size:14px; 
+  font-size:14px; 
+  line-height:1.25em; 
+  margin:0px;
+  padding:0px; 
+  text-align:left; 
+}
+.mbq{
+  color:inherit;
+  font-family:Bitter;
+  font-size:16px; 
+  font-style:inherit;
+  line-height:1.25em; 
+  margin:0px;
+  padding:0px 20px; 
+  text-align:left; 
+}
+.mbPhoto{
+  border-radius:15px;
+  box-shadow: 0px 0px 8px #808080;
+}
+.mbpointer:hover{
+  cursor:pointer;
+}
+.mbpuzzle{
+  background-color:#ffffff80;
+border-radius: 0.6em;
+color:inherit;
+  clear:left;
+  font-family:Bitter;
+  font-size:18px; 
+  font-style:inherit;
+  line-height:1.25em; 
+  margin:10px 0px;
+  padding:10px; 
+  text-align:left; 
+}
+
+.mbSearch > .mbpuzzle{
+  margin:2px 0px;
+}
+
+.mbPinner{
+  margin:0px 0px 5px 0px;
+  padding:0px 0px 5px 40px;
+}
+
+.mbstatus {
+  background-color:#b37441;
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border: 4px solid white;  
+  border-radius: 20px; 
+  box-shadow: 0px 0px 8px #808080;
+  color: white;
+  display:none; 
+  font-size:14px; 
+  line-height:1.25em; 
+  margin: 0;
+  margin-top:4px;
+  padding:10px; 
+  text-align:left; 
+  font-family:Bitter;
+}
+.mbshow{
+  display:block;
+}
+.mbshowIB{
+  display:inline-block;
+}
+mbAH{
+  height:auto;
+}
+
