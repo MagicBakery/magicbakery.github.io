@@ -1,8 +1,46 @@
 body {
   background-image: url('https://tinyurl.com/MBParchment1');
-  background-repeat: no-repeat; 
-  background-size: cover;
-  height: 100%; 
+  background-repeat: no-repeat;
+  background-attachment: fixed; 
+  background-size: 100% 100%;
+  font-family: Bitter;
+  
+}
+.header{
+  background-color: saddlebrown;
+  color: white;
+  padding:10px;
+  margin:-8px -8px 0px -8px;
+  width:100vw;
+}
+.footer{
+  background-color: saddlebrown;
+  color: white;
+  padding:10px;
+  margin:0px -8px;
+  width:100vw;
+  position: fixed;
+  bottom:0;
+  text-align: right;
+
+}
+.mbPanel{
+  background-color:#ffffff80;
+  background-image: url('https://tinyurl.com/MBParchment3');
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border-radius: 0.6em;
+  box-shadow: 0px 0px 5px saddlebrown;
+  color:inherit;
+  font-family:Bitter;
+  font-size:18px; 
+  font-style:inherit;
+  font-weight:normal;
+  line-height:1.25em; 
+  margin:10px 10px;
+  padding:10px; 
+  text-align:left; 
+
 }
 
 /* GENERAL STYLE */
@@ -72,7 +110,7 @@ padding:5px 0px 5px 0px;
 margin:-5px;
 }
 .flex > div {
-  flex: 250px; 
+  flex: 300px; 
   margin:5px 5px;
 }
 .flex > .spacer{
