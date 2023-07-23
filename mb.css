@@ -10,8 +10,10 @@ body {
   background-color: saddlebrown;
   color: white;
   padding:10px;
-  margin:-8px -8px 0px -8px;
+  margin:0px -8px;
   width:100vw;
+  position: fixed;
+  top:0;
 }
 .footer{
   background-color: saddlebrown;
@@ -40,8 +42,9 @@ body {
   margin:10px 10px;
   padding:10px; 
   text-align:left; 
-
+  
 }
+
 
 /* GENERAL STYLE */
 * {
