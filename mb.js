@@ -2,7 +2,12 @@ function IFrameURLSet(el){
   // 20230723: StarTree
   var elIB = el.previousElementSibling;
   var elIF = el.parentNode.nextElementSibling;
-  elIF.src = elIB.value;
+  var mInput = elIB.value;
+  // 20230723: StarTree If the URL does not contain a dot, assume that it is a node ID.
+  if(!mInput.includes(".")){
+    mInput = "https://panarcana.blogspot.com/p/viewer.html?id=" + mInput;
+  }
+  elIF.src = mInput;
 }
 
 
@@ -15,9 +20,6 @@ function PanelAdd(el){
   elTemp.classList.add('mbPanel');
 
   elMA.appendChild(elTemp);
-  
-  //elMA.innerHTML += "<div class='mbPanel'><button class='mbbutton' onClick='PanelRemove(this)' style='float:right'>❌</button>Panel<br>" + 
-  //"<iframe src='https://panarcana.blogspot.com/p/viewer.html?id=P202303052122' title='Migration Node' style='border:none;width:100%;height:85vh' ></iframe></div>";
 
 }
 function PanelRemove(el){
