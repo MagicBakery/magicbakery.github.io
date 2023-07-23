@@ -26,7 +26,7 @@ body {
 }
 .mbPanel{
   background-color:#ffffff80;
-  background-image: url('https://tinyurl.com/MBParchment3');
+  background-image: url('https://github.com/MagicBakery/Images/blob/main/Parchment%20Light.png?raw=true');
   background-position: 50% 50%; 
   background-size:cover; 
   border-radius: 0.6em;
@@ -82,7 +82,7 @@ color:inherit;
   /* SCROLL */
 .mbscroll{
   background-color:#ffffff80;
-  background-image: url('https://tinyurl.com/MBParchment3');
+  background-image: url('https://github.com/MagicBakery/Images/blob/main/Parchment%20Light.png?raw=true');
   background-position: 50% 50%; 
   background-size:cover; 
   border-radius: 0.6em;
