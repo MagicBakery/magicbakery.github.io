@@ -4,7 +4,7 @@ function PanelAdd(el){
   
   
   el.parentNode.nextElementSibling;
-  elMA.innerHTML += "<div class='mbPanel'><button class='mbbutton' onClick='PanelRemove(this)'>❌</button>Panel</div>";
+  elMA.innerHTML += "<div class='mbPanel'><button class='mbbutton' onClick='PanelRemove(this)' style='float:right'>❌</button>Panel</div>";
 
 }
 function PanelRemove(el){
