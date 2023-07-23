@@ -24,5 +24,18 @@ function PanelAdd(el){
 }
 function PanelRemove(el){
   // 20230722: StarTree
-  el.parentNode.remove();
+  var mPanel = SearchPS(el,'control');
+  mPanel.parentNode.remove();
+}
+
+// IMPORTED FUNCTIONS
+function SearchPS(el,iAttribute){
+  // 20230301: Evelyn: Made function for the part shared by QueryAllPSN and ShowLPSN
+  // 20230308: LRRH: changed the check for missing iAttribute to undefined.
+  if(iAttribute==undefined || iAttribute==""){iAttribute="top";}
+  var elTarget = el.parentNode;
+  while(elTarget != null && elTarget.getAttribute(iAttribute)==null){
+    elTarget = elTarget.parentNode;
+  }
+  return elTarget;
 }
