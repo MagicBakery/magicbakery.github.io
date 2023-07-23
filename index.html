@@ -9,24 +9,34 @@
 <body>
   
   <div class="header">
-    <a href="https://panarcana.blogspot.com/p/viewer.html?id=P202303052122" style="float:Right;color:white" target="_blank">Blogspot</a> 
+    <!--<a href="https://panarcana.blogspot.com/p/viewer.html?id=P202303052122" style="float:Right;color:white" target="_blank">Blogspot</a>-->
     <h4>Magic Bakery Sandbox </h4>
     
   </div>
   <div id="MainArea" class="flex" style="padding-bottom:38px;padding-top:38px">
     <div class="mbPanel">
-      <button class="mbbutton" onClick="PanelRemove(this)" style="float:right">❌</button>
-      Panel 1<br>
-      <iframe src="https://panarcana.blogspot.com/p/viewer.html?id=P202303052122" title="Migration Node" style="border:none;width:100%;height:85vh;scrollbar-color: #007 #bada55;" allow='clipboard-read; clipboard-write'></iframe>
-    </div>
-    <div class="mbPanel">
-      <button class="mbbutton" onClick="PanelRemove(this)" style="float:right">❌</button>
-      Panel 2
+      <div control>
+        <button class="mbbutton" onClick="PanelRemove(this)" style="float:right">❌</button>
+        <input type="text"> 
+        <button class="mbbutton" onClick="IFrameURLSet(this)">🧭</button>
+      </div>
+      <iframe src="https://panarcana.blogspot.com/p/viewer.html?id=P202303052122" title="Migration Node" style="border:none;width:100%;height:85vh;" allow='clipboard-read; clipboard-write'></iframe>
     </div>
   </div>
   <div class="footer">
     
-    <button class="mbbutton" onClick="PanelAdd(this)" >➕ Add Panel</button>
+    <button class="mbbutton" onClick="PanelAdd(this)" >➕Panel</button>
   </div>
+
+  <hide><!--New Panel Template-->
+    <div id="NewPanelTemplate">
+      <div control>
+        <button class="mbbutton" onClick="PanelRemove(this)" style="float:right">❌</button>
+        <input type="text"> 
+        <button class="mbbutton" onClick="IFrameURLSet(this)">🧭</button>
+      </div>
+      <iframe src="https://panarcana.blogspot.com/p/viewer.html?id=P202303052122" title="Migration Node" style="border:none;width:100%;height:85vh;" allow='clipboard-read; clipboard-write'></iframe>
+    </div>
+  </hide>
 </body>
 </html>
