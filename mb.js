@@ -25,15 +25,20 @@ function BoardAdd(el){
   mControl.after(elTemp);
   return elTemp;
 }
-function BoardFill(el,iNodeID){
+function BoardFill(elBoard,iNodeID){
   // 20230821: StarTree: Fill the Board container with content from the node.
   //   The node ID does not have a leading P.
   //   Reference function: LoadArchivePostEl from Blogspot.
 
+  // For Testing: if iNodeID is blank, use this default:
+  if(iNodeID==""){iNodeID="202303052122";};
+
   // STEP: Create a container within the Board after the control section for the content.
   //       ((The board itself has a close button))
   var elContainer = document.createElement("span");
-  el.append(elContainer)  ;
+  
+  
+
 
   // STEP: Get Archive
   var mArchive = ArchiveSelect(iNodeID);
@@ -43,7 +48,8 @@ function BoardFill(el,iNodeID){
   $(document).ready(function(){
     $(elContainer).load(mArchive + mQuery, function(){	
 
-
+      elContainer.innerHTML = elContainer.firstElementChild.innerHTML;
+      elBoard.firstElementChild.after(elContainer);
     }); // END JQuery Load
   }); // END Document ready
 }
