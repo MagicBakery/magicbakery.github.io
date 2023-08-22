@@ -6,9 +6,9 @@ function ArchiveSelect(iNodeID){
   //   Upgrade: The input string could be the full node ID. In that case, just take the first 8 digits.  
   var iDate = iNodeID.substring(0,8);
   if(parseInt(iDate) < 20230101){
-	  return "./archive1.html ";
+	  return "./Archive1.html ";
   }else{
-    return "./archive2.html ";
+    return "./Archive2.html ";
   }
 }
 function BoardAdd(el){
