@@ -1,13 +1,4 @@
-function ArchiveSelect(iNodeID){
-	// 20230821: StarTree: ARCHIVE SELECTION
-  //   Upgrade: The input string could be the full node ID. In that case, just take the first 8 digits.  
-  var iDate = iNodeID.substring(0,8);
-  if(parseInt(iDate) < 20230101){
-	  return "./archive1.html ";
-  }else{
-    return "./archive2.html ";
-  }
-}
+
 function BoardAdd(el){
   // 20230821: StarTree: Adds a container immediately below the control section
   var elTemp = document.createElement("div");
@@ -51,9 +42,7 @@ function BoardFill(elBoard,iNodeID){
     }); // END JQuery Load
   }); // END Document ready
 }
-function DEBUG(iStr){
-  console.log(iStr);
-}
+
 function GetInputBoxValue(el){
   // 20230821: StarTree: This gets the first input box within the control section.
   var mControl = SearchPS(el,'control');
@@ -106,6 +95,22 @@ function PanelRemove(el){
 }
 
 //==IMPORTED FUNCTIONS===
+function ArchiveIndex(ei){
+  return "./archive" + ei + ".html ";
+}
+function ArchiveNum(){
+  return 2;
+}
+function ArchiveSelect(iNodeID){
+	// 20230821: StarTree: ARCHIVE SELECTION
+  //   Upgrade: The input string could be the full node ID. In that case, just take the first 8 digits.  
+  var iDate = iNodeID.substring(0,8);
+  if(parseInt(iDate) < 20230101){
+	  return "./archive1.html ";
+  }else{
+    return "./archive2.html ";
+  }
+}
 function CH15LoadThisMonth(){
   const monthNames = ["January","February","March","April","May","June","July",
                     "August","September","October","November","December"];
@@ -143,6 +148,9 @@ function ChName(iChID){
     case 31: return "Detective";
     default: return "Unknown";
   }
+}
+function DEBUG(iStr){
+  console.log(iStr);
 }
 function Default(e,mDefault){
   // 20230319: Kisaragi
@@ -326,7 +334,7 @@ function GuessContainerWidth(el){
     try{
       mFrameWidth = mCheckNode.getBoundingClientRect().width;
     }catch(e){
-      mFrameWidth = 1000;
+      mFrameWidth = 0;
     }
     
   }
@@ -364,15 +372,6 @@ function IsBlank(e){
   // 20230310: Zoey
   return ((e=== undefined) || (e==="") || (e=== null) || (e.length==0));
 }
-function Macro(elScope){
-  // MACRO FORMATTER
-  // 20220712: Natalie: So that Quest Lists can query quests.
-  // 20230220: Ivy: Added MacroLL for languages
-    ProcessNodeData(elScope);
-    MacroMacro(elScope);
-    MacroJQ(elScope);
-    MacroLnk(elScope);
-}
 function LangIcon(eCode){
   // 20230311: StarTree: Added for Manga display
   switch(eCode){
@@ -400,6 +399,15 @@ function MacroAlias(elScope){
     elJQ = z[i];
     QueryAllReplace(elJQ,elJQ.innerHTML);
   }
+}
+function Macro(elScope){
+  // MACRO FORMATTER
+  // 20220712: Natalie: So that Quest Lists can query quests.
+  // 20230220: Ivy: Added MacroLL for languages
+    ProcessNodeData(elScope);
+    MacroMacro(elScope);
+    MacroJQ(elScope);
+    MacroLnk(elScope);
 }
 function MacroID(eScopeID){
   var elScope = getElementById(eScopeID);
@@ -518,8 +526,8 @@ function MacroMacro(elScope){
   }
   return hit;
 }
-function MC3Resize(el){  
-  if(el.getBoundingClientRect().width >= 750){
+function MC3Resize(el){    
+  if(el.getBoundingClientRect().width >= 750){    
     el.classList.add("mbMC3");
   }else{
     el.classList.remove("mbMC3");
@@ -3207,12 +3215,7 @@ function RandomToday(){
   var refUTC = new Date(Date.UTC(2022,1,20,0,0,0));
   return Math.abs(Math.sin(Math.floor( (today.getTime()-refUTC.getTime())/(1000*3600*24) )));    
 }
-function ArchiveNum(){
-  return 2;
-}
-function ArchiveIndex(ei){
-  return "./archive" + ei + ".html ";
-}
+
 function RollCallList(el){
   // 20230202: StarTree: For Roll Call
   var elContainer = el.parentNode.nextElementSibling;

@@ -725,11 +725,12 @@
             </div><!--@Seed / Zoey-->
             <div class="mbCB">
               <span style="float:right"><lnk>202207170113|🍮</lnk></span>
-              <macro>{"guildlog":"114","rank":"B","updates":"3","node":"202212090038","author":"Ivy","chapter":"@Skill","cmd":"pb"}</macro>
+              <macro>{"guildlog":"114","rank":"A","updates":"5","node":"202212090038","author":"Ivy","chapter":"@Skill","cmd":"pb"}</macro>
               <div class="mbPinner mbhide"> 
                 <!--<span class="mbListCapNC mbRankS"></span>-->              
                 <span class="mbListCapNC mbRankA"></span>
-                <macro>{"log":"","priority":"2","icon":"🧳","node":"202303052122","title":"Migration Study","info":"Include css test.","cmd":"quest"}</macro>
+                <macro>{"log":"0824","priority":"0","icon":"🥼","node":"202308240030","title":"Science","info":"","cmd":"quest"}</macro>
+                <macro>{"log":"0823","priority":"2","icon":"🧳","node":"202303052122","title":"Migration Study","info":"Include css test.","cmd":"quest"}</macro>
                 <span class="mbListCapNC mbRankB"></span>
                 <macro>{"log":"0806","priority":"1","icon":"🥨","node":"202303232253","title":"Guild log topics","info":"Process Guild Log topics. 2304:119. 2305:124. 2306:116 2307:115","cmd":"quest"}</macro>
                 <span class="mbListCapNC mbRankC"></span>
@@ -7055,7 +7056,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20230820')">20<br><div class="mbavem mbCasey"></div></td>   
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20230821')">21<br><div class="mbavem mbStarTree"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20230822')">22<br><div class="mbavem mbKisaragi"></div></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20230823')">23<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20230823')">23<br><div class="mbavem mbBlack"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20230824')">24<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20230825')">25<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20230826')">26<br>&nbsp;</td>
@@ -7115,7 +7116,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20230820')">20<br>🧀</td>    
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20230821')">21<br>🧳</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20230822')">22<br>🧳</td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20230823')">23<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20230823')">23<br>🥼</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20230824')">24<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20230825')">25<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20230826')">26<br>&nbsp;</td>
@@ -24012,17 +24013,25 @@ Mira Mira</small></center><hr class="mbhr">
       </div>
     </div>
     <macro>{"cmd":"MC3"}</macro>
-    <div class="mbMC3" style="column-gap: 1em">
+    <div class="mbMC3" style="column-gap: 1em" onclick="MC3Resize(this)">
       <div class="mbpuzzle">
-        <h4>GitHub Sandbox Todo</h4><hr>
+        <h4>Maintenability</h4><hr>
+        ✅ <div class="mbavem mbBlack"></div> Jquery with same Archive content<br>
+        📌 <div class="mbavem mbIvy"></div> Backward compatible directory for Archive<br>
+        📌 <div class="mbavem mbIvy"></div> Backward compatible JS code<br>
+        📌 <div class="mbavem mbIvy"></div> Backward compatible CSS code<br>
+        📌 <div class="mbavem mbIvy"></div> All macros should be "macro", differentiated only by the cmd<br>
+        📌 <div class="mbavem mbIvy"></div> Remove all "JQ"<br>        
+      </div>   
+      <div class="mbpuzzle">
+        <h4>Functionality Catchup</h4><hr>
         ✅ <div class="mbavem mbStarTree"></div> Import Blogspot JS functions<br>
         ✅ <div class="mbavem mbBlack"></div> Enable Jquery<br>
         📌 <div class="mbavem mbBlack"></div> Enable Viewer with URL<br>
-        📌 <div class="mbavem mbBlack"></div> Enable Index Search<br>
-        
-      </div>
+        📌 <div class="mbavem mbBlack"></div> Enable Index Search<br>         
+      </div>  
       <div class="mbpuzzle">
-        <h4>Tests</h4><hr>
+        <h4>Functionality Upgrades</h4><hr>
         📌 <div class="mbavem mbIvy"></div> Database test<br>
       </div>
       <div class="mbpuzzle">
@@ -24054,11 +24063,7 @@ Mira Mira</small></center><hr class="mbhr">
         📌 <div class="mbavem mbIvy"></div> Profile Selection<br>
       </div>
       
-      <div class="mbpuzzle">
-        <h4>Upgrades - Maintenability</h4><hr>
-        📌 <div class="mbavem mbIvy"></div> All macros should be "macro", differentiated only by the cmd<br>
-        📌 <div class="mbavem mbIvy"></div> Remove all "JQ"<br>        
-      </div>      
+         
       <div class="mbpuzzle">
         <h4>Upgrades - Art/Styling</h4><hr>
         📌 <div class="mbavem mbIvy"></div> MB Icons suite<br>
@@ -46549,18 +46554,6 @@ data-DXP-WIN-44>
   <button class="mbbuttonIcon" onclick="ShowSkip(this)">🐣 <b>GitHub Migration Quest</b></button><span>
   <button class="mbbuttonIcon" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div><small><b>⭐1</b></small></button><hide>
   <div class="mbavem mbBlack"></div>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   </hide></span><div class="mbscroll mbhide">
   <div></div><div class="mbav50r mbCB mbStarTree" data-QXP-StarTree>⭐</div>
   <div class="mbpdc"><b>StarTree</b> ports functions from Blogspot to GitHub!
@@ -46571,7 +46564,7 @@ data-DXP-WIN-44>
   <hr class="mbCB">
   <button class="mbbutton" onclick="ShowNextInline(this)" data-UXP-StarTree>🍮<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> StarTree gives up reordering the functions because there are about 300 of them!</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-DXP-Black>💡<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> I think it would be good to keep the new and old code in the same order so we could see the difference by using text compare.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-DXP-Black>💡<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> If you reorder them you could recrder both of them using the compare software.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-DXP-Black>💡<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> If you reorder them you could reorder both of them using the compare software.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-UXP-StarTree>🍮<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> The comparison software doesn't allow editting due to an encoding error!</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Should archive html be organized inside a "p" folder to keep the same directory struction as blogspot?</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> I am not sure. Is it easy to change?</hide>
@@ -46632,7 +46625,139 @@ data-DXP-WIN-44>
     {"name":"Casey","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
+<div id="P202308230949" class="mbscroll" date='20230823' time='0949' data-skill>
+  <span class="mbDayHeader">
+    <div class="mbav50pr" style="background-image:url('https://cdn.pixabay.com/photo/2018/03/24/21/12/hourglass-3257907_640.png')"></div>
+    <h4><lnk>202212090038|Adventurers' Hall</lnk></h4>
+  </span>
+  <lnk>202308230949|⌛</lnk>&nbsp;<a class="mbbutton" onclick="ShowBothInline(this)">Backward Compatibility</a>
+  <span class="mbDayContent" top>
+    <macro>{"cmd":"PIN2","node":"202308230949","music":""}</macro>
+    <div class="mbCB"></div><hr>
+    <div class="mbCardRM">
+      <div class="mbCharCard">
+        <div class="mbCharCardTitle2">Backward Compatibility</div>
+        <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://cdn.pixabay.com/photo/2018/03/24/21/12/hourglass-3257907_640.png')"></div>
+        <div class="mbCharCardSubtitle">Design</div>
+        <div class="mbCharCardDesc">
+          <center>
+            <div class="mbCharCardDescInner">
+              Design something new that also works with old components.
+              <small></small>
+            </div>
+          </center>
+        </div>
+      </div>
+    </div><!--Card-->
+    <a class="mbbutton" onclick="HidePrev(this)" style="clear:right;position:relative;z-index:1"><div class="mbav50r mbIvy"></div></a>
+    <div class="mbpdc"></div>
+    <div class="mbscroll">
+      <div class="mbbutton" onclick="ShowNext(this)">Example: Guild Website</div>
+      <hide><hr><div class="mbav50r mbIvy"></div>
+        2023: The guild has a blog at Blogspot and is migrating the content to a website hosted at GitHub. To be backward compatible, the new code is to be written in a way so that it will still work if it is copied from GitHub back to Blogspot.
+      </hide>
+    </div>
+    <div class="mbRef">
+      <a class="mbbutton" onclick="QueryAllPN(this,'[data-202308230949]')">💬 Discussions</a>
+    </div><hide></hide><hr class="mbCB">
+  </span>
+  <span></span><!--Viewer Container-->
+  <div class="mbCB"></div> 
+  <node>{"id":"202308230949","parentid":"202212090038","parentname":"Adventurers' Hall","icon":"⌛","title":"Backward Compatibility","subtitle":"Design","img":"https://cdn.pixabay.com/photo/2018/03/24/21/12/hourglass-3257907_640.png","music":"","author":"Ivy","description":"","card-text":""}</node>
+</div><!--Backward Compatibility-->
 <div date='20230823' time='2359' data-status>
+  <macro>{"cmd":"daisy2","issues":"6","quests":"1141","activities":[
+    {"ch":"26","rank":"A","updates":"4","last":"20230810"},
+    {"ch":"29","rank":"B","updates":"4","last":"20230810"},
+    {"ch":"23","rank":"A","updates":"3","last":"20230810"},
+    {"ch":"11","rank":"A","updates":"3","last":"20230812"},
+    {"ch":"19","rank":"A","updates":"4","last":"20230812"},
+    {"ch":"27","rank":"A","updates":"6","last":"20230814"},
+    {"ch":"12","rank":"S","updates":"4","last":"20230814"},
+    {"ch":"22","rank":"B","updates":"5","last":"20230816"},
+    {"ch":"14","rank":"A","updates":"5","last":"20230816"},
+    {"ch":"30","rank":"B","updates":"5","last":"20230816"},
+    {"ch":"17","rank":"S","updates":"5","last":"20230816"},
+    {"ch":"25","rank":"B","updates":"4","last":"20230816"},
+    {"ch":"13","rank":"A","updates":"4","last":"20230816"},
+    {"ch":"24","rank":"A","updates":"4","last":"20230817"},
+    {"ch":"28","rank":"A","updates":"4","last":"20230817"},
+    {"ch":"16","rank":"A","updates":"4","last":"20230818"},
+    {"ch":"31","rank":"A","updates":"4","last":"20230820"},
+    {"ch":"21","rank":"S","updates":"5","last":"20230820"},
+    {"ch":"15","rank":"B","updates":"5","last":"20230821"},
+    {"ch":"18","rank":"B","updates":"5","last":"20230822"},
+    {"ch":"20","rank":"A","updates":"5","last":"20230824"}
+    ],"players":"","merits":"","recognitions":"","kudos":"","awards":"3B, Albatross, Arcacia, Black, Evelyn, Gaia, Ivy, Kisaragi, LRRH, Natalie, P4, Patricia, Sasha, StarTree, Tanya, V, Zoey","top":[
+    {"name":"Black","score":"12"},
+    {"name":"P4","score":"11"},
+    {"name":"Arcacia","score":"11"},
+    {"name":"Natalie","score":"10"},
+    {"name":"LRRH","score":"10"},
+    {"name":"StarTree","score":"10"},
+    {"name":"Kisaragi","score":"9"},
+    {"name":"Sasha","score":"9"},
+    {"name":"Zoey","score":"9"},
+    {"name":"Evelyn","score":"9"},
+    {"name":"V","score":"8"},
+    {"name":"Ivy","score":"8"},
+    {"name":"Tanya","score":"8"},
+    {"name":"Patricia","score":"7"},
+    {"name":"Gaia","score":"6"},
+    {"name":"Albatross","score":"6"},
+    {"name":"3B","score":"6"},
+    {"name":"Ledia","score":"5"},
+    {"name":"James","score":"3"},
+    {"name":"Vivi","score":"3"},
+    {"name":"Sylvia","score":"3"},
+    {"name":"Ken","score":"2"},
+    {"name":"Fina","score":"2"},
+    {"name":"Helen","score":"1"},
+    {"name":"Casey","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div id="P202308240030" class="mbscroll" date='20230824' time='0030' data-skill>
+  <span class="mbDayHeader">
+    <div class="mbav50pr" style="background-image:url('https://cdn.pixabay.com/photo/2016/06/24/09/22/measurement-1476918_1280.jpg')"></div>
+    <h4><lnk>202212090038|Adventurers' Hall</lnk></h4>
+  </span>
+  <lnk>202308240030|🥼</lnk>&nbsp;<a class="mbbutton" onclick="ShowBothInline(this)">Science</a>
+  <span class="mbDayContent" top>
+    <macro>{"cmd":"PIN2","node":"202308240030","music":""}</macro>
+    <div class="mbCB"></div><hr>
+    <div class="mbCardRM">
+      <div class="mbCharCard">
+        <div class="mbCharCardTitle2">Science</div>
+        <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://cdn.pixabay.com/photo/2016/06/24/09/22/measurement-1476918_1280.jpg')"></div>
+        <div class="mbCharCardSubtitle">Skill</div>
+        <div class="mbCharCardDesc">
+          <center>
+            <div class="mbCharCardDescInner">
+              
+              <small></small>
+            </div>
+          </center>
+        </div>
+      </div>
+    </div><!--Card-->
+    <a class="mbbutton" onclick="HidePrev(this)" style="clear:right;position:relative;z-index:1"><div class="mbav50r mbIvy"></div></a>
+    <div class="mbpdc"></div>
+    <div class="mbscroll">
+      <div class="mbbutton" onclick="ShowNext(this)">Vacuum</div>
+      <hide><hr><div class="mbav50r mbIvy"></div>
+        Making vacuum with compressed air: <macro>{"cmd":"url","url":"https://en.wikipedia.org/wiki/Vacuum_ejector","desc":"[link]"}</macro><br>
+      </hide>
+    </div>    
+    
+    <div class="mbRef">
+      <a class="mbbutton" onclick="QueryAllPN(this,'[data-202308240030]')">💬 Discussions</a>
+    </div><hide></hide><hr class="mbCB">
+  </span>
+  <span></span><!--Viewer Container-->
+  <div class="mbCB"></div> 
+  <node>{"id":"202308240030","parentid":"202212090038","parentname":"Adventurers' Hall","icon":"🥼","title":"Science","subtitle":"Skill","img":"https://cdn.pixabay.com/photo/2016/06/24/09/22/measurement-1476918_1280.jpg","music":"","author":"Ivy","description":"","card-text":""}</node>
+</div><!--Science-->
+<div date='20230824' time='2359' data-status>
   <macro>{"cmd":"daisy2","issues":"6","quests":"1141","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
