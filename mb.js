@@ -10,7 +10,7 @@ function BoardAdd(el){
   mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
   var mControl = SearchPS(el,'control');
-  mControl.after(elTemp);
+  mControl.nextElementSibling.prepend(elTemp);
   return elTemp;
 }
 function BoardFill(elBoard,iNodeID){
@@ -51,7 +51,7 @@ function GetInputBoxValue(el){
 }
 function IFrameURLSet(el){
   // 20230723: StarTree
-  var elIF = el.parentNode.nextElementSibling;
+  var elIF = el.parentNode.getElementsByTagName("iframe");
   var mInput = GetInputBoxValue(el);
   // 20230723: StarTree If the URL does not contain a dot, assume that it is a node ID.
   if(!mInput.includes(".")){
