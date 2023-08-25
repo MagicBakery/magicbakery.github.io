@@ -51,7 +51,8 @@ function GetInputBoxValue(el){
 }
 function IFrameURLSet(el){
   // 20230723: StarTree
-  var elIF = el.parentNode.getElementsByTagName("iframe");
+  var mControl = SearchPS(el,'control');
+  var elIF = mControl.parentNode.getElementsByTagName("iframe")[0];
   var mInput = GetInputBoxValue(el);
   // 20230723: StarTree If the URL does not contain a dot, assume that it is a node ID.
   if(!mInput.includes(".")){
