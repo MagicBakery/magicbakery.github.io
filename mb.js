@@ -99,7 +99,7 @@ function IFrameURLSet(el){
   // </div>
   var mHTML = "<a class='mbbutton' onClick='RemoveParent(this)' style='float:right' title='Close'>🍮</a>";
   mHTML += "<a onClick='IFrameRefresh(this," + mNodeID + ")' title='Refresh'>🧭</a> <a class='mbbutton' onClick='HideNext(this)' title='Data from Blogspot'>Blogspot " + mNodeID + "</a>";
-  mHTML += "<iframe src='" + mInput + "' title='Blogspot Node' style='border:none;width:100%;height:calc(100vh - 218px)' allow='clipboard-read; clipboard-write'></iframe>";
+  mHTML += "<iframe src='" + mInput + "' title='Blogspot Node' style='border:none;width:100%;height:calc(100vh - 204px)' allow='clipboard-read; clipboard-write'></iframe>";
   var elTemp = document.createElement("div");
   elTemp.innerHTML = mHTML;
   elTemp.classList.add('mbscroll');

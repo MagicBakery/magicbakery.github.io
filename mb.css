@@ -32,8 +32,8 @@ body {
 /* SHARED STYLE */
 .mbPanel{
   background-color:#ffffff80;
-  background-image: url('https://github.com/MagicBakery/Images/blob/main/Parchment%20Light%2010.png?raw=true');
-  
+  /*background-image: url('https://github.com/MagicBakery/Images/blob/main/Parchment%20Light%2010.png?raw=true');*/
+  background:rgba(255,255,255,.10);
   background-position: 50% 50%; 
   background-size:cover; 
   border-radius: 0.6em;
@@ -46,7 +46,7 @@ body {
   line-height:1.25em; 
   margin:10px 10px;
 
-  padding:10px; 
+  padding:5px; 
   text-align:left; 
 }
 
