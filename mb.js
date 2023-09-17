@@ -1,4 +1,31 @@
-
+//========SITE SPECIFIC FUNCTIONS
+function _At(iLoc){
+  // 20230916: StarTree: This function is for the code to know whether it is being run from BlogSpot or GitHub.
+  //           The content of this function should be different depending on where the code is placed.
+  switch(iLoc){
+    case "BlogSpot":
+      return false;
+    case "GitHub":
+      return true;
+  }
+  return false;
+}
+//========SHARED FUNCTIONS
+function AtBlogSpot(){
+  // 20230916: StarTree: Return true if this code is at BlogSpot
+  return _At("BlogSpot");
+}
+function AtGitHub(){
+  // 20230916: StarTree: Return true if this code is at GitHub
+  return _At("GitHub");
+}
+function BasePath(){
+  // 20230916: StarTree: Returns the base path depending on where the code is running at.
+  if(AtGitHub()){
+    return "./";
+  }
+  return "../../p/";
+}
 function BoardAdd(el){
   // 20230821: StarTree: Adds a container immediately below the control section
   var elTemp = document.createElement("div");
@@ -6,7 +33,7 @@ function BoardAdd(el){
 
   // STEP: Add the close button.
   var mHTML = "<div control>";
-  mHTML += "<button class='mbbutton' onClick='PanelRemove(this)' style='float:right' title='Close'>🍮</button>";
+  mHTML += "<a class='mbbutton' onClick='PanelRemove(this)' style='float:right' title='Close'>🍮</a>";
   mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
   var mControl = SearchPS(el,'control');
@@ -49,16 +76,35 @@ function GetInputBoxValue(el){
   var elIB = mControl.getElementsByTagName('input')[0];
   return elIB.value;
 }
+function IFrameRefresh(el,mNodeID){
+  // 20230916: StarTree: Refresh the content of Iframe when user clicks elButton.
+  var elIF = el.parentNode.getElementsByTagName("iframe")[0];
+  elIF.src = "https://panarcana.blogspot.com/p/viewer.html?id=P" + mNodeID;
+}
 function IFrameURLSet(el){
-  // 20230723: StarTree
+  // 20230723: StarTree: This function is for GitHub Website
   var mControl = SearchPS(el,'control');
-  var elIF = mControl.parentNode.getElementsByTagName("iframe")[0];
+  
   var mInput = GetInputBoxValue(el);
   // 20230723: StarTree If the URL does not contain a dot, assume that it is a node ID.
-  if(!mInput.includes(".")){
-    mInput = "https://panarcana.blogspot.com/p/viewer.html?id=" + mInput;
-  }
-  elIF.src = mInput;
+  // 20230916: Just get the last 12 in order to show node ID on title
+  var mNodeID = mInput.substr(mInput.length - 12);
+  if(IsBlank(mNodeID)){mNodeID = "202303052122";}
+  mInput = "https://panarcana.blogspot.com/p/viewer.html?id=P" + mNodeID;
+
+  // 20230916: Always make a new iFrame 
+  // <div>
+  //   <button class='mbbutton' onClick='RemoveParent(this)' style='float:right;margin-bottom:-20px;margin-right:20px;position:relative;z-index:1' title='Close'>🍮</button>
+  //   <iframe src='https://panarcana.blogspot.com/p/viewer.html?id=P202303052122' title='Blogspot Node' style='margin:0px -3px;border:none;width:100%;height:calc(100vh - 136px)' allow='clipboard-read; clipboard-write'></iframe>
+  // </div>
+  var mHTML = "<a class='mbbutton' onClick='RemoveParent(this)' style='float:right' title='Close'>🍮</a>";
+  mHTML += "<a onClick='IFrameRefresh(this," + mNodeID + ")' title='Refresh'>🧭</a> <a class='mbbutton' onClick='HideNext(this)' title='Data from Blogspot'>Blogspot " + mNodeID + "</a>";
+  mHTML += "<iframe src='" + mInput + "' title='Blogspot Node' style='border:none;width:100%;height:calc(100vh - 218px)' allow='clipboard-read; clipboard-write'></iframe>";
+  var elTemp = document.createElement("div");
+  elTemp.innerHTML = mHTML;
+  elTemp.classList.add('mbscroll');
+  mControl.nextElementSibling.prepend(elTemp);  
+  
 }
 function JQAdd(el){
   // 20230821: StarTree: Add to JQuery from GitHub Archive.
@@ -66,15 +112,15 @@ function JQAdd(el){
   //   Creates a new container with a close button below the control section for the content.
 
   // STEP: Reading the content of the input box
+  // 2023
   var mInput = GetInputBoxValue(el);
-  // If the input value starts with a P, remove it.
-  if(mInput.charAt(0)=='P'){mInput = mInput.substring(1);}
+  var mNodeID = mInput.substr(mInput.length - 12);
 
   // STEP: Create a new container with a close button.
   var elBoard = BoardAdd(el);
 
   // STEP: Fill the board with node content
-  BoardFill(elBoard,mInput);
+  BoardFill(elBoard,mNodeID);
 
 
 }
@@ -94,10 +140,14 @@ function PanelRemove(el){
   var mControl = SearchPS(el,'control');
   mControl.parentNode.remove();
 }
+function RemoveParent(el){
+  // 20230916: StarTree: For hiding iframe.
+  el.parentNode.remove();
+}
 
 //==IMPORTED FUNCTIONS===
 function ArchiveIndex(ei){
-  return "./archive" + ei + ".html ";
+  return BasePath() + "archive" + ei + ".html ";
 }
 function ArchiveNum(){
   return 2;
@@ -107,9 +157,9 @@ function ArchiveSelect(iNodeID){
   //   Upgrade: The input string could be the full node ID. In that case, just take the first 8 digits.  
   var iDate = iNodeID.substring(0,8);
   if(parseInt(iDate) < 20230101){
-	  return "./archive1.html ";
+	  return BasePath() + "archive1.html ";
   }else{
-    return "./archive2.html ";
+    return BasePath() + "archive2.html ";
   }
 }
 function CH15LoadThisMonth(){

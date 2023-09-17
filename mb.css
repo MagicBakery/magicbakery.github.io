@@ -1,9 +1,11 @@
+/* GITHUB ONLY STYLE */
 body {
   background-image: url('https://github.com/MagicBakery/Images/blob/main/Parchment.png?raw=true');
   background-repeat: no-repeat;
   background-attachment: fixed; 
   background-size: 100% 100%;
   font-family: Bitter;
+  font-size: 18px;
   
 }
 .header{
@@ -26,9 +28,12 @@ body {
   text-align: center;
 
 }
+
+/* SHARED STYLE */
 .mbPanel{
   background-color:#ffffff80;
-  background-image: url('https://github.com/MagicBakery/Images/blob/main/Parchment%20Light.png?raw=true');
+  background-image: url('https://github.com/MagicBakery/Images/blob/main/Parchment%20Light%2010.png?raw=true');
+  
   background-position: 50% 50%; 
   background-size:cover; 
   border-radius: 0.6em;
@@ -40,17 +45,18 @@ body {
   font-weight:normal;  
   line-height:1.25em; 
   margin:10px 10px;
+
   padding:10px; 
   text-align:left; 
 }
 
-
-/* GENERAL STYLE */
 * {
   box-sizing: border-box; 
 }
 button{
   white-space: nowrap;
+  font-size: inherit;
+  opacity: 100%;
 }
 node{display: none;}
 
@@ -63,7 +69,6 @@ line-height:20px;
 text-transform: Uppercase;
 
 }
-
 
 
 
@@ -178,6 +183,7 @@ a{
   cursor:pointer;
   font-weight:inherit;
   white-space: nowrap;
+  text-decoration: none;
 }
 
 h1{
@@ -242,7 +248,7 @@ float:none;
 text-align:center;
 }
 
-@media only screen and (min-width:350px){
+@media only screen and (min-width:500px){
 .mbCardRM{
   float:right;
   clear:right;
@@ -709,49 +715,49 @@ todo::before{content:"TODO: ";font-size: 12px;}
 .iLyre{background-image:url('https://github.com/MagicBakery/Images/blob/main/Lyre.png?raw=true');}
 
 /* Avatars */
-.mb3B {background-image:url('https://tinyurl.com/MB3B2');}
-.mb44 {background-image:url('https://tinyurl.com/MB443');}
+  .mb3B {background-image:url('https://github.com/MagicBakery/Images/blob/main/3B%20(2).png?raw=true');}
+  .mb44 {background-image:url('https://github.com/MagicBakery/Images/blob/main/44.png?raw=true');}
 .mbAlbatross {background-image:url('https://github.com/MagicBakery/Images/blob/main/Albatross%20Spite.png?raw=true')}
 .mbAlice {background-image:url('https://github.com/MagicBakery/Images/blob/main/Alice.png?raw=true');}
-.mbAmelia {background-image:url('https://tinyurl.com/MBAmelia1');}
-.mbArcacia {background-image:url('https://tinyurl.com/MBArcacia1');}
-.mbBlack {background-image:url('https://tinyurl.com/MBBlack1');}
-.mbCardinal {background-image:url('https://tinyurl.com/MBCardinalL');} /*https://tinyurl.com/MBCardinal2*/
-.mbCasey {background-image:url('https://tinyurl.com/MBCasey1');}
+  .mbAmelia {background-image:url('https://github.com/MagicBakery/Images/blob/main/Amelia.png?raw=true');}
+  .mbArcacia {background-image:url('https://github.com/MagicBakery/Images/blob/main/Arcacia.png?raw=true');}
+  .mbBlack {background-image:url('https://github.com/MagicBakery/Images/blob/main/Black%20(3).png?raw=true');}
+  .mbCardinal {background-image:url('https://github.com/MagicBakery/Images/blob/main/Cardinal%20-%20Left.png?raw=true');} 
+  .mbCasey {background-image:url('https://github.com/MagicBakery/Images/blob/main/Casey.png?raw=true');}
 .mbChatGPT {background-image:url('https://github.com/MagicBakery/Images/blob/main/ChatGPT4.png?raw=true');}
 .mbEmi {background-image:url('https://github.com/MagicBakery/Images/blob/main/Emi.png?raw=true');}
-.mbEvelyn {background-image:url('https://tinyurl.com/MBEvelyn3');}
-.mbFina {background-image:url('https://tinyurl.com/MBFina1');}
-.mbGaia {background-image:url('https://tinyurl.com/MBGaia3');}
-.mbHelen {background-image:url('https://tinyurl.com/MBHelen1');}
-.mbIvy {background-image:url('https://tinyurl.com/MBIvy2');}
-.mbJames {background-image:url('https://tinyurl.com/MBJames1');}
-.mbKen {background-image:url('https://tinyurl.com/MBKen1');}
-.mbKisaragi {background-image:url('https://tinyurl.com/MBKisaragi1');}
-.mbLedia {background-image:url('https://tinyurl.com/MBLedia2');}
-.mbLRRH {background-image:url('https://tinyurl.com/MBLRRH1');}
+  .mbEvelyn {background-image:url('https://github.com/MagicBakery/Images/blob/main/Evelyn3.png?raw=true');}
+  .mbFina {background-image:url('https://github.com/MagicBakery/Images/blob/main/Fina3.png?raw=true');}
+  .mbGaia {background-image:url('https://github.com/MagicBakery/Images/blob/main/Gaia3.png?raw=true');}
+  .mbHelen {background-image:url('https://github.com/MagicBakery/Images/blob/main/Helen.png?raw=true');}
+  .mbIvy {background-image:url('https://github.com/MagicBakery/Images/blob/main/Ivy%203.png?raw=true');}
+  .mbJames {background-image:url('https://github.com/MagicBakery/Images/blob/main/James%202.png?raw=true');}
+  .mbKen {background-image:url('https://github.com/MagicBakery/Images/blob/main/Ken.png?raw=true');}
+  .mbKisaragi {background-image:url('https://github.com/MagicBakery/Images/blob/main/Kisaragi.png?raw=true');}
+  .mbLedia {background-image:url('https://github.com/MagicBakery/Images/blob/main/Ledia.png?raw=true');}
+  .mbLRRH {background-image:url('https://github.com/MagicBakery/Images/blob/main/LRRH.png?raw=true');}
 .mbMelody {background-image:url('https://github.com/MagicBakery/Images/blob/main/Melody%20BW.png?raw=true');}
-.mbMikela {background-image:url('https://tinyurl.com/MBMikela1');}
+  .mbMikela {background-image:url('https://github.com/MagicBakery/Images/blob/main/Mikela.png?raw=true');}
 .mbNaomi { background-image:url('https://github.com/MagicBakery/Images/blob/main/Naomi%202.png?raw=true')}
 .mbNatalie {background-image:url('https://github.com/MagicBakery/Images/blob/main/Natalie%20(2).png?raw=true');}
 .mbNatasha {background-image:url('https://github.com/MagicBakery/Images/blob/main/Natasha.png?raw=true');}
-.mbNeil {background-image:url('https://tinyurl.com/MBNeil1');}
-.mbP4 {background-image:url('https://tinyurl.com/MBP411');}
-.mbPatricia {background-image:url('https://tinyurl.com/MBPatricia1');}
+  .mbNeil {background-image:url('https://github.com/MagicBakery/Images/blob/main/Neil.png?raw=true');}
+  .mbP4 {background-image:url('https://github.com/MagicBakery/Images/blob/main/P4.png?raw=true');}
+  .mbPatricia {background-image:url('https://github.com/MagicBakery/Images/blob/main/Patricia.png?raw=true');}
 .mbPhone {background-image:url('https://github.com/MagicBakery/Images/blob/main/Phone3.png?raw=true')}
 .mbRS {background-image:url('https://github.com/MagicBakery/Images/blob/main/RS.png?raw=true');}
-.mbRobert {background-image:url('https://tinyurl.com/MBRobert1');}
-.mbSasha {background-image:url('https://tinyurl.com/MBSasha2');}
+  .mbRobert {background-image:url('https://github.com/MagicBakery/Images/blob/main/RobertLego.png?raw=true');}
+  .mbSasha {background-image:url('https://github.com/MagicBakery/Images/blob/main/Sasha.png?raw=true');}
 .mbSirius {background-image:url('https://github.com/MagicBakery/Images/blob/main/Sirius.png?raw=true');}
 .mbSkyle {background-image:url('https://github.com/MagicBakery/Images/blob/main/Skyle.png?raw=true')}
-.mbStar {background-image:url('https://tinyurl.com/MBStar1');}
-.mbStarTree {background-image:url('https://tinyurl.com/MBStarTree1');}
-.mbSylvia {background-image:url('https://tinyurl.com/MBSylvia1');}
-.mbTanya {background-image:url('https://tinyurl.com/MBTanya3');}
-.mbV {background-image:url('https://tinyurl.com/MBV1002');}
-.mbVivi {background-image:url('https://tinyurl.com/MBVivi1');}
-.mbVladanya {background-image:url('https://tinyurl.com/MBVladanya');}
-.mbZoey {background-image:url('https://tinyurl.com/MBZoey1');}
+  .mbStar {background-image:url('https://github.com/MagicBakery/Images/blob/main/Star.png?raw=true');}
+  .mbStarTree {background-image:url('https://github.com/MagicBakery/Images/blob/main/StarTree.png?raw=true');}
+  .mbSylvia {background-image:url('https://github.com/MagicBakery/Images/blob/main/Sylvia.png?raw=true');}
+  .mbTanya {background-image:url('https://github.com/MagicBakery/Images/blob/main/Tanya.png?raw=true');}
+  .mbV {background-image:url('https://github.com/MagicBakery/Images/blob/main/V2.png?raw=true');}
+  .mbVivi {background-image:url('https://github.com/MagicBakery/Images/blob/main/Vivi.png?raw=true');}
+  .mbVladanya {background-image:url('https://github.com/MagicBakery/Images/blob/main/Vladanya.png?raw=true');}
+  .mbZoey {background-image:url('https://github.com/MagicBakery/Images/blob/main/Zoey2.png?raw=true');}
 
 .mbav50pl {
   background-position: 50% 50%; 
@@ -809,7 +815,7 @@ todo::before{content:"TODO: ";font-size: 12px;}
 }
 
 .mbbanner {
-  background-image:url('https://tinyurl.com/MBParchment2');
+    background-image:url('https://github.com/MagicBakery/Images/blob/main/Parchment%20Crop.png?raw=true');
   background-position: 50% 50%; 
   background-size:cover; 
   border: 4px solid saddlebrown;  
@@ -832,7 +838,7 @@ text-align:center;
 text-shadow: none;
 }	  
 .mbbg { 
-  background-image: url('https://tinyurl.com/MBParchment1');
+    background-image: url('https://github.com/MagicBakery/Images/blob/main/Parchment.png?raw=true');
   border:0px solid #ffffff; 
   border-radius: 20px;
   box-shadow: 0px 0px 8px #808080;
@@ -843,17 +849,17 @@ margin-right:0px;
   padding: 10px;
 }
 .mbbgs { 
-  background-image: url('https://tinyurl.com/MBParchment1');
+    background-image: url('https://github.com/MagicBakery/Images/blob/main/Parchment.png?raw=true');
   border:0px solid #ffffff; 
   border-radius: 20px;
   box-shadow: 0px 0px 8px #808080;
 margin:0px;
   padding: 10px;
 }
-.mbbgLight{background-image: url('https://tinyurl.com/MBParchment2');}
-.mbbgLighter{background-image: url('https://tinyurl.com/MBParchment3');}
-.mbbgGreen{background-image: url('https://tinyurl.com/MBParchmentGreen');}
-.mbbgLime{background-image: url('https://tinyurl.com/MBParchmentLime');}
+  .mbbgLight{background-image: url('https://github.com/MagicBakery/Images/blob/main/Parchment%20Crop.png?raw=true');}
+  .mbbgLighter{background-image: url('https://github.com/MagicBakery/Images/blob/main/Parchment%20Light.png?raw=true');}
+  .mbbgGreen{background-image: url('https://github.com/MagicBakery/Images/blob/main/Parchment%20Green.png?raw=true');}
+  .mbbgLime{background-image: url('https://github.com/MagicBakery/Images/blob/main/Parchment%20Lime.png?raw=true');}
 
 
 
@@ -1092,7 +1098,7 @@ font-family:consolas;
 }
 .mbCharCard{
   background-color:#b37441;
-  background-image:url('https://tinyurl.com/MBParchment2');
+    background-image:url('https://github.com/MagicBakery/Images/blob/main/Parchment%20Crop.png?raw=true');
   background-position: 50% 50%; 
   background-size:cover; 
   border: 4px solid white;  
@@ -1124,7 +1130,7 @@ line-height:1em;
 }
   .mbCharCardText{
   background-color:#ffffff80;
-background-image: url('https://tinyurl.com/MBParchment3');
+	background-image: url('https://github.com/MagicBakery/Images/blob/main/Parchment%20Light.png?raw=true');
 background-position: 50% 50%; 
 background-size:cover; 
 border-radius: 5px;
@@ -1213,7 +1219,7 @@ height:105px;
 }  
 .mbCharPage{
 background-color:#b37441;
-background-image:url('https://tinyurl.com/MBParchment2');
+	background-image:url('https://github.com/MagicBakery/Images/blob/main/Parchment%20Crop.png?raw=true');
   background-position: 50% 50%; 
   background-size:cover; 
   border: 4px solid white;  
@@ -1283,7 +1289,7 @@ margin:5px 0px;
 }
 .mblbdone{
   background-color:rgba(219,244,153,0.75);
-/*background-image: url('https://tinyurl.com/MBParchmentLime');*/
+	/*background-image: url('https://github.com/MagicBakery/Images/blob/main/Parchment%20Lime.png?raw=true');*/
 }
 .mbMP{ /* Map Pin */
   position:absolute;
