@@ -6,7 +6,7 @@ body {
   background-size: 100% 100%;
   font-family: Bitter;
   font-size: 18px;
-  
+  z-index:-1;
 }
 .header{
   background-color: saddlebrown;
@@ -26,7 +26,7 @@ body {
   position: fixed;
   bottom:0;
   text-align: center;
-
+  z-index:-1;
 }
 
 /* SHARED STYLE */
