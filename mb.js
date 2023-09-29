@@ -199,6 +199,8 @@ function ChName(iChID){
     case 29: return "Mira";
     case 30: return "Cardinal";
     case 31: return "Detective";
+    case 33: return "Tavern";
+    case 34: return "Scape";
     default: return "Unknown";
   }
 }
