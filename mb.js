@@ -123,8 +123,21 @@ function JQAdd(el){
 
   // STEP: Fill the board with node content
   BoardFill(elBoard,mNodeID);
-
-
+}
+function InterLink(){
+  // 20231006: Black: Returns the Interlinking function depending on current website
+  if(AtGitHub()){
+    return "BoardLoad(this,";
+  }
+  return "QueryBanner(";
+}
+function BoardLoad(el,iNodeID){
+  // 20231006: Black: Make a board in the current column panel given the ID.
+  // STEP: Search up for the column control panel
+  var mControl = SearchPS(el,'panel').firstElementChild;
+  // STEP: Create a new container with a close button.
+  var elBoard = BoardAdd(mControl);
+  BoardFill(elBoard,iNodeID);
 }
 function PanelAdd(el){
   // 20230722: StarTree
@@ -133,6 +146,7 @@ function PanelAdd(el){
   var elTemp = document.createElement("div");
   elTemp.innerHTML = elNPT.innerHTML;
   elTemp.classList.add('mbPanel');
+  elTemp.setAttribute("panel","");
 
   elMA.appendChild(elTemp);
 
@@ -438,8 +452,8 @@ function LangIcon(eCode){
 }
 function LnkCode(iID,iDesc,iIcon){
   // 20230323: Ivy: For QSL.
-  var mHTML =  "<a class='mbbuttonIn' href='../../p/viewer.html?id=P"+iID+"'";
-  mHTML += " onclick=\"QueryBanner('" + iID + "');return false;\">";
+  var mHTML =  "<a class='mbbuttonIn' href='" + ViewerPath() + "?id=P"+iID+"'";
+  mHTML += " onclick=\"" + InterLink() + "'" + iID + "');return false;\">";
   if(IsBlank(iIcon)){
     mHTML += iDesc + "</a>";
   }else{
@@ -531,10 +545,10 @@ function MacroLnk(elScope){
    In the Archive, typing 
      "<lnk>202207041052 | 📗 Book of Life</lnk>""
    Would be interpreted as: 
-     "<a class="mbbuttonIn" href="../../p/viewer.html?id=P202207041052">📗 Book of Life</a>"
+     "<a class="mbbuttonIn" href="" + ViewerPath() + "?id=P202207041052">📗 Book of Life</a>"
      */
   /* 20230310: Cardinal: Load to main area if the device is not a mobile.
-      <a class="mbbutton" href="https://panarcana.blogspot.com/p/viewer.html?id=P202302201503" onclick="QueryBanner('#P202301251008');return false;" >🔮</a>
+      <a class="mbbutton" href="https://panarcana.blogspot.com/p/viewer.html?id=P202302201503" onclick="" + InterLink() + "'#P202301251008');return false;" >🔮</a>
   */
   var z = elScope.getElementsByTagName("lnk");
   var elJQ, i;
@@ -550,9 +564,9 @@ function MacroLnk(elScope){
     /*
     mQB = "";
     if(true || !AtMobile()){ // 20230312: Disabled check because the new Back is working.
-      mQB = " onclick=\"QueryBanner('" + cmds[0] + "');return false;\"";
+      mQB = " onclick=\"" + InterLink() + "'" + cmds[0] + "');return false;\"";
     }
-    elTemp.innerHTML = "<a class='mbbuttonIn' href='../../p/viewer.html?id=P"+cmds[0]+"'"+mQB+">"+cmds[1]+"</a>";
+    elTemp.innerHTML = "<a class='mbbuttonIn' href='" + ViewerPath() + "?id=P"+cmds[0]+"'"+mQB+">"+cmds[1]+"</a>";
     var elTemp = document.createElement("span");
     elJQ.after(elTemp);
     */
@@ -968,7 +982,7 @@ function MMInner(el,mMacro){
     if(IsBlank(mGuildLogCount)){
       mGuildLogCount = "Unknown";
     }
-    mHTML = "<a onclick=\"QueryBanner('" + mMacro.node+ "');return false;\" class=\"mbbutton mbILB35 mbRankBlk" + mRank + "\" href=\"../../p/viewer.html?id=P"+  mMacro.node  +"\" title='Quests Completed: "+ mUpdates +"\nHighest Rank: "+mRank+"\nRemaining: "+mGuildLogCount+"'></a>";
+    mHTML = "<a onclick=\"" + InterLink() + "'" + mMacro.node+ "');return false;\" class=\"mbbutton mbILB35 mbRankBlk" + mRank + "\" href=\"" + ViewerPath() + "?id=P"+  mMacro.node  +"\" title='Quests Completed: "+ mUpdates +"\nHighest Rank: "+mRank+"\nRemaining: "+mGuildLogCount+"'></a>";
     mHTML += "<span class='mbILB25 mbRankNone' style='margin-left:5px'>" + mStatusIcon + "</span>";
     mAuthor = mMacro.author;
     if(NotBlank(mAuthor)){
@@ -983,13 +997,13 @@ function MMInner(el,mMacro){
   if(mMacro.cmd=="PIN"){
     /*
     <span style="float:right;margin-bottom:-10px">
-      &nbsp;<small><b>202302201503</b></small><a class="mbbuttonIn" href="../../p/viewer.html?id=P202302201503"><small>📌</small></a> 
+      &nbsp;<small><b>202302201503</b></small><a class="mbbuttonIn" href="" + ViewerPath() + "?id=P202302201503"><small>📌</small></a> 
     </span>
     */
     var elTemp = document.createElement("span");
     elTemp.style.float = "right";
     elTemp.style.marginBottom = "-10px";
-    elTemp.innerHTML = "&nbsp;<small><b>" + mNode + "</b></small><a class=\"mbbuttonIn\" href=\"../../p/viewer.html?id=P" + mNode + "\"><small>📌</small></a>";
+    elTemp.innerHTML = "&nbsp;<small><b>" + mNode + "</b></small><a class=\"mbbuttonIn\" href=\"" + ViewerPath() + "?id=P" + mNode + "\"><small>📌</small></a>";
     el.after(elTemp);
     return;
   }
@@ -1132,8 +1146,8 @@ function MMInner(el,mMacro){
     //  Translate:
     //   <macro>{"cmd":"QPSN","node":"202309200912","desc":"2009 Ditch"}</macro>
     //  Into:
-    //   <a class="mbbutton" title="202309200912" href="../../p/viewer.html?id=P202309200912" onclick="QueryAllPSN(this,'#P202309200912',true );return false;">2009 Ditch</a>
-    mHTML = "<a class='mbbutton' title='" + mNode + "' href='../../p/viewer.html?id=P" + mNode + "' onclick=\"QueryAllPSN(this,'#P" + mNode + "',true);return false;\">" + mMacro.desc + "</a>";
+    //   <a class="mbbutton" title="202309200912" href="" + ViewerPath() + "?id=P202309200912" onclick="QueryAllPSN(this,'#P202309200912',true );return false;">2009 Ditch</a>
+    mHTML = "<a class='mbbutton' title='" + mNode + "' href='" + ViewerPath() + "?id=P" + mNode + "' onclick=\"QueryAllPSN(this,'#P" + mNode + "',true);return false;\">" + mMacro.desc + "</a>";
     var elTemp = document.createElement("span");
     elTemp.innerHTML = mHTML;el.after(elTemp);return;
   } // <a>
@@ -1272,13 +1286,13 @@ function PNDInner(el,mJSON){
   mHTML = "<a class=\"mbbutton\" onclick=\"QueryAllNext(this,'#P" + mJSON.parentid;
   mHTML +="')\"><small>" + mJSON.parentname + "</small></a><hide></hide>";
   mHTML +="<div style=\"float:right\"><small>["+mJSON.id+"]</small></div>";
-  mHTML +="<hr class=\"mbCB mbhr\"><div class=\"mbpc\"><a class=\"mbbuttonIn\" href=\"../../p/viewer.html?id=P"+mJSON.id+"\"><b>"+mJSON.title+"</b></a></div>";
+  mHTML +="<hr class=\"mbCB mbhr\"><div class=\"mbpc\"><a class=\"mbbuttonIn\" href=\"" + ViewerPath() + "?id=P"+mJSON.id+"\"><b>"+mJSON.title+"</b></a></div>";
   mHTML +="<center><small>";
   if(NotBlank(mJSON.prev)){
-    mHTML +="<a class=\"mbbutton\" style=\"float:left\" href=\"../../p/viewer.html?id=P"+mJSON.prev+"\">◀</a>";
+    mHTML +="<a class=\"mbbutton\" style=\"float:left\" href=\"" + ViewerPath() + "?id=P"+mJSON.prev+"\">◀</a>";
   }
   if(NotBlank(mJSON.next)){
-    mHTML +="<a class=\"mbbutton\" style=\"float:right\" href=\"../../p/viewer.html?id=P"+mJSON.next+"\">▶</a>";
+    mHTML +="<a class=\"mbbutton\" style=\"float:right\" href=\"" + ViewerPath() + "?id=P"+mJSON.next+"\">▶</a>";
   }
   // Read the date and time from the node id
   // https://stackoverflow.com/questions/1833892/converting-a-string-formatted-yyyymmddhhmmss-into-a-javascript-date-object
@@ -1330,7 +1344,7 @@ function SearchPS(el,iAttribute){
   // 20230301: Evelyn: Made function for the part shared by QueryAllPSN and ShowLPSN
   // 20230308: LRRH: changed the check for missing iAttribute to undefined.
   if(iAttribute==undefined || iAttribute==""){iAttribute="top";}
-  var elTarget = el.parentNode;
+  var elTarget = el;
   while(elTarget != null && elTarget.getAttribute(iAttribute)==null){
     elTarget = elTarget.parentNode;
   }
@@ -1790,6 +1804,8 @@ function QueryAll(eContainerID, eQuery, iInner){
   QueryAllEL(elContainer, eQuery, iInner);
 }
 function QueryBanner(eQuery){
+  
+  
   // 20230302: StarTree: The banner data is an element of type "node" somewhere in the first child of the results  
   const InnerCache = [];
   var Hit = 0;
@@ -1863,7 +1879,7 @@ function QueryBanner(eQuery){
               window.history.pushState({"html":response.html,"pageTitle":response.pageTitle},"", urlPath);
           }*/
           location.href= "#";
-          window.history.replaceState({"html": mHTML}, '', "../../p/viewer.html?id=P" + eQuery);
+          window.history.replaceState({"html": mHTML}, '', "" + ViewerPath() + "?id=P" + eQuery);
         }
       });
     }
@@ -2324,8 +2340,8 @@ function XP_DisplayEL(elFrame){
           if( mProfile!= null){
             Content += "<span class='mbRef' title='" + mProfile + "'>";
             Content += "<a class='mbbuttonIn' ";
-            Content += "href='../../p/viewer.html?id=" + mProfile + "' ";
-            Content += "onclick=\"QueryBanner('" + mProfile + "');return false;\">📋</a>";  
+            Content += "href='" + ViewerPath() + "?id=" + mProfile + "' ";
+            Content += "onclick=\"" + InterLink() + "'" + mProfile + "');return false;\">📋</a>";  
             Content += "</span>";
           }
           
@@ -2920,7 +2936,7 @@ function NodeFormatter(elTemp){
         vFirstDiv.innerHTML="<div><button class='mbbutton' onclick='ShowNext(this)'>" 
           + vIcon + " " + vTitle 
           + "</button><div class='mbCB mbscroll mbhide'>" 
-          + "<a class='mbbuttonIn' href='../../p/viewer.html?id=P" + vID  + "'>"
+          + "<a class='mbbuttonIn' href='" + ViewerPath() +"?id=P" + vID  + "'>"
           + "<small>⭐</small></a> <small><b>" + vID + "</b></small><hr>"
           + vContent 
           + "<hr class='mbCB'>"
@@ -3510,16 +3526,6 @@ function QueryAllPSN(el,eQuery,iInner){
   elTarget.setAttribute("mQueryString","");
   QueryAllEL(elTarget,eQuery,iInner);
 }
-function SearchPS(el,iAttribute){
-  // 20230301: Evelyn: Made function for the part shared by QueryAllPSN and ShowLPSN
-  // 20230308: LRRH: changed the check for missing iAttribute to undefined.
-  if(iAttribute==undefined || iAttribute==""){iAttribute="top";}
-  var elTarget = el.parentNode;
-  while(elTarget != null && elTarget.getAttribute(iAttribute)==null){
-    elTarget = elTarget.parentNode;
-  }
-  return elTarget;
-}
 function ShowLPSN(el,iAttribute){
   // 20230225: StarTree: Goes up the parents until it has the attribute.
   var elSource = el.lastElementChild;
@@ -3999,4 +4005,11 @@ function JSONCheckPP(el){
   }
   elReport.innerHTML = "✅ It parses!";
 
+}
+function ViewerPath(){
+  // 20231006: Black: Returns the viewer path depending on the location of the website
+  if(AtGitHub()){
+    return "./";
+  }
+  return "../../p/viewer.html";
 }

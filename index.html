@@ -17,9 +17,9 @@
     
   </div>
   <div id="MainArea" class="flex" style="padding-bottom:38px;padding-top:38px">
-    <div class="mbPanel">
+    <div panel class="mbPanel" >
       
-      <div control style="padding:0px 3px 2px 2px">
+      <div control panel style="padding:0px 3px 2px 2px">
         <a class="mbbutton" onClick="PanelRemove(this)" style="float:right" title="Close">🍮</a>
         <input type="text" title="Input URL or Node ID"> 
         <button class="mbbutton" onClick="IFrameURLSet(this)" title="Go">🧭</button>
@@ -55,7 +55,9 @@
     if(NotBlank(iPostID)){
       // 20231006: Enter the Post ID in the first inputbox, then call JQAdd on that inputbox.
       var mInputBox = document.getElementsByTagName("Input")[0];
+      
       mInputBox.value = iPostID;
+      //BoardLoad(mInputBox,iPostID);
       JQAdd(mInputBox);
     }  
   };
