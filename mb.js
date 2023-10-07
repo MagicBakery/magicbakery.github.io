@@ -1124,6 +1124,19 @@ function MMInner(el,mMacro){
     elTemp.classList.add("mbpuzzle");
     return;
   }  
+  if(mMacro.cmd=="QPSN"){
+    // 20231005: Skyle: A more compact link compared to the one in a div.
+    //  Behavior: 
+    //   When left-clicked, opens the node in PSN
+    //   When right-clicked, opens hyperlink menual to allow open in new tap or copy link
+    //  Translate:
+    //   <macro>{"cmd":"QPSN","node":"202309200912","desc":"2009 Ditch"}</macro>
+    //  Into:
+    //   <a class="mbbutton" title="202309200912" href="../../p/viewer.html?id=P202309200912" onclick="QueryAllPSN(this,'#P202309200912',true );return false;">2009 Ditch</a>
+    mHTML = "<a class='mbbutton' title='" + mNode + "' href='../../p/viewer.html?id=P" + mNode + "' onclick=\"QueryAllPSN(this,'#P" + mNode + "',true);return false;\">" + mMacro.desc + "</a>";
+    var elTemp = document.createElement("span");
+    elTemp.innerHTML = mHTML;el.after(elTemp);return;
+  } // <a>
   if(mMacro.cmd=="quest"){
     // 20230309: Cardinal
     // <macro>{"cmd":"quest","title":"Layout Update","icon":"🥾","status":"";"info":"0304"}</macro>

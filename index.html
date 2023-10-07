@@ -47,4 +47,18 @@
     </div>
   </hide>
 </body>
+<script>
+  function URLViewer(){
+    // 20231006: Black
+    const urlParams = new URLSearchParams(window.location.search);
+    var iPostID = urlParams.get('id');  
+    if(NotBlank(iPostID)){
+      // 20231006: Enter the Post ID in the first inputbox, then call JQAdd on that inputbox.
+      var mInputBox = document.getElementsByTagName("Input")[0];
+      mInputBox.value = iPostID;
+      JQAdd(mInputBox);
+    }  
+  };
+  window.onload = URLViewer;
+</script>
 </html>
