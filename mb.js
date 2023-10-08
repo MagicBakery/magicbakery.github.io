@@ -139,7 +139,7 @@ function BoardLoad(el,iNodeID){
   var elBoard = BoardAdd(mControl);
   BoardFill(elBoard,iNodeID);
 }
-function PanelAdd(el){
+function PanelAdd(){
   // 20230722: StarTree
   var elMA = document.getElementById("MainArea");
   var elNPT = document.getElementById("NewPanelTemplate");
