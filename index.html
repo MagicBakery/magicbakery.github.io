@@ -16,22 +16,10 @@
     <h4>Magic Bakery</h4>
     
   </div>
-  <div id="MainArea" class="flex" style="padding-bottom:38px;padding-top:38px">
-    <div panel class="mbPanel" >
-      
-      <div control panel style="padding:0px 3px 2px 2px">
-        <a class="mbbutton" onClick="PanelRemove(this)" style="float:right" title="Close">🍮</a>
-        <input type="text" title="Input URL or Node ID"> 
-        <button class="mbbutton" onClick="IFrameURLSet(this)" title="Go">🧭</button>
-        <button class="mbbutton" onClick="JQAdd(this)" title="Jquery GitHub Archive (WIP)">🐣</button>
-      </div>
-      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px"></div>
-
-    </div>
-  </div>
+  <div id="MainArea" class="flex" style="padding-bottom:38px;padding-top:38px"></div>
   <div class="footer">
     
-    <button class="mbbutton" onClick="PanelAdd(this)" title="Add a panel">🤎</button>
+    <button class="mbbutton" onClick="PanelAdd()" title="Add a panel">🤎</button>
   </div>
 
   <hide><!--New Panel Template-->
@@ -39,9 +27,12 @@
       
       <div control style="padding:0px 3px 2px 2px">
         <a class="mbbutton" onClick="PanelRemove(this)" style="float:right" title="Close">🍮</a>
-        <input type="text" title="Input URL or Node ID"> 
-        <button class="mbbutton" onClick="IFrameURLSet(this)" title="Go">🧭</button>
-        <button class="mbbutton" onClick="JQAdd(this)" title="Jquery GitHub Archive (WIP)">🐣</button>
+        <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;"> 
+        <a class="mbbutton" onClick="IFrameURLSet(this)" title="Go">🧭</a>
+        <a class="mbbutton" onClick="JQAdd(this)" title="Jquery GitHub Archive (WIP)">🐣</a>
+        <a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board">🥨</a>
+        <a class="mbbutton" onClick="BoardLoad(this,'202207242047')" title="Roll Call">📯</a>
+        <a class="mbbutton" onClick="BoardLoad(this,'202310072314')" title="Calendar">📅</a>
       </div>
       <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px"></div>
     </div>
@@ -49,6 +40,8 @@
 </body>
 <script>
   function URLViewer(){
+    // 20231007: StarTree: make this function add the first panel.
+    PanelAdd();
     // 20231006: Black
     const urlParams = new URLSearchParams(window.location.search);
     var iPostID = urlParams.get('id');  

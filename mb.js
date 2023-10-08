@@ -338,7 +338,7 @@ function FortuneCookie(elViewer,isRandom){
   // JQUERY
   // 20230201: StarTree: The Fortune Cookies node is 202302011021!
   $(document).ready(function(){
-    $(elViewer).load(ArchiveSelect(20230201) + "#Cookies", function(){
+    $(elViewer).load(ArchiveSelect("20230201") + "#Cookies", function(){
       var cookies = $('.mbFC');
       var cookiesNum = cookies.length;
       var idx = 0;
