@@ -192,6 +192,7 @@ function CH15LoadThisMonth(){
 function ChName(iChID){
   // 20230331: Sasha
   switch(Number(iChID)){
+    case 7: return "Home";
     case 11: return "Carrot";
     case 12: return "Manga";
     case 13: return "Seed";
@@ -1784,7 +1785,9 @@ function YoutubePN(el,iLink){
   }
   
   var mHTML = "";
-  mHTML = "https://www.youtube.com/embed/" + iLink + "?version=3&loop=1&autoplay=1&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx";
+  //mHTML = "https://www.youtube.com/embed/" + iLink + "?version=3&loop=1&autoplay=1&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx";
+  // 20231008: Mikela: Don't include the list
+  mHTML = "https://www.youtube.com/embed/" + iLink + "?version=3&loop=1&autoplay=1";
   mHTML = "src='" + mHTML + "' ";
   mHTML += "width='100%' frameborder='0' allow='accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture' allowfullscreen";
   mHTML = "<iframe " + mHTML + "></iframe>";
@@ -3124,6 +3127,7 @@ function PinCh(eCH){
   var bJump=0;
   var mBanner = "";
   switch(eCH){
+  case 7: mBanner="202310081703";break;
   case 11: eHTML="../../2021/12/carrot-farm"; mBanner="202208181042"; break;
   case 12: eHTML="../../2021/12/magic-academy"; mBanner="202210032214"; break;
   case 13: eHTML="../../2021/12/world-tree"; mBanner="202208292208"; break;
@@ -3145,6 +3149,8 @@ function PinCh(eCH){
   case 29: eHTML="../../2021/12/mira-mira"; mBanner="202208071528"; break;
   case 30: eHTML="../../2021/12/cardinal"; mBanner="202208250038"; break;
   case 31: eHTML="../../2022/05/magic-bakery-detectives"; mBanner="202208141844"; break;  
+  case 33: mBanner="202309052239";break;
+  case 34: mBanner="202309132028";break;
   }
   if( mBanner!=""){
     QueryBanner(mBanner);
@@ -3304,7 +3310,7 @@ function RollCallList(el){
   // 20230202: StarTree: For Roll Call
   var elContainer = el.parentNode.nextElementSibling;
   var mRosterLen = Roster(-1);
-  var mContent = "<hr><div style='margin-top:50px;margin-bottom:50px;'>";
+  var mContent = "<hr><div style='margin:50px -10px;'>";
   var bCookieEnabled = (elContainer.getAttribute('CookieEnabled')=="true");
   var mAvStr = "";
   for(var i=0;i<mRosterLen;i++){
