@@ -960,7 +960,7 @@ function MMInner(el,mMacro){
     mScore = Number(mUpdates);
 
     switch(mRank){
-      case "SS":  break;
+      case "SS": mScore += 600; break;
       case "S":  mScore += 500; break;
       case "A":  mScore += 400; break;
       case "B":  mScore += 300; break;
