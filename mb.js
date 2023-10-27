@@ -3150,7 +3150,7 @@ function PinCh(eCH){
   case 30: eHTML="../../2021/12/cardinal"; mBanner="202208250038"; break;
   case 31: eHTML="../../2022/05/magic-bakery-detectives"; mBanner="202208141844"; break;  
   case 33: mBanner="202309052239";break;
-  case 34: mBanner="202309132028";break;
+  case 34: mBanner="202310232341";break;
   }
   if( mBanner!=""){
     QueryBanner(mBanner);
