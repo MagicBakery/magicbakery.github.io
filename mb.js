@@ -47,7 +47,7 @@ function BoardFill(elBoard,iNodeID){
   //   Reference function: LoadArchivePostEl from Blogspot.
 
   // For Testing: if iNodeID is blank, use this default:
-  if(iNodeID==""){iNodeID="202303052122";};
+  if(iNodeID==""){iNodeID="202208172056";};
 
   // STEP: Create a container within the Board after the control section for the content.
   //       ((The board itself has a close button))
@@ -149,7 +149,7 @@ function PanelAdd(){
   elTemp.setAttribute("panel","");
 
   elMA.appendChild(elTemp);
-
+  return elTemp;
 }
 function PanelRemove(el){
   // 20230722: StarTree
@@ -599,7 +599,12 @@ function MacroMacro(elScope){
 function MC3Resize(el){    
   if(el.getBoundingClientRect().width >= 750){    
     el.classList.add("mbMC3");
+    el.classList.remove("mbMC2");
+  }else if(el.getBoundingClientRect().width >= 500){    
+    el.classList.add("mbMC2");
+    el.classList.remove("mbMC3");
   }else{
+    el.classList.remove("mbMC2");
     el.classList.remove("mbMC3");
   }
 }

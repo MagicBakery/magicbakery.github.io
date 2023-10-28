@@ -17,7 +17,7 @@
     <hide>Arcacianism | Arcacian Principle | Let people help each other and reward those who do. | Peacemaker | Peace Paradigm Ranking</hide>
     
   </div>
-  <div id="MainArea" class="flex" style="padding-bottom:38px;padding-top:38px"></div>
+  <div id="MainArea" class="flex" style="padding-bottom:38px;padding-top:38px;justify-content:center"></div>
   <div class="footer">
     
     <button class="mbbutton" onClick="PanelAdd()" title="Add a panel">🤎</button>
@@ -29,9 +29,10 @@
       <div control style="padding:0px 3px 2px 2px">
         <a class="mbbutton" onClick="PanelRemove(this)" style="float:right" title="Close">🍮</a>
 
-        <a class="mbbutton" onClick="BoardLoad(this,'202208172056')" title="Home">🏡</a>
+        <!--<a class="mbbutton" onClick="BoardLoad(this,'202208172056')" title="Home">🏡</a>-->
+        <a class="mbbutton" onClick="BoardLoad(this,'800000000000')" title="Sitemap/Index">🗂️</a>
         <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;"> 
-        <a class="mbbutton" onClick="IFrameURLSet(this)" title="Go">🧭</a>
+        <a class="mbbutton" onClick="IFrameURLSet(this)" title="Jquery Blogspot Archive">🧭</a>
         <a class="mbbutton" onClick="JQAdd(this)" title="Jquery GitHub Archive">🐣</a>
         <a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board">🥨</a>
         <a class="mbbutton" onClick="BoardLoad(this,'202207242047')" title="Roll Call">📯</a>
@@ -45,7 +46,7 @@
 <script>
   function URLViewer(){
     // 20231007: StarTree: make this function add the first panel.
-    PanelAdd();
+    var mPanel = PanelAdd();
     // 20231006: Black
     const urlParams = new URLSearchParams(window.location.search);
     var iPostID = urlParams.get('id');  
@@ -56,7 +57,9 @@
       mInputBox.value = iPostID;
       //BoardLoad(mInputBox,iPostID);
       JQAdd(mInputBox);
-    }  
+    }else{
+      BoardLoad(mPanel,'202208172056')
+    }
   };
   window.onload = URLViewer;
 </script>

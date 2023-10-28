@@ -47,6 +47,7 @@ body {
   margin:0px;
   padding:5px 0px 0px 0px; 
   text-align:left; 
+  max-width:1000px;
 }
 
 * {
@@ -252,6 +253,10 @@ text-align:center;
   float:right;
   clear:right;
 }
+}
+.mbMC2{
+  column-count: 2; 
+  column-gap: 2em; 
 }
 .mbMC3{
 column-count: 1; 
@@ -992,8 +997,8 @@ cursor:pointer;
 .mbRankQtyH{background-color:yellowgreen;}
 .mbRankQtyHH{background-color:green;}
 .mbRankQtyHHH{background-color:darkgreen;}
-.mbRankSS::before{content:"👑";}
-.mbRankSS{background-color:none;color:gold;}
+.mbRankSS::before{content:"SS";}
+.mbRankSS{background-color:none;color:gold; text-shadow: -1px -1px 0 darkgoldenrod, 1px -1px 0 darkgoldenrod, -1px 1px 0 darkgoldenrod, 1px 1px 0 darkgoldenrod;}
 .mbRankS::before{content:"S";}
 .mbRankS{background-color:none;color:gold; text-shadow: -1px -1px 0 darkgoldenrod, 1px -1px 0 darkgoldenrod, -1px 1px 0 darkgoldenrod, 1px 1px 0 darkgoldenrod;}
 .mbRankA::before{content:"A";}
