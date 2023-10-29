@@ -77,6 +77,21 @@ function GetInputBoxValue(el){
   var elIB = mControl.getElementsByTagName('input')[0];
   return elIB.value;
 }
+function IFrameFeedback(el){
+  // 20231029: Black: Spawn a feedback form
+  var mControl = SearchPS(el,'control');
+  
+  var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
+  
+  var mHTML = "<a class='mbbutton' onClick='RemoveParent(this)' style='float:right' title='Close'>🍮</a>";
+  mHTML += "<a onClick='IFrameFeedback(this)' title='Feedback Form'>💌</a> <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a>";
+  mHTML += "<iframe src='" + mInput + "' title='Google Form' style='border:none;width:100%;height:calc(100vh - 190px)' allow='clipboard-read; clipboard-write'></iframe>";
+  var elTemp = document.createElement("div");
+  elTemp.innerHTML = mHTML;
+  elTemp.classList.add('mbscroll');
+  elTemp.style.marginBottom = "0px";
+  mControl.nextElementSibling.prepend(elTemp);  
+}
 function IFrameRefresh(el,mNodeID){
   // 20230916: StarTree: Refresh the content of Iframe when user clicks elButton.
   var elIF = el.parentNode.getElementsByTagName("iframe")[0];
@@ -89,10 +104,10 @@ function IFrameURLSet(el){
   var mInput = GetInputBoxValue(el);
   // 20230723: StarTree If the URL does not contain a dot, assume that it is a node ID.
   // 20230916: Just get the last 12 in order to show node ID on title
-  var mNodeID = mInput.substr(mInput.length - 12);
+  var mNodeID = mInput.substr(mInput.length - 12);  
   if(IsBlank(mNodeID)){mNodeID = "202303052122";}
   mInput = "https://panarcana.blogspot.com/p/viewer.html?id=P" + mNodeID;
-
+  
   // 20230916: Always make a new iFrame 
   // <div>
   //   <button class='mbbutton' onClick='RemoveParent(this)' style='float:right;margin-bottom:-20px;margin-right:20px;position:relative;z-index:1' title='Close'>🍮</button>
@@ -106,7 +121,6 @@ function IFrameURLSet(el){
   elTemp.classList.add('mbscroll');
   elTemp.style.marginBottom = "0px";
   mControl.nextElementSibling.prepend(elTemp);  
-  
 }
 function JQAdd(el){
   // 20230821: StarTree: Add to JQuery from GitHub Archive.

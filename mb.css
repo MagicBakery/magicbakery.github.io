@@ -1100,6 +1100,15 @@ margin:10px;
 padding:10px;
 font-family:consolas;
 }
+.mbCardMat{
+  display:flex;
+  justify-content:center;
+  flex-wrap: wrap;
+  flex-direction:row-reverse;
+}
+.mbCardMatText{
+  flex:1 0 50%;
+}
 .mbCharCard{
   background-color:#b37441;
     background-image:url('https://github.com/MagicBakery/Images/blob/main/Parchment%20Crop.png?raw=true');
