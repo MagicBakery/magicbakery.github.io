@@ -1434,7 +1434,8 @@ function HidePrev(elThis){
   }
 }
 function HideParent(elThis){
-	elThis.parentNode.style.display = "none";
+	//elThis.parentNode.style.display = "none";
+  elThis.parentNode.classList.add("mbhide");
 }
 function HideTarget(elAID) {
   var eToHide = document.getElementById(elAID);

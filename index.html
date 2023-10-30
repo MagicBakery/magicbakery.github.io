@@ -27,21 +27,26 @@
   <hide><!--New Panel Template-->
     <div id="NewPanelTemplate">
       
-      <div control style="padding:0px 3px 2px 2px">
-        <a class="mbbutton" onClick="PanelRemove(this)" style="float:right" title="Close">🍮</a>
-
-        <!--<a class="mbbutton" onClick="BoardLoad(this,'202208172056')" title="Home">🏡</a>-->
-        <a class="mbbutton" onClick="BoardLoad(this,'800000000000')" title="Sitemap/Index">🗂️</a>
+      <div control style="padding:0px 3px 2px 2px;">
+        <a class="mbbutton" onClick="IFrameURLSet(this)" title="Jquery Blogspot Archive">🕰️</a>
         <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;"> 
-        <a class="mbbutton" onClick="IFrameURLSet(this)" title="Jquery Blogspot Archive">🧭</a>
+        
         <a class="mbbutton" onClick="JQAdd(this)" title="Jquery GitHub Archive">🐣</a>
         <a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board">🥨</a>
-        <a class="mbbutton" onClick="BoardLoad(this,'202207242047')" title="Roll Call">📯</a>
-        <a class="mbbutton" onClick="BoardLoad(this,'202310072314')" title="Calendar">🗓️</a>
-        <a class="mbbutton" onClick="IFrameFeedback(this);return false;" title="Feedback" href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">💌</a>
-        <!--<a class="mbbutton" onClick="ExURL('https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform');return false;" href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform" title="Report Issues">📌</a>-->
+        
+      
+        <a class="mbbutton" onclick="ShowNext(this)" style="float:right;" title="Panel Control">🍞</a>
+        <div class="mbscroll mbhide" style="position:relative;width:auto;float:right;margin:25px -25px -100px -200px;z-index:100;line-height:28px;font-size: 16px;">
+          <a class="mbbutton" onClick="BoardLoad(this,'202310072314');" title="Calendar">🗓️ Calendar</a><br>
+          <a class="mbbutton" onClick="IFrameFeedback(this);return false;" title="Feedback" href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">💌 Feedback</a><br>
+          <a class="mbbutton" onClick="BoardLoad(this,'202207242047');" title="Roll Call">📯 Roll Call</a><br>
+          <a class="mbbutton" onClick="BoardLoad(this,'202301251008')" title="Scoreboard">👑 Scoreboard</a><br>
+          <a class="mbbutton" onClick="BoardLoad(this,'800000000000')" title="Sitemap/Index">🗂️ Site Map</a><br>
+          <hr>
+          <a class="mbbutton" onClick="PanelRemove(this)"title="Close">🍮 Close Panel</a><br>
+        </div>
       </div>
-      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px"></div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:-5px 3px 3px 3px"></div>
     </div>
   </hide>
 </body>
