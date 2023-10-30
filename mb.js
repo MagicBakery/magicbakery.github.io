@@ -41,6 +41,20 @@ function BoardAdd(el){
   mControl.nextElementSibling.prepend(elTemp);
   return elTemp;
 }
+function BoardAddBefore(el){
+  // 20231030: StarTree: Add a board before el (which should also be a board)
+  var elTemp = document.createElement("div");
+  elTemp.classList.add('mbscroll');
+
+  // STEP: Add the close button.
+  var mHTML = "<div control>";
+  mHTML += "<a class='mbbutton' onClick='PanelRemove(this)' style='float:right' title='Close'>🍮</a>";
+  mHTML += "</div><div class='mbCB'></div>";
+  elTemp.innerHTML= mHTML;
+  elTemp.style.marginBottom = "0px";
+  el.before(elTemp);
+  return elTemp;
+}
 function BoardFill(elBoard,iNodeID){
   // 20230821: StarTree: Fill the Board container with content from the node.
   //   The node ID does not have a leading P.
@@ -147,11 +161,25 @@ function InterLink(){
 }
 function BoardLoad(el,iNodeID){
   // 20231006: Black: Make a board in the current column panel given the ID.
-  // STEP: Search up for the column control panel
-  var mControl = SearchPS(el,'panel').firstElementChild;
-  // STEP: Create a new container with a close button.
-  var elBoard = BoardAdd(mControl);
+  var mBoard;
+  var elBoard;
+  try{
+    // 20231030: StarTree: If there is a board, add it before the board.
+    mBoard = SearchPS(el,'board');
+    elBoard = BoardAddBefore(mBoard);
+  }catch(error){
+    // STEP: Search up for the column control panel
+    var mControl = SearchPS(el,'panel').firstElementChild;
+    // STEP: Create a new container with a close button.
+    elBoard = BoardAdd(mControl);  
+  }
+  elBoard.setAttribute("board",iNodeID);
   BoardFill(elBoard,iNodeID);
+  var elContainer = document.getElementById('MBJQSW');  
+  var prevHTML = $(elContainer).html();
+  //var prevHTML = document.body;
+  var nextState = {"html":prevHTML};
+  window.history.pushState(nextState, '', "/?id=P" + iNodeID);  
 }
 function PanelAdd(){
   // 20230722: StarTree
@@ -163,6 +191,29 @@ function PanelAdd(){
   elTemp.setAttribute("panel","");
 
   elMA.appendChild(elTemp);
+  return elTemp;
+}
+
+function PanelAddAfter(el){
+  // 20231030: StarTree
+  var mPanel = SearchPS(el,"panel");
+  var elNPT = document.getElementById("NewPanelTemplate");
+  var elTemp = document.createElement("div");
+  elTemp.innerHTML = elNPT.innerHTML;
+  elTemp.classList.add('mbPanel');
+  elTemp.setAttribute("panel","");
+  mPanel.after(elTemp);
+  return elTemp;
+}
+function PanelAddBefore(el){
+  // 20231030: StarTree
+  var mPanel = SearchPS(el,"panel");
+  var elNPT = document.getElementById("NewPanelTemplate");
+  var elTemp = document.createElement("div");
+  elTemp.innerHTML = elNPT.innerHTML;
+  elTemp.classList.add('mbPanel');
+  elTemp.setAttribute("panel","");
+  mPanel.before(elTemp);
   return elTemp;
 }
 function PanelRemove(el){
@@ -1287,7 +1338,58 @@ function MMInner(el,mMacro){
   }
 }
 function Music(eMusicID){
-  LoadDiv('MBBGM','https://panarcana.blogspot.com/p/music', eMusicID);
+  if(AtBlogSpot()){
+    LoadDiv('MBBGM','https://panarcana.blogspot.com/p/music', eMusicID);
+    return;
+  }
+  if(AtGitHub()){
+    // 20231029: StarTree: Default to not loop.
+    var mURL = MusicURL(eMusicID);
+    var mDiv = document.getElementById('MBBGM');    
+    var mLoop = "";
+    if(eMusicID.search("_Loop")>-1){
+      mLoop = " loop";
+    }
+    mDiv.innerHTML = "<audio controls autoplay" + mLoop + "><source src='" + mURL + "' type='audio/mpeg'></audio>";
+    return;
+  }
+}
+function MusicURL(eMusicID){
+  // 20231029: StarTree: Maps MusicID to URL.
+  var mMusicID = eMusicID.replace("_Loop","");
+  switch(mMusicID){
+    case "ArcacianSky": return "https://github.com/MagicBakery/Music/blob/main/Arcacian%20Sky%20(20221001)%20Climax%20Reverb.mp3?raw=true";
+    case "CookingWithArcacia": return "https://github.com/MagicBakery/Music/blob/fce1794cee034fe2535579ad4f18dd091bb613cf/Cooking%20with%20Arcacia%20(20220510).mp3?raw=true";
+    case "EternalNight": return "https://github.com/MagicBakery/Music/blob/main/Eternal%20Night%20(20220713)%20Re.mp3?raw=true";
+    case "FortArsenal": return "https://github.com/MagicBakery/Music/blob/main/Fort%20Arsenal%20(20220518)%20A%20major.mp3?raw=true";
+    case "LastMasquerade": return "https://github.com/MagicBakery/Music/blob/main/Last%20Masquerade%20(20090818).mp3?raw=true";
+    case "MagicBakery": return "https://github.com/MagicBakery/Music/blob/main/Magic%20Bakery%20Waltz%20(20200910).mp3?raw=true";
+    case "MagicVacation": return "https://github.com/MagicBakery/Music/blob/main/Through%20the%20Magnite%20Cloud%20(20080210).mp3?raw=true";
+    case "MagniteCloud": return "https://github.com/MagicBakery/Music/blob/main/Through%20the%20Magnite%20Cloud%20(20080210).mp3?raw=true";   
+    case "NinjaDash": return "https://github.com/MagicBakery/Music/blob/main/Ninja%20Dash%20(20220616).MP3?raw=true";
+    case "NinjaErrands": return "https://github.com/MagicBakery/Music/blob/main/Ninja%20Errands%20(20220314).MP3?raw=true";
+    case "NorthShore": return "https://github.com/MagicBakery/Music/blob/4252f0c6593eed49df4af5595135611a8d75cf31/North%20Shore%2020220326-1938.mp3?raw=true";
+    case "SoraArcacia": return "https://github.com/MagicBakery/Music/blob/main/Arcacian%20Sky%20(20221001)%20Climax%20Reverb.mp3?raw=true";
+    case "StarryNight": return "https://github.com/MagicBakery/Music/blob/main/Starry%20Night%20(20220606).MP3?raw=true";
+    case "Vacation": return "https://github.com/MagicBakery/Music/blob/main/Vacation%20(20220713).mp3?raw=true";
+    case "Piano_C4": return "https://github.com/MagicBakery/Music/blob/main/Piano/C4.mp3?raw=true";
+    case "Piano_C4s": return "https://github.com/MagicBakery/Music/blob/main/Piano/C4s.mp3?raw=true";
+    case "Piano_D4": return "https://github.com/MagicBakery/Music/blob/main/Piano/D4.mp3?raw=true";
+    case "Piano_D4s": return "https://github.com/MagicBakery/Music/blob/main/Piano/D4s.mp3?raw=true";
+    case "Piano_E4": return "https://github.com/MagicBakery/Music/blob/main/Piano/E4.mp3?raw=true";
+    case "Piano_F4": return "https://github.com/MagicBakery/Music/blob/main/Piano/F4.mp3?raw=true";
+    case "Piano_F4s": return "https://github.com/MagicBakery/Music/blob/main/Piano/F4s.mp3?raw=true";
+    case "Piano_G4": return "https://github.com/MagicBakery/Music/blob/main/Piano/G4.mp3?raw=true";
+    case "Piano_G4s": return "https://github.com/MagicBakery/Music/blob/main/Piano/G4s.mp3?raw=true";
+    case "Piano_A4": return "https://github.com/MagicBakery/Music/blob/main/Piano/A4.mp3?raw=true";
+    case "Piano_A4s": return "https://github.com/MagicBakery/Music/blob/main/Piano/A4s.mp3?raw=true";
+    case "Piano_B4": return "https://github.com/MagicBakery/Music/blob/main/Piano/B4.mp3?raw=true";
+    case "Piano_C5": return "https://github.com/MagicBakery/Music/blob/main/Piano/C5.mp3?raw=true";
+    
+    default:
+      return "https://github.com/MagicBakery/Music/blob/main/Magic%20Bakery%20Waltz%20(20200910).mp3?raw=true";
+
+  }
 }
 function MusicNext(elTest,eMusicID){
   LoadDivNext(elTest,'../p/music',eMusicID);
@@ -1796,18 +1898,26 @@ function PlayNextShift(elThis,iShift){
 }
 function YoutubePN(el,iLink){
   // 20230305: StarTree: Added for displaying Japanese lyrics
-  var elTarget = el.parentNode.nextElementSibling;
+  YoutubePNel(el.parentNode.nextElementSibling,iLink)
+}
+function YoutubePNC(el,iLink){
+  // 20231029: For GitHub Control
+  YoutubePNel(SearchPS(el,"Control").nextElementSibling,iLink)
+}
+function YoutubePNel(el,iLink){
+  // 20230305: StarTree: Added
+  // 20231029: StarTree: Split for YouTubePNC
+  var elTarget = el;
   if(elTarget.getAttribute("mQueryString") == iLink){
     elTarget,innerHTML="";
     elTarget.setAttribute("mQueryString","");
     elTarget.classList.add("mbhide");
     return;
   }
-  
   var mHTML = "";
   //mHTML = "https://www.youtube.com/embed/" + iLink + "?version=3&loop=1&autoplay=1&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx";
   // 20231008: Mikela: Don't include the list
-  mHTML = "https://www.youtube.com/embed/" + iLink + "?version=3&loop=1&autoplay=1";
+  mHTML = "https://www.youtube.com/embed/" + iLink + "?rel=0?version=3&autoplay=1&loop=1";
   mHTML = "src='" + mHTML + "' ";
   mHTML += "width='100%' frameborder='0' allow='accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture' allowfullscreen";
   mHTML = "<iframe " + mHTML + "></iframe>";
@@ -1815,11 +1925,9 @@ function YoutubePN(el,iLink){
   elTarget.innerHTML = mHTML;
   elTarget.setAttribute("mQueryString",iLink);
   elTarget.classList.remove("mbhide");
-
   /*<center>
     <iframe width="100%" src="https://www.youtube.com/embed/FUH9S44D1BM?version=3&loop=1&autoplay=1&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </center>*/
-
 }
 function QueryAll(eContainerID, eQuery, iInner){
   // JQUERY

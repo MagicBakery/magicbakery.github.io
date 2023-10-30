@@ -9,7 +9,7 @@
   <title>Magic Bakery</title>
   <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
 </head>
-<body>
+<body id="MBJQSW">
   
   <div class="header">
     <!--<a href="https://panarcana.blogspot.com/p/viewer.html?id=P202303052122" style="float:Right;color:white" target="_blank">Blogspot</a>-->
@@ -19,9 +19,82 @@
   </div>
   <div id="MainArea" class="flex" style="padding-bottom:38px;padding-top:38px;justify-content:center"></div>
   <div class="footer">
+       
     
-    <button class="mbbutton" onClick="PanelAdd()" title="Add a panel">🤎</button>
-
+    <a class="mbbutton" onClick="ShowNext(this)" title="Music Player" >🎧</a>
+    <span class="mbhide">
+      <div style="position:absolute;bottom:36px;width:100%;z-index:100;display:flex;justify-content:center;margin-left:-10px;padding:0">
+        <div class="mbscroll" style="text-align:center;color:saddlebrown">
+          <div control>
+            <div class="mbpuzzle" style="text-align: center;">
+              <div class="mbbutton" onclick="ShowNext(this)"><h4>⭐⭐⭐Musescore⭐⭐⭐</h4></div>
+              <hide><hr>
+                <a class="mbbutton" onclick="YoutubePNC(this,'3cz_MRj_8GE')" title="Maternal Sky"><div class="mbavem mbAlbatross"></div></a>
+                <a class="mbbutton" onclick="YoutubePNC(this,'drbdwx-z8Ds')" title="Cooking"><div class="mbavem mbArcacia"></div></a>
+                <a class="mbbutton" onclick="YoutubePNC(this,'-FXBKHwQeLg')" title="Sora Arcacia"><div class="mbavem mbArcacia"></div></a>
+                <a class="mbbutton" onclick="YoutubePNC(this,'intqod4Yvr0')" title="Magic Vacation"><div class="mbavem mbCasey"></div></a>
+                <a class="mbbutton" onclick="YoutubePNC(this,'98SHrkDZxTE')" title="Glory to the World"><div class="mbavem mbEvelyn"></div></a>
+                <a class="mbbutton" onclick="YoutubePNC(this,'ogLfcC5Msok')" title="Fireflies"><div class="mbavem mbIvy"></div></a>
+                <a class="mbbutton" onclick="YoutubePNC(this,'tkdfMBzUJ6o')" title="Flower Field"><div class="mbavem mbMelody"></div></a>
+                <a class="mbbutton" onclick="YoutubePNC(this,'Mzr7S7vPUe8')" title="Wake Up"><div class="mbavem mbV"></div></a>
+                <div class="mbCB"></div>
+              </hide>
+            </div><!--Musescore-->
+            <div class="mbpuzzle" style="text-align: center;">
+              <div class="mbbutton" onclick="ShowNext(this)"><h4>⭐⭐Live⭐⭐</h4></div>
+              <hide><hr>
+                <a class="mbbutton" onclick="YoutubePNC(this,'7aMI8M8DI4k')" title="End"><div class="mbavem mbArcacia"></div></a>
+                <a class="mbbutton" onclick="YoutubePNC(this,'SvLj-3t13TA')" title="Mirror of Dreams"><div class="mbavem mbSkyle"></div></a>
+                <a class="mbbutton" onclick="YoutubePNC(this,'HHpmvkVZxyM')" title="Last Masquerade"><div class="mbavem mbV"></div></a>
+                <div class="mbCB"></div>
+              </hide>
+            </div><!--Live-->
+            <div class="mbpuzzle" style="text-align: center;">
+              <div class="mbbutton" onclick="ShowNext(this)"><h4>⭐Synthesia⭐</h4></div>
+              <hide><hr>
+                
+                <a class="mbbutton" onclick="YoutubePNC(this,'9g6V5BaJdTE')" title="Parade"><div class="mbavem mbLRRH"></div></a>
+                <a class="mbbutton" onclick="YoutubePNC(this,'ybCw8-miGjg')" title="Angel"><div class="mbavem mbNatalie"></div></a>
+                <a class="mbbutton" onclick="YoutubePNC(this,'cvvNQpuW2dw')" title="Reasons"><div class="mbavem mbSkyle"></div></a>
+              </hide>
+            </div><!--Synthesia-->
+            
+          </div><!--Video Selection-->
+          <div></div><!--Video Display-->
+          <div class="mbpuzzle" style="text-align: center;">
+            <div class="mbbutton" onclick="ShowNext(this)"><h4>Loops</h4></div>
+            <hide><hr>
+              <a class="mbbutton" onclick="Music('SoraArcacia_Loop')" title="Sora Arcacia"><div class="mbavem mbArcacia"></div></a>
+              <a class="mbbutton" onclick="Music('NorthShore_Loop')" title="Eternal Night"><div class="mbavem mbEvelyn"></div></a>
+              <a class="mbbutton" onclick="Music('MagicBakery_Loop')" title="Magic Bakery Waltz"><div class="mbavem mbLRRH"></div></a>
+              <a class="mbbutton" onclick="Music('EternalNight_Loop')" title="Glory to the World"><div class="mbavem mbVivi"></div></a>
+              <a class="mbbutton" onclick="Music('FortArsenal_Loop')" title="Fort Arsenal"><div class="mbavem mbSylvia"></div></a>
+            </hide>
+          </div><!--Loops-->
+          
+          <div id="MBBGM" ></div>
+          <a class="mbbutton" onclick="ShowNext(this)" title="Keyboard">🎹</a>
+          <hide>
+            <a class="mbbutton" onclick="Music('Piano_C4s')">⬛</a>
+            <a class="mbbutton" onclick="Music('Piano_D4s')">⬛</a>
+            <span style="margin-left:28px"></span>
+            <a class="mbbutton" onclick="Music('Piano_F4s')">⬛</a>
+            <a class="mbbutton" onclick="Music('Piano_G4s')">⬛</a>
+            <a class="mbbutton" onclick="Music('Piano_A4s')">⬛</a>
+            <span style="margin-left:28px"></span><br>
+            <a class="mbbutton" onclick="Music('Piano_C4')">⬜</a>
+            <a class="mbbutton" onclick="Music('Piano_D4')">⬜</a>
+            <a class="mbbutton" onclick="Music('Piano_E4')">⬜</a>
+            <a class="mbbutton" onclick="Music('Piano_F4')">⬜</a>
+            <a class="mbbutton" onclick="Music('Piano_G4')">⬜</a>          
+            <a class="mbbutton" onclick="Music('Piano_A4')">⬜</a>          
+            <a class="mbbutton" onclick="Music('Piano_B4')">⬜</a>
+            <a class="mbbutton" onclick="Music('Piano_C5')">⬜</a>
+          </hide>
+        </div>
+      </div>
+    </span>
+    
   </div>
 
   <hide><!--New Panel Template-->
@@ -36,14 +109,26 @@
         
       
         <a class="mbbutton" onclick="ShowNext(this)" style="float:right;" title="Panel Control">🍞</a>
-        <div class="mbscroll mbhide" style="position:relative;width:auto;float:right;margin:25px -25px -100px -200px;z-index:100;line-height:28px;font-size: 16px;">
+        <div class="mbscroll mbhide" style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">
+          
           <a class="mbbutton" onClick="BoardLoad(this,'202310072314');" title="Calendar">🗓️ Calendar</a><br>
           <a class="mbbutton" onClick="IFrameFeedback(this);return false;" title="Feedback" href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">💌 Feedback</a><br>
           <a class="mbbutton" onClick="BoardLoad(this,'202207242047');" title="Roll Call">📯 Roll Call</a><br>
           <a class="mbbutton" onClick="BoardLoad(this,'202301251008')" title="Scoreboard">👑 Scoreboard</a><br>
           <a class="mbbutton" onClick="BoardLoad(this,'800000000000')" title="Sitemap/Index">🗂️ Site Map</a><br>
           <hr>
-          <a class="mbbutton" onClick="PanelRemove(this)"title="Close">🍮 Close Panel</a><br>
+          <div >
+            <div class="mbbutton" onclick="ShowNext(this)">⚙️ Panel</div>
+            <hide>
+              <a class="mbbutton" onClick="PanelAddBefore(this)" title="Add a panel before">🤎 Add Before</a><br>
+              <a class="mbbutton" onClick="PanelAddAfter(this)" title="Add a panel after">🤎 Add After</a>
+              <hr>
+              <a class="mbbutton" onClick="PanelRemove(this)"title="Close">🍮 Close Panel</a><br>
+              <div class="mbCB"></div>
+            </hide>
+          </div>
+
+          
         </div>
       </div>
       <div style="height:calc(100vh - 130px);overflow-y:auto;padding:-5px 3px 3px 3px"></div>
