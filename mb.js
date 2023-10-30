@@ -1898,13 +1898,17 @@ function PlayNextShift(elThis,iShift){
 }
 function YoutubePN(el,iLink){
   // 20230305: StarTree: Added for displaying Japanese lyrics
-  YoutubePNel(el.parentNode.nextElementSibling,iLink)
+  YoutubeEL(el.parentNode.nextElementSibling,iLink)
 }
 function YoutubePNC(el,iLink){
   // 20231029: For GitHub Control
-  YoutubePNel(SearchPS(el,"Control").nextElementSibling,iLink)
+  YoutubeEL(SearchPS(el,"Control").nextElementSibling,iLink)
 }
-function YoutubePNel(el,iLink){
+function YoutubePPC(el,iLink){
+  // 20231029: For GitHub Control
+  YoutubeEL(SearchPS(el,"Control").previousElementSibling,iLink)
+}
+function YoutubeEL(el,iLink){
   // 20230305: StarTree: Added
   // 20231029: StarTree: Split for YouTubePNC
   var elTarget = el;

@@ -24,73 +24,62 @@
     <a class="mbbutton" onClick="ShowNext(this)" title="Music Player" >🎧</a>
     <span class="mbhide">
       <div style="position:absolute;bottom:36px;width:100%;z-index:100;display:flex;justify-content:center;margin-left:-10px;padding:0">
-        <div class="mbscroll" style="text-align:center;color:saddlebrown">
+        <div class="mbscroll" style="text-align:center;color:saddlebrown;">
+          <div id="MBBGM" ></div><!--Video Display-->
           <div control>
-            <div class="mbpuzzle" style="text-align: center;">
-              <div class="mbbutton" onclick="ShowNext(this)"><h4>⭐⭐⭐Musescore⭐⭐⭐</h4></div>
-              <hide><hr>
-                <a class="mbbutton" onclick="YoutubePNC(this,'3cz_MRj_8GE')" title="Maternal Sky"><div class="mbavem mbAlbatross"></div></a>
-                <a class="mbbutton" onclick="YoutubePNC(this,'drbdwx-z8Ds')" title="Cooking"><div class="mbavem mbArcacia"></div></a>
-                <a class="mbbutton" onclick="YoutubePNC(this,'-FXBKHwQeLg')" title="Sora Arcacia"><div class="mbavem mbArcacia"></div></a>
-                <a class="mbbutton" onclick="YoutubePNC(this,'intqod4Yvr0')" title="Magic Vacation"><div class="mbavem mbCasey"></div></a>
-                <a class="mbbutton" onclick="YoutubePNC(this,'98SHrkDZxTE')" title="Glory to the World"><div class="mbavem mbEvelyn"></div></a>
-                <a class="mbbutton" onclick="YoutubePNC(this,'ogLfcC5Msok')" title="Fireflies"><div class="mbavem mbIvy"></div></a>
-                <a class="mbbutton" onclick="YoutubePNC(this,'tkdfMBzUJ6o')" title="Flower Field"><div class="mbavem mbMelody"></div></a>
-                <a class="mbbutton" onclick="YoutubePNC(this,'Mzr7S7vPUe8')" title="Wake Up"><div class="mbavem mbV"></div></a>
-                <div class="mbCB"></div>
-              </hide>
-            </div><!--Musescore-->
-            <div class="mbpuzzle" style="text-align: center;">
-              <div class="mbbutton" onclick="ShowNext(this)"><h4>⭐⭐Live⭐⭐</h4></div>
-              <hide><hr>
-                <a class="mbbutton" onclick="YoutubePNC(this,'7aMI8M8DI4k')" title="End"><div class="mbavem mbArcacia"></div></a>
-                <a class="mbbutton" onclick="YoutubePNC(this,'SvLj-3t13TA')" title="Mirror of Dreams"><div class="mbavem mbSkyle"></div></a>
-                <a class="mbbutton" onclick="YoutubePNC(this,'HHpmvkVZxyM')" title="Last Masquerade"><div class="mbavem mbV"></div></a>
-                <div class="mbCB"></div>
-              </hide>
-            </div><!--Live-->
-            <div class="mbpuzzle" style="text-align: center;">
-              <div class="mbbutton" onclick="ShowNext(this)"><h4>⭐Synthesia⭐</h4></div>
-              <hide><hr>
-                
-                <a class="mbbutton" onclick="YoutubePNC(this,'9g6V5BaJdTE')" title="Parade"><div class="mbavem mbLRRH"></div></a>
-                <a class="mbbutton" onclick="YoutubePNC(this,'ybCw8-miGjg')" title="Angel"><div class="mbavem mbNatalie"></div></a>
-                <a class="mbbutton" onclick="YoutubePNC(this,'cvvNQpuW2dw')" title="Reasons"><div class="mbavem mbSkyle"></div></a>
-              </hide>
-            </div><!--Synthesia-->
-            
+            <div class="mbpuzzle" style="text-align: center;margin:0px">
+              
+              <span class="mbbutton" onclick="ShowNext(this)"><small>🎠</small></span>
+              <hide>
+                <a class="mbbutton" onclick="Music('SoraArcacia_Loop')" title="Sora Arcacia"><div class="mbavem mbArcacia"></div></a>
+                <a class="mbbutton" onclick="Music('NorthShore_Loop')" title="Eternal Night"><div class="mbavem mbEvelyn"></div></a>
+                <a class="mbbutton" onclick="Music('MagicBakery_Loop')" title="Magic Bakery Waltz"><div class="mbavem mbLRRH"></div></a>
+                <a class="mbbutton" onclick="Music('EternalNight_Loop')" title="Glory to the World"><div class="mbavem mbVivi"></div></a>
+                <a class="mbbutton" onclick="Music('FortArsenal_Loop')" title="Fort Arsenal"><div class="mbavem mbSylvia"></div></a>
+              </hide> &nbsp; 
+              <span class="mbbutton" onclick="ShowNext(this)" style="letter-spacing: -3px;"><small>⭐</small></span>
+              <hide>
+                <a class="mbbutton" onclick="YoutubePPC(this,'9g6V5BaJdTE')" title="Parade"><div class="mbavem mbLRRH"></div></a>
+                <a class="mbbutton" onclick="YoutubePPC(this,'ybCw8-miGjg')" title="Angel"><div class="mbavem mbNatalie"></div></a>
+                <a class="mbbutton" onclick="YoutubePPC(this,'cvvNQpuW2dw')" title="Reasons"><div class="mbavem mbSkyle"></div></a>
+              </hide> &nbsp; 
+              <span class="mbbutton" onclick="ShowNext(this)" style="letter-spacing: -3px;"><small>⭐⭐</small></span>
+              <hide>
+                <a class="mbbutton" onclick="YoutubePPC(this,'7aMI8M8DI4k')" title="End"><div class="mbavem mbArcacia"></div></a>
+                <a class="mbbutton" onclick="YoutubePPC(this,'SvLj-3t13TA')" title="Mirror of Dreams"><div class="mbavem mbSkyle"></div></a>
+                <a class="mbbutton" onclick="YoutubePPC(this,'HHpmvkVZxyM')" title="Last Masquerade"><div class="mbavem mbV"></div></a>
+              </hide> &nbsp;
+              <span class="mbbutton" onclick="ShowNext(this)" style="letter-spacing: -3px;"><small>⭐⭐⭐</small></span>
+              <hide>
+                <a class="mbbutton" onclick="YoutubePPC(this,'3cz_MRj_8GE')" title="Maternal Sky"><div class="mbavem mbAlbatross"></div></a>
+                <a class="mbbutton" onclick="YoutubePPC(this,'drbdwx-z8Ds')" title="Cooking"><div class="mbavem mbArcacia"></div></a>
+                <a class="mbbutton" onclick="YoutubePPC(this,'-FXBKHwQeLg')" title="Sora Arcacia"><div class="mbavem mbArcacia"></div></a>
+                <a class="mbbutton" onclick="YoutubePPC(this,'intqod4Yvr0')" title="Magic Vacation"><div class="mbavem mbCasey"></div></a>
+                <a class="mbbutton" onclick="YoutubePPC(this,'98SHrkDZxTE')" title="Glory to the World"><div class="mbavem mbEvelyn"></div></a>
+                <a class="mbbutton" onclick="YoutubePPC(this,'ogLfcC5Msok')" title="Fireflies"><div class="mbavem mbIvy"></div></a>
+                <a class="mbbutton" onclick="YoutubePPC(this,'tkdfMBzUJ6o')" title="Flower Field"><div class="mbavem mbMelody"></div></a>
+                <a class="mbbutton" onclick="YoutubePPC(this,'Mzr7S7vPUe8')" title="Wake Up"><div class="mbavem mbV"></div></a>
+              </hide> &nbsp;
+              <a class="mbbutton" onclick="ShowNext(this)" title="Keyboard"><small>🎹</small></a>
+              <hide class="mbscroll" style="text-align: center;">
+                <a class="mbbutton" onclick="Music('Piano_C4s')">⬛</a>&nbsp;
+                <a class="mbbutton" onclick="Music('Piano_D4s')">⬛</a>&nbsp;
+                <span style="margin-left:29px"></span>
+                <a class="mbbutton" onclick="Music('Piano_F4s')">⬛</a>&nbsp;
+                <a class="mbbutton" onclick="Music('Piano_G4s')">⬛</a>&nbsp;
+                <a class="mbbutton" onclick="Music('Piano_A4s')">⬛</a>&nbsp;
+                <span style="margin-left:29px"></span><br>
+                <a class="mbbutton" onclick="Music('Piano_C4')">⬜</a>&nbsp;
+                <a class="mbbutton" onclick="Music('Piano_D4')">⬜</a>&nbsp;
+                <a class="mbbutton" onclick="Music('Piano_E4')">⬜</a>&nbsp;
+                <a class="mbbutton" onclick="Music('Piano_F4')">⬜</a>&nbsp;
+                <a class="mbbutton" onclick="Music('Piano_G4')">⬜</a>&nbsp;    
+                <a class="mbbutton" onclick="Music('Piano_A4')">⬜</a>&nbsp;
+                <a class="mbbutton" onclick="Music('Piano_B4')">⬜</a>&nbsp;
+                <a class="mbbutton" onclick="Music('Piano_C5')">⬜</a>
+              </hide> 
+            </div>
           </div><!--Video Selection-->
-          <div></div><!--Video Display-->
-          <div class="mbpuzzle" style="text-align: center;">
-            <div class="mbbutton" onclick="ShowNext(this)"><h4>Loops</h4></div>
-            <hide><hr>
-              <a class="mbbutton" onclick="Music('SoraArcacia_Loop')" title="Sora Arcacia"><div class="mbavem mbArcacia"></div></a>
-              <a class="mbbutton" onclick="Music('NorthShore_Loop')" title="Eternal Night"><div class="mbavem mbEvelyn"></div></a>
-              <a class="mbbutton" onclick="Music('MagicBakery_Loop')" title="Magic Bakery Waltz"><div class="mbavem mbLRRH"></div></a>
-              <a class="mbbutton" onclick="Music('EternalNight_Loop')" title="Glory to the World"><div class="mbavem mbVivi"></div></a>
-              <a class="mbbutton" onclick="Music('FortArsenal_Loop')" title="Fort Arsenal"><div class="mbavem mbSylvia"></div></a>
-            </hide>
-          </div><!--Loops-->
-          
-          <div id="MBBGM" ></div>
-          <a class="mbbutton" onclick="ShowNext(this)" title="Keyboard">🎹</a>
-          <hide>
-            <a class="mbbutton" onclick="Music('Piano_C4s')">⬛</a>
-            <a class="mbbutton" onclick="Music('Piano_D4s')">⬛</a>
-            <span style="margin-left:28px"></span>
-            <a class="mbbutton" onclick="Music('Piano_F4s')">⬛</a>
-            <a class="mbbutton" onclick="Music('Piano_G4s')">⬛</a>
-            <a class="mbbutton" onclick="Music('Piano_A4s')">⬛</a>
-            <span style="margin-left:28px"></span><br>
-            <a class="mbbutton" onclick="Music('Piano_C4')">⬜</a>
-            <a class="mbbutton" onclick="Music('Piano_D4')">⬜</a>
-            <a class="mbbutton" onclick="Music('Piano_E4')">⬜</a>
-            <a class="mbbutton" onclick="Music('Piano_F4')">⬜</a>
-            <a class="mbbutton" onclick="Music('Piano_G4')">⬜</a>          
-            <a class="mbbutton" onclick="Music('Piano_A4')">⬜</a>          
-            <a class="mbbutton" onclick="Music('Piano_B4')">⬜</a>
-            <a class="mbbutton" onclick="Music('Piano_C5')">⬜</a>
-          </hide>
         </div>
       </div>
     </span>
