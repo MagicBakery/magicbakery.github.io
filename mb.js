@@ -1408,7 +1408,13 @@ function PNDInner(el,mJSON){
   mHTML = "<a class=\"mbbutton\" onclick=\"QueryAllNext(this,'#P" + mJSON.parentid;
   mHTML +="')\"><small>" + mJSON.parentname + "</small></a><hide></hide>";
   mHTML +="<div style=\"float:right\"><small>["+mJSON.id+"]</small></div>";
-  mHTML +="<hr class=\"mbCB mbhr\"><div class=\"mbpc\"><a class=\"mbbuttonIn\" href=\"" + ViewerPath() + "?id=P"+mJSON.id+"\"><b>"+mJSON.title+"</b></a></div>";
+  mHTML +="<hr class=\"mbCB mbhr\"><div class=\"mbpc\">";
+  // 20231105: Arcacia: Use lnk for GitHub.
+  // Before:
+  //   mHTML += "<a class=\"mbbuttonIn\" href=\"" + ViewerPath() + "?id=P"+mJSON.id+"\"><b>"+mJSON.title+"</b></a></div>";
+  // After:
+  mHTML +="<lnk>" + mJSON.id + "|" + mJSON.title + "</lnk>";
+  
   mHTML +="<center><small>";
   if(NotBlank(mJSON.prev)){
     mHTML +="<a class=\"mbbutton\" style=\"float:left\" href=\"" + ViewerPath() + "?id=P"+mJSON.prev+"\">◀</a>";
