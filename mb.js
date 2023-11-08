@@ -279,6 +279,7 @@ function ChName(iChID){
     case 29: return "Mira";
     case 30: return "Cardinal";
     case 31: return "Detective";
+    case 32: return "Gaia";
     case 33: return "Tavern";
     case 34: return "Scape";
     default: return "Unknown";
@@ -3287,6 +3288,7 @@ function PinCh(eCH){
   case 29: eHTML="../../2021/12/mira-mira"; mBanner="202208071528"; break;
   case 30: eHTML="../../2021/12/cardinal"; mBanner="202208250038"; break;
   case 31: eHTML="../../2022/05/magic-bakery-detectives"; mBanner="202208141844"; break;  
+  case 32: mBanner="202209251051";break;
   case 33: mBanner="202309052239";break;
   case 34: mBanner="202310232341";break;
   }
