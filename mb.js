@@ -282,6 +282,7 @@ function ChName(iChID){
     case 32: return "Gaia";
     case 33: return "Tavern";
     case 34: return "Scape";
+    case 35: return "Night";
     default: return "Unknown";
   }
 }
@@ -3291,6 +3292,7 @@ function PinCh(eCH){
   case 32: mBanner="202209251051";break;
   case 33: mBanner="202309052239";break;
   case 34: mBanner="202310232341";break;
+  case 35: mBanner="202303052122";break;
   }
   if( mBanner!=""){
     QueryBanner(mBanner);
