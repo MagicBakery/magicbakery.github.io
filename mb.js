@@ -100,7 +100,7 @@ function BoardFill(elBoard,iNodeID){
       // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
       // Ref: https://stackoverflow.com/questions/7408100/can-i-change-the-scroll-speed-using-css-or-jquery
       
-      elBoard.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+      elBoard.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
       
     }); // END JQuery Load
   }); // END Document ready
@@ -2242,7 +2242,7 @@ function QueryAllEL(elContainer, eQuery,iInner){
             // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
             // Ref: https://stackoverflow.com/questions/7408100/can-i-change-the-scroll-speed-using-css-or-jquery
             elContainer.style.scrollMargin = "10px";
-            elContainer.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
+            elContainer.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
           }	
         }
       });
