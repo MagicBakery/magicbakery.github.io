@@ -55,6 +55,20 @@ function BoardAddBefore(el){
   el.before(elTemp);
   return elTemp;
 }
+function BoardAddBefore(el){
+  // 20231115: Ivy: Add a board after el (which should also be a board)
+  var elTemp = document.createElement("div");
+  elTemp.classList.add('mbscroll');
+
+  // STEP: Add the close button.
+  var mHTML = "<div control>";
+  mHTML += "<a class='mbbutton' onClick='PanelRemove(this)' style='float:right' title='Close'>🍮</a>";
+  mHTML += "</div><div class='mbCB'></div>";
+  elTemp.innerHTML= mHTML;
+  elTemp.style.marginBottom = "0px";
+  el.after(elTemp);
+  return elTemp;
+}
 function BoardFill(elBoard,iNodeID){
   // 20230821: StarTree: Fill the Board container with content from the node.
   //   The node ID does not have a leading P.
@@ -81,6 +95,13 @@ function BoardFill(elBoard,iNodeID){
       NodeFormatter(elContainer);
       elContainer.innerHTML = elContainer.firstElementChild.innerHTML;
       elBoard.firstElementChild.after(elContainer);
+      
+      // 20231115: Sylvia: Scroll to View
+      // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+      // Ref: https://stackoverflow.com/questions/7408100/can-i-change-the-scroll-speed-using-css-or-jquery
+      
+      elBoard.scrollIntoView({ behavior: "smooth", block: "start", inline: "nearest" });
+      
     }); // END JQuery Load
   }); // END Document ready
 }
@@ -924,7 +945,7 @@ function MMInner(el,mMacro){
           mHTML += "<div></div><span class='mbILB25 mbRankBlk" + mRankCur;
           mHTML += "' style='margin-left:-25px'></span>";
         }
-        mHTML += "<a class='mbbutton' onclick='QueryMainCh("+ mCh +")' ";
+        mHTML += "<a class='mbbutton' onclick='QueryMainCh("+ mCh +",this)' ";
         mHTML += "title='Total Updates: " +mUpdates+ "\nLast on: " +mActivities[i].last + "'>&nbsp;";
         mHTML += ChName(mCh);    
         if(NotBlank(mActivities[i].last)){
@@ -1055,7 +1076,7 @@ function MMInner(el,mMacro){
     if(IsBlank(mGuildLogCount)){
       mGuildLogCount = "Unknown";
     }
-    mHTML = "<a onclick=\"" + InterLink() + "'" + mMacro.node+ "');return false;\" class=\"mbbutton mbILB35 mbRankBlk" + mRank + "\" href=\"" + ViewerPath() + "?id=P"+  mMacro.node  +"\" title='Quests Completed: "+ mUpdates +"\nHighest Rank: "+mRank+"\nRemaining: "+mGuildLogCount+"'></a>";
+    mHTML = "<a onclick=\"" + InterLink() + "'" + mMacro.node+ "');return false;\" class=\"mbbuttonIn mbILB35 mbRankBlk" + mRank + "\" href=\"" + ViewerPath() + "?id=P"+  mMacro.node  +"\" title='Quests Completed: "+ mUpdates +"\nHighest Rank: "+mRank+"\nRemaining: "+mGuildLogCount+"'></a>";
     mHTML += "<span class='mbILB25 mbRankNone' style='margin-left:5px'>" + mStatusIcon + "</span>";
     mAuthor = mMacro.author;
     if(NotBlank(mAuthor)){
@@ -2216,10 +2237,17 @@ function QueryAllEL(elContainer, eQuery,iInner){
           }else{
             Macro(elContainer);
             $(elContainer).show();
+
+            // 20231115: Sylvia: Scroll to View
+            // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+            // Ref: https://stackoverflow.com/questions/7408100/can-i-change-the-scroll-speed-using-css-or-jquery
+            elContainer.style.scrollMargin = "10px";
+            elContainer.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
           }	
         }
       });
     }
+    
   });
 }
 function QueryAllEL20230313(elContainer, eQuery,iInner){
@@ -3262,7 +3290,7 @@ function QueryMain(eHTML, eDIV, bJump){
   }
  
 }
-function PinCh(eCH){
+function PinCh(eCH,el){
   var eHTML="https://panarcana.blogspot.com/2021/12/branch-bakery"
   var bJump=0;
   var mBanner = "";
@@ -3294,14 +3322,20 @@ function PinCh(eCH){
   case 34: mBanner="202310232341";break;
   case 35: mBanner="202303052122";break;
   }
-  if( mBanner!=""){
-    QueryBanner(mBanner);
-  }else{
-    QueryMain(eHTML,"MBJQ",bJump);
+  if(AtBlogSpot()){
+    if( mBanner!=""){
+      QueryBanner(mBanner);
+    }else{
+      QueryMain(eHTML,"MBJQ",bJump);
+    }
+  }else if(AtGitHub()){
+    // 20231115: Black
+    BoardLoad(el,mBanner);
   }
+
 }
-function QueryMainCh(eCH){
-  PinCh(eCH);
+function QueryMainCh(eCH,el){
+  PinCh(eCH,el);
 }
 function QueryMonth(eContainerID, eDate, eSection){
   var elContainer = document.getElementById(eContainerID);
