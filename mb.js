@@ -76,6 +76,7 @@ function BoardFill(elBoard,iNodeID){
 
   // For Testing: if iNodeID is blank, use this default:
   if(iNodeID==""){iNodeID="202208172056";};
+  elBoard.setAttribute("board",iNodeID);
 
   // STEP: Create a container within the Board after the control section for the content.
   //       ((The board itself has a close button))
@@ -194,7 +195,6 @@ function BoardLoad(el,iNodeID){
     // STEP: Create a new container with a close button.
     elBoard = BoardAdd(mControl);  
   }
-  elBoard.setAttribute("board",iNodeID);
   BoardFill(elBoard,iNodeID);
   var elContainer = document.getElementById('MBJQSW');  
   var prevHTML = $(elContainer).html();
