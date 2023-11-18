@@ -100,7 +100,8 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
       // 20231115: Sylvia: Scroll to View
       // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
       // Ref: https://stackoverflow.com/questions/7408100/can-i-change-the-scroll-speed-using-css-or-jquery
-      if(!iDoNotScroll){
+      if(iDoNotScroll){
+      }else{
         ScrollIntoView(elBoard);
       }
       
