@@ -2175,10 +2175,10 @@ function ScrollIntoView(el){
   // el is the board. But before scrolling the board into view, first scroll the panel into view.
   var mPanel = SearchPS(el,"panel");
   
-  mPanel.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+  mPanel.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
 
   el.style.scrollMargin = "0px";
-  el.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+  el.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
 
 }
 function QSL(el,iQuery){
