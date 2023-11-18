@@ -2174,10 +2174,12 @@ function ScrollIntoView(el){
   // 20231118: StarTree: Trying to fix the scrolling issue on phones
   // el is the board. But before scrolling the board into view, first scroll the panel into view.
   var mPanel = SearchPS(el,"panel");
-  
+  //mPanel.scrollIntoView(true);
+  //mPanel.style.scrollMargin = "10px";
   mPanel.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
 
-  el.style.scrollMargin = "0px";
+  //el.style.scrollMargin = "10px";
+  //el.scrollIntoView(true);
   el.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
 
 }

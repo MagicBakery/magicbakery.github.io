@@ -49,6 +49,8 @@ body {
   padding:5px 0px 0px 0px; 
   text-align:left; 
   max-width:1000px;
+  scroll-snap-type: y mandatory;
+  scroll-margin-top:100px;
   flex:0 0 auto;
 }
 
@@ -104,6 +106,8 @@ color:inherit;
   line-height:1.25em; 
   margin:10px 0px;
   padding:10px; 
+  scroll-snap-type: y mandatory;
+  scroll-margin-top:10px;
   text-align:left; 
 }
 
