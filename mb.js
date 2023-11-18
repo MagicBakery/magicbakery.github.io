@@ -100,8 +100,7 @@ function BoardFill(elBoard,iNodeID){
       // 20231115: Sylvia: Scroll to View
       // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
       // Ref: https://stackoverflow.com/questions/7408100/can-i-change-the-scroll-speed-using-css-or-jquery
-      elBoard.style.scrollMargin = "10px";
-      elBoard.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "nearest" });
+      ScrollIntoView(elBoard);      
       
     }); // END JQuery Load
   }); // END Document ready
@@ -2171,6 +2170,16 @@ function RND_Reset(el){
   var elResultSpace = SearchPS(el,"control").nextElementSibling;
   elResultSpace.innerHTML = "";
 }
+function ScrollIntoView(el){
+  // 20231118: StarTree: Trying to fix the scrolling issue on phones
+  // el is the board. But before scrolling the board into view, first scroll the panel into view.
+  //var mPanel = SearchPS(el,"panel");
+  //mPanel.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
+
+  el.style.scrollMargin = "10px";
+  el.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+
+}
 function QSL(el,iQuery){
   // 20230323: Ivy: Query for Search List.
   //   Usage: Runs JQuery and lists the result for the context of a search list.
@@ -2241,9 +2250,8 @@ function QueryAllEL(elContainer, eQuery,iInner){
             // 20231115: Sylvia: Scroll to View
             // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
             // Ref: https://stackoverflow.com/questions/7408100/can-i-change-the-scroll-speed-using-css-or-jquery
-            elContainer.style.scrollMargin = "10px";
-            elContainer.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
-          }	
+            ScrollIntoView(elContainer);
+          }
         }
       });
     }
