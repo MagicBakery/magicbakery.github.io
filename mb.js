@@ -69,7 +69,7 @@ function BoardAddBefore(el){
   el.after(elTemp);
   return elTemp;
 }
-function BoardFill(elBoard,iNodeID){
+function BoardFill(elBoard,iNodeID,iDoNotScroll){
   // 20230821: StarTree: Fill the Board container with content from the node.
   //   The node ID does not have a leading P.
   //   Reference function: LoadArchivePostEl from Blogspot.
@@ -100,7 +100,10 @@ function BoardFill(elBoard,iNodeID){
       // 20231115: Sylvia: Scroll to View
       // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
       // Ref: https://stackoverflow.com/questions/7408100/can-i-change-the-scroll-speed-using-css-or-jquery
-      ScrollIntoView(elBoard);      
+      if(!iDoNotScroll){
+        ScrollIntoView(elBoard);
+      }
+      
       
     }); // END JQuery Load
   }); // END Document ready
@@ -180,7 +183,7 @@ function InterLink(){
   }
   return "QueryBanner(";
 }
-function BoardLoad(el,iNodeID){
+function BoardLoad(el,iNodeID,iDoNotScroll){
   // 20231006: Black: Make a board in the current column panel given the ID.
   var mBoard;
   var elBoard;
@@ -194,7 +197,7 @@ function BoardLoad(el,iNodeID){
     // STEP: Create a new container with a close button.
     elBoard = BoardAdd(mControl);  
   }
-  BoardFill(elBoard,iNodeID);
+  BoardFill(elBoard,iNodeID,iDoNotScroll);
   var elContainer = document.getElementById('MBJQSW');  
   var prevHTML = $(elContainer).html();
   //var prevHTML = document.body;
@@ -2174,13 +2177,13 @@ function ScrollIntoView(el){
   // 20231118: StarTree: Trying to fix the scrolling issue on phones
   // el is the board. But before scrolling the board into view, first scroll the panel into view.
   var mPanel = SearchPS(el,"panel");
-  mPanel.scrollIntoView(true);
+  //mPanel.scrollIntoView(true);
   //mPanel.style.scrollMargin = "10px";
-  mPanel.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
+  //mPanel.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
 
   //el.style.scrollMargin = "10px";
   el.scrollIntoView(true);
-  el.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
+  //el.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
 
 }
 function QSL(el,iQuery){
