@@ -2178,8 +2178,9 @@ function ScrollIntoView(el){
   // 20231118: StarTree: Trying to fix the scrolling issue on phones
   // el is the board. But before scrolling the board into view, first scroll the panel into view.
   var mPanel = SearchPS(el,"panel");
-  //mPanel.scrollIntoView(true);
-  //mPanel.style.scrollMargin = "10px";
+  mPanel.style.scrollMarginTop = "100px";
+  mPanel.scrollIntoView(true);
+  
   //mPanel.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
 
   //el.style.scrollMargin = "10px";
@@ -2939,6 +2940,11 @@ function QueryAllPN(elThis,eQuery,iInner){
   var elTarget = elThis.parentNode;
   elTarget = elTarget.nextElementSibling;
   QueryAllEL(elTarget,eQuery,iInner);
+}
+function HC(el){
+  // 20231118: StarTree: Hide control
+  var mControl = SearchPS(el,'control');
+  mControl.classList.add('mbhide');
 }
 function HideOnPhone(elThis){
   // 20230213: StarTree
