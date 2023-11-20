@@ -33,7 +33,7 @@ function BoardAdd(el){
 
   // STEP: Add the close button.
   var mHTML = "<div control>";
-  mHTML += "<a class='mbbutton' onClick='PanelRemove(this)' style='float:right' title='Close'>🍮</a>";
+  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>🍮</a>";
   mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
   elTemp.style.marginBottom = "0px";
@@ -48,7 +48,7 @@ function BoardAddBefore(el){
 
   // STEP: Add the close button.
   var mHTML = "<div control>";
-  mHTML += "<a class='mbbutton' onClick='PanelRemove(this)' style='float:right' title='Close'>🍮</a>";
+  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>🍮</a>";
   mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
   elTemp.style.marginBottom = "0px";
@@ -62,7 +62,7 @@ function BoardAddBefore(el){
 
   // STEP: Add the close button.
   var mHTML = "<div control>";
-  mHTML += "<a class='mbbutton' onClick='PanelRemove(this)' style='float:right' title='Close'>🍮</a>";
+  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>🍮</a>";
   mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
   elTemp.style.marginBottom = "0px";
@@ -82,9 +82,6 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
   //       ((The board itself has a close button))
   var elContainer = document.createElement("span");
   
-  
-
-
   // STEP: Get Archive
   var mArchive = ArchiveSelect(iNodeID);
   var mQuery = "#P" + iNodeID;
@@ -205,6 +202,11 @@ function BoardLoad(el,iNodeID,iDoNotScroll){
   var nextState = {"html":prevHTML};
   window.history.pushState(nextState, '', "/?id=P" + iNodeID);  
 }
+function BoardRemove(el){
+  // 20231119: StarTree: Need to do it for "board"
+  var mBoard = SearchPS(el,'board');
+  mBoard.remove();
+}
 function PanelAdd(){
   // 20230722: StarTree
   var elMA = document.getElementById("MainArea");
@@ -242,8 +244,10 @@ function PanelAddBefore(el){
 }
 function PanelRemove(el){
   // 20230722: StarTree
-  var mControl = SearchPS(el,'control');
-  mControl.parentNode.remove();
+  // 20231119: StarTree: Need to do it for "panel"
+  var mPanel = SearchPS(el,'panel');
+  
+  mPanel.remove();
 }
 function RemoveParent(el){
   // 20230916: StarTree: For hiding iframe.
