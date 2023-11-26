@@ -382,6 +382,7 @@ text-align:center;
 }
 mbClue::after{content:" 🔍";font-weight:normal;}
 mbClue::before{content:"🔍";font-weight:normal;}
+
 mbComplete{ /* Mission Accomplished */
 color: #38761d;
 display:block;
@@ -504,6 +505,17 @@ todo::before{content:"TODO: ";font-size: 12px;}
   padding:0;
   vertical-align:middle;
   width:20px; 
+  
+}
+.mbCode { /* For formatting readonly textarea */
+  background-color: lightyellow;
+  border:none;
+  color:saddlebrown;
+  display:block;
+  height:auto;
+  width:100%;
+  
+  
 }
 .mbOP{
   border-radius:50%;
