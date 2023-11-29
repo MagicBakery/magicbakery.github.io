@@ -115,8 +115,6 @@ function GetInputBoxValue(el){
 }
 function IFrameFeedback(el){
   // 20231029: Black: Spawn a feedback form
-  var mControl = SearchPS(el,'control');
-  
   var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
   
   var mHTML = "<a class='mbbutton' onClick='RemoveParent(this)' style='float:right' title='Close'>🍮</a>";
@@ -126,7 +124,28 @@ function IFrameFeedback(el){
   elTemp.innerHTML = mHTML;
   elTemp.classList.add('mbscroll');
   elTemp.style.marginBottom = "0px";
-  mControl.nextElementSibling.prepend(elTemp);  
+  
+  var mControl;
+  var mBoard;
+  try{
+    mControl = SearchPS(el,'control');
+  }catch(error){
+    mControl = null;
+  }
+  if(mControl != null){
+    mControl.nextElementSibling.prepend(elTemp);  
+    elTemp.scrollIntoView(true);
+    return;
+  }
+
+
+  try{
+    mBoard = SearchPS(el,'board');
+  }catch(error){
+    return;    
+  }
+  mBoard.after(elTemp);
+  elTemp.scrollIntoView(true);
 }
 function IFrameRefresh(el,mNodeID){
   // 20230916: StarTree: Refresh the content of Iframe when user clicks elButton.
