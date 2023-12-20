@@ -55,7 +55,7 @@ function BoardAddBefore(el){
   el.before(elTemp);
   return elTemp;
 }
-function BoardAddBefore(el){
+function BoardAddAfter(el){
   // 20231115: Ivy: Add a board after el (which should also be a board)
   var elTemp = document.createElement("div");
   elTemp.classList.add('mbscroll');
@@ -205,9 +205,9 @@ function BoardLoad(el,iNodeID,iDoNotScroll){
   var mBoard;
   var elBoard;
   try{
-    // 20231030: StarTree: If there is a board, add it before the board.
+    // 20231030: StarTree: If there is a board, add it after the board.
     mBoard = SearchPS(el,'board');
-    elBoard = BoardAddBefore(mBoard);
+    elBoard = BoardAddAfter(mBoard);
   }catch(error){
     // STEP: Search up for the column control panel
     var mControl = SearchPS(el,'panel').firstElementChild;
@@ -2381,18 +2381,18 @@ function XP_CounterNF(iCache,iCode,iName){
   });
   return mSum;
 }
-function XP_Display(elAvatar){
+function XP_Display(elAvatar,bOrder){
   // JQUERY count data-CXP-iPlayer
   // 20230125: Ledia: Copied and modified from the DXP function
   // 20230221: StarTree: Created XP_DisplayEL for the content, because in this function the viewer clicked on the avatar, not the frame.
-  XP_DisplayEL(elAvatar.parentNode);
+  XP_DisplayEL(elAvatar.parentNode,bOrder);
 }
-function XP_DisplayEL(elFrame){
+function XP_DisplayEL(elFrame,bOrder){
   // 20230221: StarTree: elFrame is the actual frame where data is stored and displayed.
   var elScoreBoard = elFrame.parentNode;
   var mSortedBy = elScoreBoard.getAttribute("sortedby");
   var mSortOrder = elScoreBoard.getAttribute("sortorder");
-  if(IsBlank(mSortedBy)){
+  if(IsBlank(mSortedBy) && !(bOrder==false)){
     mSortedBy = "totalxp";
     mSortOrder = -1;
     elScoreBoard.setAttribute("sortedby",mSortedBy);
@@ -3743,14 +3743,35 @@ function LAPSN(el,eID,iInner){
   elTarget = elTarget.nextElementSibling;
   LoadArchivePostEl(elTarget,eID,iInner);
 }
-function QueryAllPSN(el,eQuery,iInner){
+function QueryAllPS(el,eQuery,iInner,iAttribute){
+  // 20231220: StarTree
+  var elTarget = SearchPS(el,iAttribute);
+  elTarget.setAttribute("mQueryString","");
+  QueryAllEL(elTarget,eQuery,iInner);
+}
+function QueryAllPSL(el,eQuery,iInner,iAttribute){
+  // 20231220: StarTree
+  var elTarget = SearchPS(el,iAttribute);
+  elTarget = elTarget.lastElementChild;
+  elTarget.setAttribute("mQueryString","");
+  QueryAllEL(elTarget,eQuery,iInner);
+}
+function QueryAllPSN(el,eQuery,iInner,iAttribute){
   // 20230301: Evelyn: Based on ShowLPSN but for QueryAllEL
   // Goes up the parents unit it has the attribute, then go to the next element.
   // 20230307: StarTree: Never hide the target.
-  var elTarget = SearchPS(el,"");
+  var elTarget = SearchPS(el,iAttribute);
   elTarget = elTarget.nextElementSibling;
   elTarget.setAttribute("mQueryString","");
   QueryAllEL(elTarget,eQuery,iInner);
+}
+function ShowLPSL(el,iAttribute){
+  // 20231220: StarTree: Goes up the parents until it has the attribute.
+  var elSource = el.lastElementChild;
+  var elTarget = SearchPS(el,iAttribute);
+  elTarget = elTarget.lastElementChild;
+  elTarget.innerHTML = elSource.innerHTML;
+  elTarget.classList.remove("mbhide");
 }
 function ShowLPSN(el,iAttribute){
   // 20230225: StarTree: Goes up the parents until it has the attribute.
