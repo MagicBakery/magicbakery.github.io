@@ -82,6 +82,17 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
   //       ((The board itself has a close button))
   var elContainer = document.createElement("span");
   
+  // 20231224: StarTree: Make the board itself has an area to display discussions.
+  // The structure of a board:
+  // <div board>
+  //   <div control/> // This has the pudding close button
+  //   <span>     // This is a span to support the pudding close button
+  //     <span class="mbDayHeader"/>   // This is loaded from the node
+  //     <span/>                       // This is the title button loaded from the node
+  //     <span class="mbDayContent"/>  // This is loaded from the node
+  //   </span>
+  //   <div class="mbCB"></div> // // This is also for displaying the discussion section. 
+  
   // STEP: Get Archive
   var mArchive = ArchiveSelect(iNodeID);
   var mQuery = "#P" + iNodeID;
@@ -89,9 +100,53 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
   // STEP: JQuery
   $(document).ready(function(){
     $(elContainer).load(mArchive + mQuery, function(){	
-      Macro(elContainer);
-      NodeFormatter(elContainer);
-      elContainer.innerHTML = elContainer.firstElementChild.innerHTML;
+      // elContainer contains the node outer div.
+      
+      // 20231224: StarTree: If the node has a <content> section, then assume that this is the new node style that has <node>, <content>, and <ref> sections.
+      var elContent = elContainer.getElementsByTagName('content')[0];
+      var elNode = elContainer.getElementsByTagName('node')[0];
+    
+      if(!IsBlank(elContent) && !IsBlank(elNode)){ 
+        // 20231224: StarTree: New Format
+        var mJSON = JSON.parse(elNode.innerHTML);
+      
+        var mHTMLInner = "<span class='mbDayHeader'></span>";
+        mHTMLInner += "<lnk>" + mJSON.id + "|" + mJSON.icon +"</lnk>&nbsp;<a class='mbbutton' onclick='ShowBothInline(this)'>" + mJSON.title + "</a>";
+        mHTMLInner += "<span class='mbDayContent'>";
+        mHTMLInner += "<macro>{\"cmd\":\"PIN2\",\"node\":\"" +mJSON.id + "\",\"music\":\""+ mJSON.music + "\"}</macro>";
+        mHTMLInner += "<div class='mbCB'></div><hr></hr>";
+
+        var elCard = elContainer.getElementsByTagName('card')[0];
+        if(!IsBlank(elCard)){
+          mHTMLInner +=  "<div class='mbCardMat'>";
+          mHTMLInner +=   "<div class='mbCardRM'>" + elCard.innerHTML + "</div>";
+          mHTMLInner +=   "<div class='mbCardMatText'>";
+          mHTMLInner += "<a class='mbbutton' onclick='HidePP(this)' style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></a>";
+          mHTMLInner += elContent.innerHTML + "</div>"; // End Text
+          mHTMLInner += "</div>"; // End Card Mat
+        }else{
+          mHTMLInner += "<span style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></span>";
+          mHTMLInner += elContent.innerHTML;
+        }
+        var elRef = elContainer.getElementsByTagName('ref')[0];
+        if(!IsBlank(elRef)){
+          mHTMLInner += "<div class='mbRef'>";
+          mHTMLInner += elRef.innerHTML;
+          mHTMLInner += "<a class='mbbutton' onclick=\"QueryAllPSL(this,'[data-" + mJSON.id + "]',false,'board')\">💬 Discussions</a>";
+          mHTMLInner += "</div>";
+        }
+        mHTMLInner += "<hr class='mbCB'>";
+        mHTMLInner += "</span>";
+
+        elContainer.innerHTML = mHTMLInner;
+        Macro(elContainer);
+
+      }else{
+        Macro(elContainer);
+        NodeFormatter(elContainer); // This is for Sasha's format. P202207191024
+        elContainer.innerHTML = elContainer.firstElementChild.innerHTML;
+      }
+      
       elBoard.firstElementChild.after(elContainer);
       
       // 20231115: Sylvia: Scroll to View
@@ -100,9 +155,7 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
       if(iDoNotScroll){
       }else{
         ScrollIntoView(elBoard);
-      }
-      
-      
+      }            
     }); // END JQuery Load
   }); // END Document ready
 }
@@ -3137,29 +3190,39 @@ function QueryAllReplace(elNode, eQuery){
   }
 }
 function NodeFormatter(elTemp){
-    var vDivs = elTemp.getElementsByTagName('div');
-    var vFirstDiv = vDivs[0];
-    while( vFirstDiv != null){
+  // 20231224: StarTree: Update: This function is also used by calendar when listing nodes.
+  var vDivs = elTemp.getElementsByTagName('div');
+  var vFirstDiv = vDivs[0];
+  while( vFirstDiv != null){
     var vTemps = vFirstDiv.getElementsByTagName('node-content');
-      if( vTemps.length > 0)  {
-        var vID = vFirstDiv.id.substring(1);
-        var vContent = vTemps[0].innerHTML;
-        vTemps = vFirstDiv.getElementsByTagName('node-icon');
-        var vIcon = vTemps[0].innerHTML;
-        vTemps = vFirstDiv.getElementsByTagName('node-title');
-        var vTitle = vTemps[0].innerHTML;
-        vFirstDiv.innerHTML="<div><button class='mbbutton' onclick='ShowNext(this)'>" 
-          + vIcon + " " + vTitle 
-          + "</button><div class='mbCB mbscroll mbhide'>" 
-          + "<a class='mbbuttonIn' href='" + ViewerPath() +"?id=P" + vID  + "'>"
-          + "<small>⭐</small></a> <small><b>" + vID + "</b></small><hr>"
-          + vContent 
-          + "<hr class='mbCB'>"
-          + "<h4>Mentions</h4><jq>[data-" + vID + "]</jq>"
-          + "</div></div>" ;
-      }
-      vFirstDiv = vFirstDiv.nextElementSibling;
+    var vContent = vFirstDiv.getElementsByTagName('content'); // 20231224: StarTree: New format
+    if( vTemps.length > 0)  {
+      var vID = vFirstDiv.id.substring(1);
+      var vNodeContent = vTemps[0].innerHTML;
+      vTemps = vFirstDiv.getElementsByTagName('node-icon');
+      var vIcon = vTemps[0].innerHTML;
+      vTemps = vFirstDiv.getElementsByTagName('node-title');
+      var vTitle = vTemps[0].innerHTML;
+      vFirstDiv.innerHTML="<div><button class='mbbutton' onclick='ShowNext(this)'>" 
+        + vIcon + " " + vTitle 
+        + "</button><div class='mbCB mbscroll mbhide'>" 
+        + "<a class='mbbuttonIn' href='" + ViewerPath() +"?id=P" + vID  + "'>"
+        + "<small>⭐</small></a> <small><b>" + vID + "</b></small><hr>"
+        + vNodeContent 
+        + "<hr class='mbCB'>"
+        + "<h4>Mentions</h4><jq>[data-" + vID + "]</jq>"
+        + "</div></div>" ;
+    }else if(!IsBlank(vContent)){
+      // 20231224: StarTree: This is for the new format.
+      var vJSON = vFirstDiv.getElementsByTagName('node')[0];
+      DEBUG(vJSON);
+      var mJSON = JSON.parse(vJSON.innerHTML);
+      vFirstDiv.innerHTML = "<div class='mbav50pr' style=\"background-image:url('" + mJSON.img + "')\"></div>";
+      vFirstDiv.innerHTML += "<h4><lnk>" + mJSON.parentid + "|" + mJSON.parentname + "</lnk></h4>";
+      vFirstDiv.innerHTML += "<lnk>"+ mJSON.id + "|" + mJSON.icon + " " + mJSON.title + "</lnk>";
     }
+    vFirstDiv = vFirstDiv.nextElementSibling;
+  }
 }
 function QueryAllReplace2(elNode, eQuery){
   // JQUERY
@@ -3297,23 +3360,23 @@ function QueryDayEl(elContainer,eDate){
   
   $(document).ready(function(){
     var backup = $(elContainer).html();
-	$(elContainer).load(qArchive + qDate, function(){	
-        NodeFormatter(elContainer);  
-	  var sHeader = "<div class='mbpc'><b>" + sDateString + "</b></div><div class='mbbanner'>";
-	  var sFooter = "</div>";
-	  $(elContainer).html(  sHeader +   $(elContainer).html() + sFooter) 
-	  
-	  var backup2 = $(elContainer).html();
-	  if(backup == backup2 && $(elContainer).is(':visible') ){
-		$(elContainer).hide();
-	  }else{
-        //var eNode = document.getElementById(eContainer);
-        //var eNodes = do
-      Macro(elContainer);
-      $(elContainer).show();
-        
-	  }	
-	});
+	  $(elContainer).load(qArchive + qDate, function(){	
+      NodeFormatter(elContainer);  
+      var sHeader = "<div class='mbpc'><b>" + sDateString + "</b></div><div class='mbbanner'>";
+      var sFooter = "</div>";
+      $(elContainer).html(  sHeader +   $(elContainer).html() + sFooter) 
+      
+      var backup2 = $(elContainer).html();
+      if(backup == backup2 && $(elContainer).is(':visible') ){
+      $(elContainer).hide();
+      }else{
+          //var eNode = document.getElementById(eContainer);
+          //var eNodes = do
+        Macro(elContainer);
+        $(elContainer).show();
+          
+      }	
+    });
   });
 }
 function QueryMain(eHTML, eDIV, bJump){  
@@ -4005,15 +4068,12 @@ function ShowChatEx(el){
 function ShowBothInline(el){
   // 20230220: StarTree: checks only the next element, but hides the prev element also if the next element is now visible.
   // 20230225: StarTree: No need to hide the previous for consistency
+  // 20231224: StarTree: Also hide the last child of a board, which is the display area for discussion.
   ShowNextInline(el);
+  var mBoard = SearchPS(el,'board');
+  ShowEl(mBoard.lastElementChild);
   var elPrev = el.previousElementSibling;
   var elNext = el.nextElementSibling;
-  /*
-  if(window.getComputedStyle(elNext).display === "none"){
-    elPrev.style.display = "";
-  }else{
-    elPrev.style.display = "none";
-  }*/
 }
 function ShowPrep(el){
   // 20230226: StarTree: Created for Side Listing layout.
