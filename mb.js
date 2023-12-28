@@ -1507,8 +1507,11 @@ function PNDInner(el,mJSON){
   // If the node type is chat:
 
   // Create the header block
-  mHTML = "<a class=\"mbbutton\" onclick=\"QueryAllNext(this,'#P" + mJSON.parentid;
-  mHTML +="')\"><small>" + mJSON.parentname + "</small></a><hide></hide>";
+  // 20231227: StarTree: Change the the simpler LNK code
+  //mHTML = "<a class=\"mbbutton\" onclick=\"QueryAllNext(this,'#P" + mJSON.parentid;
+  //mHTML +="')\"><small>" + mJSON.parentname + "</small></a><hide></hide>";
+  mHTML = "<lnk>"+mJSON.parentid+"|"+mJSON.parentname+"</lnk>";
+
   mHTML +="<div style=\"float:right\"><small>["+mJSON.id+"]</small></div>";
   mHTML +="<hr class=\"mbCB mbhr\"><div class=\"mbpc\">";
   // 20231105: Arcacia: Use lnk for GitHub.
