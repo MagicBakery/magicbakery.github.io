@@ -112,8 +112,17 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
       
         var mHTMLInner = "<span class='mbDayHeader'></span>";
         mHTMLInner += "<lnk>" + mJSON.id + "|" + mJSON.icon +"</lnk>&nbsp;<a class='mbbutton' onclick='ShowBothInline(this)'>" + mJSON.title + "</a>";
-        mHTMLInner += "<span class='mbDayContent'>";
-        mHTMLInner += "<macro>{\"cmd\":\"PIN2\",\"node\":\"" +mJSON.id + "\",\"music\":\""+ mJSON.music + "\"}</macro>";
+        mHTMLInner += "<span class='mbDayContent'>";        
+        if(NotBlank(mJSON.music) || NotBlank(mJSON.yt)){
+          mHTMLInner += "<macro>{\"cmd\":\"PIN2\",\"node\":\"" +mJSON.id +"\"";
+          if(NotBlank(mJSON.music)){
+            mHTMLInner += ",\"music\":\""+mJSON.music+"\"";
+          }
+          if(NotBlank(mJSON.yt)){
+            mHTMLInner += ",\"yt\":\""+mJSON.yt+ "\""
+          }
+          mHTMLInner += "}</macro>";
+        }         
         mHTMLInner += "<div class='mbCB'></div><hr></hr>";
 
         var elCard = elContainer.getElementsByTagName('card')[0];
@@ -1196,6 +1205,15 @@ function MMInner(el,mMacro){
     if(NotBlank(mMacro.music)){
       elTemp.innerHTML = "<a class='mbbutton' onclick=\"Music('"+mMacro.music+"')\" title=\"Play theme music\">🎧</a>";
     }
+    // 20231229: Patricia: Open Youtube link to music player.
+    DEBUG(mMacro.yt);
+    if(NotBlank(mMacro.yt)){
+      var mURL = "https://www.youtube.com/watch?v=" + mMacro.yt + "&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx";
+      elTemp.innerHTML += "<a class='mbbuttonEx' onclick=\"ExURL('"+ mURL + "');return false;\" href='" +mURL+"'>🎧</a>";
+
+
+      
+    }
     elTemp.innerHTML += "<a class='mbbutton' onclick=\"ClipboardAlert('"+ mNode+"')\" title=\""+mNode+"\">📋</a>";
     el.after(elTemp);
     return;
@@ -2006,6 +2024,11 @@ function PlayNextShift(elThis,iShift){
   var elAudio = elThis.nextElementSibling;
   elAudio.currentTime = iShift; // 20230119: StarTree: So it can repeat!
   elAudio.play();
+}
+function YoutubeMBBGM(iLink){
+  // 20231229: Patricia: Added for playing youtube
+  var el = document.getElementById('MBBGM');
+  YoutubeEL(el,iLink)
 }
 function YoutubePN(el,iLink){
   // 20230305: StarTree: Added for displaying Japanese lyrics
