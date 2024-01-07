@@ -112,17 +112,21 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
       
         var mHTMLInner = "<span class='mbDayHeader'></span>";
         mHTMLInner += "<lnk>" + mJSON.id + "|" + mJSON.icon +"</lnk>&nbsp;<a class='mbbutton' onclick='ShowBothInline(this)'>" + mJSON.title + "</a>";
-        mHTMLInner += "<span class='mbDayContent'>";        
+        mHTMLInner += "<span class='mbDayContent'>";     
+        
+        // 20240105: Natalie: If there is no music link, still need the link to the node.
+        mHTMLInner += "<macro>{\"cmd\":\"PIN2\",\"node\":\"" +mJSON.id +"\"";
+
         if(NotBlank(mJSON.music) || NotBlank(mJSON.yt)){
-          mHTMLInner += "<macro>{\"cmd\":\"PIN2\",\"node\":\"" +mJSON.id +"\"";
           if(NotBlank(mJSON.music)){
             mHTMLInner += ",\"music\":\""+mJSON.music+"\"";
           }
           if(NotBlank(mJSON.yt)){
-            mHTMLInner += ",\"yt\":\""+mJSON.yt+ "\""
+            mHTMLInner += ",\"yt\":\""+mJSON.yt+ "\"";
           }
-          mHTMLInner += "}</macro>";
-        }         
+        }
+
+        mHTMLInner += "}</macro>";     
         mHTMLInner += "<div class='mbCB'></div><hr></hr>";
 
         var elCard = elContainer.getElementsByTagName('card')[0];
@@ -2192,6 +2196,7 @@ function QSLEL(elSearchList,iQuery){
         var elDiv = elTemp.lastElementChild;
         var mID=""; var mTitle=""; var mIcon="";          
         var mNode = ""; var mJSON = "";
+        var mType = "";
         while(elDiv != null){
           mNode = elDiv.getElementsByTagName("node");          
           if(NotBlank(mNode)){
@@ -2199,6 +2204,7 @@ function QSLEL(elSearchList,iQuery){
             mTitle = mJSON.title;
             mIcon = mJSON.icon;
             mID = mJSON.id;
+            mType = mJSON.type;
           }else{
             mID = elDiv.getAttribute("id");
             mTitle = elDiv.getAttribute("title");
@@ -2222,6 +2228,7 @@ function QSLEL(elSearchList,iQuery){
                 if(IsBlank(mTitle)){
                   mTitle = elDiv.firstElementChild.lastElementChild.textContent;
                 }
+                
               }else{
                 mTitle = elDiv.firstElementChild.textContent;
               }
@@ -2243,8 +2250,11 @@ function QSLEL(elSearchList,iQuery){
             mID = mID.substring(1,13);
           }
           if(IsBlank(mTitle)){mTitle = mID;}
+          if(IsBlank(mType)){mType = "";}
+          if(mType=="chat"){mType = "<span style='margin-left:-16px;-20px;font-size:14px'><sup>💬</sup></span>";}
           mHTML += "<div name='"+ mTitle +"'>";
-          mHTML += LnkCode(mID,mTitle,mIcon);          
+
+          mHTML += LnkCode(mID,mTitle,mIcon+mType);          
           mHTML += "<hide>"+ elDiv.textContent +"</hide></div>";
 
           elDiv = elDiv.previousElementSibling;
