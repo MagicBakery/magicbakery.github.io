@@ -344,18 +344,25 @@ function ArchiveIndex(ei){
   return BasePath() + "archive" + ei + ".html ";
 }
 function ArchiveNum(){
-  return 2;
+  return 3;
+}
+function ArchiveNumSelect(iNodeID){
+  // 20240111: StarTree: Returns just the Archive number.
+  var iDate = iNodeID.substring(0,8);
+  if(parseInt(iDate) < 20230101){
+	  return "1";
+  }else if(parseInt(iDate) < 20231225){
+    return "2";
+  }else{
+    return "3";
+  }
 }
 function ArchiveSelect(iNodeID){
 	// 20230821: StarTree: ARCHIVE SELECTION
   //   Upgrade: The input string could be the full node ID. In that case, just take the first 8 digits.  
-  var iDate = iNodeID.substring(0,8);
-  if(parseInt(iDate) < 20230101){
-	  return BasePath() + "archive1.html ";
-  }else{
-    return BasePath() + "archive2.html ";
-  }
+  return BasePath() + "archive" + ArchiveNumSelect(iNodeID) + ".html ";
 }
+
 function CH15LoadThisMonth(){
   const monthNames = ["January","February","March","April","May","June","July",
                     "August","September","October","November","December"];
@@ -1215,10 +1222,8 @@ function MMInner(el,mMacro){
       var mURL = "https://www.youtube.com/watch?v=" + mMacro.yt + "&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx";
       elTemp.innerHTML += "<a class='mbbuttonEx' onclick=\"ExURL('"+ mURL + "');return false;\" href='" +mURL+"'>🎧</a>";
 
-
-      
     }
-    elTemp.innerHTML += "<a class='mbbutton' onclick=\"ClipboardAlert('"+ mNode+"')\" title=\""+mNode+"\">📋</a>";
+    elTemp.innerHTML += "<a class='mbbutton' onclick=\"ClipboardAlert('"+ mNode+"')\" title=\"" +  mNode+  " [" + ArchiveNumSelect(mNode) + "]\">📋</a>";
     el.after(elTemp);
     return;
   }
@@ -2761,12 +2766,20 @@ function SortEL(el,iAttribute){
     mSortOrder = mSortOrder * -1;
   }
   el.setAttribute("sortedby",iAttribute);
+
+  
   el.setAttribute("sortorder",mSortOrder);
   var mEntry = el.firstElementChild;
   while(mEntry != null){
     if(!mEntry.classList.contains("spacer")){
       // Skip Spacers
-      mEntry.style.order = mSortOrder * Number(mEntry.getAttribute(iAttribute));
+
+      // 20240112: Cardinal: If the attribute is "random", set a random number.
+      if(iAttribute=="random"){
+        mEntry.style.order = mSortOrder * Math.ceil(Math.random()*10000);
+      }else{
+        mEntry.style.order = mSortOrder * Number(mEntry.getAttribute(iAttribute));
+      }
     }
     mEntry = mEntry.nextElementSibling;
   }
