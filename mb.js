@@ -2305,6 +2305,7 @@ function ScrollIntoView(el){
   //el.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
 
 }
+
 function QSL(el,iQuery){
   // 20230323: Ivy: Query for Search List.
   //   Usage: Runs JQuery and lists the result for the context of a search list.
@@ -3848,6 +3849,14 @@ function ShowLP3N(el){
   var elTarget = el.parentNode.parentNode.parentNode;
   elTarget = elTarget.nextElementSibling;
   elTarget.innerHTML = elSource.innerHTML;
+}
+function ShowLP3NJ(el){
+  // 20240205: StarTree: Scrolls to view
+  var elSource = el.lastElementChild;
+  var elTarget = el.parentNode.parentNode.parentNode;
+  elTarget = elTarget.nextElementSibling;
+  elTarget.innerHTML = elSource.innerHTML;
+  ScrollIntoView(elTarget);
 }
 function LAPSN(el,eID,iInner){
   // 20230301: Evelyn: Based on ShowLPSN but for QueryAllEL
