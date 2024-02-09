@@ -441,7 +441,7 @@
                 </div><!--@Arena / Fina-->
                 <div class="mbCB">
                   <span class="mbRankNone" style="float:right;"><lnk>202302201503|⚙️</lnk></span>
-                  <macro>{"guildlog":"63","rank":"B","updates":"2","node":"202208161957","author":"StarTree","chapter":"@Board","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"63","rank":"B","updates":"3","node":"202208161957","author":"StarTree","chapter":"@Board","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <lnk>202207242047|📋</lnk><span></span><button class="mbbutton" onclick="XP_Tally(this)">XP Tally</button><br>
                     <!--<span class="mbListCapNC mbRankS"></span>-->
@@ -458,7 +458,7 @@
                     <macro>{"log":"","priority":"3","icon":"🥨","node":"202208161957","title":"Guild Log Quests","info":"2305:81 2306:74 2307:68 2308:67 2309:64 2310:63","cmd":"quest"}</macro>   
                     <span class="mbListCapNC mbRankD"></span>
                     <macro>{"log":"","priority":"9","icon":"🥜","node":"202303052122","title":"Small update","cmd":"quest"}</macro>    
-                    <macro>{"log":"","priority":"9","cmd":"quest","title":"Layout update","icon":"🥨"}</macro>         
+                    <macro>{"log":"0209","priority":"9","cmd":"quest","title":"Layout update","icon":"🥨"}</macro>         
                   </div>
                 </div><!--@Board / StarTree-->          
                 <div class="mbCB">
@@ -2191,8 +2191,8 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240204')">4<br><div class="mbavem mbStarTree"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240205')">5<br><div class="mbavem mbStarTree"></div></td>    
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240206')">6<br><div class="mbavem mbStarTree"></div></td>      
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240207')">7<br>&nbsp;</td>                    
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240208')">8<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240207')">7<br><div class="mbavem mbVivi"></div></td>                    
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240208')">8<br><div class="mbavem mbStarTree"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240209')">9<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240210')">10<br>&nbsp;</td>
               </tr>
@@ -2249,8 +2249,8 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240204')">4<br>🌺</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240205')">5<br>⚖️</td>    
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240206')">6<br>🎓</td>      
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240207')">7<br>&nbsp;</td>                    
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240208')">8<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240207')">7<br>🍀</td>                    
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240208')">8<br>🍀</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240209')">9<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240210')">10<br>&nbsp;</td>
               </tr>
@@ -3263,22 +3263,8 @@
         (No item)
         <hr>
         <h4>🎓 Design Guidelines</h4>
-        
-        <hr>
-        <h4>🍀 Minimum Components for Playtest</h4>
-        
-        📌 Gem cards, Quest Cards/title card, Curse Cards to design <div class="mbavem mbSasha"></div><br>
-        📌 How many cards does the game need? How many does Splendor has?<br>
-        📌 Would there be more than just the rank card to the left of a place card?<br>
-        
-        📌 How often to do print test?<br>
-        📌 Initiative card? <div class="mbavem mbSasha"></div><br>
-        📌 Stage 3 topic: Needing resources through out the game <button class="mbbutton" onclick="ShowNextInline(this)" ><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> That is not a given. I could design the rules so that a player rarely can just recruit a hero without paying anything. This is because I still want the consumable cards to have a use throughout the game, not only in the beginning. I think those resources or item cards should still be an important factor to limit how many quests the player can complete per round. But this is a Stage 3 topic.</hide>
-        
-
         <hr>
         <h4>📯 Design Communication</h4>
-        📌 Add data-card tag<br>
         📌 Design the Arcacian Quest Card<br>
         📌 Need more convenient graphics display code<br>
         
@@ -3477,6 +3463,8 @@
           <h4>Closest Reference</h4>
           [1] Splendor 
           <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> So if we make the game like splendor, we could layout a number of quests on the center of the playmat, then the players will take turn drawing "gems" of their choices, and complete the quests when they have collected enough. The benefit of completing a quest is that the quest gives them a bonus "gem", so that they could always use that to complete more quests without first gathering them.</hide>
+          About Splendor
+          <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Splendor has 90 development cards, 10 noble tiles, and 40 gem chips (5 gems of 7 each, plus 5 gold chips).</hide>
           <br>
           📌 With optional Key and Lock
           <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> I thought of having special "lock and key" features, but you said each card should be interchangeable so maybe that is not a good idea. Or maybe in addition to the standard requirement, there is an optional shortcut. And a card could give a standard resource, victory point, and an optional "key item". </hide>
@@ -3570,7 +3558,7 @@
       </hide>
     </div><!-- Game Terms -->
     <div>
-      <div class="mbbutton" onclick="ShowNext(this)">🎓 Legal Topics 📌</div>
+      <div class="mbbutton" onclick="ShowNext(this)">🎓 Legal Topics</div>
       <hide class="mbpuzzle"><div class="mbav50r mbSasha"></div>
         Our game might require copy-free content for distribution or if we pay someone to print them. 
         <div>
@@ -3697,6 +3685,31 @@
         <div class="mbCB"></div>
       </hide>
     </div><!--Gameplay Pitches-->
+    <div>
+      <div class="mbbutton" onclick="ShowNext(this)">🔮 Playtest 📌</div>
+      <hide class="mbpuzzle"><div class="mbav50r mbSasha"></div>
+        Current Ranking: <br>
+        Educational Value: Unranked<br>
+        Fun Factor: Unranked<br>
+        <hr>
+
+
+
+        <!--<div class="mbpuzzle">
+          <div class="mbbutton" onclick="ShowNext(this)">Playtest 1</div>
+          <hide><hr>
+            
+
+            <div class="mbCB"></div>
+          </hide>
+        </div>-->
+        <hr>
+        <h4>Items to test</h4>
+        📌 Stage 3 topic: Needing resources through out the game <button class="mbbutton" onclick="ShowNextInline(this)" ><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> That is not a given. I could design the rules so that a player rarely can just recruit a hero without paying anything. This is because I still want the consumable cards to have a use throughout the game, not only in the beginning. I think those resources or item cards should still be an important factor to limit how many quests the player can complete per round. But this is a Stage 3 topic.</hide>
+
+        <div class="mbCB"></div>
+      </hide>
+    </div><!--Stage 1: Gameplay Design Walkthrough--> 
     <div>
       <div class="mbbutton" onclick="ShowNext(this)">🔮 Gameplay Walkthrough 🚧</div>
       <hide class="mbpuzzle"><div class="mbav50r mbSasha"></div>
@@ -4107,7 +4120,7 @@
       </hide>
     </div><!-- HERO CARDS -->      
     <div>
-      <div class="mbbutton" onclick="ShowNext(this)">🍀 [2/6/20] Item Cards</div>
+      <div class="mbbutton" onclick="ShowNext(this)">🍀 [4/7/21] Item Cards</div>
       <hide class="mbpuzzle">
         <button class="mbbutton" onclick="ShowNextInline(this)">Item Star Rating Explained <div class="mbavem mbTanya"></div></button><hide><br><b>Tanya:</b> The star rating corresponds to whether the item tends to be effective in making peace with the following target types.<br>
           <b>5-Star:</b> Effective on a hostile recipient.<br>
@@ -4119,9 +4132,12 @@
 
         <hr>
         <ol>
+          <li>✅ <lnk>202207210907|❤️</lnk> Art Supplies</li>
+          <li>✅ <lnk>202303191144|🍫</lnk> Baking Supplies</li>
+          <li>✅ <lnk>202207241133|🎯</lnk> Checker Shield</li>
           <li>✅ <lnk>202207282137|🧭</lnk> Moral Compass</li>
-          <li>✅ <lnk>202207241133|🎯</lnk>Checker Shield</li>
-          <li>🟨 Art Supplies</li>
+          
+          
           <li>🟨 Assertive Goodwill Muffler</li>
           <li>🟨 <lnk>202401201702|🎒</lnk> Day Pack </li>
           <li>🟨 Vegetables</li>
@@ -6435,7 +6451,7 @@
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> Or not even. XD</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> But if we use that we could still discuss the ranking among a subset of the population.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLedia"></div></button><hide> <b>Ledia:</b> Exactly.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-SXP-Black>🎓<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> But there are still two dimensions: The percentage of people who find it "fun", and *how much* "fun" do they find.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-SXP-Black>🎓<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> But there are still two dimensions: The percentage of people who find it "fun", and *how much* "fun" they find.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> You may call my level of fun "acceptable" or "enjoyable" or "worth playing at least once."</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> I don't have a problem calling that level of fun "Rank C".</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-HXP-Sasha>📯<div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> If this is Amazon, you could see both the star rating and the number/percentage of people who gave that many stars. In terms of this step, I am less worried about "what Rank S means" or "how do we measure it", but "let's have a better scale describing what we are trying to achieve." So I am asking, "what would 5-star fun mean to you?"</hide>
@@ -6443,28 +6459,28 @@
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> I don't think we should aim for that... 😖</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> Healthily Addictive.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> Okay 🤗</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-Sasha>⭐<div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> I changed to starts to avoid confusion. </hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-Sasha>⭐<div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> I changed to stars to avoid confusion. </hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-SXP-Tanya>🎓<div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> Zero or one star (whatever lowest), would be unplayable. Such as when the player can't figure out how to play despite them wanting to play and like the game.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> In Ledia's rating the game could be "Rank S in Unreplayability" XD</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLedia"></div></button><hide> <b>Ledia:</b> Convenient isn't it?</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-IXP-Tanya>🔍<div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> Last time we said that a Rank S quest means spreading peace to hostile entities. According to Ledia what would be a Rank S Quest?</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-SXP-Ledia>🎓<div class="mbavem mbLedia"></div></button><hide> <b>Ledia:</b> Thank ranking is for a skill. If you say successful competition of that quest means the team can reliably spread peace to hostiles, then you can accredit the team Rank S in such peacemaking.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-SXP-Ledia>🎓<div class="mbavem mbLedia"></div></button><hide> <b>Ledia:</b> That ranking is for a skill. If you say successful completion of that quest means the team can reliably spread peace to hostiles, then you can accredit the team Rank S in such peacemaking.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLedia"></div></button><hide> <b>Ledia:</b> When you say a quest is "rank S', it means that completing it can get you certified as Rank S in some skills.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> I see. I think there is no problem keeping that ranking because a "high ranking" peacemaking can make peace with hostile entities. It is implied that they may also make peace or help cooperative entities. So it is still the same scale.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> Then why can't we rank fun factor in S-ranking? Once we know what the top ranking meaning, we could just roughly assume that other ranks follow. </hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> I see. I think there is no problem keeping that ranking because a "high ranking" peacemaker can make peace with hostile entities. It is implied that they may also make peace or help cooperative entities. So it is still the same scale.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> Then why can't we rank fun factor in S-ranking? Once we know what the top ranking means, we could just roughly assume that other ranks follow. </hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> I think the star rating is more descriptive and accurate. </hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-OXP-Evelyn>🔮<div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> Is there something else we can do than to show a quest with a letter rank? I think people would confuse a letter rank with a letter grade, "If I finish this quest I can only get a D. Do I get a D no matter how well I do?" Maybe the letter ranking should be a level rating. </hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> People don't complaint when they complete a Level 1 quest and earn a Level 1 card. </hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> People don't complain when they complete a Level 1 quest and earn a Level 1 card. </hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> What do others think?</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-DXP-Tanya>💡<div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> If the underlying skills are the same, I don't see a problem with using S-ranking as long as the game does not prevent a team of Rank D heroes attempting a Rank S quest. But for the sake of simulation, the lower the hero ranks, the higher chance they should fail. So maybe for each additional rank gap you draw one more complication card.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-Sasha="2">⭐<small>2</small> <div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> I am starting a terminology section. Any other comments on whether we should change the rank lettering in labeling quests?</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Zoey>🏹<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> I am too used to Naruto quest ranking to say no. We gotta refer to quests by letter rank. XD</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-OXP-Black>🔮<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> If a bunch of unranked completes a Rank S quest, does one of them become Rank S? Since the only quest card you could give them is a Rank S card.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> I think yes. But that would be unlikely due to the way the skills are designed. The kind of skill that a Rank S quest requires probably either: 1) Comes from completion of Rank A quests; or 2) Requires Rank A basic skills. If they heroes don't have any Rank A card, I have planned that each rank card is equivalent to four cards one rank below. So if a bunch of unranked want to complete a Rank A skill, they need 4x4x4x4 = 256 basic skill cards. There simply aren't that many cards.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> I think yes. But that would be unlikely due to the way the skills are designed. The kind of skill that a Rank S quest requires probably either: 1) Comes from completion of Rank A quests; or 2) Requires Rank A basic skills. If the heroes don't have any Rank A card, I have planned that each rank card is equivalent to four cards one rank below. So if a bunch of unranked want to complete a Rank A skill, they need 4x4x4x4 = 256 basic skill cards. There simply aren't that many cards.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> XD</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> To reply to Tanya suggestion earlier, we probably don't need to draw more complication cards.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> I see.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Zoey>🏹<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> Can I make the same argument to keep the S-rank rating for fun factor? It looks better to say we want this game to Rank S in fun factor than we want it to get 5 start ratings. "Rank S" sounds more objective whereas a start rating is more about popularity. To me.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Zoey>🏹<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> Can I make the same argument to keep the S-rank rating for fun factor? It looks better to say we want this game to be Rank S in fun factor than we want it to get a 5-star ratings. "Rank S" sounds more objective whereas a star rating is more about popularity. To me.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> Let's sit on this topic and come back to it if we still want to talk about it. For now it is unchanged. Rank S fun means healthily addictive.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-HXP-Sasha>📯<div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> Okay. What about the ranking of educational value?</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-SXP-Tanya>🎓<div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> It seems that "educational value" and our quest rank are the same. This game has Rank S in educational value if it can reliably recruit a hostile entity into peacemaking.</hide>
@@ -6477,7 +6493,7 @@
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mb3B"></div></button><hide> <b>3B:</b> Is there anything I should draw for this game?</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> I think 3B also needs a queue for drawing.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> The next item on StarTree's queue is to make a quest card corresponding to a real issue, such as "Correcting Immigration Law". StarTree doesn't know what to do!</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> Let's have session.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> Let's have a session.</hide>
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">❤️ Real Life Quest Art Design</div><hide><hr>
   <div></div><div class="mbav50r mbCB mbStarTree"></div><b>StarTree:</b> StarTree's queue has an item of making a quest card for correcting immigration law. What is expected from StarTree?
   <hr class="mbCB">
@@ -6629,7 +6645,7 @@
         <ul>
           <li>
             Choice Democracy
-            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> In choice democracy, the people (principals) have a right to establishment of gender-segregated facilities with rules as defined by them. The government should not have legislative power to veto that principal desire. The government shall only act as an enforcing agent. So there would just be non-gendered facilities and competition as the default, but the people have a right to make gender-specific facilities and competition.</hide>
+            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> In choice democracy, the people (principals) have a right to establishment of gender-segregated facilities with rules as defined by them. The government should not have legislative power to veto that principal desire. The government shall only act as an enforcing agent. So there would just be non-gendered facilities and competitions as the default, but the people have a right to make gender-specific facilities and competition.</hide>
             <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b>  A public school shall budget proportionally its sports and facility funds to accommodates the desires of the student/family body. This means that as long as there is a demand, the public school MUST provide both non-gender specific sports competitions and gender specific sports competitions with the definition of gender enforced according to the principal petitioners (the parents). The public school system has no right to veto the principal right to decide how to spend their share of the budget.</hide>
           </li>
           <li>See also <lnk>202305302137|Sports Membership</lnk></li>
@@ -6712,12 +6728,12 @@
   </div><hr class="mbCB mbhr">
   <div id="P202401061204-Inner">
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">📯 Links and Articles</div><hide><hr>
-  <div></div><b>These are links to the initiatives for this discussion.:</b> 
+  <div></div><div class="mbav50r mbCB mbBlack"></div><b>Black:</b> These are links to the initiatives for this discussion.:
   <hr class="mbCB">
   <button class="mbbutton" onclick="ShowNextInline(this)" data-HXP-Black>📯<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Ballotpedia Summaries <macro>{"cmd":"url","url":"https://news.ballotpedia.org/2023/09/08/protect-kids-california-files-three-initiatives-related-to-gender-and-schools-sports-and-healthcare-for-the-2024-ballot/","desc":"🔗"}</macro></hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-HXP-Black>📯<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Article on the initiative wording being changed <macro>{"cmd":"url","url":"https://www.capradio.org/articles/2024/01/03/group-to-sue-california-ag-over-title-of-ballot-initiative-seeking-to-prohibit-gender-affirming-care-for-trans-youth/","desc":"🔗"}</macro></hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> To we plan to reply, if so, where?</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> That is to be determined, based on whether we can find a clear solution of the conflict.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> Do we plan to reply, if so, where?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> That is to be determined, based on whether we can find a clear solution to the conflict.</hide>
   </hide></div>
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">📯 Critical Review of Initiative 1</div><hide><hr>
   <div></div><div class="mbav50r mbCB mbBlack" data-HXP-Black></div><b>📯Black:</b> According to Ballotpedia summary, this initiative would require the school to report to the parents when their children ask the school to treat them as a different gender. Is this Arcacian?
@@ -6725,37 +6741,37 @@
   <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Zoey>🏛️<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> The word "require" is a red flag. I think Arcacian law is that the school is neither required to nor required not to report. That should just be an agreement between the school and the family when they decide which school to attend.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Then does a child have a right to form an agreement with a teacher to keep their pronoun confidential from their family?</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Zoey>🏛️<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> The school has autonomy on deciding the school policy, and the families have the autonomy of which school to choose.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-IXP-Black>🔍<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> What if the families are leaving in a captive state where they are currently forced to fund the same public school for at least the next 10 years, and there are not other education options? In that limited situation, would it be more justified if the school reports or not? Is such decision subjected to voting, or would one choice be a violation of someone's autonomy?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-IXP-Black>🔍<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> What if the families are living in a captive state where they are currently forced to fund the same public school for at least the next 10 years, and there are no other education options? In that limited situation, would it be more justified if the school reports or not? Is such decision subjected to voting, or would one choice be a violation of someone's autonomy?</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Tanya>🏛️<div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> Even if there is only one school, this could be handled as a waiver. A parent could sign a waiver if they agree not to know what happens to their children at school?</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-IXP-Black>🔍<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> In your comment, the default is that the parent has the right to know, and their right to know overrides the child's right to conceal. Why is it this way but not the other way around?</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Tanya>🏛️<div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> As long as the child is a dependent, the parent has the right to know because the child returns to their care at their residence. The parent  has the right to know and investigate who or what is returning into their house, which is their optional zone.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> You can't have a law asking a family to accept something into their care while preventing them from know what they are getting back.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Zoey>🏛️<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> Okay. So if the child wants "privacy" the child would need to basically choose a different family. The Arcacian part is that Arcacian Law will help the child to get a more compatible family. Arcacian Law helps families pick a school they want, and help a child pick a family they want.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> You can't have a law asking a family to accept something into their care while preventing them from knowing what is entering.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Zoey>🏛️<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> Okay. So if the child wants "privacy" the child would need to basically choose a different family. The Arcacian part is that Arcacian Law will help the child to get a more compatible family. Arcacian Law helps families pick a school they want, and helps a child pick a family they want.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Black>🏛️<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Then my interpretation is that it should be the law that a) on request, the school has a responsibility to report about the child to their legal guardians; and b) there needs to be a mechanism for a family to select what type of behavior they want a report; and c) the child has no right to prevent a teacher from reporting; and d) the teacher has no right to not report on the chosen topics (because the teacher is an agent).</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> I think I agree. But I want to first see how you would summarize that at the node.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-Black>⭐<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Composing.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Evelyn>🏛️<div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> There is another part about the facility. I think the parent has a right to know who goes into which restroom at the facility.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> Yes.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-HXP-Black>📯<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> What I am getting is that Initiative 1, would be part of Arcacian Law. It cannot be voted on. It can only pass because it that part of the hosting family's constitutional right to know what is entering their family. Is this correct?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-HXP-Black>📯<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> What I am getting is that  Initiative 1 would be part of Arcacian Law. It cannot be voted on. It can only pass because it is part of the hosting family's constitutional right to know what is entering their family. Is this correct?</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> There is some non-consequential error or ambiguity in wording, but in general yes.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> What errors and ambiguity?</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Tanya>🏛️<div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> When a family can choose a school, it is not "the law" that requires a school (public or private) to report. It is the family who may choose whether to attend a school, and the law simply help enforce that service agreement between the family and their chosen school. A simple change in wording to "Require public schools" could fix that.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Tanya>🏛️<div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> When a family can choose a school, it is not "the law" that requires a school (public or private) to report. It is the family who may choose whether to attend a school, and the law simply helps enforce that service agreement between the family and their chosen school. A simple change in wording to "Require public schools" could fix that.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> The second is what Evelyn said. It is not clear if the school would report when someone else's child will start using a certain restroom.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Tanya>🏛️<div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> If Bob asks to be treated as female and be allowed to use female facilities, the school has a duty to inform ALL parents that this has happened, not just the Bob's parent. The authorization that the school shall get is not just from Bob's parent, but from all affected parents. The summary used a singular "parent". The notice does not need to point out that it was Bob who requested, but ALL parents need to know the happening.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Tanya>🏛️<div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> If Bob asks to be treated as female and be allowed to use female facilities, the school has a duty to inform ALL parents that this has happened, not just Bob's parent. The authorization that the school shall get is not just from Bob's parent, but from all affected parents. The summary used a singular "parent". The notice does not need to point out that it was Bob who requested, but ALL parents need to know the happening.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> It goes back to the principal's right to know all about the agent.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Okay. Let's check the next one.</hide>
   </hide></div>
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">📯 Critical Review of Initiative 2</div><hide><hr>
   <div></div><div class="mbav50r mbCB mbBlack" data-HXP-Black></div><b>📯Black:</b> This one is about whether students have the right to use facility and join sports that they identify with.
   <hr class="mbCB">
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Zoey data-WrXP-Zoey>🏹🏛️<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> I think we talked about this before. In choice democracy, the people (principals) have a right to establishment of gender-segregated facilities with rules as defined by them. The government should not have legislative power to veto that principal desire. The government shall only act as an enforcing agent. So there would just be non-gendered facilities and competition as the default, but the people have a right to make gender-specific facilities and competition.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Zoey data-WrXP-Zoey>🏹🏛️<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> I think we talked about this before. In choice democracy, the people (principals) have a right to establish gender-segregated facilities with rules as defined by them. The government should not have legislative power to veto that principal desire. The government shall only act as an enforcing agent. So there would just be non-gendered facilities and competition as the default, but the people have a right to make gender-specific facilities and competition.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-IXP-StarTree>🔍<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> StarTree finds this <lnk>202305302137|node</lnk> on sports membership!</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Then from the summary, the initiative again shall pass without voting.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Zoey>🏛️<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> For the common zone, no voting required. </hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> On to the last one,.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> On to the last one.</hide>
   </hide></div>
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">📯 Critical Review of Initiative 3</div><hide><hr>
-  <div></div><div class="mbav50r mbCB mbBlack" data-HXP-Black></div><b>📯Black:</b> This is about prohibiting prescription of hormone medical procedures to minor. It seems that this initiative is not about consent. 
+  <div></div><div class="mbav50r mbCB mbBlack" data-HXP-Black></div><b>📯Black:</b> This is about prohibiting prescription of hormonal medical procedures to minor. It seems that this initiative is not about consent. 
   <hr class="mbCB">
   <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Evelyn>🏛️<div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> I think if the guardian, the minor, and the practitioner are all willing, the law should not prohibit.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Tanya>🏛️<div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> In People-Principal government, each family is allowed to write their family law. This initiative overreaches and violates the family's autonomy.</hide>
@@ -6798,7 +6814,7 @@
   </div><hr class="mbCB mbhr">
   <div id="P202401062040-Inner">
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">❤️ NG Card</div><hide><hr>
-  <div></div><div class="mbav50r mbCB mbStarTree"></div><b>StarTree:</b> The NG card is a quest card mixed in the quest deck. When the questing players are ready to finish a quest, a card is drawn from the quest deck. If it is an NG card, the questing players must meet the cost on the NG card to before they may check for completion again.
+  <div></div><div class="mbav50r mbCB mbStarTree"></div><b>StarTree:</b> The NG card is a quest card mixed in the quest deck. When the questing players are ready to finish a quest, a card is drawn from the quest deck. If it is an NG card, the questing players must meet the cost on the NG card before they may check for completion again.
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> What would be a good NG card?</hide>
   <hr class="mbCB">
   <button class="mbbutton" onclick="ShowNextInline(this)" data-DXP-LRRH>💡<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> I think NG cards should be funny. Maybe a bad weather card.</hide>
@@ -9327,7 +9343,7 @@
     {"name":"LRRH","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
-<div id="P202401241933" date='20240123' time='1933' data-202312251111 data-happy data-202401231933>
+<div id="P202401241933" date='20240124' time='1933' data-202312251111 data-happy data-202401231933>
   <button class="mbbuttonIcon" onclick="ShowSkip(this)">📯 <b>Live Game: Speed</b></button><span>
   <button class="mbbuttonIcon" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div><small><b>⭐2</b></small></button><hide>
   <div class="mbavem mbStarTree"></div>
@@ -10078,7 +10094,7 @@
     {"ch":"24","rank":"A","updates":"4","last":"20240131"},
     {"ch":"12","rank":"B","updates":"6","last":"20240131"},
     {"ch":"18","rank":"B","updates":"5","last":"20240131"},
-    {"ch":"31","rank":"A","updates":"4","last":"20240131"},
+    {"ch":"31","rank":"A","updates":"4","last":"20240131"}
     ],"players":"Black","merits":"Black","recognitions":"Sasha, StarTree","kudos":"","awards":"Arcacia, Black, Evelyn, Gaia, Ivy, LRRH, P4, Sasha, StarTree","top":[
     {"name":"Helen","score":"29"},
     {"name":"Vivi","score":"29"},
@@ -10511,110 +10527,7 @@
     {"name":"James","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
-<div id="P202402062124" class="mbscroll" date='20240206' time='2124' data-skill>
-  <content>
-    <div class="mbpdc"></div>
-    <ol>
-      <li>
-        Understand your audience
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*1</small>"}</macro>
-      </li>
-      <li>
-        Define your goal
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*2</small>"}</macro>
-      </li>
-      <li>
-        Research your topic
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*3</small>"}</macro>
-      </li>
-      <li>
-        Write an outline (start thinking about visuals)
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*4</small>"}</macro>
-      </li>
-      <li>
-        Draft a script (open with a relevant story)
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*5</small>"}</macro>
-      </li>
-      <li>
-        Practice reading the script out loud
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*6</small>"}</macro>
-      </li>
-      <li>
-        Experiment with your voice
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*7</small>"}</macro>
-      </li>
-      <li>
-        Incorporate hand gestures and choreographed hand motions
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*8</small>"}</macro>
-      </li>
-      <li>
-        Get live feedback from a small group if possible
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*9</small>"}</macro>
-      </li>
-      <li>
-        Revise the script
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*10</small>"}</macro>
-      </li>
-      <li>
-        Memorize your speech (but don't be afraid to go off script)
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*11</small>"}</macro>
-      </li>
-      <li>
-        Practice often - when you think you're ready, practice again
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*12</small>"}</macro>
-      </li>
-      <li>
-        Allow for questions and prepare answers
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*13</small>"}</macro>
-      </li>
-      <li>
-        Field questions with a tursted friend/mentor
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*14</small>"}</macro>
-      </li>
-      <li>
-        Conduct breathing exercises before your speech
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*15</small>"}</macro>
-      </li>
-      <li>
-        Present with confidence, but leave arrogance at home
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*16</small>"}</macro>
-      </li>
-      <li>
-        Make eye contact and engage
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*17</small>"}</macro>
-      </li>
-      <li>
-        Keep going if you stumble
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*18</small>"}</macro>
-      </li>
-      <li>
-        If you go off script, come back to where you left off
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*19</small>"}</macro>
-      </li>
-      <li>
-        Close big and leave them wanting more
-        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*20</small>"}</macro>
-      </li>
-    </ol>
-  </content>
-  <card>
-    <div class="mbCharCard">
-      <div class="mbCharCardTitle2">Public Speaking</div>
-      <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://cdn.pixabay.com/photo/2022/02/04/13/44/chicken-6992752_640.jpg')"></div>
-      <div class="mbCharCardSubtitle">Skill</div>
-      <div class="mbCharCardDesc">
-        <center>
-          <div class="mbCharCardDescInner">
 
-            <small></small>
-          </div>
-        </center>
-      </div>
-    </div>
-  </card>
-  <ref></ref>
-  <node>{"id":"202402062124","parentid":"202212090038","parentname":"Adventurers' Hall","icon":"🐓","title":"Public Speaking","subtitle":"Skill","img":"https://cdn.pixabay.com/photo/2022/02/04/13/44/chicken-6992752_640.jpg","music":"","author":"Vladanya","description":"","card-text":""}</node>
-</div><!--Public Speaking-->
 <div id="P202402052158" date='20240205' time='2158' data-202301011739 data-202401272309 data-happy>
   <button class="mbbuttonIcon" onclick="ShowSkip(this)">⚖️ <b>Law Game 106</b></button><span>
   <button class="mbbuttonIcon" onclick="ShowNextInline(this)"><div class="mbavem mbNatalie"></div><small><b>⭐7</b></small></button><hide>
@@ -10736,6 +10649,110 @@
     {"name":"P4","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
+<div id="P202402062124" class="mbscroll" date='20240206' time='2124' data-skill>
+  <content>
+    <div class="mbpdc"></div>
+    <ol>
+      <li>
+        Understand your audience
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*1</small>"}</macro>
+      </li>
+      <li>
+        Define your goal
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*2</small>"}</macro>
+      </li>
+      <li>
+        Research your topic
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*3</small>"}</macro>
+      </li>
+      <li>
+        Write an outline (start thinking about visuals)
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*4</small>"}</macro>
+      </li>
+      <li>
+        Draft a script (open with a relevant story)
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*5</small>"}</macro>
+      </li>
+      <li>
+        Practice reading the script out loud
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*6</small>"}</macro>
+      </li>
+      <li>
+        Experiment with your voice
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*7</small>"}</macro>
+      </li>
+      <li>
+        Incorporate hand gestures and choreographed hand motions
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*8</small>"}</macro>
+      </li>
+      <li>
+        Get live feedback from a small group if possible
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*9</small>"}</macro>
+      </li>
+      <li>
+        Revise the script
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*10</small>"}</macro>
+      </li>
+      <li>
+        Memorize your speech (but don't be afraid to go off script)
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*11</small>"}</macro>
+      </li>
+      <li>
+        Practice often - when you think you're ready, practice again
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*12</small>"}</macro>
+      </li>
+      <li>
+        Allow for questions and prepare answers
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*13</small>"}</macro>
+      </li>
+      <li>
+        Field questions with a tursted friend/mentor
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*14</small>"}</macro>
+      </li>
+      <li>
+        Conduct breathing exercises before your speech
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*15</small>"}</macro>
+      </li>
+      <li>
+        Present with confidence, but leave arrogance at home
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*16</small>"}</macro>
+      </li>
+      <li>
+        Make eye contact and engage
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*17</small>"}</macro>
+      </li>
+      <li>
+        Keep going if you stumble
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*18</small>"}</macro>
+      </li>
+      <li>
+        If you go off script, come back to where you left off
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*19</small>"}</macro>
+      </li>
+      <li>
+        Close big and leave them wanting more
+        <macro>{"cmd":"url","url":"https://www.entrepreneur.com/leadership/the-complete-20-step-guide-to-ace-public-speaking/444042","desc":"<small>*20</small>"}</macro>
+      </li>
+    </ol>
+  </content>
+  <card>
+    <div class="mbCharCard">
+      <div class="mbCharCardTitle2">Public Speaking</div>
+      <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://cdn.pixabay.com/photo/2022/02/04/13/44/chicken-6992752_640.jpg')"></div>
+      <div class="mbCharCardSubtitle">Skill</div>
+      <div class="mbCharCardDesc">
+        <center>
+          <div class="mbCharCardDescInner">
+
+            <small></small>
+          </div>
+        </center>
+      </div>
+    </div>
+  </card>
+  <ref></ref>
+  <node>{"id":"202402062124","parentid":"202212090038","parentname":"Adventurers' Hall","icon":"🐓","title":"Public Speaking","subtitle":"Skill","img":"https://cdn.pixabay.com/photo/2022/02/04/13/44/chicken-6992752_640.jpg","music":"","author":"Vladanya","description":"","card-text":""}</node>
+</div><!--Public Speaking-->
 <div id="P202402062328" date='20240206' time='2328' data-202312251111 data-happy data-202402052302>
   <button class="mbbuttonIcon" onclick="ShowSkip(this)">🎓 <b>Design Guidelines</b></button><span>
   <button class="mbbuttonIcon" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div><small><b>⭐2</b></small></button><hide>
@@ -10792,7 +10809,7 @@
     {"ch":"29","rank":"B","updates":"2","last":"20240205"},
     {"ch":"19","rank":"C","updates":"1","last":"20240205"},
     {"ch":"26","rank":"A","updates":"1","last":"20240205"},
-    {"ch":"31","rank":"S","updates":"1","last":"20240206"},
+    {"ch":"31","rank":"S","updates":"1","last":"20240206"}
     ],"players":"Sasha, StarTree, Tanya","merits":"Sasha","recognitions":"P4, Sasha","kudos":"Sasha, StarTree, Tanya","awards":"3B, Arcacia, Black, Evelyn, Natalie, P4, Sasha, StarTree, Tanya, Vivi, Vladanya","top":[
     {"name":"StarTree","score":"21"},
     {"name":"Black","score":"18"},
@@ -10818,7 +10835,179 @@
     {"name":"LRRH","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
+<div id="P202402071100" class="mbscroll" date="20240207" time="1100" data-ja author="Black">
+  <macro>{"cmd":"ll","desc":"Pants","en":"These pants are not waterproof.","ja":"このパンツは防水ではありません。"}</macro>
+</div>
+<div id="P202402072300" date='20240207' time='2300' data-202312251111 data-happy data-202402062328>
+  <button class="mbbuttonIcon" onclick="ShowSkip(this)">🍀 <b>Minimum Playtest</b></button><span>
+  <button class="mbbuttonIcon" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div><small><b>⭐1</b></small></button><hide>
+  <div class="mbavem mbStarTree"></div>
+  </hide></span><div class="mbscroll mbhide">
+  <div></div><div class="mbav50r mbCB mbSasha" data-QXP-Sasha>⭐</div>
+  <div class="mbpdc"><b>This</b> continues the Arcacian Quest design.
+  </div><hr class="mbCB mbhr">
+  <div id="P202402072300-Inner">
+  <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">🍀 Playtest Components</div><hide><hr>
+  <div></div><div class="mbav50r mbCB mbSasha"></div><b>Sasha:</b> Let's see if we can clear the section about minimum playtest.
+  <hr class="mbCB">
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> We need a section for playtest.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Which track should that be?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> Track 1. Before the walkthrough.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-IXP-StarTree data-QXP-StarTree>⭐🔍<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Roger! Added card info about Splendor.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Sasha>📌<div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> For the playtest section, let's have a ongoing rating on fun and education ranking. Right now it is Rank U for both.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Roger!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> Next let's start a playtest.</hide>
+</hide></div>
+  </div><!--Inner End-->
+  <mbKudo>Playtest Next</mbKudo>
+  </div><node>{"type":"chat","id":"202402072300","parentid":"202312251111","parentname":"Arcacian Quest","icon":"🍀","title":"Minimum Playtest","prev":"202402062328","author":"Sasha","location":"Game Room"}</node>
+</div><!--Minimum Playtest-->
 <div date='20240207' time='2359' data-status>
+  <macro>{"cmd":"daisy2","issues":"8","quests":"1084","activities":[
+    {"ch":"35","rank":"B","updates":"1","last":"20240127"},
+    {"ch":"30","rank":"B","updates":"3","last":"20240128"},
+    {"ch":"33","rank":"S","updates":"1","last":"20240128"},
+    {"ch":"24","rank":"B","updates":"2","last":"20240131"},
+    {"ch":"16","rank":"D","updates":"1","last":"20240201"},
+    {"ch":"32","rank":"D","updates":"1","last":"20240201"},
+    {"ch":"25","rank":"D","updates":"1","last":"20240201"},
+    {"ch":"18","rank":"B","updates":"2","last":"20240203"},
+    {"ch":"23","rank":"A","updates":"1","last":"20240203"},
+    {"ch":"7","rank":"B","updates":"1","last":"20240203"},
+    {"ch":"27","rank":"C","updates":"1","last":"20240203"},
+    {"ch":"17","rank":"S","updates":"2","last":"20240203"},
+    {"ch":"13","rank":"D","updates":"1","last":"20240203"},
+    {"ch":"20","rank":"B","updates":"1","last":"20240203"},
+    {"ch":"15","rank":"B","updates":"2","last":"20240203"},
+    {"ch":"14","rank":"B","updates":"2","last":"20240203"},
+    {"ch":"34","rank":"B","updates":"1","last":"20240203"},
+    {"ch":"12","rank":"C","updates":"1","last":"20240203"},
+    {"ch":"21","rank":"C","updates":"1","last":"20240204"},
+    {"ch":"11","rank":"A","updates":"1","last":"20240204"},
+    {"ch":"29","rank":"B","updates":"2","last":"20240205"},
+    {"ch":"19","rank":"C","updates":"1","last":"20240205"},
+    {"ch":"26","rank":"A","updates":"1","last":"20240205"},
+    {"ch":"28","rank":"D","updates":"1","last":"20240207"},
+    {"ch":"31","rank":"S","updates":"1","last":"20240207"},
+    {"ch":"22","rank":"B","updates":"1","last":"20240207"}
+    ],"players":"Sasha, StarTree","merits":"Sasha","recognitions":"Vladanya","kudos":"Sasha, StarTree","awards":"3B, Arcacia, Black, Evelyn, LRRH, Natalie, Skyle, StarTree, Sylvia, Vladanya, Zoey","top":[
+    {"name":"Vivi","score":"20"},
+    {"name":"Helen","score":"19"},
+    {"name":"Black","score":"18"},
+    {"name":"StarTree","score":"12"},
+    {"name":"Evelyn","score":"10"},
+    {"name":"Vladanya","score":"9"},
+    {"name":"LRRH","score":"9"},
+    {"name":"Natalie","score":"8"},
+    {"name":"3B","score":"8"},
+    {"name":"Arcacia","score":"8"},
+    {"name":"Skyle","score":"7"},
+    {"name":"Zoey","score":"6"},
+    {"name":"Kisaragi","score":"5"},
+    {"name":"Sylvia","score":"5"},
+    {"name":"Sasha","score":"3"},
+    {"name":"Ken","score":"2"},
+    {"name":"Ledia","score":"2"},
+    {"name":"Fina","score":"1"},
+    {"name":"V","score":"1"},
+    {"name":"Casey","score":"1"},
+    {"name":"P4","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div id="P202402082253" date='20240208' time='2253' data-202312251111 data-happy data-202402072300>
+  <button class="mbbuttonIcon" onclick="ShowSkip(this)">🍀 <b>Playtest: Valentines</b></button><span>
+  <button class="mbbuttonIcon" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div><small><b>⭐5</b></small></button><hide>
+  <div class="mbavem mbEvelyn"></div>
+  <div class="mbavem mbZoey"></div>
+  <div class="mbavem mbLRRH"></div>
+  <div class="mbavem mbLedia"></div>
+  <div class="mbavem mbStarTree"></div>
+  </hide></span><div class="mbscroll mbhide">
+  <div></div><div class="mbav50r mbCB mbSasha" data-QXP-Sasha>⭐</div>
+  <div class="mbpdc"><b>This</b> continues the Arcacian Quest design.
+  </div><hr class="mbCB mbhr">
+  <div id="P202402082253-Inner">
+  <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">🍀 Playtest: Valentines</div><hide><hr>
+  <div></div><div class="mbav50r mbCB mbSasha"></div><b>Sasha:</b> Let's make sure that we have cards to complete the Honmei Choco quest.
+  <hr class="mbCB">
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> I think we are going missing the chocolate.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> Could we get a snacks card?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-DXP-LRRH>💡<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> How about baking supplies card?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> I think a baking ingredients card would be cuter.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> StarTree please start with a baking ingredients card. I think there are more icons for that.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Roger!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Ledia>📌<div class="mbavem mbLedia"></div></button><hide> <b>Ledia:</b> Shouldn't the Art Supplies card be at a node?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Sasha>📌<div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> Actually, shouldn't Mira Mira have the grand reopening card?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLedia"></div></button><hide> <b>Ledia:</b> True.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Uploading cards.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-DXP-Evelyn>💡<div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> I think art supplies can use the gift crafting node for now.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Roger!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree="6">⭐<small>6</small> <div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Making new icons.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Which node should get the Baking Supplies card?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> How about the recipes node?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-IXP-StarTree>🔍<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> There is no recipes node!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Then Grocery List node.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Roger!</hide>
+  </hide></div>
+  </div><!--Inner End-->
+  <mbKudo>Playtest Next</mbKudo>
+  </div><node>{"type":"chat","id":"202402082253","parentid":"202312251111","parentname":"Arcacian Quest","icon":"🍀","title":"Playtest: Valentines","prev":"202402072300","author":"Sasha","location":"Game Room"}</node>
+</div><!--Playtest: Valentines-->
+<div date='20240208' time='2359' data-status>
+  <macro>{"cmd":"daisy2","issues":"8","quests":"1074","activities":[
+    {"ch":"35","rank":"B","updates":"1","last":"20240127"},
+    {"ch":"30","rank":"B","updates":"3","last":"20240128"},
+    {"ch":"33","rank":"S","updates":"1","last":"20240128"},
+    {"ch":"24","rank":"B","updates":"2","last":"20240131"},
+    {"ch":"16","rank":"D","updates":"1","last":"20240201"},
+    {"ch":"32","rank":"D","updates":"1","last":"20240201"},
+    {"ch":"25","rank":"D","updates":"1","last":"20240201"},
+    {"ch":"23","rank":"A","updates":"1","last":"20240203"},
+    {"ch":"7","rank":"B","updates":"1","last":"20240203"},
+    {"ch":"27","rank":"C","updates":"1","last":"20240203"},
+    {"ch":"17","rank":"S","updates":"2","last":"20240203"},
+    {"ch":"13","rank":"D","updates":"1","last":"20240203"},
+    {"ch":"20","rank":"B","updates":"1","last":"20240203"},
+    {"ch":"15","rank":"B","updates":"2","last":"20240203"},
+    {"ch":"14","rank":"B","updates":"2","last":"20240203"},
+    {"ch":"34","rank":"B","updates":"1","last":"20240203"},
+    {"ch":"12","rank":"C","updates":"1","last":"20240203"},
+    {"ch":"21","rank":"C","updates":"1","last":"20240204"},
+    {"ch":"11","rank":"A","updates":"1","last":"20240204"},
+    {"ch":"29","rank":"B","updates":"2","last":"20240205"},
+    {"ch":"19","rank":"C","updates":"1","last":"20240205"},
+    {"ch":"26","rank":"A","updates":"1","last":"20240205"},
+    {"ch":"31","rank":"S","updates":"1","last":"20240207"},
+    {"ch":"22","rank":"B","updates":"1","last":"20240207"},
+    {"ch":"28","rank":"D","updates":"1","last":"20240208"},
+    {"ch":"18","rank":"B","updates":"2","last":"20240208"}
+    ],"players":"Evelyn, Ledia, LRRH, Sasha, StarTree, Zoey","merits":"Sasha","recognitions":"","kudos":"Evelyn, Ledia, LRRH, Sasha, StarTree, Zoey","awards":"3B, Arcacia, Evelyn, LRRH, Melody, P4, Sasha, Skyle, StarTree, Sylvia, Tanya, Vladanya","top":[
+    {"name":"StarTree","score":"30"},
+    {"name":"Sasha","score":"14"},
+    {"name":"LRRH","score":"12"},
+    {"name":"Evelyn","score":"12"},
+    {"name":"Vivi","score":"10"},
+    {"name":"3B","score":"9"},
+    {"name":"Vladanya","score":"7"},
+    {"name":"Helen","score":"7"},
+    {"name":"Sylvia","score":"7"},
+    {"name":"P4","score":"7"},
+    {"name":"Arcacia","score":"7"},
+    {"name":"Skyle","score":"5"},
+    {"name":"Ledia","score":"5"},
+    {"name":"Melody","score":"4"},
+    {"name":"Tanya","score":"4"},
+    {"name":"Kisaragi","score":"3"},
+    {"name":"Black","score":"3"},
+    {"name":"Natalie","score":"2"},
+    {"name":"Zoey","score":"2"},
+    {"name":"Fina","score":"1"},
+    {"name":"James","score":"1"},
+    {"name":"V","score":"1"},
+    {"name":"Casey","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div date='20240209' time='2359' data-status>
   <macro>{"cmd":"daisy2","issues":"8","quests":"1074","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
@@ -10827,8 +11016,11 @@
 </div><!-- STATUS -->
 <!--
 <card>
-  <div class="mbCharCardAQ" style="background-position: 50% 50%; background-image:url('https://github.com/MagicBakery/Images/blob/main/CheckerShield.png?raw=true')"></div>
-  <br><lnk>202312251111|🏰 Arcacian Quest</lnk>  
+  <a href="https://github.com/MagicBakery/Images/blob/main/Quest_MiraReopening.png?raw=true" target="_blank">
+    <div class="mbCharCardAQ" style="background-position: 50% 50%; background-image:url('https://github.com/MagicBakery/Images/blob/main/Quest_MiraReopening.png?raw=true')" >
+    </div>
+  </a>
+  <br><lnk>202312251111|🏰 Arcacian Quest</lnk>
 </card>    
 <div class="mbscroll">
   <div class="mbbutton" onclick="ShowNext(this)"></div>
