@@ -126,8 +126,10 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
           }
         }
 
-        mHTMLInner += "}</macro>";     
-        mHTMLInner += "<div class='mbCB'></div><hr></hr>";
+        mHTMLInner += "}</macro>";
+        mHTMLInner += "<div class='mbCB'></div><hr>";
+        
+
 
         var elCard = elContainer.getElementsByTagName('card')[0];
         if(!IsBlank(elCard)){
@@ -135,6 +137,7 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
           mHTMLInner +=   "<div class='mbCardRM'>" + elCard.innerHTML + "</div>";
           mHTMLInner +=   "<div class='mbCardMatText'>";
           mHTMLInner += "<a class='mbbutton' onclick='HidePP(this)' style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></a>";
+          
           mHTMLInner += elContent.innerHTML + "</div>"; // End Text
           mHTMLInner += "</div>"; // End Card Mat
         }else{
@@ -142,8 +145,17 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
           mHTMLInner += elContent.innerHTML;
         }
         var elRef = elContainer.getElementsByTagName('ref')[0];
+        
+        // REF SECTION
         if(!IsBlank(elRef)){
           mHTMLInner += "<div class='mbRef'>";
+          
+          // 20240304: Ivy: Need to show parent link
+          if(NotBlank(mJSON.parentid)){
+            //mHTMLInner += "<div style='padding-left:28px;font-size:14px;line-height:16px'><lnk>"+mJSON.parentid+"|"+mJSON.parentname+"</lnk></div>";
+            mHTMLInner += "<lnk>"+mJSON.parentid+"|🏡"+mJSON.parentname+"</lnk> ";
+          }
+
           mHTMLInner += elRef.innerHTML;
           mHTMLInner += "<a class='mbbutton' onclick=\"QueryAllPSL(this,'[data-" + mJSON.id + "]',false,'board')\">💬 Discussions</a>";
           mHTMLInner += "</div>";
@@ -191,27 +203,18 @@ function IFrameFeedback(el){
   elTemp.classList.add('mbscroll');
   elTemp.style.marginBottom = "0px";
   
-  var mControl;
-  var mBoard;
+  var mPanel;
   try{
-    mControl = SearchPS(el,'control');
+    mPanel = SearchPS(el,'panel');
+    
   }catch(error){
-    mControl = null;
+    mPanel = null;
   }
-  if(mControl != null){
-    mControl.nextElementSibling.prepend(elTemp);  
+  if(mPanel != null){
+    mPanel.firstElementChild.after(elTemp);  
     elTemp.scrollIntoView(true);
     return;
   }
-
-
-  try{
-    mBoard = SearchPS(el,'board');
-  }catch(error){
-    return;    
-  }
-  mBoard.after(elTemp);
-  elTemp.scrollIntoView(true);
 }
 function IFrameRefresh(el,mNodeID){
   // 20230916: StarTree: Refresh the content of Iframe when user clicks elButton.
@@ -333,6 +336,18 @@ function PanelRemove(el){
   var mPanel = SearchPS(el,'panel');
   
   mPanel.remove();
+}
+function PanelToggleWidth(el){
+  // 20240303: StarTree: Added to help display slides on desktop.
+  var mPanel = SearchPS(el,'panel');
+  DEBUG(mPanel.style.flex);
+  if(IsBlank(mPanel.style.flex)){
+    mPanel.style.flex= "50%";
+    DEBUG(mPanel.style.flex);
+  }else{
+    mPanel.style.flex= "";
+  }
+  
 }
 function RemoveParent(el){
   // 20230916: StarTree: For hiding iframe.
@@ -837,7 +852,7 @@ function MMInner(el,mMacro){
     }
     return;
   }
-  if(mMacro.cmd=="ll"){
+  if(mMacro.cmd=="ll"){ // Language translation
     MacroLL(el,mMacro);
     return;
   }
@@ -1337,7 +1352,7 @@ function MMInner(el,mMacro){
     elTemp.style.padding = "5px 5px";
     elTemp.classList.add("mbpuzzle");
     return;
-  }  
+  }    
   if(mMacro.cmd=="QPSN"){
     // 20231005: Skyle: A more compact link compared to the one in a div.
     //  Behavior: 
@@ -1460,11 +1475,32 @@ function MMInner(el,mMacro){
     mHTML += "</div>";
     elTemp=AddElement(el,"div",mHTML);
   }
+  if(mMacro.cmd=="slideidx"){ // DIV Slide Index Item
+    // 20240303: StarTree: Added for search index for images hosted at github.
+    /* Sample macro call:
+         <macro>{"num","27","node":"202402292014","name":"OST","cmd":"pngidx"}</macro>
+       Translates into:
+         <div>
+          <macro>{"cmd":"url","url":"https://github.com/MagicBakery/Images/blob/main/Slide_27.png?raw=true","desc":"27"}</macro> 
+          <lnk>202402292014|🌳</lnk> Public Education / Open Skill Tree
+         </div>
+    //*/
+    mHTML = MacroURLHTML("https://github.com/MagicBakery/Images/blob/main/Slide_" + mMacro.num + ".png?raw=true",mMacro.num) +" ";
+    if(NotBlank(mMacro.node)){
+      mHTML += "<lnk>" + mMacro.node + "|🥨</lnk>";
+    }
+    mHTML += mMacro.name;
+    var elTemp = document.createElement("div");
+    elTemp.innerHTML = mHTML;el.after(elTemp);return;
+  }
   if(mMacro.cmd=="url"){ // SPAN
     /* <a class="mbbuttonEx" onclick="ExURL('https://www.youtube.com/watch?v=DS2sP8CDLas&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx')">あたしがとなりにイッル地に</a> */
-    mHTML = "<a class='mbbuttonEx' onclick=\"ExURL('"+ mMacro.url + "');return false;\" href='"+mMacro.url+"'>" + mMacro.desc + "</a>";
+    mHTML = MacroURLHTML(mMacro.url,mMacro.desc);
     AddElement(el,"span",mHTML);return;
   }
+}
+function MacroURLHTML(mURL,mDesc){
+  return "<a class='mbbuttonEx' onclick=\"ExURL('"+ mURL + "');return false;\" href='"+mURL+"'>" + mDesc + "</a>";
 }
 function Music(eMusicID){
   if(AtBlogSpot()){
