@@ -10,11 +10,11 @@
 <url>
   <loc>https://magicbakery.github.io/</loc>
   <lastmod>2023-10-27T05:47:32+00:00</lastmod>
-</url><!--20231221 Hit-->
+</url><!--20231221 Hit, 20240312 Hit-->
 <url>
   <loc>https://magicbakery.github.io/?id=202208201022</loc>
   <lastmod>2023-10-23T18:18:34+00:00</lastmod>
-</url><!--Arcacianism 20231221 Hit, 20240204 Hit-->
+</url><!--Arcacianism 20231221 Hit, 20240204 Hit, 20240312 Hit-->
 <url>
   <loc>https://magicbakery.github.io/?id=202209242119</loc>
   <lastmod>2023-10-23T18:18:34+00:00</lastmod>
@@ -47,5 +47,8 @@
   <loc>https://magicbakery.github.io/?id=202312251111</loc>
   <lastmod>2024-02-04T12:31:00+00:00</lastmod>
 </url><!--Arcacian Quest-->
-
+<url>
+  <loc>https://magicbakery.github.io/?id=202207252131</loc>
+  <lastmod>2024-03-12T00:00:00+00:00</lastmod>
+</url><!--Cleric-->
 </urlset>
