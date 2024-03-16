@@ -2887,6 +2887,7 @@ function GuildEXP(iMember){
     "Helen": 1954,
     "Ivy": 3040,
     "James": 2459,
+    "Karl": 2,
     "Ken": 656,
     "Kisaragi": 3461,
     "Ledia": 6223,
@@ -2914,7 +2915,7 @@ function GuildEXP(iMember){
 function Roster(iIndex){
   // 20230125: Ledia: Preparing for roster stats display.
   //   Returns the length if the argument is negative.
-  const mRoster = ["3B", "44", "Albatross", "Amelia", "Arcacia", "Black", "Cardinal", "Casey", "Emi", "Evelyn", "Fina", "Gaia", "Helen", "Ivy", "James", "Ken", "Kisaragi", "Ledia", "LRRH", "Melody", "Mikela", "Natalie", "Neil", "P4", "Patricia", "Robert", "RS", "Sasha", "Skyle", "StarTree", "Sylvia", "Tanya", "V", "Vivi", "Vladanya", "Zoey"];
+  const mRoster = ["3B", "44", "Albatross", "Amelia", "Arcacia", "Black", "Cardinal", "Casey", "Emi", "Evelyn", "Fina", "Gaia", "Helen", "Ivy", "James", "Karl", "Ken", "Kisaragi", "Ledia", "LRRH", "Melody", "Mikela", "Natalie", "Neil", "P4", "Patricia", "Robert", "RS", "Sasha", "Skyle", "StarTree", "Sylvia", "Tanya", "V", "Vivi", "Vladanya", "Zoey"];
   if(iIndex>=0){
     return mRoster[iIndex];
   }else{
