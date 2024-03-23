@@ -5,8 +5,9 @@
       <input type="text" onclick="TextSearchPN(this)" onkeyup="TextSearchPN(this)" placeholder="Search..." title="Input a keyword">
       <span>
         <a class="mbbutton" onclick="ToggleNextPN(this)">🗂️</a>
-          <hide>
-            <h4>Select Query</h4>
+          <hide >
+            <div id="P800000000000-QList">
+            <h4>Select Query</h4><hr>
             <!--<a class="mbbutton" onclick="QSLI('[data-announcement]')">🗂️ Announcement</a>-->
             <a class="mbbutton" onclick="QSL(this,'[data-academy]')">Academy</a> |
             <a class="mbbutton" onclick="QSL(this,'[data-announcement]')">Announcement</a> |
@@ -27,13 +28,18 @@
             <a class="mbbutton" onclick="QSL(this,'[data-skill]')">Skill</a> | 
             <a class="mbbutton" onclick="QSL(this,'[data-slide]')">Slide</a> |
             <a class="mbbutton" onclick="QSL(this,'[id][date][time]')" title="All with id, date and time">(ALL)</a> 
+          </div>
           </hide>
       </span>
-      <div class="mbpuzzle mbhide"></div><!--Control details viewer-->
+      <div class="mbpuzzle">
+        <jq>#P800000000000-QList</jq>
+      </div><!--Control details viewer-->
     </div><!--CONTROLS-->
     <macro>{"cmd":"MC3"}</macro>
     <div class="mbpuzzle" onclick="MC3Resize(this)" >
       <div class="mbSearch" style="display:flex;flex-direction: column;">
+        
+        <hide>
         <macro>{"icon":"🌵","node":"202301071252","desc":"Abilene Paradox","cmd":"index","keys":"","url":""}</macro>      
         <macro>{"icon":"🏅","node":"202211041108","desc":"Accreditation","cmd":"index","keys":"","url":""}</macro>
         <macro>{"icon":"🏴","node":"202209031006","desc":"Anarchism","cmd":"index","keys":"","url":""}</macro> 
@@ -102,6 +108,7 @@
         <macro>{"icon":"🥦","node":"202207161233","desc":"Veganism","cmd":"index","keys":"","url":""}</macro> 
         <macro>{"icon":"🙏","node":"202301161040","desc":"Virtues","cmd":"index","keys":"","url":""}</macro>
         <macro>{"icon":"🏰","node":"202211251143","desc":"Wealth","cmd":"index","keys":"","url":""}</macro>
+      </hide>
         <div class="spacer"></div><div class="spacer"></div>
       </div><!--20230312: Search List-->
       <!--<div class="mbCB" style="margin-top:20px"></div>-->
@@ -17500,6 +17507,65 @@ data-DXP-WIN-Casey
     {"name":"Casey","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
+<div id="P202403231324" class="mbscroll" date='20240323' time='1324' data-charter>
+  <content>
+    <div class="mbpdc"><b>Charter 5</b> covers the tasks to create Panacademy as a prototype of the <lnk>202210062300|open skill tree</lnk>.</div><div style="clear:left"></div>
+    <div class="mbpuzzle">
+      <div class="mbbutton" onclick="ShowNext(this)">⭐ Aspirations</div>
+      <div><hr>
+        <ol>
+          <li>
+            📌 Curriculum Charting
+            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Survey curriculums and helpful forums, and identify missing ones in terms of their relation to public good.</hide>
+          </li>
+          <li>
+            📌 Forum Connections
+            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Support on-going discussions and quests.</hide>
+          </li>
+          <li>
+            ⬜ Exploration Log
+            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Let users mark the lessons they have viewed to help them find new lessons.</hide>
+          </li>
+
+          <li>
+            ⬜ Scaling Up
+            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Encourages other developers to scale up this idea.</hide>
+          </li>
+        </ol>
+        <div class="mbCB"></div>
+      </div>
+    </div><!--Aspirations-->
+    <div class="mbpuzzle">
+      <div class="mbbutton" onclick="ShowNext(this)">📯 Quest Parties</div>
+      <div><hr>
+        <lnk>202307231022|🏘️ Quest Site at NextDoor</lnk><br>
+        <lnk>202210062300|🌳 Skill Tree</lnk><br>
+        <lnk>202303052122|🧳 Web Programming</lnk><br>
+        <div class="mbCB"></div>
+      </div>
+    </div><!--Aspirations-->
+  </content>
+  <card>
+    <div class="mbCharCard">
+      <div class="mbCharCardTitle2">Quest Charter 5</div>
+      <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://cdn.pixabay.com/photo/2016/09/01/05/26/study-1635250_640.jpg')"></div>
+      <div class="mbCharCardSubtitle">Panacademy @Academy</div>
+      <div class="mbCharCardDesc">
+        <center>
+          <div class="mbCharCardDescInner">
+            Let's make education free to empowering all to do good.<br><br>
+            
+            <small>March 24, 2024</small>
+          </div>
+        </center>
+      </div>
+    </div>
+  </card>
+  <ref>
+    <lnk>202207171142|📂Charters</lnk>
+  </ref>
+  <node>{"id":"202403231324","parentid":"202207171142","parentname":"Charters","icon":"📜","title":"Charter 5","subtitle":"Panacademy","img":"https://cdn.pixabay.com/photo/2016/09/01/05/26/study-1635250_640.jpg","music":"","author":"LRRH","description":"","card-text":""}</node>
+</div><!--Charter 5-->
 <div date='20240323' time='2359' data-status>
   <macro>{"cmd":"daisy2","issues":"8","quests":"1075","activities":[
     
