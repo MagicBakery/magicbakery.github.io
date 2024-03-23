@@ -8,21 +8,24 @@
           <hide>
             <h4>Select Query</h4>
             <!--<a class="mbbutton" onclick="QSLI('[data-announcement]')">🗂️ Announcement</a>-->
+            <a class="mbbutton" onclick="QSL(this,'[data-academy]')">Academy</a> |
             <a class="mbbutton" onclick="QSL(this,'[data-announcement]')">Announcement</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-book]')">Books</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-card]')">Cards</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-game]')">Games</a> |
+            <a class="mbbutton" onclick="QSL(this,'[data-book]')">Book</a> |
+            <a class="mbbutton" onclick="QSL(this,'[data-card]')">Card</a> |
+            <a class="mbbutton" onclick="QSL(this,'[data-charter]')">Charter</a> |
+            <a class="mbbutton" onclick="QSL(this,'[data-game]')">Game</a> |
             <a class="mbbutton" onclick="QSL(this,'[data-happy]')">Happy</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-issue]')">Issues</a> |
+            <a class="mbbutton" onclick="QSL(this,'[data-issue]')">Issue</a> |
             <a class="mbbutton" onclick="QSL(this,'[data-manga]')">Manga</a> |
             <a class="mbbutton" onclick="QSL(this,'[data-philosophy]')">Philosophy</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-place]')">Places</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-profile]')">Profiles</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-puzzle]')">Puzzles</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-rule]')">Rules</a> | 
+            <a class="mbbutton" onclick="QSL(this,'[data-place]')">Place</a> |
+            <a class="mbbutton" onclick="QSL(this,'[data-profile]')">Profile</a> |
+            <a class="mbbutton" onclick="QSL(this,'[data-puzzle]')">Puzzle</a> |
+            <a class="mbbutton" onclick="QSL(this,'[data-quest]')">Quest</a> | 
+            <a class="mbbutton" onclick="QSL(this,'[data-rule]')">Rule</a> | 
             <a class="mbbutton" onclick="QSL(this,'[data-singalong]')">Singalong</a> | 
-            <a class="mbbutton" onclick="QSL(this,'[data-skill]')">Skills</a> | 
-            <a class="mbbutton" onclick="QSL(this,'[data-slide]')">Slides</a> |
+            <a class="mbbutton" onclick="QSL(this,'[data-skill]')">Skill</a> | 
+            <a class="mbbutton" onclick="QSL(this,'[data-slide]')">Slide</a> |
             <a class="mbbutton" onclick="QSL(this,'[id][date][time]')" title="All with id, date and time">(ALL)</a> 
           </hide>
       </span>
@@ -428,7 +431,7 @@
                 </div><!--@Arena / Fina-->
                 <div class="mbCB">
                   <span class="mbRankNone" style="float:right;"><lnk>202302201503|⚙️</lnk></span>
-                  <macro>{"guildlog":"63","rank":"B","updates":"5","node":"202208161957","author":"StarTree","chapter":"@Board","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"63","rank":"B","updates":"6","node":"202208161957","author":"StarTree","chapter":"@Board","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <lnk>202207242047|📋</lnk><span></span><button class="mbbutton" onclick="XP_Tally(this)">XP Tally</button><br>
                     <!--<span class="mbListCapNC mbRankS"></span>-->
@@ -436,8 +439,8 @@
                     <!--<span class="mbListCapNC mbRankA"></span>-->
                     
                     <span class="mbListCapNC mbRankB"></span>
-                    <macro>{"log":"0314","priority":"0","icon":"🎩","node":"202209082209","title":"Magician Skills","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"🏰","node":"202312251111","title":"Arcacian Quest","info":"This is a board game design project.","cmd":"quest"}</macro>                      
+                    <macro>{"log":"0323","priority":"0","icon":"📜","node":"202201140711","title":"Charter 18 Upgrade","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"0314","priority":"0","icon":"🎩","node":"202209082209","title":"Magician Skills","info":"","cmd":"quest"}</macro>                 
                     <macro>{"log":"","priority":"0","icon":"⭐","node":"202208032040","title":"Web Programming","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
                     <macro>{"log":"0303","priority":"1","icon":"🧳","node":"202303052122","title":"Migration Topics","cmd":"quest"}</macro>
@@ -610,7 +613,7 @@
                 </div><!--@Gaia / Gaia-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202301251008|👑</lnk></span>
-                  <macro>{"guildlog":"8","rank":"B","updates":"3","node":"202208172056","author":"LRRH","chapter":"@Guild","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"8","rank":"B","updates":"4","node":"202208172056","author":"LRRH","chapter":"@Guild","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     <!--<span class="mbListCapNC mbRankA"></span>-->
@@ -619,7 +622,7 @@
                     <macro>{"log":"0302","priority":"1","icon":"🏫","node":"202402292014","title":"Panacademy","info":"","cmd":"quest"}</macro>  
                     <macro>{"log":"","priority":"2","icon":"🥨","node":"","title":"Guild Log Quests","info":"2305:15 2306:13 2307:11 2308:9 2309:8 2310:6 2402:5","cmd":"quest"}</macro>       
                     <macro>{"log":"","priority":"9","icon":"📕","node":"202209202223","title":"Guild Rules","into":"Complete the guild rules.","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"🏰","node":"202312251111","title":"Arcacian Quest","info":"This is a board game design project.","cmd":"quest"}</macro>  
+                    <macro>{"log":"0323","priority":"2","icon":"🎪","node":"800000000000","title":"Quest Review","info":"Clean up or complete the quest section of sitemap.","cmd":"quest"}</macro>  
                     <span class="mbListCapNC mbRankC"></span>
                     <macro>{"log":"0305","priority":"2","icon":"🧳","node":"202303052122","title":"Migration Tasks","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🥞","node":"202303052122","title":"Website Milestone","cmd":"quest"}</macro>
@@ -14202,7 +14205,7 @@ data-DXP-WIN-Casey
   <mbKudo>Can we keep up?</mbKudo>
   </div><node>{"type":"chat","id":"202402292000","parentid":"202312251111","parentname":"Arcacian Quest","icon":"🍮","title":"February","prev":"202402282101","author":"LRRH","location":"Game Room"}</node>
 </div><!--February-->
-<div id="P202402292014" class="mbscroll" date='20240229' time='2014' data-slide>
+<div id="P202402292014" class="mbscroll" date='20240229' time='2014' data-academy data-slide data-quest>
   <content>
     <div class="mbpdc">This node discusses concepts about model public education.</div>
     <div style="clear:left"></div>
