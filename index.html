@@ -15,10 +15,21 @@
     <!--<a href="https://panarcana.blogspot.com/p/viewer.html?id=P202303052122" style="float:Right;color:white" target="_blank">Blogspot</a>-->
     
     <div style="text-align: center;line-height:2px;margin-top:-5px">
-      <h4><a title="About Magic Bakery" href="../" style="color:white;letter-spacing: 0.1px;">Magic Bakery</a>  🥨 
+      <!--<h4><a title="About Magic Bakery" href="../" style="color:white;letter-spacing: 0.1px;">Magic Bakery</a>  🥨 
         <a title="About Panacademy" href="../?id=P202403231454" style="color:white;letter-spacing: 1px;">Panacademy</a>
+      </h4>-->
+      <h4>
+        <a title="About Magic Bakery" href="../" style="color:white;"
+        onclick="BoardLoadPF(this,'202208172056');return false">Magic Bakery</a>
+        🥨
+        <a title="About Panarcademy" href="../?id=P202403231454" style="color:white;" onclick="BoardLoadPL(this,'202403231454');return false">Panarcademy</a>
       </h4>
-      <small style="font-size: 10px;">20240329-1245</small>
+      
+      <small style="font-size: 10px;">
+        <a title="Website Updates" href="../?id=P202303052122" style="color:white;" onclick="BoardLoadPF(this,'202303052122');return false">
+          20240325
+        </a>
+      </small>
     </div>
     <hide>Arcacianism | Arcacian Principle | Let people help each other and reward those who do. | Peacemaker | Peace Paradigm Ranking</hide>
     
@@ -131,18 +142,19 @@
         
         <a class="mbbutton" onclick="ShowNext(this)" style="float:right;" title="Panel Control">🍞</a>
         <div class="mbscroll mbhide" control style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">          
-          <a class="mbbutton" onClick="BoardLoad(this,'202208172056');HC(this);" title="Calendar">🥨 About</a><br>
-          <a class="mbbutton" onClick="BoardLoad(this,'202310072314');HC(this);" title="Calendar">🗓️ Calendar</a><br>
+          <a class="mbbutton" onClick="BoardLoad(this,'202208172056',true);HC(this);" title="Calendar">🥨 About</a><br>
+          <a class="mbbutton" onClick="BoardLoad(this,'202310072314',true);HC(this);" title="Calendar">🗓️ Calendar</a><br>
           <a class="mbbutton" onClick="IFrameFeedback(this);HC(this);return false;" target="_blank" title="Feedback" href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">💌 Feedback</a><br>
-          <a class="mbbutton" onClick="BoardLoad(this,'900000000000');HC(this);" title="Calendar">🎪 Quest Board</a><br>
-          <a class="mbbutton" onClick="BoardLoad(this,'202207242047');HC(this);" title="Roll Call">📯 Roll Call</a><br>
-          <a class="mbbutton" onClick="BoardLoad(this,'202301251008');HC(this);" title="Scoreboard">👑 Scoreboard</a><br>
-          <a class="mbbutton" onClick="BoardLoad(this,'800000000000');HC(this);" title="Sitemap/Index">🗂️ Sitemap</a><br>
+          <a class="mbbutton" onClick="BoardLoad(this,'900000000000',true);HC(this);" title="Calendar">🎪 Quest Board</a><br>
+          <a class="mbbutton" onClick="BoardLoad(this,'202207242047',true);HC(this);" title="Roll Call">📯 Roll Call</a><br>
+          <a class="mbbutton" onClick="BoardLoad(this,'202301251008',true);HC(this);" title="Scoreboard">👑 Scoreboard</a><br>
+          <a class="mbbutton" onClick="BoardLoad(this,'800000000000',true);HC(this);" title="Sitemap/Index">🗂️ Sitemap</a><br>
           <hr>
           <div >
             <div class="mbbutton" onclick="ShowNext(this)">⚙️ Panel</div>
             <hide>
-              <a class="mbbutton" onClick="PanelToggleWidth(this);HC(this);" title="Toggle the width of this panel">🖥️ Toggle Width</a><br>
+              <a class="mbbutton" onClick="PanelToggleServe(this);HC(this);" title="Serve nodes to this panel">🍽️ Serve Here</a><br>
+              <a class="mbbutton" onClick="PanelToggleWidth(this);HC(this);" title="Toggle the width of this panel">🧇 Toggle Width</a><br>
               <a class="mbbutton" onClick="PanelAddBefore(this);HC(this);" title="Add a panel before">🤎 Add Before</a><br>
               <a class="mbbutton" onClick="PanelAddAfter(this);HC(this);" title="Add a panel after">🤎 Add After</a>
               <hr>
@@ -162,6 +174,8 @@
   function URLViewer(){
     // 20231007: StarTree: make this function add the first panel.
     var mPanel = PanelAdd();
+    // 20240325: StarTree: Default the first panel to be the serving panel.
+    PanelToggleServe(mPanel.firstElementChild);
     // 20231006: Black
     const urlParams = new URLSearchParams(window.location.search);
     var iPostID = urlParams.get('id');  
@@ -173,7 +187,8 @@
       //BoardLoad(mInputBox,iPostID);
       JQAdd(mInputBox);
     }else{
-      BoardLoad(mPanel,'202208172056',true)
+      BoardLoad(mPanel,'202208172056',true);
+      
       mPanel.scrollTop=0;
     }
   };

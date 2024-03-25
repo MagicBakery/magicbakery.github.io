@@ -103,6 +103,8 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
       // elContainer contains the node outer div.
       
       // 20231224: StarTree: If the node has a <content> section, then assume that this is the new node style that has <node>, <content>, and <ref> sections.
+      var elBanner; try{elBanner = elContainer.getElementsByTagName('banner')[0];}catch(error){}
+      
       var elContent = elContainer.getElementsByTagName('content')[0];
       var elNode = elContainer.getElementsByTagName('node')[0];
     
@@ -128,6 +130,11 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
 
         mHTMLInner += "}</macro>";
         mHTMLInner += "<div class='mbCB'></div><hr>";
+
+        if(NotBlank(elBanner)){
+          mHTMLInner += "<div>" + elBanner.innerHTML + "</div><div class='mbCB'></div>";
+        }
+        
         
 
 
@@ -163,7 +170,7 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
         mHTMLInner += "<hr class='mbCB'>";
         mHTMLInner += "</span>";
 
-        elContainer.innerHTML = mHTMLInner;
+        elContainer.innerHTML = mHTMLInner + "<div class='mbCB'></div>";
         Macro(elContainer);
 
       }else{
@@ -172,6 +179,15 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
         elContainer.innerHTML = elContainer.firstElementChild.innerHTML;
       }
       
+      // 20240324: StarTree: If there is already content, remove it.
+      try{
+        var elnextelement = elBoard.firstElementChild.nextElementSibling;
+        if(elnextelement.nodeName!="DIV"){
+          elnextelement.remove();
+        }
+      }catch(error){
+      }
+
       elBoard.firstElementChild.after(elContainer);
       
       // 20231115: Sylvia: Scroll to View
@@ -273,10 +289,35 @@ function BoardLoad(el,iNodeID,iDoNotScroll){
   // 20231006: Black: Make a board in the current column panel given the ID.
   var mBoard;
   var elBoard;
+  var curBoardID;
+
+  // STEP: Check if the target ID is the same as the current board.
+  try{
+    mBoard = SearchPS(el,'board');
+    if(NotBlank(mBoard)){
+      curBoardID = mBoard.getAttribute('board');
+    }
+  }catch(error){}
+  DEBUG(curBoardID);
+
+  // 20240325: StarTree: Find the target panel if there is one.
+  // Do not retarget if the iDoNotScroll flag is set.
+  if((!iDoNotScroll) && (curBoardID!=iNodeID)){
+    var elPanel = PanelGetTarget();
+    if(NotBlank(elPanel)){
+      el = elPanel.firstElementChild;
+    }
+  }
   try{
     // 20231030: StarTree: If there is a board, add it after the board.
     mBoard = SearchPS(el,'board');
-    elBoard = BoardAddAfter(mBoard);
+
+    if(curBoardID==iNodeID){
+      elBoard = mBoard;
+    }else{
+      elBoard = BoardAddAfter(mBoard);
+    }
+    
   }catch(error){
     // STEP: Search up for the column control panel
     var mControl = SearchPS(el,'panel').firstElementChild;
@@ -289,6 +330,14 @@ function BoardLoad(el,iNodeID,iDoNotScroll){
   //var prevHTML = document.body;
   var nextState = {"html":prevHTML};
   window.history.pushState(nextState, '', "/?id=P" + iNodeID);  
+}
+function BoardLoadPF(el,iNodeID, iDoNotScroll){
+  // 20240324: StarTree: Loads the board at the top of the first column panel.
+  BoardLoad(PanelGetFirst().firstElementChild,iNodeID,iDoNotScroll);
+}
+function BoardLoadPL(el,iNodeID, iDoNotScroll){
+  // 20240324: StarTree: Loads the board at the top of the first column panel.
+  BoardLoad(PanelGetLast().firstElementChild,iNodeID,iDoNotScroll);
 }
 function BoardRemove(el){
   // 20231119: StarTree: Need to do it for "board"
@@ -330,12 +379,61 @@ function PanelAddBefore(el){
   mPanel.before(elTemp);
   return elTemp;
 }
+function PanelGetFirst(){
+  // 20240324: StarTree: Return the first panel. Add if necessary
+  var elPanel = document.querySelector('[panel]');
+  // STEP: If there is no panel, add a panel
+  if(IsBlank(elPanel)){
+    elPanel = PanelAdd();
+  }
+  return elPanel;
+}
+function PanelGetLast(){
+  // 20240324: StarTree: Return the last panel. Add if necessary
+  var elPanelList = document.querySelectorAll('[panel]');
+  var elPanel = elPanelList[elPanelList.length-1];
+  //var elPanel = document.querySelectorAll('[panel]:last-child');
+  // STEP: If there is no panel, add a panel
+  if(IsBlank(elPanel)){
+    elPanel = PanelAdd();
+  }
+  return elPanel;
+}
+function PanelGetTarget(){
+  // 20240325: StarTree: Return the target panel if there is one.
+  var mPanelList = document.querySelectorAll('[panel]');
+  for(i=0;i<mPanelList.length;i++){
+    if(mPanelList[i].hasAttribute('serve')){
+      return mPanelList[i];
+    }
+  }
+  return null;
+}
 function PanelRemove(el){
   // 20230722: StarTree
   // 20231119: StarTree: Need to do it for "panel"
-  var mPanel = SearchPS(el,'panel');
-  
+  var mPanel = SearchPS(el,'panel');  
   mPanel.remove();
+}
+function PanelToggleServe(el){
+  // 20240324: StarTree: Setting the target panel for serving nodes
+  // STEP: Loop through all panels and only set this panel's icon to a plate.
+  var mTargetPanel = SearchPS(el,'panel');
+  var mPanelList = document.querySelectorAll('[panel]');
+  var aIcon;
+  for(i=0;i<mPanelList.length;i++){
+    aIcon=mPanelList[i].firstElementChild.lastElementChild.previousElementSibling;
+    
+    // STEP: If the target panel's icon is not a plate, change it to plate.
+    if((mPanelList[i]==mTargetPanel) && (aIcon.innerHTML != "🍽️")){
+      mPanelList[i].setAttribute('serve',"");
+      aIcon.innerHTML = "🍽️";
+    }else{
+      // STEP: Else, set the icon back to bread.
+      mPanelList[i].removeAttribute('serve');
+      aIcon.innerHTML = "🍞";
+    }
+  }
 }
 function PanelToggleWidth(el){
   // 20240303: StarTree: Added to help display slides on desktop.
@@ -392,6 +490,7 @@ function CH15LoadThisMonth(){
 function ChName(iChID){
   // 20230331: Sasha
   switch(Number(iChID)){
+    case 5: return "Academy";
     case 7: return "Home";
     case 11: return "Carrot";
     case 12: return "Manga";
@@ -654,8 +753,9 @@ function LangIcon(eCode){
   }
 }
 function LnkCode(iID,iDesc,iIcon){
-  // 20230323: Ivy: For QSL.
+  // 20230323: Ivy: For QSL. <lnk>
   var mHTML =  "<a class='mbbuttonIn' href='" + ViewerPath() + "?id=P"+iID+"'";
+  //var mHTML =  "<a class='mbbuttonIn'" + ViewerPath() + "?id=P"+iID+"'";
   mHTML += " onclick=\"" + InterLink() + "'" + iID + "');return false;\">";
   if(IsBlank(iIcon)){
     mHTML += iDesc + "</a>";
@@ -2516,7 +2616,7 @@ function XP_Display(elAvatar,bOrder){
   // JQUERY count data-CXP-iPlayer
   // 20230125: Ledia: Copied and modified from the DXP function
   // 20230221: StarTree: Created XP_DisplayEL for the content, because in this function the viewer clicked on the avatar, not the frame.
-  XP_DisplayEL(elAvatar.parentNode,bOrder);
+  XP_DisplayEL(elAvatar.parentNode,bOrder);  
 }
 function XP_DisplayEL(elFrame,bOrder){
   // 20230221: StarTree: elFrame is the actual frame where data is stored and displayed.
@@ -2572,7 +2672,7 @@ function XP_DisplayEL(elFrame,bOrder){
   var CountWpXP= 0; elFrame.setAttribute("WpXP",0); // 🍍 Weapon: Plant based
   var CountWrXP= 0; elFrame.setAttribute("WrXP",0); // 🏹 Weapon: Ranged
   var CountWsXP= 0; elFrame.setAttribute("WsXP",0); // ⚔️ Weapon: Sword
-  var CountWwXP= 0; elFrame.setAttribute("WwXP",0); // 🐺 Weapon: Wolf
+  var CountWwXP= 0; elFrame.setAttribute("WwXP",0); // 🐾 Weapon: Wolf/Paw
   var CountZXP = 0; elFrame.setAttribute("ZXP",0); // 🧩 Puzzle XP
   
   var CountPlayed = 0; // For Detective Level Calculation
@@ -2701,10 +2801,13 @@ function XP_DisplayEL(elFrame,bOrder){
           if(CountAXP>0){Content += "<b>💗&nbsp;" + CountAXP + "</b> ";}  
           if(CountBXP>0){Content += "<b>🎀&nbsp;" + CountBXP + "</b> ";} 
           if(CountRXP>0){Content += "<b>🚨&nbsp;" + CountRXP + "</b> ";} 
+          if(CountWwXP>0){Content += "<b>🐾&nbsp;" + CountWwXP + "</b> ";}
           if(CountHXP>0){Content += "<b>📯&nbsp;" + CountHXP + "</b> ";}
           if(CountJXP>0){Content += "<b>⚖️&nbsp;" + CountJXP + "</b> ";}
+          if(CountGcXP>0){Content += "<b>🥘&nbsp;" + CountGcXP + "</b> ";}
           if(CountLXP>0){Content += "<b>🔔&nbsp;" + CountLXP + "</b> ";}
           if(CountDXP>0){Content += "<b>💡&nbsp;" + CountDXP + "</b> ";}
+          if(CountLnXP>0){Content += "<b>⚡&nbsp;" + CountLnXP + "</b> ";}
           if(CountRcXP>0){Content += "<b>♻️&nbsp;" + CountRcXP + "</b> ";}
           if(CountLuckXP>0){Content += "<b>🍀&nbsp;" + CountLuckXP + "</b> ";}
           if(CountZXP>0){Content += "<b>🧩&nbsp;" + CountZXP + "</b> ";}
@@ -2715,7 +2818,6 @@ function XP_DisplayEL(elFrame,bOrder){
           if(CountUXP>0){Content += "<b>🍮&nbsp;" + CountUXP + "</b> ";} 
           if(CountMXP>0){Content += "<b>🎨&nbsp;" + CountMXP + "</b> ";} 
           if(CountTXP>0){Content += "<b>🧹&nbsp;" + CountTXP + "</b> ";} 
-          if(CountGcXP>0){Content += "<b>🥘&nbsp;" + CountGcXP + "</b> ";} 
           if(CountVXP>0){Content += "<b>🗃️&nbsp;" + CountVXP + "</b> ";} 
           if(CountPhotoXP>0){Content += "<b>📷&nbsp;" + CountPhotoXP + "</b> ";}
           if(CountSXP>0){Content += "<b>🎓&nbsp;" + CountSXP + "</b> ";} 
@@ -2723,7 +2825,6 @@ function XP_DisplayEL(elFrame,bOrder){
           if(CountCoXP>0){Content += "<b>🦁&nbsp;" + CountCoXP + "</b> ";}
           if(CountLemonXP>0){Content += "<b>🍋&nbsp;" + CountLemonXP + "</b> ";}
           if(CountWpXP>0){Content += "<b>🍍&nbsp;" + CountWpXP + "</b> ";}
-          if(CountWwXP>0){Content += "<b>🐺&nbsp;" + CountWwXP + "</b> ";}
           if(CountWjXP>0){Content += "<b>🥋&nbsp;" + CountWjXP + "</b> ";}
           if(CountWsXP>0){Content += "<b>⚔️&nbsp;" + CountWsXP + "</b> ";}
           if(CountWdXP>0){Content += "<b>🗡️&nbsp;" + CountWdXP + "</b> ";}
@@ -2731,7 +2832,7 @@ function XP_DisplayEL(elFrame,bOrder){
           if(CountWgXP>0){Content += "<b>🔫&nbsp;" + CountWgXP + "</b> ";}
           if(CountWbXP>0){Content += "<b>💣&nbsp;" + CountWbXP + "</b> ";}
           if(CountWkXP>0){Content += "<b>🚀&nbsp;" + CountWkXP + "</b> ";}
-          if(CountLnXP>0){Content += "<b>⚡&nbsp;" + CountLnXP + "</b> ";}
+          
           if(CountWaterXP>0){Content += "<b>🌊&nbsp;" + CountWaterXP + "</b> ";}
           if(CountWarpXP>0){Content += "<b>🌀&nbsp;" + CountWarpXP + "</b> ";}
           if(CountRecXP>0){Content += "<b>🏅&nbsp;" + CountRecXP + "</b> ";}
@@ -2771,6 +2872,7 @@ function XP_DisplayEL(elFrame,bOrder){
           }else if(mSortedBy=="detectivelvxp"){
             elFrame.style.order = mSortOrder * elFrame.getAttribute("detectivelvxp");
           }
+          ScrollIntoView(elFrame);
 
 
         }
@@ -3086,7 +3188,6 @@ function XP_TallyAllEL(elFrame){
     }
     elTar = elTar.nextElementSibling;
   }
-  
 }
 function QueryAllPP(elThis,eQuery,iInner){
   var elTarget = elThis.parentNode;
@@ -3490,6 +3591,7 @@ function PinCh(eCH,el){
   var bJump=0;
   var mBanner = "";
   switch(eCH){
+  case 5: mBanner="202403231454";break;
   case 7: mBanner="202310081703";break;
   case 11: eHTML="../../2021/12/carrot-farm"; mBanner="202208181042"; break;
   case 12: eHTML="../../2021/12/magic-academy"; mBanner="202210032214"; break;
