@@ -748,7 +748,11 @@ function LangIcon(eCode){
   switch(eCode){
     case "EN": return "🇬🇧";
     case "FR": return "🇫🇷";
+    case "HK": return "🇭🇰";
     case "JA": return "🇯🇵";
+    case "JP": return "🇯🇵";
+    case "TW": return "🇹🇼";
+    case "ZN": return "🇹🇼";
     default:   return "🇬🇧";
   }
 }
