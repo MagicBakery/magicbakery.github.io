@@ -135,10 +135,14 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
           mHTMLInner += "<div>" + elBanner.innerHTML + "</div><div class='mbCB'></div>";
         }
         
-        
-
-
-        var elCard = elContainer.getElementsByTagName('card')[0];
+        // 20240329: StarTree: if there is no card at all, don't show the author badge.
+        var mHasCard = false;
+        var elCard;
+        try{
+          elCard = elContainer.getElementsByTagName('card')[0];
+        }catch(error){
+          mHasCard = true;
+        }
         if(!IsBlank(elCard)){
           mHTMLInner +=  "<div class='mbCardMat'>";
           mHTMLInner +=   "<div class='mbCardRM'>" + elCard.innerHTML + "</div>";
@@ -148,7 +152,9 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
           mHTMLInner += elContent.innerHTML + "</div>"; // End Text
           mHTMLInner += "</div>"; // End Card Mat
         }else{
-          mHTMLInner += "<span style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></span>";
+          if(mHasCard){
+            mHTMLInner += "<span style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></span>";
+          }
           mHTMLInner += elContent.innerHTML;
         }
         var elRef = elContainer.getElementsByTagName('ref')[0];
@@ -998,7 +1004,7 @@ function MMInner(el,mMacro){
       mHTML += "<button class='mbbutton' onclick='ShowNextP2P(this)'>"+mPad+"</button>";
       mHTML += "<hide>";
       mHTML += "<div style='display:flex;justify-content: center;'>";  
-      mHTML += "<div style='max-width:600px'><img src='https://github.com/MagicBakery/Images/blob/main/" + mImgFileName;
+      mHTML += "<div style='max-width:600px'><img style='border:0px;border-radius:10px' src='https://github.com/MagicBakery/Images/blob/main/" + mImgFileName;
       mHTML += "?raw=true' style='max-width:100%'></div>";
       mHTML += "</div></hide>";
       /*<button class="mbbutton" onclick="ShowNextPP(this)">00</button>
