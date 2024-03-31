@@ -3,34 +3,46 @@
     <div class="mbpdc"></div><div style="clear:left"></div>
     <div control>
       <input type="text" onclick="TextSearchPN(this)" onkeyup="TextSearchPN(this)" placeholder="Search..." title="Input a keyword">
+      <span style="float:right">
+        <button class="mbbutton" onclick="NodeMarkUseCookie(this)">🍪</button>
+      </span>
       <span>
-        <a class="mbbutton" onclick="ToggleNextPN(this)">🗂️</a>
-          <hide >
-            <div id="P800000000000-QList">
-            <h4>Select Query</h4><hr>
-            <!--<a class="mbbutton" onclick="QSLI('[data-announcement]')">🗂️ Announcement</a>-->
-            <a class="mbbutton" onclick="QSL(this,'[data-academy]')">Academy</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-announcement]')">Announcement</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-archetype]')">Archetype</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-book]')">Book</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-card]')">Card</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-charter]')">Charter</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-game]')">Game</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-happy]')">Happy</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-issue]')">Issue</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-manga]')">Manga</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-philosophy]')">Philosophy</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-place]')">Place</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-profile]')">Profile</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-puzzle]')">Puzzle</a> |
-            <a class="mbbutton" onclick="QSL(this,'[data-quest]')">Quest</a> | 
-            <a class="mbbutton" onclick="QSL(this,'[data-rule]')">Rule</a> | 
-            <a class="mbbutton" onclick="QSL(this,'[data-singalong]')">Singalong</a> | 
-            <a class="mbbutton" onclick="QSL(this,'[data-skill]')">Skill</a> | 
-            <a class="mbbutton" onclick="QSL(this,'[data-slide]')">Slide</a> |
-            <a class="mbbutton" onclick="QSL(this,'[id][date][time]')" title="All with id, date and time">(ALL)</a> 
+        <a class="mbbutton" onclick="ToggleNextPN(this)" title="Guild Index">🥨</a>
+        <hide >
+          <h4>🥨 Guild Directory</h4><hr>
+          <!--<a class="mbbutton" onclick="QSLI('[data-announcement]')">🗂️ Announcement</a>-->
+          <a class="mbbutton" onclick="QSL(this,'[data-announcement]')">Announcement</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-archetype]')">Archetype</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-book]')">Book</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-card]')">Card</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-charter]')">Charter</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-game]')">Game</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-happy]')">Happy</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-issue]')">Issue</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-manga]')">Manga</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-philosophy]')">Philosophy</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-place]')">Place</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-profile]')">Profile</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-puzzle]')">Puzzle</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-quest]')">Quest</a> | 
+          <a class="mbbutton" onclick="QSL(this,'[data-rule]')">Rule</a> | 
+          <a class="mbbutton" onclick="QSL(this,'[data-singalong]')">Singalong</a> | 
+          <a class="mbbutton" onclick="QSL(this,'[data-skill]')">Skill</a> | 
+          <a class="mbbutton" onclick="QSL(this,'[data-slide]')">Slide</a> |
+          <a class="mbbutton" onclick="QSL(this,'[id][date][time]')" title="All with id, date and time">(ALL)</a> 
+
+        </hide>
+        <a class="mbbutton" onclick="ToggleNextPN(this)" title="Academy Index">🎓</a>
+        <hide >
+          <div id="P800000000000-QList">
+          <h4>🎓 Academy Directory</h4><hr>
+          <a class="mbbutton" onclick="QSL(this,'[data-academy]')">Academy</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-archetype]')">Archetype</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-philosophy]')">Philosophy</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-skill]')">Skill</a> | 
+          <a class="mbbutton" onclick="QSL(this,'[data-slide]')">Slide</a> |
           </div>
-          </hide>
+        </hide>
       </span>
       <div class="mbpuzzle">
         <jq>#P800000000000-QList</jq>
@@ -115,8 +127,6 @@
       <!--<div class="mbCB" style="margin-top:20px"></div>-->
     </div>    
   </content>
-  <card>
-  </card>
   <ref></ref>
   <node>{"id":"800000000000","parentid":"202208172056","parentname":"Magic Bakery","icon":"🗂️","title":"Sitemap","subtitle":"Index","img":"https://cdn.pixabay.com/photo/2014/07/06/14/13/portfolio-385530_1280.jpg","music":"","author":"StarTree","description":"","card-text":""}</node>
 </div><!--Sitemap-->
@@ -405,12 +415,12 @@
     <h4><lnk>202208172056|Magic Bakery</lnk></h4>
   </span>
   <lnk>900000000000|🎪</lnk>&nbsp;<a class="mbbutton" onclick="ShowBothInline(this)">Quest Board</a>
-  <span class="mbDayContent" top>
+  <span class="mbDayContent" top >
     <macro>{"cmd":"PIN2","node":"900000000000","music":""}</macro>
     <div class="mbCB"></div><hr>
     <div mquerystring="[data-pin]">
       <div data-pin>
-        <div style="margin:0px -7px -13px -7px">
+        <div questboard style="margin:0px -7px -13px -7px">
           <img width='100%' src="https://github.com/MagicBakery/Images/blob/main/QuestBoard_20221015_Top2.png?raw=true" onclick="RefreshPS(this)" title="Refresh" class="mbpointer">
           <div class="mbscroll" style="margin:-5% 5% -5% 5%;border-radius: 0px;border:5px solid saddlebrown;padding:3% 10px 6% 10px">
             <center>
@@ -627,7 +637,7 @@
                 </div><!--@Gaia / Gaia-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202301251008|👑</lnk></span>
-                  <macro>{"guildlog":"8","rank":"B","updates":"4","node":"202208172056","author":"LRRH","chapter":"@Guild","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"8","rank":"B","updates":"5","node":"202208172056","author":"LRRH","chapter":"@Guild","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     <!--<span class="mbListCapNC mbRankA"></span>-->
@@ -642,7 +652,7 @@
                     <macro>{"log":"","priority":"1","icon":"🥞","node":"202303052122","title":"Website Milestone","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"9","icon":"🏰","node":"202211161002","title":"Place Level","info":"Consolidate info on place level.","cmd":"quest"}</macro>            
                     <macro>{"log":"","priority":"1","icon":"🗃️","node":"202301151052","title":"Monthly Backup","cmd":"quest"}</macro>             
-                    <macro>{"log":"","priority":"9","icon":"🎀","node":"202208172056","title":"Layout Upgrade","cmd":"quest"}</macro>
+                    <macro>{"log":"0331","priority":"9","icon":"🎀","node":"202208172056","title":"Layout Upgrade","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
                     <macro>{"log":"0313","priority":"9","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"3", "icon":"📧","node":"","title":"Emails cleanup","info":"2306:35|173. 2307:20|5 2308:8|4 2309:4|4 2310:3|1 2401:2|0","cmd":"quest"}</macro>
@@ -1205,7 +1215,7 @@
     <div class="mbbanner" >
       <div class="mbbuttonc" style="clear:both" onclick="ShowNext(this)">🥨 QUESTS OF THE MONTH 🥨</div>  
       <hide>
-        <div style="margin:0px -7px -13px -7px">
+        <div questboard style="margin:0px -7px -13px -7px">
           <img width='100%' src="https://github.com/MagicBakery/Images/blob/main/QuestBoard_20221015_Top2.png?raw=true" onclick="RefreshPS(this)" title="Refresh" class="mbpointer">
           <div class="mbscroll" style="margin:-5% 5% -5% 5%;border-radius: 0px;border:5px solid saddlebrown;padding:3% 10px 6% 10px">
             <center>
@@ -2304,7 +2314,7 @@
     <div class="mbbanner" >
       <div class="mbbuttonc" style="clear:both" onclick="ShowNext(this)">🥨 QUESTS OF THE MONTH 🥨</div>  
       <hide>
-        <div style="margin:0px -7px -13px -7px">
+        <div questboard style="margin:0px -7px -13px -7px">
           <img width='100%' src="https://github.com/MagicBakery/Images/blob/main/QuestBoard_20221015_Top2.png?raw=true" onclick="RefreshPS(this)" title="Refresh" class="mbpointer">
           <div class="mbscroll" style="margin:-5% 5% -5% 5%;border-radius: 0px;border:5px solid saddlebrown;padding:3% 10px 6% 10px">
             <center>
@@ -3442,7 +3452,7 @@
     <div class="mbbanner" >
       <div class="mbbuttonc" style="clear:both" onclick="ShowNext(this)">🥨 QUESTS OF THE MONTH 🥨</div>  
       <hide>
-        <div style="margin:0px -7px -13px -7px">
+        <div questboard style="margin:0px -7px -13px -7px">
           <img width='100%' src="https://github.com/MagicBakery/Images/blob/main/QuestBoard_20221015_Top2.png?raw=true" onclick="RefreshPS(this)" title="Refresh" class="mbpointer">
           <div class="mbscroll" style="margin:-5% 5% -5% 5%;border-radius: 0px;border:5px solid saddlebrown;padding:3% 10px 6% 10px">
             <center>
@@ -19011,7 +19021,7 @@ data-DXP-WIN-Casey
   <ref></ref>
   <node>{"id":"202403301836","parentid":"202209031718","parentname":"Alchemist Skills","icon":"🐸","title":"Biology","subtitle":"Science","img":"https://cdn.pixabay.com/photo/2017/07/14/17/44/frog-2504507_1280.jpg","music":"","author":"Ivy","description":"","card-text":""}</node>
 </div><!--Biology-->
-<div id="P202403301947" date='20240330' time='1947' data-202403290029 data-happy data-202403282102>
+<div id="P202403301947" date='20240330' time='1947' data-202303052122 data-happy data-202403282102>
   <button class="mbbuttonIcon" onclick="ShowSkip(this)">📋 <b>Notepad</b></button><span>
   <button class="mbbuttonIcon" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div><small><b>⭐6</b></small></button><hide>
   <div class="mbavem mbStarTree"></div>

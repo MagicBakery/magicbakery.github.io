@@ -744,7 +744,7 @@ function HideP3(el){
 }
 function IsBlank(e){
   // 20230310: Zoey
-  return ((e=== undefined) || (e==="") || (e=== null) || (e.length==0));
+  return ((e=== undefined) || (e==="") || (e=="") || (e=== null) || (e.length==0));
 }
 function LangIcon(eCode){
   // 20230311: StarTree: Added for Manga display
@@ -762,16 +762,20 @@ function LangIcon(eCode){
 function LnkCode(iID,iDesc,iIcon,bMark){
   // 20230323: Ivy: For QSL. <lnk>
   var mHTML="";
+
   // 20240330: StarTree: Display Node Marking
   if(bMark==true){    
-    mHTML = "<span class='mbILB30'>" + NodeMarkCode(iID) + "</span>";
+    
+    if(iIcon==false){
+      mHTML = NodeMarkCode(iID);
+    }else{
+      mHTML = "<span class='mbILB30'>" + NodeMarkCode(iID) + "</span>";
+    }
   }
-  
   mHTML += "<a class='mbbuttonIn' href='" + ViewerPath() + "?id=P"+iID+"'";
   mHTML += " onclick=\"" + InterLink() + "'" + iID + "');return false;\">";
   
   if(IsBlank(iIcon)){
-
     mHTML += iDesc + "</a>";
   }else{
     mHTML += "<span class='mbILB30'>" + iIcon + "</span></a> "+ iDesc ;
@@ -870,14 +874,29 @@ function MacroLnk(elScope){
   var z = elScope.getElementsByTagName("lnk");
   var elJQ, i;
   var hit = z.length;
+  var bMark = NodeMarkCookieCheck();
+  var bMarkLocal = bMark;
+
   for (i=0;i<hit;i++){
     elJQ = z[i];
     cmd = elJQ.innerHTML;
     cmds = cmd.split("|");
     // NEW Code
 
-    AddElement(elJQ,"span",LnkCode(cmds[0],cmds[1]));
+    // 20240331: StarTree: Disable bMark if it is within a questboard.
+    if(bMark){
+      bMarkLocal = bMark;
+      try{
+        var elQB = SearchPS(elJQ,'questboard');
+        if(NotBlank(elQB)){
+          bMarkLocal = false;
+        }
+      }catch(error){}
+    }
+    
 
+    var elNew = AddElement(elJQ,"span",LnkCode(cmds[0],cmds[1],"",bMarkLocal));
+    elNew.style.display="inline-block";
     /*
     mQB = "";
     if(true || !AtMobile()){ // 20230312: Disabled check because the new Back is working.
@@ -1353,11 +1372,10 @@ function MMInner(el,mMacro){
     }
     // 20240330: StarTree: Node visit marking
     // STEP: if the main cookie is ON, show the current icon.
-    if(NodeMarkCookieCheck()){
-      elTemp.innerHTML += NodeMarkCode(mNode);
-    }    
+    // 20240331: StarTree: No need to show it here because it is shown in LnkCode.
+    //if(NodeMarkCookieCheck()){ elTemp.innerHTML += NodeMarkCode(mNode); }    
     
-    elTemp.innerHTML += "<a class='mbbutton' onclick=\"ClipboardAlert('"+ mNode+"')\" title=\"" +  mNode+  " [" + ArchiveNumSelect(mNode) + "]\">🥨</a>";
+    elTemp.innerHTML += "<a class='mbbutton' onclick=\"ClipboardAlert('"+ mNode+"')\" title=\"" +  mNode+  " [" + ArchiveNumSelect(mNode) + "]\">📋</a>";
     el.after(elTemp);
     return;
   }
@@ -1522,7 +1540,10 @@ function MMInner(el,mMacro){
       }
     }
     if(NotBlank(mNode)){
-      mIcon = "<lnk>" + mNode + "|" + mIcon + "</lnk>";
+      // 20240331: StarTree: To hide visit status at Quest Board.
+      //mIcon = "<lnk>" + mNode + "|" + mIcon + "</lnk>";
+      mIcon = LnkCode(mNode,mIcon,"",false);
+      
     }
     mStatus = "<span class='mbILB25'>" + mStatus + "</span>"
     mIcon = "<span class='mbILB25'>" + mIcon + "</span>"
@@ -2413,8 +2434,12 @@ function QSLEL(elSearchList,iQuery){
           if(IsBlank(mType)){mType = "";}
           if(mType=="chat"){mType = "<span style='margin-left:-16px;-20px;font-size:14px'><sup>💬</sup></span>";}
           mHTML += "<div name='"+ mTitle +"'>";
-          mHTML += LnkCode(mID,mTitle,mIcon+mType,bMark);          
-          mHTML += "<hide>"+ elDiv.textContent +"</hide></div>";
+          mHTML += LnkCode(mID,mTitle,mIcon+mType,bMark);   
+          mHTML += "<hide>"+ elDiv.textContent +"</hide>";
+
+          // 20240331: StarTree: 
+
+          mHTML += "</div>";
           elDiv = elDiv.previousElementSibling;
         }
         Hit++;
