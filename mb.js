@@ -304,7 +304,6 @@ function BoardLoad(el,iNodeID,iDoNotScroll){
       curBoardID = mBoard.getAttribute('board');
     }
   }catch(error){}
-  DEBUG(curBoardID);
 
   // 20240325: StarTree: Find the target panel if there is one.
   // Do not retarget if the iDoNotScroll flag is set.
@@ -444,10 +443,8 @@ function PanelToggleServe(el){
 function PanelToggleWidth(el){
   // 20240303: StarTree: Added to help display slides on desktop.
   var mPanel = SearchPS(el,'panel');
-  DEBUG(mPanel.style.flex);
   if(IsBlank(mPanel.style.flex)){
     mPanel.style.flex= "50%";
-    DEBUG(mPanel.style.flex);
   }else{
     mPanel.style.flex= "";
   }
@@ -762,15 +759,22 @@ function LangIcon(eCode){
     default:   return "🇬🇧";
   }
 }
-function LnkCode(iID,iDesc,iIcon){
+function LnkCode(iID,iDesc,iIcon,bMark){
   // 20230323: Ivy: For QSL. <lnk>
-  var mHTML =  "<a class='mbbuttonIn' href='" + ViewerPath() + "?id=P"+iID+"'";
-  //var mHTML =  "<a class='mbbuttonIn'" + ViewerPath() + "?id=P"+iID+"'";
+  var mHTML="";
+  // 20240330: StarTree: Display Node Marking
+  if(bMark==true){    
+    mHTML = "<span class='mbILB30'>" + NodeMarkCode(iID) + "</span>";
+  }
+  
+  mHTML += "<a class='mbbuttonIn' href='" + ViewerPath() + "?id=P"+iID+"'";
   mHTML += " onclick=\"" + InterLink() + "'" + iID + "');return false;\">";
+  
   if(IsBlank(iIcon)){
+
     mHTML += iDesc + "</a>";
   }else{
-    mHTML += "<span class='mbILB30'>" + iIcon + "</span></a>" + iDesc;
+    mHTML += "<span class='mbILB30'>" + iIcon + "</span></a> "+ iDesc ;
   }
   return mHTML;
 }
@@ -1342,13 +1346,18 @@ function MMInner(el,mMacro){
       elTemp.innerHTML = "<a class='mbbutton' onclick=\"Music('"+mMacro.music+"')\" title=\"Play theme music\">🎧</a>";
     }
     // 20231229: Patricia: Open Youtube link to music player.
-    DEBUG(mMacro.yt);
     if(NotBlank(mMacro.yt)){
       var mURL = "https://www.youtube.com/watch?v=" + mMacro.yt + "&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx";
       elTemp.innerHTML += "<a class='mbbuttonEx' onclick=\"ExURL('"+ mURL + "');return false;\" href='" +mURL+"'>🎧</a>";
 
     }
-    elTemp.innerHTML += "<a class='mbbutton' onclick=\"ClipboardAlert('"+ mNode+"')\" title=\"" +  mNode+  " [" + ArchiveNumSelect(mNode) + "]\">📋</a>";
+    // 20240330: StarTree: Node visit marking
+    // STEP: if the main cookie is ON, show the current icon.
+    if(NodeMarkCookieCheck()){
+      elTemp.innerHTML += NodeMarkCode(mNode);
+    }    
+    
+    elTemp.innerHTML += "<a class='mbbutton' onclick=\"ClipboardAlert('"+ mNode+"')\" title=\"" +  mNode+  " [" + ArchiveNumSelect(mNode) + "]\">🥨</a>";
     el.after(elTemp);
     return;
   }
@@ -2339,6 +2348,7 @@ function QSLEL(elSearchList,iQuery){
   elSearchList.innerHTML = "Loading " + iQuery + "...";
   var elTemp = document.createElement("div");
   var Hit = 0;
+  var bMark = NodeMarkCookieCheck();
   $(document).ready(function(){
     for(let i=ArchiveNum(); i>0;i--){
       $(elTemp).load(ArchiveIndex(i) + iQuery, function(){
@@ -2391,11 +2401,10 @@ function QSLEL(elSearchList,iQuery){
               mTitle = mTitle.substring(0,30);
             }
           }
+          
           if(IsBlank(mIcon)){mIcon="📌";}
           if(IsBlank(mID)){mID = elDiv.getAttribute("date")+elDiv.getAttribute("time");}
           if(IsBlank(mID)){ 
-            DEBUG(0.001);
-            DEBUG(elDiv);
           }else if(mID.substring(0,1)=="P"){
             // Remove the leading P in ID.
             mID = mID.substring(1,13);
@@ -2404,15 +2413,13 @@ function QSLEL(elSearchList,iQuery){
           if(IsBlank(mType)){mType = "";}
           if(mType=="chat"){mType = "<span style='margin-left:-16px;-20px;font-size:14px'><sup>💬</sup></span>";}
           mHTML += "<div name='"+ mTitle +"'>";
-
-          mHTML += LnkCode(mID,mTitle,mIcon+mType);          
+          mHTML += LnkCode(mID,mTitle,mIcon+mType,bMark);          
           mHTML += "<hide>"+ elDiv.textContent +"</hide></div>";
-
           elDiv = elDiv.previousElementSibling;
         }
         Hit++;
         if(Hit==1){          
-          elSearchList.innerHTML = mHTML;          
+          elSearchList.innerHTML = mHTML;    
         }else{
           elSearchList.innerHTML += mHTML;  
         }
@@ -2577,7 +2584,6 @@ function QueryAllEL20230313(elContainer, eQuery,iInner){
             $(elContainer).html($(elTemp).html() + mFlex + mFlex);
           }
           if(backup == $(elTemp).html() && $(elContainer).is(':visible') ){
-            DEBUG("HIDE");
             HideEl(elContainer);
             //$(elContainer).hide();
           }else{
@@ -3414,7 +3420,6 @@ function NodeFormatter(elTemp){
     }else if(!IsBlank(vContent)){
       // 20231224: StarTree: This is for the new format.
       var vJSON = vFirstDiv.getElementsByTagName('node')[0];
-      DEBUG(vJSON);
       var mJSON = JSON.parse(vJSON.innerHTML);
       vFirstDiv.innerHTML = "<div class='mbav50pr' style=\"background-image:url('" + mJSON.img + "')\"></div>";
       vFirstDiv.innerHTML += "<h4><lnk>" + mJSON.parentid + "|" + mJSON.parentname + "</lnk></h4>";
@@ -3465,7 +3470,6 @@ function QueryAllNext20230312(elThis, eQuery, bRetain){
   var elNext = elThis.nextElementSibling;
   if(bRetain && NotBlank(elNext.getAttribute("mQueryString"))){
     if(elNext.classList.contains("mbhide")){elNext.classList.remove("mbhide");}else{elNext.classList.add("mbhide");}
-    DEBUG(333);
     return;
   }
   /* 20220715: LRRH: Upgraded for loading quest list. */
@@ -3902,15 +3906,16 @@ function RollCallToggle(el){
   }
 
 }
+
 function RollCallUseCookie(el){
   // 20230203: StarTree: For Roll Call Feature
   var elContainer = el.parentNode.nextElementSibling;
   var elListButton = el.parentNode.firstElementChild;
   var bCookieEnabled = (elContainer.getAttribute('CookieEnabled')=="true");
   if(!bCookieEnabled){
-    bCookieEnabled = confirm("Would you allow saving roll call status to a cookie on your device?");
+    bCookieEnabled = confirm("Would you allow saving roll call status to local storage on your browser?");
   }else{ // Cookie is enabled, does user want to disable?
-    bCookieEnabled = !confirm("Would you like to stop saving roll call status to a cookie on your device?");
+    bCookieEnabled = !confirm("Would you like to stop saving roll call status to local storage on your browser?");
   }
   if(bCookieEnabled){
     elContainer.setAttribute("CookieEnabled","true");
@@ -4104,6 +4109,109 @@ function ShowNextPN(elThis){
   elTarget.style.display= "block";
   elTarget.setAttribute("mQueryString", "");
 }
+function CookieCheck(el,iScope){
+  // 20240330: StarTree: Go up the gadget level and check of cookie enable.
+  if(IsBlank(iScope)){
+    iScope = "gadget";
+  }
+  try{
+    var elScope = SearchPS(el,iScope);
+    return (elScope.getAttribute('CookieEnabled')=="true");
+  }catch(error){
+    DEBUG("NOT FOUND")
+    return false;
+  }  
+}
+function NodeMarkCode(iNodeID){
+  // 20240330: StarTree: Returns the HTML code for the node marking.
+  return "<a class='mbbutton' onclick=\"NodeMarkCycle(this," + iNodeID + ")\" title='Cycle node marking'>"+NodeMarkLoad(iNodeID)+"</a>";
+}
+function NodeMarkCookieCheck(){
+  // 20240330: StarTree: Checks if the page should mark node visit status.
+  var elMain = document.querySelector('[main]');
+  return (elMain.getAttribute('CookieEnabled')=="true");
+
+}
+function TextAreaLoad(elTextArea){
+  // 20240330: StarTree: For Cookie TextArea. Loads from Cookie when it is first activated.
+  
+  // STEP: Check for cookie enable.
+  if(!CookieCheck(elTextArea)){return;}
+
+  // STEP: Load from Local Storage
+  var mText = localStorage.getItem("TextArea-Value");
+  if(NotBlank(mText)){
+    elTextArea.value = mText;
+  }
+}
+function TextAreaSave(elTextArea){
+  // 20240330: StarTree: Saves the TextArea text to cookie.
+  // STEP: Check for cookie enable.
+  if(!CookieCheck(elTextArea)){return;}
+  localStorage.setItem("TextArea-Value",elTextArea.value);
+}
+function NodeMarkCycle(el,iNodeID){
+  // 20240330: StarTree: For saving the node marking
+  var curMark = el.innerHTML;
+  switch(curMark){
+    case "🤍": curMark = "📌";break; 
+    case "📌": curMark = "✅";break; 
+    case "✅": curMark = "🐣";break; 
+    case "🐣": curMark = "🐤";break; 
+    case "🐤": curMark = "🕊️";break; 
+    case "🕊️": curMark = "🦉";break; 
+    case "🦉": curMark = "🦅";break; 
+    case "🦅": curMark = "🤍";break; 
+    default:   curMark = "🤍";break;
+  }
+  el.innerHTML = curMark;
+  localStorage.setItem('V-'+iNodeID,curMark);
+}
+function NodeMarkLoad(iNodeID){
+  // 20240330: StarTree: For loading the node marking
+  if(!NodeMarkCookieCheck){return;}
+  var mMark = localStorage.getItem("V-" + iNodeID);
+  if(NotBlank(mMark)){
+    return mMark;
+  }
+  return "🤍";//📋
+}
+function NodeMarkUseCookie(el){
+  // 20240330: StarTree: For saving the the node marking
+  var bCookieEnabled = NodeMarkCookieCheck();
+  if(!bCookieEnabled){
+    bCookieEnabled = confirm("Would you allow saving node visit marking to local storage on your browser?");
+  }else{ // Cookie is enabled, does user want to disable?
+    bCookieEnabled = !confirm("Would you like to stop saving node visit marking to local storage on your browser?");
+  }
+  var elMain = SearchPS(el,"main");
+  if(bCookieEnabled){
+    elMain.setAttribute("CookieEnabled","true");
+    el.innerHTML = "🍪✅";
+  }else{
+    elMain.setAttribute("CookieEnabled","false");
+    el.innerHTML = "🍪⛔";
+  }
+}
+function TextAreaUseCookie(el){
+  // 20240330: StarTree: Cookie TextArea
+  var elGadget = SearchPS(el,"gadget");
+  var elTextArea = elGadget.querySelector('[textarea]');
+  var bCookieEnabled = (elGadget.getAttribute('CookieEnabled')=="true");
+  if(!bCookieEnabled){
+    bCookieEnabled = confirm("Would you allow saving notepad content to local storage on your browser?");
+  }else{ // Cookie is enabled, does user want to disable?
+    bCookieEnabled = !confirm("Would you like to stop saving notepad content to local storage on your browser?");
+  }
+  if(bCookieEnabled){
+    elGadget.setAttribute("CookieEnabled","true");
+    el.innerHTML = "🍪✅";
+    TextAreaLoad(elTextArea);
+  }else{
+    elGadget.setAttribute("CookieEnabled","false");
+    el.innerHTML = "🍪⛔";
+  }
+}
 function ToggleHidePN(el){
   ToggleHide(el.parentNode.nextElementSibling);
 }
@@ -4289,7 +4397,7 @@ function ShowPrep(el){
   // 20230307: StarTree: Search for the child of class "mbPrep" and swap its content with the next2 sibling.
   var elNext = el.nextElementSibling;
   var elPrep = elNext.getElementsByClassName("mbPrep");
-  DEBUG(elPrep.length);
+
   
   var elNext2 = elNext.nextElementSibling; 
   if(window.getComputedStyle(elNext).display === "none"){
