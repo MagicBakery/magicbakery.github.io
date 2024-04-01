@@ -15,21 +15,21 @@
           <a class="mbbutton" onclick="QSL(this,'[data-directory]')">(Root)</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-academy]')">Academy</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-announcement]')">Announcement</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-archetype]')">Archetype</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-archetype]')">Archetypes</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-book]')">Books</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-charter]')">Charter</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-card]')">Card</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-game]')">Game</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-issue]')">Issue</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-charter]')">Charters</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-card]')">Cards</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-game]')">Games</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-issue]')">Issues</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-manga]')">Manga</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-place]')">Place</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-puzzle]')">Puzzle</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-quest]')">Quest</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-rule]')">Rule</a> | 
+          <a class="mbbutton" onclick="QSL(this,'[data-place]')">Places</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-puzzle]')">Puzzles</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-quest]')">Quests</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-rule]')">Rules</a> | 
           <a class="mbbutton" onclick="QSL(this,'[data-singalong]')">Singalong</a> | 
-          <a class="mbbutton" onclick="QSL(this,'[data-skill]')">Skill</a> | 
-          <a class="mbbutton" onclick="QSL(this,'[data-slide]')">Slide</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-subject]')">Subject</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-skill]')">Skills</a> | 
+          <a class="mbbutton" onclick="QSL(this,'[data-slide]')">Slides</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-subject]')">Subjects</a> |
           <a class="mbbutton" onclick="QSL(this,'[id][date][time]')" title="All with id, date and time">(ALL)</a> 
 
         </hide>
@@ -44,6 +44,7 @@
               <ol>
                 <li>New Feature 
                   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> 20240331: Add new useful feature.</hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)">📌<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> 20240401: Implement TSN at sitemap. 🚨🟥Alarms 🟨Features 🟩Reference 🟦Tasks</hide>
                 </li>
               </ol>
               <div class="mbCB"></div>
@@ -105,7 +106,6 @@
     <div class="mbpuzzle mbhide" onclick="MC3Resize(this)" >
       <div class="mbSearch" style="display:flex;flex-direction: column;">
         
-        <hide>
         <macro>{"icon":"🌵","node":"202301071252","desc":"Abilene Paradox","cmd":"index","keys":"","url":""}</macro>      
         <macro>{"icon":"🏅","node":"202211041108","desc":"Accreditation","cmd":"index","keys":"","url":""}</macro>
         <macro>{"icon":"🏴","node":"202209031006","desc":"Anarchism","cmd":"index","keys":"","url":""}</macro> 
@@ -174,7 +174,7 @@
         <macro>{"icon":"🥦","node":"202207161233","desc":"Veganism","cmd":"index","keys":"","url":""}</macro> 
         <macro>{"icon":"🙏","node":"202301161040","desc":"Virtues","cmd":"index","keys":"","url":""}</macro>
         <macro>{"icon":"🏰","node":"202211251143","desc":"Wealth","cmd":"index","keys":"","url":""}</macro>
-      </hide>
+
         <div class="spacer"></div><div class="spacer"></div>
       </div><!--20230312: Search List-->
       <!--<div class="mbCB" style="margin-top:20px"></div>-->
