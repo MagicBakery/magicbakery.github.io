@@ -778,7 +778,7 @@ function LnkCode(iID,iDesc,iIcon,bMark){
   if(IsBlank(iIcon)){
     mHTML += iDesc + "</a>";
   }else{
-    mHTML += "<span class='mbILB30'>" + iIcon + "</span></a> "+ iDesc ;
+    mHTML += "<span class='mbILB30'>" + iIcon + "</span></a>"+ iDesc ;
   }
   return mHTML;
 }
@@ -2366,9 +2366,9 @@ function QSLI(iQuery){
   QSLEL(el.lastElementChild.lastElementChild,iQuery);
 }
 function QSLEL(elSearchList,iQuery){
-  elSearchList.innerHTML = "Loading " + iQuery + "...";
+  //elSearchList.innerHTML = "Loading " + iQuery + "...";
   var elTemp = document.createElement("div");
-  var Hit = 0;
+  var Hit = 0; // Archive Hit Counter
   var bMark = NodeMarkCookieCheck();
   $(document).ready(function(){
     for(let i=ArchiveNum(); i>0;i--){
@@ -2379,6 +2379,12 @@ function QSLEL(elSearchList,iQuery){
         var mID=""; var mTitle=""; var mIcon="";          
         var mNode = ""; var mJSON = "";
         var mType = "";
+        var mTag = "";
+        
+        var mCategory = iQuery.replace("[data-","");
+        mCategory = mCategory.replace("]","");
+        var mOrder ="";
+
         while(elDiv != null){
           mNode = elDiv.getElementsByTagName("node");          
           if(NotBlank(mNode)){
@@ -2387,11 +2393,18 @@ function QSLEL(elSearchList,iQuery){
             mIcon = mJSON.icon;
             mID = mJSON.id;
             mType = mJSON.type;
+            mTag = mJSON.tag;
           }else{
             mID = elDiv.getAttribute("id");
             mTitle = elDiv.getAttribute("title");
             mIcon = elDiv.getAttribute("icon");
           }
+          if(IsBlank(mTag)){
+            //mTag = TitleToTag(mTitle);
+            mTag = mID;
+          }
+
+          mOrder = elDiv.getAttribute("data-"+mCategory);
           if(IsBlank(mTitle)){
             if(NotBlank(mID)){
               // 20230324: Mikela: Guess: A puzzle post.
@@ -2433,25 +2446,49 @@ function QSLEL(elSearchList,iQuery){
           if(IsBlank(mTitle)){mTitle = mID;}
           if(IsBlank(mType)){mType = "";}
           if(mType=="chat"){mType = "<span style='margin-left:-16px;-20px;font-size:14px'><sup>💬</sup></span>";}
-          mHTML += "<div name='"+ mTitle +"'>";
-          mHTML += LnkCode(mID,mTitle,mIcon+mType,bMark);   
+          mHTML += "<div name='"+ mTitle;
+          if(IsBlank(mOrder)){mOrder = mID;}
+          mHTML += "' style='order:" + mOrder;
+          mHTML += "'>";
+          mHTML += "<div control>";
           mHTML += "<hide>"+ elDiv.textContent +"</hide>";
 
-          // 20240331: StarTree: 
+          
 
+          // 20240331: StarTree: Further Exploration Icon          
+          mHTML += "<a class='mbbutton mbILB25' onclick='QSLTree(this,\"[data-"+ mTag +"]\")' title='"+ Capitalize(mCategory) + ":" + mOrder + "\\" + Capitalize(mTag)  +"'>📒</a>";
+
+
+          mHTML += LnkCode(mID,mTitle,mIcon+mType,bMark);   
+
+          mHTML += "</div>";// End of Control
+          mHTML += "<div class='mbhide'><div class='mbnav mbSearch'></div></div>"; // QSL Container
           mHTML += "</div>";
+          elDiv.order = getRandomInt(0,1000);
           elDiv = elDiv.previousElementSibling;
         }
         Hit++;
-        if(Hit==1){          
+        if(Hit==1){
           elSearchList.innerHTML = mHTML;    
         }else{
           elSearchList.innerHTML += mHTML;  
+        }
+        if(Hit>=ArchiveNum()){
+          if(elSearchList.innerHTML==""){
+            elSearchList.innerHTML = "<small><i>No result.</i></small>"
+          }
         }
       });
     }
   });
 
+}
+function TitleToTag(mTitle){
+  // 20240331: StarTree Turns a node title to a data tag.
+  mTitle = mTitle.replace(/[\W_]+/g,"");
+  //mTitle = mTitle.replaceAll(" ","");
+  //mTitle = mTitle.replaceAll("'","");
+  return "data-" + mTitle.toLowerCase();
 }
 function RND_CoinFlip(el){
   // 20230716: StarTree: For gaming
@@ -2501,7 +2538,34 @@ function QSL(el,iQuery){
   // </div>
 
   var elSearchList = SearchPS(el,"control").nextElementSibling.firstElementChild;
-  QSLEL(elSearchList,iQuery);
+  elSearchList.parentNode.classList.remove('mbhide');
+  QSLEL(elSearchList,iQuery);  
+}
+function Capitalize(mStr){
+  try{
+    var mFirst = mStr.charAt(0);
+    mFirst = mFirst.toUpperCase();
+    return mFirst + mStr.slice(1);
+
+  }catch(error){
+    return mStr;
+  }
+}
+function QSLTree(el,iQuery){
+  // 20240331: StarTree: Customized QSL for Sitemap display  
+  var elContainer = SearchPS(el,"control").nextElementSibling;
+  
+  // STEP: Check current folder mode for expand/collapse
+  var mFolder = el.innerHTML;
+  if(mFolder == "📖"){
+    elContainer.classList.add('mbhide');
+    el.innerHTML = "📒";
+    return;
+  }else{
+    QSLEL(elContainer.firstElementChild,iQuery);  
+    elContainer.classList.remove('mbhide');
+    el.innerHTML = "📖";  
+  }
 }
 function QueryAllEL(elContainer, eQuery,iInner){
   // 20230220: StarTree: Upgraded to allow querying only the inner.
@@ -4581,7 +4645,24 @@ function AddElementFC(el,iType,iHTML){ // Add as a first child
   el.prepend(elTemp);
   return elTemp;
 }
-function TextSearchPN(elSearchBox){
+function TextQSL(elButton){
+  // 20240401: StarTree: Run QSL with the text in the first input box in the control.
+  var elControl = SearchPS(elButton,'control');
+  var elInput = elControl.querySelector('input');
+  var mQuery = "[data-" + elInput.value + "]";
+  QSL(elButton,mQuery);
+}
+function TextSearchPN(elSearchBox){  
+  var mKeyword = elSearchBox.value.toUpperCase().trim();
+  var mScope = elSearchBox.parentNode.nextElementSibling;
+  TextFilter(mScope,mKeyword,"div");
+}
+function TextSearchPNEV(e,elSearchBox){
+  // 20240401: StarTree: 
+  if(e.code=='Enter'){
+    TextQSL(elSearchBox);
+    return;
+  }
   var mKeyword = elSearchBox.value.toUpperCase().trim();
   var mScope = elSearchBox.parentNode.nextElementSibling;
   TextFilter(mScope,mKeyword,"div");

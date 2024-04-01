@@ -1,55 +1,108 @@
-<div id="P800000000000" class="mbscroll" date='80000000' time='0000'>
+<div id="P800000000000" class="mbscroll" date='80000000' time='0000' data-quest="1">
   <content>
     <div class="mbpdc"></div><div style="clear:left"></div>
     <div control>
-      <input type="text" onclick="TextSearchPN(this)" onkeyup="TextSearchPN(this)" placeholder="Search..." title="Input a keyword">
+      <input type="text" onclick="TextSearchPN(this)" onkeyup="TextSearchPNEV(event,this)" placeholder="Search..." title="Input a keyword">
       <span style="float:right">
         <button class="mbbutton" onclick="NodeMarkUseCookie(this)">🍪</button>
       </span>
       <span>
-        <a class="mbbutton" onclick="ToggleNextPN(this)" title="Guild Index">🥨</a>
+        <a class="mbbutton" onclick="TextQSL(this)" title="Query as tag">🔍</a>
+        <a class="mbbutton" onclick="ToggleNextPN(this)" title="Directories">🗂️</a>
         <hide >
-          <h4>🥨 Guild Directory</h4><hr>
+          <h4>🗂️ Directories</h4><hr>
           <!--<a class="mbbutton" onclick="QSLI('[data-announcement]')">🗂️ Announcement</a>-->
+          <a class="mbbutton" onclick="QSL(this,'[data-directory]')">(Root)</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-academy]')">Academy</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-announcement]')">Announcement</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-archetype]')">Archetype</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-book]')">Book</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-card]')">Card</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-book]')">Books</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-charter]')">Charter</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-card]')">Card</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-game]')">Game</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-happy]')">Happy</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-issue]')">Issue</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-manga]')">Manga</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-philosophy]')">Philosophy</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-place]')">Place</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-profile]')">Profile</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-puzzle]')">Puzzle</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-quest]')">Quest</a> | 
+          <a class="mbbutton" onclick="QSL(this,'[data-quest]')">Quest</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-rule]')">Rule</a> | 
           <a class="mbbutton" onclick="QSL(this,'[data-singalong]')">Singalong</a> | 
           <a class="mbbutton" onclick="QSL(this,'[data-skill]')">Skill</a> | 
           <a class="mbbutton" onclick="QSL(this,'[data-slide]')">Slide</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-subject]')">Subject</a> |
           <a class="mbbutton" onclick="QSL(this,'[id][date][time]')" title="All with id, date and time">(ALL)</a> 
 
         </hide>
-        <a class="mbbutton" onclick="ToggleNextPN(this)" title="Academy Index">🎓</a>
+        <a class="mbbutton" onclick="QSL(this,'[data-subject]')" title="By Subjects">🎓</a>
+
+        <a class="mbbutton" onclick="ToggleNextPN(this)" title="Sitemap Quests">🎪</a>
         <hide >
-          <div id="P800000000000-QList">
-          <h4>🎓 Academy Directory</h4><hr>
-          <a class="mbbutton" onclick="QSL(this,'[data-academy]')">Academy</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-archetype]')">Archetype</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-philosophy]')">Philosophy</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-skill]')">Skill</a> | 
-          <a class="mbbutton" onclick="QSL(this,'[data-slide]')">Slide</a> |
-          </div>
+          <h4>🎪 Sitemap Quests</h4><hr>
+          <div>
+            <div class="mbbutton" onclick="ShowNext(this)">Rank A Quests</div>
+            <hide>
+              <ol>
+                <li>New Feature 
+                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> 20240331: Add new useful feature.</hide>
+                </li>
+              </ol>
+              <div class="mbCB"></div>
+            </hide>
+          </div><!--Rank B Quests-->
+          <div>
+            <div class="mbbutton" onclick="ShowNext(this)">Rank B Quests</div>
+            <hide>
+              <ol>
+                <li>Feature Upgrade
+                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> 20240331: Upgrade existing features of the sitemap.</hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)">📌<div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> Allow the user to type a tag in the search textbox and click to query.</hide>
+                </li>
+              </ol>
+              <div class="mbCB"></div>
+            </hide>
+          </div><!--Rank B Quests-->       
+          <div>
+            <div class="mbbutton" onclick="ShowNext(this)">Rank C Quests</div>
+            <hide>
+              <ol>
+                <li>Audit Tags
+                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> 20240331: Check directory categories. Are there too many? What should be added?</hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)">🎯<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Target area: I want to clear the Issues tag, or nodes tagged with Issue should addressed.</hide>
+                </li>
+              </ol>
+              <div class="mbCB"></div>
+            </hide>
+          </div><!--Rank C Quests-->
+          <div>
+            <div class="mbbutton" onclick="ShowNext(this)">Rank D Quests</div>
+            <hide>
+              <ol>
+                <li>Format Node
+                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> 20240331: Update the node format to the latest that has a tag for the sitemap.</hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)">🎯<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Target area: Prioritize any node with the 📌 icon or with a name on the sitemap that is not descriptive.</hide>
+                </li>
+                <li>Tag for Sitemap
+                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> 20240331: Tag all non-chat nodes so all of them can be reached from sitemap.</hide>
+                  
+                </li>
+    
+              </ol>
+              <div class="mbCB"></div>
+            </hide>
+          </div><!--Rank D Quests-->
+
+
+          
         </hide>
       </span>
       <div class="mbpuzzle">
-        <jq>#P800000000000-QList</jq>
+        <a class="mbbutton" onclick="QSL(this,'[data-directory]')">🗂️ Browse by Directories</a><br>
+        <a class="mbbutton" onclick="QSL(this,'[data-subject]')">🎓 Browse by Subjects</a><br>
+        
       </div><!--Control details viewer-->
     </div><!--CONTROLS-->
     <macro>{"cmd":"MC3"}</macro>
-    <div class="mbpuzzle" onclick="MC3Resize(this)" >
+    <div class="mbpuzzle mbhide" onclick="MC3Resize(this)" >
       <div class="mbSearch" style="display:flex;flex-direction: column;">
         
         <hide>
@@ -409,7 +462,7 @@
     </div><!--Deployment Area-->
   </div><!--LogFall Dungeon Quest Board-->
 </span>
-<div id="P900000000000" class="mbscroll">
+<div id="P900000000000" class="mbscroll"  data-directory="10">
   <span class="mbDayHeader">
     <div class="mbav50pr" style="background-image:url('')"></div>
     <h4><lnk>202208172056|Magic Bakery</lnk></h4>
@@ -708,6 +761,7 @@
                   <macro>{"guildlog":"0","icon":"","rank":"A","updates":"5","node":"202303052122","author":"Vivi","chapter":"@Night","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankA"></span>
+                    <macro>{"log":"0331","priority":"0","icon":"📋","node":"800000000000","title":"Sitemap Upgrades","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"0314","priority":"1","icon":"🔮","node":"202403142256","title":"Oversight","info":"","cmd":"quest"}</macro>  
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"0330","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
@@ -1019,7 +1073,7 @@
   </span>
   <span></span><!--Viewer Container-->
   <div class="mbCB"></div> 
-  <node>{"id":"900000000000","parentid":"202208172056","parentname":"Magic Bakery","icon":"🎪","title":"Quest Board","subtitle":"Magic Bakery","img":"","music":"","author":"StarTree","description":"","card-text":""}</node>
+  <node>{"id":"900000000000","parentid":"202208172056","parentname":"Magic Bakery","icon":"🎪","title":"Quest Board","subtitle":"Magic Bakery","img":"","music":"","author":"StarTree","description":"","card-text":"","tag":"quest"}</node>
 </div><!--Quest Board-->
 <div id="P999999999999">
   <div class="mbbanner" style="background-color:saddlebrown;border-radius:1px;padding:0px 5px;font-size:14px">
@@ -3368,7 +3422,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240330')">30<br><div class="mbavem mbStarTree"></div></td>
               </tr>
               <tr>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240331')">31<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240331')">31<br><div class="mbavem mbStarTree"></div></td>
               </tr>
             </table>
           </div><!--CALENDAR - AVATARS-->  
@@ -3431,7 +3485,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240330')">30<br>📋</td>
               </tr>
               <tr>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240331')">31<br>&nbsp;</td>                
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240331')">31<br>📋</td>                
               </tr>
             </table>
           </div><!--CALENDAR-->
@@ -18988,7 +19042,7 @@ data-DXP-WIN-Casey
   ]}</macro>
 </div><!-- STATUS -->
 
-<div id="P202403301836" class="mbscroll" date='20240330' time='1836' data-skill>
+<div id="P202403301836" class="mbscroll" date='20240330' time='1836' data-skill data-subject='20' >
   <content>
     <div class="mbpdc"></div><div style="clear:left"></div>
 
@@ -19001,7 +19055,21 @@ data-DXP-WIN-Casey
         <div class="mbCB"></div>
       </hide>
     </div>
+    <div class="mbscroll">
+      <div class="mbbutton" onclick="ShowNext(this)">Syllabus</div>
+      <hide><hr>
+        <ol>
+          <li>Khanacademy \ High School Biology
+            <macro>{"cmd":"url","url":"https://www.khanacademy.org/science/high-school-biology","desc":"🔗"}</macro>
+          </li>
+          <li>Khanacademy \ Biodiversity
+            <macro>{"cmd":"url","url":"https://www.khanacademy.org/cas-biodiversity","desc":"🔗"}</macro>
+          </li>
 
+        </ol>
+        <div class="mbCB"></div>
+      </hide>
+    </div> 
   </content>
   <card>
     <div class="mbCharCard">
@@ -19137,8 +19205,367 @@ data-DXP-WIN-Casey
     {"name":"P4","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
+<div id="P202403311107" date='20240331' time='1107' data-202303052122 data-happy data-202403301947 data-announcement data-800000000000>
+  <button class="mbbuttonIcon" onclick="ShowSkip(this)">📋 <b>Node Marking</b></button><span>
+  <button class="mbbuttonIcon" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div><small><b>⭐10</b></small></button><hide>
+  <div class="mbavem mbLRRH"></div>
+  <div class="mbavem mbLedia"></div>
+  <div class="mbavem mbTanya"></div>
+  <div class="mbavem mbZoey"></div>
+  <div class="mbavem mbIvy"></div>
+  <div class="mbavem mbHelen"></div>
+  <div class="mbavem mbPatricia"></div>
+  <div class="mbavem mbJames"></div>
+  <div class="mbavem mbVivi"></div>
+  <div class="mbavem mbEvelyn"></div>
+  
+  
+  
+  
+  
+  
+  </hide></span><div class="mbscroll mbhide">
+  <div></div><div class="mbav50r mbCB mbStarTree" data-QXP-StarTree>⭐</div>
+  <div class="mbpdc"><b>StarTree</b> made some changes!
+  </div><hr class="mbCB mbhr">
+  <div id="P202403311107-Inner">
+  <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">🐣 Visit Mark</div><hide><hr>
+  <div></div><div class="mbav50r mbCB mbStarTree" data-QXP-StarTree></div><b>⭐StarTree:</b> When the node marking option is enabled, all the lnk objects will automatically show the marking so you could check before jumping to the node!
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Then is it okay to remove the icon on the upper right corner?</hide>
+  <hr class="mbCB">
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> I think yes.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLedia"></div></button><hide> <b>Ledia:</b> It will look impressive or humbling when you list the curriculum nodes by subject.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> Each lesson needs its own node.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Vivi>📌<div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> StarTree please add the cookie enable button at Sitemap.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Done!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH>🐾<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> I think there are too many categories at Sitemap, please split the menu between Academy and Guild.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Done!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Zoey>🏹<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> I think there should be a "By Subject" and "By Quest" sections instead of "Academy" and "Archetype". When you click on "By Subject", it should just show another list of buttons such as "Biology" that you can expand.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Ivy>🏹<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> This is no longer about node marking but navigation. This should be a new section.</hide>
+  <hr class="mbCB">
+  <mbComplete>@Guild is now Rank B5.</mbComplete>
+  </hide></div>
+  <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">🧭 Expandable Sitemap</div><hide><hr>
+  <div></div><div class="mbav50r mbCB mbIvy" data-WrXP-Ivy></div><b>🏹Ivy:</b> At sitemap, the QSL list should show an icon that queries the navigation childs of the node (excluding chat posts).
+  <hr class="mbCB">
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Vivi>📌<div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> On the last topic, please hide all visited marking on the quest board.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree="2">⭐<small>2</small> <div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Adding an attribute "questboard". Testing. Done!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree="5">⭐<small>5</small> <div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Adding an explore icon for each QSL display item. Modifying QSL. Adding CSS mbnav. Adding function QSLTree. Testing. Done!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree="3">⭐<small>3</small> <div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Added Subject category for Academy Directory. Adding function TitleToTag. Testing. Done!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree="3">⭐<small>3</small> <div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Adding default category order. Adding Capitalize. Adding category tag.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> With philosophy listsed as a subject, we don't need another button for philosophy.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Done!</hide>
+  <hr class="mbCB">
+  <mbComplete>OST Curriculum Index code is complete!</mbComplete>
+  </hide></div>
+  <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">🍀 Nodes Making</div><hide><hr>
+  <div></div><div class="mbav50r mbCB mbLRRH" data-HXP-LRRH></div><b>📯LRRH:</b> Please make the dummy noes for each subject.
+  <hr class="mbCB">
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH>🐾<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Updated about node.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Ivy>🏹<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> Added mathematics.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-Helen>⭐<div class="mbavem mbHelen"></div></button><hide> <b>Helen:</b> Added reading.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-James>🏛️<div class="mbavem mbJames"></div></button><hide> <b>James:</b> Added civics.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Ivy="3">🏹<small>3</small> <div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> Updating nodes.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Updated to computer science!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-Helen>⭐<div class="mbavem mbHelen"></div></button><hide> <b>Helen:</b> Art.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WsXP-#REF!>⚔️<div class="mbavem mb#REF!"></div></button><hide> <b>#REF!:</b> History</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-Patricia>⭐<div class="mbavem mbPatricia"></div></button><hide> <b>Patricia:</b> Econ</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-Helen="3">⭐<small>3</small> <div class="mbavem mbHelen"></div></button><hide> <b>Helen:</b> Asian Art. Biodiversity. Music.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Placeholders are done.</hide>
+  </hide></div>
+  <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">📯 Sitemap Cleanup</div><hide><hr>
+  <div></div><div class="mbav50r mbCB mbLRRH" data-HXP-LRRH></div><b>📯LRRH:</b> What should be the rules or strategy to fill out the directories?
+  <hr class="mbCB">
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-OXP-Tanya>🔮<div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> I think there could be a quest section or explanation on SiteMap node.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Roger!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Vivi>📌<div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> Please add a Rank D quest for just linking. Every non-chat node should be reachable from sitemap.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH>🐾<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> I think the directories section is too messy, or is it not?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> I don't think we need to show the Happy tag at the directory because there are too many. 😅</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Removed!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH>🐾<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Roll Call can be its own tree entry at the directory.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Done!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Vivi>📌<div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> The search filter is showing too much. Each sub tree needs its own filterable region.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WpXP-StarTree>🍍<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Modifying function QSLEL. Fixed!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> OMG this is what the law game directory should be! XD</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Wee~~!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Vivi>📌<div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> Rank A sitemap quest: Adding new useful features: Please add a button to query by reading the text input as a tag. </hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Adding function TextQSL Adding button. Done!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Vivi>📌<div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> Please make it do the same when user types then presses 'enter'.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Adding function TextSearchPNEV. Done!</hide>
+  <hr class="mbCB">
+  <mbComplete>@Night is now Rank A6.</mbComplete>
+  </hide></div>
+  </div><!--Inner End-->
+  <mbKudo>Wee~~!</mbKudo>
+  </div><node>{"type":"chat","id":"202403311107","parentid":"202303052122","parentname":"Code Upgrade","icon":"📋","title":"Node Marking","prev":"202403301947","author":"StarTree","location":"Magic Bakery"}</node>
+</div><!--Node Marking-->
+<div id="P202403311838" class="mbscroll" date='20240331' time='1838' data-subject="130">
+  <content>
+    <div class="mbpdc"></div><div style="clear:left"></div>
+
+    <div class="mbscroll">
+      <div class="mbbutton" onclick="ShowNext(this)">Syllabus</div>
+      <hide><hr>
+        <ol>
+          <li>Khanacademy Syllabus
+            <macro>{"cmd":"url","url":"https://www.khanacademy.org/math","desc":"🔗"}</macro>
+          </li>
+
+        </ol>
+        <div class="mbCB"></div>
+      </hide>
+    </div>
+
+    
+
+  </content>
+  <card>
+    <div class="mbCharCard">
+      <div class="mbCharCardTitle2">Mathematics</div>
+      <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://cdn.pixabay.com/photo/2016/07/06/15/29/math-1500720_640.jpg')"></div>
+      <div class="mbCharCardSubtitle">Subject</div>
+      <div class="mbCharCardDesc">
+        <center>
+          <div class="mbCharCardDescInner">
+
+            <small></small>
+          </div>
+        </center>
+      </div>
+    </div>
+  </card>
+  <ref></ref>
+  <node>{"id":"202403311838","parentid":"202210062300","parentname":"Subject","icon":"📐","title":"Mathematics","subtitle":"Subjects","tag":"math","img":"https://cdn.pixabay.com/photo/2016/07/06/15/29/math-1500720_640.jpg","music":"","author":"Ivy","description":"","card-text":""}</node>
+</div><!--Mathematics-->
+<div id="P202403311921" class="mbscroll" date='20240331' time='1921' data-subject="120">
+  <content>
+    <div class="mbpdc"></div><div style="clear:left"></div>
+    <div class="mbscroll">
+      <div class="mbbutton" onclick="ShowNext(this)">Syllabus</div>
+      <hide><hr>
+        <ol>
+          <li>Khanacademy Syllabus
+            <macro>{"cmd":"url","url":"https://www.khanacademy.org/ela","desc":"🔗"}</macro>
+          </li>
+
+        </ol>
+        <div class="mbCB"></div>
+      </hide>
+    </div>
+  </content>
+  <card>
+    <div class="mbCharCard">
+      <div class="mbCharCardTitle2">Lanuguage</div>
+      <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://cdn.pixabay.com/photo/2015/09/05/07/28/writing-923882_640.jpg')"></div>
+      <div class="mbCharCardSubtitle">Subject</div>
+      <div class="mbCharCardDesc">
+        <center>
+          <div class="mbCharCardDescInner">
+
+            <small></small>
+          </div>
+        </center>
+      </div>
+    </div>
+  </card>
+  <ref></ref>
+  <node>{"id":"202403311921","parentid":"202210062300","parentname":"Subject","icon":"📗","title":"Lanuguage","subtitle":"Subjects","tag":"language","img":"https://cdn.pixabay.com/photo/2015/09/05/07/28/writing-923882_640.jpg","music":"","author":"Helen","description":"","card-text":""}</node>
+</div><!--Lanuguage-->
+<div id="P202403311933" class="mbscroll" date='20240331' time='1933' data-subject="30">
+  <content>
+    <div class="mbpdc"></div><div style="clear:left"></div>
+    <div class="mbscroll">
+      <div class="mbbutton" onclick="ShowNext(this)">Syllabus</div>
+      <hide><hr>
+        <ol>
+          <li>Khanacademy Syllabus
+            <macro>{"cmd":"url","url":"https://www.khanacademy.org/college-careers-more","desc":"🔗"}</macro>
+          </li>
+
+        </ol>
+        <div class="mbCB"></div>
+      </hide>
+    </div>
+  </content>
+  <card>
+    <div class="mbCharCard">
+      <div class="mbCharCardTitle2">Civics</div>
+      <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://cdn.pixabay.com/photo/2014/11/24/14/35/pot-544071_640.jpg')"></div>
+      <div class="mbCharCardSubtitle">Subject</div>
+      <div class="mbCharCardDesc">
+        <center>
+          <div class="mbCharCardDescInner">
+
+            <small></small>
+          </div>
+        </center>
+      </div>
+    </div>
+  </card>
+  <ref></ref>
+  <node>{"id":"202403311933","parentid":"202210062300","parentname":"Subjects","icon":"⚖️","title":"Civics","subtitle":"Subject","tag":"civics","img":"https://cdn.pixabay.com/photo/2014/11/24/14/35/pot-544071_640.jpg","music":"","author":"James","description":"","card-text":""}</node>
+</div><!--Civic Skills-->
+<div id="P202403312012" class="mbscroll" date='20240331' time='2012' data-subject="13">
+  <content>
+    <div class="mbpdc"></div><div style="clear:left"></div>
+    <div class="mbscroll">
+      <div class="mbbutton" onclick="ShowNext(this)">Syllabus</div>
+      <hide><hr>
+        <ol>
+          <li>Khanacademy Syllabus
+            <macro>{"cmd":"url","url":"https://www.khanacademy.org/humanities","desc":"🔗"}</macro>
+          </li>
+          <li>Khanacademy \ Asian Art
+            <macro>{"cmd":"url","url":"https://www.khanacademy.org/asian-art-museum","desc":"🔗"}</macro>
+          </li>
+          <li>Khanacademy \ Music
+            <macro>{"cmd":"url","url":"https://www.khanacademy.org/all-star-orchestra","desc":"🔗"}</macro>
+          </li>
+
+        </ol>
+        <div class="mbCB"></div>
+      </hide>
+    </div>    
+  </content>
+  <card>
+    <div class="mbCharCard">
+      <div class="mbCharCardTitle2">Art</div>
+      <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://cdn.pixabay.com/photo/2015/08/28/11/37/painting-911804_640.jpg')"></div>
+      <div class="mbCharCardSubtitle">Subject</div>
+      <div class="mbCharCardDesc">
+        <center>
+          <div class="mbCharCardDescInner">
+
+            <small></small>
+          </div>
+        </center>
+      </div>
+    </div>
+  </card>
+  <ref></ref>
+  <node>{"id":"202403312012","parentid":"202210062300","parentname":"Subjects","icon":"🎨","title":"Art","subtitle":"Subject","tag":"art","img":"https://cdn.pixabay.com/photo/2015/08/28/11/37/painting-911804_640.jpg","music":"","author":"Helen","description":"","card-text":""}</node>
+</div><!--Art-->
+<div id="P202403312017" class="mbscroll" date='20240331' time='2017' data-subject="85">
+  <content>
+    <div class="mbpdc"></div><div style="clear:left"></div>
+    <div class="mbscroll">
+      <div class="mbbutton" onclick="ShowNext(this)">Syllabus</div>
+      <hide><hr>
+        <ol>
+          <li>Khanacademy Syllabus
+            <macro>{"cmd":"url","url":"https://www.khanacademy.org/humanities","desc":"🔗"}</macro>
+          </li>
+
+        </ol>
+        <div class="mbCB"></div>
+      </hide>
+    </div> 
+  </content>
+  <card>
+    <div class="mbCharCard">
+      <div class="mbCharCardTitle2">History</div>
+      <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://cdn.pixabay.com/photo/2017/09/07/16/50/acropolis-2725918_640.jpg')"></div>
+      <div class="mbCharCardSubtitle">Subject</div>
+      <div class="mbCharCardDesc">
+        <center>
+          <div class="mbCharCardDescInner">
+
+            <small></small>
+          </div>
+        </center>
+      </div>
+    </div>
+  </card>
+  <ref></ref>
+  <node>{"id":"202403312017","parentid":"202210062300","parentname":"Subjects","icon":"📽️","title":"History","subtitle":"Subject","tag":"history","img":"https://cdn.pixabay.com/photo/2017/09/07/16/50/acropolis-2725918_640.jpg","music":"","author":"Patricia","description":"","card-text":""}</node>
+</div><!--History-->
+<div id="P202403312023" class="mbscroll" date='20240331' time='2023' data-subject="53">
+  <content>
+    <div class="mbpdc"></div><div style="clear:left"></div>
+    <div class="mbscroll">
+      <div class="mbbutton" onclick="ShowNext(this)">Syllabus</div>
+      <hide><hr>
+        <ol>
+          <li>Khanacademy Syllabus
+            <macro>{"cmd":"url","url":"https://www.khanacademy.org/economics-finance-domain","desc":"🔗"}</macro>
+          </li>
+
+        </ol>
+        <div class="mbCB"></div>
+      </hide>
+    </div> 
+  </content>
+  <card>
+    <div class="mbCharCard">
+      <div class="mbCharCardTitle2">Economics</div>
+      <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://cdn.pixabay.com/photo/2017/09/07/08/53/money-2724235_640.jpg')"></div>
+      <div class="mbCharCardSubtitle">Subject</div>
+      <div class="mbCharCardDesc">
+        <center>
+          <div class="mbCharCardDescInner">
+
+            <small></small>
+          </div>
+        </center>
+      </div>
+    </div>
+  </card>
+  <ref></ref>
+  <node>{"id":"202403312023","parentid":"202210062300","parentname":"Subjects","icon":"📦","title":"Economics","subtitle":"Subject","tag":"econ","img":"https://cdn.pixabay.com/photo/2017/09/07/08/53/money-2724235_640.jpg","music":"","author":"James","description":"","card-text":""}</node>
+</div><!--Economics-->
 <div date='20240331' time='2359' data-status>
-  <macro>{"cmd":"daisy2","issues":"8","quests":"1075","activities":[
+  <macro>{"cmd":"daisy2","issues":"8","quests":"1078","activities":[
+    {"ch":"13","rank":"A","updates":"4","last":"20240302"},
+    {"ch":"16","rank":"S","updates":"4","last":"20240305"},
+    {"ch":"35","rank":"A","updates":"4","last":"20240310"},
+    {"ch":"32","rank":"S","updates":"4","last":"20240313"},
+    {"ch":"11","rank":"S","updates":"4","last":"20240314"},
+    {"ch":"33","rank":"S","updates":"4","last":"20240317"},
+    {"ch":"17","rank":"S","updates":"4","last":"20240317"},
+    {"ch":"14","rank":"B","updates":"4","last":"20240319"},
+    {"ch":"25","rank":"S","updates":"4","last":"20240321"},
+    {"ch":"23","rank":"S","updates":"4","last":"20240321"},
+    {"ch":"15","rank":"A","updates":"5","last":"20240324"},
+    {"ch":"26","rank":"A","updates":"4","last":"20240324"},
+    {"ch":"34","rank":"A","updates":"4","last":"20240325"},
+    {"ch":"27","rank":"B","updates":"5","last":"20240325"},
+    {"ch":"30","rank":"A","updates":"5","last":"20240325"},
+    {"ch":"22","rank":"B","updates":"4","last":"20240325"},
+    {"ch":"5","rank":"A","updates":"4","last":"20240326"},
+    {"ch":"28","rank":"S","updates":"4","last":"20240329"},
+    {"ch":"24","rank":"S","updates":"4","last":"20240329"},
+    {"ch":"29","rank":"A","updates":"4","last":"20240329"},
+    {"ch":"19","rank":"A","updates":"4","last":"20240329"},
+    {"ch":"20","rank":"A","updates":"5","last":"20240329"},
+    {"ch":"31","rank":"A","updates":"4","last":"20240329"},
+    {"ch":"21","rank":"B","updates":"5","last":"20240330"},
+    {"ch":"7","rank":"B","updates":"4","last":"20240330"},
+    {"ch":"12","rank":"A","updates":"5","last":"20240330"},
+    {"ch":"18","rank":"A","updates":"7","last":"20240330"}
+    ],"players":"Evelyn, Helen, Ivy, James, Ledia, LRRH, Patricia, StarTree, Tanya, Vivi, Zoey","merits":"StarTree","recognitions":"","kudos":"Evelyn, Helen, Ivy, James, Ledia, LRRH, Patricia, StarTree, Tanya, Vivi, Zoey","awards":"3B, Arcacia, Black, Evelyn, Gaia, Helen, James, LRRH, Natalie, Sasha, Skyle, StarTree, Tanya, V, Zoey","top":[
+    {"name":"StarTree","score":"33"},
+    {"name":"LRRH","score":"13"},
+    {"name":"Helen","score":"11"},
+    {"name":"Ivy","score":"9"},
+    {"name":"Vivi","score":"8"},
+    {"name":"James","score":"7"},
+    {"name":"Zoey","score":"7"},
+    {"name":"Tanya","score":"7"},
+    {"name":"Black","score":"7"},
+    {"name":"Evelyn","score":"6"},
+    {"name":"Natalie","score":"5"},
+    {"name":"Gaia","score":"4"},
+    {"name":"Skyle","score":"4"},
+    {"name":"V","score":"4"},
+    {"name":"3B","score":"4"},
+    {"name":"Sasha","score":"4"},
+    {"name":"Arcacia","score":"4"},
+    {"name":"Patricia","score":"3"},
+    {"name":"Ledia","score":"3"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div date='20240401' time='2359' data-status>
+  <macro>{"cmd":"daisy2","issues":"8","quests":"1078","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
     
@@ -19199,8 +19626,8 @@ data-DXP-WIN-Casey
   1) Update function ArchiveNum with the correct number of archives.
   2) Update function ArchiveSelect with the correct cutoff dates.
 -->
-<div date='20240300' time='2359' data-status>
-  <macro>{"cmd":"daisy2","issues":"8","quests":"1075","activities":[
+<div date='20240400' time='2359' data-status>
+  <macro>{"cmd":"daisy2","issues":"8","quests":"1078","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
     

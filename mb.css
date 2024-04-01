@@ -1444,6 +1444,11 @@ padding-right:4px;
 .mbpointer:hover{
   cursor:pointer;
 }
+.mbnav{
+  margin-left:10px;
+  display:flex;
+  flex-direction: column;
+}
 .mbpuzzle{
   background-color:#ffffff80;
   border-radius: 0.6em;
