@@ -2559,7 +2559,7 @@ function QSLTree(el,iQuery){
   var mFolder = el.innerHTML;
   if(mFolder == "📖"){
     elContainer.classList.add('mbhide');
-    el.innerHTML = "📒";
+    el.innerHTML = "📙";
     return;
   }else{
     QSLEL(elContainer.firstElementChild,iQuery);  
@@ -3079,44 +3079,44 @@ function GuildEXP(iMember){
   // 20230129: Ledia: Added for total EXP.
   // #GuildEXP
   var dict={
-    "3B": 4833,
-    "44": 515,
-    "Albatross": 1148,
-    "Amelia": 625,
-    "Arcacia": 5692,
-    "Black": 8918,
-    "Cardinal": 1401,
-    "Casey": 3507,
+    "3B": 4898,
+    "44": 526,
+    "Albatross": 1166,
+    "Amelia": 629,
+    "Arcacia": 5763,
+    "Black": 9476,
+    "Cardinal": 1418,
+    "Casey": 3527,
     "Emi": 11,
-    "Evelyn": 9656,
-    "Fina": 1834,
-    "Gaia": 930,
-    "Helen": 2071,
-    "Ivy": 3123,
-    "James": 2489,
+    "Evelyn": 9788,
+    "Fina": 1863,
+    "Gaia": 934,
+    "Helen": 2137,
+    "Ivy": 3190,
+    "James": 2507,
     "Karl": 25,
-    "Ken": 672,
-    "Kisaragi": 3552,
-    "Ledia": 6317,
-    "LRRH": 6378,
-    "Melody": 503,
-    "Mikela": 1071,
-    "Natalie": 4165,
+    "Ken": 673,
+    "Kisaragi": 3642,
+    "Ledia": 6369,
+    "LRRH": 6536,
+    "Melody": 516,
+    "Mikela": 1086,
+    "Natalie": 4227,
     "Neil": 241,
-    "P4": 4633,
-    "Patricia": 1987,
-    "Rikk": 10,
-    "Robert": 70,
+    "P4": 4686,
+    "Patricia": 2018,
+    "Rikk": 15,
+    "Robert": 74,
     "RS": 11,
-    "Sasha": 5179,
-    "Skyle": 1703,
-    "StarTree": 9351,
-    "Sylvia": 4178,
-    "Tanya": 6358,
-    "V": 2861,
-    "Vivi": 4207,
-    "Vladanya": 2000,
-    "Zoey": 6070,
+    "Sasha": 5255,
+    "Skyle": 1743,
+    "StarTree": 9586,
+    "Sylvia": 4225,
+    "Tanya": 6441,
+    "V": 2898,
+    "Vivi": 4309,
+    "Vladanya": 2035,
+    "Zoey": 6119,
   };
   return dict[iMember];
 }
@@ -4254,12 +4254,12 @@ function NodeMarkCycle(el,iNodeID){
     default:   curMark = "🤍";break;
   }
   el.innerHTML = curMark;
-  localStorage.setItem('V-'+iNodeID,curMark);
+  localStorage.setItem(iNodeID + "-V",curMark);
 }
 function NodeMarkLoad(iNodeID){
   // 20240330: StarTree: For loading the node marking
   if(!NodeMarkCookieCheck){return;}
-  var mMark = localStorage.getItem("V-" + iNodeID);
+  var mMark = localStorage.getItem(iNodeID + "-V");
   if(NotBlank(mMark)){
     return mMark;
   }
@@ -4560,7 +4560,7 @@ function ShowRefMB26(elRefID, elThis) {
   if(elNext.innerHTML != ""){
     elNext.innerHTML = "";
 	elNext.style.display = "none";
-	elThis.innerHTML = "📒"
+	elThis.innerHTML = "📙"
   }else{
 	elNext.innerHTML = "<div class='mbq'>" + elRef.innerHTML + "</div>";
 	elNext.style.display = "block";
