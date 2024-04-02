@@ -2367,6 +2367,7 @@ function QSLI(iQuery){
 }
 function QSLEL(elSearchList,iQuery){
   //elSearchList.innerHTML = "Loading " + iQuery + "...";
+  elSearchList.innerHTML="";
   var elTemp = document.createElement("div");
   var Hit = 0; // Archive Hit Counter
   var bMark = NodeMarkCookieCheck();
