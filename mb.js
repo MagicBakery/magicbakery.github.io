@@ -4214,7 +4214,7 @@ function CookieCheck(el,iScope){
 }
 function NodeMarkCode(iNodeID){
   // 20240330: StarTree: Returns the HTML code for the node marking.
-  return "<a class='mbbutton' onclick=\"NodeMarkCycle(this," + iNodeID + ")\" title='Cycle node marking'>"+NodeMarkLoad(iNodeID)+"</a>";
+  return "<a class='mbbutton' id='P"+ iNodeID+"-V'onclick=\"NodeMarkCycle(this," + iNodeID + ")\" title='Cycle node marking'>"+NodeMarkLoad(iNodeID)+"</a>";
 }
 function NodeMarkCookieCheck(){
   // 20240330: StarTree: Checks if the page should mark node visit status.
@@ -4254,7 +4254,12 @@ function NodeMarkCycle(el,iNodeID){
     case "🦅": curMark = "🤍";break; 
     default:   curMark = "🤍";break;
   }
-  el.innerHTML = curMark;
+
+  // STEP: 20240402: StarTree: change the icon for all instances on display.
+  var mVList = document.querySelectorAll('#P' + iNodeID + "-V");
+  for(i=0;i<mVList.length;i++){
+    mVList[i].innerHTML = curMark;
+  }
   localStorage.setItem(iNodeID + "-V",curMark);
 }
 function NodeMarkLoad(iNodeID){
