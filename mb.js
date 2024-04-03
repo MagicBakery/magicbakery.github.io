@@ -1751,6 +1751,9 @@ function PNDInner(el,mJSON){
   mHTML += "[data-" + mJSON.id + "]')\">💬 Discussions</button><hide></hide>";
   AddElement(el.previousElementSibling.lastElementChild,"div",mHTML);
 
+  // 20240403: StarTree: Delete the node
+  el.remove();
+
 }
 function ProcessNodeData(elScope){
   // 20230621: StarTree: Adding first for chat post.
@@ -3661,7 +3664,7 @@ function QueryDayEl(elContainer,eDate){
       
       var backup2 = $(elContainer).html();
       if(backup == backup2 && $(elContainer).is(':visible') ){
-      $(elContainer).hide();
+        $(elContainer).hide();
       }else{
           //var eNode = document.getElementById(eContainer);
           //var eNodes = do
@@ -4398,10 +4401,15 @@ function ShowNextHTIL(el){
   el.style.display = "none";
   eNext.style.display = "inline-block";
 }
-function ShowEl(eTar){
+function ShowEl(eTar,bNoMacro){
   //20230220: StarTree: Fixed the double click bug with getComputedStyle
   if(window.getComputedStyle(eTar).display === "none"){
-    Macro(eTar);
+    if(!(bNoMacro==true)){
+      DEBUG("MACRO [" + bNoMacro + "]");
+      
+      Macro(eTar);
+    }
+    
     if(eTar.nodeName == "HIDE"){
       eTar.style.display = "block";
     }
@@ -4482,9 +4490,7 @@ function ShowBothInline(el){
   // 20231224: StarTree: Also hide the last child of a board, which is the display area for discussion.
   ShowNextInline(el);
   var mBoard = SearchPS(el,'board');
-  ShowEl(mBoard.lastElementChild);
-  var elPrev = el.previousElementSibling;
-  var elNext = el.nextElementSibling;
+  ShowEl(mBoard.lastElementChild,true);
 }
 function ShowPrep(el){
   // 20230226: StarTree: Created for Side Listing layout.
