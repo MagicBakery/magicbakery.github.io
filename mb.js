@@ -107,6 +107,8 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
       
       var elContent = elContainer.getElementsByTagName('content')[0];
       var elNode = elContainer.getElementsByTagName('node')[0];
+      
+    
     
       if(!IsBlank(elContent) && !IsBlank(elNode)){ 
         // 20231224: StarTree: New Format
@@ -169,8 +171,33 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
             mHTMLInner += "<lnk>"+mJSON.parentid+"|🏡"+mJSON.parentname+"</lnk> ";
           }
 
+          // STEP: Include custom reference links.
           mHTMLInner += elRef.innerHTML;
-          mHTMLInner += "<a class='mbbutton' onclick=\"QueryAllPSL(this,'[data-" + mJSON.id + "]',false,'board')\">💬 Discussions</a>";
+
+          // 20240403: StarTree: Trial: Listing all tags (starts with data-)
+          var elAttr = elContainer.firstElementChild.attributes;
+          let mTags = [];
+          var mTagHTML = ""       
+          for(i=0;i<elAttr.length;i++){
+            if(elAttr[i].name.startsWith('data-')){
+              mTags.push(elAttr[i].name.replace('data-',''));              
+            }
+          }
+          mTags.sort();
+          for(i=0;i<mTags.length;i++){
+            mTagHTML += " <a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mTags[i] + "]')\">" + Capitalize(mTags[i]) + "</a>";
+          }
+
+          if(mTagHTML!=""){
+            mHTMLInner += "<a class='mbbutton' onclick='ShowNextInline(this)'>🏷️Tags</a><hide>:" + mTagHTML + "</hide> ";
+          }
+
+
+          // STEP: Show discussion list query button
+          //mHTMLInner += "<a class='mbbutton' onclick=\"QueryAllPSL(this,'[data-" + mJSON.id + "]',false,'board')\">💬 Discussions</a>";
+          mHTMLInner += "<a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mJSON.id + "]')\">💬 Discussions</a>";
+          
+
           mHTMLInner += "</div>";
         }
         mHTMLInner += "<hr class='mbCB'>";
@@ -1763,7 +1790,13 @@ function ProcessNodeData(elScope){
   if(hit<=0){return;}
   var i;
   for (i=0;i<hit;i++){
-    PNDInner(z[i],JSON.parse(z[i].innerHTML));
+    try{
+      PNDInner(z[i],JSON.parse(z[i].innerHTML));  
+    }catch(error){
+      DEBUG("ProcessNodeData: PNDInner: " + z[i]);
+
+    }
+    
   }
   // Unlike the processing of macros, <node> does not need to be removed after processing.
 }
@@ -2545,6 +2578,11 @@ function QSL(el,iQuery){
   elSearchList.parentNode.classList.remove('mbhide');
   QSLEL(elSearchList,iQuery);  
 }
+function QSLBL(el,iQuery){
+  // 20240404: StarTree For automatically showing tags of a node.
+  var elContainer = SearchPS(el,"board").lastElementChild;
+  QSLEL(elContainer,iQuery);  
+}
 function Capitalize(mStr){
   try{
     var mFirst = mStr.charAt(0);
@@ -2571,6 +2609,7 @@ function QSLTree(el,iQuery){
     el.innerHTML = "📖";  
   }
 }
+
 function QueryAllEL(elContainer, eQuery,iInner){
   // 20230220: StarTree: Upgraded to allow querying only the inner.
   // 20230220: Ivy: If the container is a flex class, add the spacers in the end.
@@ -4405,8 +4444,6 @@ function ShowEl(eTar,bNoMacro){
   //20230220: StarTree: Fixed the double click bug with getComputedStyle
   if(window.getComputedStyle(eTar).display === "none"){
     if(!(bNoMacro==true)){
-      DEBUG("MACRO [" + bNoMacro + "]");
-      
       Macro(eTar);
     }
     
