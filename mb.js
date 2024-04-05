@@ -69,6 +69,67 @@ function BoardAddAfter(el){
   el.after(elTemp);
   return elTemp;
 }
+function JSONPartiStr(mJSON){
+  // 20240404: StarTree: For new chat node format.
+  var mHTML = ""
+  try{
+    var mParticipants = mJSON.participants.split(', ');
+    var mPartiStr = "";
+    for(var i=1;i<mParticipants.length;i++){
+      mPartiStr += "<div class='mbavem mb" + mParticipants[i] + "'></div> ";
+    }
+    mHTML += "<button class='mbbutton' onclick='ShowNextInline(this)'><div class='mbavem mb" + mJSON.author + "'></div><small>⭐"+ (mParticipants.length-1) +"</small></button>";
+    mHTML += "<hide>" + mPartiStr + "</hide>";
+  }catch(error){}
+  return mHTML;
+}
+function DateStrFromID(mID){
+  // 20240404: StarTree: For new chat node format.
+  // https://stackoverflow.com/questions/1833892/converting-a-string-formatted-yyyymmddhhmmss-into-a-javascript-date-object
+  var mDate = new Date(mID.replace(/^(\d{4})(\d{2})(\d{2})(\d\d)(\d\d)$/,'$4:$5 $2/$3/$1'));
+  var options = { weekday: 'short', year: 'numeric', month: 'short', day: '2-digit', hour12:'true', hour:'2-digit',minute:'2-digit' };
+  mDateString = mDate.toLocaleDateString("en-US", options);
+  mDateString = mDateString.replace(/,/g,"");
+  mDateString = mDateString.toUpperCase();
+  return mDateString.substring(10,15)+" "+mDateString.substring(4,7)+" "+ mDateString.substring(8,10) +" "+ mDateString.substring(0,3)+" " + mDateString.substring(16);
+}
+
+function ChatNodeContent(elAttr,mJSON){
+  // 20240405: StarTree: For the new chat node format.
+  var mHTMLInner = "";
+  if(NotBlank(mJSON.prev)){
+    mHTMLInner +="<a class=\"mbbuttonIn\" style=\"float:left\" href=\"" + ViewerPath() + "?id=P"+mJSON.prev+"\" onclick=\"BoardLoad(this,'"+ mJSON.prev+"');return false;\">◀</a>";
+  }else{
+    mHTMLInner +="<a class=\"mbbutton\" style=\"float:left\">◁</a>";
+  }
+  
+  if(NotBlank(mJSON.next)){
+    mHTMLInner +="<a class=\"mbbuttonIn\" style=\"float:right\" href=\"" + ViewerPath() + "?id=P"+mJSON.next+"\" onclick=\"BoardLoad(this,'"+ mJSON.next+"');return false;\">▶</a>";
+  }else{
+    mHTMLInner +="<a class=\"mbbutton\" style=\"float:right\">▷</a>";
+  }
+  mHTMLInner += "<center><small>" + DateStrFromID(mJSON.id) + "</small></center>";
+  mHTMLInner += "<hr class='mbCB'>";
+  mHTMLInner += elAttr.querySelector('content').innerHTML;
+
+  
+  return mHTMLInner;
+}
+function Pin2Code(mJSON){
+  // 20240405: StarTree: Creates the HTML for the node pin.
+  var mHTML="";
+  mHTML += "<macro>{\"cmd\":\"PIN2\",\"node\":\"" +mJSON.id +"\"";
+  if(NotBlank(mJSON.music) || NotBlank(mJSON.yt)){
+    if(NotBlank(mJSON.music)){
+      mHTML += ",\"music\":\""+mJSON.music+"\"";
+    }
+    if(NotBlank(mJSON.yt)){
+      mHTML += ",\"yt\":\""+mJSON.yt+ "\"";
+    }
+  }
+  mHTML += "}</macro>";
+  return mHTML;
+}
 function BoardFill(elBoard,iNodeID,iDoNotScroll){
   // 20230821: StarTree: Fill the Board container with content from the node.
   //   The node ID does not have a leading P.
@@ -101,7 +162,7 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
   $(document).ready(function(){
     $(elContainer).load(mArchive + mQuery, function(){	
       // elContainer contains the node outer div.
-      
+
       // 20231224: StarTree: If the node has a <content> section, then assume that this is the new node style that has <node>, <content>, and <ref> sections.
       var elBanner; try{elBanner = elContainer.getElementsByTagName('banner')[0];}catch(error){}
       
@@ -119,18 +180,7 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
         mHTMLInner += "<span class='mbDayContent'>";     
         
         // 20240105: Natalie: If there is no music link, still need the link to the node.
-        mHTMLInner += "<macro>{\"cmd\":\"PIN2\",\"node\":\"" +mJSON.id +"\"";
-
-        if(NotBlank(mJSON.music) || NotBlank(mJSON.yt)){
-          if(NotBlank(mJSON.music)){
-            mHTMLInner += ",\"music\":\""+mJSON.music+"\"";
-          }
-          if(NotBlank(mJSON.yt)){
-            mHTMLInner += ",\"yt\":\""+mJSON.yt+ "\"";
-          }
-        }
-
-        mHTMLInner += "}</macro>";
+        mHTMLInner += Pin2Code(mJSON);
         mHTMLInner += "<div class='mbCB'></div><hr>";
 
         if(NotBlank(elBanner)){
@@ -145,20 +195,35 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
         }catch(error){
           mHasCard = true;
         }
+        // STEP: Start the Card section
         if(!IsBlank(elCard)){
           mHTMLInner +=  "<div class='mbCardMat'>";
           mHTMLInner +=   "<div class='mbCardRM'>" + elCard.innerHTML + "</div>";
           mHTMLInner +=   "<div class='mbCardMatText'>";
           mHTMLInner += "<a class='mbbutton' onclick='HidePP(this)' style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></a>";
           
-          mHTMLInner += elContent.innerHTML + "</div>"; // End Text
-          mHTMLInner += "</div>"; // End Card Mat
         }else{
           if(mHasCard){
             mHTMLInner += "<span style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></span>";
           }
+          
+        }
+
+        // STEP: Show Chat header section if it is a chat node.
+        if(elContainer.firstElementChild.hasAttribute("data-chat")){
+          mHTMLInner += ChatNodeContent(elContainer.firstElementChild,mJSON);
+        }else{
+          // STEP: CONTENT Section
           mHTMLInner += elContent.innerHTML;
         }
+      
+        // STEP: Close the Card section.
+        if(!IsBlank(elCard)){
+          mHTMLInner += "</div>"; // End Text
+          mHTMLInner += "</div>"; // End Card Mat
+        }
+
+
         var elRef = elContainer.getElementsByTagName('ref')[0];
         
         // REF SECTION
@@ -346,6 +411,8 @@ function BoardLoad(el,iNodeID,iDoNotScroll){
 
     if(curBoardID==iNodeID){
       elBoard = mBoard;
+      // 20240405: StarTree: Clear the footer area when refreshing
+      elBoard.lastElementChild.innerHTML = "";
     }else{
       elBoard = BoardAddAfter(mBoard);
     }
@@ -1733,13 +1800,15 @@ function NotBlank(e){
 function PNDInner(el,mJSON){
   // 20230621: StarTree
   //If the node type is not chat, return.
+  // 20240404: StarTree: A new type of chat node has data-chat attribute.
+
   if(mJSON.type != "chat"){return;}  
+  
   // If the node type is chat:
 
-  // Create the header block
+  // STEP: Create the header block
   // 20231227: StarTree: Change the the simpler LNK code
-  //mHTML = "<a class=\"mbbutton\" onclick=\"QueryAllNext(this,'#P" + mJSON.parentid;
-  //mHTML +="')\"><small>" + mJSON.parentname + "</small></a><hide></hide>";
+
   mHTML = "<lnk>"+mJSON.parentid+"|"+mJSON.parentname+"</lnk>";
 
   mHTML +="<div style=\"float:right\"><small>["+mJSON.id+"]</small></div>";
@@ -1752,23 +1821,13 @@ function PNDInner(el,mJSON){
   
   mHTML +="<center><small>";
   if(NotBlank(mJSON.prev)){
-    mHTML +="<a class=\"mbbutton\" style=\"float:left\" href=\"" + ViewerPath() + "?id=P"+mJSON.prev+"\">◀</a>";
+    mHTML +="<a class=\"mbbutton\" style=\"float:left\" href=\"" + ViewerPath() + "?id=P"+mJSON.prev+"\" onclick=\"BoardLoad(this,'"+ mJSON.prev+"');return false;\">◀</a>";
   }
   if(NotBlank(mJSON.next)){
-    mHTML +="<a class=\"mbbutton\" style=\"float:right\" href=\"" + ViewerPath() + "?id=P"+mJSON.next+"\">▶</a>";
+    mHTML +="<a class=\"mbbutton\" style=\"float:right\" href=\"" + ViewerPath() + "?id=P"+mJSON.next+"\" onclick=\"BoardLoad(this,'"+ mJSON.next+"');return false;\">▶</a>";
   }
   // Read the date and time from the node id
-  // https://stackoverflow.com/questions/1833892/converting-a-string-formatted-yyyymmddhhmmss-into-a-javascript-date-object
-  var mDate = new Date(mJSON.id.replace(/^(\d{4})(\d{2})(\d{2})(\d\d)(\d\d)$/,'$4:$5 $2/$3/$1'));
-  //DEBUG(mDate);
-  var options = { weekday: 'short', year: 'numeric', month: 'short', day: '2-digit', hour12:'true', hour:'2-digit',minute:'2-digit' };
-  mDateString = mDate.toLocaleDateString("en-US", options);
-  //DEBUG(mDateString);
-  mDateString = mDateString.replace(/,/g,"");
-  mDateString = mDateString.toUpperCase();
-  //DEBUG(mDateString);
-  mHTML += mDateString.substring(10,15)+" "+mDateString.substring(4,7)+" "+ mDateString.substring(8,10) +" "+ mDateString.substring(0,3)+" " + mDateString.substring(16) + "<br>";
-  
+  mHTML += DateStrFromID(mJSON.id)+ "<br>";
   mHTML += mJSON.location + "</small></center><hr class=\"mbhr\">";
 
   AddElementFC(el.parentNode.firstElementChild.nextElementSibling.nextElementSibling,"div",mHTML);
@@ -1794,7 +1853,6 @@ function ProcessNodeData(elScope){
       PNDInner(z[i],JSON.parse(z[i].innerHTML));  
     }catch(error){
       DEBUG("ProcessNodeData: PNDInner: " + z[i]);
-
     }
     
   }
@@ -2482,7 +2540,7 @@ function QSLEL(elSearchList,iQuery){
           }
           if(IsBlank(mTitle)){mTitle = mID;}
           if(IsBlank(mType)){mType = "";}
-          if(mType=="chat"){mType = "<span style='margin-left:-16px;-20px;font-size:14px'><sup>💬</sup></span>";}
+          if(mType=="chat" || NotBlank(elDiv.hasAttribute('data-chat'))){mType = "<span style='margin-left:-16px;-20px;font-size:14px'><sup>💬</sup></span>";}
           mHTML += "<div name='"+ mTitle;
           if(IsBlank(mOrder)){mOrder = mID;}
           mHTML += "' style='order:" + mOrder;
@@ -3533,6 +3591,7 @@ function NodeFormatter(elTemp){
   while( vFirstDiv != null){
     var vTemps = vFirstDiv.getElementsByTagName('node-content');
     var vContent = vFirstDiv.getElementsByTagName('content'); // 20231224: StarTree: New format
+    var vHTML="";
     if( vTemps.length > 0)  {
       var vID = vFirstDiv.id.substring(1);
       var vNodeContent = vTemps[0].innerHTML;
@@ -3553,10 +3612,30 @@ function NodeFormatter(elTemp){
       // 20231224: StarTree: This is for the new format.
       var vJSON = vFirstDiv.getElementsByTagName('node')[0];
       var mJSON = JSON.parse(vJSON.innerHTML);
-      vFirstDiv.innerHTML = "<div class='mbav50pr' style=\"background-image:url('" + mJSON.img + "')\"></div>";
-      vFirstDiv.innerHTML += "<h4><lnk>" + mJSON.parentid + "|" + mJSON.parentname + "</lnk></h4>";
-      vFirstDiv.innerHTML += "<lnk>"+ mJSON.id + "|" + mJSON.icon + " " + mJSON.title + "</lnk>";
+
+      // 20240405: StarTree: Don't show the picture if it is missing.
+      vHTML = "";
+      if(NotBlank(mJSON.img)){
+        vHTML = "<div class='mbav50pr' style=\"background-image:url('" + mJSON.img + "')\"></div>";
+        vHTML += "<h4><lnk>" + mJSON.parentid + "|" + mJSON.parentname + "</lnk></h4>";
+        vHTML += "<lnk>"+ mJSON.id + "|" + mJSON.icon + " " + mJSON.title + "</lnk>";
+      }else{
+        // 20240405: StarTree: Assume that this is a chat node
+        vFirstDiv.classList.add('mbscroll');
+        //vFirstDiv.setAttribute('Board',mJSON.id);
+        vHTML +="<div>";
+        vHTML += Pin2Code(mJSON);
+        vHTML += "<lnk>"+ mJSON.id + "|" + mJSON.icon + "</lnk> ";
+        vHTML += "<a class='mbbutton' onclick='ShowPL(this)'>" + mJSON.title + "</a>";
+        vHTML += JSONPartiStr(mJSON);
+        
+        vHTML +="<hide><hr class='mbCB'>"+ChatNodeContent(vFirstDiv,mJSON)+"</hide>";        
+        vHTML +="</div>";
+        vHTML +="<div class='mbCB'></div>";   
+      }    
+      vFirstDiv.innerHTML = vHTML;  
     }
+    
     vFirstDiv = vFirstDiv.nextElementSibling;
   }
 }
