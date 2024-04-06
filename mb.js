@@ -238,7 +238,11 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
             mHTMLInner += "<lnk>"+mJSON.parentid+"|🤎"+mJSON.parentname+"</lnk> ";
           }
 
-          
+          // STEP: Follow the tags section with the children section.
+          // 20240405: StarTree: include the tag.
+          if(NotBlank(mJSON.tag)){
+            mHTMLInner += " <a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mJSON.tag + "]')\">📒" + Capitalize(mJSON.tag) + "</a> ";
+          }
 
           // 20240403: StarTree: Trial: Listing all tags (starts with data-)
           // 20240406: StarTree: Start with the tags section. 
@@ -254,16 +258,11 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
           for(i=0;i<mTags.length;i++){
             mTagHTML += " <a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mTags[i] + "]')\">" + Capitalize(mTags[i]) + "</a>";
           }
-
           if(mTagHTML!=""){
             mHTMLInner += "<a class='mbbutton' onclick='ShowNextInline(this)'>🏷️Tags</a><hide>:" + mTagHTML + "</hide> ";
           }
 
-          // STEP: Follow the tags section with the children section.
-          // 20240405: StarTree: include the tag.
-          if(NotBlank(mJSON.tag)){
-            mHTMLInner += " <a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mJSON.tag + "]')\">📒" + Capitalize(mJSON.tag) + "</a> ";
-          }
+          
 
           // STEP: Include custom reference links.
           mHTMLInner += elRef.innerHTML;
