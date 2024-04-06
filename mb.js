@@ -230,16 +230,18 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
         if(!IsBlank(elRef)){
           mHTMLInner += "<div class='mbRef'>";
           
+          
+
           // 20240304: Ivy: Need to show parent link
           if(NotBlank(mJSON.parentid)){
             //mHTMLInner += "<div style='padding-left:28px;font-size:14px;line-height:16px'><lnk>"+mJSON.parentid+"|"+mJSON.parentname+"</lnk></div>";
-            mHTMLInner += "<lnk>"+mJSON.parentid+"|🏡"+mJSON.parentname+"</lnk> ";
+            mHTMLInner += "<lnk>"+mJSON.parentid+"|🤎"+mJSON.parentname+"</lnk> ";
           }
 
-          // STEP: Include custom reference links.
-          mHTMLInner += elRef.innerHTML;
+          
 
           // 20240403: StarTree: Trial: Listing all tags (starts with data-)
+          // 20240406: StarTree: Start with the tags section. 
           var elAttr = elContainer.firstElementChild.attributes;
           let mTags = [];
           var mTagHTML = ""       
@@ -256,6 +258,15 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
           if(mTagHTML!=""){
             mHTMLInner += "<a class='mbbutton' onclick='ShowNextInline(this)'>🏷️Tags</a><hide>:" + mTagHTML + "</hide> ";
           }
+
+          // STEP: Follow the tags section with the children section.
+          // 20240405: StarTree: include the tag.
+          if(NotBlank(mJSON.tag)){
+            mHTMLInner += " <a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mJSON.tag + "]')\">📒" + Capitalize(mJSON.tag) + "</a> ";
+          }
+
+          // STEP: Include custom reference links.
+          mHTMLInner += elRef.innerHTML;
 
 
           // STEP: Show discussion list query button
