@@ -55,4 +55,16 @@
   <loc>https://magicbakery.github.io/?id=202207252131</loc>
   <lastmod>2024-03-12T00:00:00+00:00</lastmod>
 </url><!--Cleric-->
+<url>
+  <loc>http://127.0.0.1:5500/?id=202403231454</loc>
+  <lastmod>2024-04-07T00:00:00+00:00</lastmod>
+</url><!--13: Panarcademy-->
+<url>
+  <loc>http://127.0.0.1:5500/?id=202209241553</loc>
+  <lastmod>2024-04-07T00:00:00+00:00</lastmod>
+</url><!--14: Failure Analysis-->
+<url>
+  <loc>http://127.0.0.1:5500/?id=202209262042</loc>
+  <lastmod>2024-04-07T00:00:00+00:00</lastmod>
+</url><!--15: Cautionary Tales-->
 </urlset>
