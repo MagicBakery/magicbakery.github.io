@@ -2589,7 +2589,7 @@ function QSLEL(elSearchList,iQuery){
           }else{
             mKids = mJSONKids.split(',');
             for(j=0;j<mKids.length;j++){
-              mKids[j].replaceAll(" ","");
+              mKids[j]=mKids[j].replaceAll(" ","");
               mKids[j] = Capitalize(mKids[j]);
             }
           }
