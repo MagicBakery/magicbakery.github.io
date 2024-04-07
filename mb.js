@@ -34,7 +34,7 @@ function BoardAdd(el){
   // STEP: Add the close button.
   var mHTML = "<div control>";
   mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>🍮</a>";
-  mHTML += "</div><div class='mbCB'></div>";
+  mHTML += "</div><div class='mbCB' qsl></div>";
   elTemp.innerHTML= mHTML;
   elTemp.style.marginBottom = "0px";
   var mControl = SearchPS(el,'control');
@@ -240,8 +240,15 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
 
           // STEP: Follow the tags section with the children section.
           // 20240405: StarTree: include the tag.
-          if(NotBlank(mJSON.tag)){
-            mHTMLInner += " <a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mJSON.tag + "]')\">📒" + Capitalize(mJSON.tag) + "</a> ";
+          if(NotBlank(mJSON.kids)){
+            var mJSONKids = mJSON.kids.split(',');
+            var mKid = "";
+            var mKidHTML = "";
+            for(i=0;i<mJSONKids.length;i++){
+              mKid = mJSONKids[i].replaceAll(" ","");
+              mKidHTML += " <a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mKid + "]')\">" + Capitalize(mKid).replaceAll("-"," ") + "</a>";
+            }
+            mHTMLInner += "<a class='mbbutton' onclick='ShowNextInline(this)'>🐣Kids</a><hide>:" + mKidHTML + "</hide> ";
           }
 
           // 20240403: StarTree: Trial: Listing all tags (starts with data-)
@@ -278,6 +285,7 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
         mHTMLInner += "<hr class='mbCB'>";
         mHTMLInner += "</span>";
 
+        // STEP: Create the QSL area.
         elContainer.innerHTML = mHTMLInner + "<div class='mbCB'></div>";
         Macro(elContainer);
 
@@ -330,12 +338,11 @@ function IFrameFeedback(el){
   var mPanel;
   try{
     mPanel = SearchPS(el,'panel');
-    
   }catch(error){
     mPanel = null;
   }
   if(mPanel != null){
-    mPanel.firstElementChild.after(elTemp);  
+    mPanel.firstElementChild.nextElementSibling.prepend(elTemp);  
     elTemp.scrollIntoView(true);
     return;
   }
@@ -393,7 +400,7 @@ function InterLink(){
   }
   return "QueryBanner(";
 }
-function BoardLoad(el,iNodeID,iDoNotScroll){
+function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget){
   // 20231006: Black: Make a board in the current column panel given the ID.
   var mBoard;
   var elBoard;
@@ -408,8 +415,8 @@ function BoardLoad(el,iNodeID,iDoNotScroll){
   }catch(error){}
 
   // 20240325: StarTree: Find the target panel if there is one.
-  // Do not retarget if the iDoNotScroll flag is set.
-  if((!iDoNotScroll) && (curBoardID!=iNodeID)){
+  // Do not retarget if the iNoReTarget flag is set.
+  if((!iNoReTarget) && (curBoardID!=iNodeID)){
     var elPanel = PanelGetTarget();
     if(NotBlank(elPanel)){
       el = elPanel.firstElementChild;
@@ -421,6 +428,16 @@ function BoardLoad(el,iNodeID,iDoNotScroll){
 
     if(curBoardID==iNodeID){
       elBoard = mBoard;
+
+      // 20240406: If the lnk is in the QSL area, just scroll to view.
+      if(NotBlank(SearchPS(el,"qsl"))){
+        el.classList.add('mbbuttonSelf');
+        el.classList.remove('mbbutton');
+
+        ScrollIntoView(elBoard);
+        return;
+      }
+
       // 20240405: StarTree: Clear the footer area when refreshing
       elBoard.lastElementChild.innerHTML = "";
     }else{
@@ -1883,12 +1900,16 @@ function RankNum(iRank){
 function SearchPS(el,iAttribute){
   // 20230301: Evelyn: Made function for the part shared by QueryAllPSN and ShowLPSN
   // 20230308: LRRH: changed the check for missing iAttribute to undefined.
-  if(iAttribute==undefined || iAttribute==""){iAttribute="top";}
-  var elTarget = el;
-  while(elTarget != null && elTarget.getAttribute(iAttribute)==null){
-    elTarget = elTarget.parentNode;
+  try{
+    if(iAttribute==undefined || iAttribute==""){iAttribute="top";}
+    var elTarget = el;
+    while(elTarget != null && elTarget.getAttribute(iAttribute)==null){
+      elTarget = elTarget.parentNode;
+    }
+    return elTarget;
+  }catch(error){
+    return "";
   }
-  return elTarget;
 }
 function ShowSkip(el) {
   var eNext = el.nextElementSibling.nextElementSibling;
@@ -2050,8 +2071,8 @@ function LoadArchivePostEl(elContainer, eID,iInner){
   $(document).ready(function(){
     var backup = $(elContainer).html();
     $(elContainer).load(qArchive + eQuery, function(){	
-      Macro(elContainer);
       NodeFormatter(elContainer);
+      Macro(elContainer);
       var backup2 = $(elContainer).html();
       if(backup == backup2 && $(elContainer).is(':visible') ){
         
@@ -2475,6 +2496,15 @@ function QSLEL(elSearchList,iQuery){
   var elTemp = document.createElement("div");
   var Hit = 0; // Archive Hit Counter
   var bMark = NodeMarkCookieCheck();
+
+  // Get the board nodeID
+  /*
+  var elBoard = SearchPS(elSearchList,'board');
+  var mBoardID = "";
+  if(NotBlank(elBoard)){
+    mBoardID = elBoard.getAttribute('board');
+  }*/
+
   $(document).ready(function(){
     for(let i=ArchiveNum(); i>0;i--){
       $(elTemp).load(ArchiveIndex(i) + iQuery, function(){
@@ -2484,8 +2514,9 @@ function QSLEL(elSearchList,iQuery){
         var mID=""; var mTitle=""; var mIcon="";          
         var mNode = ""; var mJSON = "";
         var mType = "";
-        var mTag = "";
-        
+        var mJSONKids = "";
+        var mKids = [];
+
         var mCategory = iQuery.replace("[data-","");
         mCategory = mCategory.replace("]","");
         var mOrder ="";
@@ -2498,16 +2529,13 @@ function QSLEL(elSearchList,iQuery){
             mIcon = mJSON.icon;
             mID = mJSON.id;
             mType = mJSON.type;
-            mTag = mJSON.tag;
+            mJSONKids = mJSON.kids;
           }else{
             mID = elDiv.getAttribute("id");
             mTitle = elDiv.getAttribute("title");
             mIcon = elDiv.getAttribute("icon");
           }
-          if(IsBlank(mTag)){
-            //mTag = TitleToTag(mTitle);
-            mTag = mID;
-          }
+          
 
           mOrder = elDiv.getAttribute("data-"+mCategory);
           if(IsBlank(mTitle)){
@@ -2551,24 +2579,40 @@ function QSLEL(elSearchList,iQuery){
           if(IsBlank(mTitle)){mTitle = mID;}
           if(IsBlank(mType)){mType = "";}
           if(mType=="chat" || NotBlank(elDiv.hasAttribute('data-chat'))){mType = "<span style='margin-left:-16px;-20px;font-size:14px'><sup>💬</sup></span>";}
-          mHTML += "<div name='"+ mTitle;
           if(IsBlank(mOrder)){mOrder = mID;}
-          mHTML += "' style='order:" + mOrder;
-          mHTML += "'>";
-          mHTML += "<div control>";
-          mHTML += "<hide>"+ elDiv.textContent +"</hide>";
-
           
+          
+          mKids = [];
+          if(IsBlank(mJSONKids)){
+            //mTag = TitleToTag(mTitle);
+            mKids.push(mID);
+          }else{
+            mKids = mJSONKids.split(',');
+            for(j=0;j<mKids.length;j++){
+              mKids[j].replaceAll(" ","");
+              mKids[j] = Capitalize(mKids[j]);
+            }
+          }
+          
+          // 20240331: StarTree: Further Exploration Icon     
+          // 20240406: StarTree: Multiple kids:     
+          for(j=0;j<mKids.length;j++){
+            mHTML += "<div name='"+ mTitle + "' style='order:" + mOrder + "'>";
+            mHTML += "<div control>";
+            mHTML += "<hide>"+ elDiv.textContent +"</hide>";
+            mHTML += "<a class='mbbutton mbILB25' onclick='QSLTree(this,\"[data-"+ mKids[j] +"]\")' title='"+ Capitalize(mCategory) + ":" + mOrder + "\\" + Capitalize(mKids[j]).replaceAll("-"," ")  +"'>📒</a>";
+            if(j==0){
+              mHTML += LnkCode(mID,mTitle,mIcon+mType,bMark); 
+            }else{
+              mHTML += LnkCode(mID,"+" + Capitalize(mKids[j]).replaceAll("-"," "),mIcon+mType,bMark); 
+            }
 
-          // 20240331: StarTree: Further Exploration Icon          
-          mHTML += "<a class='mbbutton mbILB25' onclick='QSLTree(this,\"[data-"+ mTag +"]\")' title='"+ Capitalize(mCategory) + ":" + mOrder + "\\" + Capitalize(mTag)  +"'>📒</a>";
+            mHTML += "</div>";// End of Control
+            mHTML += "<div class='mbhide'><div class='mbnav mbSearch'></div></div>"; // QSL Container
+            mHTML += "</div>";
+          }
 
 
-          mHTML += LnkCode(mID,mTitle,mIcon+mType,bMark);   
-
-          mHTML += "</div>";// End of Control
-          mHTML += "<div class='mbhide'><div class='mbnav mbSearch'></div></div>"; // QSL Container
-          mHTML += "</div>";
           elDiv.order = getRandomInt(0,1000);
           elDiv = elDiv.previousElementSibling;
         }
@@ -2723,6 +2767,7 @@ function QueryAllEL(elContainer, eQuery,iInner){
           if(backup == $(elContainer).html() && $(elContainer).is(':visible') ){
             $(elContainer).hide();
           }else{
+            NodeFormatter(elContainer);
             Macro(elContainer);
             $(elContainer).show();
 
@@ -3635,6 +3680,9 @@ function NodeFormatter(elTemp){
         //vFirstDiv.setAttribute('Board',mJSON.id);
         vHTML +="<div>";
         vHTML += Pin2Code(mJSON);
+        // 20240406: StarTree: Include the parent lnk
+        vHTML += "<h4><lnk>" + mJSON.parentid + "|" + mJSON.parentname + "</lnk></h4>";
+        
         vHTML += "<lnk>"+ mJSON.id + "|" + mJSON.icon + "</lnk> ";
         vHTML += "<a class='mbbutton' onclick='ShowPL(this)'>" + mJSON.title + "</a>";
         vHTML += JSONPartiStr(mJSON);
@@ -3886,7 +3934,11 @@ function QueryMonthEL(elContainer, eDate, eSection){
 	  if(backup == backup2 && $(elContainer).is(':visible') ){
 		$(elContainer).hide();
 	  }else{
-		$(elContainer).show();
+      // 20240406: StarTree: Need to process each node before showing.
+      
+      NodeFormatter(elContainer);
+      Macro(elContainer);
+		  $(elContainer).show();
 	  }	
 	});
   });
@@ -4377,7 +4429,8 @@ function NodeMarkCycle(el,iNodeID){
   switch(curMark){
     case "🤍": curMark = "📌";break; 
     case "📌": curMark = "✅";break; 
-    case "✅": curMark = "🐣";break; 
+    case "✅": curMark = "🌱";break; 
+    case "🌱": curMark = "🐣";break; 
     case "🐣": curMark = "🐤";break; 
     case "🐤": curMark = "🕊️";break; 
     case "🕊️": curMark = "🦉";break; 

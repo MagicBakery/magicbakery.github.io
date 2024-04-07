@@ -71,6 +71,8 @@ margin-block-end:0px;
 font-size:14px;
 line-height:20px;
 text-transform: Uppercase;
+white-space: normal;
+hyphens:auto;
 
 }
 
@@ -895,14 +897,13 @@ margin:0px;
 
 
 
-.mbbutton, .mbbuttonc, .mbbuttonEx, .mbbuttonIn{
+.mbbutton, .mbbuttonc, .mbbuttonEx, .mbbuttonIn, .mbbuttonSelf{
   background-color:#ffffcc00;
   border: 0px; 
   border-radius: 0.68em; 
   color:inherit;
   font-family:inherit;
   font-weight:bold;
-  
 }
 .mbNote{
   background-color:#ffffcc00;
@@ -970,6 +971,13 @@ cursor:pointer;
 }
 .mbbuttonIn:hover{
   background-color:DarkGreen; 
+  color:#ffffff;
+}
+.mbbuttonSelf{
+  background-color:goldenrod; 
+}
+.mbbuttonSelf:hover{
+  background-color:goldenrod; 
   color:#ffffff;
 }
 .mbListCap{
