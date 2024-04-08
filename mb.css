@@ -1457,6 +1457,10 @@ padding-right:4px;
   display:flex;
   flex-direction: column;
 }
+.mbnotes{
+  background-color:#ffffff80;
+  border-radius: 0.6em;
+}
 .mbpuzzle{
   background-color:#ffffff80;
   border-radius: 0.6em;

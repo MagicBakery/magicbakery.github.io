@@ -1,4 +1,4 @@
-<div id="P800000000000" class="mbscroll" date='80000000' time='0000' data-quest="1">
+<div id="P800000000000" updated="20240408" class="mbscroll" date='80000000' time='0000' data-quest="1">
   <content>
     <div class="mbpdc"></div><div style="clear:left"></div>
     <div control>
@@ -8,20 +8,15 @@
         <button class="mbbutton" onclick="NodeMarkUseCookie(this)">🍪</button>
       </span>
       <span>
-        
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Special Queries">📯</a>
         <hide >
           <h4>📯 Special Queries</h4><hr>
-          
           <a class="mbbutton" onclick="QSL(this,'[data-Guild]')">🥨 Guild Related</a><br>
           <a class="mbbutton" onclick="QSL(this,'[data-college]')">🎓 Academy Related</a><br>
-         
           <hr>
         </hide>
-
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Tags">🏷️</a>
         <hide >
-          
           <small><a class="mbbutton" onclick="TextQSL(this)" title="Query textbox content as tag">🔍 Run Query on Textbox</a></small>
           <hr>
           <h4>🏷️ Tags</h4>
@@ -35,6 +30,7 @@
           <a class="mbbutton" onclick="QSL(this,'[data-card]')">Cards</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-chat]')">Chats</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-college]')">Colleges</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-gadget]')">Gadgets</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-game]')">Games</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-issue]')">Issues</a> |
           <a class="mbbutton" onclick="QSL(this,'[data-manga]')">Manga</a> |
@@ -45,8 +41,15 @@
           <a class="mbbutton" onclick="QSL(this,'[data-singalong]')">Singalong</a> | 
           <a class="mbbutton" onclick="QSL(this,'[data-skill]')">Skills</a> | 
           <a class="mbbutton" onclick="QSL(this,'[data-slide]')">Slides</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-subject]')">Subjects</a>
-          
+          <a class="mbbutton" onclick="QSL(this,'[data-subject]')">Subjects</a>          
+          <hr>
+        </hide>
+        <a class="mbbutton" onclick="ToggleNextPN(this)" title="Sorting">👑</a>
+        <hide >
+          <h4>👑 Sort by</h4><hr>
+          <a class="mbbutton" onclick="QSLSortByName(this)">🍎 Name</a>
+          <a class="mbbutton" onclick="QSLSortByDate(this)">🗓️ Date</a>
+          <a class="mbbutton" onclick="QSLSortRandom(this)">🎲 Random</a>
           <hr>
         </hide>
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Sitemap Quests">🎪</a>
@@ -471,7 +474,7 @@
     </div><!--Deployment Area-->
   </div><!--LogFall Dungeon Quest Board-->
 </span>
-<div id="P900000000000" class="mbscroll"  data-Guild>
+<div id="P900000000000" updated="20240408" class="mbscroll"  data-Guild>
   <span class="mbDayHeader">
     <div class="mbav50pr" style="background-image:url('')"></div>
     <h4><lnk>202208172056|Magic Bakery</lnk></h4>
@@ -809,22 +812,19 @@
                     <macro>{"log":"","priority":"9","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro>    
                   </div>
                 </div><!--@Manga / 3B-->   
-                <div class="mbCB">
-                            
-                  <macro>{"guildlog":"55","rank":"U","updates":"0","node":"202208071528","author":"Ledia","chapter":"@Mira","cmd":"pb"}</macro>
+                <div class="mbCB">         
+                  <macro>{"guildlog":"55","rank":"A","updates":"1","node":"202208071528","author":"Ledia","chapter":"@Mira","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"0","icon":"🦄","node":"202208071528","title":"Mira Store Front Poster","cmd":"quest"}</macro>              
                     <span class="mbListCapNC mbRankA"></span>
+                    <macro>{"log":"0407","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🏅","node":"202301251008","title":"Profiles upgrade","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","icon":"🧹","node":"202208071528","title":"Page Cleanup","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","icon":"🎨","node":"202307100238","title":"Manga 29","info":"Manga Chapter 29","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"2","icon":"🐉","node":"202208071528","title":"Quest Standee","info":"Quest-grade standee.","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"5","icon":"🎀","node":"202208071528","title":"Avatar Making","info":"Avatar for WonderWoman","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
-                    <macro>{"log":"","priority":"0","icon":"🍋","node":"202307231931","title":"Productive Habits","info":"","cmd":"quest"}</macro>    
-                    <macro>{"log":"","priority":"0","icon":"💬","node":"202403050033","title":"Democratic Forum","info":"","cmd":"quest"}</macro>                     
-                    <macro>{"log":"","priority":"1","icon":"🏰","node":"202312251111","title":"Arcacian Quest","info":"This is a board game design project.","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"5","icon":"👒","node":"202310121020","title":"Style Inspirations","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","cmd":"quest","title":"Guild Log Quests","icon":"🥨","info":"2306:59 2307:57 2308:56 2309:55 2310:50"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
@@ -900,24 +900,25 @@
                 </div><!--@Puzzle / Mikela-->   
                 <div class="mbCB">
                   <!--<span style="float:right"><lnk>202303121053|🍀</lnk></span>-->
-                  <macro>{"guildlog":"0","rank":"U","updates":"0","node":"202309200912","author":"Skyle","chapter":"@Scape","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"A","updates":"3","node":"202309200912","author":"Skyle","chapter":"@Scape","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"3","icon":"🍻","node":"relevance","title":"Upload Manga Chapters","info":"Upload Manga Chapters 0 to 10 to DeviantArt","cmd":"quest"}</macro>-->
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"","priority":"0","icon":"🏫","node":"202403231454","title":"Academy","info":"Present old stories","cmd":"quest"}</macro>
 
-                    <macro>{"log":"","priority":"1","icon":"🤿","node":"202308240930","title":"Dive Quest","info":"Present old stories","cmd":"quest"}</macro>
+                    <macro>{"log":"0407","priority":"1","icon":"🤿","node":"202308240930","title":"Dive Quest","info":"Present old stories","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"3","icon":"🌾","node":"202309200912","title":"Wheatfield","info":"Dive session","cmd":"quest"}</macro>
                     
                     <macro>{"log":"","priority":"4","icon":"🕰️","node":"202309161840","title":"Guild History","info":"Create a Guild History node and list guild chapter start dates.","cmd":"quest"}</macro>
                     <!--<span class="mbListCapNC mbRankB"></span>-->
                     <span class="mbListCapNC mbRankC"></span>
+                    <macro>{"log":"0407","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202309200912","title":"Guild Log","info":"2311:5 2401:0 2403:0.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"3","icon":"📷","node":"","title":"Process screenshots","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"2","icon":"🗓️","node":"202310072314","title":"Make Old Calendar","info":"Upgrade format of old calendars.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
-                    <macro>{"log":"","priority":"9","icon":"🥨","node":"202209242119","title":"Layout update","cmd":"quest"}</macro>
+                    <macro>{"log":"0407","priority":"9","icon":"🥨","node":"202209242119","title":"Layout update","cmd":"quest"}</macro>
                   </div>
                 </div><!--@Scape / Skyle-->  
                 <div class="mbCB">
@@ -4536,7 +4537,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240406')">6<br><div class="mbavem mbStarTree"></div></td>
               </tr>
               <tr>  
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240407')">7<br>&nbsp;</td>                    
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240407')">7<br><div class="mbavem mbStarTree"></div></td>                    
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240408')">8<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240409')">9<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240410')">10<br>&nbsp;</td>
@@ -4592,7 +4593,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240406')">6<br>⚔️</td>
               </tr>
               <tr>  
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240407')">7<br>&nbsp;</td>                    
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240407')">7<br>🌺</td>                    
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240408')">8<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240409')">9<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240410')">10<br>&nbsp;</td>
@@ -20282,7 +20283,7 @@ data-DXP-WIN-Casey
   <mbKudo>Wee~~!</mbKudo>
   </div><node>{"type":"chat","id":"202403301947","parentid":"202303052122","parentname":"Code Upgrade","icon":"📋","title":"Notepad","prev":"202403282102","author":"Vivi","location":"Magic Bakery"}</node>
 </div><!--Notepad-->
-<div id="P202403302012" class="mbscroll" date='20240330' time='2012'>
+<div id="P202403302012" class="mbscroll" date='20240330' time='2012' data-gadget>
   <content>
     <div gadget>
       <div control>
@@ -21631,14 +21632,101 @@ data-DXP-WIN-Casey
   <ref></ref>
   <node>{"id":"202404071035","parentid":"202207112218","parentname":"Search Visibility","icon":"🌺","title":"290 Hits","prev":"202403122327","author":"Sasha","location":"Magic Bakery","participants":"Sasha, StarTree, Arcacia, LRRH"}</node>
 </div><!--290 Hits-->
+<div id="P202404072109" class="mbscroll" date='20240407' time='2109' data-story data-Guild-History>
+  <content>
+    <div class="mbpdc"><b>A Free Donut</b> is the origin story of Magic Bakery.</div><div style="clear:left"></div>
+    <div class="mbscroll">
+      <div class="mbbutton" onclick="ShowNext(this)">🌱 Timeline</div>
+      <hide><hr><div class="mbav50r mbSkyle"></div>
+        This story started with Red recruiting Natalie, Arcacia(White), then Ivy, James, Melody, V, 3B, P4, and Tanya. The story ended when it transisted to Magic Bakery at Blogspot when the Everkindergarden group joined. 
+        <div class="mbCB"></div>
+      </hide>
+    </div>    
+  </content>
+  <card>
+    <div class="mbCharCard">
+      <div class="mbCharCardTitle2">A Free Donut</div>
+      <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://github.com/MagicBakery/Images/blob/main/2019-02-13%20-%20Donut%20-%20Brown%20-%20Filtered.png?raw=true')"></div>
+      <div class="mbCharCardSubtitle">20190120 -20210128</div>
+      <div class="mbCharCardDesc">
+        <center>
+          <div class="mbCharCardDescInner">
+            May your passion keep us safe and warm, 
+            and your hair stand proudly and wishfully! 
+            
+            <small></small>
+          </div>
+        </center>
+      </div>
+    </div>
+  </card>
+  <ref><lnk>202309161840|🕰️ Guild History</lnk></ref>
+  <node>{"id":"202404072109","parentid":"202308240930","parentname":"Stories","icon":"🍩","title":"A Free Donut","subtitle":"Story","kids":"","img":"https://github.com/MagicBakery/Images/blob/main/2019-02-13%20-%20Donut%20-%20Brown%20-%20Filtered.png?raw=true","music":"","author":"Skyle","description":"","card-text":""}</node>
+</div><!--A Free Donut-->
 <div date='20240407' time='2359' data-status>
-  <macro>{"cmd":"daisy2","issues":"6","quests":"1116","activities":[
+  <macro>{"cmd":"daisy2","issues":"6","quests":"1132","activities":[
+    {"ch":"11","rank":"B","updates":"1","last":"20240314"},
+    {"ch":"33","rank":"S","updates":"1","last":"20240317"},
+    {"ch":"29","rank":"A","updates":"1","last":"20240329"},
+    {"ch":"22","rank":"U","updates":"0","last":"20240329"},
+    {"ch":"19","rank":"B","updates":"1","last":"20240402"},
+    {"ch":"32","rank":"A","updates":"1","last":"20240403"},
+    {"ch":"35","rank":"A","updates":"3","last":"20240403"},
+    {"ch":"24","rank":"D","updates":"1","last":"20240404"},
+    {"ch":"28","rank":"D","updates":"1","last":"20240404"},
+    {"ch":"5","rank":"U","updates":"0","last":"20240404"},
+    {"ch":"25","rank":"A","updates":"3","last":"20240406"},
+    {"ch":"7","rank":"A","updates":"3","last":"20240406"},
+    {"ch":"14","rank":"C","updates":"2","last":"20240406"},
+    {"ch":"21","rank":"A","updates":"3","last":"20240406"},
+    {"ch":"16","rank":"D","updates":"1","last":"20240406"},
+    {"ch":"30","rank":"A","updates":"4","last":"20240406"},
+    {"ch":"12","rank":"B","updates":"1","last":"20240406"},
+    {"ch":"13","rank":"U","updates":"0","last":"20240406"},
+    {"ch":"31","rank":"U","updates":"0","last":"20240406"},
+    {"ch":"26","rank":"A","updates":"1","last":"20240406"},
+    {"ch":"27","rank":"A","updates":"2","last":"20240406"},
+    {"ch":"17","rank":"S","updates":"2","last":"20240407"},
+    {"ch":"20","rank":"B","updates":"2","last":"20240407"},
+    {"ch":"23","rank":"C","updates":"1","last":"20240407"},
+    {"ch":"15","rank":"C","updates":"2","last":"20240407"},
+    {"ch":"18","rank":"B","updates":"3","last":"20240407"},
+    {"ch":"34","rank":"A","updates":"3","last":"20240407"}
+    ],"players":"Sasha, StarTree, Arcacia, LRRH","merits":"Sasha","recognitions":"","kudos":"Sasha, StarTree, Arcacia, LRRH","awards":"3B, Albatross, Arcacia, Black, Cardinal, Evelyn, Ivy, Ledia, LRRH, Melody, Natalie, P4, Patricia, Skyle, StarTree, Sylvia, Tanya, V, Vivi","top":[
+    {"name":"StarTree","score":"25"},
+    {"name":"Ledia","score":"21"},
+    {"name":"LRRH","score":"12"},
+    {"name":"Arcacia","score":"10"},
+    {"name":"Black","score":"10"},
+    {"name":"Skyle","score":"9"},
+    {"name":"Sasha","score":"9"},
+    {"name":"Albatross","score":"7"},
+    {"name":"Patricia","score":"7"},
+    {"name":"Natalie","score":"7"},
+    {"name":"Vivi","score":"7"},
+    {"name":"Ivy","score":"6"},
+    {"name":"Evelyn","score":"6"},
+    {"name":"V","score":"5"},
+    {"name":"Sylvia","score":"5"},
+    {"name":"P4","score":"5"},
+    {"name":"Melody","score":"4"},
+    {"name":"Cardinal","score":"4"},
+    {"name":"3B","score":"4"},
+    {"name":"Tanya","score":"4"},
+    {"name":"Kisaragi","score":"3"},
+    {"name":"Helen","score":"2"},
+    {"name":"Fina","score":"1"},
+    {"name":"James","score":"1"},
+    {"name":"Casey","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div date='20240408' time='2359' data-status>
+  <macro>{"cmd":"daisy2","issues":"6","quests":"1132","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
     
   ]}</macro>
 </div><!-- STATUS -->
-
 <!--
 <card>
   <a href="https://github.com/MagicBakery/Images/blob/main/Slide_28.png?raw=true" target="_blank">
@@ -21701,7 +21789,7 @@ data-DXP-WIN-Casey
   2) Update function ArchiveSelect with the correct cutoff dates.
 -->
 <div date='20240400' time='2359' data-status>
-  <macro>{"cmd":"daisy2","issues":"6","quests":"1116","activities":[
+  <macro>{"cmd":"daisy2","issues":"6","quests":"1132","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
     

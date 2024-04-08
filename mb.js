@@ -230,7 +230,10 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
         if(!IsBlank(elRef)){
           mHTMLInner += "<div class='mbRef'>";
           
-          
+          // STEP: Include custom reference links.
+          // 20240407: Skyle: Rearranged this first because the link is green.
+          mHTMLInner += elRef.innerHTML;
+
 
           // 20240304: Ivy: Need to show parent link
           if(NotBlank(mJSON.parentid)){
@@ -238,6 +241,7 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
             mHTMLInner += "<lnk>"+mJSON.parentid+"|🤎"+mJSON.parentname+"</lnk> ";
           }
 
+          
           // STEP: Follow the tags section with the children section.
           // 20240405: StarTree: include the tag.
           if(NotBlank(mJSON.kids)){
@@ -246,7 +250,8 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
             var mKidHTML = "";
             for(i=0;i<mJSONKids.length;i++){
               mKid = mJSONKids[i].replaceAll(" ","");
-              mKidHTML += " <a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mKid + "]')\">" + Capitalize(mKid).replaceAll("-"," ") + "</a>";
+              if(i!=0){mKidHTML += ","}
+              mKidHTML += " <a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mKid + "]')\">" + Cap(mKid.replaceAll("-"," ")) + "</a>";
             }
             mHTMLInner += "<a class='mbbutton' onclick='ShowNextInline(this)'>🐣Kids</a><hide>:" + mKidHTML + "</hide> ";
           }
@@ -256,14 +261,16 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
           var elAttr = elContainer.firstElementChild.attributes;
           let mTags = [];
           var mTagHTML = ""       
-          for(i=0;i<elAttr.length;i++){
-            if(elAttr[i].name.startsWith('data-')){
-              mTags.push(elAttr[i].name.replace('data-',''));              
+          for(j=0;j<elAttr.length;j++){
+            if(elAttr[j].name.startsWith('data-')){
+              mTags.push(elAttr[j].name.replace('data-',''));              
             }
           }
           mTags.sort();
-          for(i=0;i<mTags.length;i++){
-            mTagHTML += " <a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mTags[i] + "]')\">" + Capitalize(mTags[i]) + "</a>";
+          for(k=0;k<mTags.length;k++){            
+            if(k!=0){mTagHTML += ","}
+            mTagHTML += " <a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mTags[k] + "]')\">" + Cap(mTags[k].replaceAll("-"," ")) + "</a>";
+            
           }
           if(mTagHTML!=""){
             mHTMLInner += "<a class='mbbutton' onclick='ShowNextInline(this)'>🏷️Tags</a><hide>:" + mTagHTML + "</hide> ";
@@ -271,8 +278,7 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
 
           
 
-          // STEP: Include custom reference links.
-          mHTMLInner += elRef.innerHTML;
+          
 
 
           // STEP: Show discussion list query button
@@ -2587,24 +2593,31 @@ function QSLEL(elSearchList,iQuery){
             //mTag = TitleToTag(mTitle);
             mKids.push(mID);
           }else{
+         
             mKids = mJSONKids.split(',');
-            for(j=0;j<mKids.length;j++){
+            for(var j=0;j<mKids.length;j++){
               mKids[j]=mKids[j].replaceAll(" ","");
-              mKids[j] = Capitalize(mKids[j]);
+              mKids[j] = Cap(mKids[j]);
             }
           }
           
           // 20240331: StarTree: Further Exploration Icon     
           // 20240406: StarTree: Multiple kids:     
-          for(j=0;j<mKids.length;j++){
-            mHTML += "<div name='"+ mTitle + "' style='order:" + mOrder + "'>";
+          for(var k=0;k<mKids.length;k++){
+            mHTML += "<div name='"+ mTitle + "'";
+            var mUpdated = elDiv.getAttribute("updated");
+            if(IsBlank(mUpdated)){
+              mUpdated = elDiv.getAttribute("date");
+            }
+            mHTML += " updated='" + mUpdated + "'";
+            mHTML += " style='order:" + mOrder + "'>";
             mHTML += "<div control>";
             mHTML += "<hide>"+ elDiv.textContent +"</hide>";
-            mHTML += "<a class='mbbutton mbILB25' onclick='QSLTree(this,\"[data-"+ mKids[j] +"]\")' title='"+ Capitalize(mCategory) + ":" + mOrder + "\\" + Capitalize(mKids[j]).replaceAll("-"," ")  +"'>📒</a>";
-            if(j==0){
+            mHTML += "<a class='mbbutton mbILB25' onclick='QSLTree(this,\"[data-"+ mKids[k] +"]\")' title='"+ Cap(mCategory) + ":" + mOrder + "\\" + Cap(mKids[k]).replaceAll("-"," ")  +"'>📒</a>";
+            if(k==0){
               mHTML += LnkCode(mID,mTitle,mIcon+mType,bMark); 
             }else{
-              mHTML += LnkCode(mID,"+" + Capitalize(mKids[j]).replaceAll("-"," "),mIcon+mType,bMark); 
+              mHTML += LnkCode(mID,mTitle + "\\" + Cap(mKids[k]).replaceAll("-"," "),mIcon+mType,bMark); 
             }
 
             mHTML += "</div>";// End of Control
@@ -2690,17 +2703,90 @@ function QSL(el,iQuery){
   elSearchList.parentNode.classList.remove('mbhide');
   QSLEL(elSearchList,iQuery);  
 }
+function QSLSortByDate(el){
+  // 20240407: Ledia: This function sort the entries in a QSL by date.
+  // .. To get the last updated date, it checks the attribute "updated" if it exists.
+  // .. If not, it uses the node ID as the date.
+  var elContainer = QSLGetContainer(el);
+  QSLSortReverseIfSet(elContainer,'updated');
+  var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
+  elEntries.forEach((item)=>{item.style.order = item.getAttribute('updated');});
+}
+function QSLSortByName(el){
+  // 20240407: Ledia: This function sort the entries recursivly in a QSL by name.
+  var elContainer = QSLGetContainer(el);
+  QSLSortReverseIfSet(elContainer,'name');
+  var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
+  // STEP: Create an array of pairs to for the name and address.
+  var mKV = [];
+  elEntries.forEach((item)=>{
+    mKV.push([item.getAttribute('name'),item]);
+  });
+  mKV.sort();
+  for(i=0;i<mKV.length;i++){
+    mKV[i][1].style.order = i;
+  }
+}
+function QSLSortReverseIfSet(elContainer,iSortBy){
+  // 20240408: Ledia: Set the sortby attribute.
+  // .. If the attribute is the same, reverse the order.
+  var mSame = false;
+  if(elContainer.getAttribute('sortby')==iSortBy){
+    mSame = true;
+    if(elContainer.style.flexDirection == 'column'){
+      elContainer.style.flexDirection = 'column-reverse';
+      elContainer.querySelectorAll(".mbSearch").forEach((item2)=>{
+        item2.style.flexDirection = 'column-reverse';
+      });
+    }else{
+      elContainer.style.flexDirection = 'column';
+      elContainer.querySelectorAll(".mbSearch").forEach((item2)=>{
+        item2.style.flexDirection = 'column';
+      });  
+    }
+  }else{
+    elContainer.setAttribute('sortby',iSortBy);
+  }
+  return mSame;
+}
+function QSLGetContainer(el){
+  // 20240407: Ledia: Return the QSL container that has the mbSearch class.
+  return SearchPS(el,'control').nextElementSibling.querySelector(".mbSearch");
+}
+function QSLSortRandom(el){
+  // 20240407: Ledia: This function sorts the entries in a QSL randomly.
+  // STEP: Locate the container:
+  var elContainer = QSLGetContainer(el);
+  elContainer.setAttribute('sortby','random');
+  // STEP: For each Div in elContainer that has a name and with a parent node that has mbSearch class, assign a random order number.
+  // https://www.w3schools.com/jquery/jquery_ref_selectors.asp
+  var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
+  for(i=0;i<elEntries.length;i++){
+    elEntries[i].style.order = getRandomInt(0,elEntries.length);
+  }
+}
 function QSLBL(el,iQuery){
   // 20240404: StarTree For automatically showing tags of a node.
   var elContainer = SearchPS(el,"board").lastElementChild;
   QSLEL(elContainer,iQuery);  
 }
-function Capitalize(mStr){
+function Cap(mStr){
+  // 20240407: Skyle: Updated to avoid function name conflict and capitalizes every word.
   try{
-    var mFirst = mStr.charAt(0);
-    mFirst = mFirst.toUpperCase();
-    return mFirst + mStr.slice(1);
-
+    var mCapNext = true;
+    var rStr = "";    
+    for(i=0;i<mStr.length;i++){
+      if(mCapNext){
+        rStr += mStr.charAt(i).toUpperCase();
+        mCapNext = false;
+      }else{
+        rStr += mStr.charAt(i);
+      }
+      if(mStr.charAt(i)==" "){
+        mCapNext = true;
+      }
+    }
+    return rStr;
   }catch(error){
     return mStr;
   }
