@@ -2502,7 +2502,7 @@ function QSLEL(elSearchList,iQuery){
   var elTemp = document.createElement("div");
   var Hit = 0; // Archive Hit Counter
   var bMark = NodeMarkCookieCheck();
-
+  var mCount = 0;
   // Get the board nodeID
   /*
   var elBoard = SearchPS(elSearchList,'board');
@@ -2515,6 +2515,7 @@ function QSLEL(elSearchList,iQuery){
     for(let i=ArchiveNum(); i>0;i--){
       $(elTemp).load(ArchiveIndex(i) + iQuery, function(){
         // Loop through and add each child.
+        mCount += elTemp.querySelectorAll('[id][date][time]').length;
         var mHTML = "";
         var elDiv = elTemp.lastElementChild;
         var mID=""; var mTitle=""; var mIcon="";          
@@ -2638,6 +2639,8 @@ function QSLEL(elSearchList,iQuery){
         if(Hit>=ArchiveNum()){
           if(elSearchList.innerHTML==""){
             elSearchList.innerHTML = "<small><i>No result.</i></small>"
+          }else{
+            elSearchList.innerHTML = "<h4>Found: "+ mCount +"</h4>" + elSearchList.innerHTML;
           }
         }
       });

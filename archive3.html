@@ -1,4 +1,4 @@
-<div id="P800000000000" updated="20240408" class="mbscroll" date='80000000' time='0000' data-quest="1">
+<div id="P800000000000" updated="20240409" class="mbscroll" date='80000000' time='0000' data-quest="1">
   <content>
     <div class="mbpdc"></div><div style="clear:left"></div>
     <div control>
@@ -54,59 +54,53 @@
         </hide>
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Sitemap Quests">🎪</a>
         <hide >
-          <h4>🎪 Sitemap Quests</h4><hr>
+          <h4>🎪 Sitemap Quests Queries</h4><hr>
           <div>
-            <div class="mbbutton" onclick="ShowNext(this)">Rank A Quests [1]</div>
+            <a class="mbbutton mbRankA" 
+            onclick="QSL(this,'#P800000000000,#P202303052122,#P202208032040,#P202208161957,#P202302201503')">⭐</a>  
+            <span class="mbbutton" onclick="ShowNextInline(this)">New Features</span>
             <hide>
-              <ol>
-                <li>New Feature
-                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> 20240331: Add new useful feature.</hide>
-                  <button class="mbbutton" onclick="ShowNextInline(this)">📌<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> 20240401: Implement TSN at sitemap. 🚨🟥Alarms 🟨Features 🟩Reference 🟦Tasks</hide>
-                </li>
-              </ol>
-              <div class="mbCB"></div>
+              <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> 20240331: Add new useful feature.</hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)">📌<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> 20240401: Implement TSN at sitemap. 🚨🟥Alarms 🟨Features 🟩Reference 🟦Tasks</hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Arcacia>📌<div class="mbavem mbArcacia"></div></button><hide> <b>Arcacia:</b> 20240409: Showcase new features so others can follow.</hide>
             </hide>
-          </div><!--Rank A Quests-->
+          </div><!--Rank A Queries-->
           <div>
-            <div class="mbbutton" onclick="ShowNext(this)">Rank B Quests [0]</div>
+            <a class="mbbutton mbRankB" 
+            onclick="QSL(this,'#P800000000000,#P202303052122')">⭐</a>  
+            <span class="mbbutton" onclick="ShowNextInline(this)">Feature Upgrade</span>
             <hide>
-              <ol>
-                <li>Feature Upgrade
-                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> 20240331: Upgrade existing features of the sitemap.</hide>
-                </li>
-              </ol>
-              <div class="mbCB"></div>
+              <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> 20240331: Upgrade existing features of the sitemap.</hide>
             </hide>
-          </div><!--Rank B Quests-->       
+          </div><!--Rank B Queries-->
+
           <div>
-            <div class="mbbutton" onclick="ShowNext(this)">Rank C Quests</div>
+            <a class="mbbutton mbRankC" 
+            onclick="QSL(this,'[id][date][time]:not([data-subject],[data-skill],[data-chat],[data-podcast],[data-book],[data-game],[data-puzzle]):not(:contains(\'⭐\'))')">📌</a>  
+            <span class="mbbutton" onclick="ShowNextInline(this)">Tag Audit</span>
             <hide>
-              <ol>
-                <li>Audit Tags
-                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> 20240331: Check directory categories. Are there too many? What should be added?</hide>
-                  <button class="mbbutton" onclick="ShowNextInline(this)">🎯<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Target area: I want to clear the Issues tag, or nodes tagged with Issue should addressed.</hide>
-                </li>
-              </ol>
-              <div class="mbCB"></div>
+              <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> 20240331: Check directory categories. Are there too many? What should be added?</hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)">🎯<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Target area: I want to clear the Issues tag, or nodes tagged with Issue should addressed.</hide>
             </hide>
-          </div><!--Rank C Quests-->
+          </div><!--Rank C Queries-->
           <div>
-            <div class="mbbutton" onclick="ShowNext(this)">Rank D Quests</div>
+            <a class="mbbutton mbRankC" 
+            onclick="QSL(this,'[data-skill]:not([data-alchemist],[data-cleric],[data-herald],[data-magician],[data-oracle],[data-paladin]')">📌</a>  
+            <span class="mbbutton" onclick="ShowNextInline(this)">Skill Archetype Tags</span>
             <hide>
-              <ol>
-                <li>Format Node
-                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> 20240331: Update the node format to the latest that has a tag for the sitemap.</hide>
-                  <button class="mbbutton" onclick="ShowNextInline(this)">🎯<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Target area: Prioritize any node with the 📌 icon or with a name on the sitemap that is not descriptive.</hide>
-                </li>
-                <li>Tag for Sitemap
-                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> 20240331: Tag all non-chat nodes so all of them can be reached from sitemap.</hide>
-                  
-                </li>
-    
-              </ol>
-              <div class="mbCB"></div>
+              <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Ivy>📌<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> 20240409: Each skill should have at least one archetype tag.</hide>
             </hide>
-          </div><!--Rank D Quests-->
+          </div><!--Rank C Queries-->
+          <div>
+            <a class="mbbutton mbRankD" 
+            onclick="QSL(this,'[id][date][time]:not(:contains(\'parentid\'))')">📌</a>  
+            <span class="mbbutton" onclick="ShowNextInline(this)">Node Format</span>
+            <hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> 20240331: Update the node format to the latest that has a tag for the sitemap.</hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)">🎯<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Target area: Prioritize any node with the 📌 icon or with a name on the sitemap that is not descriptive.</hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)">📌<div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> 20240331: Tag all non-chat nodes so all of them can be reached from sitemap.</hide>
+            </hide>
+          </div><!--Rank D Queries-->
 
 
           
@@ -647,21 +641,16 @@
                 </div><!--@Detective / Sasha-->
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202207161025|🍂</lnk></span>
-                  <macro>{"guildlog":"8","rank":"D","updates":"1","node":"202207161025","author":"Tanya","chapter":"@Dungeon","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"8","rank":"B","updates":"2","node":"202207161025","author":"Tanya","chapter":"@Dungeon","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"2","icon":"🏘️","node":"202307231022","title":"NextDoor Workflow","info":"Replying/Deploying.","cmd":"quest"}</macro> 
                     <span class="mbListCapNC mbRankA"></span>
-                    <macro>{"log":"","priority":"0","icon":"⚔️","node":"202403091025","title":"Trolling","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202207161025","title":"Guild Log Quests","info":"Process guild log topics. 2304:16 2305:15 2306:14 2307:12 2308:11 2309:9 2310:8.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
-                    
-                    <macro>{"log":"","priority":"0","icon":"🔮","node":"202209142228","title":"Oracle","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"📒","node":"202210151544","title":"Quotes","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"0409","priority":"3","icon":"🍂","node":"202207241111","title":"Biases","info":"Since 2022 Dec","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🏰","node":"202312251111","title":"Arcacian Quest","info":"This is a board game design project.","cmd":"quest"}</macro>     
-                    <macro>{"log":"","priority":"0","icon":"🍋","node":"202307231931","title":"Productive Habits","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"5","icon":"♟️","node":"202309042239","title":"Game Theory","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"⚖️","node":"202301011739","title":"Criminal Laws","info":"Since 2023 Jan.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"3","icon":"🍂","node":"202207161025","title":"Log Fall Quest","info":"Since 2022 Dec","cmd":"quest"}</macro>
                     <!--<span class="mbListCapNC mbRankC"></span>-->
                     
@@ -690,14 +679,16 @@
                 </div><!--@Freedom / James-->
                 <div class="mbCB">
                   <!--<span style="float:right"><lnk>202311072250|👑</lnk></span>-->
-                  <macro>{"guildlog":"0","rank":"U","updates":"0","node":"202209251051","author":"Gaia","chapter":"@Gaia","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"A","updates":"1","node":"202209251051","author":"Gaia","chapter":"@Gaia","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"1","icon":"👑","node":"202209212113","title":"Progressing Democracy","cmd":"quest"}</macro>
-                    <!--<span class="mbListCapNC mbRankA"></span>-->                       
+                    <span class="mbListCapNC mbRankA"></span>
+                    <macro>{"log":"0409","priority":"2","icon":"🐕","node":"202404022358","title":"Pet Keeping","info":"","cmd":"quest"}</macro>                      
                     <span class="mbListCapNC mbRankB"></span>   
                     <macro>{"log":"","priority":"0","icon":"📒","node":"202210151544","title":"Quotes","info":"","cmd":"quest"}</macro> 
                     <span class="mbListCapNC mbRankC"></span> 
+                    
                     <macro>{"log":"","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
                     <macro>{"log":"","priority":"9","icon":"🥨","node":"","title":"Layout update","info":"Link to index section.","cmd":"quest"}</macro>
@@ -1054,7 +1045,7 @@
                 </div><!--@Whale / Black-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202302252025|🍵</lnk></span>
-                  <macro>{"guildlog":"6","rank":"U","updates":"0","node":"202208180941","author":"LRRH","chapter":"@Wish","cmd":"pb"}</macro>            
+                  <macro>{"guildlog":"6","rank":"D","updates":"1","node":"202208180941","author":"LRRH","chapter":"@Wish","cmd":"pb"}</macro>            
                   <div class="mbPinner mbhide">
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     
@@ -1072,7 +1063,7 @@
                     <macro>{"log":"","priority":"0","icon":"🎊","node":"202301011001","title":"New Yr Resolution","info":"Support new year resolutions.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"🧹","node":"","title":"Page cleanup","info":"Cleanup the @Wish main page.","cmd":"quest"}</macro>  
                     <span class="mbListCapNC mbRankD"></span>
-                    <macro>{"log":"","priority":"4","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro>  
+                    <macro>{"log":"0409","priority":"4","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro>  
                   </div>
                 </div><!--@Wish / LRRH-->   
                 <div class="spacer"></div><div class="spacer"></div>
@@ -20798,7 +20789,7 @@ data-DXP-WIN-Casey
   <mbKudo>To be continued...</mbKudo>
   </div><node>{"type":"chat","id":"202404022123","parentid":"202403112121","parentname":"Timeline","icon":"🕰️","title":"Timeline Game 2","prev":"202403112108","author":"Sasha","location":"Puzzle Plaza"}</node>
 </div><!--Timeline Game 2-->
-<div id="P202404022358" class="mbscroll" date='20240402' time='2358' data-arts="150" data-subject="150" data-skill data-quest="-1">
+<div id="P202404022358" class="mbscroll" date='20240402' time='2358' data-arts="150" data-subject="150" data-skill data-cleric data-quest="-1">
   <content>
     <div class="mbpdc"></div><div style="clear:left"></div>
     <div class="mbscroll">
@@ -20825,7 +20816,7 @@ data-DXP-WIN-Casey
         </ol>
         <div class="mbCB"></div>
       </hide>
-    </div>
+    </div><!--Compatibility Considerations-->
     <div class="mbscroll">
       <div class="mbbutton" onclick="ShowNext(this)">Where</div>
       <hide><hr><div class="mbav50r mbGaia"></div>
@@ -20833,10 +20824,11 @@ data-DXP-WIN-Casey
           <li>SPCA Rescued Animals <macro>{"cmd":"url","url":"https://www.spcai.org/","desc":"🔗"}</macro></li>
           <li>Adopt a pet <macro>{"cmd":"url","url":"https://www.adoptapet.com/","desc":"🔗"}</macro></li>
           <li>Good dog <macro>{"cmd":"url","url":"https://www.gooddog.com/","desc":"🔗"}</macro></li>
+          <li>Where not <macro>{"cmd":"url","url":"https://www.stoponlinepuppymills.org/online-puppy-brokers/","desc":"🔗"}</macro></li>
         </ol>
         <div class="mbCB"></div>
       </hide>
-    </div>    
+    </div><!--Where-->  
   </content>
   <card>
     <div class="mbCharCard">
