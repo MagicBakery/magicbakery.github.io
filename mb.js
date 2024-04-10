@@ -11,6 +11,13 @@ function _At(iLoc){
   return false;
 }
 //========SHARED FUNCTIONS
+// OVERLOAD
+// 20240410: StarTree
+// https://stackoverflow.com/questions/8746882/jquery-contains-selector-uppercase-and-lower-case-issue
+jQuery.expr[':'].contains = function(a, i, m) {
+  return jQuery(a).text().toUpperCase()
+      .indexOf(m[3].toUpperCase()) >= 0;
+};
 function AtBlogSpot(){
   // 20230916: StarTree: Return true if this code is at BlogSpot
   return _At("BlogSpot");
@@ -2513,6 +2520,7 @@ function QSLEL(elSearchList,iQuery){
 
   $(document).ready(function(){
     for(let i=ArchiveNum(); i>0;i--){
+      
       $(elTemp).load(ArchiveIndex(i) + iQuery, function(){
         // Loop through and add each child.
         mCount += elTemp.querySelectorAll('[id][date][time]').length;
@@ -2530,6 +2538,8 @@ function QSLEL(elSearchList,iQuery){
 
         while(elDiv != null){
           mNode = elDiv.getElementsByTagName("node");          
+          mKids = [];
+          mJSONKids = "";
           if(NotBlank(mNode)){
             mJSON = JSON.parse(mNode[0].innerHTML);
             mTitle = mJSON.title;
@@ -2541,6 +2551,7 @@ function QSLEL(elSearchList,iQuery){
             mID = elDiv.getAttribute("id");
             mTitle = elDiv.getAttribute("title");
             mIcon = elDiv.getAttribute("icon");
+
           }
           
 
@@ -2589,7 +2600,6 @@ function QSLEL(elSearchList,iQuery){
           if(IsBlank(mOrder)){mOrder = mID;}
           
           
-          mKids = [];
           if(IsBlank(mJSONKids)){
             //mTag = TitleToTag(mTitle);
             mKids.push(mID);
@@ -2614,7 +2624,8 @@ function QSLEL(elSearchList,iQuery){
             mHTML += " style='order:" + mOrder + "'>";
             mHTML += "<div control>";
             mHTML += "<hide>"+ elDiv.textContent +"</hide>";
-            mHTML += "<a class='mbbutton mbILB25' onclick='QSLTree(this,\"[data-"+ mKids[k] +"]\")' title='"+ Cap(mCategory) + ":" + mOrder + "\\" + Cap(mKids[k]).replaceAll("-"," ")  +"'>📒</a>";
+            //mHTML += "<a class='mbbutton mbILB25' onclick='QSLTree(this,\"[data-"+ mKids[k] +"]\")' title='"+ Cap(mCategory) + ":" + mOrder + "\\" + Cap(mKids[k]).replaceAll("-"," ")  +"'>📒</a>";
+            mHTML += "<a class='mbbutton mbILB25' onclick='QSLTree(this,\"[data-"+ mKids[k] +"]\")'>📒</a>";
             if(k==0){
               mHTML += LnkCode(mID,mTitle,mIcon+mType,bMark); 
             }else{
@@ -2637,11 +2648,7 @@ function QSLEL(elSearchList,iQuery){
           elSearchList.innerHTML += mHTML;  
         }
         if(Hit>=ArchiveNum()){
-          if(elSearchList.innerHTML==""){
-            elSearchList.innerHTML = "<small><i>No result.</i></small>"
-          }else{
-            elSearchList.innerHTML = "<h4>Found: "+ mCount +"</h4>" + elSearchList.innerHTML;
-          }
+          elSearchList.innerHTML = "<h4>Found: "+ mCount +"</h4>" + elSearchList.innerHTML;
         }
       });
     }
@@ -4925,7 +4932,16 @@ function AddElementFC(el,iType,iHTML){ // Add as a first child
   el.prepend(elTemp);
   return elTemp;
 }
+
 function TextQSL(elButton){
+  // 20240401: StarTree: Run QSL with the text in the first input box in the control.
+  var elControl = SearchPS(elButton,'control');
+  var elInput = elControl.querySelector('input');
+  // 20240410: StarTree: Changed implementation to do a general text search.
+  QSL(elButton,"[id][date][time]:contains('" + elInput.value +"')");
+  return;
+}
+function TextQSLTag(elButton){
   // 20240401: StarTree: Run QSL with the text in the first input box in the control.
   var elControl = SearchPS(elButton,'control');
   var elInput = elControl.querySelector('input');
@@ -4938,6 +4954,8 @@ function TextSearchPN(elSearchBox){
   TextFilter(mScope,mKeyword,"div");
 }
 function TextSearchPNEV(e,elSearchBox){
+
+  
   // 20240401: StarTree: 
   if(e.code=='Enter'){
     TextQSL(elSearchBox);

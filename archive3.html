@@ -17,7 +17,9 @@
         </hide>
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Tags">🏷️</a>
         <hide >
-          <small><a class="mbbutton" onclick="TextQSL(this)" title="Query textbox content as tag">🔍 Run Query on Textbox</a></small>
+          <small><a class="mbbutton" onclick="TextQSLTag(this)" title="Query textbox content as tag">🔍 Query Textbox as a Tag</a></small>
+
+          
           <hr>
           <h4>🏷️ Tags</h4>
           <a class="mbbutton" onclick="QSL(this,'[id][date][time]')" title="All with id, date and time">(ALL)</a> |
@@ -73,7 +75,6 @@
               <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> 20240331: Upgrade existing features of the sitemap.</hide>
             </hide>
           </div><!--Rank B Queries-->
-
           <div>
             <a class="mbbutton mbRankC" 
             onclick="QSL(this,'[id][date][time]:not([data-subject],[data-skill],[data-chat],[data-podcast],[data-book],[data-game],[data-puzzle]):not(:contains(\'⭐\'))')">📌</a>  
@@ -84,16 +85,8 @@
             </hide>
           </div><!--Rank C Queries-->
           <div>
-            <a class="mbbutton mbRankC" 
-            onclick="QSL(this,'[data-skill]:not([data-alchemist],[data-cleric],[data-herald],[data-magician],[data-oracle],[data-paladin]')">📌</a>  
-            <span class="mbbutton" onclick="ShowNextInline(this)">Skill Archetype Tags</span>
-            <hide>
-              <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Ivy>📌<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> 20240409: Each skill should have at least one archetype tag.</hide>
-            </hide>
-          </div><!--Rank C Queries-->
-          <div>
             <a class="mbbutton mbRankD" 
-            onclick="QSL(this,'[id][date][time]:not(:contains(\'parentid\'))')">📌</a>  
+            onclick="QSL(this,'[id][date][time]:not(:contains(\'parentid\'))')">📌</a> 
             <span class="mbbutton" onclick="ShowNextInline(this)">Node Format</span>
             <hide>
               <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> 20240331: Update the node format to the latest that has a tag for the sitemap.</hide>
@@ -101,7 +94,20 @@
               <button class="mbbutton" onclick="ShowNextInline(this)">📌<div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> 20240331: Tag all non-chat nodes so all of them can be reached from sitemap.</hide>
             </hide>
           </div><!--Rank D Queries-->
-
+          <div>
+            <span class="mbbutton" onclick="ShowNextInline(this)">✅ Completed</span>
+            <hide>
+              <div>
+                <a class="mbbutton mbRankC" 
+                onclick="QSL(this,'[data-skill]:not([data-alchemist],[data-cleric],[data-herald],[data-magician],[data-oracle],[data-paladin]')"></a>  
+                <span class="mbbutton" onclick="ShowNextInline(this)">Archetype Tags</span>
+                <hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Ivy>📌<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> 20240409: Each skill should have at least one archetype tag.</hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)" >🏹<div class="mbavem mbZoey"></div></button><hide> <b>Ivy:</b> 20240409: Tag 86 nodes</hide>
+                </hide>
+              </div><!--Rank C Queries-->
+            </hide>
+          </div><!--Completed-->
 
           
         </hide>
@@ -490,7 +496,7 @@
             <div class="mbMC3" onclick="MC3Resize(this)">
               <div style="display:flex;flex-direction: column;">
                 <div class="mbCB">
-                  <macro>{"guildlog":"0","rank":"U","updates":"0","node":"202403231454","author":"LRRH","chapter":"@Academy","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"C","updates":"1","node":"202403231454","author":"LRRH","chapter":"@Academy","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"2","icon":"🏘️","node":"202307231022","title":"NextDoor Workflow","info":"Replying/Deploying.","cmd":"quest"}</macro> -->
@@ -500,7 +506,7 @@
                     <macro>{"log":"","priority":"2","icon":"🌳","node":"202210062300","title":"Skill Tree","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"3","icon":"🧭","node":"202207282137","title":"Moral Compass","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
-                    <macro>{"log":"","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"0409","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202403231454","title":"Guild log quests","info":"Clear guild log quests.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
                     <macro>{"log":"","priority":"4","cmd":"quest","title":"Layout update","icon":"🥨"}</macro>
@@ -533,10 +539,8 @@
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"","priority":"0","icon":"📋","node":"202403302012","title":"Notepad","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
-                    <macro>{"log":"0404","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"📜","node":"202201140711","title":"Charter 18 Upgrade","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"🎩","node":"202209082209","title":"Magician Skills","info":"","cmd":"quest"}</macro>                 
-                    <macro>{"log":"","priority":"0","icon":"⭐","node":"202208032040","title":"Web Programming","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"0404","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>          
+                    <macro>{"log":"","priority":"9","icon":"⭐","node":"202208032040","title":"Web Programming","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
                     
                     <macro>{"log":"0401","priority":"1","icon":"🗓️","node":"202307150844","title":"Monthly Scores","cmd":"quest"}</macro>   
@@ -548,28 +552,23 @@
                 </div><!--@Board / StarTree-->
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202301080924|✏️</lnk></span>
-                  <macro>{"guildlog":"21","rank":"A","updates":"1","node":"202210151642","author":"Patricia","chapter":"@Book","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"21","rank":"A","updates":"2","node":"202210151642","author":"Patricia","chapter":"@Book","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankA"></span>-->
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"0406","priority":"0","icon":"📻","node":"202404060014","title":"Podcast","info":"","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"0","icon":"🕰️","node":"202403112121","title":"Timeline","info":"The Board Game.","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"3","icon":"📗","node":"202210151642","title":"Add Books","info":"","cmd":"quest"}</macro> 
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"1","icon":"🎪","node":"202301080924","title":"Writing Lessons","info":"Add to writing lessons node.","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"🔮","node":"202210151642","title":"Attribution","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"📒","node":"202210151544","title":"Quotes","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"📯","node":"202308240930","title":"The Story So Far","info":"","cmd":"quest"}</macro>
                     
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202210151642","title":"Guild log quests","info":"2304:32 2306:31 2308:30 2309:28 2310:26 2312:25 2401:24 2402:21","cmd":"quest"}</macro>
-                    
                     <span class="mbListCapNC mbRankC"></span>
-                    <macro>{"log":"","priority":"","icon":"🎓","node":"202208071432","title":"Teaching","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"","icon":"🎬","node":"202212041019","title":"Movie Club","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"","icon":"🎁","node":"","title":"Bookcrossing","cmd":"quest"}</macro>
                                 
                     <span class="mbListCapNC mbRankD"></span>
-                    <macro>{"log":"","priority":"9","icon":"🥨","node":"202210151642","title":"Layout update","info":"Link to index section.","cmd":"quest"}</macro>
+                    <macro>{"log":"0409","priority":"9","icon":"🥨","node":"202210151642","title":"Layout update","info":"Link to index section.","cmd":"quest"}</macro>
                 
                   </div>
                 </div><!--@Book / Patricia-->   
@@ -621,20 +620,21 @@
                 </div><!--@Carrot / Arcacia-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202207112218|🌺</lnk></span>
-                  <macro>{"guildlog":"8","rank":"U","updates":"0","node":"202208141844","author":"Sasha","chapter":"@Detective","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"8","rank":"C","updates":"1","node":"202208141844","author":"Sasha","chapter":"@Detective","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">           
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"1","icon":"⚖️","node":"202309282125","title":"Policy Evaluation","info":"Update the node and make sub nodes.","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"1","icon":"🌺","node":"202207112218","title":"Search Visibility","info":"Follow up with discussion. Fix Index Errors","cmd":"quest"}</macro>  
                     <span class="mbListCapNC mbRankA"></span>   
-                    <macro>{"log":"","priority":"0","icon":"📛","node":"202403292132","title":"Self Introduction","info":"","cmd":"quest"}</macro>  
+                    
                     <macro>{"log":"","priority":"9","icon":"🥯","node":"202302032008","title":"221B Baker Street","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"1","icon":"🏰","node":"202312251111","title":"Arcacian Quest","info":"This is a board game design project.","cmd":"quest"}</macro>                
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202208141844","title":"Guild Log Quests","info":"Clear quest at guild log. 2304:6 2305:11 2306:12 2307:9","cmd":"quest"}</macro> 
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"1","icon":"📯","node":"202305262224","title":"Leadership","info":"Update the node and make sub nodes.","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"9","icon":"🔦","node":"202309171832","title":"CSI The Board Game","cmd":"quest"}</macro>                    
-                    <!--<span class="mbListCapNC mbRankC"></span>-->
+                    <span class="mbListCapNC mbRankC"></span>
+                    <macro>{"log":"0409","priority":"0","icon":"📛","node":"202403292132","title":"Self Introduction","info":"","cmd":"quest"}</macro>  
                     <span class="mbListCapNC mbRankD"></span>    
                     <macro>{"log":"","priority":"4","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro> 
                   </div>
@@ -913,7 +913,7 @@
                   </div>
                 </div><!--@Scape / Skyle-->  
                 <div class="mbCB">
-                  <macro>{"guildlog":"52","icon":"","rank":"U","updates":"0","node":"202208292208","author":"Zoey","chapter":"@Seed","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"52","icon":"","rank":"C","updates":"2","node":"202208292208","author":"Zoey","chapter":"@Seed","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     
@@ -924,12 +924,12 @@
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"0","icon":"🌍","node":"202301092123","title":"World Metrics","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🏰","node":"202312251111","title":"Arcacian Quest","info":"This is a board game design project.","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"0","icon":"⚖️","node":"202301011739","title":"Criminal Laws","info":"Since 2023 Jan.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
+                    <macro>{"log":"0409","priority":"0","icon":"🏹","node":"800000000000","title":"Sitemap Quest","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🌱","node":"202309272109","title":"Table of Contents","info":"Follow up on Seed Quest for making a book. Organize table of contents.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","icon":"🥾","node":"202207161423","title":"Index layout","info":"Upgrade the layout of nodes at data-philosophy index.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
-                    <macro>{"log":"","priority":"1","icon":"🥨","node":"202208292208","title":"Guild Log Quest","info":"2305:59 2306:59 2307:58 2308:57 2309:55 2310:54 2311:52 2401:51 2402:50 2403:49.","cmd":"quest"}</macro>
+                    <macro>{"log":"0409","priority":"1","icon":"🥨","node":"202208292208","title":"Guild Log Quest","info":"2305:59 2306:59 2307:58 2308:57 2309:55 2310:54 2311:52 2401:51 2402:50 2403:49.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"4","cmd":"quest","title":"Layout update","icon":"🥨"}</macro>
                   </div>
                 </div><!--@Seed / Zoey-->
@@ -972,7 +972,7 @@
                 </div><!--@Tavern / Sylvia-->           
                 <div class="mbCB">
                   <span style="float:right"><lnk>202303121053|🍀</lnk></span>
-                  <macro>{"guildlog":"24","rank":"A","updates":"3","node":"202208212113","author":"Casey","chapter":"@Treasure","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"24","rank":"A","updates":"4","node":"202208212113","author":"Casey","chapter":"@Treasure","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     
@@ -997,11 +997,11 @@
                     <macro>{"log":"","priority":"8","icon":"🍀","node":"202303121053","title":"Wanted List Sort","info":"Add sort function.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202208212113","title":"Guild log tasks","info":"Clear guild log tasks. 2306:31 2307:30 2308:29 2309:27 2310:26 2311:25 2401:24 2402:23.","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"2","icon":"🥨","node":"202208212113","title":"Layout update","cmd":"quest"}</macro>
+                    <macro>{"log":"0409","priority":"2","icon":"🥨","node":"202208212113","title":"Layout update","cmd":"quest"}</macro>
                   </div>
                 </div><!--@Treasure / Casey-->        
                 <div class="mbCB">
-                  <macro>{"guildlog":"89","rank":"C","updates":"2","node":"202210080934","author":"Helen","chapter":"@Vacation","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"89","rank":"C","updates":"3","node":"202210080934","author":"Helen","chapter":"@Vacation","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankA"></span>     
                     <macro>{"log":"","priority":"1","icon":"🎤","node":"202207220710","title":"Singalong Quest","info":"Make lyrics pages","cmd":"quest"}</macro>
@@ -1015,7 +1015,7 @@
                     <macro>{"log":"0405","priority":"0","icon":"🎀","node":"202207281948","title":"Anime Club","cmd":"quest"}</macro>
                     <macro>{"log":"0406","priority":"0","icon":"🥠","node":"202302011021","title":"Fortune Cookies","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
-                    <macro>{"log":"","priority":"4","icon":"🥨","node":"202208122241","title":"Layout update","cmd":"quest"}</macro>
+                    <macro>{"log":"0409","priority":"4","icon":"🥨","node":"202208122241","title":"Layout update","cmd":"quest"}</macro>
                   </div>
                 </div><!--@Vacation / Helen-->
                 <div class="mbCB">
@@ -4527,7 +4527,7 @@
               <tr>  
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240407')">7<br><div class="mbavem mbStarTree"></div></td>                    
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240408')">8<br><div class="mbavem mbArcacia"></div></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240409')">9<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240409')">9<br><div class="mbavem mbZoey"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240410')">10<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240411')">11<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240412')">12<br>&nbsp;</td>
@@ -9944,7 +9944,7 @@
     {"name":"P4","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
-<div id="P202401122118" class="mbscroll" date='20240112' time='2118' data-skill>
+<div id="P202401122118" class="mbscroll" date='20240112' time='2118' data-skill data-cleric>
   <content>
     <div class="mbpdc"></div>
 
@@ -12087,7 +12087,7 @@
   <ref><lnk>202210032214|🎨 Manga Chapters</lnk></ref>
   <node>{"id":"202401281517","parentid":"202210032214","parentname":"Manga Chapters","icon":"🧩","title":"World Peace Puzzle","subtitle":"Manga Chapter 3","img":"https://github.com/MagicBakery/Images/blob/main/CH03_01_EN.png?raw=true","music":"","author":"3B","description":"","card-text":""}</node>
 </div><!--World Peace Puzzle-->
-<div id="P202401281635" class="mbscroll" date='20240128' time='1635' data-skill>
+<div id="P202401281635" class="mbscroll" date='20240128' time='1635' data-skill data-herald>
   <content>
     <div class="mbpdc"></div>
     <div class="mbscroll">
@@ -13061,7 +13061,7 @@
     {"name":"P4","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
-<div id="P202402062124" class="mbscroll" date='20240206' time='2124' data-skill>
+<div id="P202402062124" class="mbscroll" date='20240206' time='2124' data-skill data-herald>
   <content>
     <div class="mbpdc"></div>
     <ol>
@@ -13750,7 +13750,7 @@
     {"name":"P4","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
-<div id="P202402132242" class="mbscroll" date='20240213' time='2242' data-philosophy data-card data-slide data-skill>
+<div id="P202402132242" class="mbscroll" date='20240213' time='2242' data-philosophy data-card data-slide data-skill data-magician>
   <content>
     <div class="mbpdc">In a Priority Currency, one unit of the currency is infinitely more valuable than units in currencies of lower priorities.</div>
     <div class="mbscroll">
@@ -16075,7 +16075,7 @@ data-DXP-WIN-Casey
     {"name":"Amelia","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
-<div id="P202403050033" class="mbscroll" date='20240305' time='0033' data-philosophy data-skill data-slide>
+<div id="P202403050033" class="mbscroll" date='20240305' time='0033' data-philosophy data-skill data-herald data-slide>
   <content>
     <div class="mbpdc"></div><div style="clear:left"></div>
     <div class="mbscroll">
@@ -17579,7 +17579,7 @@ data-DXP-WIN-Casey
   <mbKudo>Wee~~!</mbKudo>
   </div><node>{"type":"chat","id":"202403142035","parentid":"202209212113","parentname":"Stages of Democracy","icon":"👑","title":"Stages of Democracy","prev":"202403112159","author":"Black","location":"Game Room"}</node>
 </div><!--Stages of Democracy-->
-<div id="P202403142256" class="mbscroll" date='20240314' time='2256' data-skill data-slide data-subject data-civics>
+<div id="P202403142256" class="mbscroll" date='20240314' time='2256' data-skill data-slide data-subject data-civics data-oracle>
   <content>
     <div class="mbpdc"><b>Oversight</b> is a principal's means to detect misbehavior of their agent. 
       <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> In a democractic society, it is the general public's means to see if their government agent has misappropriated public resources or abused its powers.</hide>
@@ -17660,7 +17660,7 @@ data-DXP-WIN-Casey
   <ref></ref>
   <node>{"id":"202403142256","parentid":"202209142228","parentname":"Oracle Skills","icon":"🔮","title":"Oversight","subtitle":"Skill","img":"https://cdn.pixabay.com/photo/2016/09/25/16/55/taiwan-1694133_1280.jpg","music":"","author":"Tanya","description":"","card-text":""}</node>
 </div><!--Oversight-->
-<div id="P202403142342" class="mbscroll" date='20240314' time='2342' data-skill data-slide>
+<div id="P202403142342" class="mbscroll" date='20240314' time='2342' data-skill data-herald data-paladin data-slide>
   <content>
     <div class="mbpdc"></div><div style="clear:left"></div>
   </content>
@@ -17728,7 +17728,7 @@ data-DXP-WIN-Casey
     {"name":"Fina","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
-<div id="P202403150017" class="mbscroll" date='20240315' time='0017' data-skill>
+<div id="P202403150017" class="mbscroll" date='20240315' time='0017' data-skill data-herald>
   <content>
     <div class="mbpdc"><b>Discussion Dashboard</b> aims to list the statuses of concerns on a topic for a newcomer to skip to the unaddressed concerns.</div><div style="clear:left"></div>
   </content>
@@ -18072,7 +18072,7 @@ data-DXP-WIN-Casey
   <mbKudo>To be continued...</mbKudo>
   </div><node>{"type":"chat","id":"202403172034","parentid":"202210062300","parentname":"Skill Tree","icon":"🌳","title":"Skill Tree","prev":"202403161819","author":"Ivy","location":"Game Room"}</node>
 </div><!--Skill Tree-->
-<div id="P202403172052" class="mbscroll" date='20240317' time='2052' data-skill>
+<div id="P202403172052" class="mbscroll" date='20240317' time='2052' data-skill data-cleric>
   <content>
     <div class="mbpdc"><b>Emotional Intelligence</b> refers to skills on understanding your own and other's emotion to have effective communication and teamwork.</div><div style="clear:left"></div>
     <div class="mbscroll">
@@ -19032,7 +19032,7 @@ data-DXP-WIN-Casey
           <hide><hr><div class="mbav50r mbLRRH"></div>
             These are skills the learner simply enjoy doing. This can include doing art, playing music, doing sports or exercise, reading, playing with animals, socializing, playing games, etc. 
             <hr>
-            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> A learning study in these skills could be self-driven because it makes them happy when they do it.</hide>
+            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> A learnier studying these skills could be self-driven because it makes them happy when they do it.</hide>
             <div class="mbCB"></div>
           </hide>
         </div>  
@@ -20080,21 +20080,30 @@ data-DXP-WIN-Casey
   <mbKudo>To be continued...</mbKudo>
   </div><node>{"type":"chat","id":"202403291800","parentid":"202208141928","parentname":"Puzzles","icon":"🐌","title":"Snail Time","prev":"202403262207","author":"Black","location":"Puzzle Plaza"}</node>
 </div><!--Snail Time-->
-<div id="P202403292132" class="mbscroll" date='20240329' time='2132' data-skill>
+<div id="P202403292132" class="mbscroll" date='20240329' time='2132' data-skill data-herald>
   <content>
     <div class="mbpdc"></div><div style="clear:left"></div>
     <div class="mbscroll">
-      <div class="mbbutton" onclick="ShowNext(this)">Self Introduction</div>
+      <div class="mbbutton" onclick="ShowNext(this)">🐤 Beginner Skills</div>
       <hide><hr>
         <ol>
-          <li><b>Task, Skill, Experience</b>
-            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> Start by describing your task, skills, and experience.</hide>
-          </li>
-          <li><b>Way of Questing</b>
-            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> Next describe your quest style.</hide>
-          </li>
-          <li><b>Contact details</b>
-            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> End by telling people how to reach you.</hide>
+          <li>
+            <span class="mbbutton" onclick="ShowNextInline(this)">Task, Skill, Experience</span>
+            <hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> Start by describing your task, skills, and experience.</hide>
+            </hide>
+          </li>          
+          <li>
+            <span class="mbbutton" onclick="ShowNextInline(this)">Way of Questing</span>
+            <hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> Next describe your quest style.</hide>
+            </hide>
+          </li>   
+          <li>
+            <span class="mbbutton" onclick="ShowNextInline(this)">Contact details</span>
+            <hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> End by telling people how to reach you.</hide>
+            </hide>
           </li>
         </ol>
         <div class="mbCB"></div>
@@ -20175,7 +20184,7 @@ data-DXP-WIN-Casey
   ]}</macro>
 </div><!-- STATUS -->
 
-<div id="P202403301836" class="mbscroll" date='20240330' time='1836' data-skill data-science='23' data-subject='23'>
+<div id="P202403301836" class="mbscroll" date='20240330' time='1836' data-skill data-science='23' data-subject='23' data-alchemist>
   <content>
     <div class="mbpdc"></div><div style="clear:left"></div>
 
@@ -21710,7 +21719,7 @@ data-DXP-WIN-Casey
     {"name":"Casey","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
-<div id="P202404072256" date='20240407' time='2256' data-chat data-202303052122 data-happy data-202404072256 data-announcement>
+<div id="P202404082256" date='20240408' time='2256' data-chat data-202303052122 data-happy data-202404072256 data-announcement>
   <content>
   <div></div><div class="mbav50r mbCB mbLRRH" data-WsXP-LRRH>⚔️</div>
   <div class="mbpdc"><b>The</b> quest count has not been decreasing. We are queuing more entires than we are adding them to the website.
@@ -21724,14 +21733,14 @@ data-DXP-WIN-Casey
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> 95. Sorry Red. I thought I had more.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> But I only logged one today.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> Should we stop collecting links until the count goes down?</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> I think we should. It we just collect links without adding them, they are probably duplicates.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> I think we should. If we just collect links without adding them, they are probably duplicates.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-WsXP-Ledia>⚔️<div class="mbavem mbLedia"></div></button><hide> <b>Ledia:</b> Shouldn't that already be managed by the chapter quest? When you log an entry, you specify the chapter.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> The ones left at @Wish are over a year old and are hard for me.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-LnXP-Black>⚡<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> I don't think we should dwell on that number. The site is getting upgrades and it is improving. That should be focus.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Logging duplicates is wasteful.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-SXP-Black>🎓<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> I agree. I was talking about the hard quests. We should clear the impactful and low hanging fruits, even if doing so means that the log count is not going down.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Okay. Then please be mindful that new links could duplicate existing ones.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> I normally check that the new link has new content before logging it. I was under the impression that with the new directory we could sort them quicker and easier. So I don't want to miss a concept that is potentially helpful. 😖</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> I normally check that the new link has new content before logging it. I thought that with the new directory we could sort them quicker and easier. So I don't want to miss a concept that is potentially helpful. 😖</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-WsXP-Ledia>⚔️<div class="mbavem mbLedia"></div></button><hide> <b>Ledia:</b> I think Evelyn's approach is not wrong. There is no harm when the queue has many items. But there is harm if we miss a concept.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> Is it my turn to say, "compelling"? XD</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Okay. Then let's shelve this topic and continue consciously.</hide>
@@ -21739,7 +21748,7 @@ data-DXP-WIN-Casey
   <mbKudo>Little Red Riding Hood thanks all for questing.</mbKudo>
   </content>
   <ref></ref>
-  <node>{"id":"202404072256","parentid":"202403231454","parentname":"Panarcademy","icon":"🍮","title":"Processing Links","prev":"202404072256","author":"LRRH","location":"Magic Bakery","participants":"LRRH, Ledia, Zoey, Evelyn, Sasha, Black"}</node>
+  <node>{"id":"202404082256","parentid":"202403231454","parentname":"Panarcademy","icon":"🍮","title":"Processing Links","prev":"202404072256","author":"LRRH","location":"Magic Bakery","participants":"LRRH, Ledia, Zoey, Evelyn, Sasha, Black"}</node>
 </div><!--Processing Links-->
 <div date='20240408' time='2359' data-status>
   <macro>{"cmd":"daisy2","issues":"6","quests":"1155","activities":[
@@ -21799,7 +21808,99 @@ data-DXP-WIN-Casey
     {"name":"P4","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
+<div id="P202404092158" date='20240409' time='2158' data-chat data-202303052122 data-happy data-202404082256 data-800000000000>
+  <content>
+  <div></div><div class="mbav50r mbCB mbZoey" data-WrXP-Zoey>🏹</div>
+  <div class="mbpdc"><b>I</b> just want to say that the new quest query listing all nodes that need format upgrade is really helpful.
+  </div><hr class="mbCB mbhr">
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-IXP-Zoey>🔍<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> It shows 699 nodes to format. XD</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> Don't go crazy reformatting them. That is not a high priority quest.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> I already plan to format at lesat one per month. So I will just do some.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> More importantly it has so low mental demand you could do it while watching anime. XD</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLedia"></div></button><hide> <b>Ledia:</b> Legit.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Ivy>🏹<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> If you will do that, I recommend first tagging all the skill nodes with archetype. That is more important for the sitemap.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Zoey>🏹<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> 86 to go. Let's see if I can just finish it. XD</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Zoey="12">🏹<small>12</small> <div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> And it is done! XD It took one hour.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> Thank you. Please add a section at sitemap quest keeping this quest but explains that you did it already.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Zoey>🏹<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> Sure.</hide>
+  <hr class="mbCB">
+  <mbComplete>@Seed is now Rank C1.</mbComplete>
+  <hr class="mbCB">
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Zoey>🏹<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> Now onto the node formatting. XD</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH="2">🐾<small>2</small> <div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Red pounces on the Japanese nodes.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-AXP-Evelyn>💗<div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> Evelyn upgrades the mini diary node.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Vivi>📌<div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> When you query with the textbox, it should include the nodes that has the input as a kid.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-UXP-StarTree>🍮<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> StarTree couldn't get that to work! 😭</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree="2">⭐<small>2</small> <div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Made the text search by hitting enter more general and case insensitive.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> Good enough.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Wee~~!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> Actually it is much better than before. XD</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Wee~~!</hide>
+  <hr class="mbCB">
+  <mbComplete>@Academy is now Rank C1.</mbComplete>
+  <hr class="mbCB">
+  <mbKudo>Wee~~!</mbKudo>
+  </content>
+  <ref></ref>
+  <node>{"id":"202404092158","parentid":"202403231454","parentname":"Panarcademy","icon":"🏹","title":"Node formatting","prev":"202404082256","author":"Zoey","location":"Magic Bakery","participants":"Zoey, Ivy, Ledia, LRRH, Evelyn, Vivi, StarTree"}</node>
+</div><!--Node formatting-->
 <div date='20240409' time='2359' data-status>
+  <macro>{"cmd":"daisy2","issues":"6","quests":"1137","activities":[
+    {"ch":"11","rank":"B","updates":"1","last":"20240314"},
+    {"ch":"29","rank":"A","updates":"1","last":"20240329"},
+    {"ch":"32","rank":"A","updates":"1","last":"20240403"},
+    {"ch":"35","rank":"A","updates":"3","last":"20240403"},
+    {"ch":"24","rank":"D","updates":"1","last":"20240404"},
+    {"ch":"7","rank":"A","updates":"3","last":"20240406"},
+    {"ch":"14","rank":"C","updates":"3","last":"20240406"},
+    {"ch":"21","rank":"A","updates":"4","last":"20240406"},
+    {"ch":"12","rank":"B","updates":"1","last":"20240406"},
+    {"ch":"30","rank":"A","updates":"4","last":"20240406"},
+    {"ch":"17","rank":"S","updates":"2","last":"20240407"},
+    {"ch":"23","rank":"C","updates":"1","last":"20240407"},
+    {"ch":"34","rank":"A","updates":"3","last":"20240407"},
+    {"ch":"33","rank":"S","updates":"1","last":"20240408"},
+    {"ch":"28","rank":"D","updates":"1","last":"20240408"},
+    {"ch":"13","rank":"C","updates":"1","last":"20240408"},
+    {"ch":"18","rank":"B","updates":"3","last":"20240408"},
+    {"ch":"20","rank":"B","updates":"2","last":"20240408"},
+    {"ch":"19","rank":"B","updates":"1","last":"20240408"},
+    {"ch":"31","rank":"C","updates":"1","last":"20240409"},
+    {"ch":"25","rank":"A","updates":"4","last":"20240409"},
+    {"ch":"22","rank":"D","updates":"1","last":"20240409"},
+    {"ch":"16","rank":"B","updates":"2","last":"20240409"},
+    {"ch":"26","rank":"A","updates":"2","last":"20240409"},
+    {"ch":"27","rank":"A","updates":"2","last":"20240409"},
+    {"ch":"15","rank":"C","updates":"2","last":"20240409"}
+    {"ch":"5","rank":"C","updates":"1","last":"20240409"}
+    ],"players":"Zoey, Ivy, Ledia, LRRH, Evelyn, Vivi, StarTree","merits":"Zoey","recognitions":"Kisaragi, Vladanya","kudos":"Zoey, Ivy, Ledia, LRRH, Evelyn, Vivi, StarTree","awards":"3B, Albatross, Arcacia, Black, Cardinal, Evelyn, Kisaragi, Natalie, P4, Patricia, Sasha, Sylvia, Vladanya, Zoey","top":[
+    {"name":"Zoey","score":"24"},
+    {"name":"Arcacia","score":"16"},
+    {"name":"Evelyn","score":"14"},
+    {"name":"Kisaragi","score":"13"},
+    {"name":"Black","score":"11"},
+    {"name":"Vladanya","score":"10"},
+    {"name":"Natalie","score":"9"},
+    {"name":"P4","score":"8"},
+    {"name":"StarTree","score":"8"},
+    {"name":"Sylvia","score":"7"},
+    {"name":"3B","score":"7"},
+    {"name":"Patricia","score":"6"},
+    {"name":"Vivi","score":"6"},
+    {"name":"Ivy","score":"5"},
+    {"name":"Sasha","score":"5"},
+    {"name":"LRRH","score":"5"},
+    {"name":"Albatross","score":"4"},
+    {"name":"Cardinal","score":"4"},
+    {"name":"Ledia","score":"4"},
+    {"name":"Helen","score":"3"},
+    {"name":"Tanya","score":"2"},
+    {"name":"Fina","score":"1"},
+    {"name":"V","score":"1"},
+    {"name":"Casey","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div date='20240410' time='2359' data-status>
   <macro>{"cmd":"daisy2","issues":"6","quests":"1132","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
