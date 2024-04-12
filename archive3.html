@@ -59,7 +59,7 @@
           <h4>🎪 Sitemap Quests Queries</h4><hr>
           <div>
             <a class="mbbutton mbRankA" 
-            onclick="QSL(this,'#P800000000000,#P202303052122,#P202208032040,#P202208161957,#P202302201503')">⭐</a>  
+            onclick="QSL(this,'#P800000000000, #P202303052122, #P202208032040,#P202208161957, #P202302201503')">⭐</a>  
             <span class="mbbutton" onclick="ShowNextInline(this)">New Features</span>
             <hide>
               <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> 20240331: Add new useful feature.</hide>
@@ -99,7 +99,7 @@
             <hide>
               <div>
                 <a class="mbbutton mbRankC" 
-                onclick="QSL(this,'[data-skill]:not([data-alchemist],[data-cleric],[data-herald],[data-magician],[data-oracle],[data-paladin]')"></a>  
+                onclick="QSL(this,'[data-skill]:not([data-alchemist],[data-cleric],[data-herald],[data-magician],[data-oracle],[data-paladin])')"></a>  
                 <span class="mbbutton" onclick="ShowNextInline(this)">Archetype Tags</span>
                 <hide>
                   <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Ivy>📌<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> 20240409: Each skill should have at least one archetype tag.</hide>
@@ -116,6 +116,7 @@
     </div><!--CONTROLS-->
     <macro>{"cmd":"MC3"}</macro>
     <div class="mbpuzzle mbhide" onclick="MC3Resize(this)" >
+      <div></div>
       <div class="mbSearch" style="display:flex;flex-direction: column;">
         
         <macro>{"icon":"🌵","node":"202301071252","desc":"Abilene Paradox","cmd":"index","keys":"","url":""}</macro>      
@@ -496,16 +497,17 @@
             <div class="mbMC3" onclick="MC3Resize(this)">
               <div style="display:flex;flex-direction: column;">
                 <div class="mbCB">
-                  <macro>{"guildlog":"0","rank":"C","updates":"1","node":"202403231454","author":"LRRH","chapter":"@Academy","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0411","rank":"B","updates":"3","node":"202403231454","author":"LRRH","chapter":"@Academy","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"2","icon":"🏘️","node":"202307231022","title":"NextDoor Workflow","info":"Replying/Deploying.","cmd":"quest"}</macro> -->
-                    <span class="mbListCapNC mbRankA"></span>   
-                    <macro>{"log":"","priority":"1","icon":"🏫","node":"202403231454","title":"Panarcademy","info":"","cmd":"quest"}</macro>
+                    <!--<span class="mbListCapNC mbRankA"></span>   -->
                     <span class="mbListCapNC mbRankB"></span>
+                    <macro>{"log":"0411","priority":"3","icon":"🍂","node":"202207241111","title":"Biases","info":"Since 2022 Dec","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","icon":"🌳","node":"202210062300","title":"Skill Tree","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"3","icon":"🧭","node":"202207282137","title":"Moral Compass","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
+                    <macro>{"log":"0411","priority":"1","icon":"🏫","node":"202403231454","title":"Panarcademy","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"0409","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202403231454","title":"Guild log quests","info":"Clear guild log quests.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
@@ -552,7 +554,7 @@
                 </div><!--@Board / StarTree-->
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202301080924|✏️</lnk></span>
-                  <macro>{"guildlog":"21","rank":"A","updates":"2","node":"202210151642","author":"Patricia","chapter":"@Book","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"21","rank":"A","updates":"3","node":"202210151642","author":"Patricia","chapter":"@Book","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankA"></span>-->
                     <span class="mbListCapNC mbRankA"></span>
@@ -565,6 +567,7 @@
                     
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202210151642","title":"Guild log quests","info":"2304:32 2306:31 2308:30 2309:28 2310:26 2312:25 2401:24 2402:21","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
+                    <macro>{"log":"0411","priority":"1","icon":"🏫","node":"202403231454","title":"Panarcademy","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"","icon":"🎁","node":"","title":"Bookcrossing","cmd":"quest"}</macro>
                                 
                     <span class="mbListCapNC mbRankD"></span>
@@ -696,10 +699,11 @@
                 </div><!--@Gaia / Gaia-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202301251008|👑</lnk></span>
-                  <macro>{"guildlog":"8","rank":"A","updates":"2","node":"202208172056","author":"LRRH","chapter":"@Guild","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"8","rank":"A","updates":"3","node":"202208172056","author":"LRRH","chapter":"@Guild","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     <span class="mbListCapNC mbRankA"></span>
+                    <macro>{"log":"0411","priority":"0","icon":"⭐","node":"202404112055","title":"Scoring","info":"","cmd":"quest"}</macro>  
                     <macro>{"log":"0402","priority":"1","icon":"🐕","node":"202404022358","title":"Pet Keeping","info":"","cmd":"quest"}</macro>  
                     <span class="mbListCapNC mbRankB"></span>   
                     <macro>{"log":"","priority":"1","icon":"🏫","node":"202402292014","title":"Public Education","info":"","cmd":"quest"}</macro>  
@@ -936,7 +940,7 @@
                 </div><!--@Seed / Zoey-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202207170113|🍮</lnk></span>
-                  <macro>{"guildlog":"106","rank":"B","updates":"2","node":"202212090038","author":"Ivy","chapter":"@Skill","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"106","rank":"B","updates":"3","node":"202212090038","author":"Ivy","chapter":"@Skill","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->              
                     <!--<span class="mbListCapNC mbRankA"></span>-->
@@ -948,6 +952,7 @@
                     <macro>{"log":"","priority":"1","icon":"🏰","node":"202312251111","title":"Arcacian Quest","info":"","cmd":"quest"}</macro>                    
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202303232253","title":"Guild log topics","info":"Process Guild Log topics. 2304:119. 2305:124. 2306:116 2307:115 2308:114 2309:107 2310:104 2311:100.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
+                    <macro>{"log":"0411","priority":"1","icon":"🏫","node":"202403231454","title":"Panarcademy","info":"Expanding Syllabus","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"5","icon":"🥨","node":"202209241553","title":"Layout update","cmd":"quest"}</macro>   
                     <!--<span class="mbListCapNC mbRankD"></span>-->
                      
@@ -1047,23 +1052,23 @@
                 </div><!--@Whale / Black-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202302252025|🍵</lnk></span>
-                  <macro>{"guildlog":"6","rank":"D","updates":"1","node":"202208180941","author":"LRRH","chapter":"@Wish","cmd":"pb"}</macro>            
+                  <macro>{"guildlog":"6","rank":"C","updates":"2","node":"202208180941","author":"LRRH","chapter":"@Wish","cmd":"pb"}</macro>            
                   <div class="mbPinner mbhide">
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"","priority":"3","icon":"🎤","node":"202306252213","title":"Singalong Quest","info":"Make lyrics pages","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
-                    <macro>{"log":"","priority":"1","icon":"🏫","node":"202402292014","title":"Public Education","info":"","cmd":"quest"}</macro>  
+                    
                     <macro>{"log":"","priority":"0","icon":"🎄","node":"202208180941","title":"Post wish board","info":"Upgrade and post wish boards.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"6","icon":"🔥","node":"202302160912","title":"Code Upgrade","info":"Change mini diary code from macro to node.","cmd":"quest"}</macro>   
                     <span class="mbListCapNC mbRankC"></span>
+                    <macro>{"log":"0411","priority":"1","icon":"🏫","node":"202402292014","title":"Public Education","info":"Expand syllabus. Every subject should be a node.","cmd":"quest"}</macro>  
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202208180941","title":"Guild log quests","info":"2306:16 2307:13 2308:12 2309:11 2310:9 2311:6.","cmd":"quest"}</macro>  
                     <macro>{"log":"","priority":"6","icon":"🎀","node":"202208180941","title":"Beautify","info":"Make the website cuter.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"5","icon":"🍵","node":"202302252025","title":"Grammar List","info":"Add content to the Japanese Grammar List.","cmd":"quest"}</macro>  
                     <macro>{"log":"","priority":"3","icon":"🍵","node":"202302160912","title":"Mini Diary node","info":"Add mini diary entry","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"🎊","node":"202301011001","title":"New Yr Resolution","info":"Support new year resolutions.","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"🧹","node":"","title":"Page cleanup","info":"Cleanup the @Wish main page.","cmd":"quest"}</macro>  
                     <span class="mbListCapNC mbRankD"></span>
                     <macro>{"log":"0409","priority":"4","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro>  
                   </div>
@@ -4531,7 +4536,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240408')">8<br><div class="mbavem mbArcacia"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240409')">9<br><div class="mbavem mbZoey"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240410')">10<br><div class="mbavem mbArcacia"></div></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240411')">11<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240411')">11<br><div class="mbavem mbBlack"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240412')">12<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240413')">13<br>&nbsp;</td>
               </tr>
@@ -4587,7 +4592,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240408')">8<br>🍮</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240409')">9<br>🏹</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240410')">10<br>&nbsp;</td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240411')">11<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240411')">11<br>🔮</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240412')">12<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240413')">13<br>&nbsp;</td>
               </tr>
@@ -18266,7 +18271,7 @@ data-DXP-WIN-Casey
   <hr class="mbCB">
   <button class="mbbutton" onclick="ShowNextInline(this)" data-HXP-Black>📯<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> I think the left side can desribe what a moral compass is. The middle signs of broken compass, and the right side how to traing for a good moral compass.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-LnXP-Black="7">⚡<small>7</small> <div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Making Slide 31.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> StarTree please change the node name from Moralism and Moral Compass. It sounds more natural.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> StarTree please change the node name from Moralism to Moral Compass. It sounds more natural.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree="4">⭐<small>4</small> <div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Roger! Classifying this as a Paladin Skill!</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-Natalie>⭐<div class="mbavem mbNatalie"></div></button><hide> <b>Natalie:</b> Adding category names in Paladin Skills.</hide>
   <hr class="mbCB">
@@ -18623,7 +18628,7 @@ data-DXP-WIN-Casey
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">⚔️ Where should this go?</div><hide><hr>
   <div></div><div class="mbav50r mbCB mbBlack"></div><b>Black:</b> These are loose notes to be processed.
   <hr class="mbCB">
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Black>📌<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> "Do adult moral violators ever undrstand their violations?"</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Black>📌<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> "Do adult moral violators ever understand their violations?"</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-IXP-Evelyn>🔍<div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> I think some do and some don't. Those who understand would feel remorse.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-HXP-Black>📯<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> There is a question from @Sasha.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> You should skip those. Topics for slide making should just queue at the NextDoor node.</hide>
@@ -20632,6 +20637,8 @@ data-DXP-WIN-Casey
         <ol>
           <li>Khanacademy Syllabus
             <macro>{"cmd":"url","url":"https://www.khanacademy.org/economics-finance-domain","desc":"🔗"}</macro>
+            <hr>
+            Macroeconomics | AP / College Macroeconomics | Microeconomics | AP / College Microeconomics | Finance and Capital Markets
           </li>
 
         </ol>
@@ -21817,7 +21824,7 @@ data-DXP-WIN-Casey
   </div><hr class="mbCB mbhr">
   <button class="mbbutton" onclick="ShowNextInline(this)" data-IXP-Zoey>🔍<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> It shows 699 nodes to format. XD</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> Don't go crazy reformatting them. That is not a high priority quest.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> I already plan to format at lesat one per month. So I will just do some.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> I already plan to format at least one per month. So I will just do some.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> More importantly it has so low mental demand you could do it while watching anime. XD</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLedia"></div></button><hide> <b>Ledia:</b> Legit.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Ivy>🏹<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> If you will do that, I recommend first tagging all the skill nodes with archetype. That is more important for the sitemap.</hide>
@@ -21908,7 +21915,7 @@ data-DXP-WIN-Casey
     <div class="mbscroll">
       <div class="mbbutton" onclick="ShowNext(this)">🌱 Why Ramen?</div>
       <hide><hr><div class="mbav50r mbZoey"></div>
-        Instant ramen is considered unhealthy because it is full of chemicals and deep-fried. <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> But this node is about ramen. XD</hide>
+        Instant ramen is considered unhealthy because it is full of chemicals and deep-fried. <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> But this node is about them! XD</hide>
         <div class="mbCB"></div>
       </hide>
     </div>
@@ -21920,8 +21927,10 @@ data-DXP-WIN-Casey
           <div class="mbbutton" onclick="ShowNext(this)">Ingredients</div>
           <hide><hr>
             <button class="mbbutton" onclick="ShowNextInline(this)" data-AXP-Zoey>💗<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> 20240410: Roasted peanuts</hide>
-            <button class="mbbutton" onclick="ShowNextInline(this)" data-AXP-Evelyn>💗<div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> 20240410: Mushrooms and avocado.</hide>
+            <button class="mbbutton" onclick="ShowNextInline(this)" data-AXP-Evelyn>💗<div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> 20240410: Okra, mushrooms, avocado.</hide>
             <button class="mbbutton" onclick="ShowNextInline(this)" data-AXP-Black>💗<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> 20240410: Spinach and black pepper.</hide>
+            <button class="mbbutton" onclick="ShowNextInline(this)" data-AXP-Robert>💗<div class="mbavem mbRobert"></div></button><hide> <b>Robert:</b> 20240410: Plain.</hide>
+            <button class="mbbutton" onclick="ShowNextInline(this)" data-AXP-P4>💗<div class="mbavem mbP4"></div></button><hide> <b>P4:</b> 20240411: Sesame oil.</hide>
             <div class="mbCB"></div>
           </hide>
         </div>
@@ -22032,8 +22041,194 @@ data-DXP-WIN-Casey
     {"name":"P4","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
+<div id="P202404111957" date='20240411' time='1957' data-chat data-202404112055 data-happy data-202404092158 data-202311282256>
+  <content>
+  <div></div><div class="mbav50r mbCB mbVivi" data-WrXP-Vivi>🏹</div>
+  <div class="mbpdc"><b>How</b> many EXP should Zoey get for tagging skills with archetypes?
+  </div><hr class="mbCB mbhr">
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-IXP-Vivi>🔍<div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> Zoey logged 12 points for an hour. When I corrected typos for an hour, I would log 1 point per minute because normally each typo is one point.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> In this case since Zoey knew the count before the update (86), If you do one point per node Zoey should have gotten 86 points.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> I did 12 points because when we do yard quest it is just 1 point per five minutes.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-IXP-Black>🔍<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> I think in general we shouldn't credit based on time spent. The score keeping to reward those who are efficient. For example, Vivi found a way to fix more than one typo per minute for 60 minutes, so that is worth 60 points. At least.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> If each fix is 1 point, then Zoey should have gotten 86.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-IXP-StarTree>🔍<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Last year Fina cleared <lnk>202302150914|352</lnk> jelly queens using RegEx but only got 2 points for Two-stage casting!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLedia"></div></button><hide> <b>Ledia:</b> It prevented others from getting hundred of points.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> It would be consistent if you first decide whether each change is worth one point. If so, it shouldn't matter how quickly it was done.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH>🐾<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> I think there is a consideration that if you do something in batch, each item should not worth a point. When you notice one isolated piece of trash and you clean it up, that one act is worth one point. But if you routinely discard a whole bin of trash, that is also only worth one point.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Why is that correct?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH>🐾<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Because once you (or the guild) knows the more effective way to do something, the task would not worth a point unless it is justified such as it being an isolated incident.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-JXP-Evelyn>⚖️<div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> I think I understand Red's explanation. In this case, Zoey only got 12 points because the query already identified all that need to be updated, and the work to add the tag does not worth one point. So it goes by the 1 point per 5 minutes schedule.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-JXP-Evelyn>⚖️<div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> In Vivi's case, after downloading the text, a checker still need to scan through the text to find the highlighted errors, among many that are not errors. There is more work involved per correction, so it is still worth 1 point per correction.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-JXP-Evelyn>⚖️<div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> And in Fina's case, the onces that could be updated by RegEx do not worth one point per correction once the method was discovered.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> This topic should be on a node.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WsXP-Vivi="2">⚔️<small>2</small> <div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> Fixes two typos.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> There is now a <lnk>202404112055|node</lnk>!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH>🐾<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Schedule Type: 1 point max per 5 minutes for routine/ house keeping tasks. These tasks worth less than normal because they do not correspond to what the guild delivers to the world. This category also includes some website tasks that a visitor would not see, such as internal re-organization.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH>🐾<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Schedule Type: 1 point per visible typo correction. This is part of what the website delivers. It is worth one point per correction when there is not yet an automatic way to scan and fix all the typos. Max credit rate: 1 point per minute.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WsXP-Vivi="3">⚔️<small>3</small> <div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> Fixed three typos.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH>🐾<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Added notes about the scoring for adding contents.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-OXP-Vivi>🔮<div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> What if you have spellchecker on while you browse and fix typos flagged by the spellchecker?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> I think that should still be 1 point per fix.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> I think it should max out at 1 EXP per minute if you just sit and do just that. With the sitemap it is easier to open each none one by and and let the spellchecker flag the typos.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH>🐾<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Okay. 1 point per minute if you do it by batch. </hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH>🐾<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Added about lower priority tasks.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> Clear.</hide>
+  <hr class="mbCB">
+  <mbComplete>@Guild is now Rank A3.</mbComplete>
+  <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">⭐ Biases Node Scoring</div><hide><hr>
+  <div></div><div class="mbav50r mbCB mbBlack" data-HXP-Black></div><b>📯Black:</b> This is for point scoring and comments for the Biases and Fallacies <lnk>202207241111|node</lnk>.
+  <hr class="mbCB">
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Ivy>🏹<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> Black please pick one section and add the attribute updated='20240411'. StarTree please make it so that in QSL, it would use the embedded update date.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Done!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Ivy>🏹<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> With the updated tag, you could log points directly at the archive.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Is it necessary to show the icon when using a credit tag?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Ivy>🏹<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> It should be unnecessary if there is a way to display them for audit.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> You could inspect the html source code as displayed.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-OXP-Vivi>🔮<div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> It should be obvious if a line has earned a point. </hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-Black>⭐<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Rearranged/refomatted sections.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-HXP-Evelyn>📯<div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> I think that node should have a best tag.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> Does this mean the Taxonomy should have its "Best" tag removed? I think it should. XD</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> I think we should keep a few for comparison.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Zoey>🏹<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> But it would take longer tell which one is the best. XD</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Ivy>🏹<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> StarTree please change the code so that when the category is "best", the default list order is the date in reverse order.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Done!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> I think we don't need the dummy node at Taxonomy.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Removed!</hide>
+  <hr class="mbCB">
+  <mbComplete>@Academy is nor Rank B3.</mbComplete>
+  </hide></div>
+  <hr class="mbCB">
+  <mbKudo>Better and Better</mbKudo>
+  </content>
+  <ref></ref>
+  <node>{"id":"202404111957","parentid":"202404112055","parentname":"Scoring","icon":"🔮","title":"Scoring","prev":"202404092158","author":"Vivi","location":"Magic Bakery","participants":"Vivi, Zoey, Black, StarTree, Ledia, LRRH, Evelyn, Tanya, Ivy"}</node>
+</div><!--Scoring-->
+<div id="P202404112055" class="mbscroll" date='20240411' time='2055' data-guild data-rule>
+  <content>
+    <div class="mbpdc"><b>This node</b> is about how many EXP a guild quest should worth.</div><div style="clear:left"></div>
+    <div class="mbscroll">
+      <div class="mbbutton" onclick="ShowNext(this)">🕊️ Scoring Scale</div>
+      <hide><hr>
+        <div class="mbpuzzle">
+          <h4>1 EXP per Task, no max</h4><hr>
+          <li>
+            <span class="mbbutton" onclick="ShowNextInline(this)">Adding Content</span>
+            <hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Adding relevant content to the website is 1 EXP per node creation, per section (with text), and per relevant link to articles.</hide>
+            </hide>
+          </li>
+        </div>
+        <div class="mbpuzzle">
+          <h4>Max 1 EXP per minute</h4><hr>
+          <li>
+            <span class="mbbutton" onclick="ShowNextInline(this)">Fixing Typos</span>
+            <hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> The website is the guild's deliverable, to encourage fixing all typos, you get 1 EXP per fix per random encounter</hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> If you are systematically searching for and fixing typos by batch, then it is 1 EXP per minute while your fix rate is still at or above 1 fix per minute. If your method is no longer let you fix typos at or higher than 1 per minute, then you just get 1 EXP per fix.</hide>
+              <lnk>202311282256|🍒 Proofreading</lnk>
+            </hide>
+          </li>
+        </div>
+        <div class="mbpuzzle">
+          <h4>Max 1 EXP per 5 minutes</h4><hr>
+          <li>
+            <span class="mbbutton" onclick="ShowNextInline(this)">Low Priority Website Tasks</span>
+            <hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Lower priority tasks such as upgrading node format, correcting tags, links and beautification are only worth 1 EXP per 5 minutes.</hide>
+            </hide>
+          </li>
+          <li>
+            <span class="mbbutton" onclick="ShowNextInline(this)">Housekeeping</span>
+            <hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Housekeeping tasks are not directly related to the guild's deliveries.</hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> If you did one thing and it only took you 1 second, you still get 1 EXP. But if you want to get the second point, you need to have done over 5 minutes worth of that task.</hide>
+            </hide>
+          </li>
+        </div>
+
+
+        <div class="mbCB"></div>
+      </hide>
+    </div>
+
+
+  </content>
+  <card>
+    <div class="mbCharCard">
+      <div class="mbCharCardTitle2">Guild Quest Scoring</div>
+      <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://cdn.pixabay.com/photo/2012/03/04/00/42/backdrop-22024_640.jpg')"></div>
+      <div class="mbCharCardSubtitle">Rules</div>
+      <div class="mbCharCardDesc">
+        <center>
+          <div class="mbCharCardDescInner">
+            It adds up!
+            <small></small>
+          </div>
+        </center>
+      </div>
+    </div>
+  </card>
+  <ref></ref>
+  <node>{"id":"202404112055","parentid":"202212031629","parentname":"Guild Rules","icon":"⭐","title":"Guild Quest Scoring","subtitle":"Rules","kids":"Scoring","img":"https://cdn.pixabay.com/photo/2012/03/04/00/42/backdrop-22024_640.jpg","music":"","author":"LRRH","description":"","card-text":""}</node>
+</div><!--Guild Quest Scoring-->
 <div date='20240411' time='2359' data-status>
-  <macro>{"cmd":"daisy2","issues":"6","quests":"1132","activities":[
+  <macro>{"cmd":"daisy2","issues":"6","quests":"1126","activities":[
+    {"ch":"11","rank":"B","updates":"1","last":"20240314"},
+    {"ch":"29","rank":"A","updates":"1","last":"20240329"},
+    {"ch":"32","rank":"A","updates":"1","last":"20240403"},
+    {"ch":"24","rank":"D","updates":"1","last":"20240404"},
+    {"ch":"7","rank":"A","updates":"4","last":"20240406"},
+    {"ch":"21","rank":"A","updates":"4","last":"20240406"},
+    {"ch":"12","rank":"B","updates":"1","last":"20240406"},
+    {"ch":"30","rank":"A","updates":"4","last":"20240406"},
+    {"ch":"17","rank":"S","updates":"2","last":"20240407"},
+    {"ch":"23","rank":"C","updates":"1","last":"20240407"},
+    {"ch":"34","rank":"A","updates":"3","last":"20240407"},
+    {"ch":"33","rank":"S","updates":"1","last":"20240408"},
+    {"ch":"28","rank":"D","updates":"1","last":"20240408"},
+    {"ch":"18","rank":"B","updates":"3","last":"20240408"},
+    {"ch":"19","rank":"B","updates":"1","last":"20240408"},
+    {"ch":"31","rank":"C","updates":"1","last":"20240409"},
+    {"ch":"27","rank":"A","updates":"3","last":"20240409"},
+    {"ch":"15","rank":"C","updates":"2","last":"20240409"},
+    {"ch":"13","rank":"C","updates":"1","last":"20240411"},
+    {"ch":"25","rank":"A","updates":"4","last":"20240411"},
+    {"ch":"22","rank":"C","updates":"2","last":"20240411"},
+    {"ch":"5","rank":"B","updates":"3","last":"20240411"},
+    {"ch":"26","rank":"A","updates":"3","last":"20240411"},
+    {"ch":"20","rank":"B","updates":"3","last":"20240411"},
+    {"ch":"35","rank":"A","updates":"3","last":"20240411"},
+    {"ch":"14","rank":"A","updates":"4","last":"20240411"},
+    {"ch":"16","rank":"B","updates":"2","last":"20240411"}
+    ],"players":"Vivi, Zoey, Black, StarTree, Ledia, LRRH, Evelyn, Tanya, Ivy","merits":"Vivi","recognitions":"Arcacia, Black, Skyle","kudos":"Vivi, Zoey, Black, StarTree, Ledia, LRRH, Evelyn, Tanya, Ivy","awards":"Arcacia, Black, Cardinal, Casey, Evelyn, Fina, LRRH, Natalie, Patricia, Sasha, Skyle, Sylvia","top":[
+    {"name":"Black","score":"32"},
+    {"name":"Vivi","score":"18"},
+    {"name":"Arcacia","score":"18"},
+    {"name":"LRRH","score":"18"},
+    {"name":"Evelyn","score":"17"},
+    {"name":"Skyle","score":"10"},
+    {"name":"StarTree","score":"10"},
+    {"name":"Fina","score":"9"},
+    {"name":"Ivy","score":"7"},
+    {"name":"Kisaragi","score":"7"},
+    {"name":"Zoey","score":"7"},
+    {"name":"Natalie","score":"6"},
+    {"name":"Patricia","score":"5"},
+    {"name":"Helen","score":"5"},
+    {"name":"Sylvia","score":"5"},
+    {"name":"Sasha","score":"5"},
+    {"name":"Cardinal","score":"4"},
+    {"name":"Casey","score":"4"},
+    {"name":"P4","score":"4"},
+    {"name":"Ledia","score":"4"},
+    {"name":"Rikk","score":"2"},
+    {"name":"Tanya","score":"2"},
+    {"name":"Robert","score":"1"},
+    {"name":"V","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div date='20240412' time='2359' data-status>
+  <macro>{"cmd":"daisy2","issues":"6","quests":"1126","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
     
@@ -22055,7 +22250,12 @@ data-DXP-WIN-Casey
 <div class="mbscroll">
   <div class="mbbutton" onclick="ShowNext(this)">🌱🐤🕊️🦉🦅</div>
   <hide><hr><div class="mbav50r mb"></div>
-
+    <div class="mbpuzzle">
+      <span class="mbbutton" onclick="ShowNext(this)">Title</span>
+      <hide><hr>
+        <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> Notes.</hide>
+      </hide>
+    </div>
     <div class="mbCB"></div>
   </hide>
 </div>
@@ -22066,12 +22266,14 @@ data-DXP-WIN-Casey
     <div class="mbCB"></div>
   </hide>
 </div>
-<li>
-  <span class="mbbutton" onclick="ShowNextInline(this)">Title</span>
-  <hide>
-    <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> Notes.</hide>
-  </hide>
-</li>
+<ol>
+  <li>
+    <span class="mbbutton" onclick="ShowNextInline(this)">Title</span>
+    <hide>
+      <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> Notes.</hide>
+    </hide>
+  </li>
+</ol>
 <div>
   <div class="mbbutton" onclick="ShowNext(this)"></div>
   <hide class="mbpuzzle"><div class="mbav50r mb"></div>
@@ -22101,7 +22303,7 @@ data-DXP-WIN-Casey
   2) Update function ArchiveSelect with the correct cutoff dates.
 -->
 <div date='20240400' time='2359' data-status>
-  <macro>{"cmd":"daisy2","issues":"6","quests":"1132","activities":[
+  <macro>{"cmd":"daisy2","issues":"6","quests":"1126","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
     

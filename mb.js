@@ -41,7 +41,7 @@ function BoardAdd(el){
   // STEP: Add the close button.
   var mHTML = "<div control>";
   mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>🍮</a>";
-  mHTML += "</div><div class='mbCB' qsl></div>";
+  mHTML += "</div><div></div><div class='mbCB' qsl></div>";
   elTemp.innerHTML= mHTML;
   elTemp.style.marginBottom = "0px";
   var mControl = SearchPS(el,'control');
@@ -2504,7 +2504,7 @@ function QSLI(iQuery){
   QSLEL(el.lastElementChild.lastElementChild,iQuery);
 }
 function QSLEL(elSearchList,iQuery){
-  //elSearchList.innerHTML = "Loading " + iQuery + "...";
+  elSearchList.previousElementSibling.innerHTML = "<small>Loading " + iQuery + "... </small>";
   elSearchList.innerHTML="";
   var elTemp = document.createElement("div");
   var Hit = 0; // Archive Hit Counter
@@ -2523,7 +2523,7 @@ function QSLEL(elSearchList,iQuery){
       
       $(elTemp).load(ArchiveIndex(i) + iQuery, function(){
         // Loop through and add each child.
-        mCount += elTemp.querySelectorAll('[id][date][time]').length;
+        //mCount += elTemp.querySelectorAll('[id][date][time]').length;
         var mHTML = "";
         var elDiv = elTemp.lastElementChild;
         var mID=""; var mTitle=""; var mIcon="";          
@@ -2554,8 +2554,11 @@ function QSLEL(elSearchList,iQuery){
 
           }
           
-
+          
           mOrder = elDiv.getAttribute("data-"+mCategory);
+          if(mCategory.toLowerCase()=="best"){
+            mOrder = 99999999-mOrder;
+          }
           if(IsBlank(mTitle)){
             if(NotBlank(mID)){
               // 20230324: Mikela: Guess: A puzzle post.
@@ -2615,8 +2618,20 @@ function QSLEL(elSearchList,iQuery){
           // 20240331: StarTree: Further Exploration Icon     
           // 20240406: StarTree: Multiple kids:     
           for(var k=0;k<mKids.length;k++){
+            mCount ++;
             mHTML += "<div name='"+ mTitle + "'";
             var mUpdated = elDiv.getAttribute("updated");
+
+            // 20240411: StarTree: Use embedded updated dates
+            var mSubUpdates = elDiv.querySelectorAll('[updated]');
+            for(let u=0;u<mSubUpdates.length;u++){
+              var mSubU = mSubUpdates[u].getAttribute('updated');
+              if(NotBlank(mSubU) && mSubU > mUpdated){
+                mUpdated = mSubU;
+              }
+            }
+
+
             if(IsBlank(mUpdated)){
               mUpdated = elDiv.getAttribute("date");
             }
@@ -2629,17 +2644,18 @@ function QSLEL(elSearchList,iQuery){
             if(k==0){
               mHTML += LnkCode(mID,mTitle,mIcon+mType,bMark); 
             }else{
+
               mHTML += LnkCode(mID,mTitle + "\\" + Cap(mKids[k]).replaceAll("-"," "),mIcon+mType,bMark); 
             }
 
             mHTML += "</div>";// End of Control
-            mHTML += "<div class='mbhide'><div class='mbnav mbSearch'></div></div>"; // QSL Container
+            mHTML += "<div class='mbhide'><div style='margin-left:10px'></div><div class='mbnav mbSearch'></div></div>"; // QSL Container
             mHTML += "</div>";
           }
 
 
           elDiv.order = getRandomInt(0,1000);
-          elDiv = elDiv.previousElementSibling;
+          elDiv = elDiv.previousElementSibling;          
         }
         Hit++;
         if(Hit==1){
@@ -2648,7 +2664,11 @@ function QSLEL(elSearchList,iQuery){
           elSearchList.innerHTML += mHTML;  
         }
         if(Hit>=ArchiveNum()){
-          elSearchList.innerHTML = "<h4>Found: "+ mCount +"</h4>" + elSearchList.innerHTML;
+          if(NotBlank(elSearchList.previousElementSibling)){
+            elSearchList.previousElementSibling.innerHTML = "<h4>Found: "+ mCount +"</h4>";
+            elSearchList.previousElementSibling.classList.remove('mbhide');
+          }
+          //elSearchList.parentNode.innerHTML = "<h4>Found: "+ mCount +"</h4>" + elSearchList.parentNode.innerHTML;
         }
       });
     }
@@ -2709,7 +2729,7 @@ function QSL(el,iQuery){
   //   </div>
   // </div>
 
-  var elSearchList = SearchPS(el,"control").nextElementSibling.firstElementChild;
+  var elSearchList = SearchPS(el,"control").nextElementSibling.lastElementChild;
   elSearchList.parentNode.classList.remove('mbhide');
   QSLEL(elSearchList,iQuery);  
 }
@@ -2812,7 +2832,7 @@ function QSLTree(el,iQuery){
     el.innerHTML = "📙";
     return;
   }else{
-    QSLEL(elContainer.firstElementChild,iQuery);  
+    QSLEL(elContainer.lastElementChild,iQuery);  
     elContainer.classList.remove('mbhide');
     el.innerHTML = "📖";  
   }
