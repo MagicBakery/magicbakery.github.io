@@ -4544,7 +4544,8 @@ function NodeMarkCycle(el,iNodeID){
   var curMark = el.innerHTML;
   switch(curMark){
     case "🤍": curMark = "📌";break; 
-    case "📌": curMark = "✅";break; 
+    case "📌": curMark = "🍒";break; 
+    case "🍒": curMark = "✅";break; 
     case "✅": curMark = "🌱";break; 
     case "🌱": curMark = "🐣";break; 
     case "🐣": curMark = "🐤";break; 
