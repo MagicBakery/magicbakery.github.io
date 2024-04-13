@@ -1,4 +1,4 @@
-<div id="P800000000000" updated="20240409" class="mbscroll" date='80000000' time='0000' data-quest="1">
+<div id="P800000000000" class="mbscroll" date='80000000' time='0000' data-quest="1">
   <content>
     <div class="mbpdc"></div><div style="clear:left"></div>
     <div control>
@@ -12,7 +12,10 @@
         <hide >
           <h4>📯 Special Queries</h4><hr>
           <a class="mbbutton" onclick="QSL(this,'[data-Guild]')">🥨 Guild Related</a><br>
-          <a class="mbbutton" onclick="QSL(this,'[data-college]')">🎓 Academy Related</a><br>
+          <a class="mbbutton" onclick="QSL(this,'[data-college]')">🎓 Academy Related</a><br>          
+          <a class="mbbutton" onclick="QSL(this,'[data-TSN]')">☎️ Issues &amp; Solutions</a><br>
+          
+          
           <hr>
         </hide>
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Tags">🏷️</a>
@@ -63,8 +66,8 @@
             <span class="mbbutton" onclick="ShowNextInline(this)">New Features</span>
             <hide>
               <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> 20240331: Add new useful feature.</hide>
-              <button class="mbbutton" onclick="ShowNextInline(this)">📌<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> 20240401: Implement TSN at sitemap. 🚨🟥Alarms 🟨Features 🟩Reference 🟦Tasks</hide>
-              <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Arcacia>📌<div class="mbavem mbArcacia"></div></button><hide> <b>Arcacia:</b> 20240409: Showcase new features so others can follow.</hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)" date="20240401"></button>📌<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> 20240401: Implement TSN at sitemap. 🚨🟥Alarms 🟨Features 🟩Reference 🟦Tasks</hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Arcacia data="20240409">📌<div class="mbavem mbArcacia"></div></button><hide> <b>Arcacia:</b> 20240409: Showcase new features so others can follow.</hide>
             </hide>
           </div><!--Rank A Queries-->
           <div>
@@ -86,7 +89,7 @@
           </div><!--Rank C Queries-->
           <div>
             <a class="mbbutton mbRankD" 
-            onclick="QSL(this,'[id][date][time]:not(:contains(\'parentid\'))')">📌</a> 
+            onclick="QSL(this,'[id][date][time]:not(:contains(\'parentid\')),[id]:contains(\'|pin\')[id]:contains(\'pin2\')')">📌</a> 
             <span class="mbbutton" onclick="ShowNextInline(this)">Node Format</span>
             <hide>
               <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> 20240331: Update the node format to the latest that has a tag for the sitemap.</hide>
@@ -475,7 +478,7 @@
     </div><!--Deployment Area-->
   </div><!--LogFall Dungeon Quest Board-->
 </span>
-<div id="P900000000000" updated="20240408" class="mbscroll"  data-Guild>
+<div id="P900000000000" class="mbscroll"  data-Guild>
   <span class="mbDayHeader">
     <div class="mbav50pr" style="background-image:url('')"></div>
     <h4><lnk>202208172056|Magic Bakery</lnk></h4>
@@ -663,12 +666,13 @@
                 </div><!--@Dungeon / Tanya-->
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202207141002|💎</lnk></span>
-                  <macro>{"guildlog":"50","rank":"D","updates":"1","node":"202208141916","author":"James","chapter":"@Freedom","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"50","rank":"A","updates":"2","node":"202208141916","author":"James","chapter":"@Freedom","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"0","icon":"💬","node":"202403050033","title":"Democratic Forum","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"0","icon":"🏘️","node":"202307231022","title":"NextDoor Posting","info":"Replying/Deploying.","cmd":"quest"}</macro> 
-                    <span class="mbListCapNC mbRankA"></span>                          
+                    <span class="mbListCapNC mbRankA"></span>   
+                    <macro>{"log":"0412","priority":"0","icon":"🌳","node":"202404122241","title":"Tree Issues","cmd":"quest"}</macro>                       
                     <macro>{"log":"","priority":"4","icon":"🔍","node":"","title":"Fact check quests","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>  
                     <macro>{"log":"","priority":"4","icon":"🚨","node":"202207211011","title":"Freedom Watch","cmd":"quest"}</macro>
@@ -877,7 +881,7 @@
                   </div>
                 </div><!--@Paladin / Natalie-->
                 <div class="mbCB">
-                  <macro>{"guildlog":"18","rank":"B","updates":"1","node":"202208141928","author":"Mikela","chapter":"@Puzzle","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"18","rank":"B","updates":"2","node":"202208141928","author":"Mikela","chapter":"@Puzzle","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">              
                     <span class="mbListCapNC mbRankA"></span>  
                     <macro>{"log":"","priority":"0","icon":"🐸","node":"202403301836","title":"Biology","info":"","cmd":"quest"}</macro>   
@@ -891,7 +895,7 @@
                     <macro>{"log":"","priority":"4","cmd":"quest","title":"Updated the node section","icon":"🍋"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
                     
-                    <macro>{"log":"","priority":"4","cmd":"quest","title":"Layout update","icon":"🍋"}</macro>
+                    <macro>{"log":"0413","priority":"4","cmd":"quest","title":"Layout update","icon":"🍋"}</macro>
                   </div>
                 </div><!--@Puzzle / Mikela-->   
                 <div class="mbCB">
@@ -4537,7 +4541,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240409')">9<br><div class="mbavem mbZoey"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240410')">10<br><div class="mbavem mbArcacia"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240411')">11<br><div class="mbavem mbBlack"></div></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240412')">12<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240412')">12<br>div class="mbavem mbBlack"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240413')">13<br>&nbsp;</td>
               </tr>
               <tr>
@@ -4593,7 +4597,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240409')">9<br>🏹</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240410')">10<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240411')">11<br>🔮</td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240412')">12<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240412')">12<br>🐾</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240413')">13<br>&nbsp;</td>
               </tr>
               <tr>
@@ -21131,7 +21135,7 @@ data-DXP-WIN-Casey
     </div><!--🕊️ Intermediate Skills-->
   </content>
   <ref></ref>
-  <node>{"id":"202404042050","parentid":"202403311933","parentname":"Civil Affairs","icon":"🌳","title":"Ground Keeping","subtitle":"Quest","kids":"","img":"https://cdn.pixabay.com/photo/2017/04/09/09/56/avenue-2215317_640.jpg","music":"","author":"Casey","description":"","card-text":""}</node>
+  <node>{"id":"202404042050","parentid":"202403311933","parentname":"Civil Affairs","icon":"🌳","title":"Ground Keeping","subtitle":"Quest","kids":"Ground-Keeping","img":"https://cdn.pixabay.com/photo/2017/04/09/09/56/avenue-2215317_640.jpg","music":"","author":"Casey","description":"","card-text":""}</node>
 </div><!--Ground Keeping-->
 <div id="P202404042146" date='20240404' time='2146' data-chat data-202303052122 data-happy data-202404032249 data-announcement>
   <content>
@@ -22058,12 +22062,12 @@ data-DXP-WIN-Casey
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Why is that correct?</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH>🐾<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Because once you (or the guild) knows the more effective way to do something, the task would not worth a point unless it is justified such as it being an isolated incident.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-JXP-Evelyn>⚖️<div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> I think I understand Red's explanation. In this case, Zoey only got 12 points because the query already identified all that need to be updated, and the work to add the tag does not worth one point. So it goes by the 1 point per 5 minutes schedule.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-JXP-Evelyn>⚖️<div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> In Vivi's case, after downloading the text, a checker still need to scan through the text to find the highlighted errors, among many that are not errors. There is more work involved per correction, so it is still worth 1 point per correction.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-JXP-Evelyn>⚖️<div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> And in Fina's case, the onces that could be updated by RegEx do not worth one point per correction once the method was discovered.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-JXP-Evelyn>⚖️<div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> In Vivi's case, after downloading the text, a checker still needs to scan through the text to find the highlighted errors, among many that are not errors. There is more work involved per correction, so it is still worth 1 point per correction.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-JXP-Evelyn>⚖️<div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> And in Fina's case, the ones that could be updated by RegEx do not worth one point per correction once the method was discovered.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> This topic should be on a node.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-WsXP-Vivi="2">⚔️<small>2</small> <div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> Fixes two typos.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> There is now a <lnk>202404112055|node</lnk>!</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH>🐾<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Schedule Type: 1 point max per 5 minutes for routine/ house keeping tasks. These tasks worth less than normal because they do not correspond to what the guild delivers to the world. This category also includes some website tasks that a visitor would not see, such as internal re-organization.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH>🐾<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Schedule Type: 1 point max per 5 minutes for routine / housekeeping tasks. These tasks worth less than normal because they do not correspond to what the guild delivers to the world. This category also includes some website tasks that a visitor would not see, such as internal re-organization.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH>🐾<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Schedule Type: 1 point per visible typo correction. This is part of what the website delivers. It is worth one point per correction when there is not yet an automatic way to scan and fix all the typos. Max credit rate: 1 point per minute.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-WsXP-Vivi="3">⚔️<small>3</small> <div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> Fixed three typos.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH>🐾<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Added notes about the scoring for adding contents.</hide>
@@ -22124,7 +22128,7 @@ data-DXP-WIN-Casey
             <span class="mbbutton" onclick="ShowNextInline(this)">Fixing Typos</span>
             <hide>
               <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> The website is the guild's deliverable, to encourage fixing all typos, you get 1 EXP per fix per random encounter</hide>
-              <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> If you are systematically searching for and fixing typos by batch, then it is 1 EXP per minute while your fix rate is still at or above 1 fix per minute. If your method is no longer let you fix typos at or higher than 1 per minute, then you just get 1 EXP per fix.</hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> If you are systematically searching for and fixing typos by batch, then it is 1 EXP per minute while your fix rate is still at or above 1 fix per minute. If your method is slower than 1 per minute, then you just get 1 EXP per fix.</hide>
               <lnk>202311282256|🍒 Proofreading</lnk>
             </hide>
           </li>
@@ -22227,7 +22231,163 @@ data-DXP-WIN-Casey
     {"name":"V","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
+<div id="P202404122228" date='20240412' time='2228' data-chat data-202208172056 data-happy data-202404082256 data-202404122241>
+  <content>
+  <div></div><div class="mbav50r mbCB mbLRRH"></div>
+  <div class="mbpdc"><b>Despite</b> what we discussed last time, I still think that we should be able to process the lnks so that the daily count decreases.
+  </div><hr class="mbCB mbhr">
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-UXP-LRRH>🍮<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> This is for people who think the same. If you think there is something else more important, please do that instead.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Right now the count is 1131. The cout was 1126 yesterday!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Those are not the only items, there are also loose notes.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Added more search hits for node formatting quest query.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Ivy>🏹<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> StarTree please change updated to just date. When the node counting embedded dates, we don't need a separate "updated" tag.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree="2">⭐<small>2</small> <div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Done!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Now fixing the bug that P4 found. Fixed!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-AXP-P4>💗<div class="mbavem mbP4"></div></button><hide> <b>P4:</b> 💟</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-IXP-StarTree>🔍<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Only one item remains from today! It is about a complaint a citizen has about a tree that is making a mess and the city wouldn't take care of it and wouldn't let the homeowner cut (?) it.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-OXP-Tanya>🔮<div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> I think we need a general complaints triage node. In this case this issue is related to stewardship.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> At Sitemap special queries, tehre is Guild Related, Academy Related, but not a division for people who encounted a problem and needs a solution.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-DXP-Black>💡<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> How about a Troubleshooting Center?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> An Issues &amp; Solutions query is now added! What should be the title of the node that has the tree complaint?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Zoey>🏹<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> "Tree Complaints" XD</hide>
+  <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">📯 Tree Issues</div><hide><hr>
+  <div></div><div class="mbav50r mbCB mbStarTree" data-QXP-StarTree></div><b>⭐StarTree:</b> Made <lnk>202404122241|node</lnk>!
+  <hr class="mbCB">
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-HXP-Zoey>📯<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> "A tree near my house is making a mess and its roots are invading sewage lines."</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Fina>🏛️<div class="mbavem mbFina"></div></button><hide> <b>Fina:</b> If the three is protected or has higher priority, then it is the home that needs to work around the tree. </hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Fina>🏛️<div class="mbavem mbFina"></div></button><hide> <b>Fina:</b> A homeowner is said to be "unable to steward the tree" if they find themself complainint about the tree and try to get rid of it instead of building the home and living with the tree.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Ivy>🏛️<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> If the tree is not protected, then the homeowner should have autonomy to deal with the tree including removing it by themself or with their choice of helpers.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Ivy>🏛️<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> Public Credits: If the tree is a public nausance or it grows in a way that harms the homeowner's autonomy, then the handling or removal of the tree to restore public autonomy would be eligible for quest credits.</hide>
+  <hr class="mbCB">
+  <mbComplete>@Freedom is now Rank A2.</mbComplete>
+  </hide></div>
+  <hr class="mbCB">
+  <mbKudo></mbKudo>
+  </content>
+  <ref></ref>
+  <node>{"id":"202404122228","parentid":"202208172056","parentname":"Magic Bakery","icon":"🐾","title":"Under Control","prev":"202404082256","author":"LRRH","location":"Magic Bakery","participants":"LRRH, StarTree, Black, Ivy, P4, Tanya, Zoey, Fina"}</node>
+</div><!--Under Control-->
+<div id="P202404122241" class="mbscroll" date='20240412' time='2241' data-TSN data-ground-keeping>
+  <content>
+    <div class="mbpdc"></div><div style="clear:left"></div>
+    <div class="mbscroll">
+      <div class="mbbutton" onclick="ShowNext(this)">🐤 Issues...</div>
+      <hide><hr>
+        <div class="mbpuzzle">
+          <span class="mbbutton" onclick="ShowNext(this)">Tree vs Home</span>
+          <hide><hr><div class="mbav50r mbZoey"></div>
+            "A tree near my house is invading my sewage and making a mess. What can I do?"   
+            <macro>{"cmd":"url","url":"https://nextdoor.com/p/kL49r6BYfHn6","desc":"🏡"}</macro>         
+            <hr>
+            <ol>
+              <li>
+                <span class="mbbutton" onclick="ShowNextInline(this)">Is the tree protected?</span>
+                <hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbFina"></div></button><hide> <b>Fina:</b> If the tree is protected or has higher priority, then it is the home that needs to work around the tree. </hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbFina"></div></button><hide> <b>Fina:</b> A homeowner is said to be "unable to steward the tree" if they find themself complainint about the tree and try to get rid of it instead of building the home and living with the tree.</hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbFina"></div></button><hide> <b>Fina:</b> <lnk>202208162055|Stewardism</lnk></hide>
+                </hide>
+              </li>
+              <li>
+                <span class="mbbutton" onclick="ShowNextInline(this)">Homeowner Autonomy</span>
+                <hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> If the tree is not protected, then the homeowner should have autonomy to deal with the tree including removing it by themself or with their choice of helpers.</hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> <lnk>202208050953|Autonomy</lnk></hide>
+                </hide>
+              </li>
+              <li>
+                <span class="mbbutton" onclick="ShowNextInline(this)">Public Credits</span>
+                <hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> If the tree is a public nausance or it grows in a way that harms the homeowner's autonomy, then the handling or removal of the tree to restore public autonomy would be eligible for quest credits.</hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> <lnk>202402132242|Priority Currency</lnk></hide>
+                </hide>
+              </li>
+            </ol>
+
+          </hide>
+        </div>
+        <div class="mbCB"></div>
+      </hide>
+    </div>
+  </content>
+  <card>
+    <div class="mbCharCard">
+      <div class="mbCharCardTitle2">Tree Issues</div>
+      <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://cdn.pixabay.com/photo/2017/04/09/09/56/avenue-2215317_640.jpg')"></div>
+      <div class="mbCharCardSubtitle">Ground Keeping</div>
+      <div class="mbCharCardDesc">
+        <center>
+          <div class="mbCharCardDescInner">
+
+            <small></small>
+          </div>
+        </center>
+      </div>
+    </div>
+  </card>
+  <ref></ref>
+  <node>{"id":"202404122241","parentid":"202404042050","parentname":"Ground Keeping","icon":"🌳","title":"Tree Issues","subtitle":"Ground Keeping","kids":"","img":"https://cdn.pixabay.com/photo/2017/04/09/09/56/avenue-2215317_640.jpg","music":"","author":"James","description":"","card-text":""}</node>
+</div><!--Tree Issues-->
 <div date='20240412' time='2359' data-status>
+  <macro>{"cmd":"daisy2","issues":"6","quests":"1126","activities":[
+    {"ch":"11","rank":"B","updates":"1","last":"20240314"},
+    {"ch":"29","rank":"A","updates":"1","last":"20240329"},
+    {"ch":"32","rank":"A","updates":"1","last":"20240403"},
+    {"ch":"24","rank":"D","updates":"1","last":"20240404"},
+    {"ch":"7","rank":"A","updates":"4","last":"20240406"},
+    {"ch":"21","rank":"A","updates":"4","last":"20240406"},
+    {"ch":"12","rank":"B","updates":"1","last":"20240406"},
+    {"ch":"30","rank":"A","updates":"4","last":"20240406"},
+    {"ch":"17","rank":"S","updates":"2","last":"20240407"},
+    {"ch":"23","rank":"C","updates":"1","last":"20240407"},
+    {"ch":"34","rank":"A","updates":"3","last":"20240407"},
+    {"ch":"33","rank":"S","updates":"1","last":"20240408"},
+    {"ch":"19","rank":"B","updates":"1","last":"20240408"},
+    {"ch":"31","rank":"C","updates":"1","last":"20240409"},
+    {"ch":"15","rank":"C","updates":"2","last":"20240409"},
+    {"ch":"13","rank":"C","updates":"1","last":"20240411"},
+    {"ch":"22","rank":"C","updates":"2","last":"20240411"},
+    {"ch":"26","rank":"A","updates":"3","last":"20240411"},
+    {"ch":"20","rank":"B","updates":"3","last":"20240411"},
+    {"ch":"35","rank":"A","updates":"3","last":"20240411"},
+    {"ch":"14","rank":"A","updates":"4","last":"20240411"},
+    {"ch":"16","rank":"B","updates":"2","last":"20240411"},
+    {"ch":"18","rank":"B","updates":"3","last":"20240412"},
+    {"ch":"27","rank":"A","updates":"3","last":"20240412"},
+    {"ch":"5","rank":"B","updates":"3","last":"20240412"},
+    {"ch":"25","rank":"A","updates":"4","last":"20240412"},
+    {"ch":"28","rank":"A","updates":"2","last":"20240413"}
+    ],"players":"LRRH, StarTree, Black, Ivy, P4, Tanya, Zoey, Fina","merits":"LRRH","recognitions":"3B, Skyle","kudos":"LRRH, StarTree, Black, Ivy, P4, Tanya, Zoey, Fina","awards":"3B, Albatross, Arcacia, Black, Cardinal, Casey, Evelyn, Ivy, Kisaragi, LRRH, Melody, Natalie, Patricia, Sasha, Skyle, StarTree, Sylvia, Zoey","top":[
+    {"name":"Black","score":"23"},
+    {"name":"LRRH","score":"18"},
+    {"name":"StarTree","score":"14"},
+    {"name":"3B","score":"12"},
+    {"name":"Kisaragi","score":"10"},
+    {"name":"Sylvia","score":"10"},
+    {"name":"Skyle","score":"9"},
+    {"name":"Evelyn","score":"9"},
+    {"name":"Helen","score":"8"},
+    {"name":"Vivi","score":"8"},
+    {"name":"Sasha","score":"7"},
+    {"name":"Ivy","score":"6"},
+    {"name":"Natalie","score":"6"},
+    {"name":"Zoey","score":"6"},
+    {"name":"Casey","score":"5"},
+    {"name":"Arcacia","score":"5"},
+    {"name":"Melody","score":"4"},
+    {"name":"Gaia","score":"4"},
+    {"name":"Albatross","score":"4"},
+    {"name":"Cardinal","score":"4"},
+    {"name":"Patricia","score":"4"},
+    {"name":"Fina","score":"3"},
+    {"name":"P4","score":"3"},
+    {"name":"Ledia","score":"2"},
+    {"name":"Tanya","score":"2"},
+    {"name":"James","score":"1"},
+    {"name":"V","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div date='20240413' time='2359' data-status>
   <macro>{"cmd":"daisy2","issues":"6","quests":"1126","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[

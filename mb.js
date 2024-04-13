@@ -41,7 +41,7 @@ function BoardAdd(el){
   // STEP: Add the close button.
   var mHTML = "<div control>";
   mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>🍮</a>";
-  mHTML += "</div><div></div><div class='mbCB' qsl></div>";
+  mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
   elTemp.style.marginBottom = "0px";
   var mControl = SearchPS(el,'control');
@@ -283,10 +283,6 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
             mHTMLInner += "<a class='mbbutton' onclick='ShowNextInline(this)'>🏷️Tags</a><hide>:" + mTagHTML + "</hide> ";
           }
 
-          
-
-          
-
 
           // STEP: Show discussion list query button
           //mHTMLInner += "<a class='mbbutton' onclick=\"QueryAllPSL(this,'[data-" + mJSON.id + "]',false,'board')\">💬 Discussions</a>";
@@ -296,11 +292,14 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
           mHTMLInner += "</div>";
         }
         mHTMLInner += "<hr class='mbCB'>";
-        mHTMLInner += "</span>";
 
         // STEP: Create the QSL area.
-        elContainer.innerHTML = mHTMLInner + "<div class='mbCB'></div>";
+        elContainer.innerHTML = mHTMLInner + "<div></div><div class='mbCB' QSL></div>";
         Macro(elContainer);
+
+        mHTMLInner += "</span>";
+
+        
 
       }else{
         Macro(elContainer);
@@ -2620,12 +2619,12 @@ function QSLEL(elSearchList,iQuery){
           for(var k=0;k<mKids.length;k++){
             mCount ++;
             mHTML += "<div name='"+ mTitle + "'";
-            var mUpdated = elDiv.getAttribute("updated");
+            var mUpdated = elDiv.getAttribute("date");
 
             // 20240411: StarTree: Use embedded updated dates
-            var mSubUpdates = elDiv.querySelectorAll('[updated]');
+            var mSubUpdates = elDiv.querySelectorAll('[date]');
             for(let u=0;u<mSubUpdates.length;u++){
-              var mSubU = mSubUpdates[u].getAttribute('updated');
+              var mSubU = mSubUpdates[u].getAttribute('date');
               if(NotBlank(mSubU) && mSubU > mUpdated){
                 mUpdated = mSubU;
               }
@@ -2635,7 +2634,7 @@ function QSLEL(elSearchList,iQuery){
             if(IsBlank(mUpdated)){
               mUpdated = elDiv.getAttribute("date");
             }
-            mHTML += " updated='" + mUpdated + "'";
+            mHTML += " date='" + mUpdated + "'";
             mHTML += " style='order:" + mOrder + "'>";
             mHTML += "<div control>";
             mHTML += "<hide>"+ elDiv.textContent +"</hide>";
@@ -2738,9 +2737,9 @@ function QSLSortByDate(el){
   // .. To get the last updated date, it checks the attribute "updated" if it exists.
   // .. If not, it uses the node ID as the date.
   var elContainer = QSLGetContainer(el);
-  QSLSortReverseIfSet(elContainer,'updated');
+  QSLSortReverseIfSet(elContainer,'date');
   var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
-  elEntries.forEach((item)=>{item.style.order = item.getAttribute('updated');});
+  elEntries.forEach((item)=>{item.style.order = item.getAttribute('date');});
 }
 function QSLSortByName(el){
   // 20240407: Ledia: This function sort the entries recursivly in a QSL by name.
@@ -2797,7 +2796,7 @@ function QSLSortRandom(el){
 }
 function QSLBL(el,iQuery){
   // 20240404: StarTree For automatically showing tags of a node.
-  var elContainer = SearchPS(el,"board").lastElementChild;
+  var elContainer = SearchPS(el,"board").querySelector('[qsl]');
   QSLEL(elContainer,iQuery);  
 }
 function Cap(mStr){
@@ -3805,7 +3804,7 @@ function NodeFormatter(elTemp){
         
         vHTML +="<hide><hr class='mbCB'>"+ChatNodeContent(vFirstDiv,mJSON)+"</hide>";        
         vHTML +="</div>";
-        vHTML +="<div class='mbCB'></div>";   
+        vHTML +="<div></div><div class='mbCB' QSL></div>";   
       }    
       vFirstDiv.innerHTML = vHTML;  
     }
