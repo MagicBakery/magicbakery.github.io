@@ -14,8 +14,6 @@
           <a class="mbbutton" onclick="QSL(this,'[data-Guild]')">🥨 Guild Related</a><br>
           <a class="mbbutton" onclick="QSL(this,'[data-college]')">🎓 Academy Related</a><br>          
           <a class="mbbutton" onclick="QSL(this,'[data-TSN]')">☎️ Issues &amp; Solutions</a><br>
-          
-          
           <hr>
         </hide>
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Tags">🏷️</a>
@@ -53,10 +51,11 @@
         <hide >
           <h4>👑 Sort by</h4><hr>
           <a class="mbbutton" onclick="QSLSortByName(this)">🍎 Name</a>
-          <a class="mbbutton" onclick="QSLSortByDate(this)">🗓️ Date</a>
+          <a class="mbbutton" onclick="QSLSortBy(this,'date')">🗓️ Date</a>
           <a class="mbbutton" onclick="QSLSortRandom(this)">🎲 Random</a>
+          <a class="mbbutton" onclick="QSLSortBy(this,'size')">🐘 Size</a>
           <hr>
-        </hide>
+        </hide><!--Sort Modes-->
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Sitemap Quests">🎪</a>
         <hide >
           <h4>🎪 Sitemap Quests Queries</h4><hr>
@@ -478,7 +477,7 @@
     </div><!--Deployment Area-->
   </div><!--LogFall Dungeon Quest Board-->
 </span>
-<div id="P900000000000" class="mbscroll"  data-Guild>
+<div id="P900000000000" class="mbscroll" date="90000000" data-Guild>
   <span class="mbDayHeader">
     <div class="mbav50pr" style="background-image:url('')"></div>
     <h4><lnk>202208172056|Magic Bakery</lnk></h4>
@@ -500,13 +499,14 @@
             <div class="mbMC3" onclick="MC3Resize(this)">
               <div style="display:flex;flex-direction: column;">
                 <div class="mbCB">
-                  <macro>{"guildlog":"0411","rank":"B","updates":"3","node":"202403231454","author":"LRRH","chapter":"@Academy","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0411","rank":"A","updates":"4","node":"202403231454","author":"LRRH","chapter":"@Academy","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"2","icon":"🏘️","node":"202307231022","title":"NextDoor Workflow","info":"Replying/Deploying.","cmd":"quest"}</macro> -->
-                    <!--<span class="mbListCapNC mbRankA"></span>   -->
+                    <span class="mbListCapNC mbRankA"></span>
+                    <macro>{"log":"0413","priority":"1","icon":"⚡","node":"202404130947","title":"Electrical Panel","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
-                    <macro>{"log":"0411","priority":"3","icon":"🍂","node":"202207241111","title":"Biases","info":"Since 2022 Dec","cmd":"quest"}</macro>
+                    <macro>{"log":"0411","priority":"3","icon":"🍂","node":"202207241111","title":"Biases","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","icon":"🌳","node":"202210062300","title":"Skill Tree","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"3","icon":"🧭","node":"202207282137","title":"Moral Compass","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
@@ -987,7 +987,7 @@
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     
                     <span class="mbListCapNC mbRankA"></span>
-                    <macro>{"log":"0404","priority":"0","icon":"🏡","node":"202404042050","title":"Ground Keeping","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"0404","priority":"0","icon":"🏡","node":"202404042050","title":"Groundskeeping","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","icon":"🏡","node":"202306112141","title":"Building Catalog","info":"This is for making background building standees.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🏰","node":"202208292134","title":"Quest Map Quest","info":"For tracking progress of quests.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","icon":"🗺️","node":"202208292134","title":"Map Tiles","info":"This is for making map tiles.","cmd":"quest"}</macro>
@@ -17907,7 +17907,7 @@ data-DXP-WIN-Casey
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> Is that enough?</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> I think that is enough because that was what we did. 😅</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> I think an important aspect is that you are making a character based on what you want to be. You don't need to know how the game works.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> In comparison to other systems, when you create your character there are no attributes to assign there are no game rules you need to learn.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> In comparison to other systems, when you create your character there are no attributes to assign and no game rules you need to learn.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbSasha"></div></button><hide> <b>Sasha:</b> Okay let's move on to the next topic.</hide>
   </hide></div>
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">⚔️ Gameplay</div><hide><hr>
@@ -18164,7 +18164,7 @@ data-DXP-WIN-Casey
         <h4>Rank A / <span style="letter-spacing:-5px;">⭐⭐⭐⭐</span></h4>
         An instructor can teach and correct others on the skill from memory. 
         <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> The instructor rating is especially important for the skill tree because if the skill tree is destroyed, they are the people who can rebuild the tree from scratch.</hide>
-        <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> For public good skills, society should check the number of people who have reached instructor level. When an important skill lacks instructors, it would reward people to reach that proficiency.</hide>
+        <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> For public good skills, society should check the number of people who have reached instructor level. When an important skill lacks instructors, it should reward people to reach that proficiency.</hide>
         <div class="mbCB"></div>
       </hide>
     </div>
@@ -18174,7 +18174,7 @@ data-DXP-WIN-Casey
       <hide><hr><div class="mbav50r mbBlack"></div>
         <h4>Rank S / <span style="letter-spacing:-5px;">⭐⭐⭐⭐⭐</span></h4>
         A master is at the forefront exploring and sharing new techniques of that skill.
-        <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> A master can in general perform the skill without fail. A master can be seen as inventors, founders, pioneers of the skill in expanding humanity's knowledge of the skill.</hide>
+        <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> A master can perform the skill without fail in general. A master can be seen as inventors, founders, pioneers of the skill in expanding humanity's knowledge of the skill.</hide>
       </hide>
     </div>
   </content>
@@ -21041,7 +21041,7 @@ data-DXP-WIN-Casey
 </div><!-- STATUS -->
 <div id="P202404042050" class="mbscroll" date='20240404' time='2050' data-subject data-quest data-civics>
   <content>
-    <div class="mbpdc"><b>Ground Keeping</b> includes quests related to keeping an area safe and clean.</div><div style="clear:left"></div>
+    <div class="mbpdc"><b>Groundskeeping</b> includes quests related to keeping an area safe and clean.</div><div style="clear:left"></div>
 
     <div class="mbscroll">
       <div class="mbbutton" onclick="ShowNext(this)">🌱 Safety Awareness</div>
@@ -21135,8 +21135,8 @@ data-DXP-WIN-Casey
     </div><!--🕊️ Intermediate Skills-->
   </content>
   <ref></ref>
-  <node>{"id":"202404042050","parentid":"202403311933","parentname":"Civil Affairs","icon":"🌳","title":"Ground Keeping","subtitle":"Quest","kids":"Ground-Keeping","img":"https://cdn.pixabay.com/photo/2017/04/09/09/56/avenue-2215317_640.jpg","music":"","author":"Casey","description":"","card-text":""}</node>
-</div><!--Ground Keeping-->
+  <node>{"id":"202404042050","parentid":"202403311933","parentname":"Civil Affairs","icon":"🌳","title":"Groundskeeping","subtitle":"Quest","kids":"Ground-Keeping","img":"https://cdn.pixabay.com/photo/2017/04/09/09/56/avenue-2215317_640.jpg","music":"","author":"Casey","description":"","card-text":""}</node>
+</div><!--Groundskeeping-->
 <div id="P202404042146" date='20240404' time='2146' data-chat data-202303052122 data-happy data-202404032249 data-announcement>
   <content>
   <div></div><div class="mbav50r mbCB mbIvy" data-QXP-Ivy>⭐</div>
@@ -22234,7 +22234,7 @@ data-DXP-WIN-Casey
 <div id="P202404122228" date='20240412' time='2228' data-chat data-202208172056 data-happy data-202404082256 data-202404122241>
   <content>
   <div></div><div class="mbav50r mbCB mbLRRH"></div>
-  <div class="mbpdc"><b>Despite</b> what we discussed last time, I still think that we should be able to process the lnks so that the daily count decreases.
+  <div class="mbpdc"><b>Despite</b> what we discussed last time, I still think that we should process the links so that the daily count decreases.
   </div><hr class="mbCB mbhr">
   <button class="mbbutton" onclick="ShowNextInline(this)" data-UXP-LRRH>🍮<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> This is for people who think the same. If you think there is something else more important, please do that instead.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Right now the count is 1131. The cout was 1126 yesterday!</hide>
@@ -22246,7 +22246,7 @@ data-DXP-WIN-Casey
   <button class="mbbutton" onclick="ShowNextInline(this)" data-AXP-P4>💗<div class="mbavem mbP4"></div></button><hide> <b>P4:</b> 💟</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-IXP-StarTree>🔍<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Only one item remains from today! It is about a complaint a citizen has about a tree that is making a mess and the city wouldn't take care of it and wouldn't let the homeowner cut (?) it.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-OXP-Tanya>🔮<div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> I think we need a general complaints triage node. In this case this issue is related to stewardship.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> At Sitemap special queries, tehre is Guild Related, Academy Related, but not a division for people who encounted a problem and needs a solution.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> At Sitemap special queries, there is Guild Related, Academy Related, but not a division for people who encountered a problem and needs a solution.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-DXP-Black>💡<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> How about a Troubleshooting Center?</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree>⭐<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> An Issues &amp; Solutions query is now added! What should be the title of the node that has the tree complaint?</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Zoey>🏹<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> "Tree Complaints" XD</hide>
@@ -22254,10 +22254,10 @@ data-DXP-WIN-Casey
   <div></div><div class="mbav50r mbCB mbStarTree" data-QXP-StarTree></div><b>⭐StarTree:</b> Made <lnk>202404122241|node</lnk>!
   <hr class="mbCB">
   <button class="mbbutton" onclick="ShowNextInline(this)" data-HXP-Zoey>📯<div class="mbavem mbZoey"></div></button><hide> <b>Zoey:</b> "A tree near my house is making a mess and its roots are invading sewage lines."</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Fina>🏛️<div class="mbavem mbFina"></div></button><hide> <b>Fina:</b> If the three is protected or has higher priority, then it is the home that needs to work around the tree. </hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Fina>🏛️<div class="mbavem mbFina"></div></button><hide> <b>Fina:</b> A homeowner is said to be "unable to steward the tree" if they find themself complainint about the tree and try to get rid of it instead of building the home and living with the tree.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Fina>🏛️<div class="mbavem mbFina"></div></button><hide> <b>Fina:</b> If the tree is protected or has higher priority, then it is the home that needs to work around the tree. </hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Fina>🏛️<div class="mbavem mbFina"></div></button><hide> <b>Fina:</b> A homeowner is said to be "unable to steward the tree" if they find themself complaining about the tree and trying to get rid of it instead of building the home and living with the tree.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Ivy>🏛️<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> If the tree is not protected, then the homeowner should have autonomy to deal with the tree including removing it by themself or with their choice of helpers.</hide>
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Ivy>🏛️<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> Public Credits: If the tree is a public nausance or it grows in a way that harms the homeowner's autonomy, then the handling or removal of the tree to restore public autonomy would be eligible for quest credits.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Ivy>🏛️<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> Public Credits: If the tree is a public nuisance or it grows in a way that harms the homeowner's autonomy, then the handling or removal of the tree to restore public autonomy would be eligible for quest credits.</hide>
   <hr class="mbCB">
   <mbComplete>@Freedom is now Rank A2.</mbComplete>
   </hide></div>
@@ -22298,7 +22298,7 @@ data-DXP-WIN-Casey
               <li>
                 <span class="mbbutton" onclick="ShowNextInline(this)">Public Credits</span>
                 <hide>
-                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> If the tree is a public nausance or it grows in a way that harms the homeowner's autonomy, then the handling or removal of the tree to restore public autonomy would be eligible for quest credits.</hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> If the tree is a public nuisance or it grows in a way that harms the homeowner's autonomy, then the handling or removal of the tree to restore public autonomy would be eligible for quest credits.</hide>
                   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> <lnk>202402132242|Priority Currency</lnk></hide>
                 </hide>
               </li>
@@ -22314,7 +22314,7 @@ data-DXP-WIN-Casey
     <div class="mbCharCard">
       <div class="mbCharCardTitle2">Tree Issues</div>
       <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://cdn.pixabay.com/photo/2017/04/09/09/56/avenue-2215317_640.jpg')"></div>
-      <div class="mbCharCardSubtitle">Ground Keeping</div>
+      <div class="mbCharCardSubtitle">Groundskeeping</div>
       <div class="mbCharCardDesc">
         <center>
           <div class="mbCharCardDescInner">
@@ -22326,7 +22326,7 @@ data-DXP-WIN-Casey
     </div>
   </card>
   <ref></ref>
-  <node>{"id":"202404122241","parentid":"202404042050","parentname":"Ground Keeping","icon":"🌳","title":"Tree Issues","subtitle":"Ground Keeping","kids":"","img":"https://cdn.pixabay.com/photo/2017/04/09/09/56/avenue-2215317_640.jpg","music":"","author":"James","description":"","card-text":""}</node>
+  <node>{"id":"202404122241","parentid":"202404042050","parentname":"Groundskeeping","icon":"🌳","title":"Tree Issues","subtitle":"Groundskeeping","kids":"","img":"https://cdn.pixabay.com/photo/2017/04/09/09/56/avenue-2215317_640.jpg","music":"","author":"James","description":"","card-text":""}</node>
 </div><!--Tree Issues-->
 <div date='20240412' time='2359' data-status>
   <macro>{"cmd":"daisy2","issues":"6","quests":"1126","activities":[
@@ -22387,6 +22387,179 @@ data-DXP-WIN-Casey
     {"name":"V","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
+<div id="P202404130947" class="mbscroll" date='20240413' time='0947' data-safety data-industrial data-engineering data-standard data-science>
+  <content>
+    <div class="mbpdc"><b>Safety standards</b> of electrical industrial control panels exist to prevent fire and shock hazards.</div><div style="clear:left"></div>
+    <div class="mbscroll">
+      <div class="mbbutton" onclick="ShowNext(this)">🌱 Questions to Answer</div>
+      <hide><hr><div class="mbav50r mbBlack" data-SXP-Black></div>
+        This subject is for answering questions like:
+        <hr>
+        <ol>
+          <li>How do I get my panel certified?</li>
+          <li>What components can I use?</li>
+        </ol>
+        <div class="mbCB"></div>
+      </hide>
+    </div>
+    <div class="mbscroll">
+      <div class="mbbutton" onclick="ShowNext(this)">🐤 Beginner Concepts</div>
+      <hide><hr>
+        <div class="mbpuzzle">
+          <span class="mbbutton" onclick="ShowNext(this)">Fire Hazard</span>
+          <hide><hr><div class="mbav50r mbBlack"></div>
+            The panel should not catch fire on its own. 
+            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> A panel that catches fire on its own may have violated one of these design considerations: </hide>
+            <ol>
+              <li>
+                <span class="mbbutton" onclick="ShowNextInline(this)">Improper Components</span>
+                <hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)" data-OXP-Tanya><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> Electrical components can catch fire if they carry more current than they are designed to handle. This can be prevented by: </hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)" data-SXP-Tanya><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> 1) Choosing components with electrical ratings appropriate for the load;</hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)" data-SXP-Tanya><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> 2) Installing proper overcurrent protective devices to cut the current supply if the current exceeds the safe range; and</hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)" data-SXP-Tanya><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> 3) Proper spacing from heat sources that could melt insulations or components.</hide>
+                </hide>
+              </li>
+              <li>
+                <span class="mbbutton" onclick="ShowNextInline(this)">Improper Insulation</span>
+                <hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)" data-OXP-Tanya><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> Improperly insulated or spaced conductors could arc and cause fire or explosion. This kind of issue can be prevented by:</hide>
+                  <button data-SXP-Tanya class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> 1) Proper insulated conductors or barriers;</hide>
+                  <button data-SXP-Tanya class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> 2) Proper spacing between live parts and metal parts;</hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> 3) Proper Grounding of metal parts that should not carry current;</hide>
+                  <button data-SXP-Tanya class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> 4) Proper protection of conductive parts from wear and tear due to sharp edges, over bending, or friction from movement.</hide>
+                </hide>
+              </li>
+            </ol>
+          </hide>
+        </div><!--Fire Hazards-->
+        <div class="mbpuzzle">
+          <span class="mbbutton" onclick="ShowNextInline(this)">Shock Hazards</span>
+          <hide><hr><div class="mbav50r mbBlack"></div>
+            No one should get shocked by touching or opening the panel enclosure.
+            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> This standard could be violated by: </hide>
+            <ol>
+              <li>
+                <span class="mbbutton" onclick="ShowNextInline(this)">Openings too big</span>
+                <hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)" data-OXP-Tanya><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> A lay person should not be able to touch live parts when the panel is closed. </hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> The cover should be designed so a normal person can't reach through and touch live parts.</hide>
+                </hide>
+              </li>
+              <li>
+                <span class="mbbutton" onclick="ShowNextInline(this)">Improper Interlock</span>
+                <hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)" data-LnXP-Black><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> A door interlock should cuts the power if the panel door is open, unless the interlock is intentionally defeated for troubleshooting.</hide>
+                </hide>
+              </li>
+              <li>
+                <span class="mbbutton" onclick="ShowNextInline(this)">Improper Bonding</span>
+                <hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)" data-LnXP-P4><div class="mbavem mbP4"></div></button><hide> <b>P4:</b> Panel doors and covers should be grounded, and if you need to remove a part from the door or the panel, the bonding wire should not come loose.</hide>
+                </hide>
+              </li>
+
+            </ol>
+          </hide>
+        </div><!--Shock Hazards-->
+        <div class="mbCB"></div>
+      </hide>
+    </div>
+    <div class="mbscroll">
+      <div class="mbbutton" onclick="ShowNext(this)">🕊️ Practitioner Skills</div>
+      <hide><hr>
+        <h4>UL508A</h4>
+        <span>
+          <macro>{"cmd":"url","url":"https://productiq.ulprospector.com/en","desc":"🔗"}</macro>
+          <span class="mbbutton" onclick="ShowNextInline(this)">Product iQ</span>
+          <hide>
+            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Use this to look up a CCN or a specific part by a manufacturer.</hide>
+            <button class="mbbutton" onclick="ShowNextInline(this)" data-LnXP-Black></button><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> To look up the info for CNN, enter the CNN as UL Category Control Number, and select the Document Type of "Guide Info".</hide>
+          </hide>
+        </span>
+        <span>
+          <macro>{"cmd":"url","url":"https://www.ul.com/resources/ul-508a-supplement-sa-specific-component-requirements","desc":"🔗"}</macro>
+          <span class="mbbutton" onclick="ShowNextInline(this)">Supplement SA</span>
+          <hide>
+            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Use this to look up a CCN or a specific part by a manufacturer.</hide>
+          </hide>
+        </span>
+        <span>
+          <macro>{"cmd":"url","url":"https://www.ul.com/sites/g/files/qbfpbp306/files/2019-05/00-OP-C0045-V5.0.pdf","desc":"🔗"}</macro>
+          <span class="mbbutton" onclick="ShowNextInline(this)">Calibration Interval</span>
+          <hide>
+            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Use this to look up a CCN or a specific part by a manufacturer.</hide>
+          </hide>
+        </span>
+
+        <div class="mbpuzzle">
+          <span class="mbbutton" onclick="ShowNext(this)">Certification Process</span>
+          <hide><hr>
+            <h4>UL508A</h4>
+            <button class="mbbutton" onclick="ShowNextInline(this)" data-SXP-Black><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Each manufacturing site needs at least one certified manufacturer's technical representative (MTR).</hide>
+            <button class="mbbutton" onclick="ShowNextInline(this)" data-SXP-Black><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> The test is done online and the tester may only use UL documents and UL websites for reference.</hide>
+            <button class="mbbutton" onclick="ShowNextInline(this)" data-SXP-Black><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> The test is divided into four sections. The tester must complete each in one session. Although there is no time limit per section, the total expected duration is about 4 hours.</hide>
+            <button class="mbbutton" onclick="ShowNextInline(this)" data-SXP-Black><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> The four sections are: 1) General Program Information; 2) Enclosed Panels and Power Circuits; 3) Control Circuits, Ratings, Markings, and Enclosures; and 4) Supplement SB (Short Circuit Current Ratings).</hide>
+          </hide>
+        </div>
+        <div class="mbpuzzle">
+          <span class="mbbutton" onclick="ShowNext(this)">Component Applicability</span>
+          <hide><hr>
+            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> UL508A: Given a component, look for its listing or recognition number, then confirm the applicable context at Product IQ and SA Table.</hide>
+            <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> If the component is not found, check if it is exempted in Supplement B.</hide>
+          </hide>
+        </div>
+
+        
+        <div class="mbCB"></div>
+      </hide>
+    </div>
+  </content>
+  <card>
+    <div class="mbCharCard">
+      <div class="mbCharCardTitle2">Electrical Panel</div>
+      <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://cdn.pixabay.com/photo/2015/12/07/10/55/electric-1080584_640.jpg')"></div>
+      <div class="mbCharCardSubtitle">Safety Standard</div>
+      <div class="mbCharCardDesc">
+        <center>
+          <div class="mbCharCardDescInner">
+            Choosing and placing electrical components to prevent fire and shock.
+            <small></small>
+          </div>
+        </center>
+      </div>
+    </div>
+  </card>
+  <ref></ref>
+  <node>{"id":"202404130947","parentid":"202308240030","parentname":"Engineering","icon":"⚡","title":"Electrical Panel","subtitle":"Safety Standard","kids":"UL508A","img":"https://cdn.pixabay.com/photo/2015/12/07/10/55/electric-1080584_640.jpg","music":"","author":"Black","description":"","card-text":""}</node>
+</div><!--Industrial Control Panel-->
+<div id="P202404131035" date='20240413' time='1035' data-chat data-202404130947 data-happy>
+  <content>
+  <div></div><div class="mbav50r mbCB mbBlack"></div>
+  <div class="mbpdc"><b>This</b> is for those studying for passing the MTR test.
+  </div><hr class="mbCB mbhr">
+  <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">🎓 Free Training</div><hide><hr>
+  <div></div><div class="mbav50r mbCB mbBlack"></div><b>Black:</b> In Quest Society, trainings for safety standards should be free to the trainees. UL508A has a paid elearning module, which goes against the quest society visions.
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Black>🏛️<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> The standard itself should also be free to view. In this case, since the content is not free to view, we can't directly cite it, but we talk about how to do things and safety concepts if we were to make a free version for quest society.</hide>
+  <hr class="mbCB">
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> This test is not urgent while the site still has other certified representatives.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Each site should have more than one certified representative, and in general the more the better.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> True.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> Should we list the kind of questions on the test?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> That would take a lot longer but I think we should do it bit by bit.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> I think the beginner section should be less technical. 😖</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WwXP-LRRH>🐾<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> There should be a short explanation that the safety standard is for fire and shock prevention.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Added.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> I think the beginner section is better now. </hide>
+  <hr class="mbCB">
+  <mbComplete>@Academy is now Rank A4.</mbComplete>
+  </hide></div>
+  <hr class="mbCB">
+  <mbKudo></mbKudo>
+  </content>
+  <ref></ref>
+  <node>{"id":"202404131035","parentid":"202404130947","parentname":"UL508A","icon":"⚡","title":"UL508A Studying","prev":"","author":"Black","location":"Magic Bakery","participants":"Black, Tanya, Evelyn, LRRH"}</node>
+</div><!--UL508A Studying-->
 <div date='20240413' time='2359' data-status>
   <macro>{"cmd":"daisy2","issues":"6","quests":"1126","activities":[
     

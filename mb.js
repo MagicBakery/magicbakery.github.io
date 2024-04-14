@@ -2635,10 +2635,17 @@ function QSLEL(elSearchList,iQuery){
               mUpdated = elDiv.getAttribute("date");
             }
             mHTML += " date='" + mUpdated + "'";
+            mHTML += " size='" + elDiv.innerHTML.length + "'";
             mHTML += " style='order:" + mOrder + "'>";
+
+            // 20240413: StarTree: Add a float right display frame.
+            mHTML += "<code class='mbRefS mbCB'></code>";
+
             mHTML += "<div control>";
             mHTML += "<hide>"+ elDiv.textContent +"</hide>";
             //mHTML += "<a class='mbbutton mbILB25' onclick='QSLTree(this,\"[data-"+ mKids[k] +"]\")' title='"+ Cap(mCategory) + ":" + mOrder + "\\" + Cap(mKids[k]).replaceAll("-"," ")  +"'>📒</a>";
+
+            
             mHTML += "<a class='mbbutton mbILB25' onclick='QSLTree(this,\"[data-"+ mKids[k] +"]\")'>📒</a>";
             if(k==0){
               mHTML += LnkCode(mID,mTitle,mIcon+mType,bMark); 
@@ -2731,6 +2738,17 @@ function QSL(el,iQuery){
   var elSearchList = SearchPS(el,"control").nextElementSibling.lastElementChild;
   elSearchList.parentNode.classList.remove('mbhide');
   QSLEL(elSearchList,iQuery);  
+}
+function QSLSortBy(el,iAttribute){
+  // 20240413: StarTree: This sort function assumes that the attribute is already set.
+  var elContainer = QSLGetContainer(el);
+  QSLSortReverseIfSet(elContainer,iAttribute);
+  var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
+  elEntries.forEach((item)=>{
+    item.style.order = item.getAttribute(iAttribute);
+    //item.firstElementChild.setAttribute('title',item.style.order);
+    item.firstElementChild.innerHTML = item.style.order;
+  });
 }
 function QSLSortByDate(el){
   // 20240407: Ledia: This function sort the entries in a QSL by date.

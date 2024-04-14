@@ -183,8 +183,15 @@ padding-right:10px;
   float:right;
   font-size: 14px;
   font-weight: bold;
-  line-height: 17.5px;
-  
+  line-height: 17.5px;  
+  text-align:right;
+}
+.mbRefS{
+  /* 20230413: StarTree: Smaller for displaying stats */
+  float:right;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 17.5px;  
   text-align:right;
 }
 
