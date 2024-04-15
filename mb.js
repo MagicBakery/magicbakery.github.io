@@ -492,6 +492,15 @@ function PanelAdd(){
   elTemp.setAttribute("panel","");
 
   elMA.appendChild(elTemp);
+
+  // 20240325: StarTree: Default the first panel to be the serving panel.
+  // 20240414: Arcacia: If this is the only panel, default its width to wide and set as serve target.
+  var mOtherPanel = document.querySelector('panel');
+  if(IsBlank(mOtherPanel)){
+    elTemp.style.flex = "50%";
+    PanelToggleServe(elTemp.firstElementChild);
+  }
+
   return elTemp;
 }
 
@@ -877,7 +886,7 @@ function HideP3(el){
 }
 function IsBlank(e){
   // 20230310: Zoey
-  return ((e=== undefined) || (e==="") || (e=="") || (e=== null) || (e.length==0));
+  return ((e==NaN) ||(e=== undefined) || (e==="") || (e=="") || (e=== null) || (e.length==0));
 }
 function LangIcon(eCode){
   // 20230311: StarTree: Added for Manga display
@@ -927,10 +936,43 @@ function Macro(elScope){
   // MACRO FORMATTER
   // 20220712: Natalie: So that Quest Lists can query quests.
   // 20230220: Ivy: Added MacroLL for languages
-    ProcessNodeData(elScope);
-    MacroMacro(elScope);
-    MacroJQ(elScope);
-    MacroLnk(elScope);
+  // 20240414: StarTree: Added Bubble.
+  ProcessNodeData(elScope);
+  MacroMacro(elScope);
+  MacroJQ(elScope);
+  MacroBubble(elScope);
+  MacroLnk(elScope);  
+}
+function MacroBubble(el){
+  // 20240414: StarTree: The bubble macro:
+  // Turn:
+  // <bubble DTS="202404141904" SPK="StarTree" EXP="2" Icon="🍍">Testing Testing.</bubble>
+  // Into:
+  // <button class='mbbutton' onclick='ShowNextInline(this)' DTS='202404141904' EXP='2' Icon='🍍'>🍍<small>2</small><div class='mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Testing Testing.</hide>
+
+  var mBubbles = el.querySelectorAll('bubble');
+  mBubbles.forEach((mBubble)=>{
+    let mHTML = "<button class='mbbutton' onclick='ShowNextInline(this)'";
+    let mDTS = mBubble.getAttribute("DTS");
+    if(NotBlank(mDTS)){mHTML += " DTS='" + mDTS + "'";}
+    let mSPK = mBubble.getAttribute("SPK");    
+    let mEXP = mBubble.getAttribute("EXP");
+    if(NotBlank(mEXP)){mHTML += " EXP='" + mEXP + "'";}
+    let mIcon = mBubble.getAttribute("Icon");
+    if(NotBlank(mIcon)){mHTML += " Icon='" + mIcon + "'";}
+    mHTML += ">";
+    if(NotBlank(mIcon)){mHTML += mIcon;}
+    //if(NotBlank(mEXP)){mHTML += "<sup class='mbSS'>⭐</sup>";}
+    if(NotBlank(mEXP) && mEXP > 1){mHTML += "<small>" + mEXP + "</small> ";}
+    mHTML += "<div class='mbavem mb" + mSPK + "'></div></button>";
+    mHTML += "<hide><b>" + mSPK + ":</b> " + mBubble.innerHTML + "</hide>"
+    let elNew = document.createElement("span");
+    elNew.innerHTML = mHTML;
+    mBubble.before(elNew);
+  });
+  mBubbles.forEach((mBubble)=>{
+    mBubble.remove();
+  });
 }
 function MacroID(eScopeID){
   var elScope = getElementById(eScopeID);
@@ -2502,10 +2544,55 @@ function QSLI(iQuery){
   el.innerHTML = mHTML;
   QSLEL(el.lastElementChild.lastElementChild,iQuery);
 }
+function DTSPadding(mDTS){
+  // 20240414: StarTree: Pads the number with trailing zeroes as needed.
+  // The DTS format number has 14 digits YYYYMMDDhhmmss
+  var mStr = mDTS.toString();
+  var mPow = 14 - mStr.length;
+  mStr += "0".repeat(mPow);
+  return parseInt(mStr);
+}
+function DTSGetLatest(el){
+  // 20240414: StarTree: Return the latest DTS within the element.
+  var mElements = el.querySelectorAll('[date],[dts]');
+  var mDTS = DTSGet(el);
+  
+  for(let i=0;i<mElements.length;i++){
+    let mElDTS = DTSGet(mElements[i]);
+    if(mDTS < mElDTS){
+      mDTS = mElDTS;
+    }
+  }
+  return mDTS;
+}
+function DTSGet(el){
+  // 20240414: StarTree: Returns a DTS format number of YYYYMMDDhhmmss from the element attributes
+  
+
+  // RULE: If the element has a DTS value, then use the DTS value
+  var mDTS = el.getAttribute('dts');
+  if(NotBlank(mDTS)){
+    return DTSPadding(mDTS);
+  }
+  
+  // RULE: Next, use the Date and Time values if they exist.
+  var mDate = Default(el.getAttribute('date'),0);
+  if(mDate != 0){
+    var mTime = Default(el.getAttribute('time'),0);
+    return parseInt(mDate) * 1000000 + parseInt(mTime*100);
+  }
+  /*
+  // RULE: Return the number portion of the ID if it is the traditional 13 letter string 
+  var mID = Default(el.id,"0");
+  if(mID != 0){
+    return parseInt(mID.replace("P",""));
+  }*/
+  return 0;
+}
 function QSLEL(elSearchList,iQuery){
   elSearchList.previousElementSibling.innerHTML = "<small>Loading " + iQuery + "... </small>";
   elSearchList.innerHTML="";
-  var elTemp = document.createElement("div");
+  var elTemp=[]; 
   var Hit = 0; // Archive Hit Counter
   var bMark = NodeMarkCookieCheck();
   var mCount = 0;
@@ -2518,13 +2605,15 @@ function QSLEL(elSearchList,iQuery){
   }*/
 
   $(document).ready(function(){
-    for(let i=ArchiveNum(); i>0;i--){
-      
-      $(elTemp).load(ArchiveIndex(i) + iQuery, function(){
+    for(let i=ArchiveNum(); i>0;i--){    
+      elTemp[i] = document.createElement("div");  
+      $(elTemp[i]).load(ArchiveIndex(i) + iQuery, function(){
+
+
         // Loop through and add each child.
         //mCount += elTemp.querySelectorAll('[id][date][time]').length;
         var mHTML = "";
-        var elDiv = elTemp.lastElementChild;
+        var elDiv = elTemp[i].lastElementChild;
         var mID=""; var mTitle=""; var mIcon="";          
         var mNode = ""; var mJSON = "";
         var mType = "";
@@ -2619,21 +2708,28 @@ function QSLEL(elSearchList,iQuery){
           for(var k=0;k<mKids.length;k++){
             mCount ++;
             mHTML += "<div name='"+ mTitle + "'";
-            var mUpdated = elDiv.getAttribute("date");
+            //var mUpdated = elDiv.getAttribute("date");
 
+            var mUpdated = DTSGetLatest(elDiv).toString().slice(0,8);
+
+            
+
+            /*
             // 20240411: StarTree: Use embedded updated dates
-            var mSubUpdates = elDiv.querySelectorAll('[date]');
+            var mSubUpdates = elDiv.querySelectorAll('[date],[dts]');
             for(let u=0;u<mSubUpdates.length;u++){
               var mSubU = mSubUpdates[u].getAttribute('date');
+              var mSubU2 = mSubUpdates[u].getAttribute('dts');
               if(NotBlank(mSubU) && mSubU > mUpdated){
                 mUpdated = mSubU;
               }
-            }
-
-
-            if(IsBlank(mUpdated)){
+              if(IsBlank(mUpdated)){
               mUpdated = elDiv.getAttribute("date");
             }
+            }*/
+
+
+            
             mHTML += " date='" + mUpdated + "'";
             mHTML += " size='" + elDiv.innerHTML.length + "'";
             mHTML += " style='order:" + mOrder + "'>";
@@ -2997,6 +3093,15 @@ function XP_Counter2(iCache,iFrame,iCode1,iCode2,iCodeName, iName){
   });
   return mSum;
 }
+function XP_Count(iCache,iName){
+  // 20240414: StarTree: This function counts the EXP value for the SPK in the archive cache. It doesn't care what icon is used.
+  var mCount = 0;
+  iCache.querySelectorAll("[EXP][SPK='"+iName+"']").forEach((item)=>{
+    let mXP = Default(item.getAttribute('exp'),1);
+    mCount += Number(mXP);
+  });
+  return mCount;
+}
 function XP_CounterNF(iCache,iCode,iName){
   // 20230210: StarTree
   var mSum = 0;
@@ -3024,7 +3129,7 @@ function XP_DisplayEL(elFrame,bOrder){
     elScoreBoard.setAttribute("sortorder",mSortOrder);
   }
   
-  var elCache = document.createElement("div");
+ 
 
   var CountTXP = 0; elFrame.setAttribute("TXP",0); // TOTAL EXP
   var CountAXP = 0; elFrame.setAttribute("AXP",0); // Arcacian Award
@@ -3097,11 +3202,43 @@ function XP_DisplayEL(elFrame,bOrder){
   var mStar = "⭐";
 
   var mQueryStr = XP_QueryStr(mName);
+  var mEXPList="";
+  var mEXPMap = new Map();
+ 
 
   for(let i=1; i<=ArchiveNum();i++){
     $(document).ready(function(){
+      let elCache = document.createElement("div");
       $(elCache).hide();
       $(elCache).load(ArchiveIndex(i) + mQueryStr, function(){	
+        done++;
+        
+        // 20240414: Ledia: For the new EXP tag format.
+        let mIcon = "";
+        let mValue = "";
+        mEXPList = elCache.querySelectorAll("[EXP][SPK='"+mName+"'");
+        mEXPList.forEach((mEXPItem)=>{
+          mIcon = Default(mEXPItem.getAttribute('icon'),"⭐");
+          if(!mEXPMap.has(mIcon)){mValue = 0;}else{mValue = mEXPMap.get(mIcon);}
+          mValue += Number(Default(Number(mEXPItem.getAttribute('EXP')),1));
+          mEXPMap.set(mIcon,mValue);
+        });
+        if(done>=ArchiveNum()){
+          let mEXPArray = [];
+          mEXPMap.forEach((value,key)=>{
+            mEXPArray.push([value,key]);
+          });
+          mEXPArray.sort((a,b)=>{return a[0] - b[0];});
+          mEXPArray.reverse();
+          var mEXPTotal = 0;
+          var mEXPStr = "";
+          mEXPArray.forEach((pair)=>{
+            mEXPStr += pair[1] + "&nbsp;" + pair[0] + " ";
+            mEXPTotal += pair[0];
+          });
+        }
+
+
         CountAXP += XP_Counter(elCache,elFrame,"AXP",mName);
         CountBXP += XP_Counter(elCache,elFrame,"BXP",mName);
         CountCXP += XP_Counter(elCache,elFrame,"CXP",mName);
@@ -3147,7 +3284,8 @@ function XP_DisplayEL(elFrame,bOrder){
         CountWsXP += XP_Counter(elCache,elFrame,"WsXP",mName);
         CountWwXP += XP_Counter(elCache,elFrame,"WwXP",mName);
         CountZXP += XP_Counter(elCache,elFrame,"ZXP",mName);
-        done +=1;
+        
+
         if(done>=ArchiveNum()){
 
           GuildEXP_Total = GuildEXP(mName);
@@ -3155,7 +3293,7 @@ function XP_DisplayEL(elFrame,bOrder){
 
           GuildEXP_Lv = Math.floor(Math.sqrt(GuildEXP_Total));
 
-          TotalTXP = CountAXP + CountBXP + CountCXP + CountCoXP + CountDXP + CountGXP + CountGaXP + CountGcXP + CountHXP + CountIXP + CountJXP + CountKXP + CountLXP + CountLemonXP + CountLnXP + CountLuckXP + CountMXP + CountOXP + CountPXP + CountPhotoXP + CountQXP + CountRXP + CountRcXP + CountRecXP + CountSXP + CountTXP + CountTeaXP + CountUXP + CountVXP + CountWarpXP + CountWaterXP + CountWbXP + CountWdXP + CountWgXP + CountWjXP + CountWkXP + CountWpXP + CountWrXP + CountWsXP + CountWwXP + CountZXP;
+          TotalTXP = CountAXP + CountBXP + CountCXP + CountCoXP + CountDXP + CountGXP + CountGaXP + CountGcXP + CountHXP + CountIXP + CountJXP + CountKXP + CountLXP + CountLemonXP + CountLnXP + CountLuckXP + CountMXP + CountOXP + CountPXP + CountPhotoXP + CountQXP + CountRXP + CountRcXP + CountRecXP + CountSXP + CountTXP + CountTeaXP + CountUXP + CountVXP + CountWarpXP + CountWaterXP + CountWbXP + CountWdXP + CountWgXP + CountWjXP + CountWkXP + CountWpXP + CountWrXP + CountWsXP + CountWwXP + CountZXP + mEXPTotal;
           
           
           //LevelTXP = Math.floor(Math.sqrt(TotalTXP));
@@ -3188,6 +3326,9 @@ function XP_DisplayEL(elFrame,bOrder){
           Content += "<span style=\"float:right;margin-top:-0px;margin-bottom:-5px;\"><big><b>&nbsp;"+ TotalTXP +"</b></big></span>";
           
           Content += "<small>";
+          Content += "<b>" + mEXPStr + "</b>";
+          if(NotBlank(mEXPStr)){Content+="<b> // </b>";}
+
           if(CountCXP>0){Content += "<b>🏛️&nbsp;" + CountCXP + "</b> ";}
           if(CountQXP>0){Content += "<b>🎪&nbsp;" + CountQXP + "</b> ";} 
           if(CountGaXP>0){Content += "<b>🍎&nbsp;" + CountGaXP + "</b> ";} 
@@ -3271,11 +3412,8 @@ function XP_DisplayEL(elFrame,bOrder){
 
         }
       });
-      //DEBUG(CountEXP); //This count will show 0
     });
   }
-  elCache.remove();
-  //DEBUG(CountEXP); //This count will show 0
 }
 function SortPSN(el,iAttribute,iSearch){
   // 20230312: Ledia: Look for the div with the attribute search term;
@@ -3359,10 +3497,8 @@ function DXP(elContainer,iPlayer){
           });
         });
       });
-      //DEBUG(CountEXP); //This count will show 0
     });
   }
-  //DEBUG(CountEXP); //This count will show 0
 }
 function GuildEXP(iMember){
   // 20230129: Ledia: Added for total EXP.
@@ -3413,6 +3549,7 @@ function Roster(iIndex){
   // 20230125: Ledia: Preparing for roster stats display.
   //   Returns the length if the argument is negative.
   const mRoster = ["3B", "44", "Albatross", "Amelia", "Arcacia", "Black", "Cardinal", "Casey", "Emi", "Evelyn", "Fina", "Gaia", "Helen", "Ivy", "James", "Karl", "Ken", "Kisaragi", "Ledia", "LRRH", "Melody", "Mikela", "Natalie", "Neil", "P4", "Patricia", "Rikk", "Robert", "RS", "Sasha", "Skyle", "StarTree", "Sylvia", "Tanya", "V", "Vivi", "Vladanya", "Zoey"];
+  //const mRoster = ["3B","44", "Albatross"];
   if(iIndex>=0){
     return mRoster[iIndex];
   }else{
@@ -3463,7 +3600,8 @@ function XP_QueryStr(iName){
         "[data-WrXP-" + iName + "]" +"," + 
         "[data-WsXP-" + iName + "]" +"," + 
         "[data-WwXP-" + iName + "]" +"," + 
-        "[data-ZXP-" + iName + "]";
+        "[data-ZXP-" + iName + "]" + "," +
+        "[EXP][SPK='" + iName + "']";
 }
 function XP_Tally(elContainer){
   // 20230117: StarTree: To tally and copy PXP scores to Guild Log
@@ -3527,6 +3665,7 @@ function XP_Tally(elContainer){
         iWsXP = 	XP_CounterNF(elCache,"WsXP",Roster(j));
         iWwXP = 	XP_CounterNF(elCache,"WwXP",Roster(j));
         iZXP = 	XP_CounterNF(elCache,"ZXP",Roster(j));
+        mTally[j] += XP_Count(elCache,Roster(j));
         mTally[j] += (iAXP + iBXP + iCXP + iCoXP + iDXP + iGXP + iGaXP + iGcXP + iHXP + iIXP + iJXP + iKXP + iLXP + iLemonXP + iLnXP + iLuckXP + iMXP + iOXP + iPXP + iPhotoXP + iQXP + iRXP + iRcXP + iRecXP + iSXP + iTXP + iTeaXP + iUXP + iVXP + iWarpXP + iWaterXP + iWbXP + iWdXP + iWgXP + iWjXP + iWkXP + iWpXP + iWrXP + iWsXP + iWwXP + iZXP);
         mDone[j] ++;
         if(mDone[j] >= mArchiveSize ){
@@ -3959,13 +4098,16 @@ function QueryDayP6N(elThis, eDate){
 // 20221206: StarTree: For Node Calendar
 function QueryDayEl(elContainer,eDate){
   var qArchive = ArchiveSelect(eDate);
-  var qDate = "[date='" + eDate + "']";
+  var qDate = "[date='" + eDate + "'][id],[date='" + eDate + "'][time],[date='" + eDate + "'][data-happy]";
   var sDate = new Date(eDate.substring(0,4) + "/" + eDate.substring(4,6) + "/" + eDate.substring(6,8));
   var sDateString = GetMonthText(sDate).toUpperCase() + " " + sDate.getDate() + " " + GetDayText(sDate).toUpperCase();
   
   $(document).ready(function(){
     var backup = $(elContainer).html();
 	  $(elContainer).load(qArchive + qDate, function(){	
+
+      
+
       NodeFormatter(elContainer);  
       var sHeader = "<div class='mbpc'><b>" + sDateString + "</b></div><div class='mbbanner'>";
       var sFooter = "</div>";
@@ -4992,8 +5134,6 @@ function TextSearchPN(elSearchBox){
   TextFilter(mScope,mKeyword,"div");
 }
 function TextSearchPNEV(e,elSearchBox){
-
-  
   // 20240401: StarTree: 
   if(e.code=='Enter'){
     TextQSL(elSearchBox);

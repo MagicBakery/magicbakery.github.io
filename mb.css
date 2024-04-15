@@ -80,11 +80,20 @@ ol{
   margin-block-end: 0;
   margin-block-start: 0;
   padding-inline-start: 20px;
+  list-style: decimal-leading-zero ;
+}
+ol > li{
+  padding-left:5px;
+}
+li::marker{
+  font-size:0.8em;
+  letter-spacing:-2px;
 }
 ul{
   margin-block-end: 0;
   margin-block-start: 0;
-  padding-inline-start: 20px;
+  padding-inline-start: 0px;
+  list-style-type: none;
 }
 
 /* SECTION NESTING STYLE */
@@ -178,6 +187,10 @@ margin-left:-30px;
 padding-right:10px;
 }
 
+.mbSS{
+  margin-left:-16px;
+  font-size: 12px;
+}
 .mbRef{
   /* 20230220: Evelyn: Created for showing right aligned references */
   float:right;
@@ -1006,33 +1019,18 @@ cursor:pointer;
   text-align:center;
   width:30px;
 }
-.mbILB25{
+.mbILB20,.mbILB25,.mbILB30,.mbILB35{
   border-radius:2px;
   box-sizing:border-box; 
   color:white;
   display:inline-block;
   margin:0px 0px 0px 0px;
   text-align:center;
-  width:25px;
 }
-.mbILB30{
-  border-radius:2px;
-  box-sizing:border-box; 
-  color:white;
-  display:inline-block;
-  margin:0px 0px 0px 0px;
-  text-align:center;
-  width:30px;
-}
-.mbILB35{
-  border-radius:2px;
-  box-sizing:border-box; 
-  color:white;
-  display:inline-block;
-  margin:0px 0px 0px 0px;
-  text-align:center;
-  width:35px;
-}
+.mbILB20{width:20px;}
+.mbILB25{width:25px;}
+.mbILB30{width:30px;}
+.mbILB35{width:35px;}
 .mbRankNone{background-color:none}
 .mbRankQtyLL{background-color:saddlebrown;}
 .mbRankQtyL{background-color:darkgoldenrod;}

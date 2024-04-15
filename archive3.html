@@ -1,4 +1,4 @@
-<div id="P800000000000" class="mbscroll" date='80000000' time='0000' data-quest="1">
+<div id="P800000000000" class="mbscroll" data-quest data-upgrade data-minor>
   <content>
     <div class="mbpdc"></div><div style="clear:left"></div>
     <div control>
@@ -10,10 +10,12 @@
       <span>
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Special Queries">📯</a>
         <hide >
-          <h4>📯 Special Queries</h4><hr>
+          <small><a class="mbbutton" onclick="TextQSL(this)" title="Query textbox content as tag">🔍 Query Textbox as Text</a></small>
+          <hr><h4>📯 Special Queries</h4>
           <a class="mbbutton" onclick="QSL(this,'[data-Guild]')">🥨 Guild Related</a><br>
-          <a class="mbbutton" onclick="QSL(this,'[data-college]')">🎓 Academy Related</a><br>          
+          <a class="mbbutton" onclick="QSL(this,'[data-college]')">🎓 Academy Related</a><br>
           <a class="mbbutton" onclick="QSL(this,'[data-TSN]')">☎️ Issues &amp; Solutions</a><br>
+          <a class="mbbutton" onclick="QSL(this,'[EXP][SPK=\'StarTree\']')">Test</a><br>
           <hr>
         </hide>
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Tags">🏷️</a>
@@ -48,38 +50,52 @@
           <hr>
         </hide>
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Sorting">👑</a>
-        <hide >
+        <hide date="20240413">
           <h4>👑 Sort by</h4><hr>
+          <a class="mbbutton" style="float:right" onclick="QSLSortRandom(this)">🎲</a>
           <a class="mbbutton" onclick="QSLSortByName(this)">🍎 Name</a>
           <a class="mbbutton" onclick="QSLSortBy(this,'date')">🗓️ Date</a>
-          <a class="mbbutton" onclick="QSLSortRandom(this)">🎲 Random</a>
           <a class="mbbutton" onclick="QSLSortBy(this,'size')">🐘 Size</a>
+          
+          
           <hr>
         </hide><!--Sort Modes-->
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Sitemap Quests">🎪</a>
         <hide >
           <h4>🎪 Sitemap Quests Queries</h4><hr>
           <div>
-            <a class="mbbutton mbRankA" 
-            onclick="QSL(this,'#P800000000000, #P202303052122, #P202208032040,#P202208161957, #P202302201503')">⭐</a>  
-            <span class="mbbutton" onclick="ShowNextInline(this)">New Features</span>
+            <a class="mbbutton" 
+            onclick="QSL(this,'[id][date][time][data-upgrade][data-documentation]')">
+            <span class="mbILB20 mbRankS"></span>🏆</a>  
+            <span class="mbbutton" onclick="ShowNextInline(this)">Documentation</span>
+            <hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Arcacia data="20240409">📌<div class="mbavem mbArcacia"></div></button><hide> <b>Arcacia:</b> 20240409: Showcase new features so others can follow.</hide>
+            </hide>
+          </div><!--Rank S Queries-->
+          <div>
+            <a class="mbbutton" 
+            onclick="QSL(this,'[id][date][time][data-upgrade][data-major]')">
+            <span class="mbILB20 mbRankA"></span>⭐</a>  
+            <span class="mbbutton" onclick="ShowNextInline(this)">Major Upgrades</span>
             <hide>
               <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> 20240331: Add new useful feature.</hide>
-              <button class="mbbutton" onclick="ShowNextInline(this)" date="20240401"></button>📌<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> 20240401: Implement TSN at sitemap. 🚨🟥Alarms 🟨Features 🟩Reference 🟦Tasks</hide>
+              <button class="mbbutton" onclick="ShowNextInline(this)" date="20240401">📌<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> 20240401: Implement TSN at sitemap. 🚨🟥Alarms 🟨Features 🟩Reference 🟦Tasks</hide>
               <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Arcacia data="20240409">📌<div class="mbavem mbArcacia"></div></button><hide> <b>Arcacia:</b> 20240409: Showcase new features so others can follow.</hide>
             </hide>
           </div><!--Rank A Queries-->
           <div>
-            <a class="mbbutton mbRankB" 
-            onclick="QSL(this,'#P800000000000,#P202303052122')">⭐</a>  
-            <span class="mbbutton" onclick="ShowNextInline(this)">Feature Upgrade</span>
+            <a class="mbbutton" 
+            onclick="QSL(this,'[id][date][time][data-upgrade][data-minor]')">
+            <span class="mbILB20 mbRankB"></span>⭐</a>  
+            <span class="mbbutton" onclick="ShowNextInline(this)">Minor Upgrades</span>
             <hide>
               <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> 20240331: Upgrade existing features of the sitemap.</hide>
+
             </hide>
           </div><!--Rank B Queries-->
           <div>
-            <a class="mbbutton mbRankC" 
-            onclick="QSL(this,'[id][date][time]:not([data-subject],[data-skill],[data-chat],[data-podcast],[data-book],[data-game],[data-puzzle]):not(:contains(\'⭐\'))')">📌</a>  
+            <a class="mbbutton" 
+            onclick="QSL(this,'[id][date][time]:not([data-subject],[data-skill],[data-chat],[data-podcast],[data-book],[data-game],[data-puzzle]):not(:contains(\'⭐\'))')"><span class="mbILB20 mbRankC"></span>📌</a>  
             <span class="mbbutton" onclick="ShowNextInline(this)">Tag Audit</span>
             <hide>
               <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> 20240331: Check directory categories. Are there too many? What should be added?</hide>
@@ -87,9 +103,9 @@
             </hide>
           </div><!--Rank C Queries-->
           <div>
-            <a class="mbbutton mbRankD" 
-            onclick="QSL(this,'[id][date][time]:not(:contains(\'parentid\')),[id]:contains(\'|pin\')[id]:contains(\'pin2\')')">📌</a> 
-            <span class="mbbutton" onclick="ShowNextInline(this)">Node Format</span>
+            <a class="mbbutton" 
+            onclick="QSL(this,'[id][date][time]:not(:contains(\'parentid\')),[id]:contains(\'|pin\'),[id]:contains(\'pin2\')')"><span class="mbILB20 mbRankD"></span>📌</a> 
+            <span class="mbbutton" onclick="ShowNextInline(this)">Node Reformat</span>
             <hide>
               <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> 20240331: Update the node format to the latest that has a tag for the sitemap.</hide>
               <button class="mbbutton" onclick="ShowNextInline(this)">🎯<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Target area: Prioritize any node with the 📌 icon or with a name on the sitemap that is not descriptive.</hide>
@@ -97,11 +113,12 @@
             </hide>
           </div><!--Rank D Queries-->
           <div>
-            <span class="mbbutton" onclick="ShowNextInline(this)">✅ Completed</span>
+            <span class="mbbutton" onclick="ShowNextInline(this)"><small>Completed</small></span>
             <hide>
               <div>
-                <a class="mbbutton mbRankC" 
-                onclick="QSL(this,'[data-skill]:not([data-alchemist],[data-cleric],[data-herald],[data-magician],[data-oracle],[data-paladin])')"></a>  
+                <a class="mbbutton" 
+                onclick="QSL(this,'[data-skill]:not([data-alchemist],[data-cleric],[data-herald],[data-magician],[data-oracle],[data-paladin])')">
+                <span class="mbILB20 mbRankC"></span>✅</a>  
                 <span class="mbbutton" onclick="ShowNextInline(this)">Archetype Tags</span>
                 <hide>
                   <button class="mbbutton" onclick="ShowNextInline(this)" data-PXP-Ivy>📌<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> 20240409: Each skill should have at least one archetype tag.</hide>
@@ -477,7 +494,7 @@
     </div><!--Deployment Area-->
   </div><!--LogFall Dungeon Quest Board-->
 </span>
-<div id="P900000000000" class="mbscroll" date="90000000" data-Guild>
+<div id="P900000000000" class="mbscroll" data-Guild>
   <span class="mbDayHeader">
     <div class="mbav50pr" style="background-image:url('')"></div>
     <h4><lnk>202208172056|Magic Bakery</lnk></h4>
@@ -557,12 +574,12 @@
                 </div><!--@Board / StarTree-->
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202301080924|✏️</lnk></span>
-                  <macro>{"guildlog":"21","rank":"A","updates":"3","node":"202210151642","author":"Patricia","chapter":"@Book","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"21","rank":"A","updates":"4","node":"202210151642","author":"Patricia","chapter":"@Book","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankA"></span>-->
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"0406","priority":"0","icon":"📻","node":"202404060014","title":"Podcast","info":"","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"3","icon":"📗","node":"202210151642","title":"Add Books","info":"","cmd":"quest"}</macro> 
+                    <macro>{"log":"0414","priority":"3","icon":"📗","node":"202210151642","title":"Add Books","info":"","cmd":"quest"}</macro> 
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"1","icon":"🎪","node":"202301080924","title":"Writing Lessons","info":"Add to writing lessons node.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"📒","node":"202210151544","title":"Quotes","info":"","cmd":"quest"}</macro>
@@ -600,7 +617,7 @@
                 </div><!--@Cardinal / Cardinal-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202301140917|🍯</lnk></span>
-                  <macro>{"guildlog":"20","rank":"B","updates":"1","node":"202208181042","author":"Arcacia","chapter":"@Carrot","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"20","rank":"B","updates":"2","node":"202208181042","author":"Arcacia","chapter":"@Carrot","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"9","icon":"🧭","node":"202207282137","title":"Moral Compass","cmd":"quest"}</macro>
@@ -620,13 +637,13 @@
                     <macro>{"log":"","priority":"3","icon":"🥨","node":"","title":"Guild log quests","cmd":"quest","info":"2304:20 2305:30 2306:31 2307:26 2308:25 2309:23 2310:22 2311:21 2403:20."}</macro> 
                     <macro>{"log":"","priority":"5","icon":"🎁","node":"","title":"Layout upgrade","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
-                    <macro>{"log":"","priority":"4","icon":"🥨","node":"","title":"Layout Update","cmd":"quest"}</macro>     
+                    <macro>{"log":"0413","priority":"4","icon":"🥨","node":"","title":"Layout Update","cmd":"quest"}</macro>     
                         
                   </div>
                 </div><!--@Carrot / Arcacia-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202207112218|🌺</lnk></span>
-                  <macro>{"guildlog":"8","rank":"C","updates":"1","node":"202208141844","author":"Sasha","chapter":"@Detective","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"8","rank":"C","updates":"2","node":"202208141844","author":"Sasha","chapter":"@Detective","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">           
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"1","icon":"⚖️","node":"202309282125","title":"Policy Evaluation","info":"Update the node and make sub nodes.","cmd":"quest"}</macro> 
@@ -640,6 +657,7 @@
                     <macro>{"log":"","priority":"1","icon":"📯","node":"202305262224","title":"Leadership","info":"Update the node and make sub nodes.","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"9","icon":"🔦","node":"202309171832","title":"CSI The Board Game","cmd":"quest"}</macro>                    
                     <span class="mbListCapNC mbRankC"></span>
+                    <macro>{"log":"0414","priority":"0","icon":"🎲","node":"202207131009","title":"Board Games","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"0409","priority":"0","icon":"📛","node":"202403292132","title":"Self Introduction","info":"","cmd":"quest"}</macro>  
                     <span class="mbListCapNC mbRankD"></span>    
                     <macro>{"log":"","priority":"4","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro> 
@@ -812,12 +830,13 @@
                     <macro>{"log":"","priority":"9","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro>    
                   </div>
                 </div><!--@Manga / 3B-->   
-                <div class="mbCB">         
-                  <macro>{"guildlog":"55","rank":"A","updates":"1","node":"202208071528","author":"Ledia","chapter":"@Mira","cmd":"pb"}</macro>
+                <div class="mbCB" date="20240413">
+                  <macro>{"guildlog":"55","rank":"A","updates":"3","node":"202208071528","author":"Ledia","chapter":"@Mira","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"0","icon":"🦄","node":"202208071528","title":"Mira Store Front Poster","cmd":"quest"}</macro>              
                     <span class="mbListCapNC mbRankA"></span>
+                    <macro>{"log":"0414: Custom EXP Display on Scoreboard","priority":"1","icon":"👑","node":"202301251008","title":"Scoreboard","info":"Clear the old EXP tags.","cmd":"quest"}</macro>
                     <macro>{"log":"0407","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🏅","node":"202301251008","title":"Profiles upgrade","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","icon":"🧹","node":"202208071528","title":"Page Cleanup","cmd":"quest"}</macro>
@@ -825,12 +844,14 @@
                     <macro>{"log":"","priority":"2","icon":"🐉","node":"202208071528","title":"Quest Standee","info":"Quest-grade standee.","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"5","icon":"🎀","node":"202208071528","title":"Avatar Making","info":"Avatar for WonderWoman","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
+                    <macro>{"log":"0413","priority":"0","icon":"⏰","node":"202208212019","title":"Time Management","cmd":"quest"}</macro>  
                     <macro>{"log":"","priority":"5","icon":"👒","node":"202310121020","title":"Style Inspirations","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","cmd":"quest","title":"Guild Log Quests","icon":"🥨","info":"2306:59 2307:57 2308:56 2309:55 2310:50"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
+                    
                     <macro>{"log":"","priority":"6","icon":"⚔️","node":"202306132141","title":"Personality","info":"","cmd":"quest"}</macro> 
                     <span class="mbListCapNC mbRankD"></span>
-                    <macro>{"log":"","priority":"4","icon":"👑","node":"202301251008","title":"Scoreboard","cmd":"quest"}</macro>
+                    
                     <macro>{"log":"","priority":"9","cmd":"quest","title":"Layout Update","icon":"🥨"}</macro>
                   </div>
                 </div><!--@Mira / Ledia-->
@@ -900,12 +921,11 @@
                 </div><!--@Puzzle / Mikela-->   
                 <div class="mbCB">
                   <!--<span style="float:right"><lnk>202303121053|🍀</lnk></span>-->
-                  <macro>{"guildlog":"0","rank":"A","updates":"3","node":"202309200912","author":"Skyle","chapter":"@Scape","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"A","updates":"4","node":"202309200912","author":"Skyle","chapter":"@Scape","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
-                    <!--<span class="mbListCapNC mbRankS"></span>
-                    <macro>{"log":"","priority":"3","icon":"🍻","node":"relevance","title":"Upload Manga Chapters","info":"Upload Manga Chapters 0 to 10 to DeviantArt","cmd":"quest"}</macro>-->
+                    <!--<span class="mbListCapNC mbRankS"></span>-->
                     <span class="mbListCapNC mbRankA"></span>
-                    <macro>{"log":"","priority":"0","icon":"🏫","node":"202403231454","title":"Academy","info":"Present old stories","cmd":"quest"}</macro>
+                    <macro>{"log":"0414","priority":"0","icon":"🎙️","node":"202404141534","title":"Lyrics Writing","info":"","cmd":"quest"}</macro>
 
                     <macro>{"log":"0407","priority":"1","icon":"🤿","node":"202308240930","title":"Dive Quest","info":"Present old stories","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"3","icon":"🌾","node":"202309200912","title":"Wheatfield","info":"Dive session","cmd":"quest"}</macro>
@@ -4541,11 +4561,11 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240409')">9<br><div class="mbavem mbZoey"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240410')">10<br><div class="mbavem mbArcacia"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240411')">11<br><div class="mbavem mbBlack"></div></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240412')">12<br>div class="mbavem mbBlack"></div></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240413')">13<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240412')">12<br><div class="mbavem mbBlack"></div></td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240413')">13<br><div class="mbavem mbBlack"></div></td>
               </tr>
               <tr>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240414')">14<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240414')">14<br><div class="mbavem mbStarTree"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240415')">15<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240416')">16<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240417')">17<br>&nbsp;</td>
@@ -4598,10 +4618,10 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240410')">10<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240411')">11<br>🔮</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240412')">12<br>🐾</td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240413')">13<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240413')">13<br>📯</td>
               </tr>
               <tr>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240414')">14<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240414')">14<br>📯</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240415')">15<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240416')">16<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240417')">17<br>&nbsp;</td>
@@ -21404,10 +21424,20 @@ data-DXP-WIN-Casey
 <div id="P202404060049" class="mbscroll" date='20240406' time='0049' data-podcast data-economics>
   <content>
     <macro>{"cmd":"url","url":"https://freakonomics.com/series-full/freakonomics-radio/","desc":"[Podcast]"}</macro>
+    <macro>{"cmd":"url","url":"https://freakonomics.com/series/nsq/","desc":"[NSQ]"}</macro>
+    <macro>{"cmd":"url","url":"https://freakonomics.com/series/everyday-things/","desc":"[Everyday Things]"}</macro>
+
     <div class="mbpdc"></div><div style="clear:left"></div>
     <div class="mbscroll">
       <div class="mbbutton" onclick="ShowNext(this)">🗂️ Topics</div>
       <hide><hr>
+        <div>
+          <macro>{"cmd":"url","url":"https://freakonomics.com/podcast/the-true-story-of-americas-supremely-messed-up-immigration-system/","desc":"📻"}</macro>
+          <span class="mbbutton" onclick="ShowNextInline(this)">Immigration</span>
+          <hide>
+            <button class="mbbutton" onclick="ShowNextInline(this)" DTS="202404141343" data-WrXP-Ivy>🏹<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> This episode talks about the statistics only 3% of the world population are immigrants, but they make up of 14% in the US. Immigrants tend to do better than natives, partially due to them moving to cities where there are more opportunities.</hide>
+          </hide>          
+        </div>
         <div>
           <macro>{"cmd":"url","url":"https://freakonomics.com/podcast/are-you-caught-in-a-social-media-trap/","desc":"📻"}</macro>
           <span class="mbbutton" onclick="ShowNextInline(this)">Social Media Trap</span>
@@ -22426,7 +22456,7 @@ data-DXP-WIN-Casey
                   <button class="mbbutton" onclick="ShowNextInline(this)" data-OXP-Tanya><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> Improperly insulated or spaced conductors could arc and cause fire or explosion. This kind of issue can be prevented by:</hide>
                   <button data-SXP-Tanya class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> 1) Proper insulated conductors or barriers;</hide>
                   <button data-SXP-Tanya class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> 2) Proper spacing between live parts and metal parts;</hide>
-                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> 3) Proper Grounding of metal parts that should not carry current;</hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> 3) Proper grounding of metal parts that should not carry current;</hide>
                   <button data-SXP-Tanya class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> 4) Proper protection of conductive parts from wear and tear due to sharp edges, over bending, or friction from movement.</hide>
                 </hide>
               </li>
@@ -22442,14 +22472,14 @@ data-DXP-WIN-Casey
               <li>
                 <span class="mbbutton" onclick="ShowNextInline(this)">Openings too big</span>
                 <hide>
-                  <button class="mbbutton" onclick="ShowNextInline(this)" data-OXP-Tanya><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> A lay person should not be able to touch live parts when the panel is closed. </hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)" data-OXP-Tanya><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> A person should not be able to touch live parts when the panel is closed. </hide>
                   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> The cover should be designed so a normal person can't reach through and touch live parts.</hide>
                 </hide>
               </li>
               <li>
                 <span class="mbbutton" onclick="ShowNextInline(this)">Improper Interlock</span>
                 <hide>
-                  <button class="mbbutton" onclick="ShowNextInline(this)" data-LnXP-Black><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> A door interlock should cuts the power if the panel door is open, unless the interlock is intentionally defeated for troubleshooting.</hide>
+                  <button class="mbbutton" onclick="ShowNextInline(this)" data-LnXP-Black><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> A door interlock should cut the power if the panel door is open, unless the interlock is intentionally defeated for troubleshooting.</hide>
                 </hide>
               </li>
               <li>
@@ -22540,7 +22570,7 @@ data-DXP-WIN-Casey
   </div><hr class="mbCB mbhr">
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">🎓 Free Training</div><hide><hr>
   <div></div><div class="mbav50r mbCB mbBlack"></div><b>Black:</b> In Quest Society, trainings for safety standards should be free to the trainees. UL508A has a paid elearning module, which goes against the quest society visions.
-  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Black>🏛️<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> The standard itself should also be free to view. In this case, since the content is not free to view, we can't directly cite it, but we talk about how to do things and safety concepts if we were to make a free version for quest society.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-CXP-Black>🏛️<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> The standard itself should also be free to view. In this case, since the content is not free to view, we can't directly cite it, but we can discuss how to use the standard and the safety concepts if we were to make a free version for quest society.</hide>
   <hr class="mbCB">
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button><hide> <b>Tanya:</b> This test is not urgent while the site still has other certified representatives.</hide>
   <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> Each site should have more than one certified representative, and in general the more the better.</hide>
@@ -22560,8 +22590,395 @@ data-DXP-WIN-Casey
   <ref></ref>
   <node>{"id":"202404131035","parentid":"202404130947","parentname":"UL508A","icon":"⚡","title":"UL508A Studying","prev":"","author":"Black","location":"Magic Bakery","participants":"Black, Tanya, Evelyn, LRRH"}</node>
 </div><!--UL508A Studying-->
+<div id="P202404132108" date='20240413' time='2108' data-chat data-202208172056 data-happy data-202404132108 data-202208212019>
+  <content>
+  <div></div><div class="mbav50r mbCB mbLRRH"></div>
+  <div class="mbpdc"><b>This</b> continues the attempt to keep the daily log under control...
+  </div><hr class="mbCB mbhr">
+  <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)"> 17 to go!</div><hide><hr>
+  <div></div><div class="mbav50r mbCB mbStarTree" data-IXP-StarTree></div><b>🔍StarTree:</b> 17 items to clear today to make progress!
+  <hr class="mbCB">
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WsXP-Ledia>⚔️<div class="mbavem mbLedia"></div></button><hide> <b>Ledia:</b> Directly logging points at the archive. Also merging notes from different sections at <lnk>202208212019|Time Management</lnk>.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Ivy>🏹<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> StarTree please add a button to sort query list by node size.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree="2">⭐<small>2</small> <div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Modified QSLEL. Added button. Adding function QSLSortBy. Done!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-IXP-StarTree>🔍<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> The largest node is <lnk>202207220710|Playlist</lnk> at a length of 80937!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-WrXP-Ivy>🏹<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> Please show the order number as the title of the yellow book.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-OXP-Vivi>🔮<div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> You can't see that title on a phone. Could you just display it?</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> It is okay if it is displayed. I think it would be too cluttered.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-QXP-StarTree="2">⭐<small>2</small> <div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Adding CSS class mbRefS. Modifying QSLEL. Done!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> 11 more items to go!</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> I don't think we can make it. 😖</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> If we don't make it, please consider not adding new tasks.</hide>
+  <button class="mbbutton" onclick="ShowNextInline(this)" data-AXP-Evelyn="2">💗<small>2</small> <div class="mbavem mbEvelyn"></div></button><hide> <b>Evelyn:</b> Updated node format and adding to <lnk>202311122136|Recharge</lnk>. Updating the format.</hide>
+  </hide></div>
+  <hr class="mbCB">
+  <mbKudo>Thank you for upgrading the nodes!</mbKudo>
+  </content>
+  <ref></ref>
+  <node>{"id":"202404132108","parentid":"202208172056","parentname":"Magic Bakery","icon":"📯","title":"Daily Clearance","prev":"202404122228","author":"LRRH","location":"Magic Bakery","participants":"LRRH, StarTree, Ledia, Ivy, Vivi, Evelyn"}</node>
+</div><!--Daily Clearance-->
 <div date='20240413' time='2359' data-status>
-  <macro>{"cmd":"daisy2","issues":"6","quests":"1126","activities":[
+  <macro>{"cmd":"daisy2","issues":"6","quests":"1135","activities":[
+    {"ch":"11","rank":"B","updates":"2","last":"20240314"},
+    {"ch":"29","rank":"A","updates":"2","last":"20240329"},
+    {"ch":"32","rank":"A","updates":"1","last":"20240403"},
+    {"ch":"24","rank":"D","updates":"1","last":"20240404"},
+    {"ch":"7","rank":"A","updates":"4","last":"20240406"},
+    {"ch":"21","rank":"A","updates":"4","last":"20240406"},
+    {"ch":"12","rank":"B","updates":"1","last":"20240406"},
+    {"ch":"17","rank":"S","updates":"2","last":"20240407"},
+    {"ch":"34","rank":"A","updates":"3","last":"20240407"},
+    {"ch":"33","rank":"S","updates":"1","last":"20240408"},
+    {"ch":"31","rank":"C","updates":"1","last":"20240409"},
+    {"ch":"15","rank":"C","updates":"2","last":"20240409"},
+    {"ch":"13","rank":"C","updates":"1","last":"20240411"},
+    {"ch":"22","rank":"C","updates":"2","last":"20240411"},
+    {"ch":"26","rank":"A","updates":"3","last":"20240411"},
+    {"ch":"35","rank":"A","updates":"3","last":"20240411"},
+    {"ch":"16","rank":"B","updates":"2","last":"20240411"},
+    {"ch":"18","rank":"B","updates":"3","last":"20240412"},
+    {"ch":"19","rank":"B","updates":"2","last":"20240413"},
+    {"ch":"28","rank":"A","updates":"2","last":"20240413"},
+    {"ch":"14","rank":"A","updates":"4","last":"20240413"},
+    {"ch":"5","rank":"B","updates":"3","last":"20240413"},
+    {"ch":"23","rank":"C","updates":"1","last":"20240413"},
+    {"ch":"20","rank":"B","updates":"3","last":"20240413"},
+    {"ch":"27","rank":"A","updates":"3","last":"20240413"},
+    {"ch":"25","rank":"A","updates":"4","last":"20240413"},
+    {"ch":"30","rank":"A","updates":"4","last":"20240413"}
+    ],"players":"Black, Evelyn, Ivy, Ledia, LRRH, StarTree, Tanya, Vivi","merits":"Black, LRRH","recognitions":"","kudos":"Black, Evelyn, Ivy, Ledia, LRRH, StarTree, Tanya, Vivi","awards":"3B, Albatross, Arcacia, Black, Cardinal, Evelyn, LRRH, Natalie, P4, Patricia, StarTree, Sylvia, Tanya, V","top":[
+    {"name":"Black","score":"44"},
+    {"name":"Evelyn","score":"41"},
+    {"name":"LRRH","score":"36"},
+    {"name":"StarTree","score":"22"},
+    {"name":"Tanya","score":"21"},
+    {"name":"Ledia","score":"18"},
+    {"name":"Vivi","score":"13"},
+    {"name":"P4","score":"12"},
+    {"name":"Helen","score":"10"},
+    {"name":"Ivy","score":"10"},
+    {"name":"Sylvia","score":"6"},
+    {"name":"Natalie","score":"6"},
+    {"name":"3B","score":"6"},
+    {"name":"V","score":"5"},
+    {"name":"Arcacia","score":"5"},
+    {"name":"Zoey","score":"5"},
+    {"name":"Albatross","score":"4"},
+    {"name":"Cardinal","score":"4"},
+    {"name":"Patricia","score":"4"},
+    {"name":"Kisaragi","score":"4"},
+    {"name":"Fina","score":"3"},
+    {"name":"Mikela","score":"2"},
+    {"name":"James","score":"1"},
+    {"name":"Sasha","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div id="P202404141534" class="mbscroll" date='20240414' time='1534' data-musics data-subject>
+  <content data-AXP-Skyle>
+    <div class="mbpdc"></div><div style="clear:left"></div>
+    <div class="mbscroll">
+      <div class="mbbutton" onclick="ShowNext(this)">🕊️ Rhymes</div>
+      <hide><hr>
+        <span class="mbbutton" onclick="ShowNext(this)">Fly</span>
+        <hide><hr>
+          Cry, Fly, High, Sky, Try, Why
+        </hide>
+        <div class="mbCB"></div>
+      </hide>
+    </div>
+  </content>
+  <card>
+    <div class="mbCharCard">
+      <div class="mbCharCardTitle2">Lyrics Writing</div>
+      <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://cdn.pixabay.com/photo/2015/04/07/00/57/lyrics-710329_640.jpg')"></div>
+      <div class="mbCharCardSubtitle">Creation</div>
+      <div class="mbCharCardDesc">
+        <center>
+          <div class="mbCharCardDescInner">
+            Rhyming Dictionaries<br><br>
+            <macro>{"cmd":"url","url":"https://rhymer.com/","desc":"Rhymer"}</macro> |
+            <macro>{"cmd":"url","url":"https://www.rhymezone.com/","desc":"RhymeZone"}</macro>
+
+            <small></small>
+          </div>
+        </center>
+      </div>
+    </div>
+  </card>
+  <ref></ref>
+  <node>{"id":"202404141534","parentid":"202208172107","parentname":"Music","icon":"🎙️","title":"Lyrics Writing","subtitle":"Creation","kids":"Lyrics","img":"https://cdn.pixabay.com/photo/2015/04/07/00/57/lyrics-710329_640.jpg","music":"","author":"Skyle","description":"","card-text":""}</node>
+</div><!--Lyrics Writing-->
+<div id="P202404141732" class="mbscroll" date='20240414' time='1732' data-book data-drawing data-arts data-skill data-magician>
+  <content data-VXP-3B="5">
+    <div class="mbpdc"></div><div style="clear:left"></div>
+    <div class="mbscroll">
+      <div class="mbbutton" onclick="ShowNext(this)">🐤 Table of Contents</div>
+      <hide><hr>
+        <div class="mbpuzzle">
+          <span class="mbbutton" onclick="ShowNext(this)">01. Drawing Basics</span>
+          <hide><hr>
+            <ol>
+              <li>Frontal View</li>
+              <li>Profile</li>
+              <li>Three-Quarter Angle</li>
+              <li>High and Low Angles</li>
+              <li>Circle Structures</li>
+            </ol>
+          </hide>
+        </div>
+        <div class="mbpuzzle" data-VXP-Patricia>
+          <span class="mbbutton" onclick="ShowNext(this)">02. Basic Characters</span>
+          <hide><hr>
+            <ol>
+              <li>Boy</li>
+              <li>Teen Boy</li>
+              <li>Young Man</li>
+              <li>Middle-Aged Man</li>
+              <li>Elderly Man</li>
+              <li>Girl</li>
+              <li>Teen Girl</li>
+              <li>Young Woman</li>
+              <li>Middle-Aged Woman</li>
+              <li>Elderly Woman</li>
+              <li>Baby</li>
+            </ol>
+          </hide>
+        </div>
+        <div class="mbpuzzle">
+          <span class="mbbutton" onclick="ShowNext(this)">03. Character Types</span>
+          <hide><hr>
+            <ol>
+              <li>Go-Getter</li>
+              <li>Hot-Blooded Hero</li>
+              <li>Anti-Hero</li>
+              <li>Villain</li>
+              <li>Kind-Hearted Characters</li>
+              <li>The Little Cutie</li>
+              <li>Trouble Makers</li>
+              <li>The Big Boss</li>
+            </ol>
+          </hide>
+        </div>
+        <div class="mbpuzzle">
+          <span class="mbbutton" onclick="ShowNext(this)">04. Positive Facial Expressions</span>
+          <hide><hr>
+            <ol>
+              <li>Relaxed</li>
+              <li>Joyful</li>
+              <li>Content</li>
+              <li>Reminiscent</li>
+              <li>Pensive</li>
+              <li>Excited</li>
+              <li>Relieved</li>
+              <li>Smiling</li>
+              <li>Laughing</li>
+              <li>Amazed</li>
+              <li>Adoration</li>
+              <li>Michievous &amp; Goofy</li>
+              <li>Forgiving &amp; Understanding</li>
+              <li>Savoring</li>
+              <li>Confident &amp; Inspired</li>
+              <li>Sleepy</li>
+              <li>Falling in Love</li>
+              <li>Overcome with Emotion</li>
+              <li>Focused</li>
+            </ol>
+          </hide>
+        </div>
+        <div class="mbpuzzle">
+          <span class="mbbutton" onclick="ShowNext(this)">05. Negative Facial Expressions</span>
+          <hide><hr>
+            <ol>
+              <li>Speechless</li>
+              <li>Angry</li>
+              <li>Outraged</li>
+              <li>Embarrassed</li>
+              <li>Remorseful</li>
+              <li>Anxious</li>
+              <li>Exhausted</li>
+              <li>Stressed</li>
+              <li>Concerned</li>
+              <li>Heartbroken</li>
+              <li>Depressed</li>
+              <li>Afraid</li>
+              <li>Shocked</li>
+              <li>Grossed Out</li>
+              <li>Rattled</li>
+              <li>Crying</li>
+              <li>Panicked</li>
+              <li>Frustrated</li>
+              <li>Sulking</li>
+              <li>Irritated</li>
+              <li>Smirking</li>
+              <li>Suffering</li>
+              <li>Spiteful</li>
+              <li>Annoyed</li>
+              <li>Distraught</li>
+              <li>Overconfident</li>
+              <li>Forcing a Smile</li>
+              <h4>Situational Expressions</h4>
+              <li>Searching for Something</li>
+              <li>Scaring Someone</li>
+              <li>Confiding in Someone</li>
+              <li>Lying</li>
+              <li>Pretending to Cry</li>
+              <li>Getting into Arguments</li>
+              <li>Physical Fighting</li>
+            </ol>
+          </hide>
+        </div>
+        <div class="mbpuzzle" data-VXP-Patricia>
+          <span class="mbbutton" onclick="ShowNext(this)">06. Color Illustration</span>
+          <hide><hr>
+            <ol>
+              <li>From Roughs to Line Art</li>
+              <li>Scanning Line Art</li>
+              <li>Isolating Line Art and Adding Color</li>
+              <li>Shading</li>
+              <li>Finishing Touches</li>
+            </ol>
+          </hide>
+        </div>        
+        <div class="mbCB"></div>
+      </hide>
+    </div>
+  </content>
+  <card>
+    <div class="mbCharCard">
+      <div class="mbCharCardTitle2">Draw Manga Faces</div>
+      <div class="mbCharCardImg" style="background-position: 50% 50%; background-image:url('https://m.media-amazon.com/images/I/81IMmfdcxHL._SY385_.jpg')"></div>
+      <div class="mbCharCardSubtitle">For Expressive Characters</div>
+      <div class="mbCharCardDesc">
+        <center>
+          <div class="mbCharCardDescInner">
+            <macro>{"cmd":"url","url":"https://www.amazon.com/Draw-Manga-Faces-Expressive-Characters/dp/1440337284","desc":"@Amazon"}</macro>
+            <small></small>
+          </div>
+        </center>
+      </div>
+    </div>
+  </card>
+  <ref></ref>
+  <node>{"id":"202404141732","parentid":"202210151642","parentname":"Guild Bookshelves","icon":"📘","title":"Draw Manga Faces","subtitle":"For Expressive Characters","kids":"","img":"https://m.media-amazon.com/images/I/81IMmfdcxHL._SY385_.jpg","music":"","author":"3B","description":"","card-text":""}</node>
+</div><!--Draw Manga Faces-->
+<div id="P202404141808" date='20240414' time='1808' data-chat data-202208172056 data-happy data-202404132108 datqa-202301251008 data-announcement>
+  <content>
+  <div></div><div class="mbav50r mbCB mbLRRH"></div>
+  <div class="mbpdc"><b>This</b> continues the attempt to keep the daily log under control...
+  </div><hr class="mbCB mbhr">
+  <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)"> [33] to go!</div><hide><hr>
+  <div></div><div class="mbav50r mbCB mbStarTree" data-IXP-StarTree></div><b>🔍StarTree:</b> There might be a miscounting yesterday, there are 33 items to clear to get below 1125!
+  <hr class="mbCB">
+  <bubble SPK='Ivy' EXP Icon='🏹'>Many nodes are using the chat bubble format. If we are logging credits inline, we need a more convenient way to do so. At the <lnk>202303052122|Upgrades</lnk> I added the task to make a macro for the bubble format.</bubble>
+  <bubble SPK='Ivy' EXP Icon='🏹'>The macro format should be an HTML macro, not JSON, so that we could have the tags XP, ICON, DTS, and the author such as data-Ivy. The content would be what you normally put inside the bubble.</bubble>
+  <bubble SPK='Ivy' EXP Icon='📌'>After that please also upgrade script maker to use the new format.</bubble>
+  <bubble SPK='StarTree'>Roger!</bubble>
+  <bubble SPK='StarTree'>Should StarTree do DTS compatibility first?</bubble>
+  <bubble SPK='Ivy'>Yes.</bubble>
+  <bubble SPK='StarTree' EXP='5' Icon='⭐'>Adding function DTSFormat, DTSPadding, DTSGetLatest. Modifying QSLEL. Testing. Done!</bubble>
+  <bubble SPK='StarTree' EXP='4' Icon='⭐'>Now to Bubble Format: Adding a test element. Modifying function Macro. Testing. Modifying Script Maker.</bubble>
+  <bubble SPK='StarTree' EXP='3' Icon='⭐'>Modifying XP_Tally to count the EXP tag. Adding XP_Count. Testing.</bubble>
+  <bubble SPK='StarTree' EXP Icon='🍮'>StarTree found a bad bug. 😭</bubble>
+  <bubble SPK='Black' EXP Icon='🔍'>Troubleshooting the Tally function. The old version is still working.</bubble>
+  <bubble SPK='Black' EXP Icon='🔍'>I think it is fixed after restoring.</bubble>
+  <bubble SPK='StarTree'>Wee~~!</bubble>
+  <bubble SPK='Black' EXP Icon='🔮'>For the icon with EXP, could you add a tiny star in the corner to distinguish it from a normal icon?</bubble>
+  <bubble SPK='StarTree' EXP Icon='⭐'>Roger! Adding CSS mbSS.</bubble>
+  <bubble SPK='StarTree' EXP Icon='🍮'>For the Scoreboard, the EXP is counted the same as QXP, the icon is not used yet.</bubble>
+  <bubble SPK='Vivi' EXP Icon='⚔️'>I think the corner start is too noisy. We should assume that all icons next to an avatar means EXP.</bubble>
+  <bubble SPK='StarTree'>Removed!</bubble>
+  <bubble SPK='Black'>Then how do you do the buzzer? Normally we don't get EXP with the buzzer.</bubble>
+  <bubble SPK='Zoey' EXP Icon='🏹'>Maybe we should. XD</bubble>
+  <bubble SPK='Ledia' EXP Icon='⚔️'>Hype!</bubble>
+  <bubble SPK='Vivi'>What Zoey said.</bubble>
+  <bubble SPK='Black'>That settles it.</bubble>
+  <bubble SPK='Ledia'>How do you tally and display the custom EXP icons?</bubble>
+  <bubble SPK='StarTree' EXP Icon='⭐'>StarTree thnks: For each [EXP][SPK] of the member, check the icon and tally using a Map, then loop through the Map to display.</bubble>
+  <bubble SPK='Ledia' EXP='3' Icon='🎀'>Updated. Beautiful. The new icons will display in descending order of their amount. I kept the two lists separate for now so that we can see what EXP has not changed to use the new format.</bubble>
+  <bubble SPK='Casey' EXP Icon='🦁'>Does this mean I can get a lion EXP if I just do this?</bubble>
+  <bubble SPK='Ledia' EXP Icon='🏛️'>An EXP is an EXP, the icon is up to you.</bubble>
+  <bubble SPK='Sasha' EXP Icon='🚀'>Hold on. We should define what the icons mean because the code for detective level checks investigative icons.</bubble>
+  <bubble SPK='Ledia'>It is only these four: 🚨💡🔍🔮</bubble>
+  <bubble SPK='Casey' EXP Icon='🤖'>Isn't it fine? Your detective level is capped by the number of wins anyway.</bubble>
+  <bubble SPK='Ledia'>True.</bubble>
+  <bubble SPK='Tanya' EXP Icon='📯'>@LRRH, with this change, members can use any icon they want. Is this approved?</bubble>
+  <bubble SPK='LRRH' EXP Icon='🍰'>Does this mean I can finally level up all the pastries???????</bubble>
+  <bubble SPK='Zoey'>Yes. XD</bubble>
+  <bubble SPK='LRRH'>This is the most exciting update ever!</bubble>
+  <bubble SPK='LRRH' EXP Icon='🎂'>Little Red Riding Hood approves.</bubble>
+  <bubble SPK='Zoey' EXP Icon='🤣'>XD</bubble>
+  <bubble SPK='Tanya'>StarTree please log this change to Website Upgrades.</bubble>
+  <bubble SPK='StarTree' EXP Icon='🎄'>Roger!</bubble>
+  <bubble SPK='Zoey'>StarTree shows her true color! XD</bubble>
+  <bubble SPK='StarTree'>Wee~~!</bubble>
+  <hr class="mbCB">
+  <mbComplete>@Mira is now Rank A3.</mbComplete>
+  </hide></div>
+  <hr class="mbCB">
+  <mbKudo>Pastry EXP makes a very happy Little Red Riding Hood.</mbKudo>
+  </content>
+  <ref></ref>
+  <node>{"id":"202404141808","parentid":"202208172056","parentname":"Magic Bakery","icon":"📯","title":"Clearance Day 2","prev":"202404132108","author":"LRRH","location":"Magic Bakery","participants":"LRRH, StarTree, Ivy, Black, Vivi, Zoey, Ledia, Casey, Sasha, Tanya"}</node>
+</div><!--Clearance Day 2-->
+<div date='20240414' time='2359' data-status>
+  <macro>{"cmd":"daisy2","issues":"6","quests":"1158","activities":[
+    {"ch":"11","rank":"B","updates":"2","last":"20240314"},
+    {"ch":"29","rank":"A","updates":"3","last":"20240329"},
+    {"ch":"32","rank":"A","updates":"1","last":"20240403"},
+    {"ch":"24","rank":"D","updates":"1","last":"20240404"},
+    {"ch":"7","rank":"A","updates":"4","last":"20240406"},
+    {"ch":"21","rank":"A","updates":"4","last":"20240406"},
+    {"ch":"12","rank":"B","updates":"1","last":"20240406"},
+    {"ch":"17","rank":"S","updates":"2","last":"20240407"},
+    {"ch":"34","rank":"A","updates":"4","last":"20240407"},
+    {"ch":"33","rank":"S","updates":"1","last":"20240408"},
+    {"ch":"15","rank":"C","updates":"2","last":"20240409"},
+    {"ch":"13","rank":"C","updates":"1","last":"20240411"},
+    {"ch":"22","rank":"C","updates":"2","last":"20240411"},
+    {"ch":"26","rank":"A","updates":"3","last":"20240411"},
+    {"ch":"35","rank":"A","updates":"3","last":"20240411"},
+    {"ch":"16","rank":"B","updates":"2","last":"20240411"},
+    {"ch":"28","rank":"A","updates":"2","last":"20240413"},
+    {"ch":"14","rank":"A","updates":"4","last":"20240413"},
+    {"ch":"5","rank":"B","updates":"3","last":"20240413"},
+    {"ch":"23","rank":"C","updates":"1","last":"20240413"},
+    {"ch":"20","rank":"B","updates":"3","last":"20240413"},
+    {"ch":"27","rank":"A","updates":"3","last":"20240413"},
+    {"ch":"30","rank":"A","updates":"4","last":"20240413"},
+    {"ch":"25","rank":"A","updates":"4","last":"20240414"},
+    {"ch":"19","rank":"B","updates":"2","last":"20240414"},
+    {"ch":"18","rank":"B","updates":"3","last":"20240414"},
+    {"ch":"31","rank":"C","updates":"2","last":"20240414"}
+    ],"players":"LRRH, StarTree, Ivy, Black, Vivi, Zoey, Ledia, Casey, Sasha, Tanya","merits":"LRRH","recognitions":"","kudos":"LRRH, StarTree, Ivy, Black, Vivi, Zoey, Ledia, Casey, Sasha, Tanya","awards":"3B, Albatross, Arcacia, Black, Cardinal, Evelyn, LRRH, P4, Patricia, Sasha, Skyle, V, Zoey","top":[
+    {"name":"StarTree","score":"30"},
+    {"name":"3B","score":"16"},
+    {"name":"Black","score":"15"},
+    {"name":"Vivi","score":"12"},
+    {"name":"Zoey","score":"11"},
+    {"name":"Ledia","score":"11"},
+    {"name":"Ivy","score":"10"},
+    {"name":"LRRH","score":"10"},
+    {"name":"Sasha","score":"9"},
+    {"name":"Arcacia","score":"8"},
+    {"name":"Helen","score":"7"},
+    {"name":"Kisaragi","score":"7"},
+    {"name":"P4","score":"7"},
+    {"name":"Patricia","score":"6"},
+    {"name":"Casey","score":"6"},
+    {"name":"Evelyn","score":"6"},
+    {"name":"Albatross","score":"5"},
+    {"name":"Skyle","score":"5"},
+    {"name":"V","score":"5"},
+    {"name":"Cardinal","score":"4"},
+    {"name":"Tanya","score":"3"},
+    {"name":"James","score":"2"},
+    {"name":"Natalie","score":"2"},
+    {"name":"Fina","score":"1"},
+    {"name":"Sylvia","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div date='20240415' time='2359' data-status>
+  <macro>{"cmd":"daisy2","issues":"6","quests":"1158","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
     
@@ -22636,7 +23053,7 @@ data-DXP-WIN-Casey
   2) Update function ArchiveSelect with the correct cutoff dates.
 -->
 <div date='20240400' time='2359' data-status>
-  <macro>{"cmd":"daisy2","issues":"6","quests":"1126","activities":[
+  <macro>{"cmd":"daisy2","issues":"6","quests":"1158","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
     
