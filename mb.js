@@ -3204,6 +3204,7 @@ function XP_DisplayEL(elFrame,bOrder){
   var mQueryStr = XP_QueryStr(mName);
   var mEXPList="";
   var mEXPMap = new Map();
+  var mEXPDetective=0;
  
 
   for(let i=1; i<=ArchiveNum();i++){
@@ -3235,6 +3236,12 @@ function XP_DisplayEL(elFrame,bOrder){
           mEXPArray.forEach((pair)=>{
             mEXPStr += pair[1] + "&nbsp;" + pair[0] + " ";
             mEXPTotal += pair[0];
+
+            // 20240415: LRRH: Fixing Detective XP
+            if(pair[1]=="🚨" || pair[1]=="💡" || pair[1]=="🔍" || pair[1]=="🔮"){
+              mEXPDetective += pair[0];
+            }
+
           });
         }
 
@@ -3377,11 +3384,12 @@ function XP_DisplayEL(elFrame,bOrder){
           CountPlayed = CountWIN + CountLOS;
           if(CountPlayed>0){
             WinRatio = CountWIN / CountPlayed;
-            DXP_Eff = Math.floor((CountDXP + CountIXP + CountOXP + CountRXP) * WinRatio);
-            DXP_Level = Math.min(Math.floor(Math.sqrt(CountDXP * WinRatio)),CountWIN) + CountCHAWIN;
+            
+            DXP_Eff = Math.floor((CountDXP + CountIXP + CountOXP + CountRXP + mEXPDetective) * WinRatio);
+            DXP_Level = Math.min(Math.floor(Math.sqrt(DXP_Eff)),CountWIN) + CountCHAWIN;
             elFrame.setAttribute("detectivexp",DXP_Eff);
-            elFrame.setAttribute("detectivelvxp", DXP_Level*1000000 + DXP_Eff);
-          
+            elFrame.setAttribute("detectivelvxp", DXP_Level*1000000 + DXP_Eff);      
+
             Content += "<div class='mbCB' style='color:navy'>";
             Content += "<small><b>🏅&nbsp;" + mDetective + "&nbsp;Lv&nbsp;" + DXP_Level +"</b></small>";
             Content += "<div style='float:right'><small><b>";
@@ -3408,9 +3416,8 @@ function XP_DisplayEL(elFrame,bOrder){
             elFrame.style.order = mSortOrder * elFrame.getAttribute("detectivelvxp");
           }
           ScrollIntoView(elFrame);
-
-
         }
+        elCache.remove();
       });
     });
   }
