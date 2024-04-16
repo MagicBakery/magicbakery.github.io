@@ -909,11 +909,15 @@ function LnkCode(iID,iDesc,iIcon,bMark){
   if(bMark==true){    
     
     if(iIcon==false){
-      mHTML = NodeMarkCode(iID);
+      mHTML = NodeMarkCode(iID,iDesc);
     }else{
-      mHTML = "<span class='mbILB30'>" + NodeMarkCode(iID) + "</span>";
+      var mButtonStyle = "";
+      if(IsBlank(iDesc)){ mButtonStyle=" mbbuttonSelf";}
+      mHTML = "<span class='mbILB30'>" + NodeMarkCode(iID,iDesc) + "</span>";
     }
   }
+  // 20240415: StarTree: Highlight lnk object used as visit mark differently.
+ 
   mHTML += "<a class='mbbuttonIn' href='" + ViewerPath() + "?id=P"+iID+"'";
   mHTML += " onclick=\"" + InterLink() + "'" + iID + "');return false;\">";
   
@@ -4677,9 +4681,11 @@ function CookieCheck(el,iScope){
     return false;
   }  
 }
-function NodeMarkCode(iNodeID){
+function NodeMarkCode(iNodeID,iDesc){
   // 20240330: StarTree: Returns the HTML code for the node marking.
-  return "<a class='mbbutton' id='P"+ iNodeID+"-V'onclick=\"NodeMarkCycle(this," + iNodeID + ")\" title='Cycle node marking'>"+NodeMarkLoad(iNodeID)+"</a>";
+  var mButtonStyle = "mbbutton";
+  if(IsBlank(iDesc)){ mButtonStyle="mbbuttonSelf";}
+  return "<a class='"+mButtonStyle+"' id='P"+ iNodeID+"-V'onclick=\"NodeMarkCycle(this," + iNodeID + ")\" title='Cycle node marking'>"+NodeMarkLoad(iNodeID)+"</a>";
 }
 function NodeMarkCookieCheck(){
   // 20240330: StarTree: Checks if the page should mark node visit status.
@@ -4738,20 +4744,29 @@ function NodeMarkLoad(iNodeID){
   }
   return "🤍";//📋
 }
-function NodeMarkUseCookie(el){
+function NodeMarkUseCookie(el,iNoIcon){
+  var elMain = document.querySelector('[main]');
+  // 20240415: StarTree: When this is called at a banner, just ask once.
+  /*if(iNoIcon){
+    var mAsked = elMain.getAttribute('asked');
+    if(NotBlank(mAsked)){return;}
+    elMain.setAttribute('asked',true);
+  }*/
+
   // 20240330: StarTree: For saving the the node marking
   var bCookieEnabled = NodeMarkCookieCheck();
   if(!bCookieEnabled){
-    bCookieEnabled = confirm("Would you allow saving node visit marking to local storage on your browser?");
+    bCookieEnabled = confirm("Would you want to enable marking and showing where you have visited using local storage of your browser?");
   }else{ // Cookie is enabled, does user want to disable?
-    bCookieEnabled = !confirm("Would you like to stop saving node visit marking to local storage on your browser?");
+    bCookieEnabled = !confirm("Would you like to stop showing and saving node visit marking to local storage of your browser?");
   }
-  var elMain = SearchPS(el,"main");
   if(bCookieEnabled){
     elMain.setAttribute("CookieEnabled","true");
+    if(iNoIcon){return;}
     el.innerHTML = "🍪✅";
   }else{
     elMain.setAttribute("CookieEnabled","false");
+    if(iNoIcon){return;}
     el.innerHTML = "🍪⛔";
   }
 }
