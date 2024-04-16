@@ -4724,7 +4724,8 @@ function NodeMarkCycle(el,iNodeID){
     case "🐤": curMark = "🕊️";break; 
     case "🕊️": curMark = "🦉";break; 
     case "🦉": curMark = "🦅";break; 
-    case "🦅": curMark = "🤍";break; 
+    case "🦅": curMark = "❌";break; 
+    case "❌": curMark = "🤍";break; 
     default:   curMark = "🤍";break;
   }
 
