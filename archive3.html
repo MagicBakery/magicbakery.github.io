@@ -97,8 +97,9 @@
             onclick="QSL(this,'[id][date][time]:not([data-subject],[data-skill],[data-chat],[data-podcast],[data-book],[data-game],[data-puzzle]):not(:contains(\'⭐\'))')"><span class="mbILB20 mbRankC"></span>📌</a>  
             <span class="mbbutton" onclick="ShowNextInline(this)">Tag Audit</span>
             <hide>
-              <bubble SPK='LRRH'>20240331: Check directory categories. Are there too many? What should be added?</bubble>
-              <button class="mbbutton" onclick="ShowNextInline(this)">🎯<div class="mbavem mbLRRH"></div></button><hide> <b>LRRH:</b> Target area: I want to clear the Issues tag, or nodes tagged with Issue should addressed.</hide>
+              <bubble DTS="20240331" SPK='LRRH' EXP Icon="📌">Check directory categories. Are there too many? What should be added?</bubble>
+              <bubble DTS="20240331" SPK='LRRH' EXP Icon="🎯">Target area: I want to clear the Issues tag, or nodes tagged with Issue should addressed.</bubble>
+              <bubble SPK="Vivi" EXP Icon="📌">Every node should be reachable from a tree at sitemap.</bubble>
             </hide>
           </div><!--Rank C Queries-->
           <div>
@@ -106,9 +107,9 @@
             onclick="QSL(this,'[id][date][time]:not(:contains(\'parentid\')),[id]:contains(\'|pin\'),[id]:contains(\'pin2\')')"><span class="mbILB20 mbRankD"></span>📌</a> 
             <span class="mbbutton" onclick="ShowNextInline(this)">Node Reformat</span>
             <hide>
-              <bubble SPK='StarTree'>20240331: Update the node format to the latest that has a tag for the sitemap.</bubble>
-              <button class="mbbutton" onclick="ShowNextInline(this)">🎯<div class="mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Target area: Prioritize any node with the 📌 icon or with a name on the sitemap that is not descriptive.</hide>
-              <button class="mbbutton" onclick="ShowNextInline(this)">📌<div class="mbavem mbVivi"></div></button><hide> <b>Vivi:</b> 20240331: Tag all non-chat nodes so all of them can be reached from sitemap.</hide>
+              <bubble DTS="20240331" SPK='StarTree'>Update the node format to the latest that has a tag for the sitemap.</bubble>
+              <bubble DTS="20240331" SPK='StarTree' EXP Icon="🎯">Target area: Prioritize any node with the 📌 icon or with a name on the sitemap that is not descriptive.</bubble>
+              <bubble DTS="20240331" SPK="Vivi" EXP Icon="📌">Tag all non-chat nodes so all of them can be reached from sitemap.</bubble>
             </hide>
           </div><!--Rank D Queries-->
           <div>
@@ -703,12 +704,14 @@
                 </div><!--@Freedom / James-->
                 <div class="mbCB">
                   <!--<span style="float:right"><lnk>202311072250|👑</lnk></span>-->
-                  <macro>{"guildlog":"0","rank":"A","updates":"1","node":"202209251051","author":"Gaia","chapter":"@Gaia","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"A","updates":"2","node":"202209251051","author":"Gaia","chapter":"@Gaia","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
+                    
                     <macro>{"log":"","priority":"1","icon":"👑","node":"202209212113","title":"Progressing Democracy","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankA"></span>
-                    <macro>{"log":"0409","priority":"2","icon":"🐕","node":"202404022358","title":"Pet Keeping","info":"","cmd":"quest"}</macro>                      
+                    <macro>{"log":"0409","priority":"2","icon":"🐕","node":"202404022358","title":"Pet Keeping","info":"","cmd":"quest"}</macro>   
+                    <macro>{"log":"0416","priority":"0","icon":"👓","node":"202404161037","title":"Eyesight","info":"","cmd":"quest"}</macro>                    
                     <span class="mbListCapNC mbRankB"></span>   
                     <macro>{"log":"","priority":"0","icon":"📒","node":"202210151544","title":"Quotes","info":"","cmd":"quest"}</macro> 
                     <span class="mbListCapNC mbRankC"></span> 
