@@ -235,7 +235,7 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
         
         // REF SECTION
         if(!IsBlank(elRef)){
-          mHTMLInner += "<div class='mbRef'>";
+          mHTMLInner += "<hr class='mbCB'><div class='mbRef'>";
           
           // STEP: Include custom reference links.
           // 20240407: Skyle: Rearranged this first because the link is green.
@@ -291,7 +291,8 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
 
           mHTMLInner += "</div>";
         }
-        mHTMLInner += "<hr class='mbCB'>";
+        //mHTMLInner += "<hr class='mbCB'>";
+        mHTMLInner += "<div class='mbCB'></div>";
 
         // STEP: Create the QSL area.
         elContainer.innerHTML = mHTMLInner + "<div></div><div class='mbCB' QSL></div>";
@@ -960,10 +961,19 @@ function MacroBubble(el){
     let mDTS = mBubble.getAttribute("DTS");
     if(NotBlank(mDTS)){mHTML += " DTS='" + mDTS + "'";}
     let mSPK = mBubble.getAttribute("SPK");    
-    let mEXP = mBubble.getAttribute("EXP");
-    if(NotBlank(mEXP)){mHTML += " EXP='" + mEXP + "'";}
+    let mEXP = 0;
+    let mHasEXP = mBubble.hasAttribute("EXP");
     let mIcon = mBubble.getAttribute("Icon");
-    if(NotBlank(mIcon)){mHTML += " Icon='" + mIcon + "'";}
+    if(mHasEXP){
+      mEXP = Default(mBubble.getAttribute("EXP"),1);
+      mHTML += " EXP='" + mEXP + "'";
+      if(IsBlank(mIcon)){
+        mIcon = '⭐';
+      }
+    }
+    if(NotBlank(mIcon)){
+      mHTML += " Icon='" + mIcon + "'";
+    }
     mHTML += ">";
     if(NotBlank(mIcon)){mHTML += mIcon;}
     //if(NotBlank(mEXP)){mHTML += "<sup class='mbSS'>⭐</sup>";}
@@ -3954,6 +3964,7 @@ function NodeFormatter(elTemp){
       // 20240405: StarTree: Don't show the picture if it is missing.
       vHTML = "";
       if(NotBlank(mJSON.img)){
+        vFirstDiv.classList.add('mbscroll');
         vHTML = "<div class='mbav50pr' style=\"background-image:url('" + mJSON.img + "')\"></div>";
         vHTML += "<h4><lnk>" + mJSON.parentid + "|" + mJSON.parentname + "</lnk></h4>";
         vHTML += "<lnk>"+ mJSON.id + "|" + mJSON.icon + " " + mJSON.title + "</lnk>";
@@ -4710,6 +4721,191 @@ function TextAreaSave(elTextArea){
   // STEP: Check for cookie enable.
   if(!CookieCheck(elTextArea)){return;}
   localStorage.setItem("TextArea-Value",elTextArea.value);
+}
+function NMBubble(el,iIcon,bNoEXP){
+  // 20240416: StarTree: Bubble code
+  var elControl = SearchPS(el,"board");
+  var mSPK = Default(elControl.querySelector('[NM-SPK]').value,"");
+  var elIcon = elControl.querySelector('[NM-Icon]');
+
+  if(NotBlank(iIcon)){
+    elIcon.value = iIcon;
+  }else{
+    iIcon = elIcon.value;
+  }
+  if(bNoEXP){
+    var mEXPStr = "";
+  }else{
+    mEXPStr = " EXP";
+  }
+  var mHTML = "<bubble DTS='" + DTSNow() + "' SPK='"+mSPK+"'"+mEXPStr+" Icon='"+iIcon+"'></bubble>";
+  navigator.clipboard.writeText(mHTML);
+}
+function DTSNow(){
+  // 20240416: StarTree: Returns the current DTS string.
+  var mToday = new Date();
+  var mYear = String(mToday.getFullYear());
+  var mMonth = String(mToday.getMonth()+1).padStart(2,'0');
+  var mDay = String(mToday.getDate()).padStart(2,'0');
+  var mHour = String(mToday.getHours()).padStart(2,'0');
+  var mMin = String(mToday.getMinutes()).padStart(2,'0');
+  var mSec = String(mToday.getSeconds()).padStart(2,'0');
+  return mYear + mMonth + mDay + mHour + mMin + mSec;
+}
+function NMCard(el){
+  // 20240416: StarTree: Puts the card code to Clipboard.
+  var elControl = SearchPS(el,"board");
+  var mTitle = "Card Title";
+  var mSubTitle = "Subtitle";
+
+  var mImg = Default(elControl.querySelector('[NM-URL]').value,"https://cdn.pixabay.com/photo/2014/05/20/21/25/bird-349035_640.jpg");
+  
+  var mHTML = "<div class='mbCharCard'>\n";
+  mHTML += "\t<div class='mbCharCardTitle2'>"+mTitle+"</div>\n";
+  mHTML += "\t<div class='mbCharCardImg' style=\"background-position: 50% 50%; background-image:url('"+mImg+"')\"></div>\n";
+  mHTML += "\t<div class='mbCharCardSubtitle'>"+mSubTitle+"</div>\n";
+  mHTML += "\t<div class='mbCharCardDesc'>\n";
+  mHTML += "\t\t<center>\n";
+  mHTML += "\t\t\t<div class='mbCharCardDescInner'>\n";
+  mHTML += "\t\t\t</div>\n";
+  mHTML += "\t\t</center>\n";
+  mHTML += "\t</div>\n";
+  mHTML += "</div>";
+
+  navigator.clipboard.writeText(mHTML);
+  return mHTML;
+}
+function NMChatSec(el,iSecIcon){
+  // 20240416: StarTree: Puts a chat section to Clipboard.
+  var elControl = SearchPS(el,"board");
+  var mAuthor = Default(elControl.querySelector('[NM-SPK]').value,"");
+  if(IsBlank(iSecIcon)){
+    iSecIcon = elControl.querySelector('[NM-Icon]').value;
+  }else{
+    elControl.querySelector('[NM-Icon]').value = iSecIcon;
+  }
+  var mDTS = Default(elControl.querySelector('[NM-DTS]').value,DTSNow());
+  
+  var mTitle = "New Topic";
+  var mHTML = "<div DTS='"+mDTS+"' class='mbpuzzle'>\n";
+  mHTML += "\t<div class='mbbutton' onclick='ShowNext(this)'>"+iSecIcon+" "+mTitle+"</div>\n\t<hide><hr>";
+  mHTML += "<div class='mbav50r mbCB mb"+mAuthor+"\'></div><b>"+mAuthor+":</b> \n";
+  mHTML += "\t\t<hr class='mbCB'>\n\n";
+  mHTML += "\t</hide>\n</div>";
+
+  navigator.clipboard.writeText(mHTML);
+  return mHTML;
+}
+function IsMasteryIcon(iIcon){
+  // 20240417: StarTree
+  return ((iIcon=="🌱")||(iIcon=="🐤")||(iIcon=="🕊️")||(iIcon=="🦉")||(iIcon=="🦅"));
+}
+function NMLI(el){
+  // 20240417: StarTree
+  var mHTML = "<li>\n\t<span class='mbbutton' onclick='ShowNextInline(this)'>Title</span>";
+  mHTML += "<hide>\n\n\t</hide>\n</li>";
+  navigator.clipboard.writeText(mHTML);
+  return mHTML;
+}
+function NMNodeSec(el,iSecIcon){
+  // 20240416: StarTree: Puts a chat section to Clipboard.
+  var elControl = SearchPS(el,"board");
+  var mAuthor = Default(elControl.querySelector('[NM-SPK]').value,"");
+  if(IsBlank(iSecIcon)){
+    iSecIcon = elControl.querySelector('[NM-Icon]').value;
+  }else{
+    elControl.querySelector('[NM-Icon]').value = iSecIcon;
+  }
+  var mDTS = Default(elControl.querySelector('[NM-DTS]').value,DTSNow());
+  
+  var mTitle = "New Topic";
+  var mHTML = "<div DTS='"+mDTS+"' class='mbscroll'>\n";
+  mHTML += "\t<div class='mbbutton' onclick='ShowNext(this)'>"+iSecIcon+" "+mTitle+"</div>\n\t<hide><hr>";
+
+  // 20240417: StarTree: Special format for Initate node section.
+  if(iSecIcon=="🌱"){
+    mHTML += "\n\t\t<div class='mbpdc'><b>First</b> word</div><hr class='mbCB mbhr'>\n";
+  }else if(IsMasteryIcon(iSecIcon)){
+
+  }else{
+    mHTML += "<div class='mbav50r mbCB mb"+mAuthor+"\'></div><b>"+mAuthor+":</b> \n";
+  }
+  mHTML += "\t\t<ol></ol>\n\t\t<ul></ul>\n";
+  mHTML += "\t\t<div class='mbCB'></div>\n";
+  mHTML += "\t</hide>\n</div>";
+
+  navigator.clipboard.writeText(mHTML);
+  return mHTML;
+}
+function NMNode(el,bChatChannel){
+  // 20240416: StarTree: Put the code of a new node to Clipboard.
+  var elControl = SearchPS(el,"board");
+  var mDTS = Default(elControl.querySelector('[NM-DTS]').value.padEnd(14,"0"),DTSNow());
+  var mAuthor=Default(elControl.querySelector('[NM-SPK]').value,""); 
+  var mIcon=Default(elControl.querySelector('[NM-Icon]').value,"🐣"); 
+  var mImg = Default(elControl.querySelector('[NM-URL]').value,"https://cdn.pixabay.com/photo/2014/05/20/21/25/bird-349035_640.jpg");
+  if(bChatChannel){mImg=""};
+
+  var mID = mDTS.slice(0,12);
+  var mYYYYMMDD = mDTS.slice(0,8);
+  var mHHMM = mDTS.slice(8,12);
+
+  var mParentID = "202404162138";
+  var mParent = "Node Maker";
+  var mTitle = "P" + mID;
+  var mSubTitle = "Subtitle";
+  var mKids="";
+  var mMusic="";
+  
+   
+
+  var mHTML = "<div id='P" + mID + "' date='" + mYYYYMMDD +"' time='" + mHHMM + "'";
+  if(bChatChannel){mHTML += " data-chat data-happy";}
+  mHTML += ">\n";
+
+  mHTML += "\t<content>\n";
+  if(bChatChannel){
+    mHTML += "\t\t<div class='mbav50r mbCB mb"+mAuthor+"'></div>\n";
+    mHTML += "\t\t<div class='mbpdc'><b>First</b> word</div><hr class='mbCB mbhr'>\n";
+    mHTML += "\n";
+    mHTML += "\t\t<hr class='mbCB'><mbKudo></mbKudo>\n";
+  }
+  mHTML += "\t</content>\n";
+  if(!bChatChannel){
+    mHTML += "\t<card></card>\n";
+  }  
+  mHTML += "\t<ref></ref>\n";
+  mHTML += "\t<node>{\"id\":\""+mID+"\",\"parentid\":\""+mParentID+"\",\"parentname\":\""+mParent+"\",\"icon\":\""+mIcon+"\",\"title\":\""+mTitle+"\",\"subtitle\":\""+mSubTitle+"\",\"kids\":\""+mKids+"\",\"img\":\""+mImg+"\",\"music\":\""+mMusic+"\",\"author\":\""+mAuthor+"\"";
+  if(bChatChannel){
+    mHTML += ",\"participants\":\"" + mAuthor + "\"";
+  }
+  mHTML += "}</node>\n";
+  mHTML += "</div><!--" +mTitle+"-->";
+
+  navigator.clipboard.writeText(mHTML);
+  return mHTML;
+}
+function NMURL(el){
+  // 20240417: StarTree
+  var elControl = SearchPS(el,"board");
+  var mURL = elControl.querySelector('[NM-URL]').value;
+  var mIcon=elControl.querySelector('[NM-Icon]').value;
+  if(IsBlank(mIcon)){
+    if(mURL.includes("&list=")){
+      mIcon = "🎧";
+    }else if(mURL.includes("youtube.com")){
+      mIcon = "📺";
+    }else if(mURL.includes("podcast")){
+      mIcon = "📻";
+    }else if(mURL.includes("nextdoor")){
+      mIcon = "🏡";      
+    }else{
+      mIcon = "🔗";
+    }
+  }
+  var mHTML = "<macro>{\"cmd\":\"url\",\"url\":\""+mURL+"\",\"desc\":\""+mIcon+"\"}</macro>";  
+  navigator.clipboard.writeText(mHTML);
+  return mHTML;
 }
 function NodeMarkCycle(el,iNodeID){
   // 20240330: StarTree: For saving the node marking
