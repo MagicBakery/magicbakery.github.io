@@ -4738,7 +4738,9 @@ function NMBubble(el,iIcon,bNoEXP){
   }else{
     mEXPStr = " EXP";
   }
-  var mHTML = "<bubble DTS='" + DTSNow() + "' SPK='"+mSPK+"'"+mEXPStr+" Icon='"+iIcon+"'></bubble>";
+  var mHTML = "<bubble DTS='" + DTSNow() + "' SPK='"+mSPK+"'"+mEXPStr;
+  if(NotBlank(iIcon)){mHTML += " Icon='"+iIcon+"'";}
+  mHTML += "></bubble>";
   navigator.clipboard.writeText(mHTML);
 }
 function DTSNow(){
@@ -4755,8 +4757,8 @@ function DTSNow(){
 function NMCard(el){
   // 20240416: StarTree: Puts the card code to Clipboard.
   var elControl = SearchPS(el,"board");
-  var mTitle = "Card Title";
-  var mSubTitle = "Subtitle";
+  var mTitle = Default(elControl.querySelector('[NM-Title]').value,"Card Title");
+  var mSubTitle = Default(elControl.querySelector('[NM-ParentName]').value,"Subtitle");
 
   var mImg = Default(elControl.querySelector('[NM-URL]').value,"https://cdn.pixabay.com/photo/2014/05/20/21/25/bird-349035_640.jpg");
   
@@ -4826,7 +4828,7 @@ function NMNodeSec(el,iSecIcon){
   if(iSecIcon=="🌱"){
     mHTML += "\n\t\t<div class='mbpdc'><b>First</b> word</div><hr class='mbCB mbhr'>\n";
   }else if(IsMasteryIcon(iSecIcon)){
-
+    mHTML += "\n";
   }else{
     mHTML += "<div class='mbav50r mbCB mb"+mAuthor+"\'></div><b>"+mAuthor+":</b> \n";
   }
@@ -4837,11 +4839,29 @@ function NMNodeSec(el,iSecIcon){
   navigator.clipboard.writeText(mHTML);
   return mHTML;
 }
+function NMSetParent(el,mParentID,mParentName,mIcon){
+  // 20240417: StarTree
+  var elControl = SearchPS(el,"board");
+  elControl.querySelector('[NM-ParentID]').value = mParentID;
+  elControl.querySelector('[NM-ParentName]').value = mParentName;
+  if(NotBlank(mIcon)){
+    elControl.querySelector('[NM-Icon]').value = mIcon;
+  }
+  if(mParentName=="Alchemist" || mParentName=="Cleric" || mParentName=="Herald" || mParentName=="Magician" || mParentName=="Oracle" || mParentName=="Paladin"){
+    elControl.querySelector('[NM-Tags]').value = " data-skill data-" + mParentName;
+  }else{
+    elControl.querySelector('[NM-Tags]').value = " data-" + mParentName;
+  }  return NMNode(el);
+}
 function NMNode(el,bChatChannel){
   // 20240416: StarTree: Put the code of a new node to Clipboard.
   var elControl = SearchPS(el,"board");
-  var mDTS = Default(elControl.querySelector('[NM-DTS]').value.padEnd(14,"0"),DTSNow());
+  var mDTS = Default(elControl.querySelector('[NM-DTS]').value,DTSNow());
+  mDTS = mDTS.padEnd(14,"0");
   var mAuthor=Default(elControl.querySelector('[NM-SPK]').value,""); 
+  
+  var mParentID=Default(elControl.querySelector('[NM-ParentID]').value,"202404162138"); 
+  var mParent=Default(elControl.querySelector('[NM-ParentName]').value,"Node Maker"); 
   var mIcon=Default(elControl.querySelector('[NM-Icon]').value,"🐣"); 
   var mImg = Default(elControl.querySelector('[NM-URL]').value,"https://cdn.pixabay.com/photo/2014/05/20/21/25/bird-349035_640.jpg");
   if(bChatChannel){mImg=""};
@@ -4850,16 +4870,15 @@ function NMNode(el,bChatChannel){
   var mYYYYMMDD = mDTS.slice(0,8);
   var mHHMM = mDTS.slice(8,12);
 
-  var mParentID = "202404162138";
-  var mParent = "Node Maker";
-  var mTitle = "P" + mID;
+  var mTitle=Default(elControl.querySelector('[NM-Title]').value,"P" + mID); 
+  var mTags=Default(elControl.querySelector('[NM-Tags]').value,""); 
   var mSubTitle = "Subtitle";
   var mKids="";
   var mMusic="";
   
    
 
-  var mHTML = "<div id='P" + mID + "' date='" + mYYYYMMDD +"' time='" + mHHMM + "'";
+  var mHTML = "<div id=\"P" + mID + "\" date='" + mYYYYMMDD +"' time='" + mHHMM + "'" + mTags;
   if(bChatChannel){mHTML += " data-chat data-happy";}
   mHTML += ">\n";
 
@@ -4877,6 +4896,8 @@ function NMNode(el,bChatChannel){
   mHTML += "\t<ref></ref>\n";
   mHTML += "\t<node>{\"id\":\""+mID+"\",\"parentid\":\""+mParentID+"\",\"parentname\":\""+mParent+"\",\"icon\":\""+mIcon+"\",\"title\":\""+mTitle+"\",\"subtitle\":\""+mSubTitle+"\",\"kids\":\""+mKids+"\",\"img\":\""+mImg+"\",\"music\":\""+mMusic+"\",\"author\":\""+mAuthor+"\"";
   if(bChatChannel){
+    mHTML += ",\"prev\":\"" + "" + "\"";
+    mHTML += ",\"next\":\"" + "" + "\"";
     mHTML += ",\"participants\":\"" + mAuthor + "\"";
   }
   mHTML += "}</node>\n";
