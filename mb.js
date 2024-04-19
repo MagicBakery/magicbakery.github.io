@@ -295,7 +295,10 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
         mHTMLInner += "<div class='mbCB'></div>";
 
         // STEP: Create the QSL area.
-        elContainer.innerHTML = mHTMLInner + "<div></div><div class='mbCB' QSL></div>";
+        mHTMLInner += "<div class='mbhide mbpuzzle'><button class='mbbutton mbRef' onclick='HideParent(this)'>🍮</button>";
+        mHTMLInner += "<div control></div><div class='mbCB mbSearch' QSL BL style='display:flex;flex-direction: column;''></div></div>";
+
+        elContainer.innerHTML = mHTMLInner;
         Macro(elContainer);
 
         mHTMLInner += "</span>";
@@ -2765,7 +2768,7 @@ function QSLEL(elSearchList,iQuery){
             }
 
             mHTML += "</div>";// End of Control
-            mHTML += "<div class='mbhide'><div style='margin-left:10px'></div><div class='mbnav mbSearch'></div></div>"; // QSL Container
+            mHTML += "<div class='mbhide'><div style='margin-left:10px' control></div><div class='mbnav mbSearch' QSL></div></div>"; // QSL Container
             mHTML += "</div>";
           }
 
@@ -2781,7 +2784,14 @@ function QSLEL(elSearchList,iQuery){
         }
         if(Hit>=ArchiveNum()){
           if(NotBlank(elSearchList.previousElementSibling)){
-            elSearchList.previousElementSibling.innerHTML = "<h4>Found: "+ mCount +"</h4>";
+            elSearchList.previousElementSibling.innerHTML 
+            = "<a class='mbbutton' onclick='ShowNextInline(this)'><small><b>Found: "+ mCount +"</b></small></a><hide><small> "
+            + "<input type='text' onclick='TextSearchPS(this)' onkeyup='TextSearchPS(this)' placeholder='Search...' title='Input a keyword' style='width:80px'>"
+            + "<button class='mbbutton' onclick='QSLSortByName(this)'>🍎</button>" 
+            + "<button class='mbbutton' onclick='QSLSortBy(this,\"date\")'>🗓️</button>"
+            + "<button class='mbbutton' onclick='QSLSortBy(this,\"size\")'>🐘</button>"
+            + "<button class='mbbutton' onclick='QSLSortRandom(this)'>🎲</button>"
+            + "</small></hide>";
             elSearchList.previousElementSibling.classList.remove('mbhide');
           }
           //elSearchList.parentNode.innerHTML = "<h4>Found: "+ mCount +"</h4>" + elSearchList.parentNode.innerHTML;
@@ -2866,7 +2876,7 @@ function QSLSortByDate(el){
   // .. If not, it uses the node ID as the date.
   var elContainer = QSLGetContainer(el);
   QSLSortReverseIfSet(elContainer,'date');
-  var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
+  var elEntries = elContainer.querySelectorAll(".mbSearch > div[date]");
   elEntries.forEach((item)=>{item.style.order = item.getAttribute('date');});
 }
 function QSLSortByName(el){
@@ -2908,7 +2918,12 @@ function QSLSortReverseIfSet(elContainer,iSortBy){
 }
 function QSLGetContainer(el){
   // 20240407: Ledia: Return the QSL container that has the mbSearch class.
-  return SearchPS(el,'control').nextElementSibling.querySelector(".mbSearch");
+  var elControl = SearchPS(el,'control');
+  var elControlNext = elControl.nextElementSibling;
+  if(elControlNext.classList.contains('mbSearch')){
+    return elControlNext;}
+
+  return elControlNext.querySelector(".mbSearch");
 }
 function QSLSortRandom(el){
   // 20240407: Ledia: This function sorts the entries in a QSL randomly.
@@ -2924,7 +2939,8 @@ function QSLSortRandom(el){
 }
 function QSLBL(el,iQuery){
   // 20240404: StarTree For automatically showing tags of a node.
-  var elContainer = SearchPS(el,"board").querySelector('[qsl]');
+  var elContainer = SearchPS(el,"board").querySelector('[qsl][bl]');
+  elContainer.parentNode.classList.remove('mbhide');
   QSLEL(elContainer,iQuery);  
 }
 function Cap(mStr){
@@ -3525,44 +3541,44 @@ function GuildEXP(iMember){
   // 20230129: Ledia: Added for total EXP.
   // #GuildEXP
   var dict={
-    "3B": 4898,
-    "44": 526,
-    "Albatross": 1166,
-    "Amelia": 629,
-    "Arcacia": 5763,
+    "Evelyn": 10000,
+    "StarTree": 9921,
     "Black": 9476,
-    "Cardinal": 1418,
-    "Casey": 3527,
-    "Emi": 11,
-    "Evelyn": 9788,
-    "Fina": 1863,
-    "Gaia": 934,
-    "Helen": 2137,
-    "Ivy": 3190,
-    "James": 2507,
-    "Karl": 25,
-    "Ken": 673,
-    "Kisaragi": 3642,
-    "Ledia": 6369,
-    "LRRH": 6536,
-    "Melody": 516,
-    "Mikela": 1086,
-    "Natalie": 4227,
+    "LRRH": 6797,
+    "Tanya": 6545,
+    "Ledia": 6498,
+    "Zoey": 6204,
+    "Arcacia": 5934,
+    "Sasha": 5352,
+    "3B": 5013,
+    "P4": 4797,
+    "Vivi": 4582,
+    "Natalie": 4339,
+    "Sylvia": 4326,
+    "Kisaragi": 3803,
+    "Casey": 3590,
+    "Ivy": 3367,
+    "V": 2951,
+    "James": 2532,
+    "Helen": 2291,
+    "Vladanya": 2107,
+    "Patricia": 2092,
+    "Fina": 1901,
+    "Skyle": 1866,
+    "Cardinal": 1479,
+    "Albatross": 1225,
+    "Mikela": 1097,
+    "Gaia": 965,
+    "Ken": 675,
+    "Amelia": 642,
+    "Melody": 546,
+    "44": 528,
     "Neil": 241,
-    "P4": 4686,
-    "Patricia": 2018,
-    "Rikk": 15,
-    "Robert": 74,
+    "Robert": 75,
+    "Karl": 26,
+    "Rikk": 18,
+    "Emi": 11,
     "RS": 11,
-    "Sasha": 5255,
-    "Skyle": 1743,
-    "StarTree": 9586,
-    "Sylvia": 4225,
-    "Tanya": 6441,
-    "V": 2898,
-    "Vivi": 4309,
-    "Vladanya": 2035,
-    "Zoey": 6119,
   };
   return dict[iMember];
 }
@@ -4863,7 +4879,7 @@ function NMNode(el,bChatChannel){
   var mParentID=Default(elControl.querySelector('[NM-ParentID]').value,"202404162138"); 
   var mParent=Default(elControl.querySelector('[NM-ParentName]').value,"Node Maker"); 
   var mIcon=Default(elControl.querySelector('[NM-Icon]').value,"🐣"); 
-  var mImg = Default(elControl.querySelector('[NM-URL]').value,"https://cdn.pixabay.com/photo/2014/05/20/21/25/bird-349035_640.jpg");
+  var mImg = Default(elControl.querySelector('[NM-URL]').value,"");
   if(bChatChannel){mImg=""};
 
   var mID = mDTS.slice(0,12);
@@ -5371,6 +5387,11 @@ function TextQSLTag(elButton){
 function TextSearchPN(elSearchBox){  
   var mKeyword = elSearchBox.value.toUpperCase().trim();
   var mScope = elSearchBox.parentNode.nextElementSibling;
+  TextFilter(mScope,mKeyword,"div");
+}
+function TextSearchPS(elSearchBox){  
+  var mKeyword = elSearchBox.value.toUpperCase().trim();
+  var mScope = SearchPS(elSearchBox,'control').nextElementSibling;
   TextFilter(mScope,mKeyword,"div");
 }
 function TextSearchPNEV(e,elSearchBox){

@@ -1278,6 +1278,9 @@ vertical-align:bottom;
   margin:-2px 0px 0px 0px;
   padding:0px 5px; 
   text-align:center; 
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }  
 .mbCharCardTitle3L{
   background-color:#ffffffB0;
