@@ -9,7 +9,7 @@
       </span>
       <span>
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Special Queries">📯</a>
-        <hide >
+        <hide>
           <small><a class="mbbutton" onclick="TextQSL(this)" title="Query textbox content as tag">🔍 Query Textbox as Text</a></small>
           <hr><h4>📯 Special Queries</h4>
           <a class="mbbutton" onclick="QSL(this,'[data-Guild]')">🥨 Guild Related</a><br>
@@ -18,7 +18,7 @@
           <hr>
         </hide>
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Tags">🏷️</a>
-        <hide >
+        <hide>
           <small><a class="mbbutton" onclick="TextQSLTag(this)" title="Query textbox content as tag">🔍 Query Textbox as a Tag</a></small>
 
           
@@ -69,6 +69,7 @@
             <span class="mbbutton" onclick="ShowNextInline(this)">Documentation</span>
             <hide>
               <bubble SPK='Arcacia data="20240409"' EXP Icon='📌'>20240409: Showcase new features so others can follow.</bubble>
+              
             </hide>
           </div><!--Rank S Queries-->
           <div>
@@ -110,6 +111,8 @@
               <bubble DTS="20240331" SPK='StarTree'>Update the node format to the latest that has a tag for the sitemap.</bubble>
               <bubble DTS="20240331" SPK='StarTree' EXP Icon="🎯">Target area: Prioritize any node with the 📌 icon or with a name on the sitemap that is not descriptive.</bubble>
               <bubble DTS="20240331" SPK="Vivi" EXP Icon="📌">Tag all non-chat nodes so all of them can be reached from sitemap.</bubble>
+              <bubble DTS='20240420081932' SPK='Skyle' EXP Icon='🔍'>There are nodes with old format that start with a date and time tag, but the ID tag is in its child. Those nodes do not show in the query. Found 18+187 cases in Archive 1.</bubble>
+              <bubble DTS='20240420101742' SPK='Skyle' EXP=20 Icon='🌾'>Did not reformat the nodes, but changed enough for them to be queried. The count is now 1240/1699.</bubble>
             </hide>
           </div><!--Rank D Queries-->
           <div>
@@ -4576,7 +4579,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240416')">16<br><div class="mbavem mbStarTree"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240417')">17<br><div class="mbavem mbBlack"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240418')">18<br><div class="mbavem mbLedia"></div></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240419')">19<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240419')">19<br><div class="mbavem mbBlack"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240420')">20<br>&nbsp;</td>
               </tr>
               <tr>
@@ -4632,7 +4635,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240416')">16<br>🐣</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240417')">17<br>🐣</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240418')">18<br>💗</td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240419')">19<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240419')">19<br>🐣</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240420')">20<br>&nbsp;</td>
               </tr>
               <tr>
@@ -21164,9 +21167,8 @@ data-DXP-WIN-Casey
 </div><!--Groundskeeping-->
 <div id="P202404042146" date='20240404' time='2146' data-chat data-202303052122 data-happy data-202404032249 data-announcement>
   <content>
-  <div></div><div class="mbav50r mbCB mbIvy" data-QXP-Ivy>⭐</div>
-  <div class="mbpdc"><b>This</b> is a routine monthly status update for Cardinal Quest.
-  </div><hr class="mbCB mbhr">
+    <bubble SPK='Ivy' EXP Icon='⭐'><b>This</b> is a routine monthly status update for Cardinal Quest.</bubble>
+
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">📯 What's wrong with chat nodes?</div><hide><hr>
   <div></div><div class="mbav50r mbCB mbIvy" data-IXP-Ivy></div><b>🔍Ivy:</b> Some chat nodes are not compatible with the old discussions query button. 
   <bubble SPK='Ivy'>We don't know why they don't work, but the way the sitemap lists query works for both normal nodes and chat nodes.</bubble>
@@ -21259,9 +21261,7 @@ data-DXP-WIN-Casey
 </div><!-- STATUS -->
 <div id="P202404052131" date='20240405' time='2131' data-chat data-202208250038 data-happy data-202403021520 data-tpk data-202404052316 data-202207151000 data-moment-Black>
   <content>
-  <div></div><div class="mbav50r mbCB mbTanya" data-LXP-Tanya>🔔</div>
-  <div class="mbpdc"><b>Let's</b> talk about whether the chat nodes should be upgraded.
-  </div><hr class="mbCB mbhr">
+    <bubble SPK='Tanya' EXP Icon='🔔'><b>Let's</b> talk about whether the chat nodes should be upgraded.</bubble>
   <div></div><div class="mbav50r mbCB mbStarTree" data-HXP-StarTree></div><b>📯StarTree:</b> There are 8 open quests, 366 quest hours, 40 side quests, 5 prep quests, and 24 unresolved failures remaining!
   <bubble SPK='StarTree' EXP Icon='⭐'>Processing prep quests!</bubble>
   <bubble SPK='Tanya'>Now on to TPK records.</bubble>
@@ -21536,9 +21536,7 @@ data-DXP-WIN-Casey
 </div><!--Tax Return-->
 <div id="P202404061725" date='20240406' time='1725' data-chat data-202303052122 data-happy data-202404042146 data-announcement>
   <content>
-  <div></div><div class="mbav50r mbCB mbVivi" data-WsXP-Vivi>⚔️</div>
-  <div class="mbpdc"><b>The</b> newer chat node format is not compatible with the old code used for listing nodes. Please fix it.
-  </div><hr class="mbCB mbhr">
+    <bubble SPK='Vivi' EXP Icon='⚔️'><b>The</b> newer chat node format is not compatible with the old code used for listing nodes. Please fix it.</bubble>
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">⚔️ Chat node display bug fixes</div><hide><hr>
   <div></div><div class="mbav50r mbCB mbVivi"></div><b>Vivi:</b> The announcement display code is not working.
   <hr class="mbCB">
@@ -21642,9 +21640,7 @@ data-DXP-WIN-Casey
 </div><!-- STATUS -->
 <div id="P202404071035" date='20240407' time='1035' data-chat data-202207112218 data-happy data-202403122327 data-202403290029>
   <content>
-  <div></div><div class="mbav50r mbCB mbSasha" data-LXP-Sasha>🔔</div>
-  <div class="mbpdc"><b>Let's</b> see if it stays stable with 3 digits. Although by raw count it should only be 2 digits.
-  </div><hr class="mbCB mbhr">
+    <bubble SPK='Sasha' EXP Icon='🔔'><b>Let's</b> see if it stays stable with 3 digits. Although by raw count it should only be 2 digits.</bubble>
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">🧭 [2/12] GitHub Sitemap</div><hide><hr>
   <div></div><div class="mbav50r mbCB mbSasha" data-IXP-Sasha></div><b>🔍Sasha:</b> I still only see two hits from GutHub. But we should keep adding to the sitemap for other pages to be searchable.
   <hr class="mbCB">
@@ -21769,9 +21765,7 @@ data-DXP-WIN-Casey
 </div><!-- STATUS -->
 <div id="P202404082256" date='20240408' time='2256' data-chat data-202303052122 data-happy data-202404072256 data-announcement>
   <content>
-  <div></div><div class="mbav50r mbCB mbLRRH" data-WsXP-LRRH>⚔️</div>
-  <div class="mbpdc"><b>The</b> quest count has not been decreasing. We are queuing more entires than we are adding them to the website.
-  </div><hr class="mbCB mbhr">
+    <bubble SPK='LRRH' EXP Icon='⚔️'><b>The</b> quest count has not been decreasing. We are queuing more entires than we are adding them to the website.</bubble>
   <bubble SPK='Ledia'>It just needs some batch processing.</bubble>
   <bubble SPK='LRRH'>It increased by 23 since yesterday.</bubble>
   <bubble SPK='Zoey' EXP Icon='🏹'>I see 1145 entries, and 233 are logged by Red. XD</bubble>
@@ -21858,9 +21852,7 @@ data-DXP-WIN-Casey
 </div><!-- STATUS -->
 <div id="P202404092158" date='20240409' time='2158' data-chat data-202303052122 data-happy data-202404082256 data-800000000000>
   <content>
-  <div></div><div class="mbav50r mbCB mbZoey" data-WrXP-Zoey>🏹</div>
-  <div class="mbpdc"><b>I</b> just want to say that the new quest query listing all nodes that need format upgrade is really helpful.
-  </div><hr class="mbCB mbhr">
+    <bubble SPK='Zoey' EXP Icon='🏹'><b>I</b> just want to say that the new quest query listing all nodes that need format upgrade is really helpful.</bubble>
   <bubble SPK='Zoey' EXP Icon='🔍'>It shows 699 nodes to format. XD</bubble>
   <bubble SPK='Ivy'>Don't go crazy reformatting them. That is not a high priority quest.</bubble>
   <bubble SPK='Zoey'>I already plan to format at least one per month. So I will just do some.</bubble>
@@ -22082,9 +22074,7 @@ data-DXP-WIN-Casey
 </div><!-- STATUS -->
 <div id="P202404111957" date='20240411' time='1957' data-chat data-202404112055 data-happy data-202404092158 data-202311282256>
   <content>
-  <div></div><div class="mbav50r mbCB mbVivi" data-WrXP-Vivi>🏹</div>
-  <div class="mbpdc"><b>How</b> many EXP should Zoey get for tagging skills with archetypes?
-  </div><hr class="mbCB mbhr">
+    <bubble SPK='Vivi' EXP Icon='🏹'><b>How</b> many EXP should Zoey get for tagging skills with archetypes?</bubble>
   <bubble SPK='Vivi' EXP Icon='🔍'>Zoey logged 12 points for an hour. When I corrected typos for an hour, I would log 1 point per minute because normally each typo is one point.</bubble>
   <bubble SPK='Vivi'>In this case since Zoey knew the count before the update (86), If you do one point per node Zoey should have gotten 86 points.</bubble>
   <bubble SPK='Zoey'>I did 12 points because when we do yard quest it is just 1 point per five minutes.</bubble>
@@ -22268,9 +22258,7 @@ data-DXP-WIN-Casey
 </div><!-- STATUS -->
 <div id="P202404122228" date='20240412' time='2228' data-chat data-202208172056 data-happy data-202404082256 data-202404122241>
   <content>
-  <div></div><div class="mbav50r mbCB mbLRRH"></div>
-  <div class="mbpdc"><b>Despite</b> what we discussed last time, I still think that we should process the links so that the daily count decreases.
-  </div><hr class="mbCB mbhr">
+    <bubble SPK='LRRH' EXP Icon='⭐'><b>Despite</b> what we discussed last time, I still think that we should process the links so that the daily count decreases.</bubble>
   <bubble SPK='LRRH' EXP Icon='🍮'>This is for people who think the same. If you think there is something else more important, please do that instead.</bubble>
   <bubble SPK='StarTree'>Right now the count is 1131. The cout was 1126 yesterday!</bubble>
   <bubble SPK='Black'>Those are not the only items, there are also loose notes.</bubble>
@@ -22570,9 +22558,7 @@ data-DXP-WIN-Casey
 </div><!--Industrial Control Panel-->
 <div id="P202404131035" date='20240413' time='1035' data-chat data-202404130947 data-happy>
   <content>
-  <div></div><div class="mbav50r mbCB mbBlack"></div>
-  <div class="mbpdc"><b>This</b> is for those studying for passing the MTR test.
-  </div><hr class="mbCB mbhr">
+    <bubble SPK='Black' EXP Icon='⭐'><b>This</b> is for those studying for passing the MTR test.</bubble>
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">🎓 Free Training</div><hide><hr>
   <div></div><div class="mbav50r mbCB mbBlack"></div><b>Black:</b> In Quest Society, trainings for safety standards should be free to the trainees. UL508A has a paid elearning module, which goes against the quest society visions.
   <bubble SPK='Black' EXP Icon='🏛️'>The standard itself should also be free to view. In this case, since the content is not free to view, we can't directly cite it, but we can discuss how to use the standard and the safety concepts if we were to make a free version for quest society.</bubble>
@@ -22597,9 +22583,7 @@ data-DXP-WIN-Casey
 </div><!--UL508A Studying-->
 <div id="P202404132108" date='20240413' time='2108' data-chat data-202208172056 data-happy data-202404132108 data-202208212019>
   <content>
-  <div></div><div class="mbav50r mbCB mbLRRH"></div>
-  <div class="mbpdc"><b>This</b> continues the attempt to keep the daily log under control...
-  </div><hr class="mbCB mbhr">
+    <bubble SPK='LRRH' EXP Icon='⭐'><b>This</b> continues the attempt to keep the daily log under control...</bubble>
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)"> 17 to go!</div><hide><hr>
   <div></div><div class="mbav50r mbCB mbStarTree" data-IXP-StarTree></div><b>🔍StarTree:</b> 17 items to clear today to make progress!
   <hr class="mbCB">
@@ -22868,9 +22852,7 @@ data-DXP-WIN-Casey
 </div><!--Draw Manga Faces-->
 <div id="P202404141808" date='20240414' time='1808' data-chat data-202208172056 data-happy data-202404132108 datqa-202301251008 data-announcement data-moment-Ledia>
   <content>
-  <div></div><div class="mbav50r mbCB mbLRRH"></div>
-  <div class="mbpdc"><b>This</b> continues the attempt to keep the daily log under control...
-  </div><hr class="mbCB mbhr">
+    <bubble SPK='LRRH' EXP Icon='📯'><b>This</b> continues the attempt to keep the daily log under control...</bubble>
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)"> [33] to go!</div><hide><hr>
   <div></div><div class="mbav50r mbCB mbStarTree" data-IXP-StarTree></div><b>🔍StarTree:</b> There might be a miscounting yesterday, there are 33 items to clear to get below 1126!
   <hr class="mbCB">
@@ -22984,9 +22966,7 @@ data-DXP-WIN-Casey
 </div><!-- STATUS -->
 <div id="P202404152156" date='20240415' time='2156' data-chat data-202208172056 data-happy data-202404141808>
   <content>
-  <div></div><div class="mbav50r mbCB mbIvy"></div>
-  <div class="mbpdc"><b>The</b> bubble makes it easy to add comments to a node, but in general we shouldn't "discuss" at a node because other people can't chime in and it would make the node too large.
-  </div><hr class="mbCB mbhr">
+    <bubble DTS='20240420152928' SPK='Ivy' EXP Icon='⭐'><b>The</b> bubble makes it easy to add comments to a node, but in general we shouldn't "discuss" at a node because other people can't chime in and it would make the node too large.</bubble>
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)"> What to do instead</div><hide><hr>
   <div></div><div class="mbav50r mbCB mbIvy"></div><b>Ivy:</b> Instead, you should just start a chat/channel node to capture the messages of the day.
   <hr class="mbCB">
@@ -23135,9 +23115,7 @@ data-DXP-WIN-Casey
 </div><!--Eyesight-->
 <div id="P202404162126" date='20240416' time='2126' data-chat data-202303052122 data-happy data-202404152156 data-202404162138>
   <content>
-  <div></div><div class="mbav50r mbCB mbIvy"></div>
-  <div class="mbpdc"><b>The</b> count is at 25 to go to get below the mark on April 12.
-  </div><hr class="mbCB mbhr">
+    <bubble SPK='Ivy' EXP Icon='⭐'>The count is at 25 to go to get below the mark on April 12.</bubble>
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)"> Node Maker</div><hide><hr>
   <div></div><div class="mbav50r mbCB mbIvy"></div><b>🎪Ivy:</b> To make everything go faster, there should be a more convenient node maker with different templates. This will allow quicker making of container nodes for bookmarks, tickets, and subjects you want to study.
   <hr class="mbCB">
@@ -23193,12 +23171,14 @@ data-DXP-WIN-Casey
         <a class="mbbutton" onclick="NMBubble(this,'🌺')">🌺</a>
         <a class="mbbutton" onclick="NMBubble(this,'💗')">💗</a>
         <a class="mbbutton" onclick="NMBubble(this,'🐾')">🐾</a>
+        <a class="mbbutton" onclick="NMBubble(this,'🎯')">🎯</a>
         <a class="mbbutton" onclick="NMBubble(this,'⭐')">⭐</a>
         <a class="mbbutton" onclick="NMBubble(this,'⚡')">⚡</a>
         <a class="mbbutton" onclick="NMBubble(this,'📯')">📯</a>
         <a class="mbbutton" onclick="NMBubble(this,'⚖️')">⚖️</a>
         <a class="mbbutton" onclick="NMBubble(this,'🧹')">🧹</a>
         <a class="mbbutton" onclick="NMBubble(this,'🥨')">🥨</a>
+        <a class="mbbutton" onclick="NMBubble(this,'🔔')">🔔</a>
         <a class="mbbutton" onclick="NMBubble(this,'🛎️')">🛎️</a>
         <a class="mbbutton" onclick="NMBubble(this,'👑')">👑</a>
         <a class="mbbutton" onclick="NMBubble(this,'🥘')">🥘</a>
@@ -23292,12 +23272,12 @@ data-DXP-WIN-Casey
             <a class="mbbutton" onclick="NMCard(this)" title="Make Card">Card</a> 
             <br>
             <a class="mbbutton" onclick="NMChatSec(this)" title="Make Topic Section">Topic</a> 
-            <a class="mbbutton" onclick="NMNodeSec(this,'🎪')" title="Quest Section">🎪</a>
-            <a class="mbbutton" onclick="NMNodeSec(this,'🌱')" title="Initiate Section">🌱</a>
-            <a class="mbbutton" onclick="NMNodeSec(this,'🐤')" title="Beginner Section">🐤</a>
-            <a class="mbbutton" onclick="NMNodeSec(this,'🕊️')" title="Practitioner Section">🕊️</a>
-            <a class="mbbutton" onclick="NMNodeSec(this,'🦉')" title="Instructor Section">🦉</a>
-            <a class="mbbutton" onclick="NMNodeSec(this,'🦅')" title="Master Section">🦅</a>
+            <a class="mbbutton" onclick="NMChatSec(this,'🎪')" title="Quest Section">🎪</a>
+            <a class="mbbutton" onclick="NMChatSec(this,'🌱')" title="Initiate Section">🌱</a>
+            <a class="mbbutton" onclick="NMChatSec(this,'🐤')" title="Beginner Section">🐤</a>
+            <a class="mbbutton" onclick="NMChatSec(this,'🕊️')" title="Practitioner Section">🕊️</a>
+            <a class="mbbutton" onclick="NMChatSec(this,'🦉')" title="Instructor Section">🦉</a>
+            <a class="mbbutton" onclick="NMChatSec(this,'🦅')" title="Master Section">🦅</a>
             <br>
             <a class="mbbutton" onclick="NMLI(this)" title="Make List Item">List</a> |
             <a class="mbbutton" onclick="NMURL(this)" title="Make URL Macro">URL</a> |
@@ -23372,8 +23352,7 @@ data-DXP-WIN-Casey
 </div><!-- STATUS -->
 <div id="P202404172318" date='20240417' time='2318' data-chat data-happy data-202404162126 data-202404162138>
 	<content>
-		<div class='mbav50r mbCB mbIvy'></div>
-		<div class='mbpdc'><b>This chat node</b> is made with the node maker.</div><hr class='mbCB mbhr'>
+    <bubble SPK="Ivy"><b>This chat node</b> is made with the node maker.</bubble>
     <bubble DTS='20240417231523' SPK='Ivy' EXP Icon='📌'>I noticed that there is no previous or next fields in the JSON.</bubble>
     <bubble DTS='20240417231949' SPK='Ivy' Icon=''>But good otherwise.</bubble>
     <bubble DTS='20240417232106' SPK='StarTree' EXP Icon='⭐'>Adding previous and next.</bubble>
@@ -23916,6 +23895,34 @@ data-DXP-WIN-Casey
 </div><!--Electricity-->
 <div id="P202404190951" date='20240419' time='0951' data-TSN>
 	<content>
+    <div DTS='20240420112257' class='mbscroll' SPK="Tanya" EXP Icon="🔮">
+      <div class='mbbutton' onclick='ShowNext(this)'>🌱 About</div>
+      <hide><hr>
+        <div class='mbpdc'><b>This Node</b> collects sightings and signs of governance issues so that they can be categorized and discussed.</div><hr class='mbCB mbhr'>
+        <ol></ol>
+        <ul></ul>
+        <div class='mbCB'></div>
+      </hide>
+    </div>  
+    <div DTS='20240420112425' class='mbscroll'>
+      <div class='mbbutton' onclick='ShowNext(this)'>🐤 Sightings</div>
+      <hide><hr>
+        <ol>
+          <li>
+            <span class='mbbutton' onclick='ShowNextInline(this)'>Homeschooling</span><hide>
+              <bubble DTS='20240420112514' SPK='James' EXP Icon='🏛️'>Homeschooling could be a sign of inefficient public education. This is a sighting of reasons a parent would prefer homeschooling: <macro>{"cmd":"url","url":"https://www.psychologytoday.com/us/blog/the-parenting-playbook/202404/the-rise-of-homeschooling?amp","desc":"🔗"}</macro></bubble>
+            </hide>
+          </li>
+          <li>
+            <span class='mbbutton' onclick='ShowNextInline(this)'>Education</span><hide>
+              <bubble DTS='20240420042711' SPK='James' EXP Icon='🔍'>This is a sighting of allegedly ineffective teaching method used by public school <macro>{"cmd":"url","url":"https://www.educationnext.org/math-movement-taking-over-our-schools-building-thinking-classrooms/","desc":"🔗"}</macro>. And this is a sighting saying otherwise: <macro>{"cmd":"url","url":"https://www.ksl.com/article/50985357/teacher-applies-thinking-classroom-method-to-help-students-learn-math","desc":"🔗"}</macro>.</bubble>
+            </hide>
+          </li>
+        </ol>
+        <ul></ul>
+        <div class='mbCB'></div>
+      </hide>
+    </div>      
 	</content>
 	<card></card>
 	<ref></ref>
@@ -24075,6 +24082,102 @@ data-DXP-WIN-Casey
 	<node>{"id":"202404192240","parentid":"202210032214","parentname":"Manga Studio","icon":"🐣","title":"April Drawing","subtitle":"Subtitle","kids":"","img":"","music":"","author":"3B","prev":"","next":"","participants":"3B"}</node>
 </div><!--April Drawing-->
 <div date='20240419' time='2359' data-status>
+  <macro>{"cmd":"daisy2","issues":"6","quests":"1141","activities":[
+    {"ch":"32","rank":"A","updates":"3","last":"20240403"},
+    {"ch":"7","rank":"A","updates":"4","last":"20240406"},
+    {"ch":"12","rank":"B","updates":"3","last":"20240406"},
+    {"ch":"33","rank":"S","updates":"2","last":"20240408"},
+    {"ch":"13","rank":"C","updates":"2","last":"20240411"},
+    {"ch":"22","rank":"C","updates":"2","last":"20240411"},
+    {"ch":"26","rank":"A","updates":"3","last":"20240411"},
+    {"ch":"35","rank":"A","updates":"4","last":"20240411"},
+    {"ch":"14","rank":"A","updates":"4","last":"20240413"},
+    {"ch":"25","rank":"A","updates":"4","last":"20240414"},
+    {"ch":"31","rank":"C","updates":"2","last":"20240414"},
+    {"ch":"27","rank":"A","updates":"3","last":"20240415"},
+    {"ch":"34","rank":"A","updates":"4","last":"20240415"},
+    {"ch":"5","rank":"B","updates":"3","last":"20240415"},
+    {"ch":"17","rank":"S","updates":"2","last":"20240416"},
+    {"ch":"28","rank":"A","updates":"2","last":"20240416"},
+    {"ch":"11","rank":"A","updates":"3","last":"20240417"},
+    {"ch":"15","rank":"A","updates":"4","last":"20240417"},
+    {"ch":"30","rank":"A","updates":"4","last":"20240418"},
+    {"ch":"24","rank":"A","updates":"2","last":"20240418"},
+    {"ch":"19","rank":"B","updates":"2","last":"20240418"},
+    {"ch":"20","rank":"A","updates":"4","last":"20240419"},
+    {"ch":"21","rank":"A","updates":"4","last":"20240419"},
+    {"ch":"16","rank":"B","updates":"2","last":"20240419"},
+    {"ch":"29","rank":"A","updates":"4","last":"20240419"},
+    {"ch":"18","rank":"B","updates":"3","last":"20240419"},
+    {"ch":"23","rank":"A","updates":"3","last":"20240419"}
+    ],"players":"3B","merits":"","recognitions":"Black, Kisaragi, Vladanya","kudos":"","awards":"3B, Arcacia, Black, Evelyn, Fina, Ivy, Kisaragi, LRRH, P4, Patricia, Skyle, StarTree, Sylvia, Vladanya, Zoey","top":[
+    {"name":"Black","score":"26"},
+    {"name":"Kisaragi","score":"16"},
+    {"name":"Sylvia","score":"15"},
+    {"name":"Patricia","score":"14"},
+    {"name":"Vladanya","score":"11"},
+    {"name":"Arcacia","score":"11"},
+    {"name":"3B","score":"10"},
+    {"name":"Evelyn","score":"10"},
+    {"name":"StarTree","score":"9"},
+    {"name":"P4","score":"8"},
+    {"name":"Skyle","score":"7"},
+    {"name":"Ivy","score":"7"},
+    {"name":"Vivi","score":"7"},
+    {"name":"Zoey","score":"7"},
+    {"name":"LRRH","score":"7"},
+    {"name":"Fina","score":"5"},
+    {"name":"Albatross","score":"3"},
+    {"name":"Ledia","score":"3"},
+    {"name":"Natalie","score":"2"},
+    {"name":"Sasha","score":"2"},
+    {"name":"Helen","score":"1"},
+    {"name":"James","score":"1"},
+    {"name":"V","score":"1"},
+    {"name":"Tanya","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div id="P202404201142" date='20240420' time='1142'data-202404162138 data-chat data-happy>
+	<content>
+    <bubble DTS='20240420145841' SPK='Ivy' EXP Icon='🎯'><b>Let's upgrade</b> the node maker further toward eliminating all javascript function calls from the archive.</bubble>
+    <topic DTS='20240420114506' Icon="🎯" Title="Topic Tag">
+      <bubble DTS='20240420114407' SPK='Ivy' EXP Icon='🏹'>StarTree please make a macro for the chat topic. The tag name can be topic.</bubble>
+      <bubble DTS='20240420114631' SPK='StarTree' EXP Icon='🔍'>Should the title use the EXP icon by default? Or should the title icon be its own attribute? Or be part of the title string?</bubble>
+      <bubble DTS='20240420115146' SPK='Ivy' EXP Icon='🏹'>The title can use the icon attribute. The title does not need an EXP attribute, that should be part of a bubble.</bubble>
+      <bubble DTS='20240420115554' SPK='StarTree' EXP Icon='🔍'>But the format of the first "bubble" of a section is usually different!</bubble>
+      <bubble DTS='20240420115630' SPK='Ivy' EXP Icon='🏹'>Yes, keep it different when the macro handles it, but in the archive, it should be just a bubble. The archive itself shouldn't have a concept of "enter". That is an interpreted display effect when the log is rendered.</bubble>
+      <bubble DTS='20240420115716' SPK='StarTree' EXP=6 Icon='⭐'>Roger! Adding function MacroTopic. Modifying MacroBubble. Adding function RenderEnter, RenderBubble. Adding RenderExpStr. Testing. Done!</bubble>
+      <bubble DTS='20240420125841' SPK='Ivy' EXP Icon='🏹'>And the Node Maker.</bubble>
+      <bubble DTS='20240420130512' SPK='StarTree' EXP Icon='🍍'>Done!</bubble>
+      <bubble DTS='20240420130901' SPK='Ivy' EXP Icon='🏹'>Please just use this topic maker for the mastery sections.</bubble>
+      <bubble DTS='20240420131759' SPK='StarTree' EXP=2 Icon='⭐'>Done!</bubble>
+      <bubble DTS='20240420132338' SPK='StarTree' EXP Icon='📯'>This chat node now has no JS code!</bubble>
+      <bubble DTS='20240420132439' SPK='Ivy' EXP Icon='📌'>Now please turn the list item template into a tag bullet.</bubble>
+      <bubble DTS='20240420132807' SPK='StarTree' EXP=2 Icon='⭐'>Adding MacroBullet. Modifying NMLI. Done!</bubble>
+      <bubble DTS='20240420133702' SPK='StarTree' EXP Icon='🌾'>Should that be a new tag or just the effect of a topic within a topic?</bubble> 
+      <bubble DTS='20240420133803' SPK='Ivy' Icon=''>Let's separate them for now we can tell if that defining that as a topic within a topic would suffice.</bubble>
+      <bubble DTS='20240420134556' SPK='StarTree' EXP Icon='🍮'>StarTree doesn't know how to make nested topic turn into bullets because the macros interpret the bubbles, then bullets, then topic. If a nest topic can become a bullet, what happens to the bubble that was already interpreted as an "ENTER"? The bubble needs to know whether the topic will become a bullet first! 😭</bubble>
+      <bubble DTS='20240420134915' SPK='Skyle' EXP Icon='🌾'>You could render the topic first, then bullet, then bubbles. When you render the topics, mark them with the attribute 'topic', then in the bubble rendering, check for that attribute.</bubble>
+      <bubble DTS='20240420135549' SPK='StarTree' EXP Icon='🔍'>StarTree is trying. Can the condition of changing a topic into a bullet not that it is within a topic, but that its parent an OL or UL? If it is a topic within a another topic, it would get the class mbpuzzle instead of mbscroll.</bubble>
+      <bubble DTS='20240420140433' SPK='Skyle'>I think that is better.</bubble>
+      <bubble DTS='20240420140446' SPK='StarTree' EXP=5 Icon='⭐'>Wee~~! Modifying Macro, MacroTopic. Testing. Reversing the order of processing. Testing. Done!</bubble>
+      <bubble DTS='20240420144125' SPK='Skyle' EXP Icon='💗'>Thank you.</bubble>
+      <bubble DTS='20240420144137' SPK='Vivi' EXP Icon='📌'>StarTree please keep the DTS tag after rendering.</bubble>
+      <bubble DTS='20240420144411' SPK='StarTree' EXP Icon='⭐'>Done!</bubble>
+      <bubble DTS='20240420145030' SPK='Vivi	' EXP Icon='📌'>StarTree you may now take a break.</bubble>
+      <bubble DTS='20240420145056' SPK='StarTree' EXP Icon='🕊️'>Wee~~!</bubble>
+      <bubble DTS='20240420150207' SPK='StarTree' EXP=3 Icon='🕊️'>Modifying MacroBubble. Adding RenderStart. Modying NMNode. Now the initial dropcap section is also just a bubble!</bubble>
+      <bubble DTS='20240420153448' SPK='Skyle' EXP=5 Icon='🌾'>Fixed 18 formatting issues due to the change.</bubble>
+    </topic>
+    
+
+		<hr class='mbCB'><mbKudo></mbKudo>
+	</content>
+	<ref></ref>
+	<node>{"id":"202404201142","parentid":"202404162138","parentname":"Node Maker","icon":"🏹","title":"Node Maker Upgrades","subtitle":"Subtitle","kids":"","img":"","music":"","author":"Ivy","prev":"202404172318","next":"","participants":"Ivy, StarTree, Skyle, Vivi"}</node>
+</div><!--Node Maker Upgrades-->
+
+<div date='20240420' time='2359' data-status>
   <macro>{"cmd":"daisy2","issues":"6","quests":"1146","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[

@@ -953,48 +953,185 @@ function Macro(elScope){
   ProcessNodeData(elScope);
   MacroMacro(elScope);
   MacroJQ(elScope);
+  MacroTopic(elScope);
+  MacroBullet(elScope);
   MacroBubble(elScope);
-  MacroLnk(elScope);  
+  MacroLnk(elScope);
+}
+function MacroBullet(el){
+  // 20240420: StarTree: Changes:
+  /*   <bullet title="Title"></bullet>
+     into:
+      <li>
+          <span class='mbbutton' onclick='ShowNextInline(this)'>Title</span><hide>
+        
+          </hide>
+        </li>
+  */
+  var mTags = el.querySelectorAll('bullet');
+  mTags.forEach((mTag)=>{    
+    let mDTS = mTag.getAttribute("dts");
+    let mTitle = Default(mTag.getAttribute("title"),"New Bullet");
+    let mIcon = mTag.getAttribute("icon");
+    let mHTML = "<span class='mbbutton' onclick='ShowNextInline(this)'>";
+    mHTML += mIcon + " " + mTitle + "</span><hide>";
+    mHTML += mTag.innerHTML + "</hide>";
+    let elNew = document.createElement('li');
+    elNew.setAttribute('DTS',mDTS);
+    elNew.innerHTML = mHTML;
+    mTag.before(elNew);
+    mTag.remove();
+  });
+       
+}
+function MacroTopic(el){
+  // 20240420: StarTree: Changes:
+  //   <topic Icon="🏹" Title="New Topic">...</topic>
+  // Into: 
+  /*  <div class='mbscroll'>
+        <div class='mbbutton' onclick='ShowNext(this)'>🏹 New Topic</div>
+        <div class='mbhide'>
+          ...
+          <hr class='mbCB'>
+        </div>
+      </div>
+  */
+  var mTags = el.querySelectorAll('topic');
+  for(let i=mTags.length-1;i>-1;i--){
+    let mTag = mTags[i];
+    let mDTS = mTag.getAttribute("dts");
+    let mIcon = Default(mTag.getAttribute("icon"),"");
+    let mTitle = Default(mTag.getAttribute("title"),"New Topic");
+    let mHTML = "";
+
+    // STEP: If a topic is inside OL or UL, turn it into a bullet.
+    if(mTag.parentNode.tagName=="OL" || mTag.parentNode.tagName=="UL"){
+      let elNew = document.createElement('bullet');
+      elNew.setAttribute('title',mTitle);
+      elNew.setAttribute('DTS',mDTS);
+      elNew.setAttribute('Icon',mIcon);
+      elNew.innerHTML = mTag.innerHTML;
+      mTag.before(elNew);
+      mTag.remove();
+      continue;
+    }    
+    let mClass = "mbscroll";
+    let mParentTag = mTag.parentNode.tagName;
+    if(mParentTag == "TOPIC" || mParentTag=="BULLET" || mParentTag=="BUBBLE"){
+      mClass = "mbpuzzle";
+    }
+    mHTML = "<div class='mbbutton' onclick='ShowNext(this)'>";
+    mHTML += mIcon + " " + mTitle + "</div><hide topic><hr'>";
+    mHTML += mTag.innerHTML + "<hr class='mbCB'></hide>";
+    let elNew = document.createElement('div');
+    elNew.classList.add(mClass);
+    elNew.setAttribute('DTS',mDTS);
+    elNew.innerHTML = mHTML;
+    mTag.before(elNew);
+    mTag.remove();
+  }
 }
 function MacroBubble(el){
-  // 20240414: StarTree: The bubble macro:
+  // STEP: Interpret the context and compose the html code
+  // 20240420: StarTree: If this is the first bubble in a topic, use the "ENTER" format.
+  var mBubbles = el.querySelectorAll('bubble');
+  mBubbles.forEach((mTag)=>{
+    // STEP: Processing Attributes
+    let mDTS = mTag.getAttribute("dts");
+    let mHTML = "";
+    let bFirst = (mTag.parentNode.querySelector('bubble')==mTag);
+    if(bFirst && mTag.parentNode.hasAttribute('topic')){
+      mHTML = RenderEnter(mTag);
+    }else if(bFirst && mTag.parentNode.tagName=="SPAN"){
+      mHTML = RenderStart(mTag);
+    }else{
+      mHTML = RenderBubble(mTag);
+    }
+    let elNew = document.createElement("span");
+    elNew.setAttribute('DTS',mDTS);
+    elNew.innerHTML = mHTML;
+    mTag.before(elNew);    
+  });
+  mBubbles.forEach((mTag)=>{
+    mTag.remove();
+  });
+}
+function RenderStart(el){
+  // 20240420: StarTree: Renders a bubble in the a traditional START format.
+  var mHTML="";
+  // STEP: Show the Avatar with optional EXP icon.
+  var mSPK = Default(el.getAttribute("SPK"),"???");
+  var mEXP = RenderExp(el);
+  var mIcon = Default(el.getAttribute("Icon"),"⭐");
+  mHTML = "<div class='mbav50r mb" + mSPK + "'>";
+  if(mEXP){
+    mHTML += mIcon;
+    if(mEXP !=1){
+      mHTML += "<span style='color:white;margin-left:-10px'><b><small><sub>" + mEXP +"</sub></small></b></span>";
+    }
+  }
+  mHTML += "</div>";
+  mHTML += "<div class='mbpdc'>" + el.innerHTML + "</div>";
+  mHTML += "<hr class='mbCB'>";
+  return mHTML;
+}
+function RenderEnter(el){
+  // 20240420: StarTree: Renders a bubble in the a traditional ENTER format.
+  var mHTML="";
+  // STEP: Show the Avatar with optional EXP icon.
+  var mSPK = Default(el.getAttribute("SPK"),"???");
+  var mEXP = RenderExp(el);
+  var mIcon = Default(el.getAttribute("Icon"),"⭐");
+  mHTML = "<div class='mbav50r mb" + mSPK + "'>";
+  if(mEXP){
+    mHTML += mIcon;
+    if(mEXP !=1){
+      mHTML += "<span style='color:white;margin-left:-10px'><b><small><sub>" + mEXP +"</sub></small></b></span>";
+    }
+  }
+  mHTML += "</div>";
+  mHTML += "<b>" + mSPK + ":</b> " + el.innerHTML;
+  mHTML += "<hr class='mbCB'>";
+  return mHTML;
+}
+function RenderExp(el){
+  // 20240420: StarTree: Interpret and create the short EXP string that is used in Bubble or Enter
+  var mHasEXP =  el.hasAttribute("EXP");
+  var mEXP = 0;
+  if(mHasEXP){
+    mEXP = Default(el.getAttribute("EXP"),1);
+  }
+  return mEXP;
+}
+function RenderBubble(el){
+// 20240414: StarTree: The bubble macro:
   // Turn:
   // <bubble DTS="202404141904" SPK="StarTree" EXP="2" Icon="🍍">Testing Testing.</bubble>
   // Into:
   // <button class='mbbutton' onclick='ShowNextInline(this)' DTS='202404141904' EXP='2' Icon='🍍'>🍍<small>2</small><div class='mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Testing Testing.</hide>
-
-  var mBubbles = el.querySelectorAll('bubble');
-  mBubbles.forEach((mBubble)=>{
-    let mHTML = "<button class='mbbutton' onclick='ShowNextInline(this)'";
-    let mDTS = mBubble.getAttribute("DTS");
-    if(NotBlank(mDTS)){mHTML += " DTS='" + mDTS + "'";}
-    let mSPK = mBubble.getAttribute("SPK");    
-    let mEXP = 0;
-    let mHasEXP = mBubble.hasAttribute("EXP");
-    let mIcon = mBubble.getAttribute("Icon");
-    if(mHasEXP){
-      mEXP = Default(mBubble.getAttribute("EXP"),1);
-      mHTML += " EXP='" + mEXP + "'";
-      if(IsBlank(mIcon)){
-        mIcon = '⭐';
-      }
+  var mHTML = "";
+  let mDTS = el.getAttribute("DTS");
+  if(NotBlank(mDTS)){mHTML += " DTS='" + mDTS + "'";}
+  let mSPK = el.getAttribute("SPK");    
+  let mEXP = RenderExp(el);
+  let mIcon = el.getAttribute("Icon");
+  mHTML = "<button class='mbbutton' onclick='ShowNextInline(this)'";
+  if(mEXP!=0){
+    mHTML += " EXP='" + mEXP + "'";
+    if(IsBlank(mIcon)){
+      mIcon = '⭐';
     }
-    if(NotBlank(mIcon)){
-      mHTML += " Icon='" + mIcon + "'";
-    }
-    mHTML += ">";
-    if(NotBlank(mIcon)){mHTML += mIcon;}
-    //if(NotBlank(mEXP)){mHTML += "<sup class='mbSS'>⭐</sup>";}
-    if(NotBlank(mEXP) && mEXP > 1){mHTML += "<small>" + mEXP + "</small> ";}
-    mHTML += "<div class='mbavem mb" + mSPK + "'></div></button>";
-    mHTML += "<hide><b>" + mSPK + ":</b> " + mBubble.innerHTML + "</hide>"
-    let elNew = document.createElement("span");
-    elNew.innerHTML = mHTML;
-    mBubble.before(elNew);
-  });
-  mBubbles.forEach((mBubble)=>{
-    mBubble.remove();
-  });
+  }
+  if(NotBlank(mIcon)){
+    mHTML += " Icon='" + mIcon + "'";
+  }
+  mHTML += ">";
+  if(NotBlank(mIcon)){mHTML += mIcon;}
+  //if(NotBlank(mEXP)){mHTML += "<sup class='mbSS'>⭐</sup>";}
+  if(NotBlank(mEXP) && mEXP > 1){mHTML += "<small>" + mEXP + "</small> ";}
+  mHTML += "<div class='mbavem mb" + mSPK + "'></div></button>";
+  mHTML += "<hide><b>" + mSPK + ":</b> " + el.innerHTML + "</hide>"
+  return mHTML;
 }
 function MacroID(eScopeID){
   var elScope = getElementById(eScopeID);
@@ -4002,7 +4139,7 @@ function NodeFormatter(elTemp){
         vHTML += "<a class='mbbutton' onclick='ShowPL(this)'>" + mJSON.title + "</a>";
         vHTML += JSONPartiStr(mJSON);
         
-        vHTML +="<hide><hr class='mbCB'>"+ChatNodeContent(vFirstDiv,mJSON)+"</hide>";        
+        vHTML +="<span class='mbhide'><hr class='mbCB'>"+ChatNodeContent(vFirstDiv,mJSON)+"</span>";        
         vHTML +="</div>";
         vHTML +="<div></div><div class='mbCB' QSL></div>";   
       }    
@@ -4800,22 +4937,28 @@ function NMCard(el){
 }
 function NMChatSec(el,iSecIcon){
   // 20240416: StarTree: Puts a chat section to Clipboard.
+  // 20240420: StarTree: Updated to use tag.
   var elControl = SearchPS(el,"board");
-  var mAuthor = Default(elControl.querySelector('[NM-SPK]').value,"");
   if(IsBlank(iSecIcon)){
     iSecIcon = elControl.querySelector('[NM-Icon]').value;
   }else{
     elControl.querySelector('[NM-Icon]').value = iSecIcon;
   }
   var mDTS = Default(elControl.querySelector('[NM-DTS]').value,DTSNow());
+  var mTitle = Default(elControl.querySelector('[NM-Title]').value,"New Topic");
+  var mHTML = "<topic DTS='"+mDTS+"' Icon='"+iSecIcon+"' title='"+mTitle+"'>"
   
-  var mTitle = "New Topic";
-  var mHTML = "<div DTS='"+mDTS+"' class='mbpuzzle'>\n";
-  mHTML += "\t<div class='mbbutton' onclick='ShowNext(this)'>"+iSecIcon+" "+mTitle+"</div>\n\t<hide><hr>";
-  mHTML += "<div class='mbav50r mbCB mb"+mAuthor+"\'></div><b>"+mAuthor+":</b> \n";
-  mHTML += "\t\t<hr class='mbCB'>\n\n";
-  mHTML += "\t</hide>\n</div>";
+  // 20240417: StarTree: Special format for Initate node section.
+  if(iSecIcon=="🌱"){
+    mHTML += "\n\t<div class='mbpdc'><b>First</b> word</div><hr class='mbCL mbhr'>\n";
+  }
+  if(IsMasteryIcon(iSecIcon)){
+    mHTML += "\t<ol></ol>\n\t<ul></ul>\n";
+  }else{
+    mHTML += "\n";
+  }
 
+  mHTML+="</topic>";
   navigator.clipboard.writeText(mHTML);
   return mHTML;
 }
@@ -4825,8 +4968,8 @@ function IsMasteryIcon(iIcon){
 }
 function NMLI(el){
   // 20240417: StarTree
-  var mHTML = "<li>\n\t<span class='mbbutton' onclick='ShowNextInline(this)'>Title</span>";
-  mHTML += "<hide>\n\n\t</hide>\n</li>";
+  // 20240420: StarTree: Changing to Bullet tag.
+  var mHTML = "<bullet title='New Bullet'>\n</bullet>";
   navigator.clipboard.writeText(mHTML);
   return mHTML;
 }
@@ -4905,8 +5048,10 @@ function NMNode(el,bChatChannel){
 
   mHTML += "\t<content>\n";
   if(bChatChannel){
-    mHTML += "\t\t<div class='mbav50r mbCB mb"+mAuthor+"'></div>\n";
-    mHTML += "\t\t<div class='mbpdc'><b>First</b> word</div><hr class='mbCB mbhr'>\n";
+    mHTML += "\t\t<bubble DTS='" + mDTS + "' SPK='" + mAuthor +"' EXP Icon='" + mIcon + "'><b>First</b> word</bubble>\n"
+
+    //mHTML += "\t\t<div class='mbav50r mbCB mb"+mAuthor+"'></div>\n";
+    //mHTML += "\t\t<div class='mbpdc'><b>First</b> word</div><hr class='mbCB mbhr'>\n";
     mHTML += "\n";
     mHTML += "\t\t<hr class='mbCB'><mbKudo></mbKudo>\n";
   }
