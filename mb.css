@@ -1266,6 +1266,8 @@ vertical-align:bottom;
   padding:5px; 
   text-align:center; 
   white-space:nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .mbCharCardSubtitle{
   border-radius: 5px;

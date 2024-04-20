@@ -104,19 +104,24 @@ function DateStrFromID(mID){
 function ChatNodeContent(elAttr,mJSON){
   // 20240405: StarTree: For the new chat node format.
   var mHTMLInner = "";
-  if(NotBlank(mJSON.prev)){
-    mHTMLInner +="<a class=\"mbbuttonIn\" style=\"float:left\" href=\"" + ViewerPath() + "?id=P"+mJSON.prev+"\" onclick=\"BoardLoad(this,'"+ mJSON.prev+"');return false;\">◀</a>";
-  }else{
-    mHTMLInner +="<a class=\"mbbutton\" style=\"float:left\">◁</a>";
+
+  if(elAttr.hasAttribute('data-chat')){
+
+    if(NotBlank(mJSON.prev)){
+      mHTMLInner +="<a class=\"mbbuttonIn\" style=\"float:left\" href=\"" + ViewerPath() + "?id=P"+mJSON.prev+"\" onclick=\"BoardLoad(this,'"+ mJSON.prev+"');return false;\">◀</a>";
+    }else{
+      mHTMLInner +="<a class=\"mbbutton\" style=\"float:left\">◁</a>";
+    }
+    
+    if(NotBlank(mJSON.next)){
+      mHTMLInner +="<a class=\"mbbuttonIn\" style=\"float:right\" href=\"" + ViewerPath() + "?id=P"+mJSON.next+"\" onclick=\"BoardLoad(this,'"+ mJSON.next+"');return false;\">▶</a>";
+    }else{
+      mHTMLInner +="<a class=\"mbbutton\" style=\"float:right\">▷</a>";
+    }
+    mHTMLInner += "<center><small>" + DateStrFromID(mJSON.id) + "</small></center>";
+    mHTMLInner += "<hr class='mbCB'>";
   }
   
-  if(NotBlank(mJSON.next)){
-    mHTMLInner +="<a class=\"mbbuttonIn\" style=\"float:right\" href=\"" + ViewerPath() + "?id=P"+mJSON.next+"\" onclick=\"BoardLoad(this,'"+ mJSON.next+"');return false;\">▶</a>";
-  }else{
-    mHTMLInner +="<a class=\"mbbutton\" style=\"float:right\">▷</a>";
-  }
-  mHTMLInner += "<center><small>" + DateStrFromID(mJSON.id) + "</small></center>";
-  mHTMLInner += "<hr class='mbCB'>";
   mHTMLInner += elAttr.querySelector('content').innerHTML;
 
   
@@ -4836,7 +4841,7 @@ function NMNodeSec(el,iSecIcon){
   }
   var mDTS = Default(elControl.querySelector('[NM-DTS]').value,DTSNow());
   
-  var mTitle = "New Topic";
+  var mTitle = "About";
   var mHTML = "<div DTS='"+mDTS+"' class='mbscroll'>\n";
   mHTML += "\t<div class='mbbutton' onclick='ShowNext(this)'>"+iSecIcon+" "+mTitle+"</div>\n\t<hide><hr>";
 
@@ -4894,7 +4899,7 @@ function NMNode(el,bChatChannel){
   
    
 
-  var mHTML = "<div id=\"P" + mID + "\" date='" + mYYYYMMDD +"' time='" + mHHMM + "'" + mTags;
+  var mHTML = "<div id=\"P" + mID + "\" date='" + mYYYYMMDD +"' time='" + mHHMM + "' " + mTags;
   if(bChatChannel){mHTML += " data-chat data-happy";}
   mHTML += ">\n";
 
@@ -4926,7 +4931,7 @@ function NMURL(el){
   // 20240417: StarTree
   var elControl = SearchPS(el,"board");
   var mURL = elControl.querySelector('[NM-URL]').value;
-  var mIcon=elControl.querySelector('[NM-Icon]').value;
+  var mIcon="";//elControl.querySelector('[NM-Icon]').value;
   if(IsBlank(mIcon)){
     if(mURL.includes("&list=")){
       mIcon = "🎧";
