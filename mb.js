@@ -347,10 +347,10 @@ function GetInputBoxValue(el){
 function IFrameFeedback(el){
   // 20231029: Black: Spawn a feedback form
   var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
-  
   var mHTML = "<a class='mbbutton' onClick='RemoveParent(this)' style='float:right' title='Close'>🍮</a>";
   mHTML += "<a onClick='IFrameFeedback(this)' title='Feedback Form'>💌</a> <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a>";
   mHTML += "<iframe src='" + mInput + "' title='Google Form' style='border:none;width:100%;height:calc(100vh - 190px)' allow='clipboard-read; clipboard-write'></iframe>";
+  
   var elTemp = document.createElement("div");
   elTemp.innerHTML = mHTML;
   elTemp.classList.add('mbscroll');
@@ -423,14 +423,14 @@ function InterLink(){
 }
 function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget){
   // 20231006: Black: Make a board in the current column panel given the ID.
-  var mBoard;
+  var mBoard="";
   var elBoard;
   var curBoardID;
 
   // STEP: Check if the target ID is the same as the current board.
   try{
     mBoard = SearchPS(el,'board');
-    if(NotBlank(mBoard)){
+    if(NotBlank(mBoard) ){
       curBoardID = mBoard.getAttribute('board');
     }
   }catch(error){}
@@ -446,6 +446,9 @@ function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget){
   try{
     // 20231030: StarTree: If there is a board, add it after the board.
     mBoard = SearchPS(el,'board');
+    if(mBoard.hasAttribute('reserved')){
+      mBoard = "";
+    }
 
     if(curBoardID==iNodeID){
       elBoard = mBoard;
@@ -499,6 +502,7 @@ function PanelAdd(){
   elTemp.innerHTML = elNPT.innerHTML;
   elTemp.classList.add('mbPanel');
   elTemp.setAttribute("panel","");
+  elTemp.onclick = HideAllFP;
 
   elMA.appendChild(elTemp);
 
@@ -1021,8 +1025,8 @@ function MacroTopic(el){
       mClass = "mbpuzzle";
     }
     mHTML = "<div class='mbbutton' onclick='ShowNext(this)'>";
-    mHTML += mIcon + " " + mTitle + "</div><hide topic><hr'>";
-    mHTML += mTag.innerHTML + "<hr class='mbCB'></hide>";
+    mHTML += mIcon + " " + mTitle + "</div><hide topic><hr>";
+    mHTML += mTag.innerHTML + "<div class='mbCB'></div></hide>";
     let elNew = document.createElement('div');
     elNew.classList.add(mClass);
     elNew.setAttribute('DTS',mDTS);
@@ -1040,9 +1044,10 @@ function MacroBubble(el){
     let mDTS = mTag.getAttribute("dts");
     let mHTML = "";
     let bFirst = (mTag.parentNode.querySelector('bubble')==mTag);
+    let mParentTag = mTag.parentNode.tagName;
     if(bFirst && mTag.parentNode.hasAttribute('topic')){
       mHTML = RenderEnter(mTag);
-    }else if(bFirst && mTag.parentNode.tagName=="SPAN"){
+    }else if(bFirst && (mParentTag=="SPAN" || mParentTag=="DIV")){
       mHTML = RenderStart(mTag);
     }else{
       mHTML = RenderBubble(mTag);
@@ -1060,19 +1065,21 @@ function RenderStart(el){
   // 20240420: StarTree: Renders a bubble in the a traditional START format.
   var mHTML="";
   // STEP: Show the Avatar with optional EXP icon.
-  var mSPK = Default(el.getAttribute("SPK"),"???");
+  var mSPK = Default(el.getAttribute("SPK"),"");
   var mEXP = RenderExp(el);
   var mIcon = Default(el.getAttribute("Icon"),"⭐");
-  mHTML = "<div class='mbav50r mb" + mSPK + "'>";
-  if(mEXP){
-    mHTML += mIcon;
-    if(mEXP !=1){
-      mHTML += "<span style='color:white;margin-left:-10px'><b><small><sub>" + mEXP +"</sub></small></b></span>";
+  if(NotBlank(mSPK)){
+    mHTML += "<div class='mbav50r mb" + mSPK + "'>";
+    if(mEXP){
+      mHTML += mIcon;
+      if(mEXP !=1){
+        mHTML += "<span style='color:white;margin-left:-10px'><b><small><sub>" + mEXP +"</sub></small></b></span>";
+      }
     }
+    mHTML += "</div>";
   }
-  mHTML += "</div>";
   mHTML += "<div class='mbpdc'>" + el.innerHTML + "</div>";
-  mHTML += "<hr class='mbCB'>";
+  mHTML += "<div class='mbCL'></div>";
   return mHTML;
 }
 function RenderEnter(el){
@@ -2970,15 +2977,16 @@ function ScrollIntoView(el){
   // 20231118: StarTree: Trying to fix the scrolling issue on phones
   // el is the board. But before scrolling the board into view, first scroll the panel into view.
   var mPanel = SearchPS(el,"panel");
-  mPanel.style.scrollMarginTop = "100px";
-  mPanel.scrollIntoView(true);
+  try{
+    mPanel.style.scrollMarginTop = "100px";
+    mPanel.scrollIntoView(true);
+    
+    //mPanel.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
   
-  //mPanel.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
-
-  //el.style.scrollMargin = "10px";
-  el.scrollIntoView(true);
-  //el.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
-
+    //el.style.scrollMargin = "10px";
+    el.scrollIntoView(true);
+    //el.scrollIntoView({ behavior: "smooth", block: "start", inline: "start" });
+  }catch(error){}
 }
 
 function QSL(el,iQuery){
@@ -3003,13 +3011,15 @@ function QSL(el,iQuery){
 }
 function QSLSortBy(el,iAttribute){
   // 20240413: StarTree: This sort function assumes that the attribute is already set.
+  // 20240420: StarTree: If the sort type had just change into this type, just show the stats without sorting.
   var elContainer = QSLGetContainer(el);
-  QSLSortReverseIfSet(elContainer,iAttribute);
+  var bReversed = QSLSortReverseIfSet(elContainer,iAttribute);
   var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
   elEntries.forEach((item)=>{
-    item.style.order = item.getAttribute(iAttribute);
-    //item.firstElementChild.setAttribute('title',item.style.order);
-    item.firstElementChild.innerHTML = item.style.order;
+    item.firstElementChild.innerHTML = item.getAttribute(iAttribute);
+    if(bReversed){
+       item.style.order = item.firstElementChild.innerHTML;
+    }    
   });
 }
 function QSLSortByDate(el){
@@ -3038,10 +3048,9 @@ function QSLSortByName(el){
 }
 function QSLSortReverseIfSet(elContainer,iSortBy){
   // 20240408: Ledia: Set the sortby attribute.
-  // .. If the attribute is the same, reverse the order.
-  var mSame = false;
+  // .. If the attribute is different, set the attribute and return false.
+  // .. If the attribute is the same, reverse the order and return true.
   if(elContainer.getAttribute('sortby')==iSortBy){
-    mSame = true;
     if(elContainer.style.flexDirection == 'column'){
       elContainer.style.flexDirection = 'column-reverse';
       elContainer.querySelectorAll(".mbSearch").forEach((item2)=>{
@@ -3055,8 +3064,9 @@ function QSLSortReverseIfSet(elContainer,iSortBy){
     }
   }else{
     elContainer.setAttribute('sortby',iSortBy);
+    return false;
   }
-  return mSame;
+  return true;
 }
 function QSLGetContainer(el){
   // 20240407: Ledia: Return the QSL container that has the mbSearch class.
@@ -4525,7 +4535,7 @@ function RollCallList(el){
   // 20230202: StarTree: For Roll Call
   var elContainer = el.parentNode.nextElementSibling;
   var mRosterLen = Roster(-1);
-  var mContent = "<hr><div style='margin:50px -10px;'>";
+  var mContent = "<hr><div style='margin:5px -10px;'>";
   var bCookieEnabled = (elContainer.getAttribute('CookieEnabled')=="true");
   var mAvStr = "";
   for(var i=0;i<mRosterLen;i++){
@@ -4686,6 +4696,126 @@ function ShowNext(el) {
   //20230220: Fina: Fixed the double click bug with getComputedStyle
   var eTar = el.nextElementSibling;
   ShowEl(eTar);
+}
+function ShowButtons(el){
+  //20240421: Arcacia Show all button class objects that are immediate children
+  var elButtons = el.querySelectorAll('[BB]');
+  var mNumHidden = 0;
+  // Match the visibility status of the FP
+  elButtons.forEach((mTag)=>{
+    let elFP = mTag.nextElementSibling.querySelector('[FP]');
+    
+    if(elFP.classList.contains('mbhide')){
+      if(mTag.innerHTML=="🎧"){
+        mTag.style.opacity = 0.1;
+      }else{
+        mTag.style.opacity = 0.05;
+      }
+      
+      //mTag.classList.add('mbhide');
+      mNumHidden ++;
+    }else{
+      mTag.style.opacity = 1;
+    }
+    mTag.classList.remove('mbhide');
+  });
+  /*if(mNumHidden == elButtons.length){
+    elButtons.forEach((mTag)=>{
+      mTag.classList.add('mbhide');
+    });
+  }*/
+}
+function HideAllFP(){
+  // 20240421: Arcacia: Hide all FP.
+  // .. Only hide the ones over half a screen tall.
+  var elFPs = document.querySelectorAll('[FP]');
+  elFPs.forEach((mTag)=>{
+    if(screen.availHeight< 2*$(mTag).height()){
+      mTag.classList.add('mbhide');
+    }    
+  });
+}
+function BringToFrontFP(el){
+  // 20240421: Arcacia: Bring the FP to front.
+  var elFPs = document.querySelectorAll('[FP]');
+  var elFP = SearchPS(el,'FP');
+  var mMax = elFPs.length;
+  elFPs.forEach((mTag)=>{
+    if(mTag==elFP ){
+      mTag.style.zIndex = mMax;
+      mTag.style.opacity = "1";
+    }else{
+      mTag.style.zIndex = Math.max(0,mTag.style.zIndex-1);
+      mTag.style.opacity = "0.9";
+    }
+  });
+}
+function ShowNextFP(el,mDTS){
+  // 20240420: StarTree: Show the FB within the next element.
+  // Algorithm: Only one FP is show at a time.
+  var elFPs = document.querySelectorAll('[FP]');
+  var elFP = el.nextElementSibling.querySelector('[FP]');
+  var mMax = elFPs.length;
+  // STEP: Load the content as needed.
+  if(NotBlank(mDTS) && elFP.classList.contains('mbhide') && elFP.innerHTML==""){
+    elFP.setAttribute('FP',mDTS);
+    ReloadFP(elFP);
+  }
+
+  // STEP: Hide all other FP. Also hide this FP if it is showing.
+  // ALT: If the FP is already showing, hide it. Else, set its z-index to 1 and the others to 0.
+  elFPs.forEach((mTag)=>{
+    if(mTag==elFP ){
+      if(mTag.classList.contains('mbhide')){
+        mTag.classList.remove('mbhide');
+        mTag.style.zIndex = mMax;
+        mTag.style.opacity = "1";
+      }else if(mTag.style.zIndex == mMax){
+        mTag.classList.add('mbhide');
+      }else{
+        mTag.style.zIndex = mMax;
+        mTag.style.opacity = "1";
+      }
+    }else{
+      mTag.style.zIndex = Math.max(0,mTag.style.zIndex-1);
+      mTag.style.opacity = "0.5";
+    }
+  });
+}
+function ReloadFP(el){
+  // 20240420: Skyle: Reload an FP that is in display.
+  var elFP = el;
+  if(!elFP.hasAttribute('FP')){
+    elFP = SearchPS(el,'FP');
+  }  
+  elFP.innerHTML = "<big>⏳<big>"
+
+  var mDTS = elFP.getAttribute('FP');
+
+  // 20240421: Arcacia: Special handling for the Feedback Form.
+  if(mDTS=="Feedback"){
+    var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
+    var mHTML = "<a class='mbbutton' onClick='HideParent(this)' style='float:right' title='Close'>🍮</a>";
+    mHTML += "💌 <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a><span><hr>";
+    mHTML += "<iframe src='" + mInput + "' title='Google Form' style='border:none;width:100%;height:45vh' allow='clipboard-read; clipboard-write'></iframe></span>";
+    el.innerHTML = mHTML;
+
+    return;
+  }
+
+  $(document).ready(function(){
+    for(let i=1; i<=ArchiveNum();i++){
+      let elCache = document.createElement("div");
+      $(elCache).load(ArchiveIndex(i) + " [DTS="+mDTS +"]", function(){
+        if(NotBlank(elCache.innerHTML)){
+          Macro(elCache);
+          elFP.innerHTML = elCache.innerHTML;
+          elFP.setAttribute('FP',mDTS);
+        }
+        elCache.remove();
+      });
+    }
+  });
 }
 function ShowL(el){
   // 20230314: Arcacia: Created for Whose turn development area
@@ -4953,9 +5083,9 @@ function NMChatSec(el,iSecIcon){
     mHTML += "\n\t<div class='mbpdc'><b>First</b> word</div><hr class='mbCL mbhr'>\n";
   }
   if(IsMasteryIcon(iSecIcon)){
-    mHTML += "\t<ol></ol>\n\t<ul></ul>\n";
+    mHTML += "<hr class='mbCL mbhr'>\n\t<ol></ol>\n\t<ul></ul>\n";
   }else{
-    mHTML += "\n";
+    mHTML += "<hr class='mbCL mbhr'>\n";
   }
 
   mHTML+="</topic>";
@@ -4969,7 +5099,15 @@ function IsMasteryIcon(iIcon){
 function NMLI(el){
   // 20240417: StarTree
   // 20240420: StarTree: Changing to Bullet tag.
-  var mHTML = "<bullet title='New Bullet'>\n</bullet>";
+  var elControl = SearchPS(el,"board");
+  var mIcon = elControl.querySelector('[NM-Icon]').value;
+  var mHTML = "";
+  if(NotBlank(mIcon)){
+    mHTML = "<bullet icon='"+mIcon+"' title='New Bullet'>\n</bullet>";
+  }else{
+    mHTML = "<bullet title='New Bullet'>\n</bullet>";
+  }
+  
   navigator.clipboard.writeText(mHTML);
   return mHTML;
 }
@@ -5053,7 +5191,7 @@ function NMNode(el,bChatChannel){
     //mHTML += "\t\t<div class='mbav50r mbCB mb"+mAuthor+"'></div>\n";
     //mHTML += "\t\t<div class='mbpdc'><b>First</b> word</div><hr class='mbCB mbhr'>\n";
     mHTML += "\n";
-    mHTML += "\t\t<hr class='mbCB'><mbKudo></mbKudo>\n";
+    mHTML += "\t\t<mbKudo></mbKudo>\n";
   }
   mHTML += "\t</content>\n";
   if(!bChatChannel){

@@ -28,20 +28,41 @@
       
       <small style="font-size: 10px;">
         <a title="Website Updates" href="../?id=P202303052122" style="color:white;" onclick="BoardLoadPF(this,'202303052122');return false">
-          20240420 Topic Tag
+          20240421 Float Panel
         </a>
       </small>
     </div>
     <hide>Arcacianism | Arcacian Principle | Let people help each other and reward those who do. | Peacemaker | Peace Paradigm Ranking</hide>
     
   </div>
-  <div id="MainArea" main class="flex" style="padding-bottom:38px;padding-top:38px;justify-content:center;"></div>
-  <div class="footer">
-       
-    <a class="mbbutton" onClick="ShowNext(this)" title="Music Player" >🎧</a>
-    <span class="mbhide">
-      <div style="position:absolute;bottom:36px;width:100%;z-index:100;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
-        <div class="mbscroll" style="text-align:center;color:saddlebrown;margin:0px;pointer-events: auto;">
+  <div id="MainArea" main class="flex" style="padding-bottom:27px;padding-top:35px;justify-content:center;"></div>
+  <div class="footer" onclick="ShowButtons(this)">
+
+    
+    <a BB class="mbbutton mbhide" onClick="ShowNextFP(this,'90000000000000')" title="Quest Board" >🔔</a>
+    <span>
+      <div style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;width:100%;max-width: 350px;"></div>
+      </div>
+    </span>
+    
+    <a BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240421014400')" title="Roll call" >📯</a>
+    <span>
+      <div style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 75vh; overflow-y:auto; max-width: 450px;"></div>
+      </div>
+    </span>
+    <a BB class="mbbutton mbhide" onClick="ShowNextFP(this,'80000000000000')" title="Feedback" >🗂️</a>
+    <span>
+      <div style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:right;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:350px;width:100%"></div>
+      </div>
+    </span>
+    
+    <button BB class="mbbutton " onClick="ShowNextFP(this)" title="Music Player" >🎧</button>
+    <span>
+      <div class="mbhide" style="position:absolute;bottom:36px;width:100%;;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" FP onclick="BringToFrontFP(this);return false;" style="z-index:200;text-align:center;color:saddlebrown;pointer-events: auto;max-height: 50vh;overflow-y:auto;max-width:500px;">
           <div id="MBBGM" ></div><!--Video Display-->
           <div control>
             <div class="mbpuzzle" style="text-align: center;margin:0px">
@@ -128,6 +149,28 @@
         </div>
       </div>
     </span>
+
+    
+      
+    <a BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240330201200')" title="Notepad" >📋</a>
+    <span>
+      <div style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:700px;width:100%"></div>
+      </div>
+    </span>
+    <a BB class="mbbutton mbhide" onClick="ShowNextFP(this,'Feedback')" title="Feedback" >💌</a>
+      <div style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width: 700px;width:100%"></div>
+      </div>
+    </span>
+    <a BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240416213800')" title="Node Maker Lite" >🥧</a>
+    <span>
+      <div style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:right;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;max-width:350px; overflow-y:auto"></div>
+      </div>
+    </span>  
+    
+    
     
   </div>
 
@@ -150,7 +193,7 @@
           <a class="mbbutton" onClick="BoardLoad(this,'202207242047',false, true);HC(this);" title="Roll Call">📯 Roll Call</a><br>
           <a class="mbbutton" onClick="BoardLoad(this,'202301251008',false, true);HC(this);" title="Scoreboard">👑 Scoreboard</a><br>
           <a class="mbbutton" onClick="BoardLoad(this,'800000000000',false, true);HC(this);" title="Sitemap/Index">🗂️ Sitemap</a><br>
-          <a class="mbbutton" style="float:right" onClick="BoardLoad(this,'202404162138',false, true);HC(this);" title="Node Maker">✏️</a>
+          <!--<a class="mbbutton" style="float:right" onClick="BoardLoad(this,'202404162138',false, true);HC(this);" title="Node Maker">✏️</a>-->
           <a class="mbbutton" onClick="BoardLoad(this,'202403302012',false, true);HC(this);" title="Notepad">📋 Notepad</a><br>
           <hr>
           <div >

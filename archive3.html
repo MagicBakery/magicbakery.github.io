@@ -1,6 +1,5 @@
 <div id="P800000000000" class="mbscroll" data-quest data-upgrade data-minor>
-  <content>
-    <div class="mbpdc"></div><div style="clear:left"></div>
+  <content DTS="80000000000000">
     <div control>
       
       <input type="text" onclick="TextSearchPN(this)" onkeyup="TextSearchPNEV(event,this)" placeholder="Search..." title="Input a keyword" style="width:150px">
@@ -506,8 +505,8 @@
   <span class="mbDayContent" top >
     <macro>{"cmd":"PIN2","node":"900000000000","music":""}</macro>
     <div class="mbCB"></div><hr>
-    <div mquerystring="[data-pin]">
-      <div data-pin>
+    <div mquerystring="[data-pin]" DTS="90000000000000">
+      <div data-pin >
         <div questboard style="margin:0px -7px -13px -7px">
           <img width='100%' src="https://github.com/MagicBakery/Images/blob/main/QuestBoard_20221015_Top2.png?raw=true" onclick="RefreshPS(this)" title="Refresh" class="mbpointer">
           <div class="mbscroll" style="margin:-5% 5% -5% 5%;border-radius: 0px;border:5px solid saddlebrown;padding:3% 10px 6% 10px">
@@ -622,7 +621,7 @@
                 </div><!--@Cardinal / Cardinal-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202301140917|🍯</lnk></span>
-                  <macro>{"guildlog":"20","rank":"A","updates":"3","node":"202208181042","author":"Arcacia","chapter":"@Carrot","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"20","rank":"A","updates":"4","node":"202208181042","author":"Arcacia","chapter":"@Carrot","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"9","icon":"🧭","node":"202207282137","title":"Moral Compass","cmd":"quest"}</macro>
@@ -630,6 +629,7 @@
                     <macro>{"log":"","priority":"4","icon":"👑","node":"","title":"Posting Gallery","info":"Gallery for things that are posted.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"9","icon":"🥧","node":"202302102154","title":"Whose turn to pay","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankA"></span>
+                    <macro>{"log":"0420","priority":"0","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"0419","priority":"9","icon":"❤️","node":"202404192053","title":"Mediation","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"0407","priority":"1","icon":"🌺","node":"202207112218","title":"Search Visibility","info":"Follow up with discussion. Fix Index Errors","cmd":"quest"}</macro>
@@ -4580,7 +4580,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240417')">17<br><div class="mbavem mbBlack"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240418')">18<br><div class="mbavem mbLedia"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240419')">19<br><div class="mbavem mbBlack"></div></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240420')">20<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240420')">20<br><div class="mbavem mbStarTree"></div></td>
               </tr>
               <tr>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240421')">21<br>&nbsp;</td>
@@ -4636,7 +4636,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240417')">17<br>🐣</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240418')">18<br>💗</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240419')">19<br>🐣</td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240420')">20<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240420')">20<br>🏹</td>
               </tr>
               <tr>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240421')">21<br>&nbsp;</td>
@@ -20322,12 +20322,17 @@ data-DXP-WIN-Casey
 </div><!--Notepad-->
 <div id="P202403302012" class="mbscroll" date='20240330' time='2012' data-gadget>
   <content>
-    <div gadget>
-      <div control>
-        <button class="mbbutton" title="Use Cookie" style="float:right" onclick="TextAreaUseCookie(this)">🍪</button>
-      </div>
-      <textarea textarea style="width:100%;height:200px" onkeyup="TextAreaSave(this)"></textarea>  
-    </div><!--Gadget-->
+    <topic DTS='20240421031136' Icon='⚙️' title='Gadget GUI'><hr class='mbCL mbhr'>
+      <div gadget DTS="20240330201200">
+        <a class="mbbutton" onclick="ShowNext(this)">📋 Notepad</a>
+        <span>
+        <span control>
+          <button class="mbbutton" title="Use Cookie" style="float:right" onclick="TextAreaUseCookie(this)">🍪</button>
+        </span>
+        <textarea textarea style="width:100%;height:200px" onkeyup="TextAreaSave(this)"></textarea>  
+        </span>
+      </div><!--Gadget--> 
+    </topic>
   </content>
   <ref></ref>
   <node>{"id":"202403302012","parentid":"202303052122","parentname":"Website Upgrade","icon":"📋","title":"Notepad","subtitle":"Tool","img":"https://cdn.pixabay.com/photo/2016/11/22/23/09/fountain-pen-1851096_640.jpg","music":"","author":"StarTree","description":"","card-text":""}</node>
@@ -22966,7 +22971,7 @@ data-DXP-WIN-Casey
 </div><!-- STATUS -->
 <div id="P202404152156" date='20240415' time='2156' data-chat data-202208172056 data-happy data-202404141808>
   <content>
-    <bubble DTS='20240420152928' SPK='Ivy' EXP Icon='⭐'><b>The</b> bubble makes it easy to add comments to a node, but in general we shouldn't "discuss" at a node because other people can't chime in and it would make the node too large.</bubble>
+    <bubble SPK='Ivy' EXP Icon='⭐'><b>The</b> bubble makes it easy to add comments to a node, but in general we shouldn't "discuss" at a node because other people can't chime in and it would make the node too large.</bubble>
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)"> What to do instead</div><hide><hr>
   <div></div><div class="mbav50r mbCB mbIvy"></div><b>Ivy:</b> Instead, you should just start a chat/channel node to capture the messages of the day.
   <hr class="mbCB">
@@ -23161,7 +23166,7 @@ data-DXP-WIN-Casey
         <div class="mbpdc">This node has buttons that copy common node structures to the clipboard!</div><div style="clear:left"></div>
         <div class="mbCB"></div>
       </hide>
-    </div><!--About-->
+    </div><!--About-->    
     <div class="mbscroll">
       <div class="mbbutton" onclick="ShowNext(this)">🐤 EXP / Icons</div>
       <hide><hr>
@@ -23172,6 +23177,7 @@ data-DXP-WIN-Casey
         <a class="mbbutton" onclick="NMBubble(this,'💗')">💗</a>
         <a class="mbbutton" onclick="NMBubble(this,'🐾')">🐾</a>
         <a class="mbbutton" onclick="NMBubble(this,'🎯')">🎯</a>
+        <a class="mbbutton" onclick="NMBubble(this,'🎪')">🎪</a>        
         <a class="mbbutton" onclick="NMBubble(this,'⭐')">⭐</a>
         <a class="mbbutton" onclick="NMBubble(this,'⚡')">⚡</a>
         <a class="mbbutton" onclick="NMBubble(this,'📯')">📯</a>
@@ -23186,8 +23192,7 @@ data-DXP-WIN-Casey
         <a class="mbbutton" onclick="NMBubble(this,'🍮')">🍮</a>
         <a class="mbbutton" onclick="NMBubble(this,'💡')">💡</a>
         <a class="mbbutton" onclick="NMBubble(this,'🌾')">🌾</a>
-        <a class="mbbutton" onclick="NMBubble(this,'🍍')">🍍</a>
-        <a class="mbbutton" onclick="NMBubble(this,'🎪')">🎪</a>
+        <a class="mbbutton" onclick="NMBubble(this,'🍍')">🍍</a>        
         <a class="mbbutton" onclick="NMBubble(this,'🏛️')">🏛️</a>
         <a class="mbbutton" onclick="NMBubble(this,'🚀')">🚀</a>
         <a class="mbbutton" onclick="NMBubble(this,'🎲')">🎲</a>
@@ -23293,6 +23298,104 @@ data-DXP-WIN-Casey
       </div>
     </div>
   </card>
+  <resource DTS="20240416213800" Reserved Board style="font-size: 16px;line-height: 20px;text-align: justify; max-width:250px;">
+    <span class="mbbutton" title="Refresh" onclick="ReloadFP(this)">🥧</span>
+    <lnk>202404162138|Node Maker</lnk>
+    <hr>
+    <a class="mbbutton" onclick="NMSetParent(this,'202209192238','Paladin','⚔️')">⚔️ </a>
+    <a class="mbbutton" onclick="NMSetParent(this,'202207252131','Cleric','❤️')">❤️</a>
+    <a class="mbbutton" onclick="NMSetParent(this,'202209031718','Herald','📯')">📯</a>
+    <a class="mbbutton" onclick="NMSetParent(this,'202207170956','Alchemist','🍀')">🍀</a>
+    <a class="mbbutton" onclick="NMSetParent(this,'202209142228','Oracle','🔮')">🔮</a> 
+    <a class="mbbutton" onclick="NMSetParent(this,'202209082209','Magician','🎩')">🎩</a>
+    <a class="mbbutton" onclick="NMSetParent(this,'202207131009','Game','🎲')">🎲</a>
+    <a class="mbbutton" onclick="NMSetParent(this,'202210151642','Book','📗')">📗</a>
+    <a class="mbbutton" onclick="NMSetParent(this,'202307231022','TSN','☎️')">☎️</a>
+    <a class="mbbutton" onclick="NMSetParent(this,'202307231022','Case','📂')">📂</a>
+    <br>
+
+    <input NM-ParentID type="text" placeholder="Parent ID" title="Parent ID" style="width:100px;text-align: center;">
+    <input NM-ParentName type="text" placeholder="Parent Name" title="Parent Name" style="width:150px;text-align: center;"><br>
+
+    <input NM-DTS type="text" placeholder="Node ID" title="Timestamp" style="width:100px;text-align: center;">
+    <input NM-Title type="text" placeholder="Title" title="Title" style="width:150px;text-align: center;">
+    <br>
+
+    <input NM-SPK type="text" placeholder="Author" title="Speaker" style="width:75px;text-align: center;">
+    <input NM-Tags type="text" placeholder="Tags" title="Tags" style="width:175px;text-align: center;">
+    <br>
+
+    <input NM-Icon type="text" placeholder="Icon" title="Icon" style="width:50px;text-align: center;">&nbsp;
+    <a class="mbbutton" onclick="NMBubble(this,'',true)" title="Make Bubble">Bubble</a> |
+    <a class="mbbutton" onclick="NMBubble(this)" title="Make EXP Bubble">EXP</a> |
+    <a class="mbbutton" onclick="NMChatSec(this)" title="Make Topic Section">Topic</a> |
+    <a class="mbbutton" onclick="NMLI(this)" title="Make List Item">List</a>
+    <br>
+
+    <input NM-URL type="text" placeholder="URL" title="Input a keyword" style="width:50px;text-align: center;">&nbsp;
+    <a class="mbbutton" onclick="NMURL(this)" title="Make URL Macro">Link</a> |
+    <a class="mbbutton" onclick="NMCard(this)" title="Make Card">Card</a> |
+    <a class="mbbutton" onclick="NMNode(this)" title="Make Node">Node</a> |
+    <a class="mbbutton" onclick="NMNode(this,true)" title="Make Chat">Chat</a>
+    
+    <br>    
+    <a class="mbbutton" onclick="NMChatSec(this,'🎪')" title="Quest Section">🎪</a>
+    <a class="mbbutton" onclick="NMChatSec(this,'🌱')" title="Initiate Section">🌱</a>
+    <a class="mbbutton" onclick="NMChatSec(this,'🐤')" title="Beginner Section">🐤</a>
+    <a class="mbbutton" onclick="NMChatSec(this,'🕊️')" title="Practitioner Section">🕊️</a>
+    <a class="mbbutton" onclick="NMChatSec(this,'🦉')" title="Instructor Section">🦉</a>
+    <a class="mbbutton" onclick="NMChatSec(this,'🦅')" title="Master Section">🦅</a>
+    <a class="mbbutton" onclick="NMBubble(this,'📌')">📌</a>
+    <a class="mbbutton" onclick="NMBubble(this,'💗')">💗</a>
+    <a class="mbbutton" onclick="NMBubble(this,'⭐')">⭐</a>
+    <a class="mbbutton" onclick="NMBubble(this,'✅')">✅</a>
+    <hide style="max-width:250px;">
+      <a class="mbbutton" onclick="NMBubble(this,'📌')">📌</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🧰')">🧰</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🎀')">🎀</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🌺')">🌺</a>
+      <a class="mbbutton" onclick="NMBubble(this,'💗')">💗</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🐾')">🐾</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🎯')">🎯</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🎪')">🎪</a>        
+      <a class="mbbutton" onclick="NMBubble(this,'⭐')">⭐</a>
+      <a class="mbbutton" onclick="NMBubble(this,'⚡')">⚡</a>
+      <a class="mbbutton" onclick="NMBubble(this,'📯')">📯</a>
+      <a class="mbbutton" onclick="NMBubble(this,'⚖️')">⚖️</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🧹')">🧹</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🥨')">🥨</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🔔')">🔔</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🛎️')">🛎️</a>
+      <a class="mbbutton" onclick="NMBubble(this,'👑')">👑</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🥘')">🥘</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🍯')">🍯</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🍮')">🍮</a>
+      <a class="mbbutton" onclick="NMBubble(this,'💡')">💡</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🌾')">🌾</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🍍')">🍍</a>        
+      <a class="mbbutton" onclick="NMBubble(this,'🏛️')">🏛️</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🚀')">🚀</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🎲')">🎲</a>
+      <a class="mbbutton" onclick="NMBubble(this,'⚔️')">⚔️</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🏹')">🏹</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🏕️')">🏕️</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🐸')">🐸</a>
+      <a class="mbbutton" onclick="NMBubble(this,'♻️')">♻️</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🍀')">🍀</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🏅')">🏅</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🔍')">🔍</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🌊')">🌊</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🔮')">🔮</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🎓')">🎓</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🗃️')">🗃️</a>
+      <a class="mbbutton" onclick="NMBubble(this,'💼')">💼</a>
+      <a class="mbbutton" onclick="NMBubble(this,'🎻')">🎻</a>
+    </hide>
+    <hr class="mbpointer" onclick="ShowPrev(this)">
+    
+
+
+  </resource>
   <ref></ref>
   <node>{"id":"202404162138","parentid":"202212040850","parentname":"Template","icon":"🐣","title":"Node Maker","subtitle":"Gadget","kids":"","img":"https://cdn.pixabay.com/photo/2014/05/20/21/25/bird-349035_640.jpg","music":"","author":"StarTree","description":"","card-text":""}</node>
 </div><!--Node Maker-->
@@ -24166,24 +24269,90 @@ data-DXP-WIN-Casey
       <bubble DTS='20240420144411' SPK='StarTree' EXP Icon='⭐'>Done!</bubble>
       <bubble DTS='20240420145030' SPK='Vivi	' EXP Icon='📌'>StarTree you may now take a break.</bubble>
       <bubble DTS='20240420145056' SPK='StarTree' EXP Icon='🕊️'>Wee~~!</bubble>
-      <bubble DTS='20240420150207' SPK='StarTree' EXP=3 Icon='🕊️'>Modifying MacroBubble. Adding RenderStart. Modying NMNode. Now the initial dropcap section is also just a bubble!</bubble>
+      <bubble DTS='20240420150207' SPK='StarTree' EXP=3 Icon='🕊️'>Modifying MacroBubble. Adding RenderStart. Modifying NMNode. Now the initial drop cap section is also just a bubble!</bubble>
       <bubble DTS='20240420153448' SPK='Skyle' EXP=5 Icon='🌾'>Fixed 18 formatting issues due to the change.</bubble>
     </topic>
-    
-
-		<hr class='mbCB'><mbKudo></mbKudo>
+    <topic DTS='20240420220340' Icon='🎯' title='Float Panel'>
+      <bubble DTS='20240420220415' SPK='Ivy' EXP Icon='🎯'>The priorities has been adjusted. Please add a button to open the node maker at the float panel.</bubble>
+      <bubble DTS='20240420220825' SPK='StarTree' EXP=3 Icon='⭐'>Roger! Investigating. Adding ShowNextFP. Testing.</bubble>
+      <bubble DTS='20240420234445' SPK='Skyle' EXP=4 Icon='🌾'>Adding ReloadFP. Testing. Adding attribute Reserved. Testing. The original layout at node maker is too bulky for the float panel, so another layout needs to be designed.</bubble>
+      <bubble DTS='20240421005554' SPK='StarTree'>😭</bubble>
+      <bubble DTS='20240421012903' SPK='Arcacia' EXP="9" Icon='💗'>Adding BringToFrontFP. Adding the float panel for Roll call. Adding HideAllFP. Testing. Added HideAllFP. Added float panel for Notepad. Modifying ReloadFP, IFrameFeedback. Adding Quest board to the float panel.</bubble>
+      <bubble DTS='20240421045413' SPK='Arcacia' EXP=3 Icon='🎀'>Beautifying. Arranging the bottom icons in groups of three. Organized Left, Center, Right.</bubble>
+      <bubble DTS='20240421053213' SPK='Arcacia' EXP Icon='🎀'>Adding ShowButtons.</bubble>
+      <hr>
+      <mbComplete>@Carrot is now Rank A4.</mbComplete>
+    </topic>
+    <mbKudo></mbKudo>
 	</content>
 	<ref></ref>
-	<node>{"id":"202404201142","parentid":"202404162138","parentname":"Node Maker","icon":"🏹","title":"Node Maker Upgrades","subtitle":"Subtitle","kids":"","img":"","music":"","author":"Ivy","prev":"202404172318","next":"","participants":"Ivy, StarTree, Skyle, Vivi"}</node>
+	<node>{"id":"202404201142","parentid":"202404162138","parentname":"Node Maker","icon":"🏹","title":"Node Maker Upgrades","subtitle":"Subtitle","kids":"","img":"","music":"","author":"Ivy","prev":"202404172318","next":"","participants":"Ivy, StarTree, Skyle, Vivi, Arcacia"}</node>
 </div><!--Node Maker Upgrades-->
 
 <div date='20240420' time='2359' data-status>
+  <macro>{"cmd":"daisy2","issues":"6","quests":"1134","activities":[
+    {"ch":"32","rank":"A","updates":"3","last":"20240403"},
+    {"ch":"7","rank":"A","updates":"4","last":"20240406"},
+    {"ch":"12","rank":"B","updates":"3","last":"20240406"},
+    {"ch":"33","rank":"S","updates":"2","last":"20240408"},
+    {"ch":"13","rank":"C","updates":"2","last":"20240411"},
+    {"ch":"26","rank":"A","updates":"3","last":"20240411"},
+    {"ch":"35","rank":"A","updates":"4","last":"20240411"},
+    {"ch":"14","rank":"A","updates":"4","last":"20240413"},
+    {"ch":"25","rank":"A","updates":"4","last":"20240414"},
+    {"ch":"31","rank":"C","updates":"2","last":"20240414"},
+    {"ch":"34","rank":"A","updates":"4","last":"20240415"},
+    {"ch":"5","rank":"B","updates":"3","last":"20240415"},
+    {"ch":"17","rank":"S","updates":"2","last":"20240416"},
+    {"ch":"28","rank":"A","updates":"2","last":"20240416"},
+    {"ch":"11","rank":"A","updates":"4","last":"20240417"},
+    {"ch":"15","rank":"A","updates":"4","last":"20240417"},
+    {"ch":"30","rank":"A","updates":"4","last":"20240418"},
+    {"ch":"24","rank":"A","updates":"2","last":"20240418"},
+    {"ch":"19","rank":"B","updates":"2","last":"20240418"},
+    {"ch":"20","rank":"A","updates":"4","last":"20240419"},
+    {"ch":"21","rank":"A","updates":"4","last":"20240419"},
+    {"ch":"16","rank":"B","updates":"2","last":"20240419"},
+    {"ch":"29","rank":"A","updates":"4","last":"20240419"},
+    {"ch":"23","rank":"A","updates":"3","last":"20240419"},
+    {"ch":"22","rank":"C","updates":"2","last":"20240420"},
+    {"ch":"18","rank":"B","updates":"3","last":"20240420"},
+    {"ch":"27","rank":"A","updates":"3","last":"20240420"}
+    ],"players":"Ivy, StarTree, Skyle, Vivi, Arcacia","merits":"Ivy","recognitions":"","kudos":"Ivy, StarTree, Skyle, Vivi, Arcacia","awards":"3B, Albatross, Arcacia, Black, Cardinal, Evelyn, LRRH, Natalie, P4, Skyle, StarTree, Sylvia, Tanya, V, Vivi","top":[
+    {"name":"StarTree","score":"43"},
+    {"name":"Skyle","score":"38"},
+    {"name":"Arcacia","score":"21"},
+    {"name":"Ivy","score":"19"},
+    {"name":"Vivi","score":"10"},
+    {"name":"Black","score":"9"},
+    {"name":"LRRH","score":"8"},
+    {"name":"Natalie","score":"6"},
+    {"name":"Albatross","score":"5"},
+    {"name":"V","score":"5"},
+    {"name":"Sylvia","score":"5"},
+    {"name":"P4","score":"5"},
+    {"name":"Tanya","score":"5"},
+    {"name":"Evelyn","score":"5"},
+    {"name":"Cardinal","score":"4"},
+    {"name":"Kisaragi","score":"4"},
+    {"name":"3B","score":"4"},
+    {"name":"James","score":"3"},
+    {"name":"Helen","score":"2"},
+    {"name":"Ledia","score":"2"},
+    {"name":"Fina","score":"1"},
+    {"name":"Casey","score":"1"},
+    {"name":"Sasha","score":"1"},
+    {"name":"Zoey","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div date='20240421' time='2359' data-status>
   <macro>{"cmd":"daisy2","issues":"6","quests":"1146","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
     
   ]}</macro>
 </div><!-- STATUS -->
+
 <!--
 <card>
   <a href="https://github.com/MagicBakery/Images/blob/main/Slide_28.png?raw=true" target="_blank">
