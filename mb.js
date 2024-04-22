@@ -976,7 +976,7 @@ function MacroBullet(el){
   mTags.forEach((mTag)=>{    
     let mDTS = mTag.getAttribute("dts");
     let mTitle = Default(mTag.getAttribute("title"),"New Bullet");
-    let mIcon = mTag.getAttribute("icon");
+    let mIcon = Default(mTag.getAttribute("icon"),"");
     let mHTML = "<span class='mbbutton' onclick='ShowNextInline(this)'>";
     mHTML += mIcon + " " + mTitle + "</span><hide>";
     mHTML += mTag.innerHTML + "</hide>";
@@ -1025,7 +1025,7 @@ function MacroTopic(el){
       mClass = "mbpuzzle";
     }
     mHTML = "<div class='mbbutton' onclick='ShowNext(this)'>";
-    mHTML += mIcon + " " + mTitle + "</div><hide topic><hr>";
+    mHTML += mIcon + " " + mTitle + "</div><hide topic><hr class='mbhr'>";
     mHTML += mTag.innerHTML + "<div class='mbCB'></div></hide>";
     let elNew = document.createElement('div');
     elNew.classList.add(mClass);
@@ -1047,7 +1047,7 @@ function MacroBubble(el){
     let mParentTag = mTag.parentNode.tagName;
     if(bFirst && mTag.parentNode.hasAttribute('topic')){
       mHTML = RenderEnter(mTag);
-    }else if(bFirst && (mParentTag=="SPAN" || mParentTag=="DIV")){
+    }else if(bFirst && (mParentTag=="SPAN" || mParentTag=="DIV") && (!mTag.parentNode.classList.contains("mbpdc"))){
       mHTML = RenderStart(mTag);
     }else{
       mHTML = RenderBubble(mTag);
@@ -1098,7 +1098,7 @@ function RenderEnter(el){
   }
   mHTML += "</div>";
   mHTML += "<b>" + mSPK + ":</b> " + el.innerHTML;
-  mHTML += "<hr class='mbCB'>";
+  //mHTML += "<hr class='mbCB'>";
   return mHTML;
 }
 function RenderExp(el){
@@ -1133,7 +1133,7 @@ function RenderBubble(el){
     mHTML += " Icon='" + mIcon + "'";
   }
   mHTML += ">";
-  if(NotBlank(mIcon)){mHTML += mIcon;}
+  if(NotBlank(mIcon)){mHTML += "<small>"+mIcon+"</small>";}
   //if(NotBlank(mEXP)){mHTML += "<sup class='mbSS'>⭐</sup>";}
   if(NotBlank(mEXP) && mEXP > 1){mHTML += "<small>" + mEXP + "</small> ";}
   mHTML += "<div class='mbavem mb" + mSPK + "'></div></button>";
@@ -1383,6 +1383,21 @@ function MMInner(el,mMacro){
     return;
   }
   // NEW TYPE: Alphabetical Order
+  if(mMacro.cmd=="ButtonList"){ // (span) Creates a series of buttons
+    // 20240422: StarTree: Changes:
+    /*   <macro>{"cmd":"ButtonList","func":"NMBubble","list":"📌|🧰"]"}</macro>
+       To:
+         <a class="mbbutton" onclick="NMBubble(this,'📌')">📌</a>
+         <a class="mbbutton" onclick="NMBubble(this,'🧰')">🧰</a>
+    */
+    let mIcons = mMacro.list.replaceAll(" ","").split("|");
+    mHTML = "";
+    for(let i=0;i<mIcons.length;i++){
+      mHTML += "<a class='mbbutton' onclick=\"" + mMacro.func + "(this,'" + mIcons[i] + "')\">" + mIcons[i] + "</a> ";
+    }
+    let elTemp = AddElement(el,"span",mHTML);
+    return;
+  }
   if(mMacro.cmd=="colorsquares"){ //(div) Ch15 color therapy
     // 20230412: Evelyn: Default: make a 10x10 area.
     // <div class="mbpointer" onclick="ColorSquare(this)" style="display:inline-block;height:30px;width:30px;background-color: brown;"></div>
@@ -5065,7 +5080,7 @@ function NMCard(el){
   navigator.clipboard.writeText(mHTML);
   return mHTML;
 }
-function NMChatSec(el,iSecIcon){
+function NMTopic(el,iSecIcon){
   // 20240416: StarTree: Puts a chat section to Clipboard.
   // 20240420: StarTree: Updated to use tag.
   var elControl = SearchPS(el,"board");
@@ -5076,16 +5091,16 @@ function NMChatSec(el,iSecIcon){
   }
   var mDTS = Default(elControl.querySelector('[NM-DTS]').value,DTSNow());
   var mTitle = Default(elControl.querySelector('[NM-Title]').value,"New Topic");
-  var mHTML = "<topic DTS='"+mDTS+"' Icon='"+iSecIcon+"' title='"+mTitle+"'>"
+  var mHTML = "<topic DTS='"+mDTS+"' Icon='"+iSecIcon+"' title='"+mTitle+"'>\n"
   
   // 20240417: StarTree: Special format for Initate node section.
   if(iSecIcon=="🌱"){
-    mHTML += "\n\t<div class='mbpdc'><b>First</b> word</div><hr class='mbCL mbhr'>\n";
+    mHTML += "\t<div class='mbpdc'><b>First</b> word</div><hr class='mbCL'>\n";
   }
   if(IsMasteryIcon(iSecIcon)){
-    mHTML += "<hr class='mbCL mbhr'>\n\t<ol></ol>\n\t<ul></ul>\n";
+    mHTML += "\t<ol></ol>\n\t<ul></ul>\n";
   }else{
-    mHTML += "<hr class='mbCL mbhr'>\n";
+    mHTML += "";
   }
 
   mHTML+="</topic>";
@@ -5101,9 +5116,10 @@ function NMLI(el){
   // 20240420: StarTree: Changing to Bullet tag.
   var elControl = SearchPS(el,"board");
   var mIcon = elControl.querySelector('[NM-Icon]').value;
+  var mTitle = Default(elControl.querySelector('[NM-Title]').value,"New Bullet");
   var mHTML = "";
   if(NotBlank(mIcon)){
-    mHTML = "<bullet icon='"+mIcon+"' title='New Bullet'>\n</bullet>";
+    mHTML = "<bullet icon='"+mIcon+"' title='"+mTitle+"'>\n</bullet>";
   }else{
     mHTML = "<bullet title='New Bullet'>\n</bullet>";
   }
@@ -5160,8 +5176,9 @@ function NMNode(el,bChatChannel){
   var elControl = SearchPS(el,"board");
   var mDTS = Default(elControl.querySelector('[NM-DTS]').value,DTSNow());
   mDTS = mDTS.padEnd(14,"0");
+  var mPrevID=elControl.querySelector('[NM-PrevID]').value;
+  var mNextID=elControl.querySelector('[NM-NextID]').value;
   var mAuthor=Default(elControl.querySelector('[NM-SPK]').value,""); 
-  
   var mParentID=Default(elControl.querySelector('[NM-ParentID]').value,"202404162138"); 
   var mParent=Default(elControl.querySelector('[NM-ParentName]').value,"Node Maker"); 
   var mIcon=Default(elControl.querySelector('[NM-Icon]').value,"🐣"); 
@@ -5181,6 +5198,7 @@ function NMNode(el,bChatChannel){
    
 
   var mHTML = "<div id=\"P" + mID + "\" date='" + mYYYYMMDD +"' time='" + mHHMM + "' " + mTags;
+  if(NotBlank(mPrevID)){mHTML += " data-" + mPrevID;}
   if(bChatChannel){mHTML += " data-chat data-happy";}
   mHTML += ">\n";
 
@@ -5200,8 +5218,8 @@ function NMNode(el,bChatChannel){
   mHTML += "\t<ref></ref>\n";
   mHTML += "\t<node>{\"id\":\""+mID+"\",\"parentid\":\""+mParentID+"\",\"parentname\":\""+mParent+"\",\"icon\":\""+mIcon+"\",\"title\":\""+mTitle+"\",\"subtitle\":\""+mSubTitle+"\",\"kids\":\""+mKids+"\",\"img\":\""+mImg+"\",\"music\":\""+mMusic+"\",\"author\":\""+mAuthor+"\"";
   if(bChatChannel){
-    mHTML += ",\"prev\":\"" + "" + "\"";
-    mHTML += ",\"next\":\"" + "" + "\"";
+    mHTML += ",\"prev\":\"" + mPrevID + "\"";
+    mHTML += ",\"next\":\"" + mNextID + "\"";
     mHTML += ",\"participants\":\"" + mAuthor + "\"";
   }
   mHTML += "}</node>\n";
