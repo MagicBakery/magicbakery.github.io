@@ -878,6 +878,13 @@ function HideEl(el){
     el.style.display = "none";
   }
 }
+function HideFP(el){
+  // 20240422: StarTree
+  var elFP = SearchPS(el,'FP');
+  elFP.classList.add('mbhide');
+  elFP.style.zIndex = 0;
+  ShowWidgets();
+}
 function HideNext(el) {
   var eNext = el.nextElementSibling;
   if (eNext.style.display != "none") {
@@ -1731,7 +1738,7 @@ function MMInner(el,mMacro){
     // 20240331: StarTree: No need to show it here because it is shown in LnkCode.
     //if(NodeMarkCookieCheck()){ elTemp.innerHTML += NodeMarkCode(mNode); }    
     
-    elTemp.innerHTML += "<a class='mbbutton' onclick=\"ClipboardAlert('"+ mNode+"')\" title=\"" +  mNode+  " [" + ArchiveNumSelect(mNode) + "]\">📋</a>";
+    elTemp.innerHTML += NodeIDClipboardButtonCode(mNode);
     el.after(elTemp);
     return;
   }
@@ -4712,9 +4719,9 @@ function ShowNext(el) {
   var eTar = el.nextElementSibling;
   ShowEl(eTar);
 }
-function ShowButtons(el){
+function ShowWidgets(){
   //20240421: Arcacia Show all button class objects that are immediate children
-  var elButtons = el.querySelectorAll('[BB]');
+  var elButtons = document.querySelectorAll('[BB]');
   var mNumHidden = 0;
   // Match the visibility status of the FP
   elButtons.forEach((mTag)=>{
@@ -4766,7 +4773,7 @@ function BringToFrontFP(el){
   });
 }
 function ShowNextFP(el,mDTS){
-  // 20240420: StarTree: Show the FB within the next element.
+  // 20240420: StarTree: Show the FP within the next element.
   // Algorithm: Only one FP is show at a time.
   var elFPs = document.querySelectorAll('[FP]');
   var elFP = el.nextElementSibling.querySelector('[FP]');
@@ -4793,7 +4800,7 @@ function ShowNextFP(el,mDTS){
       }
     }else{
       mTag.style.zIndex = Math.max(0,mTag.style.zIndex-1);
-      mTag.style.opacity = "0.5";
+      mTag.style.opacity = "0.9";
     }
   });
 }
@@ -4806,11 +4813,12 @@ function ReloadFP(el){
   elFP.innerHTML = "<big>⏳<big>"
 
   var mDTS = elFP.getAttribute('FP');
+  var mHTML="";
 
   // 20240421: Arcacia: Special handling for the Feedback Form.
   if(mDTS=="Feedback"){
     var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
-    var mHTML = "<a class='mbbutton' onClick='HideParent(this)' style='float:right' title='Close'>🍮</a>";
+    mHTML = "<a class='mbbutton' onClick='HideParent(this)' style='float:right' title='Close'>🍮</a>";
     mHTML += "💌 <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a><span><hr>";
     mHTML += "<iframe src='" + mInput + "' title='Google Form' style='border:none;width:100%;height:45vh' allow='clipboard-read; clipboard-write'></iframe></span>";
     el.innerHTML = mHTML;
@@ -4821,16 +4829,37 @@ function ReloadFP(el){
   $(document).ready(function(){
     for(let i=1; i<=ArchiveNum();i++){
       let elCache = document.createElement("div");
+    
       $(elCache).load(ArchiveIndex(i) + " [DTS="+mDTS +"]", function(){
         if(NotBlank(elCache.innerHTML)){
-          Macro(elCache);
-          elFP.innerHTML = elCache.innerHTML;
+          // 20240422: StarTree
+          let mWidget = elCache.firstChild;
+          let mNodeID = mWidget.getAttribute('node');
+          let mTitle = mWidget.getAttribute('title');
+          let mIcon = mWidget.getAttribute('icon');
+          
+
+          // 20240422: Add a close button
+          mHTML = "<small><span style='float:right'>";
+          mHTML += NodeIDClipboardButtonCode(mNodeID);
+          mHTML += "<a class='mbbutton' title='Hide Widget' onclick='HideFP(this)'>🍮</a></span>";
+          mHTML += "<lnk>" + mNodeID + "|" + mIcon + "</lnk> ";
+          mHTML += "<span class='mbbutton' title='Refresh' onclick='ReloadFP(this)'>"+mTitle+"</span></small><hr>";
+          mHTML += mWidget.innerHTML;
+          
+          elFP.innerHTML = mHTML;
+          Macro(elFP);
           elFP.setAttribute('FP',mDTS);
+          elFP.setAttribute('Widget',mDTS);
         }
         elCache.remove();
       });
     }
   });
+}
+function NodeIDClipboardButtonCode(mNodeID){
+  // 20240422: V
+  return "<a class='mbbutton' onclick=\"ClipboardAlert('"+ mNodeID+"')\" title=\"" +  mNodeID+  " [" + ArchiveNumSelect(mNodeID) + "]\">📋</a>";
 }
 function ShowL(el){
   // 20230314: Arcacia: Created for Whose turn development area
@@ -4983,9 +5012,9 @@ function ShowNextPN(elThis){
   elTarget.setAttribute("mQueryString", "");
 }
 function CookieCheck(el,iScope){
-  // 20240330: StarTree: Go up the gadget level and check of cookie enable.
+  // 20240330: StarTree: Go up the Widget level and check of cookie enable.
   if(IsBlank(iScope)){
-    iScope = "gadget";
+    iScope = "Widget";
   }
   try{
     var elScope = SearchPS(el,iScope);
@@ -5027,7 +5056,7 @@ function TextAreaSave(elTextArea){
 }
 function NMBubble(el,iIcon,bNoEXP){
   // 20240416: StarTree: Bubble code
-  var elControl = SearchPS(el,"board");
+  var elControl = SearchPS(el,"Widget");
   var mSPK = Default(elControl.querySelector('[NM-SPK]').value,"");
   var elIcon = elControl.querySelector('[NM-Icon]');
 
@@ -5059,7 +5088,7 @@ function DTSNow(){
 }
 function NMCard(el){
   // 20240416: StarTree: Puts the card code to Clipboard.
-  var elControl = SearchPS(el,"board");
+  var elControl = SearchPS(el,"Widget");
   var mTitle = Default(elControl.querySelector('[NM-Title]').value,"Card Title");
   var mSubTitle = Default(elControl.querySelector('[NM-ParentName]').value,"Subtitle");
 
@@ -5083,7 +5112,7 @@ function NMCard(el){
 function NMTopic(el,iSecIcon){
   // 20240416: StarTree: Puts a chat section to Clipboard.
   // 20240420: StarTree: Updated to use tag.
-  var elControl = SearchPS(el,"board");
+  var elControl = SearchPS(el,"Widget");
   if(IsBlank(iSecIcon)){
     iSecIcon = elControl.querySelector('[NM-Icon]').value;
   }else{
@@ -5114,7 +5143,7 @@ function IsMasteryIcon(iIcon){
 function NMLI(el){
   // 20240417: StarTree
   // 20240420: StarTree: Changing to Bullet tag.
-  var elControl = SearchPS(el,"board");
+  var elControl = SearchPS(el,"Widget");
   var mIcon = elControl.querySelector('[NM-Icon]').value;
   var mTitle = Default(elControl.querySelector('[NM-Title]').value,"New Bullet");
   var mHTML = "";
@@ -5129,7 +5158,7 @@ function NMLI(el){
 }
 function NMNodeSec(el,iSecIcon){
   // 20240416: StarTree: Puts a chat section to Clipboard.
-  var elControl = SearchPS(el,"board");
+  var elControl = SearchPS(el,"Widget");
   var mAuthor = Default(elControl.querySelector('[NM-SPK]').value,"");
   if(IsBlank(iSecIcon)){
     iSecIcon = elControl.querySelector('[NM-Icon]').value;
@@ -5159,7 +5188,7 @@ function NMNodeSec(el,iSecIcon){
 }
 function NMSetParent(el,mParentID,mParentName,mIcon){
   // 20240417: StarTree
-  var elControl = SearchPS(el,"board");
+  var elControl = SearchPS(el,"Widget");
   elControl.querySelector('[NM-ParentID]').value = mParentID;
   elControl.querySelector('[NM-ParentName]').value = mParentName;
   if(NotBlank(mIcon)){
@@ -5173,7 +5202,7 @@ function NMSetParent(el,mParentID,mParentName,mIcon){
 }
 function NMNode(el,bChatChannel){
   // 20240416: StarTree: Put the code of a new node to Clipboard.
-  var elControl = SearchPS(el,"board");
+  var elControl = SearchPS(el,"Widget");
   var mDTS = Default(elControl.querySelector('[NM-DTS]').value,DTSNow());
   mDTS = mDTS.padEnd(14,"0");
   var mPrevID=elControl.querySelector('[NM-PrevID]').value;
@@ -5230,7 +5259,7 @@ function NMNode(el,bChatChannel){
 }
 function NMURL(el){
   // 20240417: StarTree
-  var elControl = SearchPS(el,"board");
+  var elControl = SearchPS(el,"Widget");
   var mURL = elControl.querySelector('[NM-URL]').value;
   var mIcon="";//elControl.querySelector('[NM-Icon]').value;
   if(IsBlank(mIcon)){
@@ -5312,20 +5341,20 @@ function NodeMarkUseCookie(el,iNoIcon){
 }
 function TextAreaUseCookie(el){
   // 20240330: StarTree: Cookie TextArea
-  var elGadget = SearchPS(el,"gadget");
-  var elTextArea = elGadget.querySelector('[textarea]');
-  var bCookieEnabled = (elGadget.getAttribute('CookieEnabled')=="true");
+  var elWidget = SearchPS(el,"Widget");
+  var elTextArea = elWidget.querySelector('[textarea]');
+  var bCookieEnabled = (elWidget.getAttribute('CookieEnabled')=="true");
   if(!bCookieEnabled){
     bCookieEnabled = confirm("Would you allow saving notepad content to local storage on your browser?");
   }else{ // Cookie is enabled, does user want to disable?
     bCookieEnabled = !confirm("Would you like to stop saving notepad content to local storage on your browser?");
   }
   if(bCookieEnabled){
-    elGadget.setAttribute("CookieEnabled","true");
+    elWidget.setAttribute("CookieEnabled","true");
     el.innerHTML = "🍪✅";
     TextAreaLoad(elTextArea);
   }else{
-    elGadget.setAttribute("CookieEnabled","false");
+    elWidget.setAttribute("CookieEnabled","false");
     el.innerHTML = "🍪⛔";
   }
 }

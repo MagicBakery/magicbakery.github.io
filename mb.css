@@ -1146,6 +1146,7 @@ font-family:consolas;
   justify-content:center;
   flex-wrap: wrap;
   flex-direction:row-reverse;
+  gap:10px;
 }
 .mbCardMatText{
   flex:1 0 50%;

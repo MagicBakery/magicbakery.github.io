@@ -1,5 +1,5 @@
 <div id="P800000000000" class="mbscroll" data-quest data-upgrade data-minor>
-  <content DTS="80000000000000">
+  <content DTS="80000000000000" title="Site Search" node="800000000000" icon="🔍">
     <div control>
       
       <input type="text" onclick="TextSearchPN(this)" onkeyup="TextSearchPNEV(event,this)" placeholder="Search..." title="Input a keyword" style="width:150px">
@@ -506,7 +506,7 @@
   <span class="mbDayContent" top >
     <macro>{"cmd":"PIN2","node":"900000000000","music":""}</macro>
     <div class="mbCB"></div><hr>
-    <div mquerystring="[data-pin]" DTS="90000000000000">
+    <div mquerystring="[data-pin]" DTS="90000000000000" title="Quest Board" node="900000000000" icon="🔔">
       <div data-pin >
         <div questboard style="margin:0px -7px -13px -7px">
           <img width='100%' src="https://github.com/MagicBakery/Images/blob/main/QuestBoard_20221015_Top2.png?raw=true" onclick="RefreshPS(this)" title="Refresh" class="mbpointer">
@@ -4584,7 +4584,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240420')">20<br><div class="mbavem mbStarTree"></div></td>
               </tr>
               <tr>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240421')">21<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240421')">21<br><div class="mbavem mbStarTree"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240422')">22<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240423')">23<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240424')">24<br>&nbsp;</td>
@@ -4640,7 +4640,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240420')">20<br>🏹</td>
               </tr>
               <tr>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240421')">21<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240421')">21<br>🎯</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240422')">22<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240423')">23<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240424')">24<br>&nbsp;</td>
@@ -20317,18 +20317,14 @@ data-DXP-WIN-Casey
 </div><!--Notepad-->
 <div id="P202403302012" class="mbscroll" date='20240330' time='2012' data-widget>
   <content>
-    <topic DTS='20240421031136' Icon='⚙️' title='Widget GUI'><hr class='mbCL mbhr'>
-      <div Widget DTS="20240330201200">
-        <a class="mbbutton" onclick="ShowNext(this)">📋 Notepad</a>
-        <span>
-        <span control>
-          <button class="mbbutton" title="Use Cookie" style="float:right" onclick="TextAreaUseCookie(this)">🍪</button>
-        </span>
-        <textarea textarea style="width:100%;height:200px" onkeyup="TextAreaSave(this)"></textarea>  
-        </span>
-      </div><!--Widget--> 
-    </topic>
-  </content>
+    
+    <div Widget DTS="20240330201200" title="Notepad" icon="📋" node="202403302012">
+      <span control>
+        <button class="mbbutton" title="Use Cookie" style="float:right" onclick="TextAreaUseCookie(this)">🍪</button>
+      </span>
+      <textarea textarea style="width:100%;height:200px" onkeyup="TextAreaSave(this)"></textarea>  
+    </div><!--Widget--> 
+  </content>  
   <ref></ref>
   <node>{"id":"202403302012","parentid":"202303052122","parentname":"Website Upgrade","icon":"📋","title":"Notepad","subtitle":"Tool","img":"https://cdn.pixabay.com/photo/2016/11/22/23/09/fountain-pen-1851096_640.jpg","music":"","author":"StarTree","description":"","card-text":""}</node>
 </div><!--Notepad-->
@@ -23162,21 +23158,13 @@ data-DXP-WIN-Casey
       </hide>
     </div><!--About-->   
     <topic DTS='20240422015037' Icon='🎯' title='Pending Features'>
-      <ol>
-        <bullet icon='📌' title='Width 350px'>
-          <bubble DTS='20240421122409' SPK='Skyle' EXP Icon='📌'>Click on textbox to copy highlight and copy the content.</bubble>
-        </bullet>
-        <bullet icon='📌' title='NM Cached Speakers'>
-          <bubble DTS='20240420163810' SPK='Ivy' EXP Icon='📌'>Add a button cache area for node maker per speaker.</bubble>
-          <bubble DTS='20240421174200' SPK='Sasha' EXP Icon='📌'>Vertical cached avatar buttons along the left or right side of the Node Maker, with its own scrollbar as needed.</bubble>
-        </bullet>
-        <bullet icon='📌' title='Width 350px'>
-          <bubble DTS='20240421172700' SPK='Sasha' EXP Icon='📌'>Make the Node Maker Widget wider, up to 350px.</bubble>
-        </bullet>
-      </ol>
+      
     </topic>
     <topic DTS='20240422015216' Icon='✅' title='Completed Features'>
       <ul>
+        <bullet icon='✅' title='Tweaks'>
+          <bubble DTS='20240422114115' SPK='Black' EXP=2 Icon='⚙️'>Tweak: Added gap for CSS mbCardMat. Changed the order of SPK and Icon.</bubble>
+        </bullet>
         <bullet icon='✅' title='Prev and Next'>
           <bubble DTS='20240421233800' SPK='Ivy' EXP Icon='📌'>Add prev and next textboxes for the maker</bubble>
         </bullet>
@@ -23190,10 +23178,7 @@ data-DXP-WIN-Casey
   <card>
     <!--#NM-->
     <div class="mbscroll">
-      <widget DTS="20240416213800" Reserved Board style="font-size: 16px;line-height: 20px;text-align: justify; max-width:250px;">
-        <span class="mbbutton" title="Refresh" onclick="ReloadFP(this)">🥧</span>
-        <lnk>202404162138|Node Maker</lnk>
-        <hr>
+      <widget DTS="20240416213800" node="202404162138" title="Node Maker" icon="🥧" Reserved Board style="font-size: 16px;line-height: 20px;text-align: justify; max-width:250px;">
         <a class="mbbutton" onclick="NMSetParent(this,'202209192238','Paladin','⚔️')">⚔️ </a>
         <a class="mbbutton" onclick="NMSetParent(this,'202207252131','Cleric','❤️')">❤️</a>
         <a class="mbbutton" onclick="NMSetParent(this,'202209031718','Herald','📯')">📯</a>
@@ -23216,8 +23201,8 @@ data-DXP-WIN-Casey
         <input NM-DTS type="text" placeholder="Node ID" title="Timestamp" style="width:100px;text-align: center;">
         <input NM-Title type="text" placeholder="Title" title="Title" style="width:150px;text-align: center;">
         <br>
-        <input NM-Icon type="text" placeholder="" title="Icon" style="width:27px;text-align: center;">
         <input NM-SPK type="text" placeholder="Author" title="Speaker" style="width:70px;text-align: center;">
+        <input NM-Icon type="text" placeholder="" title="Icon" style="width:27px;text-align: center;">        
         <input NM-Tags type="text" placeholder="Tags" title="Tags" style="width:150px;text-align: center;">
         <br>
 
@@ -23241,7 +23226,7 @@ data-DXP-WIN-Casey
         <macro>{"cmd":"ButtonList","func":"NMBubble","list":"📌|💗|⭐|✅"}</macro>  
         <hide style="max-width:250px;">
           <macro>{"cmd":"ButtonList","func":"NMBubble",
-            "list":"🐾|🧰|🎀|🌺|🎯|🎪|🚀|📯|⚖️|🧹|🏹|⚡|📒|🔔|🛎️|👑|🥘|🍯|🍮|💡|🏕️🌾|🍍|🐸|♻️|🍀|🏅|🔍|🌊|🔮|🎓|🗃️|💼|🎻|🥨|📜|🎲|🏛️|⚔️|🛒"}</macro>
+            "list":"🐾|🧰|🍎|🎀|🌺|🎯|🎪|🚀|📯|⚖️|🧹|🏹|⚡|📒|🔔|🛎️|👑|🥘|🍯|🍮|💡|🏕️🌾|🍍|🐸|♻️|🍀|🏅|❄️|🔍|🧊|🌊|🔮|🎓|🗃️|💼|🎻|🥨|📜|🎲|⚙️|⚔️|🛒"}</macro>
         </hide>
         <hr class="mbpointer" onclick="ShowPrev(this)">
         
@@ -24244,31 +24229,90 @@ data-DXP-WIN-Casey
 </div><!-- STATUS -->
 <div id="P202404212357" date='20240421' time='2357' data-202404201142 data-chat data-happy data-202404201142>
 	<content>
-		<bubble DTS='20240421235735' SPK='Ivy' EXP Icon='🎯'><b>Node Maker</b> has many pending updates. </bubble>
-    <bubble DTS='20240422000540' SPK='Ivy'>Fire away!</bubble>
+		<bubble DTS='20240421235735' SPK='Ivy' EXP Icon='🎯'><b>Node Maker</b> has many pending updates. 
+      <bubble DTS='20240422000540' SPK='Ivy'>Fire away!</bubble>
+    </bubble>
     <topic DTS='20240422000620' Icon='🎯' title='NM Icon List Macro'>
-      <bubble DTS='20240422000811' SPK='Ivy' EXP Icon='📌'>This is for simplifying the code at the archive and makes it easier to add icons to the Node Maker.</bubble>
+      <bubble DTS='20240422000811' SPK='Ivy' EXP Icon='📌'>This is for simplifying the code at the archive and making it easier to add icons to the Node Maker.</bubble>
       <bubble DTS='20240422001157' SPK='StarTree' EXP Icon='⭐'>Adding macro cmd BList (Button List).</bubble>
       <bubble DTS='20240422002326' SPK='Ivy'>It is okay to use full name since macros should be rare now.</bubble>
       <bubble DTS='20240422003858' SPK='StarTree' EXP=3 Icon='⭐'>Roger! Modifying MMInner. Modifying Node Maker node. Done!</bubble>
       <bubble DTS='20240422014021' SPK='Ivy' EXP Icon='🏹'>For completed tasks for the Node Maker, please archive at the Node Maker node. With the widget, I don't think we sould use Node Maker from its node.</bubble>
       <bubble DTS='20240422014455' SPK='StarTree' EXP=2 Icon='⭐'>Roger! Formating the card area and the main area.</bubble>
-
     </topic>
 
 		<mbKudo></mbKudo>
 	</content>
 	<ref></ref>
-	<node>{"id":"202404212357","parentid":"202404162138","parentname":"Node Maker","icon":"🎯","title":"P202404212357","subtitle":"Subtitle","kids":"","img":"","music":"","author":"Ivy","prev":"202404201142","next":"","participants":"Ivy, StarTree"}</node>
+	<node>{"id":"202404212357","parentid":"202404162138","parentname":"Node Maker","icon":"🎯","title":"NM Button List","subtitle":"Subtitle","kids":"","img":"","music":"","author":"Ivy","prev":"202404201142","next":"","participants":"Ivy, StarTree"}</node>
 </div><!--P202404212357-->
 <div date='20240421' time='2359' data-status>
+  <macro>{"cmd":"daisy2","issues":"7","quests":"1134","activities":[
+    {"ch":"32","rank":"A","updates":"3","last":"20240403"},
+    {"ch":"7","rank":"A","updates":"4","last":"20240406"},
+    {"ch":"12","rank":"B","updates":"3","last":"20240406"},
+    {"ch":"33","rank":"S","updates":"2","last":"20240408"},
+    {"ch":"26","rank":"A","updates":"3","last":"20240411"},
+    {"ch":"35","rank":"A","updates":"4","last":"20240411"},
+    {"ch":"14","rank":"A","updates":"4","last":"20240413"},
+    {"ch":"25","rank":"A","updates":"4","last":"20240414"},
+    {"ch":"31","rank":"C","updates":"2","last":"20240414"},
+    {"ch":"34","rank":"A","updates":"4","last":"20240415"},
+    {"ch":"17","rank":"S","updates":"2","last":"20240416"},
+    {"ch":"11","rank":"A","updates":"4","last":"20240417"},
+    {"ch":"30","rank":"A","updates":"4","last":"20240418"},
+    {"ch":"24","rank":"A","updates":"2","last":"20240418"},
+    {"ch":"19","rank":"B","updates":"2","last":"20240418"},
+    {"ch":"20","rank":"A","updates":"4","last":"20240419"},
+    {"ch":"21","rank":"A","updates":"4","last":"20240419"},
+    {"ch":"16","rank":"B","updates":"2","last":"20240419"},
+    {"ch":"29","rank":"A","updates":"4","last":"20240419"},
+    {"ch":"22","rank":"C","updates":"2","last":"20240420"},
+    {"ch":"27","rank":"A","updates":"3","last":"20240420"},
+    {"ch":"5","rank":"B","updates":"3","last":"20240422"},
+    {"ch":"23","rank":"A","updates":"3","last":"20240422"},
+    {"ch":"15","rank":"A","updates":"4","last":"20240422"},
+    {"ch":"28","rank":"A","updates":"2","last":"20240422"},
+    {"ch":"13","rank":"C","updates":"2","last":"20240422"},
+    {"ch":"18","rank":"B","updates":"3","last":"20240422"}
+    ],"players":"Ivy, StarTree","merits":"V","recognitions":"","kudos":"Ivy, StarTree","awards":"Albatross, Arcacia, Black, Evelyn, LRRH, P4, Patricia, Sasha, Skyle, StarTree, Sylvia, V, Vivi","top":[
+    {"name":"StarTree","score":"21"},
+    {"name":"Vivi","score":"18"},
+    {"name":"Black","score":"17"},
+    {"name":"Skyle","score":"15"},
+    {"name":"V","score":"14"},
+    {"name":"Helen","score":"13"},
+    {"name":"Sasha","score":"11"},
+    {"name":"Evelyn","score":"9"},
+    {"name":"Ivy","score":"7"},
+    {"name":"LRRH","score":"7"},
+    {"name":"Sylvia","score":"5"},
+    {"name":"P4","score":"5"},
+    {"name":"Arcacia","score":"5"},
+    {"name":"Albatross","score":"4"},
+    {"name":"Patricia","score":"4"},
+    {"name":"Kisaragi","score":"4"},
+    {"name":"Natalie","score":"2"},
+    {"name":"Zoey","score":"2"},
+    {"name":"Ledia","score":"2"},
+    {"name":"Fina","score":"1"},
+    {"name":"Tanya","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div id="P202404221008" date='20240422' time='1008' data-ticket>
+	<content>
+	</content>
+	<card></card>
+	<ref></ref>
+	<node>{"id":"202404221008","parentid":"202302201503","parentname":"Playground","icon":"⚙️","title":"Widgets","subtitle":"Subtitle","kids":"widget","img":"","music":"","author":"StarTree"}</node>
+</div><!--Widgets-->
+<div date='20240422' time='2359' data-status>
   <macro>{"cmd":"daisy2","issues":"6","quests":"1146","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
     
   ]}</macro>
 </div><!-- STATUS -->
-
 <!--
 <card>
   <a href="https://github.com/MagicBakery/Images/blob/main/Slide_28.png?raw=true" target="_blank">
