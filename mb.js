@@ -5229,12 +5229,8 @@ function NMSetParent(el,mParentID,mParentName,mIcon){
     elControl.querySelector('[NM-Tags]').value = "data-" + mParentName;
   }  return NMNode(el);
 }
-
-function NMAddSPKev(e,el){
-  // 20240423: StarTree: Assumes that the Enter key was pressed at the SPK input box.
-  var elWidget = SearchPS(el,"Widget");
-  elWidget.querySelector('[NM-URL]').value = e.code;
-  if(e.code!='Enter' && e.code!="Space" && e.code!="Period"){return;}
+function NMAddSPK(el){
+  // 29249423: StarTree
   var curSPK = el.value.replaceAll(/[\W_]+/g,"");
   if(IsBlank(curSPK)){curSPK = RandomMember();}
   if(NotBlank(el.value) && (el.value != curSPK)){el.value = curSPK;}
@@ -5261,6 +5257,11 @@ function NMAddSPKev(e,el){
   // STEP: Add a new button.
   var mHTML = "<a onclick=\"NMSetSPK(this,'"+curSPK+"')\"><div class='mbav50trg mb"+curSPK+"' ></div></a>";
   elList.innerHTML = mHTML + elList.innerHTML;
+}
+function NMAddSPKev(e,el){
+  // 20240423: StarTree: Assumes that the Enter key was pressed at the SPK input box.
+  if(e.code!='Enter'){return;}
+  NMAddSPK(el);
 }
 function NMSetSPK(el,mSPK){
   // 20240423: StarTree: This is for when the user clicked on a SPK cache button.
