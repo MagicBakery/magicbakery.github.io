@@ -23192,26 +23192,28 @@ data-DXP-WIN-Casey
           <a class="mbbutton" onclick="NMSetParent(this,'202307231022','Case','📂')">📂</a>          
           <a class="mbbutton" title="Timestamp" style="float:right" onclick="NMGetDTS()">🕒</a>
           <br>
-          <center style="padding:0px 5px;margin:0px -10px">
-          <input NM-PrevID type="text" placeholder="Prev ID" title="Prev ID" style="width:120px;text-align: center;">
-          <input NM-NextID type="text" placeholder="Next ID" title="Next ID" style="width:120px;text-align: center;">
-          <input NM-URL type="text" placeholder="URL" title="Input a keyword" style="width:67px;text-align: center;"><br>
-      
-          <input NM-ParentID type="text" placeholder="Parent ID" title="Parent ID" style="width:120px;text-align: center;">
-          <input NM-ParentName type="text" placeholder="Parent Name" title="Parent Name" style="width:190px;text-align: center;"><br>
-
-          <input NM-DTS type="text" placeholder="Node ID" title="Timestamp" style="width:120px;text-align: center;">
-          <input NM-Title type="text" placeholder="Title" title="Title" style="width:190px;text-align: center;"><br>
-   
-          <!--<input NM-SPK type="text" placeholder="Speaker" title="Speaker" style="width:90px;text-align: center;"  onkeyup="NMAddSPKev(event,this)" inputmode="search">-->
-          <input NM-SPK type="text" placeholder="Speaker" title="Speaker" style="width:90px;text-align: center;"  onclick="NMAddSPK(this)" onkeyup="NMAddSPKev(event,this)">
-
-
-          <input NM-Icon type="text" placeholder="" title="Icon" style="width:27px;text-align: center;">        
-          <input NM-Tags type="text" placeholder="Tags" title="Tags" style="width:190px;text-align: center;">
-          <br>
-   
-          
+          <center>
+            <div style="display:flex;justify-content: center;">
+              <input NM-PrevID type="text" placeholder="Prev ID" title="Prev ID" style="width:130px;text-align: center;">
+              <input NM-NextID type="text" placeholder="Next ID" title="Next ID" style="width:130px;text-align: center;">
+              <input NM-URL type="text" placeholder="URL" title="Input a keyword" style="width:50px;text-align: center;">
+            </div>
+            <div style="display:flex;justify-content: center;">
+              
+              <input NM-ParentID type="text" placeholder="Parent ID" title="Parent ID" style="width:130px;text-align: center;">
+              <input NM-ParentName type="text" placeholder="Parent Name" title="Parent Name" style="width:180px;text-align: center;">
+            </div>
+            <div style="display:flex;justify-content: center;">
+              <input NM-DTS type="text" placeholder="Node ID" title="Timestamp" style="width:130px;text-align: center;">
+              <input NM-Title type="text" placeholder="Title" title="Title" style="width:180px;text-align: center;">
+            </div>
+            <div style="display:flex;justify-content: center;">
+              <input NM-SPK type="text" placeholder="Speaker" title="Speaker" style="width:100px;text-align: center;"  onclick="NMAddSPK(this)" onkeyup="NMAddSPKev(event,this)">
+              <input NM-Icon type="text" placeholder="" title="Icon" style="width:30px;text-align: center;">        
+              <input NM-Tags type="text" placeholder="Tags" title="Tags" style="width:180px;text-align: center;">
+            </div>
+  
+        
             <a class="mbbutton" onclick="NMBubble(this,'',true)" title="Make Bubble">BBL</a>
             <a class="mbbutton" onclick="NMBubble(this)" title="Make EXP Bubble">EXP</a> 
             <a class="mbbutton" onclick="NMTopic(this)" title="Make Topic Section">SEC</a> 
@@ -23240,12 +23242,12 @@ data-DXP-WIN-Casey
             <a class="mbbutton" onclick="NMTopic(this,'🦅')" title="Master Section">🦅</a>
             
             
-            <macro>{"cmd":"ButtonList","func":"NMBubble","list":"📌|💗|⭐|✅"}</macro>
+            <macro>{"cmd":"ButtonList","func":"NMBubble","list":"📌|💗|⭐|🔍|✅"}</macro>
             
-            <div class='mbhide'><!-- style="max-height:68px;overflow-y: auto">-->
+            <span class='mbhide'><!-- style="max-height:68px;overflow-y: auto">-->
             <macro>{"cmd":"ButtonList","func":"NMBubble",
-              "list":"🐾|🧰|🍎|🎀|🌺|🎯|🎪|🎡|🎠|🚀|📯|⚖️|🧹|🏹|🗂️|📒|🔔|🛎️|👑|🥘|🍯|🎟️|🍮|💡|⚡|🍍|🏕️|🌾|♻️|🍀|🐸|🏅|❄️|🔍|🧊|🌊|🔮|🎓|🗃️|💼|🎻|🥨|📜|🎲|⚙️|⚔️|🛒"}</macro>
-            </div>
+              "list":"🐾|❓|❌|🍎|⛔|🧰|🎀|🌺|🎯|🎪|🎡|🎠|🚀|📯|⚖️|🧹|🏹|🗂️|📒|🔔|🛎️|👑|🥘|🍯|🎟️|🍮|💡|⚡|🍍|🏕️|🌾|♻️|🍀|🐸|🏅|❄️|🧊|🌊|🔮|🎓|🗃️|💼|🎻|🥨|📜|🎲|⚙️|⚔️|🛒"}</macro>
+            </span>
             <hr class="mbCB mbpointer" onclick="ShowPrev(this)">
           
         </div>

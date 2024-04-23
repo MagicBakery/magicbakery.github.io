@@ -5232,6 +5232,7 @@ function NMSetParent(el,mParentID,mParentName,mIcon){
 function NMAddSPK(el){
   // 29249423: StarTree
   var curSPK = el.value.replaceAll(/[\W_]+/g,"");
+  el.select();  
   if(IsBlank(curSPK)){curSPK = RandomMember();}
   if(NotBlank(el.value) && (el.value != curSPK)){el.value = curSPK;}
 
