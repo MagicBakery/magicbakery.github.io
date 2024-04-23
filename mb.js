@@ -2003,7 +2003,7 @@ function MMInner(el,mMacro){
   }
 }
 function MacroURLHTML(mURL,mDesc){
-  return "<a class='mbbuttonEx' onclick=\"ExURL('"+ mURL + "');return false;\" href='"+mURL+"'>" + mDesc + "</a>";
+  return "<a class='mbbuttonEx' onclick=\"ExURL('"+ mURL + "');return false;\" href='"+mURL+"'><small>" + mDesc + "</small></a>";
 }
 function Music(eMusicID){
   if(AtBlogSpot()){
@@ -4728,16 +4728,12 @@ function ShowWidgets(){
     let elFP = mTag.nextElementSibling.querySelector('[FP]');
     
     if(elFP.classList.contains('mbhide')){
-      if(mTag.innerHTML=="🎧"){
-        mTag.style.opacity = 0.1;
-      }else{
-        mTag.style.opacity = 0.05;
-      }
-      
-      //mTag.classList.add('mbhide');
+      mTag.style.opacity = 0.25;
+      mTag.style.filter= "sepia(100%)";
       mNumHidden ++;
     }else{
       mTag.style.opacity = 1;
+      mTag.style.filter= "sepia(0%)";
     }
     mTag.classList.remove('mbhide');
   });
@@ -4785,22 +4781,50 @@ function ShowNextFP(el,mDTS){
   }
 
   // STEP: Hide all other FP. Also hide this FP if it is showing.
+  // Do this step on a phone.
+  if(AtMobile()){
+    elFPs.forEach((mTag)=>{
+      if(mTag==elFP && mTag.classList.contains('mbhide')){
+        mTag.classList.remove('mbhide');
+        mTag.style.zIndex = mMax;
+        mTag.style.opacity = "1";
+      }else{
+        mTag.classList.add('mbhide');
+      }
+    });
+    return;
+  }
+
+  // STEP: Find the current top-most widget.
+  var elMax = elFPs[0];
+  var curMax = elMax.style.zIndex;
+  elFPs.forEach((mTag)=>{
+    if(!mTag.classList.contains('mbhide')){
+      if(curMax < mTag.style.zIndex){
+        curMax = mTag.style.zIndex;
+        elMax = mTag;
+      }
+    }else{
+      mTag.style.zIndex = 0;
+    }
+  });
+
   // ALT: If the FP is already showing, hide it. Else, set its z-index to 1 and the others to 0.
   elFPs.forEach((mTag)=>{
     if(mTag==elFP ){
       if(mTag.classList.contains('mbhide')){
         mTag.classList.remove('mbhide');
-        mTag.style.zIndex = mMax;
+        mTag.style.zIndex = curMax + 1;
         mTag.style.opacity = "1";
-      }else if(mTag.style.zIndex == mMax){
+      }else if(mTag.style.zIndex == curMax){
         mTag.classList.add('mbhide');
       }else{
-        mTag.style.zIndex = mMax;
+        mTag.style.zIndex = curMax + 1;
         mTag.style.opacity = "1";
       }
     }else{
       mTag.style.zIndex = Math.max(0,mTag.style.zIndex-1);
-      mTag.style.opacity = "0.9";
+      //mTag.style.opacity = "0.9";
     }
   });
 }
@@ -5146,11 +5170,12 @@ function NMLI(el){
   var elControl = SearchPS(el,"Widget");
   var mIcon = elControl.querySelector('[NM-Icon]').value;
   var mTitle = Default(elControl.querySelector('[NM-Title]').value,"New Bullet");
+  DEBUG(mTitle);
   var mHTML = "";
   if(NotBlank(mIcon)){
     mHTML = "<bullet icon='"+mIcon+"' title='"+mTitle+"'>\n</bullet>";
   }else{
-    mHTML = "<bullet title='New Bullet'>\n</bullet>";
+    mHTML = "<bullet title='"+mTitle+"'>\n</bullet>";
   }
   
   navigator.clipboard.writeText(mHTML);
@@ -5195,9 +5220,9 @@ function NMSetParent(el,mParentID,mParentName,mIcon){
     elControl.querySelector('[NM-Icon]').value = mIcon;
   }
   if(mParentName=="Alchemist" || mParentName=="Cleric" || mParentName=="Herald" || mParentName=="Magician" || mParentName=="Oracle" || mParentName=="Paladin"){
-    elControl.querySelector('[NM-Tags]').value = " data-skill data-" + mParentName;
+    elControl.querySelector('[NM-Tags]').value = "data-skill data-" + mParentName;
   }else{
-    elControl.querySelector('[NM-Tags]').value = " data-" + mParentName;
+    elControl.querySelector('[NM-Tags]').value = "data-" + mParentName;
   }  return NMNode(el);
 }
 function NMNode(el,bChatChannel){
@@ -5220,13 +5245,17 @@ function NMNode(el,bChatChannel){
 
   var mTitle=Default(elControl.querySelector('[NM-Title]').value,"P" + mID); 
   var mTags=Default(elControl.querySelector('[NM-Tags]').value,""); 
+  if(NotBlank(mTags)){mTags = " " + mTags;}
+  if(NotBlank(mParentID)){mTags += " data-" + mParentID;}
+  if(bChatChannel){if(NotBlank(mPrevID)){mTags += " data-" + mPrevID;}}
+
   var mSubTitle = "Subtitle";
   var mKids="";
   var mMusic="";
   
    
 
-  var mHTML = "<div id=\"P" + mID + "\" date='" + mYYYYMMDD +"' time='" + mHHMM + "' " + mTags;
+  var mHTML = "<div id=\"P" + mID + "\" date='" + mYYYYMMDD +"' time='" + mHHMM + "'" + mTags;
   if(NotBlank(mPrevID)){mHTML += " data-" + mPrevID;}
   if(bChatChannel){mHTML += " data-chat data-happy";}
   mHTML += ">\n";

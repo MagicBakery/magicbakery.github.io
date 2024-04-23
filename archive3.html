@@ -663,6 +663,7 @@
                     <macro>{"log":"","priority":"1","icon":"📯","node":"202305262224","title":"Leadership","info":"Update the node and make sub nodes.","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"9","icon":"🔦","node":"202309171832","title":"CSI The Board Game","cmd":"quest"}</macro>                    
                     <span class="mbListCapNC mbRankC"></span>
+                    <macro>{"log":"0422","priority":"0","icon":"🍋","node":"202307231931","title":"Productive Habits","cmd":"quest"}</macro> 
                     <macro>{"log":"0414","priority":"0","icon":"🎲","node":"202207131009","title":"Board Games","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"0409","priority":"0","icon":"📛","node":"202403292132","title":"Self Introduction","info":"","cmd":"quest"}</macro>  
                     <span class="mbListCapNC mbRankD"></span>    
@@ -21428,28 +21429,23 @@ data-DXP-WIN-Casey
     <macro>{"cmd":"url","url":"https://freakonomics.com/series/nsq/","desc":"[NSQ]"}</macro>
     <macro>{"cmd":"url","url":"https://freakonomics.com/series/everyday-things/","desc":"[Everyday Things]"}</macro>
 
-    <div class="mbpdc"></div><div style="clear:left"></div>
-    <div class="mbscroll">
-      <div class="mbbutton" onclick="ShowNext(this)">🗂️ Topics</div>
-      <hide><hr>
-        <div>
+    <topic DTS='20240422223920' Icon='🕊️' title='Topics'>
+      <ol>
+        <bullet title='Immigration'>
           <macro>{"cmd":"url","url":"https://freakonomics.com/podcast/the-true-story-of-americas-supremely-messed-up-immigration-system/","desc":"📻"}</macro>
-          <span class="mbbutton" onclick="ShowNextInline(this)">Immigration</span>
-          <hide>
-            <button class="mbbutton" onclick="ShowNextInline(this)" DTS="202404141343" data-WrXP-Ivy>🏹<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> This episode talks about the statistics only 3% of the world population are immigrants, but they make up of 14% in the US. Immigrants tend to do better than natives, partially due to them moving to cities where there are more opportunities.</hide>
-          </hide>          
-        </div>
-        <div>
+          <button class="mbbutton" onclick="ShowNextInline(this)" DTS="202404141343" data-WrXP-Ivy>🏹<div class="mbavem mbIvy"></div></button><hide> <b>Ivy:</b> This episode talks about the statistics only 3% of the world population are immigrants, but they make up of 14% in the US. Immigrants tend to do better than natives, partially due to them moving to cities where there are more opportunities.</hide>
+          <macro>{"cmd":"url","url":"https://freakonomics.com/podcast/madeleine-albrights-warning-on-immigration/","desc":"📻"}</macro>
+          <bubble DTS='20240422224731' SPK='Black' EXP Icon='🔍'>This episode mentions the view that freedom of travel (of migration) should be a human right.</bubble>
+
+        </bullet>
+        <bullet title='Social Media Trap'>
           <macro>{"cmd":"url","url":"https://freakonomics.com/podcast/are-you-caught-in-a-social-media-trap/","desc":"📻"}</macro>
-          <span class="mbbutton" onclick="ShowNextInline(this)">Social Media Trap</span>
-          <hide>
-            <bubble SPK='Black'>This is about the situation when people would pay for a product or service when they actually would prefer the product or service to not exist.</bubble>
-          </hide>          
-        </div>
-    
-        <div class="mbCB"></div>
-      </hide>
-    </div>    
+          <bubble SPK='Black'>This is about the situation when people would pay for a product or service when they actually would prefer the product or service to not exist.</bubble>
+        </bullet>
+      </ol>
+    </topic>
+
+
   </content>
   <card>
     <div class="mbCharCard">
@@ -22506,7 +22502,7 @@ data-DXP-WIN-Casey
             <bubble DTS='20240421185619' SPK='Black' EXP Icon='🎓'>Each manufacturing site needs at least one certified MTR for the production.</bubble>   
             <bubble DTS='20240421185800' SPK='Black' EXP Icon='📯'>The test is done online and the tester may only use UL documents and UL websites for reference.</bubble> 
             <bubble DTS='20240421185801' SPK='Black' EXP Icon='📯'>The test is done online and the tester may only use UL documents and UL websites for reference.</bubble>    
-            <bubble SPK='Black' EXP Icon='📯'>The test is divided into four sections, each with 20 questions. The tester may complete the sections on different dates, but each section must be completed within 2 hours. The total expected duration is about 4 hours (there is plenty of time if you know the subject matter).</bubble>
+            <bubble SPK='Black' EXP Icon='📯'>The test is divided into four sections, each with 20 questions. The tester may complete the sections on different dates, but each section must be completed in one session. The total expected duration is about 4 hours (there is plenty of time if you know the subject matter).</bubble>
             <bubble SPK='Black' EXP Icon='📯'>The four sections are:
               <ol>
                 <bullet icon='🔍' title='General Program Information'>
@@ -23179,59 +23175,69 @@ data-DXP-WIN-Casey
     <!--#NM-->
     <div class="mbscroll">
       <widget DTS="20240416213800" node="202404162138" title="Node Maker" icon="🥧" Reserved Board style="font-size: 16px;line-height: 20px;text-align: justify; max-width:250px;">
-        <a class="mbbutton" onclick="NMSetParent(this,'202209192238','Paladin','⚔️')">⚔️ </a>
-        <a class="mbbutton" onclick="NMSetParent(this,'202207252131','Cleric','❤️')">❤️</a>
-        <a class="mbbutton" onclick="NMSetParent(this,'202209031718','Herald','📯')">📯</a>
-        <a class="mbbutton" onclick="NMSetParent(this,'202207170956','Alchemist','🍀')">🍀</a>
-        <a class="mbbutton" onclick="NMSetParent(this,'202209142228','Oracle','🔮')">🔮</a> 
-        <a class="mbbutton" onclick="NMSetParent(this,'202209082209','Magician','🎩')">🎩</a>
-        <a class="mbbutton" onclick="NMSetParent(this,'202207131009','Game','🎲')">🎲</a>
-        <a class="mbbutton" onclick="NMSetParent(this,'202210151642','Book','📗')">📗</a>
-        <a class="mbbutton" onclick="NMSetParent(this,'202307231022','TSN','☎️')">☎️</a>
-        <a class="mbbutton" onclick="NMSetParent(this,'202307231022','Case','📂')">📂</a>
-        <br>
 
-        <input NM-PrevID type="text" placeholder="Prev ID" title="Prev ID" style="width:100px;text-align: center;">
-        <input NM-NextID type="text" placeholder="Next ID" title="Next ID" style="width:100px;text-align: center;">
-        <input NM-URL type="text" placeholder="URL" title="Input a keyword" style="width:47px;text-align: center;">
-        <br>
-        <input NM-ParentID type="text" placeholder="Parent ID" title="Parent ID" style="width:100px;text-align: center;">
-        <input NM-ParentName type="text" placeholder="Parent Name" title="Parent Name" style="width:150px;text-align: center;"><br>
+        <div style="float:left;overflow-y: hidden;width:50px;line-height:0px;height:295px">
+          <div class="mbav50t mbBlack" ></div>
+          <div class="mbav50t mbEvelyn"></div>
+          <div class="mbav50t mbIvy"></div>
+          <div class="mbav50t mbLRRH"></div>
+          <div class="mbav50t mbStarTree"></div>
+          <div class="mbav50t mbTanya"></div>
+          <div class="mbav50t mbZoey"></div>
+        </div>
 
-        <input NM-DTS type="text" placeholder="Node ID" title="Timestamp" style="width:100px;text-align: center;">
-        <input NM-Title type="text" placeholder="Title" title="Title" style="width:150px;text-align: center;">
-        <br>
-        <input NM-SPK type="text" placeholder="Author" title="Speaker" style="width:70px;text-align: center;">
-        <input NM-Icon type="text" placeholder="" title="Icon" style="width:27px;text-align: center;">        
-        <input NM-Tags type="text" placeholder="Tags" title="Tags" style="width:150px;text-align: center;">
-        <br>
-
-        <a class="mbbutton" onclick="NMBubble(this,'',true)" title="Make Bubble">BBL</a>
-        <a class="mbbutton" onclick="NMBubble(this)" title="Make EXP Bubble">XP</a> 
-        <a class="mbbutton" onclick="NMTopic(this)" title="Make Topic Section">SEC</a> 
-        <a class="mbbutton" onclick="NMLI(this)" title="Make List Item">LST</a> 
-        <a class="mbbutton" onclick="NMURL(this)" title="Make URL Macro">URL</a> 
-        <a class="mbbutton" onclick="NMCard(this)" title="Make Card">CRD</a>
-        <a class="mbbutton" onclick="NMNode(this)" title="Make Node">ND</a>
-        <a class="mbbutton" onclick="NMNode(this,true)" title="Make Chat">CHT</a>
-        <br>
+        <div style="margin-left:55px">
+          <a class="mbbutton" onclick="NMSetParent(this,'202209192238','Paladin','⚔️')">⚔️ </a>
+          <a class="mbbutton" onclick="NMSetParent(this,'202207252131','Cleric','❤️')">❤️</a>
+          <a class="mbbutton" onclick="NMSetParent(this,'202209031718','Herald','📯')">📯</a>
+          <a class="mbbutton" onclick="NMSetParent(this,'202207170956','Alchemist','🍀')">🍀</a>
+          <a class="mbbutton" onclick="NMSetParent(this,'202209142228','Oracle','🔮')">🔮</a> 
+          <a class="mbbutton" onclick="NMSetParent(this,'202209082209','Magician','🎩')">🎩</a>
+          <!--<a class="mbbutton" onclick="NMSetParent(this,'202207131009','Game','🎲')">🎲</a>
+          <a class="mbbutton" onclick="NMSetParent(this,'202210151642','Book','📗')">📗</a>
+          <a class="mbbutton" onclick="NMSetParent(this,'202307231022','TSN','☎️')">☎️</a>
+          <a class="mbbutton" onclick="NMSetParent(this,'202307231022','Case','📂')">📂</a>-->
+          <br>
+          
+          <input NM-PrevID type="text" placeholder="Prev ID" title="Prev ID" style="width:35%;text-align: center;">
+          <input NM-NextID type="text" placeholder="Next ID" title="Next ID" style="width:35%;text-align: center;">
+          <input NM-URL type="text" placeholder="URL" title="Input a keyword" style="width:25%;text-align: center;"><br>
       
-        <a class="mbbutton" onclick="NMTopic(this,'🎪')" title="Quest Section">🎪</a>
-        <a class="mbbutton" onclick="NMTopic(this,'🌱')" title="Initiate Section">🌱</a>
-        <a class="mbbutton" onclick="NMTopic(this,'🐤')" title="Beginner Section">🐤</a>
-        <a class="mbbutton" onclick="NMTopic(this,'🕊️')" title="Practitioner Section">🕊️</a>
-        <a class="mbbutton" onclick="NMTopic(this,'🦉')" title="Instructor Section">🦉</a>
-        <a class="mbbutton" onclick="NMTopic(this,'🦅')" title="Master Section">🦅</a>
+          <input NM-ParentID type="text" placeholder="Parent ID" title="Parent ID" style="width:35%;text-align: center;">
+          <input NM-ParentName type="text" placeholder="Parent Name" title="Parent Name" style="width:61%;text-align: center;"><br>
+
+          <input NM-DTS type="text" placeholder="Node ID" title="Timestamp" style="width:35%;text-align: center;">
+          <input NM-Title type="text" placeholder="Title" title="Title" style="width:61%;text-align: center;"><br>
+   
+          <input NM-SPK type="text" placeholder="Author" title="Speaker" style="width:23.5%;text-align: center;">
+          <input NM-Icon type="text" placeholder="" title="Icon" style="width:10%;text-align: center;">        
+          <input NM-Tags type="text" placeholder="Tags" title="Tags" style="width:61%;text-align: center;">
+          <br>
+   
+          <small>
+          <a class="mbbutton" onclick="NMBubble(this,'',true)" title="Make Bubble">BBL</a>
+          <a class="mbbutton" onclick="NMBubble(this)" title="Make EXP Bubble">EXP</a> 
+          <a class="mbbutton" onclick="NMTopic(this)" title="Make Topic Section">SEC</a> 
+          <a class="mbbutton" onclick="NMLI(this)" title="Make List Item">LST</a> 
+          <a class="mbbutton" onclick="NMURL(this)" title="Make URL Macro">URL</a> 
+          <a class="mbbutton" onclick="NMCard(this)" title="Make Card">CRD</a>
+          <a class="mbbutton" onclick="NMNode(this)" title="Make Node">NDE</a>
+          <a class="mbbutton" onclick="NMNode(this,true)" title="Make Chat">CHT</a>
+        </small>
+          <br>
         
-        <macro>{"cmd":"ButtonList","func":"NMBubble","list":"📌|💗|⭐|✅"}</macro>  
-        <hide style="max-width:250px;">
+          <a class="mbbutton" onclick="NMTopic(this,'🎪')" title="Quest Section">🎪</a>
+          <a class="mbbutton" onclick="NMTopic(this,'🌱')" title="Initiate Section">🌱</a>
+          <a class="mbbutton" onclick="NMTopic(this,'🐤')" title="Beginner Section">🐤</a>
+          <a class="mbbutton" onclick="NMTopic(this,'🕊️')" title="Practitioner Section">🕊️</a>
+          <a class="mbbutton" onclick="NMTopic(this,'🦉')" title="Instructor Section">🦉</a>
+          <a class="mbbutton" onclick="NMTopic(this,'🦅')" title="Master Section">🦅</a>
+          
+          <macro>{"cmd":"ButtonList","func":"NMBubble","list":"📌|💗|⭐|✅"}</macro>  
           <macro>{"cmd":"ButtonList","func":"NMBubble",
-            "list":"🐾|🧰|🍎|🎀|🌺|🎯|🎪|🚀|📯|⚖️|🧹|🏹|⚡|📒|🔔|🛎️|👑|🥘|🍯|🍮|💡|🏕️🌾|🍍|🐸|♻️|🍀|🏅|❄️|🔍|🧊|🌊|🔮|🎓|🗃️|💼|🎻|🥨|📜|🎲|⚙️|⚔️|🛒"}</macro>
-        </hide>
-        <hr class="mbpointer" onclick="ShowPrev(this)">
-        
-
-
+            "list":"🐾|🧰|🍎|🎀|🌺|🎯|🎪|🎡|🎠|🚀|📯|⚖️|🧹|🏹|🗂️|📒|🔔|🛎️|👑|🥘|🍯|🎟️|🍮|💡|⚡|🍍|🏕️|🌾|♻️|🍀|🐸|🏅|❄️|🔍|🧊|🌊|🔮|🎓|🗃️|💼|🎻|🥨|📜|🎲|⚙️|⚔️|🛒"}</macro>
+        </div>
+        <hr class="mbCB">
       </widget>
     </div>
     <!--<div class="mbCharCard">
@@ -24306,6 +24312,29 @@ data-DXP-WIN-Casey
 	<ref></ref>
 	<node>{"id":"202404221008","parentid":"202302201503","parentname":"Playground","icon":"⚙️","title":"Widgets","subtitle":"Subtitle","kids":"widget","img":"","music":"","author":"StarTree"}</node>
 </div><!--Widgets-->
+<div id="P202404222352" date='20240422' time='2352' data-202404212357 data-202404221008 data-chat data-happy>
+	<content>
+		<bubble DTS='20240422235213' SPK='Ivy' EXP Icon='🎯'>There is now a widgets node for discussing how widgets should work in general.</bubble>
+    <topic DTS='20240423000349' Icon='🐤' title='Widget Visibility'>
+      <bubble DTS='20240423000420' SPK='Evelyn' EXP Icon='🌱'>I logged a suggestion that clicking on the top bar would hide all the widgets. But now each widget has its own hide button, I think that change is not needed.</bubble>
+      <bubble DTS='20240423000640' SPK='Evelyn'>How should I mark that it is not needed?</bubble>
+      <bubble DTS='20240423000734' SPK='Ivy'>What that happens I added a comment and changed the bullet icon to 🔍.</bubble>
+      <bubble DTS='20240423000828' SPK='Zoey' EXP Icon='🏹'>I like the carnival theme so maybe the icon could be 🎠 or 🎡. That means to be reevaluated.</bubble>
+      <bubble DTS='20240423000942' SPK='Ivy'>It is up to you, Evelyn.</bubble>
+      <bubble DTS='20240423001322' SPK='Evelyn'>Okay.</bubble>
+      <bubble DTS='20240423001446' SPK='Black' EXP Icon='🔮'>I think there is no need to change opacity of the widgets. semi-transparent widgets don't really serve a purpose.</bubble>
+      <bubble DTS='20240423001911' SPK='StarTree' EXP Icon='🎠'>Removed!</bubble>
+      <bubble DTS='20240423002111' SPK='Black'>When the screen width is small it should still hide the rest of them.</bubble>
+      <bubble DTS='20240423002156' SPK='StarTree' EXP=4 Icon='⭐'>Done! Added sepia effect for widgets not in display. Tweaking zIndex code for the widgets. Testing.</bubble>
+      <bubble DTS='20240423014930' SPK='Black' EXP Icon='🔮'>I think the pin idea is not needed because there are close buttons. Shelving that idea.</bubble>
+      <bubble DTS='20240423022142' SPK='StarTree' EXP Icon='⭐'>Experimenting with speaker bar.</bubble>
+
+    </topic>
+		<mbKudo>Wee~~!</mbKudo>
+	</content>
+	<ref></ref>
+	<node>{"id":"202404222352","parentid":"202404221008","parentname":"Widgets","icon":"🎯","title":"Widgets Node","subtitle":"Subtitle","kids":"","img":"","music":"","author":"Ivy","prev":"202404212357","next":"","participants":"Ivy, Evelyn, Zoey, Black, StarTree, Black"}</node>
+</div><!--Widgets Node-->
 <div date='20240422' time='2359' data-status>
   <macro>{"cmd":"daisy2","issues":"6","quests":"1146","activities":[
     
