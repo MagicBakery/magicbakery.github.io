@@ -4586,7 +4586,7 @@
               </tr>
               <tr>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240421')">21<br><div class="mbavem mbStarTree"></div></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240422')">22<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240422')">22<br><div class="mbavem mbStarTree"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240423')">23<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240424')">24<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240425')">25<br>&nbsp;</td>
@@ -4642,7 +4642,7 @@
               </tr>
               <tr>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240421')">21<br>🎯</td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240422')">22<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240422')">22<br>🎯</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240423')">23<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240424')">24<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240425')">25<br>&nbsp;</td>
@@ -23174,70 +23174,78 @@ data-DXP-WIN-Casey
   <card>
     <!--#NM-->
     <div class="mbscroll">
-      <widget DTS="20240416213800" node="202404162138" title="Node Maker" icon="🥧" Reserved Board style="font-size: 16px;line-height: 20px;text-align: justify; max-width:250px;">
+      <widget widget DTS="20240416213800" node="202404162138" title="Node Maker" icon="🥧" Reserved Board>
+        
+        <div style="width:100%;text-align: justify">
+        
 
-        <div style="float:left;overflow-y: hidden;width:50px;line-height:0px;height:295px">
-          <div class="mbav50t mbBlack" ></div>
-          <div class="mbav50t mbEvelyn"></div>
-          <div class="mbav50t mbIvy"></div>
-          <div class="mbav50t mbLRRH"></div>
-          <div class="mbav50t mbStarTree"></div>
-          <div class="mbav50t mbTanya"></div>
-          <div class="mbav50t mbZoey"></div>
-        </div>
 
-        <div style="margin-left:55px">
           <a class="mbbutton" onclick="NMSetParent(this,'202209192238','Paladin','⚔️')">⚔️ </a>
           <a class="mbbutton" onclick="NMSetParent(this,'202207252131','Cleric','❤️')">❤️</a>
           <a class="mbbutton" onclick="NMSetParent(this,'202209031718','Herald','📯')">📯</a>
           <a class="mbbutton" onclick="NMSetParent(this,'202207170956','Alchemist','🍀')">🍀</a>
           <a class="mbbutton" onclick="NMSetParent(this,'202209142228','Oracle','🔮')">🔮</a> 
           <a class="mbbutton" onclick="NMSetParent(this,'202209082209','Magician','🎩')">🎩</a>
-          <!--<a class="mbbutton" onclick="NMSetParent(this,'202207131009','Game','🎲')">🎲</a>
+          <a class="mbbutton" onclick="NMSetParent(this,'202207131009','Game','🎲')">🎲</a>
           <a class="mbbutton" onclick="NMSetParent(this,'202210151642','Book','📗')">📗</a>
           <a class="mbbutton" onclick="NMSetParent(this,'202307231022','TSN','☎️')">☎️</a>
-          <a class="mbbutton" onclick="NMSetParent(this,'202307231022','Case','📂')">📂</a>-->
+          <a class="mbbutton" onclick="NMSetParent(this,'202307231022','Case','📂')">📂</a>          
+          <a class="mbbutton" title="Timestamp" style="float:right" onclick="NMGetDTS()">⏱</a>
           <br>
-          
-          <input NM-PrevID type="text" placeholder="Prev ID" title="Prev ID" style="width:35%;text-align: center;">
-          <input NM-NextID type="text" placeholder="Next ID" title="Next ID" style="width:35%;text-align: center;">
-          <input NM-URL type="text" placeholder="URL" title="Input a keyword" style="width:25%;text-align: center;"><br>
+          <center style="padding:0px 5px;margin:0px -10px">
+          <input NM-PrevID type="text" placeholder="Prev ID" title="Prev ID" style="width:120px;text-align: center;">
+          <input NM-NextID type="text" placeholder="Next ID" title="Next ID" style="width:120px;text-align: center;">
+          <input NM-URL type="text" placeholder="URL" title="Input a keyword" style="width:67px;text-align: center;"><br>
       
-          <input NM-ParentID type="text" placeholder="Parent ID" title="Parent ID" style="width:35%;text-align: center;">
-          <input NM-ParentName type="text" placeholder="Parent Name" title="Parent Name" style="width:61%;text-align: center;"><br>
+          <input NM-ParentID type="text" placeholder="Parent ID" title="Parent ID" style="width:120px;text-align: center;">
+          <input NM-ParentName type="text" placeholder="Parent Name" title="Parent Name" style="width:190px;text-align: center;"><br>
 
-          <input NM-DTS type="text" placeholder="Node ID" title="Timestamp" style="width:35%;text-align: center;">
-          <input NM-Title type="text" placeholder="Title" title="Title" style="width:61%;text-align: center;"><br>
+          <input NM-DTS type="text" placeholder="Node ID" title="Timestamp" style="width:120px;text-align: center;">
+          <input NM-Title type="text" placeholder="Title" title="Title" style="width:190px;text-align: center;"><br>
    
-          <input NM-SPK type="text" placeholder="Author" title="Speaker" style="width:23.5%;text-align: center;">
-          <input NM-Icon type="text" placeholder="" title="Icon" style="width:10%;text-align: center;">        
-          <input NM-Tags type="text" placeholder="Tags" title="Tags" style="width:61%;text-align: center;">
+          <input NM-SPK type="text" placeholder="Speaker" title="Speaker" style="width:90px;text-align: center;" onkeyup="NMAddSPKev(event,this)">
+          <input NM-Icon type="text" placeholder="" title="Icon" style="width:27px;text-align: center;">        
+          <input NM-Tags type="text" placeholder="Tags" title="Tags" style="width:190px;text-align: center;">
           <br>
    
-          <small>
-          <a class="mbbutton" onclick="NMBubble(this,'',true)" title="Make Bubble">BBL</a>
-          <a class="mbbutton" onclick="NMBubble(this)" title="Make EXP Bubble">EXP</a> 
-          <a class="mbbutton" onclick="NMTopic(this)" title="Make Topic Section">SEC</a> 
-          <a class="mbbutton" onclick="NMLI(this)" title="Make List Item">LST</a> 
-          <a class="mbbutton" onclick="NMURL(this)" title="Make URL Macro">URL</a> 
-          <a class="mbbutton" onclick="NMCard(this)" title="Make Card">CRD</a>
-          <a class="mbbutton" onclick="NMNode(this)" title="Make Node">NDE</a>
-          <a class="mbbutton" onclick="NMNode(this,true)" title="Make Chat">CHT</a>
-        </small>
-          <br>
-        
-          <a class="mbbutton" onclick="NMTopic(this,'🎪')" title="Quest Section">🎪</a>
-          <a class="mbbutton" onclick="NMTopic(this,'🌱')" title="Initiate Section">🌱</a>
-          <a class="mbbutton" onclick="NMTopic(this,'🐤')" title="Beginner Section">🐤</a>
-          <a class="mbbutton" onclick="NMTopic(this,'🕊️')" title="Practitioner Section">🕊️</a>
-          <a class="mbbutton" onclick="NMTopic(this,'🦉')" title="Instructor Section">🦉</a>
-          <a class="mbbutton" onclick="NMTopic(this,'🦅')" title="Master Section">🦅</a>
           
-          <macro>{"cmd":"ButtonList","func":"NMBubble","list":"📌|💗|⭐|✅"}</macro>  
-          <macro>{"cmd":"ButtonList","func":"NMBubble",
-            "list":"🐾|🧰|🍎|🎀|🌺|🎯|🎪|🎡|🎠|🚀|📯|⚖️|🧹|🏹|🗂️|📒|🔔|🛎️|👑|🥘|🍯|🎟️|🍮|💡|⚡|🍍|🏕️|🌾|♻️|🍀|🐸|🏅|❄️|🔍|🧊|🌊|🔮|🎓|🗃️|💼|🎻|🥨|📜|🎲|⚙️|⚔️|🛒"}</macro>
+            <a class="mbbutton" onclick="NMBubble(this,'',true)" title="Make Bubble">BBL</a>
+            <a class="mbbutton" onclick="NMBubble(this)" title="Make EXP Bubble">EXP</a> 
+            <a class="mbbutton" onclick="NMTopic(this)" title="Make Topic Section">SEC</a> 
+            <a class="mbbutton" onclick="NMLI(this)" title="Make List Item">LST</a> 
+            <a class="mbbutton" onclick="NMURL(this)" title="Make URL Macro">URL</a> 
+            <a class="mbbutton" onclick="NMCard(this)" title="Make Card">CRD</a>
+            <a class="mbbutton" onclick="NMNode(this)" title="Make Node">NDE</a>
+            <a class="mbbutton" onclick="NMNode(this,true)" title="Make Chat">CHT</a>
+          </center>
+          
+          <center style="letter-spacing: -20px;padding:0px;max-height:61px;overflow-y: auto;" NM-SPKList>
+            <!--<a onclick="NMSetSPK(this,'Black')"><div class="mbav50t mbBlack" ></div></a>
+            <a onclick="NMSetSPK(this,'Evelyn')"><div class="mbav50t mbEvelyn" ></div></a>
+            <a onclick="NMSetSPK(this,'Ivy')"><div class="mbav50t mbIvy" ></div></a>
+            <a onclick="NMSetSPK(this,'LRRH')"><div class="mbav50t mbLRRH" ></div></a>
+            <a onclick="NMSetSPK(this,'StarTree')"><div class="mbav50t mbStarTree" ></div></a>
+            <a onclick="NMSetSPK(this,'Zoey')"><div class="mbav50t mbZoey" ></div></a>-->
+          </center>
+        
+          
+            <a class="mbbutton" onclick="NMTopic(this,'🎪')" title="Quest Section">🎪</a>
+            <a class="mbbutton" onclick="NMTopic(this,'🌱')" title="Initiate Section">🌱</a>
+            <a class="mbbutton" onclick="NMTopic(this,'🐤')" title="Beginner Section">🐤</a>
+            <a class="mbbutton" onclick="NMTopic(this,'🕊️')" title="Practitioner Section">🕊️</a>
+            <a class="mbbutton" onclick="NMTopic(this,'🦉')" title="Instructor Section">🦉</a>
+            <a class="mbbutton" onclick="NMTopic(this,'🦅')" title="Master Section">🦅</a>
+            
+            
+            <macro>{"cmd":"ButtonList","func":"NMBubble","list":"📌|💗|⭐|✅"}</macro>
+            
+            <div class='mbhide'><!-- style="max-height:68px;overflow-y: auto">-->
+            <macro>{"cmd":"ButtonList","func":"NMBubble",
+              "list":"🐾|🧰|🍎|🎀|🌺|🎯|🎪|🎡|🎠|🚀|📯|⚖️|🧹|🏹|🗂️|📒|🔔|🛎️|👑|🥘|🍯|🎟️|🍮|💡|⚡|🍍|🏕️|🌾|♻️|🍀|🐸|🏅|❄️|🔍|🧊|🌊|🔮|🎓|🗃️|💼|🎻|🥨|📜|🎲|⚙️|⚔️|🛒"}</macro>
+            </div>
+            <hr class="mbCB mbpointer" onclick="ShowPrev(this)">
+          
         </div>
-        <hr class="mbCB">
       </widget>
     </div>
     <!--<div class="mbCharCard">
@@ -24327,8 +24335,13 @@ data-DXP-WIN-Casey
       <bubble DTS='20240423002111' SPK='Black'>When the screen width is small it should still hide the rest of them.</bubble>
       <bubble DTS='20240423002156' SPK='StarTree' EXP=4 Icon='⭐'>Done! Added sepia effect for widgets not in display. Tweaking zIndex code for the widgets. Testing.</bubble>
       <bubble DTS='20240423014930' SPK='Black' EXP Icon='🔮'>I think the pin idea is not needed because there are close buttons. Shelving that idea.</bubble>
-      <bubble DTS='20240423022142' SPK='StarTree' EXP Icon='⭐'>Experimenting with speaker bar.</bubble>
 
+      
+
+    </topic>
+    <topic DTS='20240423032359' Icon='🐤' title='Node Maker Speaker Cache'>
+      <bubble DTS='20240423022142' SPK='StarTree' EXP Icon='⭐'>Experimenting with speaker bar. </bubble>
+      <bubble DTS='20240423032416' SPK='StarTree' EXP=8 Icon='⭐'>Adding NMSetSPK. Adding NMGetDTS. Adding NMAddSPKev. Adding OnKeyUp for the SPK input box. Testing. Adding the function to get a random member. Addding error checking. Done! Adding scroll sections. </bubble>
     </topic>
 		<mbKudo>Wee~~!</mbKudo>
 	</content>
@@ -24336,12 +24349,65 @@ data-DXP-WIN-Casey
 	<node>{"id":"202404222352","parentid":"202404221008","parentname":"Widgets","icon":"🎯","title":"Widgets Node","subtitle":"Subtitle","kids":"","img":"","music":"","author":"Ivy","prev":"202404212357","next":"","participants":"Ivy, Evelyn, Zoey, Black, StarTree, Black"}</node>
 </div><!--Widgets Node-->
 <div date='20240422' time='2359' data-status>
+  <macro>{"cmd":"daisy2","issues":"7","quests":"1134","activities":[
+    {"ch":"32","rank":"A","updates":"3","last":"20240403"},
+    {"ch":"12","rank":"B","updates":"3","last":"20240406"},
+    {"ch":"33","rank":"S","updates":"2","last":"20240408"},
+    {"ch":"26","rank":"A","updates":"3","last":"20240411"},
+    {"ch":"35","rank":"A","updates":"4","last":"20240411"},
+    {"ch":"14","rank":"A","updates":"4","last":"20240413"},
+    {"ch":"31","rank":"C","updates":"3","last":"20240414"},
+    {"ch":"34","rank":"A","updates":"4","last":"20240415"},
+    {"ch":"17","rank":"S","updates":"2","last":"20240416"},
+    {"ch":"11","rank":"A","updates":"4","last":"20240417"},
+    {"ch":"30","rank":"A","updates":"4","last":"20240418"},
+    {"ch":"24","rank":"A","updates":"2","last":"20240418"},
+    {"ch":"19","rank":"B","updates":"2","last":"20240418"},
+    {"ch":"20","rank":"A","updates":"4","last":"20240419"},
+    {"ch":"21","rank":"A","updates":"4","last":"20240419"},
+    {"ch":"16","rank":"B","updates":"2","last":"20240419"},
+    {"ch":"29","rank":"A","updates":"4","last":"20240419"},
+    {"ch":"22","rank":"C","updates":"2","last":"20240420"},
+    {"ch":"27","rank":"A","updates":"3","last":"20240420"},
+    {"ch":"5","rank":"B","updates":"3","last":"20240422"},
+    {"ch":"23","rank":"A","updates":"3","last":"20240422"},
+    {"ch":"15","rank":"A","updates":"4","last":"20240422"},
+    {"ch":"28","rank":"A","updates":"2","last":"20240422"},
+    {"ch":"13","rank":"C","updates":"2","last":"20240422"},
+    {"ch":"18","rank":"B","updates":"3","last":"20240422"},
+    {"ch":"7","rank":"A","updates":"4","last":"20240422"},
+    {"ch":"25","rank":"A","updates":"4","last":"20240422"}
+    ],"players":"Ivy, Evelyn, Zoey, Black, StarTree, Black","merits":"Ivy","recognitions":"","kudos":"Ivy, Evelyn, Zoey, Black, StarTree, Black","awards":"Albatross, Arcacia, Black, Cardinal, Casey, Evelyn, LRRH, Natalie, P4, Patricia, Skyle, StarTree, Sylvia, V, Vladanya","top":[
+    {"name":"StarTree","score":"28"},
+    {"name":"Evelyn","score":"26"},
+    {"name":"Black","score":"21"},
+    {"name":"V","score":"14"},
+    {"name":"LRRH","score":"13"},
+    {"name":"Patricia","score":"12"},
+    {"name":"Natalie","score":"10"},
+    {"name":"Arcacia","score":"9"},
+    {"name":"Sylvia","score":"7"},
+    {"name":"P4","score":"7"},
+    {"name":"Albatross","score":"6"},
+    {"name":"Vladanya","score":"6"},
+    {"name":"Ivy","score":"6"},
+    {"name":"Skyle","score":"5"},
+    {"name":"Cardinal","score":"4"},
+    {"name":"Casey","score":"4"},
+    {"name":"Zoey","score":"4"},
+    {"name":"Ledia","score":"2"},
+    {"name":"Fina","score":"1"},
+    {"name":"Kisaragi","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div date='20240423' time='2359' data-status>
   <macro>{"cmd":"daisy2","issues":"6","quests":"1146","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
     
   ]}</macro>
 </div><!-- STATUS -->
+
 <!--
 <card>
   <a href="https://github.com/MagicBakery/Images/blob/main/Slide_28.png?raw=true" target="_blank">

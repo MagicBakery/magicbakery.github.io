@@ -3756,6 +3756,10 @@ function GuildEXP(iMember){
   };
   return dict[iMember];
 }
+function RandomMember(){
+  // 20240423: StarTree: Returns a random member.
+  return Roster(getRandomInt(0,Roster(-1)));
+}
 function Roster(iIndex){
   // 20230125: Ledia: Preparing for roster stats display.
   //   Returns the length if the argument is negative.
@@ -5224,6 +5228,74 @@ function NMSetParent(el,mParentID,mParentName,mIcon){
   }else{
     elControl.querySelector('[NM-Tags]').value = "data-" + mParentName;
   }  return NMNode(el);
+}
+
+function NMAddSPKev(e,el){
+  // 20240423: StarTree: Assumes that the Enter key was pressed at the SPK input box.
+  if(e.code!='Enter'){return;}
+  var curSPK = el.value.replaceAll(/[\W_]+/g,"");
+  if(IsBlank(curSPK)){curSPK = RandomMember();}
+  if(NotBlank(el.value) && (el.value != curSPK)){el.value = curSPK;}
+
+  // STEP: Check if the entered SPK is already on the list and if the list is full.
+  var elWidget = SearchPS(el,"Widget");
+  var elList = elWidget.querySelector('[NM-SPKList]');
+  var mCount = 0;
+  var mExist = false;
+  elList.querySelectorAll('a').forEach((mTag)=>{
+    if(mTag.firstElementChild.classList.contains('mb'+curSPK)){
+      mTag.firstElementChild.classList.remove('mbav50t');
+      mTag.firstElementChild.classList.add('mbav50trg');
+      mExist = true;
+    }else{
+      mTag.firstElementChild.classList.remove('mbav50trg');
+      mTag.firstElementChild.classList.add('mbav50t');
+    }
+    mCount++;
+  });
+  if(mExist){return;}
+  //if(mCount >= 12){return;} // The cache list only fits 6 icons.
+
+  // STEP: Add a new button.
+  var mHTML = "<a onclick=\"NMSetSPK(this,'"+curSPK+"')\"><div class='mbav50trg mb"+curSPK+"' ></div></a>";
+  elList.innerHTML = mHTML + elList.innerHTML;
+}
+function NMSetSPK(el,mSPK){
+  // 20240423: StarTree: This is for when the user clicked on a SPK cache button.
+  var elControl = SearchPS(el,"Widget");
+  var curSPK = elControl.querySelector('[NM-SPK]').value;
+
+  // STEP: If the button is already highlighted, and same as the input box, 
+  // Clear the input box and remove the SPK cache button.
+  var elSPK = el.firstElementChild;
+  var bHighlighted = elSPK.classList.contains('mbav50trg');
+  
+  if(curSPK == mSPK && bHighlighted){
+    elControl.querySelector('[NM-SPK]').value = "";
+    el.remove();
+    return;
+  }
+
+  // STEP: Otherwise, set the SPK and set the highlight.
+  elControl.querySelector('[NM-SPK]').value = mSPK;
+  var elFrame = SearchPS(el,'NM-SPKList');
+  elFrame.querySelectorAll('a').forEach((mTag)=>{
+    if(mTag == el){
+      mTag.firstElementChild.classList.remove('mbav50t');
+      mTag.firstElementChild.classList.add('mbav50trg');
+    }else{
+      mTag.firstElementChild.classList.remove('mbav50trg');
+      mTag.firstElementChild.classList.add('mbav50t');
+    }
+  });
+  
+  
+
+}
+function NMGetDTS(){
+  // 20240423: StarTree: Puts DTS to the clipboard.
+  navigator.clipboard.writeText(DTSNow());
+  return mHTML;
 }
 function NMNode(el,bChatChannel){
   // 20240416: StarTree: Put the code of a new node to Clipboard.
