@@ -5232,7 +5232,9 @@ function NMSetParent(el,mParentID,mParentName,mIcon){
 
 function NMAddSPKev(e,el){
   // 20240423: StarTree: Assumes that the Enter key was pressed at the SPK input box.
-  if(e.code!='Enter'){return;}
+  var elWidget = SearchPS(el,"Widget");
+  elWidget.querySelector('[NM-URL]').value = e.code;
+  if(e.code!='Enter' && e.code!="Space" && e.code!="Period"){return;}
   var curSPK = el.value.replaceAll(/[\W_]+/g,"");
   if(IsBlank(curSPK)){curSPK = RandomMember();}
   if(NotBlank(el.value) && (el.value != curSPK)){el.value = curSPK;}
