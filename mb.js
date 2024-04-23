@@ -4768,7 +4768,7 @@ function BringToFrontFP(el){
       mTag.style.opacity = "1";
     }else{
       mTag.style.zIndex = Math.max(0,mTag.style.zIndex-1);
-      mTag.style.opacity = "0.9";
+      //mTag.style.opacity = "0.9";
     }
   });
 }
@@ -5298,7 +5298,8 @@ function NMSetSPK(el,mSPK){
 }
 function NMGetDTS(){
   // 20240423: StarTree: Puts DTS to the clipboard.
-  navigator.clipboard.writeText(DTSNow());
+  var mHTML = DTSNow();
+  navigator.clipboard.writeText(mHTML);
   return mHTML;
 }
 function NMNode(el,bChatChannel){
@@ -5443,6 +5444,51 @@ function NodeMarkUseCookie(el,iNoIcon){
     if(iNoIcon){return;}
     el.innerHTML = "🍪⛔";
   }
+}
+function TACount(el,mInc){
+  // 20240423: LRRH
+  var elTA = TAGet(el);
+  var mCurValue = Number(TAGetSelText(elTA));
+  if(mInc == 0){
+    TAReplace(elTA,String(0));
+    mCurValue = 0;
+  }else{
+    mCurValue += Number(mInc);
+    TAReplace(elTA, String(mCurValue));
+  }
+}
+function TAGet(el){
+  // 20240423: LRRH
+  return SearchPS(el,"Widget").querySelector('[textarea]')
+}
+function TAGetSelText(el){
+  // 20240423: LRRH: el here is the textarea.
+  return el.value.slice(el.selectionStart,el.selectionEnd);;
+}
+function TAInsertDTS(el){
+  // 20240423: P4  
+  var elTA = TAGet(el);
+  TAInsert(elTA,DTSNow());
+}
+function TAInsert(el,mStr){
+  // 20240423: P4
+  var mStart = el.selectionStart;
+  var mEnd = el.selectionEnd;
+  var mText = el.value;
+  el.value = mText.slice(0,mStart) + mStr + mText.slice(mEnd);
+  el.selectionStart = el.selectionEnd = mEnd + mStr.length;
+  el.focus();
+}
+function TAReplace(el,mStr){
+  // 20240423: LRRH
+  mStr = String(mStr);
+  var mStart = el.selectionStart;
+  var mEnd = el.selectionEnd;
+  var mText = el.value;
+  el.value = mText.slice(0,mStart) + mStr + mText.slice(mEnd);
+  el.selectionStart = mStart;
+  el.selectionEnd = mStart + mStr.length;
+  el.focus();
 }
 function TextAreaUseCookie(el){
   // 20240330: StarTree: Cookie TextArea
