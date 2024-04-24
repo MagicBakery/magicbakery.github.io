@@ -4730,22 +4730,9 @@ function ShowWidgets(){
   // Match the visibility status of the FP
   elButtons.forEach((mTag)=>{
     let elFP = mTag.nextElementSibling.querySelector('[FP]');
-    
-    if(elFP.classList.contains('mbhide')){
-      mTag.style.opacity = 0.25;
-      mTag.style.filter= "sepia(100%)";
-      mNumHidden ++;
-    }else{
-      mTag.style.opacity = 1;
-      mTag.style.filter= "sepia(0%)";
-    }
     mTag.classList.remove('mbhide');
   });
-  /*if(mNumHidden == elButtons.length){
-    elButtons.forEach((mTag)=>{
-      mTag.classList.add('mbhide');
-    });
-  }*/
+  FPGetTopZ();
 }
 function HideAllFP(){
   // 20240421: Arcacia: Hide all FP.
@@ -4787,13 +4774,38 @@ function FPGetTopZ(){
       mZArray[i][1].style.zIndex = mCurMax;
     }
   }
+  FPSepia(mZArray,mCurMax);
   return mCurMax;
 }
-
+function FPSepia(mZArray,mCurMax){
+  // 20240424: Black: Scans and update FP button sepia/opacity settings
+  // This should be called after having a sorted array.
+  for(let i=0;i<mZArray.length;i++){
+    let mButton = (mZArray[i][1]).parentNode.parentNode.previousElementSibling;    
+    if(mZArray[i][0] == 0){
+      // If the FP is not shown, grey out its button
+      mButton.style.opacity = 0.1;
+      mButton.style.filter = "sepia(100%)";
+    }else if(mZArray[i][0] >= mCurMax){
+      // If the FP is the top most (and not hidden), full color.
+      mButton.style.opacity = 1;
+      mButton.style.filter = "sepia(0%)";
+    }else{
+      // Else: tone down the button
+      mButton.style.opacity = 0.60;
+      mButton.style.filter = "sepia(100%)";
+    }
+  }
+}
 function FPHide(elFP){
   // 20240424: P4: Hides an FP
   elFP.classList.add('mbhide');
   elFP.style.zIndex=0;
+}
+function FPShow(elFP){
+  // 20240424: Black: Shows an FP
+  elFP.classList.remove('mbhide');
+  elFP.style.zIndex=FPGetTopZ()+1;
 }
 function ShowNextFP(el,mDTS){
   // 20240420: StarTree: Show the FP within the next element.
@@ -4807,8 +4819,9 @@ function ShowNextFP(el,mDTS){
       // Close it if it is at the top.
       FPHide(elFP);
     }else{
-      elFP.style.zIndex = FPGetTopZ()+1;
+      elFP.style.zIndex = mTopZ+1;
     }    
+    FPGetTopZ();
     return;
   }
   // The following is for the cases when the FP is currently hidden.
@@ -4822,27 +4835,19 @@ function ShowNextFP(el,mDTS){
 
   // STEP: If it is not on a phone, bring to top and done.
   if(!AtMobile()){
-    elFP.style.zIndex = FPGetTopZ()+1;
-    elFP.classList.remove('mbhide');
+    FPShow(elFP);
+    FPGetTopZ();
     return;
   }
   // The following is for the case when the FP is on a phone.
 
   // STEP: Hide all FP.
   var elFPs = document.querySelectorAll('[FP]');
-  elFPs.forEach((mTag)=>{mTag.classList.add('mbhide');});
+  elFPs.forEach((mTag)=>{FPHide(mTag);});
   // STEP: Show only this FP.
-  elFP.style.zIndex = 0;
-  elFP.classList.remove('mbhide');
+  FPShow(elFP);
+  FPGetTopZ();
   return;
-
-
-  
-
-
-  
-  
-
 
   var elFPs = document.querySelectorAll('[FP]');
   var elFP = el.nextElementSibling.querySelector('[FP]');
@@ -4890,7 +4895,7 @@ function ReloadFP(el){
   // 20240421: Arcacia: Special handling for the Feedback Form.
   if(mDTS=="Feedback"){
     var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
-    mHTML = "<a class='mbbutton' onClick='HideParent(this)' style='float:right' title='Close'>🍮</a>";
+    mHTML = "<a class='mbbutton' onClick='HideParent(this);FPGetTopZ()' style='float:right' title='Close'>🍮</a>";
     mHTML += "💌 <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a><span><hr>";
     mHTML += "<iframe src='" + mInput + "' title='Google Form' style='border:none;width:100%;height:45vh' allow='clipboard-read; clipboard-write'></iframe></span>";
     el.innerHTML = mHTML;
