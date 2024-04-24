@@ -4587,7 +4587,7 @@
               <tr>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240421')">21<br><div class="mbavem mbStarTree"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240422')">22<br><div class="mbavem mbStarTree"></div></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240423')">23<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240423')">23<br><div class="mbavem mbBlack"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240424')">24<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240425')">25<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240426')">26<br>&nbsp;</td>
@@ -4643,7 +4643,7 @@
               <tr>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240421')">21<br>🎯</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240422')">22<br>🎯</td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240423')">23<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240423')">23<br>📌</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240424')">24<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240425')">25<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240426')">26<br>&nbsp;</td>
@@ -20324,9 +20324,12 @@ data-DXP-WIN-Casey
         <button class="mbbutton" title="Use Cookie" style="float:right" onclick="TextAreaUseCookie(this)">🍪</button>
         <a class="mbbutton" title="Insert Timestamp" onclick="TAInsertDTS(this)">🕒</a>
 
-        <button class="mbbutton" title="Testing" onclick="TACount(this,'1')">🔼</button>
-        <button class="mbbutton" title="Testing" onclick="TACount(this,'0')">⏺</button>
-        <button class="mbbutton" title="Testing" onclick="TACount(this,'-1')">🔽</button>
+        <span style="float:right">
+        <button class="mbbutton" title="Testing" onclick="TACount(this,'-1')">[-1]</button>
+        <button class="mbbutton" title="Testing" onclick="TACount(this,'0')">[0]</button>
+        <button class="mbbutton" title="Testing" onclick="TACount(this,'1')">[+1]</button>
+      </span>
+        
 
       </span>
       <textarea textarea style="tab-size:2;width:100%;height:200px;font-size:16px;background-color:FloralWhite;color:saddlebrown" onkeyup="TextAreaSave(this)"></textarea>  
@@ -21948,46 +21951,46 @@ data-DXP-WIN-Casey
         <div class="mbCB"></div>
       </hide>
     </div>
-    <div class="mbscroll">
-      <div class="mbbutton" onclick="ShowNext(this)">🐤 Favorites</div>
-      <hide><hr><div class="mbav50r mbZoey"></div>
-        What are your favorite ramen or ramen ingredients?
-        <div class="mbpuzzle">
-          <div class="mbbutton" onclick="ShowNext(this)">Ingredients</div>
-          <hide><hr>
+
+    <topic DTS='20240424011119' Icon='🐤' title='Favorites'>
+      <bubble DTS='20240424011658' SPK='Zoey' EXP Icon='📯'>What are your favorite ramen or ramen ingredients?</bubble>
+      <topic DTS='20240424011143' Icon='' title='Ingredients'>
+        
+        <ol>
+          <bullet title='Plain'>
+            <bubble SPK='Robert' EXP Icon='💗'>20240410: Plain.</bubble>
+          </bullet>
+          <bullet title='Oatmeal'>
+            <bubble DTS='20240424011428' SPK='Patricia' EXP Icon='💗'>Cook with the noodle.</bubble>
+          </bullet>
+          <bullet title='Roasted Peanuts'>
             <bubble SPK='Zoey' EXP Icon='💗'>20240410: Roasted peanuts</bubble>
+          </bullet>
+          <bullet title='Vegetables'>
             <bubble SPK='Evelyn' EXP Icon='💗'>20240410: Okra, mushrooms, avocado.</bubble>
             <bubble SPK='Black' EXP Icon='💗'>20240410: Spinach and black pepper.</bubble>
-            <bubble SPK='Robert' EXP Icon='💗'>20240410: Plain.</bubble>
+          </bullet>
+          <bullet title='Oil'>
             <bubble SPK='P4' EXP Icon='💗'>20240411: Sesame oil.</bubble>
-            <div class="mbCB"></div>
-          </hide>
-        </div>
-        <div class="mbpuzzle">
-          <div class="mbbutton" onclick="ShowNext(this)">Brands</div>
-          <hide><hr>
-            <ol>
-              <li>
-                <span class="mbbutton" onclick="ShowNextInline(this)">Indo Mie (3oz)</span>
-                <hide>
-                  <macro>{"cmd":"url","url":"https://www.amazon.com/Indomie-Instant-Noodles-Certified-Original/dp/B000VQDABY","desc":"🔗"}</macro>
-                  <bubble SPK='Zoey' EXP Icon='🏹'>20240410: This small pack of ramen cooks well but the texture isn't great. </bubble>
-                </hide>
-              </li>
-              <li>
-                <span class="mbbutton" onclick="ShowNextInline(this)">Sapporo Ichiban (3.7oz)</span>
-                <hide>
-                  <macro>{"cmd":"url","url":"https://www.amazon.com/Sapporo-Ichiban-Ramen-Noodles-Original/dp/B00N3K2I7C","desc":"🔗"}</macro>
-                  <bubble SPK='Zoey' EXP Icon='🏹'>20240410: This ramen doesn't cook well with microwave.</bubble>
-                </hide>
-              </li>
-            </ol>
-            <div class="mbCB"></div>
-          </hide>
-        </div>
-        <div class="mbCB"></div>
-      </hide>
-    </div>
+          </bullet>
+          <bullet title='Sesame Sticks'>
+            <bubble DTS='20240424011254' SPK='Zoey' EXP Icon='💗'>Crunchy sesame cracker sticks. Add them after the noodle is already coocked.</bubble>
+          </bullet>
+        </ol>
+      </topic>
+      <topic DTS='20240424011930' Icon='' title='Brands'>
+        <ol>
+          <bullet title='Indo Mie (3oz)'>
+            <macro>{"cmd":"url","url":"https://www.amazon.com/Indomie-Instant-Noodles-Certified-Original/dp/B000VQDABY","desc":"🔗"}</macro>
+            <bubble SPK='Zoey' EXP Icon='🏹'>20240410: This small pack of ramen cooks well but the texture isn't great. </bubble>
+          </bullet>   
+          <bullet title='Sapporo Ichiban (3.7oz)'>
+            <macro>{"cmd":"url","url":"https://www.amazon.com/Sapporo-Ichiban-Ramen-Noodles-Original/dp/B00N3K2I7C","desc":"🔗"}</macro>
+            <bubble SPK='Zoey' EXP Icon='🏹'>20240410: This ramen doesn't cook well with microwave.</bubble>
+          </bullet>       
+        </ol>
+      </topic>
+    </topic>    
     <div class="mbscroll">
       <div class="mbbutton" onclick="ShowNext(this)">🕊️ Cooking Ramen</div>
       <hide><hr><div class="mbav50r mbZoey"></div>
@@ -23252,7 +23255,7 @@ data-DXP-WIN-Casey
             
             <span class='mbhide'><!-- style="max-height:68px;overflow-y: auto">-->
             <macro>{"cmd":"ButtonList","func":"NMBubble",
-              "list":"🐾|❓|❌|🍎|⛔|🧰|🎀|🌺|🎯|🎪|🎡|🎠|🚀|📯|⚖️|🧹|🏹|🗂️|📒|🔔|🛎️|👑|🥘|🍯|🎟️|🍮|💡|⚡|🍍|🏕️|🌾|♻️|🍀|🐸|🏅|❄️|🧊|🌊|🔮|🎓|🗃️|💼|🎻|🥨|📜|🎲|⚙️|⚔️|🛒"}</macro>
+              "list":"🐾|❓|❌|🍎|⛔|🧰|🎀|💟|🌺|🎯|🎪|🥁|🎡|🎠|🚀|🐣|📯|⚖️|🧹|🏹|🗂️|📒|🔔|🛎️|👑|🥘|🍯|🎟️|🍮|💡|⚡|🍍|🏕️|🌾|♻️|🍀|🐸|🏅|❄️|🧊|🌊|🔮|🎓|🗃️|💼|🎻|🥨|📜|🎲|⚙️|⚔️|🛒"}</macro>
             </span>
             <hr class="mbCB mbpointer" onclick="ShowPrev(this)">
           
@@ -24411,14 +24414,86 @@ data-DXP-WIN-Casey
     {"name":"Kisaragi","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
+<div id="P202404232308" date='20240423' time='2308' data-202303052122 data-202404222352 data-chat data-happy data-202404221008 data-announcement>
+	<content>
+    <bubble DTS='20240423230802' SPK='Black' EXP Icon='📯'><b>Widget bring to front</b> has a bug where the z-index is changes like a string instead of like a number.</bubble>
+    <topic DTS='20240424003924' Icon='⚔️' title='Bug Fix'>
+      <bubble DTS='20240423230951' SPK='Black' EXP Icon='📌'>And Node Maker chat node has a bug where the tag for the previous node appears twice.</bubble>
+      <bubble DTS='20240423231055' SPK='StarTree' EXP Icon='🍮'>Fixing bugs.</bubble>
+      <bubble DTS='20240423231357' SPK='Zoey' EXP=2 Icon='🏹'>Investigating and modifying for the visibility bug. XD</bubble>
+      <bubble DTS='20240423233515' SPK='Sylvia' EXP=2 Icon='🎻'>Refactoring the code. Adding FPGetTopZ. Modifying BringToFrontFP.</bubble>
+      <bubble DTS='20240423235658' SPK='P4' EXP Icon='⚔️'>The widget close button stopped working.</bubble>
+      <bubble DTS='20240423235751' SPK='Black' EXP Icon='🔍'>The same click triggers both bring to top and widget close. Bring to top does not need to "show" the widget because it should already be shown.</bubble>
+      <bubble DTS='20240424000012' SPK='P4' EXP=3 Icon='💗'>Testing. Reorganizing ShowNextFP. Adding FPHide.</bubble>
+    </topic>
+    <topic DTS='20240424004131' Icon='🎪' title='Guild Log Reduction Goal'>
+      <bubble DTS='20240424004212' SPK='LRRH' EXP Icon='📯'>Could we work toward the goal of keeping Guild Log task count below 1000?</bubble>
+      <bubble DTS='20240424004253' SPK='StarTree' EXP Icon='🔍'>The current count is 1112!</bubble>
+      <bubble DTS='20240424004525' SPK='Black' EXP Icon='🔍'>I think the biggest reduction came from Ivy putting coding related tasks to the archive. To further reduce the count will need a different effort.</bubble>
+      <bubble DTS='20240424004801' SPK='P4' EXP Icon='🐣'>When was the last time Guild Log count was below 1000?</bubble>
+      <bubble DTS='20240424005035' SPK='StarTree' EXP Icon='🔍'>It was 2022-07-27!</bubble>
+      <bubble DTS='20240424005131' SPK='Zoey' EXP Icon='🏹'>XD</bubble>
+      <bubble DTS='20240424005219' SPK='Ledia' EXP Icon='🥁'>Let's do it!</bubble>
+    </topic>
+		<mbKudo>113 to go!</mbKudo>
+	</content>
+	<ref></ref>
+	<node>{"id":"202404232308","parentid":"202303052122","parentname":"Node Maker","icon":"📌","title":"Bug Fixes","subtitle":"Subtitle","kids":"","img":"","music":"","author":"Black","prev":"202404222352","next":"","participants":"Black, StarTree, Zoey, Sylvia, P4, LRRH, Ledia"}</node>
+</div><!--Bug Fixes-->
 <div date='20240423' time='2359' data-status>
-  <macro>{"cmd":"daisy2","issues":"6","quests":"1146","activities":[
-    
-    ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
-    
+  <macro>{"cmd":"daisy2","issues":"6","quests":"1112","activities":[
+    {"ch":"32","rank":"A","updates":"3","last":"20240403"},
+    {"ch":"12","rank":"B","updates":"3","last":"20240406"},
+    {"ch":"33","rank":"S","updates":"2","last":"20240408"},
+    {"ch":"26","rank":"A","updates":"3","last":"20240411"},
+    {"ch":"35","rank":"A","updates":"4","last":"20240411"},
+    {"ch":"14","rank":"A","updates":"4","last":"20240413"},
+    {"ch":"31","rank":"C","updates":"3","last":"20240414"},
+    {"ch":"34","rank":"A","updates":"4","last":"20240415"},
+    {"ch":"17","rank":"S","updates":"2","last":"20240416"},
+    {"ch":"11","rank":"A","updates":"4","last":"20240417"},
+    {"ch":"30","rank":"A","updates":"4","last":"20240418"},
+    {"ch":"24","rank":"A","updates":"2","last":"20240418"},
+    {"ch":"19","rank":"B","updates":"2","last":"20240418"},
+    {"ch":"20","rank":"A","updates":"4","last":"20240419"},
+    {"ch":"21","rank":"A","updates":"4","last":"20240419"},
+    {"ch":"16","rank":"B","updates":"2","last":"20240419"},
+    {"ch":"29","rank":"A","updates":"4","last":"20240419"},
+    {"ch":"22","rank":"C","updates":"2","last":"20240420"},
+    {"ch":"27","rank":"A","updates":"3","last":"20240420"},
+    {"ch":"5","rank":"B","updates":"3","last":"20240422"},
+    {"ch":"23","rank":"A","updates":"3","last":"20240422"},
+    {"ch":"15","rank":"A","updates":"4","last":"20240422"},
+    {"ch":"28","rank":"A","updates":"2","last":"20240422"},
+    {"ch":"13","rank":"C","updates":"2","last":"20240422"},
+    {"ch":"7","rank":"A","updates":"4","last":"20240422"},
+    {"ch":"18","rank":"B","updates":"3","last":"20240423"},
+    {"ch":"25","rank":"A","updates":"4","last":"20240423223241"}
+    ],"players":"Black, StarTree, Zoey, Sylvia, P4, LRRH, Ledia","merits":"Black","recognitions":"Sylvia, Vivi","kudos":"Black, StarTree, Zoey, Sylvia, P4, LRRH, Ledia","awards":"Arcacia, Black, Cardinal, Evelyn, LRRH, Natalie, P4, Patricia, Sasha, Skyle, StarTree, Sylvia, Tanya, Vivi, Vladanya, Zoey","top":[
+    {"name":"Black","score":"20"},
+    {"name":"LRRH","score":"19"},
+    {"name":"Sylvia","score":"18"},
+    {"name":"P4","score":"16"},
+    {"name":"StarTree","score":"15"},
+    {"name":"Zoey","score":"12"},
+    {"name":"Vivi","score":"10"},
+    {"name":"Arcacia","score":"9"},
+    {"name":"Skyle","score":"8"},
+    {"name":"Natalie","score":"8"},
+    {"name":"Cardinal","score":"7"},
+    {"name":"Tanya","score":"7"},
+    {"name":"Patricia","score":"6"},
+    {"name":"Evelyn","score":"6"},
+    {"name":"Ledia","score":"5"},
+    {"name":"Vladanya","score":"4"},
+    {"name":"Sasha","score":"4"},
+    {"name":"V","score":"2"},
+    {"name":"Kisaragi","score":"2"},
+    {"name":"Fina","score":"1"},
+    {"name":"Casey","score":"1"},
+    {"name":"3B","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
-
 <!--
 <card>
   <a href="https://github.com/MagicBakery/Images/blob/main/Slide_28.png?raw=true" target="_blank">
@@ -24470,7 +24545,7 @@ data-DXP-WIN-Casey
   2) Update function ArchiveSelect with the correct cutoff dates.
 -->
 <div date='20240400' time='2359' data-status>
-  <macro>{"cmd":"daisy2","issues":"6","quests":"1146","activities":[
+  <macro>{"cmd":"daisy2","issues":"6","quests":"1112","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
     

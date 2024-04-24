@@ -4759,53 +4759,105 @@ function HideAllFP(){
 }
 function BringToFrontFP(el){
   // 20240421: Arcacia: Bring the FP to front.
-  var elFPs = document.querySelectorAll('[FP]');
+  // The el in the input is a div within the FP.
+  // 20240423: Sylvia: Restructured.
+  // 20240424: P4: Bring to Top should not "show" the widget because it should already be shown.
+  var mCurMax = Number(FPGetTopZ());
   var elFP = SearchPS(el,'FP');
-  var mMax = elFPs.length;
-  elFPs.forEach((mTag)=>{
-    if(mTag==elFP ){
-      mTag.style.zIndex = mMax;
-      mTag.style.opacity = "1";
+  elFP.style.zIndex = mCurMax + 1;
+  return;
+}
+function FPGetTopZ(){
+  // 20240423: Sylvia: This function returns the top zIndex among the FP objects in display.
+  //   And sets the zIndex of those not in display to 0.
+  var elFPs = document.querySelectorAll('[FP]');
+  var mZArray = [];
+  for(let i=0;i<elFPs.length;i++){
+    if(elFPs[i].classList.contains('mbhide')){
+      mZArray.push([0,elFPs[i]]);
     }else{
-      mTag.style.zIndex = Math.max(0,mTag.style.zIndex-1);
-      //mTag.style.opacity = "0.9";
+      mZArray.push([Number(elFPs[i].style.zIndex),elFPs[i]]);
     }
-  });
+  }
+  mZArray.sort();
+  var mCurMax=0;
+  for(let i=0;i<elFPs.length;i++){
+    if(mZArray[i][0] != 0){
+      mCurMax ++;
+      mZArray[i][1].style.zIndex = mCurMax;
+    }
+  }
+  return mCurMax;
+}
+
+function FPHide(elFP){
+  // 20240424: P4: Hides an FP
+  elFP.classList.add('mbhide');
+  elFP.style.zIndex=0;
 }
 function ShowNextFP(el,mDTS){
   // 20240420: StarTree: Show the FP within the next element.
-  // Algorithm: Only one FP is show at a time.
-  var elFPs = document.querySelectorAll('[FP]');
+  // 20240424: P4: Reorganized
+
   var elFP = el.nextElementSibling.querySelector('[FP]');
-  var mMax = elFPs.length;
+  // STEP: If the FP is already shown, either bring it to top or close it.
+  if(!elFP.classList.contains('mbhide')){
+    var mTopZ = FPGetTopZ();
+    if(elFP.style.zIndex == mTopZ){
+      // Close it if it is at the top.
+      FPHide(elFP);
+    }else{
+      elFP.style.zIndex = FPGetTopZ()+1;
+    }    
+    return;
+  }
+  // The following is for the cases when the FP is currently hidden.
+
   // STEP: Load the content as needed.
+  // STEP: If mDTS is blank, skip loading.
   if(NotBlank(mDTS) && elFP.classList.contains('mbhide') && elFP.innerHTML==""){
     elFP.setAttribute('FP',mDTS);
     ReloadFP(elFP);
   }
 
-  // STEP: Hide all other FP. Also hide this FP if it is showing.
-  // Do this step on a phone.
-  if(AtMobile()){
-    elFPs.forEach((mTag)=>{
-      if(mTag==elFP && mTag.classList.contains('mbhide')){
-        mTag.classList.remove('mbhide');
-        mTag.style.zIndex = mMax;
-        mTag.style.opacity = "1";
-      }else{
-        mTag.classList.add('mbhide');
-      }
-    });
+  // STEP: If it is not on a phone, bring to top and done.
+  if(!AtMobile()){
+    elFP.style.zIndex = FPGetTopZ()+1;
+    elFP.classList.remove('mbhide');
     return;
   }
+  // The following is for the case when the FP is on a phone.
+
+  // STEP: Hide all FP.
+  var elFPs = document.querySelectorAll('[FP]');
+  elFPs.forEach((mTag)=>{mTag.classList.add('mbhide');});
+  // STEP: Show only this FP.
+  elFP.style.zIndex = 0;
+  elFP.classList.remove('mbhide');
+  return;
+
+
+  
+
+
+  
+  
+
+
+  var elFPs = document.querySelectorAll('[FP]');
+  var elFP = el.nextElementSibling.querySelector('[FP]');
+  var mMax = elFPs.length;
+
+
+  
 
   // STEP: Find the current top-most widget.
   var elMax = elFPs[0];
-  var curMax = elMax.style.zIndex;
+  var curMax = Number(elMax.style.zIndex);
   elFPs.forEach((mTag)=>{
     if(!mTag.classList.contains('mbhide')){
-      if(curMax < mTag.style.zIndex){
-        curMax = mTag.style.zIndex;
+      if(curMax < Number(mTag.style.zIndex)){
+        curMax = Number(mTag.style.zIndex);
         elMax = mTag;
       }
     }else{
@@ -4813,24 +4865,16 @@ function ShowNextFP(el,mDTS){
     }
   });
 
-  // ALT: If the FP is already showing, hide it. Else, set its z-index to 1 and the others to 0.
-  elFPs.forEach((mTag)=>{
-    if(mTag==elFP ){
-      if(mTag.classList.contains('mbhide')){
-        mTag.classList.remove('mbhide');
-        mTag.style.zIndex = curMax + 1;
-        mTag.style.opacity = "1";
-      }else if(mTag.style.zIndex == curMax){
-        mTag.classList.add('mbhide');
-      }else{
-        mTag.style.zIndex = curMax + 1;
-        mTag.style.opacity = "1";
-      }
-    }else{
-      mTag.style.zIndex = Math.max(0,mTag.style.zIndex-1);
-      //mTag.style.opacity = "0.9";
-    }
-  });
+  // 20240423: Zoey: If the FP that is being clicked on is at the top, hide it and exit.
+  if(elFP == elMax){
+    elFP.classList.add('mbhide');
+    elFP.style.zIndex = 0;
+    return;
+  }
+  // 20240423: Zoey: If the FP that is clicked on is not at the top, bring it to top and quit.
+  elFP.style.zIndex = Number(curMax) +1;
+  elFP.classList.remove('mbhide');
+  return;
 }
 function ReloadFP(el){
   // 20240420: Skyle: Reload an FP that is in display.
@@ -5329,11 +5373,7 @@ function NMNode(el,bChatChannel){
   var mSubTitle = "Subtitle";
   var mKids="";
   var mMusic="";
-  
-   
-
   var mHTML = "<div id=\"P" + mID + "\" date='" + mYYYYMMDD +"' time='" + mHHMM + "'" + mTags;
-  if(NotBlank(mPrevID)){mHTML += " data-" + mPrevID;}
   if(bChatChannel){mHTML += " data-chat data-happy";}
   mHTML += ">\n";
 
