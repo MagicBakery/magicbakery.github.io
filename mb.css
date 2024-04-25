@@ -999,9 +999,20 @@ border-radius: 0.68em;
 cursor:pointer;
 }
 
+
+.mbbuttonEx{
+  /*background-color:rgba(184,134,11,0.1); */
+  /*background-color:rgba(0,0,128,0.1); */
+  color:darkgoldenrod;
+  
+} 
 .mbbuttonEx:hover{
-  background-color:DeepSkyBlue; 
+  /*background-color:DeepSkyBlue; */
+  background-color:goldenrod;
   color:#ffffff;
+}
+.mbbuttonIn{
+  color:saddlebrown;
 }
 .mbbuttonIn:hover{
   background-color:DarkGreen; 

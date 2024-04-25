@@ -76,6 +76,46 @@ function BoardAddAfter(el){
   el.after(elTemp);
   return elTemp;
 }
+function BoardToggleHeight(elButton){
+  // 20240425: StarTree: Toggles a board between half and full size.
+  // Full size: height:auto;overflow-y:visible
+  // Half Size: height:50%;overflow-y:auto
+  // STEP: Index to the element that has the height data
+  var elBoard = SearchPS(elButton,'board');
+  var mCurHeight = elBoard.style.maxHeight;  
+  switch(mCurHeight){
+    case "": // Full to 2/3
+      elBoard.style.maxHeight = "65.5%";
+      elBoard.style.overflowY = "auto";
+      elButton.style.opacity = 0.75;
+      elButton.innerHTML = "⅔";
+      break;
+    case "65.5%": // From 2/3, change to 1/2
+      elBoard.style.maxHeight = "48.5%";
+      elBoard.style.overflowY = "auto";
+      elButton.style.opacity = 0.75;
+      elButton.innerHTML = "½";
+      break;
+    case "48.5%": // From 1/2, change to 1/3
+      elBoard.style.maxHeight = "31.8%";
+      elBoard.style.overflowY = "auto";
+      elButton.style.opacity = 0.75;
+      elButton.innerHTML = "⅓";
+      break;
+    case "31.8%": // From 1/3, change to 1/4
+      elBoard.style.maxHeight = "23.5%";
+      elBoard.style.overflowY = "auto";
+      elButton.style.opacity = 0.75;
+      elButton.innerHTML = "¼";
+      break;
+    case "23.5%": // From 1/4, back to full.
+    default:
+      elBoard.style.maxHeight = "";
+      elBoard.style.overflowY = "visible";
+      elButton.style.opacity = 0.2;
+      elButton.innerHTML = "½";
+  }
+}
 function JSONPartiStr(mJSON){
   // 20240404: StarTree: For new chat node format.
   var mHTML = ""
@@ -192,7 +232,9 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
         mHTMLInner += "<span class='mbDayContent'>";     
         
         // 20240105: Natalie: If there is no music link, still need the link to the node.
+        
         mHTMLInner += Pin2Code(mJSON);
+        mHTMLInner += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>½</button>"
         mHTMLInner += "<div class='mbCB'></div><hr>";
 
         if(NotBlank(elBanner)){
@@ -348,12 +390,14 @@ function IFrameFeedback(el){
   // 20231029: Black: Spawn a feedback form
   var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
   var mHTML = "<a class='mbbutton' onClick='RemoveParent(this)' style='float:right' title='Close'>🍮</a>";
+  mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>½</button>";
   mHTML += "<a onClick='IFrameFeedback(this)' title='Feedback Form'>💌</a> <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a>";
   mHTML += "<iframe src='" + mInput + "' title='Google Form' style='border:none;width:100%;height:calc(100vh - 190px)' allow='clipboard-read; clipboard-write'></iframe>";
   
   var elTemp = document.createElement("div");
   elTemp.innerHTML = mHTML;
   elTemp.classList.add('mbscroll');
+  elTemp.setAttribute('Board','');
   elTemp.style.marginBottom = "0px";
   
   var mPanel;
@@ -516,7 +560,6 @@ function PanelAdd(){
 
   return elTemp;
 }
-
 function PanelAddAfter(el){
   // 20231030: StarTree
   var mPanel = SearchPS(el,"panel");
@@ -568,6 +611,25 @@ function PanelGetTarget(){
     }
   }
   return null;
+}
+function PanelToggleHeight(elButton){
+  // 20240425: StarTree: Toggles a panel between half and full size.
+  // Full size: height:calc(-130px + 100vh)
+  // Half Size: height:50vh
+  // STEP: Index to the element that has the height data
+  var elPanel = SearchPS(elButton,'panel');
+  var elContainer = elPanel.firstElementChild.nextElementSibling;
+  var mCurHeight = elContainer.style.height;  
+  var mPanelHeight="";
+  if(mCurHeight!="calc(-130px + 100vh)"){
+    mCurHeight = "calc(-130px + 100vh)";
+    mPanelHeight = "auto";
+  }else{
+    mCurHeight = "45vh";
+    mPanelHeight = "45vh";
+  }
+  elContainer.style.height = mCurHeight;
+  elPanel.style.Height = mPanelHeight;
 }
 function PanelRemove(el){
   // 20230722: StarTree
@@ -966,7 +1028,7 @@ function Macro(elScope){
   MacroJQ(elScope);
   MacroTopic(elScope);
   MacroBullet(elScope);
-  MacroBubble(elScope);
+  MacroMsg(elScope);
   MacroLnk(elScope);
 }
 function MacroBullet(el){
@@ -1028,7 +1090,7 @@ function MacroTopic(el){
     }    
     let mClass = "mbscroll";
     let mParentTag = mTag.parentNode.tagName;
-    if(mParentTag == "TOPIC" || mParentTag=="BULLET" || mParentTag=="BUBBLE"){
+    if(mParentTag == "TOPIC" || mParentTag=="BULLET" || mParentTag=="MSG"){
       mClass = "mbpuzzle";
     }
     mHTML = "<div class='mbbutton' onclick='ShowNext(this)'>";
@@ -1042,22 +1104,22 @@ function MacroTopic(el){
     mTag.remove();
   }
 }
-function MacroBubble(el){
+function MacroMsg(el){
   // STEP: Interpret the context and compose the html code
   // 20240420: StarTree: If this is the first bubble in a topic, use the "ENTER" format.
-  var mBubbles = el.querySelectorAll('bubble');
+  var mBubbles = el.querySelectorAll('msg');
   mBubbles.forEach((mTag)=>{
     // STEP: Processing Attributes
     let mDTS = mTag.getAttribute("dts");
     let mHTML = "";
-    let bFirst = (mTag.parentNode.querySelector('bubble')==mTag);
+    let bFirst = (mTag.parentNode.querySelector('msg')==mTag);
     let mParentTag = mTag.parentNode.tagName;
     if(bFirst && mTag.parentNode.hasAttribute('topic')){
       mHTML = RenderEnter(mTag);
     }else if(bFirst && (mParentTag=="SPAN" || mParentTag=="DIV") && (!mTag.parentNode.classList.contains("mbpdc"))){
       mHTML = RenderStart(mTag);
     }else{
-      mHTML = RenderBubble(mTag);
+      mHTML = RenderMsg(mTag);
     }
     let elNew = document.createElement("span");
     elNew.setAttribute('DTS',mDTS);
@@ -1117,10 +1179,10 @@ function RenderExp(el){
   }
   return mEXP;
 }
-function RenderBubble(el){
+function RenderMsg(el){
 // 20240414: StarTree: The bubble macro:
   // Turn:
-  // <bubble DTS="202404141904" SPK="StarTree" EXP="2" Icon="🍍">Testing Testing.</bubble>
+  // <msg DTS="202404141904" SPK="StarTree" EXP="2" Icon="🍍">Testing Testing.</msg>
   // Into:
   // <button class='mbbutton' onclick='ShowNextInline(this)' DTS='202404141904' EXP='2' Icon='🍍'>🍍<small>2</small><div class='mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Testing Testing.</hide>
   var mHTML = "";
@@ -1392,10 +1454,10 @@ function MMInner(el,mMacro){
   // NEW TYPE: Alphabetical Order
   if(mMacro.cmd=="ButtonList"){ // (span) Creates a series of buttons
     // 20240422: StarTree: Changes:
-    /*   <macro>{"cmd":"ButtonList","func":"NMBubble","list":"📌|🧰"]"}</macro>
+    /*   <macro>{"cmd":"ButtonList","func":"NMMsg","list":"📌|🧰"]"}</macro>
        To:
-         <a class="mbbutton" onclick="NMBubble(this,'📌')">📌</a>
-         <a class="mbbutton" onclick="NMBubble(this,'🧰')">🧰</a>
+         <a class="mbbutton" onclick="NMMsg(this,'📌')">📌</a>
+         <a class="mbbutton" onclick="NMMsg(this,'🧰')">🧰</a>
     */
     let mIcons = mMacro.list.replaceAll(" ","").split("|");
     mHTML = "";
@@ -4744,6 +4806,24 @@ function HideAllFP(){
     }    
   });
 }
+function WidgetDockCycle(elButton){
+  // 20240424: StarTree: Cycles among Left > Center > Right
+  // elButton is the cycle button.
+  // STEP: Get the Widget FP.
+  var elFP = SearchPS(elButton,"FP");
+  // INFO: The frame that contains the property is the parent of the FP.
+  var mCurPos = elFP.parentNode.style.justifyContent;
+  
+  // Move to right
+  switch(mCurPos){
+    case "left": mCurPos = "center"; break;
+    case "center": mCurPos = "right"; break;
+    case "right": mCurPos = "left"; break;
+    default: mCurPos = "center";
+  }
+  elFP.parentNode.style.justifyContent = mCurPos;
+}
+
 function BringToFrontFP(el){
   // 20240421: Arcacia: Bring the FP to front.
   // The el in the input is a div within the FP.
@@ -4919,7 +4999,9 @@ function ReloadFP(el){
           // 20240422: Add a close button
           mHTML = "<small><span style='float:right'>";
           mHTML += NodeIDClipboardButtonCode(mNodeID);
-          mHTML += "<a class='mbbutton' title='Hide Widget' onclick='HideFP(this)'>🍮</a></span>";
+          mHTML += "<a class='mbbutton' title='Hide Widget' onclick='HideFP(this)'>🍮</a>";
+          mHTML += "<a class='mbbutton' title='Cycle dock position' onclick='WidgetDockCycle(this)'>▶</a>";
+          mHTML += "</span>";
           mHTML += "<lnk>" + mNodeID + "|" + mIcon + "</lnk> ";
           mHTML += "<span class='mbbutton' title='Refresh' onclick='ReloadFP(this)'>"+mTitle+"</span></small><hr>";
           mHTML += mWidget.innerHTML;
@@ -5131,7 +5213,7 @@ function TextAreaSave(elTextArea){
   if(!CookieCheck(elTextArea)){return;}
   localStorage.setItem("TextArea-Value",elTextArea.value);
 }
-function NMBubble(el,iIcon,bNoEXP){
+function NMMsg(el,iIcon,bNoEXP){
   // 20240416: StarTree: Bubble code
   var elControl = SearchPS(el,"Widget");
   var mSPK = Default(elControl.querySelector('[NM-SPK]').value,"");
@@ -5147,9 +5229,9 @@ function NMBubble(el,iIcon,bNoEXP){
   }else{
     mEXPStr = " EXP";
   }
-  var mHTML = "<bubble DTS='" + DTSNow() + "' SPK='"+mSPK+"'"+mEXPStr;
-  if(NotBlank(iIcon)){mHTML += " Icon='"+iIcon+"'";}
-  mHTML += "></bubble>";
+  var mHTML = "<msg DTS='" + DTSNow() + "' SPK='"+mSPK+"'"+mEXPStr;
+  if(NotBlank(iIcon) && !bNoEXP){mHTML += " Icon='"+iIcon+"'";}
+  mHTML += "></msg>";
   navigator.clipboard.writeText(mHTML);
 }
 function DTSNow(){
@@ -5304,8 +5386,10 @@ function NMAddSPK(el){
   if(mExist){return;}
   //if(mCount >= 12){return;} // The cache list only fits 6 icons.
 
-  // STEP: Add a new button.
-  var mHTML = "<a onclick=\"NMSetSPK(this,'"+curSPK+"')\"><div class='mbav50trg mb"+curSPK+"' ></div></a>";
+  // STEP: Add a new button. Highlight it only if it matches the name in the box.
+  var mAVStyle = "mbav50trg";
+  if(IsBlank(el.value)|| (el.value != curSPK)){mAVStyle= "mbav50t";}
+  var mHTML = "<a onclick=\"NMSetSPK(this,'"+curSPK+"')\"><div class='"+mAVStyle+" mb"+curSPK+"' ></div></a>";
   elList.innerHTML = mHTML + elList.innerHTML;
 }
 function NMAddSPKev(e,el){
@@ -5384,7 +5468,7 @@ function NMNode(el,bChatChannel){
 
   mHTML += "\t<content>\n";
   if(bChatChannel){
-    mHTML += "\t\t<bubble DTS='" + mDTS + "' SPK='" + mAuthor +"' EXP Icon='" + mIcon + "'><b>First</b> word</bubble>\n"
+    mHTML += "\t\t<msg DTS='" + mDTS + "' SPK='" + mAuthor +"' EXP Icon='" + mIcon + "'><b>First</b> word</msg>\n"
 
     //mHTML += "\t\t<div class='mbav50r mbCB mb"+mAuthor+"'></div>\n";
     //mHTML += "\t\t<div class='mbpdc'><b>First</b> word</div><hr class='mbCB mbhr'>\n";
