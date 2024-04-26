@@ -1130,6 +1130,61 @@ function MacroMsg(el){
     mTag.remove();
   });
 }
+function MSScan(elButton){
+  // 20240426: StarTree: Implements the Message Scanner
+  // It is assumed that within the control there are date input fields with titles "Start" and "End"
+  var elWidget = SearchPS(elButton,'widget');
+  var elControl = SearchPS(elButton,'control');
+  var elStart = elControl.querySelector('[title="Start"]');
+  var elEnd = elControl.querySelector('[title="End"]');
+  var elDisplay = elWidget.querySelector('[display]');
+
+  // STEP: Process the inputs
+  var mStart = elStart.value;
+  if(IsBlank(mStart)){
+    mStart = 0; 
+  }else{
+    mStart = Number(DTSFormatStr(mStart));
+  }
+  var mEnd = elEnd.value;
+  if(IsBlank(mEnd)){
+    mEnd = Number(DTSNow()); 
+  }else{
+    mEnd = Number(DTSFormatStr(mEnd));
+  }
+
+  elDisplay.classList.add('mbpuzzle');
+  elDisplay.innerHTML = mStart + " to " + mEnd + "<hr>";
+
+  // STEP: Query the entire archive
+  let elCache = document.createElement("div");
+  var mHTML = "";
+  var mMsgList = [];
+  var mDone = 0;
+  $(document).ready(function(){
+    for(let i=1; i<=ArchiveNum();i++){
+      $(elCache).load(ArchiveIndex(i) + "MSG[dts]", function(){
+        let elMsgs = elCache.querySelectorAll('msg');
+        // STEP: Push into mMsgList if the message is within range.
+        elMsgs.forEach((mMsg)=>{
+          let mMsgDTS = Number(DTSPadding(mMsg.getAttribute('DTS')));
+          if(mStart<= mMsgDTS && mMsgDTS <= mEnd){
+            mMsgList.push([mMsgDTS,mMsg.outerHTML]);
+          }
+        });
+        mDone ++;
+        if(mDone >= ArchiveNum()){
+          mMsgList.sort();
+          for(let j=0;j<mMsgList.length;j++){
+            mHTML += mMsgList[j][1];
+          }
+          elDisplay.innerHTML += mHTML;
+          Macro(elDisplay);
+        }
+      });
+    };
+  });
+}
 function RenderStart(el){
   // 20240420: StarTree: Renders a bubble in the a traditional START format.
   var mHTML="";
@@ -5221,7 +5276,7 @@ function NMMsg(el,iIcon,bNoEXP){
 
   if(NotBlank(iIcon)){
     elIcon.value = iIcon;
-  }else{
+  }else{ 
     iIcon = elIcon.value;
   }
   if(bNoEXP){
@@ -5234,15 +5289,22 @@ function NMMsg(el,iIcon,bNoEXP){
   mHTML += "></msg>";
   navigator.clipboard.writeText(mHTML);
 }
+function DTSFormatStr(mYYYYMMDD){
+  // 20240426: StarTree: Formats a date object into a DTS string.
+  var mYear = mYYYYMMDD.slice(0,4);
+  var mMonth = mYYYYMMDD.slice(5,7);
+  var mDay = mYYYYMMDD.slice(8);
+  return DTSPadding(mYear + mMonth + mDay);
+}
 function DTSNow(){
   // 20240416: StarTree: Returns the current DTS string.
-  var mToday = new Date();
-  var mYear = String(mToday.getFullYear());
-  var mMonth = String(mToday.getMonth()+1).padStart(2,'0');
-  var mDay = String(mToday.getDate()).padStart(2,'0');
-  var mHour = String(mToday.getHours()).padStart(2,'0');
-  var mMin = String(mToday.getMinutes()).padStart(2,'0');
-  var mSec = String(mToday.getSeconds()).padStart(2,'0');
+  var mDate = new Date();
+  var mYear = String(mDate.getFullYear());
+  var mMonth = String(mDate.getMonth()+1).padStart(2,'0');
+  var mDay = String(mDate.getDate()).padStart(2,'0');
+  var mHour = String(mDate.getHours()).padStart(2,'0');
+  var mMin = String(mDate.getMinutes()).padStart(2,'0');
+  var mSec = String(mDate.getSeconds()).padStart(2,'0');
   return mYear + mMonth + mDay + mHour + mMin + mSec;
 }
 function NMCard(el){
@@ -5285,12 +5347,10 @@ function NMTopic(el,iSecIcon){
   if(iSecIcon=="🌱"){
     mHTML += "\t<div class='mbpdc'><b>First</b> word</div><hr class='mbCL'>\n";
   }
-  if(IsMasteryIcon(iSecIcon)){
-    mHTML += "\t<ol></ol>\n\t<ul></ul>\n";
-  }else{
-    mHTML += "";
-  }
-
+  
+  // 20240425: Kisaragi
+  mHTML += "\t<ol>\n\t</ol>\n";
+  
   mHTML+="</topic>";
   navigator.clipboard.writeText(mHTML);
   return mHTML;
@@ -5305,7 +5365,6 @@ function NMLI(el){
   var elControl = SearchPS(el,"Widget");
   var mIcon = elControl.querySelector('[NM-Icon]').value;
   var mTitle = Default(elControl.querySelector('[NM-Title]').value,"New Bullet");
-  DEBUG(mTitle);
   var mHTML = "";
   if(NotBlank(mIcon)){
     mHTML = "<bullet icon='"+mIcon+"' title='"+mTitle+"'>\n</bullet>";
@@ -5456,7 +5515,8 @@ function NMNode(el,bChatChannel){
   var mTitle=Default(elControl.querySelector('[NM-Title]').value,"P" + mID); 
   var mTags=Default(elControl.querySelector('[NM-Tags]').value,""); 
   if(NotBlank(mTags)){mTags = " " + mTags;}
-  if(NotBlank(mParentID)){mTags += " data-" + mParentID;}
+  // 20240426: Kisaragi
+  if(bChatChannel && NotBlank(mParentID)){mTags += " data-" + mParentID;}
   if(bChatChannel){if(NotBlank(mPrevID)){mTags += " data-" + mPrevID;}}
 
   var mSubTitle = "Subtitle";
