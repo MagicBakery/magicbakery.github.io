@@ -83,37 +83,47 @@ function BoardToggleHeight(elButton){
   // STEP: Index to the element that has the height data
   var elBoard = SearchPS(elButton,'board');
   var mCurHeight = elBoard.style.maxHeight;  
+  var mDefault = false;
   switch(mCurHeight){
-    case "": // Full to 2/3
+    case "": // Full to 1/2 or 3/4 depending on initial state
+      if(elButton.innerHTML=="½"){
+        // To Half Size
+        elBoard.style.maxHeight = "48.5%";
+        elButton.innerHTML = "½";
+      }else{
+        // To 3/4 size
+        elBoard.style.maxHeight = "74%";
+        elButton.innerHTML = "¾";
+      }
+      break;
+    case "74%": // From 3/4 to 2/3
       elBoard.style.maxHeight = "65.5%";
-      elBoard.style.overflowY = "auto";
-      elButton.style.opacity = 0.75;
       elButton.innerHTML = "⅔";
       break;
     case "65.5%": // From 2/3, change to 1/2
       elBoard.style.maxHeight = "48.5%";
-      elBoard.style.overflowY = "auto";
-      elButton.style.opacity = 0.75;
       elButton.innerHTML = "½";
       break;
     case "48.5%": // From 1/2, change to 1/3
       elBoard.style.maxHeight = "31.8%";
-      elBoard.style.overflowY = "auto";
-      elButton.style.opacity = 0.75;
       elButton.innerHTML = "⅓";
       break;
     case "31.8%": // From 1/3, change to 1/4
       elBoard.style.maxHeight = "23.5%";
-      elBoard.style.overflowY = "auto";
-      elButton.style.opacity = 0.75;
       elButton.innerHTML = "¼";
       break;
     case "23.5%": // From 1/4, back to full.
     default:
-      elBoard.style.maxHeight = "";
-      elBoard.style.overflowY = "visible";
-      elButton.style.opacity = 0.2;
-      elButton.innerHTML = "½";
+      mDefault = true;
+  }
+  if(mDefault){
+    elBoard.style.maxHeight = "";
+    elBoard.style.overflowY = "visible";
+    elButton.style.opacity = 0.2;
+    elButton.innerHTML = "¾";
+  }else{
+    elBoard.style.overflowY = "auto";
+    elButton.style.opacity = 0.75;
   }
 }
 function JSONPartiStr(mJSON){
@@ -390,7 +400,8 @@ function IFrameFeedback(el){
   // 20231029: Black: Spawn a feedback form
   var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
   var mHTML = "<a class='mbbutton' onClick='RemoveParent(this)' style='float:right' title='Close'>🍮</a>";
-  mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>½</button>";
+
+  //mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>⅔</button>";
   mHTML += "<a onClick='IFrameFeedback(this)' title='Feedback Form'>💌</a> <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a>";
   mHTML += "<iframe src='" + mInput + "' title='Google Form' style='border:none;width:100%;height:calc(100vh - 190px)' allow='clipboard-read; clipboard-write'></iframe>";
   
@@ -1047,7 +1058,8 @@ function MacroBullet(el){
     let mTitle = Default(mTag.getAttribute("title"),"New Bullet");
     let mIcon = Default(mTag.getAttribute("icon"),"");
     let mHTML = "<span class='mbbutton' onclick='ShowNextInline(this)'>";
-    mHTML += mIcon + " " + mTitle + "</span><hide>";
+    mHTML += "<span class='mbILB25'>" + mIcon + "</span>";
+    mHTML += mTitle + "</span><hide>";
     mHTML += mTag.innerHTML + "</hide>";
     let elNew = document.createElement('li');
     elNew.setAttribute('DTS',mDTS);
@@ -1094,7 +1106,8 @@ function MacroTopic(el){
       mClass = "mbpuzzle";
     }
     mHTML = "<div class='mbbutton' onclick='ShowNext(this)'>";
-    mHTML += mIcon + " " + mTitle + "</div><hide topic><hr class='mbhr'>";
+    mHTML += "<span class='mbILB30'>" + mIcon + "</span>";
+    mHTML += mTitle + "</div><hide topic><hr class='mbhr'>";
     mHTML += mTag.innerHTML + "<div class='mbCB'></div></hide>";
     let elNew = document.createElement('div');
     elNew.classList.add(mClass);
@@ -1193,17 +1206,23 @@ function RenderStart(el){
   var mEXP = RenderExp(el);
   var mIcon = Default(el.getAttribute("Icon"),"⭐");
   if(NotBlank(mSPK)){
-    mHTML += "<div class='mbav50r mb" + mSPK + "'>";
-    if(mEXP){
-      mHTML += mIcon;
-      if(mEXP !=1){
-        mHTML += "<span style='color:white;margin-left:-10px'><b><small><sub>" + mEXP +"</sub></small></b></span>";
-      }
-    }
-    mHTML += "</div>";
+    mHTML += RenderAvXP(mSPK,mEXP,mIcon);
   }
   mHTML += "<div class='mbpdc'>" + el.innerHTML + "</div>";
   mHTML += "<div class='mbCL'></div>";
+  return mHTML;
+}
+function RenderAvXP(mSPK,mEXP,mIcon){
+  // 20240426: Skyle: Function called by other render functions
+  var mHTML="";
+  mHTML = "<div class='mbav50r mb" + mSPK + "'>";
+  if(mEXP){
+    mHTML += mIcon;
+    if(mEXP !=1){
+      mHTML += "<span  style='margin-left:-10px;'>" + mEXP +"</span>";
+    }
+  }
+  mHTML += "</div>";
   return mHTML;
 }
 function RenderEnter(el){
@@ -1213,14 +1232,7 @@ function RenderEnter(el){
   var mSPK = Default(el.getAttribute("SPK"),"???");
   var mEXP = RenderExp(el);
   var mIcon = Default(el.getAttribute("Icon"),"⭐");
-  mHTML = "<div class='mbav50r mb" + mSPK + "'>";
-  if(mEXP){
-    mHTML += mIcon;
-    if(mEXP !=1){
-      mHTML += "<span style='color:white;margin-left:-10px'><b><small><sub>" + mEXP +"</sub></small></b></span>";
-    }
-  }
-  mHTML += "</div>";
+  mHTML = RenderAvXP(mSPK,mEXP,mIcon);
   mHTML += "<b>" + mSPK + ":</b> " + el.innerHTML;
   //mHTML += "<hr class='mbCB'>";
   return mHTML;
@@ -5031,6 +5043,7 @@ function ReloadFP(el){
   if(mDTS=="Feedback"){
     var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
     mHTML = "<a class='mbbutton' onClick='HideParent(this);FPGetTopZ()' style='float:right' title='Close'>🍮</a>";
+    mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>⅔</button>"
     mHTML += "💌 <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a><span><hr>";
     mHTML += "<iframe src='" + mInput + "' title='Google Form' style='border:none;width:100%;height:45vh' allow='clipboard-read; clipboard-write'></iframe></span>";
     el.innerHTML = mHTML;
@@ -5059,7 +5072,9 @@ function ReloadFP(el){
           mHTML += "</span>";
           mHTML += "<lnk>" + mNodeID + "|" + mIcon + "</lnk> ";
           mHTML += "<span class='mbbutton' title='Refresh' onclick='ReloadFP(this)'>"+mTitle+"</span></small><hr>";
+          //mHTML += "<div style='overflow-Y:auto;overflow-x: hidden;'>";
           mHTML += mWidget.innerHTML;
+          //mHTML += "</div>";
           
           elFP.innerHTML = mHTML;
           Macro(elFP);
@@ -5240,9 +5255,21 @@ function CookieCheck(el,iScope){
 }
 function NodeMarkCode(iNodeID,iDesc){
   // 20240330: StarTree: Returns the HTML code for the node marking.
-  var mButtonStyle = "mbbutton";
+  var mButtonStyle = "mbbuttonSelf";
   if(IsBlank(iDesc)){ mButtonStyle="mbbuttonSelf";}
-  return "<a class='"+mButtonStyle+"' id='P"+ iNodeID+"-V'onclick=\"NodeMarkCycle(this," + iNodeID + ")\" title='Cycle node marking'>"+NodeMarkLoad(iNodeID)+"</a>";
+  var mVDTS = NodeMarkLoadDTS(iNodeID);
+  var mSepia = 0;   
+  var mHTML = "";
+  mHTML += "<a class='"+mButtonStyle+"' id='P"+ iNodeID+"-V'onclick=\"NodeMarkCycle(this," + iNodeID + ")\" title='Cycle node marking' style='filter:sepia(" + mSepia + "%)'>";
+  mHTML += NodeMarkLoad(iNodeID)+"</a>";
+  return mHTML;
+}
+function NodeDTS(iNodeID){
+  // 20240426: Zoey: Returns an integer for the latest DTS within a node.
+  // STEP Get the node
+
+  // STEP: Call DTSGetLatest
+  return 0;
 }
 function NodeMarkCookieCheck(){
   // 20240330: StarTree: Checks if the page should mark node visit status.
@@ -5596,8 +5623,10 @@ function NodeMarkCycle(el,iNodeID){
   var mVList = document.querySelectorAll('#P' + iNodeID + "-V");
   for(i=0;i<mVList.length;i++){
     mVList[i].innerHTML = curMark;
+    mVList[i].style.filter = "sepia(0%)";
   }
   localStorage.setItem(iNodeID + "-V",curMark);
+  localStorage.setItem(iNodeID + "-V-DTS",DTSNow());
 }
 function NodeMarkLoad(iNodeID){
   // 20240330: StarTree: For loading the node marking
@@ -5607,6 +5636,15 @@ function NodeMarkLoad(iNodeID){
     return mMark;
   }
   return "🤍";//📋
+}
+function NodeMarkLoadDTS(iNodeID){
+  // 20240426: Zoey: Returns an integer.
+  if(!NodeMarkCookieCheck){return;}
+  var mMark = localStorage.getItem(iNodeID + "-V-DTS");
+  if(NotBlank(mMark)){
+    return DTSPadding(mMark);
+  }
+  return 0;
 }
 function NodeMarkUseCookie(el,iNoIcon){
   var elMain = document.querySelector('[main]');
