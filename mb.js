@@ -1793,9 +1793,27 @@ function MMInner(el,mMacro){
     if(NotBlank(mMacro.maxwidth)){elTemp.style.maxWidth = mMacro.maxwidth;}
     el.after(elTemp);*/
     // New code
-    mHTML = "<img style='border:0px;border-radius:10px' src='" + mMacro.src+ "'>";
+    mHTML = "<img src='" + mMacro.src+ "'";
+    // 20240427: Skyle: Accepting a class parameter.
+    if(NotBlank(mMacro.class)){
+      mHTML += " class='"+ mMacro.class + "'";
+    }
+    // 20240427: Skyle
+    if(NotBlank(mMacro.style)){
+      mHTML += " style='"+ mMacro.style + "'";
+    }
+    if(IsBlank(mMacro.class) && IsBlank(mMacro.style)){
+      // Do not use this default style if class or style is specified.
+      mHTML += " style='border:0px;border-radius:10px'";
+    }
+    // 20240427: Skyle: Accepting a width parameter.
+    if(NotBlank(mMacro.width)){
+      mHTML += " width='"+ mMacro.width + "'";
+    }
+    mHTML += ">";
     var elTemp = AddElement(el,"div",mHTML);
     if(NotBlank(mMacro.maxwidth)){elTemp.style.maxWidth = mMacro.maxwidth;}
+    
     if(NotBlank(mMacro.scale)){
       elTemp.style.transform='scale(' + mMacro.scale +')';
       elTemp.style.display="inline-block";
