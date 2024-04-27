@@ -7,6 +7,7 @@ body {
   font-family: Bitter;
   font-size: 18px;
   z-index:100;
+  color:saddlebrown
 }
 .header{
   background-color: saddlebrown;
@@ -697,17 +698,23 @@ todo::before{content:"TODO: ";font-size: 12px;}
   box-sizing: border-box;
   color:lightgoldenrodyellow;  
   float:right;
-  font-weight: bolder;
-  font-size: 14px;
+  font-size: 16px;
   height:50px; 
   line-height:1em; 
   margin:-4px -4px -4px 4px;     
-  padding:0;
+  
+  overflow-x: visible;
+  text-wrap:nowrap;
   position:relative;
-  text-align:right;
+  text-align:center;
   text-shadow: 0px 0px 4px #ffffff;
   width:50px; 
   z-index:1
+}
+.mbavXP{
+  padding-left:27px;
+  padding-right:0px;
+  text-align:center;
 }
 .mbav50rc {
   background-position: 50% 50%; 
@@ -1098,7 +1105,7 @@ cursor:pointer;
 .mbRankBlkD{background-color:darkgoldenrod;color:white;font-weight:bold;}
 .mbRankBlkU::before{content:"🤎";}
 .mbRankBlkU{background-color:saddlebrown;color:saddlebrown;font-weight:bold;}
-
+.mbXPTB{font-weight:bold;color:gold; text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;}
 
 
 .mbCalCB{
@@ -1450,7 +1457,7 @@ margin:5px 0px;
   line-height:44px;
   float:left;
   font-family:Bitter;
-  font-weight: bold;
+  font-weight:bold;
   margin:0px;
   padding:0px;
   padding-right:4px; 

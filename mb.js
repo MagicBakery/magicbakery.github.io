@@ -1100,20 +1100,28 @@ function MacroTopic(el){
       mTag.remove();
       continue;
     }    
-    let mClass = "mbscroll";
-    let mParentTag = mTag.parentNode.tagName;
-    if(mParentTag == "TOPIC" || mParentTag=="BULLET" || mParentTag=="MSG"){
-      mClass = "mbpuzzle";
+    
+    // STEP: If the topic has the attribute Scan, command for a scan.
+    // 20240426: Patricia: Make the normal node only when not scanning.
+    if(!MSTopic(mTag)){
+      let mClass = "mbscroll";
+      let mParentTag = mTag.parentNode.tagName;
+      if(mParentTag == "TOPIC" || mParentTag=="BULLET" || mParentTag=="MSG"){
+        mClass = "mbpuzzle";
+      }
+      mHTML = "<div class='mbbutton' onclick='ShowNext(this)'>";
+      mHTML += "<span class='mbILB30'>" + mIcon + "</span>";
+      mHTML += mTitle + "</div><hide topic><hr class='mbhr'>";
+  
+      mHTML += mTag.innerHTML;
+      
+      mHTML += "<div class='mbCB'></div></hide>";
+      let elNew = document.createElement('div');
+      elNew.classList.add(mClass);
+      elNew.setAttribute('DTS',mDTS);
+      elNew.innerHTML = mHTML;
+      mTag.before(elNew);
     }
-    mHTML = "<div class='mbbutton' onclick='ShowNext(this)'>";
-    mHTML += "<span class='mbILB30'>" + mIcon + "</span>";
-    mHTML += mTitle + "</div><hide topic><hr class='mbhr'>";
-    mHTML += mTag.innerHTML + "<div class='mbCB'></div></hide>";
-    let elNew = document.createElement('div');
-    elNew.classList.add(mClass);
-    elNew.setAttribute('DTS',mDTS);
-    elNew.innerHTML = mHTML;
-    mTag.before(elNew);
     mTag.remove();
   }
 }
@@ -1129,7 +1137,7 @@ function MacroMsg(el){
     let mParentTag = mTag.parentNode.tagName;
     if(bFirst && mTag.parentNode.hasAttribute('topic')){
       mHTML = RenderEnter(mTag);
-    }else if(bFirst && (mParentTag=="SPAN" || mParentTag=="DIV") && (!mTag.parentNode.classList.contains("mbpdc"))){
+    }else if(bFirst && (mParentTag=="SPAN" || mParentTag=="DIV") && (!mTag.parentNode.classList.contains("mbpdc")) ){
       mHTML = RenderStart(mTag);
     }else{
       mHTML = RenderMsg(mTag);
@@ -1141,6 +1149,72 @@ function MacroMsg(el){
   });
   mBubbles.forEach((mTag)=>{
     mTag.remove();
+  });
+}
+function MSTopic(elTopic){
+  // 20240426: Patricia: Check if this topic should replace its content with scanned content. If so, get the start and end time and commission a scan.
+  if(!elTopic.hasAttribute('scan')){return false;}
+  let mStart = DTSPadding(elTopic.getAttribute('start'));
+  let mEnd = DTSPadding(elTopic.getAttribute('end'));
+  let mDTS = elTopic.getAttribute("dts");
+  let mTitle = Default(elTopic.getAttribute("title"),"Scan Result");
+  let mIcon = Default(elTopic.getAttribute("icon"),"");
+
+  // Make the Topic Header
+  let mClass = "mbscroll";
+  let mParentTag = elTopic.parentNode.tagName;
+  let mHTML = "";
+  if(mParentTag == "TOPIC" || mParentTag=="BULLET" || mParentTag=="MSG"){
+    mClass = "mbpuzzle";
+  }
+  mHTML = "<div class='mbbutton' onclick='ShowNext(this)'>";
+  mHTML += "<span class='mbILB30'>" + mIcon + "</span>";
+  mHTML += mTitle + "</div><hide topic><hr class='mbhr'>";
+  mHTML += "<div display topic></div>"; // Put the Scanned content here.
+  mHTML += "<div class='mbCB'></div></hide>";
+  let elNew = document.createElement('div');
+  elNew.classList.add(mClass);
+  elNew.setAttribute('DTS',mDTS);
+  elNew.setAttribute('scan','');
+  elNew.setAttribute('topic','');
+  elNew.setAttribute('start',mStart);
+  elNew.setAttribute('end', mEnd);
+  elNew.innerHTML = mHTML;
+  elTopic.before(elNew);
+  let elDisplay = elNew.querySelector('[display]');
+  MSScanFor(elDisplay,mStart,mEnd);
+  return true;
+}
+function MSScanFor(elDisplay,mStart,mEnd){
+  // 20240426: Patricia: Populate the element with messages.
+  elDisplay.innerHTML = "<center><big>⏳</big></center>"
+  let elCache = document.createElement("div");
+  var mHTML = "";
+  var mMsgList = [];
+  var mDone = 0;
+  $(document).ready(function(){
+    for(let i=1; i<=ArchiveNum();i++){
+      $(elCache).load(ArchiveIndex(i) + "MSG[dts]", function(){
+        let elMsgs = elCache.querySelectorAll('msg');
+        // STEP: Push into mMsgList if the message is within range.
+        elMsgs.forEach((mMsg)=>{
+          let mMsgDTS = Number(DTSPadding(mMsg.getAttribute('DTS')));
+          if(mStart<= mMsgDTS && mMsgDTS < mEnd){
+            mMsgList.push([mMsgDTS,mMsg.outerHTML]);
+          }
+        });
+        mDone ++;
+        if(mDone >= ArchiveNum()){
+          mMsgList.sort();
+          for(let j=0;j<mMsgList.length;j++){
+            mHTML += mMsgList[j][1];
+          }
+          elDisplay.innerHTML = mHTML;
+          Macro(elDisplay);
+          elCache.remove();
+        }
+      });
+    };
   });
 }
 function MSScan(elButton){
@@ -1155,7 +1229,9 @@ function MSScan(elButton){
   // STEP: Process the inputs
   var mStart = elStart.value;
   if(IsBlank(mStart)){
-    mStart = 0; 
+    // 20240426: Patricia: Default start is the start of today.
+    let mNow = DTSNow();
+    mStart = DTSPadding(mNow.slice(0,8));
   }else{
     mStart = Number(DTSFormatStr(mStart));
   }
@@ -1167,36 +1243,9 @@ function MSScan(elButton){
   }
 
   elDisplay.classList.add('mbpuzzle');
-  elDisplay.innerHTML = mStart + " to " + mEnd + "<hr>";
 
-  // STEP: Query the entire archive
-  let elCache = document.createElement("div");
-  var mHTML = "";
-  var mMsgList = [];
-  var mDone = 0;
-  $(document).ready(function(){
-    for(let i=1; i<=ArchiveNum();i++){
-      $(elCache).load(ArchiveIndex(i) + "MSG[dts]", function(){
-        let elMsgs = elCache.querySelectorAll('msg');
-        // STEP: Push into mMsgList if the message is within range.
-        elMsgs.forEach((mMsg)=>{
-          let mMsgDTS = Number(DTSPadding(mMsg.getAttribute('DTS')));
-          if(mStart<= mMsgDTS && mMsgDTS <= mEnd){
-            mMsgList.push([mMsgDTS,mMsg.outerHTML]);
-          }
-        });
-        mDone ++;
-        if(mDone >= ArchiveNum()){
-          mMsgList.sort();
-          for(let j=0;j<mMsgList.length;j++){
-            mHTML += mMsgList[j][1];
-          }
-          elDisplay.innerHTML += mHTML;
-          Macro(elDisplay);
-        }
-      });
-    };
-  });
+
+  MSScanFor(elDisplay,mStart,mEnd);
 }
 function RenderStart(el){
   // 20240420: StarTree: Renders a bubble in the a traditional START format.
@@ -1217,10 +1266,12 @@ function RenderAvXP(mSPK,mEXP,mIcon){
   var mHTML="";
   mHTML = "<div class='mbav50r mb" + mSPK + "'>";
   if(mEXP){
+    mHTML += "<div class='mbavXP'>"
     mHTML += mIcon;
     if(mEXP !=1){
-      mHTML += "<span  style='margin-left:-10px;'>" + mEXP +"</span>";
+      mHTML += "<br><br><span class='mbXPTB mbILB20'>" + mEXP +"</span>";
     }
+    mHTML += "</div>";
   }
   mHTML += "</div>";
   return mHTML;
