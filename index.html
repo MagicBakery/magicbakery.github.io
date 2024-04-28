@@ -213,14 +213,15 @@
           
         </div>
       </div>
-      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:-5px 3px 3px 3px"></div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px"></div>
     </div>
   </hide>
 </body>
 <script>
   function URLViewer(){
     // 20240427: StarTree: Experiment of having a local copy of the entire archive.
-    //@@// ArchiveCacheAll();
+    ArchiveCacheAll();
+    
     
     // 20231007: StarTree: make this function add the first panel.  
     var mPanel = PanelAdd();
@@ -235,8 +236,10 @@
       mInputBox.value = iPostID;
       //BoardLoad(mInputBox,iPostID);
       JQAdd(mInputBox);
+      DEBUG(444);
     }else{
       /*@@StarTree:Disabled for testing.*/ BoardLoad(mPanel,'202208172056',true);
+      
       
       mPanel.scrollTop=0;
     }

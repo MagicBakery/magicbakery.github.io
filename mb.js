@@ -255,9 +255,9 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll){
         var mHasCard = false;
         var elCard;
         try{
-          elCard = elContainer.getElementsByTagName('card')[0];
+          elCard = elContainer.getElementsByTagName('inv')[0];
         }catch(error){
-          mHasCard = true;
+          mHasCard = true; // 20240427: Skyle: Has inventory.
         }
         // STEP: Start the Card section
         if(!IsBlank(elCard)){
@@ -684,18 +684,82 @@ function RemoveParent(el){
 }
 
 //==IMPORTED FUNCTIONS===
+function DTSInc(mDTS){
+  // 20240427: Sasha: Increments the number as a DTS value.
+  var mNewDTS = Number(mDTS)+1;
+  var sNewDTS = String(mNewDTS);
+  if(sNewDTS.slice(12,14)=="60"){
+    mNewDTS = Number(sNewDTS.slice(0,12))+1;
+    sNewDTS = String(mNewDTS);
+  }
+  if(sNewDTS.slice(10,12)=="60"){
+    mNewDTS = Number(sNewDTS.slice(0,10))+1;
+    sNewDTS = String(mNewDTS);
+  }
+  if(sNewDTS.slice(8,10)=="24"){ 
+    mNewDTS = Number(sNewDTS.slice(0,8))+1;
+    sNewDTS = String(mNewDTS);
+  }
+  if(sNewDTS.slice(6,8)=="28"){ // Sasha: I know. This function is not entirely correct.
+    mNewDTS = Number(sNewDTS.slice(0,6))+1;
+    sNewDTS = String(mNewDTS);
+  }
+  if(sNewDTS.slice(4,6)=="12"){
+    mNewDTS = Number(sNewDTS.slice(0,4))+1;
+    sNewDTS = String(mNewDTS);
+  }
+
+
+  return DTSPadding(sNewDTS);
+}
 function ArchiveCacheAll(){
   // 20240427: StarTree: Experimental: Load all the archives into onto the document
   // --> Load to a region <archive> after <body>
-  var elArchive = document.createElement('archives');
-  document.body.after(elArchive);
+
+  return;
+  
   $(document).ready(function(){
+    var elArchive = document.createElement('archives');
+    var mSingleArchive = 1;
+    var mDTS = DTSNow();
+    document.body.after(elArchive);
     //for(let i=1;i<=ArchiveNum();i++){
-    for(let i=8;i==1;i++){
+    for(let i=mSingleArchive;i==mSingleArchive;i++){
       let elCache = document.createElement("archive");
       elCache.setAttribute('archive',i);
       elArchive.append(elCache);
-      $(elCache).load(ArchiveIndex(i), function(){});
+      $(elCache).load(ArchiveIndex(i), function(){
+
+        // SPECIAL PROCESSING
+        let elTemp = elArchive.querySelector('[archive=\"'+i+'\"]');
+
+        // 20240427: Sasha
+        var elCards =elTemp.querySelectorAll(".mbCharCard"); 
+        elCards.forEach((elCard)=>{
+          try{
+            let mTitle = elCard.querySelector(".mbCharCardTitle2").innerHTML;
+            let mImg = elCard.querySelector(".mbCharCardImg").style.backgroundImage;
+            mImg = mImg.replace("url(\"",'');
+            mImg = mImg.replace("\")",'');
+            let mSubTitle = elCard.querySelector(".mbCharCardSubtitle").innerHTML;
+            let mContent = elCard.querySelector(".mbCharCardDescInner").innerHTML;
+            mDTS = DTSInc(mDTS);
+    
+            let mHTML = "<card DTS='" + mDTS + "' title='" + mTitle + "' subtitle='" + mSubTitle +"'";
+            mHTML += " img='" + mImg + "'>"+mContent+"</card>";
+            elCard.outerHTML = mHTML;
+          elCard.remove();
+          }catch(e){
+
+          }
+          
+          
+        });
+        
+        elTemp = elArchive.querySelector('[archive=\"'+i+'\"]');
+        navigator.clipboard.writeText(elTemp.innerHTML);
+        alert("Updated for Archive ["+ i+ "]");
+      });
     }
   });
 }
@@ -1055,6 +1119,7 @@ function Macro(elScope){
   MacroTopic(elScope);
   MacroBullet(elScope);
   MacroMsg(elScope);
+  MacroCard(elScope);
   MacroLnk(elScope);
 }
 function MacroBullet(el){
@@ -1083,6 +1148,46 @@ function MacroBullet(el){
     mTag.remove();
   });
        
+}
+function MacroCard(el){
+  /* 20240427: Skyle: changes card macro code into HTML code. The DTS field is optional.
+  FROM:
+    <card DTS="20240427193733" title="Mediation" subtitle="Cleric Skill" img="https://cdn.pixabay.com/photo/2016/10/07/14/11/tangerines-1721633_640.jpg">Mediation is a conflict resolution skill.</card>
+  TO:
+    <div class='mbCharCard' DTS="20240427193733">
+      <div class='mbCharCardTitle2'>Mediation</div>
+      <div class='mbCharCardImg' style="background-position: 50% 50%; background-image:url('https://cdn.pixabay.com/photo/2016/10/07/14/11/tangerines-1721633_640.jpg')"></div>
+      <div class='mbCharCardSubtitle'>Cleric Skill</div>
+      <div class='mbCharCardDesc'>
+        <center>
+          <div class='mbCharCardDescInner'>
+            Mediation is a conflict resolution skill.
+          </div>
+        </center>
+      </div>
+    </div>*/
+  var mTags = el.querySelectorAll('card');
+  mTags.forEach((mTag)=>{    
+    let mDTS = mTag.getAttribute("dts");
+    let mTitle = Default(mTag.getAttribute("title"),"Title");
+    let mSubTitle = Default(mTag.getAttribute("subtitle"),"Subtitle");
+    let mIMG = Default(mTag.getAttribute('img'),"");
+
+    let elNew = document.createElement('div');
+    if(NotBlank(mDTS)){elNew.setAttribute('DTS', mDTS);}
+    elNew.classList.add('mbCharCard');
+
+    let mHTML = "<div class='mbCharCardTitle2'>" + mTitle + "</div>";
+    mHTML += "<a href='" + mIMG + "' target='_blank'>";
+    mHTML += "<div class='mbCharCardImg' style=\"background-position: 50% 50%; background-image:url('" + mIMG + "')\"></div></a>";
+    mHTML += "<div class='mbCharCardSubtitle'>"+ mSubTitle + "</div>";
+    mHTML += "<div class='mbCharCardDesc'><center><div class='mbCharCardDescInner'>";
+    mHTML += mTag.innerHTML;
+    mHTML += "</div></center></div></div>";
+    elNew.innerHTML = mHTML;
+    mTag.before(elNew);
+    mTag.remove();
+  });
 }
 function MacroTopic(el){
   // 20240420: StarTree: Changes:
@@ -5539,12 +5644,16 @@ function DTSNow(){
 function NMCard(el){
   // 20240416: StarTree: Puts the card code to Clipboard.
   var elControl = SearchPS(el,"Widget");
+  var mDTS = Default(elControl.querySelector('[NM-DTS]').value,DTSNow());
   var mTitle = Default(elControl.querySelector('[NM-Title]').value,"Card Title");
   var mSubTitle = Default(elControl.querySelector('[NM-ParentName]').value,"Subtitle");
 
   var mImg = Default(elControl.querySelector('[NM-URL]').value,"https://cdn.pixabay.com/photo/2014/05/20/21/25/bird-349035_640.jpg");
   
-  var mHTML = "<div class='mbCharCard'>\n";
+  // 20240427: Skyle: New format
+  var mHTML = "<card DTS='" + mDTS + "' title='" + mTitle + "' subtitle='" + mSubTitle +"'";
+  mHTML += " img='" + mImg + "'></card>";
+  /*var mHTML = "<div class='mbCharCard'>\n";
   mHTML += "\t<div class='mbCharCardTitle2'>"+mTitle+"</div>\n";
   mHTML += "\t<div class='mbCharCardImg' style=\"background-position: 50% 50%; background-image:url('"+mImg+"')\"></div>\n";
   mHTML += "\t<div class='mbCharCardSubtitle'>"+mSubTitle+"</div>\n";
@@ -5554,7 +5663,7 @@ function NMCard(el){
   mHTML += "\t\t\t</div>\n";
   mHTML += "\t\t</center>\n";
   mHTML += "\t</div>\n";
-  mHTML += "</div>";
+  mHTML += "</div>";*/
 
   navigator.clipboard.writeText(mHTML);
   return mHTML;
@@ -5766,7 +5875,7 @@ function NMNode(el,bChatChannel){
   }
   mHTML += "\t</content>\n";
   if(!bChatChannel){
-    mHTML += "\t<card></card>\n";
+    mHTML += "\t<inv></inv>\n";
   }  
   mHTML += "\t<ref></ref>\n";
   mHTML += "\t<node>{\"id\":\""+mID+"\",\"parentid\":\""+mParentID+"\",\"parentname\":\""+mParent+"\",\"icon\":\""+mIcon+"\",\"title\":\""+mTitle+"\",\"subtitle\":\""+mSubTitle+"\",\"kids\":\""+mKids+"\",\"img\":\""+mImg+"\",\"music\":\""+mMusic+"\",\"author\":\""+mAuthor+"\"";
