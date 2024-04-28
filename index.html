@@ -19,15 +19,15 @@
         <a title="About Panacademy" href="../?id=P202403231454" style="color:white;letter-spacing: 1px;">Panacademy</a>
       </h4>-->
       <h4>
-        <a title="About Magic Bakery" href="../" style="color:white;"
+        <a class="mbpointer" title="About Magic Bakery" href="../" style="color:white;"
         onclick="BoardLoadPF(this,'202208172056');return false">Magic Bakery</a>
-        <a class="mbbutton" title="Visit Marker" onclick="NodeMarkUseCookie(this,true)">🥨</a>
+        <a class="mbbutton mbpointer" title="Visit Marker" onclick="NodeMarkUseCookie(this,true)">🥨</a>
         
-        <a title="About Panarcademy" href="../?id=P202403231454" style="color:white;" onclick="BoardLoadPL(this,'202403231454');return false">Panarcademy</a>
+        <a class="mbpointer"  title="About Panarcademy" href="../?id=P202403231454" style="color:white;" onclick="BoardLoadPL(this,'202403231454');return false">Panarcademy</a>
       </h4>
       
       <small style="font-size: 10px;">
-        <a title="Website Updates" href="../?id=P202303052122" style="color:white;" onclick="BoardLoadPF(this,'202303052122');return false">
+        <a class="mbpointer"  title="Website Updates" href="../?id=P202303052122" style="color:white;" onclick="BoardLoadPF(this,'202303052122');return false">
           20240427 Image Guard
         </a>
       </small>
@@ -193,7 +193,7 @@
           <a class="mbbutton" onClick="BoardLoad(this,'202207242047',false, true);HC(this);" title="Roll Call">📯 Roll Call</a><br>
           <a class="mbbutton" onClick="BoardLoad(this,'202301251008',false, true);HC(this);" title="Scoreboard">👑 Scoreboard</a><br>
           <a class="mbbutton" onClick="BoardLoad(this,'800000000000',false, true);HC(this);" title="Sitemap/Index">🗂️ Sitemap</a><br>
-          <!--<a class="mbbutton" style="float:right" onClick="BoardLoad(this,'202404162138',false, true);HC(this);" title="Node Maker">✏️</a>-->
+          <a class="mbbutton" style="float:right" onClick="BoardLoad(this,'202404162138',false, true);HC(this);" title="Node Maker">🥧</a>
           <a class="mbbutton" onClick="BoardLoad(this,'202403302012',false, true);HC(this);" title="Notepad">📋 Notepad</a><br>
           <hr>
           <div >
@@ -219,7 +219,10 @@
 </body>
 <script>
   function URLViewer(){
-    // 20231007: StarTree: make this function add the first panel.
+    // 20240427: StarTree: Experiment of having a local copy of the entire archive.
+    //@@// ArchiveCacheAll();
+    
+    // 20231007: StarTree: make this function add the first panel.  
     var mPanel = PanelAdd();
 
     // 20231006: Black
@@ -233,10 +236,12 @@
       //BoardLoad(mInputBox,iPostID);
       JQAdd(mInputBox);
     }else{
-      BoardLoad(mPanel,'202208172056',true);
+      /*@@StarTree:Disabled for testing.*/ BoardLoad(mPanel,'202208172056',true);
       
       mPanel.scrollTop=0;
     }
+    
+
   };
   window.onload = URLViewer;
 </script>

@@ -533,8 +533,8 @@ function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget){
   var elContainer = document.getElementById('MBJQSW');  
   var prevHTML = $(elContainer).html();
   //var prevHTML = document.body;
-  var nextState = {"html":prevHTML};
-  window.history.pushState(nextState, '', "/?id=P" + iNodeID);  
+  /*@@P4*/var nextState = {"html":prevHTML};
+  /*@@P4*/window.history.pushState(nextState, '', "/?id=P" + iNodeID);  
 }
 function BoardLoadPF(el,iNodeID, iDoNotScroll){
   // 20240324: StarTree: Loads the board at the top of the first column panel.
@@ -684,6 +684,21 @@ function RemoveParent(el){
 }
 
 //==IMPORTED FUNCTIONS===
+function ArchiveCacheAll(){
+  // 20240427: StarTree: Experimental: Load all the archives into onto the document
+  // --> Load to a region <archive> after <body>
+  var elArchive = document.createElement('archives');
+  document.body.after(elArchive);
+  $(document).ready(function(){
+    //for(let i=1;i<=ArchiveNum();i++){
+    for(let i=8;i==1;i++){
+      let elCache = document.createElement("archive");
+      elCache.setAttribute('archive',i);
+      elArchive.append(elCache);
+      $(elCache).load(ArchiveIndex(i), function(){});
+    }
+  });
+}
 function ArchiveIndex(ei){
   return BasePath() + "archive" + ei + ".html ";
 }
@@ -979,7 +994,7 @@ function HideP3(el){
 }
 function IsBlank(e){
   // 20230310: Zoey
-  return ((e==NaN) ||(e=== undefined) || (e==="") || (e=="") || (e=== null) || (e.length==0));
+  return ((e==NaN) ||(e=== undefined) || (e==="") || (e=="") || (e=== null) || (e.length==0) || (e=="null") || (e=="undefined")) ;
 }
 function LangIcon(eCode){
   // 20230311: StarTree: Added for Manga display
@@ -1012,7 +1027,7 @@ function LnkCode(iID,iDesc,iIcon,bMark){
   // 20240415: StarTree: Highlight lnk object used as visit mark differently.
  
   mHTML += "<a class='mbbuttonIn' href='" + ViewerPath() + "?id=P"+iID+"'";
-  mHTML += " onclick=\"" + InterLink() + "'" + iID + "');return false;\">";
+  mHTML += " onclick=\"" + InterLink() + "'" + iID + "');return false;\" title='Go to "+iDesc+"'>";
   
   if(IsBlank(iIcon)){
     mHTML += iDesc + "</a>";
@@ -1131,7 +1146,12 @@ function MacroMsg(el){
   var mBubbles = el.querySelectorAll('msg');
   mBubbles.forEach((mTag)=>{
     // STEP: Processing Attributes
+
+    
+
     let mDTS = mTag.getAttribute("dts");
+    let mParent = mTag.getAttribute('parent'); // 20240427: Black: This comes from MSScanFor
+    let mParentName = mTag.getAttribute('parentname');
     let mHTML = "";
     let bFirst = (mTag.parentNode.querySelector('msg')==mTag);
     let mParentTag = mTag.parentNode.tagName;
@@ -1144,8 +1164,12 @@ function MacroMsg(el){
     }
     let elNew = document.createElement("span");
     elNew.setAttribute('DTS',mDTS);
+    elNew.setAttribute('parent',mParent);
+    elNew.setAttribute('parentname',mParentName);
     elNew.innerHTML = mHTML;
-    mTag.before(elNew);    
+    mTag.before(elNew);
+    
+    return;
   });
   mBubbles.forEach((mTag)=>{
     mTag.remove();
@@ -1186,6 +1210,52 @@ function MSTopic(elTopic){
   return true;
 }
 function MSScanFor(elDisplay,mStart,mEnd){
+  // 20240426: Patricia: Populate the element with messages.
+  elDisplay.innerHTML = "<center><big>⏳</big></center>"
+  let elCache = document.createElement("div");
+  var mHTML = "";
+  var mMsgList = [];
+  var mDone = 0;
+  $(document).ready(function(){
+    for(let i=1; i<=ArchiveNum();i++){
+      // 20240427: Black: Expanding the query to get the context.
+      $(elCache).load(ArchiveIndex(i) + "[id][date][time]", function(){
+        let elMsgs = elCache.querySelectorAll('MSG[dts]');
+        
+        
+        // STEP: Push into mMsgList if the message is within range.
+        elMsgs.forEach((mMsg)=>{
+          let mMsgDTS = Number(DTSPadding(mMsg.getAttribute('DTS')));
+          if(mStart<= mMsgDTS && mMsgDTS < mEnd){
+            let elNode = SearchPS(mMsg,'time');
+            mMsg.setAttribute('parent',elNode.id.slice(1));
+            mMsg.setAttribute('parentName',GetNodeTitle(elNode));
+            mMsgList.push([mMsgDTS,mMsg.outerHTML]);
+          }
+        });
+        mDone ++;
+        if(mDone >= ArchiveNum()){
+          mMsgList.sort();
+          for(let j=0;j<mMsgList.length;j++){
+            mHTML += mMsgList[j][1];
+          }
+          elDisplay.innerHTML = mHTML;
+          Macro(elDisplay);
+
+          elCache.remove();
+        }
+      });
+    };
+  });
+}
+function GetNodeTitle(elNode){
+  // 20240427: Black: Returns the title of the node given the element. 
+  var elJSON = elNode.querySelector('node'); // get the JSON element.
+  if(IsBlank(elJSON)){return "???";}
+  var mJSON = JSON.parse(elJSON.innerHTML);
+  return mJSON.title;
+}
+function MSScanFor_BK(elDisplay,mStart,mEnd){
   // 20240426: Patricia: Populate the element with messages.
   elDisplay.innerHTML = "<center><big>⏳</big></center>"
   let elCache = document.createElement("div");
@@ -1257,7 +1327,12 @@ function RenderStart(el){
   if(NotBlank(mSPK)){
     mHTML += RenderAvXP(mSPK,mEXP,mIcon);
   }
-  mHTML += "<div class='mbpdc'>" + el.innerHTML + "</div>";
+
+  mHTML += "<div class='mbpdc'>" + el.innerHTML;
+  if(el.hasAttribute('DTS')){
+    mHTML += " <a class='mbbutton' onclick='MsgContext(this)'><small>...</small></a>";
+  }
+  mHTML += "</div>";
   mHTML += "<div class='mbCL'></div>";
   return mHTML;
 }
@@ -1284,7 +1359,12 @@ function RenderEnter(el){
   var mEXP = RenderExp(el);
   var mIcon = Default(el.getAttribute("Icon"),"⭐");
   mHTML = RenderAvXP(mSPK,mEXP,mIcon);
-  mHTML += "<b>" + mSPK + ":</b> " + el.innerHTML;
+  if(el.hasAttribute('DTS')){
+    mHTML += "<a class='mbbutton' onclick='MsgContext(this)'>" + mSPK + ":</a> ";
+  }else{
+    mHTML += "<b>"+mSPK+":</b> ";
+  }
+  mHTML += el.innerHTML;
   //mHTML += "<hr class='mbCB'>";
   return mHTML;
 }
@@ -1296,6 +1376,45 @@ function RenderExp(el){
     mEXP = Default(el.getAttribute("EXP"),1);
   }
   return mEXP;
+}
+function MsgContext(el){
+  // 20240427: Black: Shows context information. 
+  // el is the button.
+  // STEP: If the previous element is not a context element, create it.
+  var mContext = el.nextElementSibling;
+  if(IsBlank(mContext) || !mContext.hasAttribute('context')){
+    mContext = document.createElement('span');
+    mContext.setAttribute('context',"");
+    mContext.classList.add('mbContext');
+    // Populate with context information.
+    var elDTS = SearchPS(el,'dts');
+    var mParent = elDTS.getAttribute('parent');
+    var mParentName = elDTS.getAttribute('parentName');
+    
+    if(IsBlank(mParent)){
+      let elBoard = SearchPS(el,'board');
+      mParent = elBoard.getAttribute('board');
+      elDTS.setAttribute('parent',mParent);
+    }  
+    mContext.innerHTML = NodeIDClipboardButtonCode(elDTS.getAttribute('dts'),mParent);
+    
+    // Don't make a link to the node itself or if the parentName is missing.
+    if(NotBlank(mParentName)){
+      mContext.innerHTML += " " + LnkCode(mParent,mParentName) + " ";
+    }
+
+    //mContext.innerHTML = "[" + elDTS.getAttribute('dts') +"]";
+    el.after(mContext);
+  }else{
+    // Manage Show/Hide
+    if(mContext.classList.contains('mbhide')){
+      mContext.classList.remove('mbhide');
+    }else{
+      mContext.classList.add('mbhide');
+    }
+  }
+  
+
 }
 function RenderMsg(el){
 // 20240414: StarTree: The bubble macro:
@@ -1323,8 +1442,13 @@ function RenderMsg(el){
   if(NotBlank(mIcon)){mHTML += "<small>"+mIcon+"</small>";}
   //if(NotBlank(mEXP)){mHTML += "<sup class='mbSS'>⭐</sup>";}
   if(NotBlank(mEXP) && mEXP > 1){mHTML += "<small>" + mEXP + "</small> ";}
-  mHTML += "<div class='mbavem mb" + mSPK + "'></div></button>";
-  mHTML += "<hide><b>" + mSPK + ":</b> " + el.innerHTML + "</hide>"
+  mHTML += "<div class='mbavem mb" + mSPK + "'></div></button><hide>";
+  if(el.hasAttribute('DTS')){
+    mHTML += "<a class='mbbutton' onclick='MsgContext(this)'>" + mSPK + ":</a> ";
+  }else{
+    mHTML += "<b>"+mSPK+":</b> ";
+  }
+  mHTML += el.innerHTML + "</hide>"
   return mHTML;
 }
 function MacroID(eScopeID){
@@ -2055,7 +2179,7 @@ function MMInner(el,mMacro){
     // 20231005: Skyle: A more compact link compared to the one in a div.
     //  Behavior: 
     //   When left-clicked, opens the node in PSN
-    //   When right-clicked, opens hyperlink menual to allow open in new tap or copy link
+    //   When right-clicked, opens hyperlink manual to allow open in new tap or copy link
     //  Translate:
     //   <macro>{"cmd":"QPSN","node":"202309200912","desc":"2009 Ditch"}</macro>
     //  Into:
@@ -2831,14 +2955,14 @@ function QueryBanner(eQuery){
   var elContainer = document.getElementById('MBJQSW');  
   $(document).ready(function(){
     var prevHTML = $(elContainer).html();
-    var nextState = {"html":prevHTML};
-    window.history.replaceState(nextState, '', window.location.href);
-    window.onpopstate = (event) => {
-      if(event.state && event.state.html.length > 0){
-        document.getElementById("MBJQSW").innerHTML = event.state.html;
+    /*@@P4*/var nextState = {"html":prevHTML};
+    /*@@P4*/window.history.replaceState(nextState, '', window.location.href);
+    /*@@P4*/window.onpopstate = (event) => {
+    /*@@P4*/  if(event.state && event.state.html.length > 0){
+    /*@@P4*/    document.getElementById("MBJQSW").innerHTML = event.state.html;
         
-      }
-    };
+     /*@@P4*/ }
+    /*@@P4*/};
 
     for(let i=1; i<=ArchiveNum();i++){
       $(elContainer).hide();
@@ -2898,7 +3022,7 @@ function QueryBanner(eQuery){
               window.history.pushState({"html":response.html,"pageTitle":response.pageTitle},"", urlPath);
           }*/
           location.href= "#";
-          window.history.replaceState({"html": mHTML}, '', "" + ViewerPath() + "?id=P" + eQuery);
+          /*@@P4*/window.history.replaceState({"html": mHTML}, '', "" + ViewerPath() + "?id=P" + eQuery);
         }
       });
     }
@@ -4552,7 +4676,7 @@ function QueryMain(eHTML, eDIV, bJump){
 	 // This will create a new entry in the browser's history, without reloading  
      //window.history.pushState(nextState, nextTitle, nextURL);
 	 // This will replace the current entry in the browser's history, without reloading
-     window.history.replaceState(nextState, nextTitle, nextURL);
+     /*@@P4*/window.history.replaceState(nextState, nextTitle, nextURL);
   }else{
 	window.location.href = nextURL;
   }
@@ -5155,9 +5279,18 @@ function ReloadFP(el){
     }
   });
 }
-function NodeIDClipboardButtonCode(mNodeID){
+function NodeIDClipboardButtonCode(mNodeID,mParentID){
   // 20240422: V
-  return "<a class='mbbutton' onclick=\"ClipboardAlert('"+ mNodeID+"')\" title=\"" +  mNodeID+  " [" + ArchiveNumSelect(mNodeID) + "]\">📋</a>";
+  // 20240427: Black: Added mArchiveID for showing bubble context.
+  var mHTML = "<a class='mbbutton' onclick=\"ClipboardAlert('"+ mNodeID+"')\" title=\"" +  mNodeID+  " [";
+  if(IsBlank(mParentID)){
+    mHTML += ArchiveNumSelect(mNodeID);
+  }else{
+    mHTML += ArchiveNumSelect(mParentID);
+  }
+  mHTML += "]\">🐤</a>";
+
+  return mHTML
 }
 function ShowL(el){
   // 20230314: Arcacia: Created for Whose turn development area
@@ -5760,6 +5893,15 @@ function TAGet(el){
 function TAGetSelText(el){
   // 20240423: LRRH: el here is the textarea.
   return el.value.slice(el.selectionStart,el.selectionEnd);;
+}
+function TAInsertDocLen(el){
+  // 20240427: P4
+  var elTA = TAGet(el);
+  var mHead = document.head.outerHTML.length;
+  var mBody = document.body.outerHTML.length;
+  var mArchive = document.querySelector('archives').outerHTML.length;
+  var mHTML = DTSNow() + "|Head:"+ mHead + " Body:"+mBody + " Archive:" + mArchive + "\n";
+  TAInsert(elTA,mHTML);
 }
 function TAInsertDTS(el){
   // 20240423: P4  
