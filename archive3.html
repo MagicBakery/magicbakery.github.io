@@ -22801,6 +22801,7 @@
               <input nm-tags="" type="text" placeholder="Tags" title="Tags" style="width:180px;text-align: center;">
             </div>
   
+            <a class="mbbutton" onclick="NMNSPKRmv(this)" title="Rest Speaker">RST</a> 
             <a class="mbbutton" onclick="NMNode(this)" title="Make Node">Node</a> 
             <a class="mbbutton" onclick="NMNode(this,true)" title="Make Chat">Chat</a>
             <a class="mbbutton" onclick="NMCard(this)" title="Make Card">Card</a> 
@@ -22809,24 +22810,16 @@
             <a class="mbbutton" onclick="NMMsg(this)" title="Make EXP Bubble">EXP</a> 
             <a class="mbbutton" onclick="NMURL(this)" title="Make URL Macro">URL</a> 
             
-            
-            
           </center>
           
-          <center style="letter-spacing: -20px;padding:0px;max-height:61px;overflow-y: auto;" nm-spklist="">
-            <!--<a onclick="NMSetSPK(this,'Black')"><div class="mbav50t mbBlack" ></div></a>
-            <a onclick="NMSetSPK(this,'Evelyn')"><div class="mbav50t mbEvelyn" ></div></a>
-            <a onclick="NMSetSPK(this,'Ivy')"><div class="mbav50t mbIvy" ></div></a>
-            <a onclick="NMSetSPK(this,'LRRH')"><div class="mbav50t mbLRRH" ></div></a>
-            <a onclick="NMSetSPK(this,'StarTree')"><div class="mbav50t mbStarTree" ></div></a>
-            <a onclick="NMSetSPK(this,'Zoey')"><div class="mbav50t mbZoey" ></div></a>-->
+          <center style="letter-spacing: -20px;padding:0px;max-height:118px;overflow-y: auto;" nm-spklist="">
           </center>    
             
             <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🌱|🐤|🕊️|🦉|🦅|📌|💗|⭐|📯|🔍|✅"}</macro>
             <!--#NM-->
             <span class="mbhide">
             <macro>{"cmd":"ButtonList","func":"NMMsg",
-              "list":"🐾|❓|❌|🍎|🔥|⛔|🧰|🎀|💟|🌺|🎯|🎪|⏳|🥁|🔥|🎡|🎠|🚀|🥚|🐣||⚖️|🧹|🏹|👍|🖐|☀️|🌛|🍌|📒|🔔|🛎️|🏆|👑|🥘|🥞|🍯|🎟️|🥠|🍮|🧭|💡|⚡|🍍|🐢|🏕️|🌾|♻️|🍀|🧶|🐸|🥝|🍵|🏅|❄️|🎼|🌠|💍|💎|🧊|🌊|🔮|⚗️|🧪|🎤|🎓|🎩|🗃️|🎹|☕|💼|🐿️|🦋|🎻|🕰️|🥥|🥨|📜|🥼|⬜|🐇|☁️|⚙️|⚔️|🛒|🐺|⚓|🎧"}</macro>
+              "list":"🐾|❓|❌|🍎|🔥|⛔|🧰|🎀|💟|🌺|🎯|🎪|⏳|🥁|🔥|🎡|🎠|🚀|🥚|🐣||⚖️|🧹|🏹|👍|🖐|☀️|🌛|🍌|📒|🔔|🛎️|🏆|👑|🥘|🥞|🍯|🎟️|🥠|🍮|🧭|💡|⚡|🍍|🐢|🏕️|🌾|♻️|🍀|🧶|🐸|🥝|🍵|🏅|❄️|🎼|🌠|💍|💎|🧊|🌊|🔮|⚗️|🧪|🎤|🎓|🎩|🗃️|🎹|☕|💼|🐿️|🦋|🎻|🕰️|🥥|🥨|📜|🥼|⬜|📰|🗞️|🐇|☁️|⚙️|⚔️|🛒|🐺|⚓|🎧"}</macro>
             </span>
             <hr class="mbCB mbpointer" onclick="ShowPrev(this)">
         </div>
@@ -24201,9 +24194,9 @@
   <inv>
     <div widget="" class="mbscroll" dts="20240426001138" title="Message Scanner" icon="📟" node="202404260005">
       <div control="">
-        <input type="date" title="Start">
-        <input type="date" title="End">
-        <a class="mbbutton" onclick="MSScan(this)">📟</a>
+        <input type="datetime-local" title="Start">
+        <input type="datetime-local" title="End">
+        <a class="mbbutton" onclick="MSScan(this)" title="Scan">📟</a>
       </div>
       <div display="" title=""></div>
     </div>

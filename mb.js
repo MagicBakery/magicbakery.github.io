@@ -1365,7 +1365,14 @@ function FullTitleStrNS(mTitle,mPrefix,mSuffix){
   let mFullTitle = "";
   if(NotBlank(mPrefix)){mFullTitle += mPrefix + " ";}
   mFullTitle += mTitle;
-  if(NotBlank(mSuffix)){mFullTitle += " " + mSuffix;}
+  if(NotBlank(mSuffix)){
+    if(mSuffix.slice(0,1)=="/"){
+      mFullTitle += mSuffix;
+    }else{
+      mFullTitle += " " + mSuffix;
+    }
+    
+  }
   return mFullTitle;
 }
 function MacroMsg(el){
@@ -1486,7 +1493,15 @@ function GetLocalTitle(elMsg, elNode){
       return FullTitle(mPtr,mPrefix,mSuffix);
     }
     if(IsBlank(mPrefix)){mPrefix = mPtr.getAttribute("prefix");}
-    if(IsBlank(mSuffix)){mSuffix = mPtr.getAttribute("suffix");}
+    if(IsBlank(mSuffix) && NotBlank(mPtr.getAttribute("suffix"))){
+      let tSuffix = mPtr.getAttribute("suffix");
+      if(tSuffix=="Completed"){
+        tSuffix="✅";
+        mSuffix = tSuffix + mSuffix;
+      }else{
+        mSuffix = "/" + tSuffix + mSuffix;
+      }
+    }
     mPtr = mPtr.parentNode;
   }
   return GetNodeTitle(elNode,mPrefix,mSuffix);
@@ -1540,7 +1555,7 @@ function MSScan(elButton){
   var elDisplay = elWidget.querySelector('[display]');
 
   // STEP: Process the inputs
-  var mStart = elStart.value;
+  var mStart = elStart.value; DEBUG(mStart);
   if(IsBlank(mStart)){
     // 20240426: Patricia: Default start is the start of today.
     let mNow = DTSNow();
@@ -1548,7 +1563,7 @@ function MSScan(elButton){
   }else{
     mStart = Number(DTSFormatStr(mStart));
   }
-  var mEnd = elEnd.value;
+  var mEnd = elEnd.value;DEBUG(mEnd);
   if(IsBlank(mEnd)){
     mEnd = Number(DTSNow()); 
   }else{
@@ -5769,8 +5784,11 @@ function DTSFormatStr(mYYYYMMDD){
   // 20240426: StarTree: Formats a date object into a DTS string.
   var mYear = mYYYYMMDD.slice(0,4);
   var mMonth = mYYYYMMDD.slice(5,7);
-  var mDay = mYYYYMMDD.slice(8);
-  return DTSPadding(mYear + mMonth + mDay);
+  var mDay = mYYYYMMDD.slice(8,10);
+  var mHour = mYYYYMMDD.slice(11,13);
+  var mMinute = mYYYYMMDD.slice(14,16);
+  DEBUG(mYear + mMonth + mDay + mHour + mMinute);
+  return DTSPadding(mYear + mMonth + mDay + mHour + mMinute);
 }
 function DTSNow(){
   // 20240416: StarTree: Returns the current DTS string.
@@ -5922,7 +5940,11 @@ function NMAddSPK(el){
     }
     mCount++;
   });
-  if(mExist){return;}
+  if(mExist){
+    // 20240429: Also call EXP creation
+    NMMsg(el);
+    return;
+  }
   //if(mCount >= 12){return;} // The cache list only fits 6 icons.
 
   // STEP: Add a new button. Highlight it only if it matches the name in the box.
@@ -5930,11 +5952,24 @@ function NMAddSPK(el){
   if(IsBlank(el.value)|| (el.value != curSPK)){mAVStyle= "mbav50t";}
   var mHTML = "<a onclick=\"NMSetSPK(this,'"+curSPK+"')\"><div class='"+mAVStyle+" mb"+curSPK+"' ></div></a>";
   elList.innerHTML = mHTML + elList.innerHTML;
+  NMMsg(el);
 }
 function NMAddSPKev(e,el){
   // 20240423: StarTree: Assumes that the Enter key was pressed at the SPK input box.
   if(e.code!='Enter'){return;}
   NMAddSPK(el);
+}
+function NMNSPKRmv(el){
+  // 20240429: Arcacia: Remove the selected speaker from the list.
+  var elWidget = SearchPS(el,"Widget");
+  var elFrame = elWidget.querySelector('[NM-SPKList]');
+  elFrame.querySelectorAll('a').forEach((mTag)=>{
+    if(mTag.firstElementChild.classList.contains('mbav50trg')){
+      mTag.remove();
+      // 20240429: Arcacia: The name in the SPK input box is not removed so that after removing a SPK, clicking on their name again will add them to the top of the queue.
+      return;
+    }
+  });
 }
 function NMSetSPK(el,mSPK){
   // 20240423: StarTree: This is for when the user clicked on a SPK cache button.
@@ -5944,13 +5979,14 @@ function NMSetSPK(el,mSPK){
   // STEP: If the button is already highlighted, and same as the input box, 
   // Clear the input box and remove the SPK cache button.
   var elSPK = el.firstElementChild;
-  var bHighlighted = elSPK.classList.contains('mbav50trg');
   
+  
+  /* 20240429: Arcacia: This feature is annoying so it is removed.
   if(curSPK == mSPK && bHighlighted){
     elControl.querySelector('[NM-SPK]').value = "";
     el.remove();
     return;
-  }
+  }*/
 
   // STEP: Otherwise, set the SPK and set the highlight.
   elControl.querySelector('[NM-SPK]').value = mSPK;
@@ -5964,9 +6000,9 @@ function NMSetSPK(el,mSPK){
       mTag.firstElementChild.classList.add('mbav50t');
     }
   });
-  
-  
 
+  // 20240429: Also call EXP creation
+  NMMsg(el);
 }
 function NMGetDTS(){
   // 20240423: StarTree: Puts DTS to the clipboard.
