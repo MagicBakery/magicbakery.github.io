@@ -88,7 +88,7 @@ function BoardToggleHeight(elButton){
     case "": // Full to 1/2 or 3/4 depending on initial state
       if(elButton.innerHTML=="½"){
         // To Half Size
-        elBoard.style.maxHeight = "48.5%";
+        elBoard.style.maxHeight = "48.7%";
         elButton.innerHTML = "½";
       }else{
         // To 3/4 size
@@ -101,10 +101,10 @@ function BoardToggleHeight(elButton){
       elButton.innerHTML = "⅔";
       break;
     case "65.5%": // From 2/3, change to 1/2
-      elBoard.style.maxHeight = "48.5%";
+      elBoard.style.maxHeight = "48.7%";
       elButton.innerHTML = "½";
       break;
-    case "48.5%": // From 1/2, change to 1/3
+    case "48.7%": // From 1/2, change to 1/3
       elBoard.style.maxHeight = "31.8%";
       elButton.innerHTML = "⅓";
       break;
@@ -716,24 +716,26 @@ function ArchiveCacheAll(){
   // 20240427: StarTree: Experimental: Load all the archives into onto the document
   // --> Load to a region <archive> after <body>
 
-  return;
+  /**/return false;
+  var bPreempt = true; // Set to true to not load the default node.
   
   $(document).ready(function(){
-    var elArchive = document.createElement('archives');
-    var mSingleArchive = 1;
+    var elArchives = document.createElement('archives');
+    var mSingleArchive = 101;
     var mDTS = DTSNow();
-    document.body.after(elArchive);
+    document.body.after(elArchives);
     //for(let i=1;i<=ArchiveNum();i++){
     for(let i=mSingleArchive;i==mSingleArchive;i++){
       let elCache = document.createElement("archive");
       elCache.setAttribute('archive',i);
-      elArchive.append(elCache);
-      $(elCache).load(ArchiveIndex(i), function(){
+      elArchives.append(elCache);
+      $(elCache).load(ArchiveIndex(mSingleArchive), function(){
 
         // SPECIAL PROCESSING
-        let elTemp = elArchive.querySelector('[archive=\"'+i+'\"]');
+        let elArchive = elArchives.querySelector('[archive=\"'+i+'\"]');
 
-        // 20240427: Sasha
+        // 20240427: Sasha: To fix Cards
+        /*
         var elCards =elTemp.querySelectorAll(".mbCharCard"); 
         elCards.forEach((elCard)=>{
           try{
@@ -743,25 +745,36 @@ function ArchiveCacheAll(){
             mImg = mImg.replace("\")",'');
             let mSubTitle = elCard.querySelector(".mbCharCardSubtitle").innerHTML;
             let mContent = elCard.querySelector(".mbCharCardDescInner").innerHTML;
-            mDTS = DTSInc(mDTS);
-    
+            mDTS = DTSInc(mDTS);    
             let mHTML = "<card DTS='" + mDTS + "' title='" + mTitle + "' subtitle='" + mSubTitle +"'";
             mHTML += " img='" + mImg + "'>"+mContent+"</card>";
             elCard.outerHTML = mHTML;
           elCard.remove();
           }catch(e){
-
           }
-          
-          
+        });*/
+
+        /* 20240428: Melody: Searching for the extra small
+        var elSmalls = elArchive.querySelectorAll("small");
+        var mMax = 0;
+        var mInner = "";
+        elSmalls.forEach((elSmall)=>{
+          let mLen = elSmall.innerHTML.length;
+          if(mMax<mLen){
+            mMax = mLen;
+            mInner = elSmall.outerHTML;
+          }
         });
-        
-        elTemp = elArchive.querySelector('[archive=\"'+i+'\"]');
-        navigator.clipboard.writeText(elTemp.innerHTML);
-        alert("Updated for Archive ["+ i+ "]");
+
+        alert("Len: " + mMax);*/
+
+        /*elArchive = elArchives.querySelector('[archive=\"'+i+'\"]');
+        navigator.clipboard.writeText(elArchive.innerHTML);
+        alert("Updated for Archive ["+ i+ "]");//*/
       });
     }
   });
+  return bPreempt;
 }
 function ArchiveIndex(ei){
   return BasePath() + "archive" + ei + ".html ";
@@ -1115,6 +1128,7 @@ function Macro(elScope){
   // 20240414: StarTree: Added Bubble.
   ProcessNodeData(elScope);
   MacroMacro(elScope);
+  MacroRes(elScope);
   MacroJQ(elScope);
   MacroTopic(elScope);
   MacroBullet(elScope);
@@ -1139,7 +1153,7 @@ function MacroBullet(el){
     let mIcon = Default(mTag.getAttribute("icon"),"");
     let mHTML = "<span class='mbbutton' onclick='ShowNextInline(this)'>";
     mHTML += "<span class='mbILB25'>" + mIcon + "</span>";
-    mHTML += mTitle + "</span><hide>";
+    mHTML += FullTitleNS(mTag) + "</span><hide>";
     mHTML += mTag.innerHTML + "</hide>";
     let elNew = document.createElement('li');
     elNew.setAttribute('DTS',mDTS);
@@ -1165,9 +1179,23 @@ function MacroCard(el){
           </div>
         </center>
       </div>
-    </div>*/
+    </div>
+  STYLE 2: Distinguishing feature: It has a class.
+    FROM:
+      <card dts="20240428182908" class="mbCharCardAQ" img="https://github.com/MagicBakery/Images/blob/main/Infographic.png?raw=true"></card>
+    TO:
+      <div>
+        <a href="https://github.com/MagicBakery/Images/blob/main/Infographic.png?raw=true" target="_blank">
+          <div class="mbCharCardAQ" style="background-image:url('https://github.com/MagicBakery/Images/blob/main/Infographic.png?raw=true')">
+          </div>
+        </a>
+      </div>
+    */
   var mTags = el.querySelectorAll('card');
   mTags.forEach((mTag)=>{    
+
+    if(MacroCard2(mTag)){return;}
+
     let mDTS = mTag.getAttribute("dts");
     let mTitle = Default(mTag.getAttribute("title"),"Title");
     let mSubTitle = Default(mTag.getAttribute("subtitle"),"Subtitle");
@@ -1178,7 +1206,7 @@ function MacroCard(el){
     elNew.classList.add('mbCharCard');
 
     let mHTML = "<div class='mbCharCardTitle2'>" + mTitle + "</div>";
-    mHTML += "<a href='" + mIMG + "' target='_blank'>";
+    mHTML += "<a href='" + mIMG + "' target='_blank' onclick='return false;' style='cursor:default'>";
     mHTML += "<div class='mbCharCardImg' style=\"background-position: 50% 50%; background-image:url('" + mIMG + "')\"></div></a>";
     mHTML += "<div class='mbCharCardSubtitle'>"+ mSubTitle + "</div>";
     mHTML += "<div class='mbCharCardDesc'><center><div class='mbCharCardDescInner'>";
@@ -1188,6 +1216,68 @@ function MacroCard(el){
     mTag.before(elNew);
     mTag.remove();
   });
+}
+function MacroCard2(elCard){
+  /* 20240428: Sasha: Render Style 2 that has a class and just a picture.
+  STYLE 2: Distinguishing feature: It has a class.
+    FROM:
+      <card dts="20240428182908" class="mbCharCardAQ" img="https://github.com/MagicBakery/Images/blob/main/Infographic.png?raw=true"></card>
+    TO:
+      <div>
+        <a href="https://github.com/MagicBakery/Images/blob/main/Infographic.png?raw=true" target="_blank">
+          <div class="mbCharCardAQ" style="background-image:url('https://github.com/MagicBakery/Images/blob/main/Infographic.png?raw=true')">
+          </div>
+        </a>
+      </div>
+    */
+   if(!elCard.classList.contains('mbCharCardAQ')){return false;}
+   let mDTS = elCard.getAttribute('dts');
+   let mImg = elCard.getAttribute('img');
+   let elNew = document.createElement('div');
+   let mHTML = "<a style='cursor:default' onclick='return false;' href='" + mImg + "' target='_blank'>";
+   mHTML += "<div class='mbCharCardAQ' style=\"background-image:url('" + mImg + "')\">"
+   mHTML += "</div></a>";
+   elNew.innerHTML = mHTML;
+   elNew.setAttribute('dts',mDTS);
+   elCard.before(elNew);
+   elCard.remove();
+  return true;
+}
+function MacroRes(el){
+  // 20240428: Zoey: To support nested resources (image) and to include music and file also.
+  // This is for things that we want to include but don't want the browser to load when
+  // it fetches the archive.
+  // Format:
+  // <res DTS="###" src="..." class="..." style="...">...</res>
+  var mTags = el.querySelectorAll('res');
+  //for(let i=mTags.length-1;i>-1;i--){ 
+  // 20240428: Zoey: Does not need reverse order to process nested resources.
+  for(let i=0;i<mTags.length;i++){
+    let mTag = mTags[i];
+    // STEP: Determine the type and process accordingly.
+    if(MacroResImage(mTag)){continue;} // Default as image
+  }
+}
+function MacroResImage(mTag){
+  // 20240428: Zoey // image type is the default. This process should be last.  
+  let mDTS = mTag.getAttribute("dts");
+  let mSRC = mTag.getAttribute("src");
+  let mClass = mTag.getAttribute("class");
+  let mStyle = mTag.getAttribute("style");
+  let mHTML = "";
+  mHTML = "<div";
+  if(NotBlank(mDTS)){mHTML += " DTS=\"" +mDTS+"\"";}
+  if(NotBlank(mClass)){mHTML += " class=\"" + mClass + "\"";}
+  mHTML += " style=\"" + mStyle + ";";
+  mHTML += "background-image:url('" + mSRC + "')\">";
+  mHTML += mTag.innerHTML + "</div>";
+  /* Example:
+  <div DTS="..." style="position: relative; margin:5px 5px;padding:20px 10px; background-image:url('HTTP');border-radius:10px; box-shadow: 0px 0px 5px saddlebrown;background-position: 50% 50%; background-size:cover; ">*/
+  let elNew = document.createElement('div');
+  mTag.after(elNew);
+  elNew.outerHTML = mHTML;
+  mTag.remove();
+  return true;
 }
 function MacroTopic(el){
   // 20240420: StarTree: Changes:
@@ -1206,13 +1296,17 @@ function MacroTopic(el){
     let mTag = mTags[i];
     let mDTS = mTag.getAttribute("dts");
     let mIcon = Default(mTag.getAttribute("icon"),"");
-    let mTitle = Default(mTag.getAttribute("title"),"New Topic");
+    let mTitle = Default(mTag.getAttribute("title"),"");
+    let mPrefix = Default(mTag.getAttribute("prefix"),"");
+    let mSuffix = Default(mTag.getAttribute("suffix"),"");
     let mHTML = "";
 
     // STEP: If a topic is inside OL or UL, turn it into a bullet.
     if(mTag.parentNode.tagName=="OL" || mTag.parentNode.tagName=="UL"){
       let elNew = document.createElement('bullet');
       elNew.setAttribute('title',mTitle);
+      elNew.setAttribute('suffix',mSuffix);
+      elNew.setAttribute('prefix',mPrefix);
       elNew.setAttribute('DTS',mDTS);
       elNew.setAttribute('Icon',mIcon);
       elNew.innerHTML = mTag.innerHTML;
@@ -1229,9 +1323,11 @@ function MacroTopic(el){
       if(mParentTag == "TOPIC" || mParentTag=="BULLET" || mParentTag=="MSG"){
         mClass = "mbpuzzle";
       }
+      let mFullTitle = FullTitle(mTag);
+
       mHTML = "<div class='mbbutton' onclick='ShowNext(this)'>";
       mHTML += "<span class='mbILB30'>" + mIcon + "</span>";
-      mHTML += mTitle + "</div><hide topic><hr class='mbhr'>";
+      mHTML += mFullTitle + "</div><hide topic><hr class='mbhr'>";
   
       mHTML += mTag.innerHTML;
       
@@ -1245,14 +1341,39 @@ function MacroTopic(el){
     mTag.remove();
   }
 }
+function FullTitle(el,mPrefix,mSuffix){
+  // 20240429: Cardinal
+  let mTitle = Default(el.getAttribute("title"),"");
+  mPrefix = Default(mPrefix,el.getAttribute("prefix"));
+  mSuffix = Default(mSuffix,el.getAttribute("suffix"));
+  return FullTitleStr(mTitle,mPrefix,mSuffix);
+}
+function FullTitleNS(el,mPrefix,mSuffix){
+  // 20240429: Cardinal
+  let mTitle = Default(el.getAttribute("title"),"");
+  mPrefix = Default(mPrefix,el.getAttribute("prefix"));
+  mSuffix = Default(mSuffix,el.getAttribute("suffix"));
+  return FullTitleStrNS(mTitle,mPrefix,mSuffix);
+}
+function FullTitleStr(mTitle,mPrefix,mSuffix){
+  // 20240429: Cardinal: With substitution
+  if(mSuffix=="Completed"){mSuffix="✅";}
+  return FullTitleStrNS(mTitle,mPrefix,mSuffix);
+}
+function FullTitleStrNS(mTitle,mPrefix,mSuffix){
+  // 20240429: Cardinal
+  let mFullTitle = "";
+  if(NotBlank(mPrefix)){mFullTitle += mPrefix + " ";}
+  mFullTitle += mTitle;
+  if(NotBlank(mSuffix)){mFullTitle += " " + mSuffix;}
+  return mFullTitle;
+}
 function MacroMsg(el){
   // STEP: Interpret the context and compose the html code
   // 20240420: StarTree: If this is the first bubble in a topic, use the "ENTER" format.
   var mBubbles = el.querySelectorAll('msg');
   mBubbles.forEach((mTag)=>{
     // STEP: Processing Attributes
-
-    
 
     let mDTS = mTag.getAttribute("dts");
     let mParent = mTag.getAttribute('parent'); // 20240427: Black: This comes from MSScanFor
@@ -1334,7 +1455,7 @@ function MSScanFor(elDisplay,mStart,mEnd){
           if(mStart<= mMsgDTS && mMsgDTS < mEnd){
             let elNode = SearchPS(mMsg,'time');
             mMsg.setAttribute('parent',elNode.id.slice(1));
-            mMsg.setAttribute('parentName',GetNodeTitle(elNode));
+            mMsg.setAttribute('parentName',GetLocalTitle(mMsg,elNode));
             mMsgList.push([mMsgDTS,mMsg.outerHTML]);
           }
         });
@@ -1353,12 +1474,29 @@ function MSScanFor(elDisplay,mStart,mEnd){
     };
   });
 }
-function GetNodeTitle(elNode){
+function GetLocalTitle(elMsg, elNode){
+  // 20240429: Cardinal: Search up to the node to get the first local title
+  // STEP: Get the node to know when to stop (currently passed as argument)
+
+  var mPtr = elMsg;
+  var mPrefix = "";
+  var mSuffix = "";
+  while(mPtr != elNode){
+    if(mPtr.hasAttribute('title')){
+      return FullTitle(mPtr,mPrefix,mSuffix);
+    }
+    if(IsBlank(mPrefix)){mPrefix = mPtr.getAttribute("prefix");}
+    if(IsBlank(mSuffix)){mSuffix = mPtr.getAttribute("suffix");}
+    mPtr = mPtr.parentNode;
+  }
+  return GetNodeTitle(elNode,mPrefix,mSuffix);
+}
+function GetNodeTitle(elNode,mPrefix,mSuffix){
   // 20240427: Black: Returns the title of the node given the element. 
   var elJSON = elNode.querySelector('node'); // get the JSON element.
   if(IsBlank(elJSON)){return "???";}
   var mJSON = JSON.parse(elJSON.innerHTML);
-  return mJSON.title;
+  return FullTitleStr(mJSON.title,mPrefix,mSuffix);
 }
 function MSScanFor_BK(elDisplay,mStart,mEnd){
   // 20240426: Patricia: Populate the element with messages.
@@ -5229,7 +5367,11 @@ function FPSepia(mZArray,mCurMax){
     let mButton = (mZArray[i][1]).parentNode.parentNode.previousElementSibling;    
     if(mZArray[i][0] == 0){
       // If the FP is not shown, grey out its button
-      mButton.style.opacity = 0.1;
+      if(mButton.innerHTML=="🎧"){ // This icon is abnormally dark to begin with.
+        mButton.style.opacity = 0.15;
+      }else{
+        mButton.style.opacity = 0.1;
+      }
       mButton.style.filter = "sepia(100%)";
     }else if(mZArray[i][0] >= mCurMax){
       // If the FP is the top most (and not hidden), full color.
