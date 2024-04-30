@@ -1127,10 +1127,10 @@ function Macro(elScope){
   // 20230220: Ivy: Added MacroLL for languages
   // 20240414: StarTree: Added Bubble.
   ProcessNodeData(elScope);
+  MacroTopic(elScope);
   MacroMacro(elScope);
   MacroRes(elScope);
-  MacroJQ(elScope);
-  MacroTopic(elScope);
+  MacroJQ(elScope);  
   MacroBullet(elScope);
   MacroMsg(elScope);
   MacroCard(elScope);
@@ -1298,14 +1298,14 @@ function MacroTopic(el){
     let mIcon = Default(mTag.getAttribute("icon"),"");
     let mTitle = Default(mTag.getAttribute("title"),"");
     let mPrefix = Default(mTag.getAttribute("prefix"),"");
-    let mSuffix = Default(mTag.getAttribute("suffix"),"");
+    let mSubtitle = Default(mTag.getAttribute("Subtitle"),"");
     let mHTML = "";
 
     // STEP: If a topic is inside OL or UL, turn it into a bullet.
     if(mTag.parentNode.tagName=="OL" || mTag.parentNode.tagName=="UL"){
       let elNew = document.createElement('bullet');
       elNew.setAttribute('title',mTitle);
-      elNew.setAttribute('suffix',mSuffix);
+      elNew.setAttribute('Subtitle',mSubtitle);
       elNew.setAttribute('prefix',mPrefix);
       elNew.setAttribute('DTS',mDTS);
       elNew.setAttribute('Icon',mIcon);
@@ -1327,7 +1327,7 @@ function MacroTopic(el){
 
       mHTML = "<div class='mbbutton' onclick='ShowNext(this)'>";
       mHTML += "<span class='mbILB30'>" + mIcon + "</span>";
-      mHTML += mFullTitle + "</div><hide topic><hr class='mbhr'>";
+      mHTML += mFullTitle + "</div><hide><hr class='mbhr'>";
   
       mHTML += mTag.innerHTML;
       
@@ -1335,41 +1335,42 @@ function MacroTopic(el){
       let elNew = document.createElement('div');
       elNew.classList.add(mClass);
       elNew.setAttribute('DTS',mDTS);
+      elNew.setAttribute('topic',"");
       elNew.innerHTML = mHTML;
       mTag.before(elNew);
     }
     mTag.remove();
   }
 }
-function FullTitle(el,mPrefix,mSuffix){
+function FullTitle(el,mPrefix,mSubtitle){
   // 20240429: Cardinal
   let mTitle = Default(el.getAttribute("title"),"");
   mPrefix = Default(mPrefix,el.getAttribute("prefix"));
-  mSuffix = Default(mSuffix,el.getAttribute("suffix"));
-  return FullTitleStr(mTitle,mPrefix,mSuffix);
+  mSubtitle = Default(mSubtitle,el.getAttribute("Subtitle"));
+  return FullTitleStr(mTitle,mPrefix,mSubtitle);
 }
-function FullTitleNS(el,mPrefix,mSuffix){
+function FullTitleNS(el,mPrefix,mSubtitle){
   // 20240429: Cardinal
   let mTitle = Default(el.getAttribute("title"),"");
   mPrefix = Default(mPrefix,el.getAttribute("prefix"));
-  mSuffix = Default(mSuffix,el.getAttribute("suffix"));
-  return FullTitleStrNS(mTitle,mPrefix,mSuffix);
+  mSubtitle = Default(mSubtitle,el.getAttribute("Subtitle"));
+  return FullTitleStrNS(mTitle,mPrefix,mSubtitle);
 }
-function FullTitleStr(mTitle,mPrefix,mSuffix){
+function FullTitleStr(mTitle,mPrefix,mSubtitle){
   // 20240429: Cardinal: With substitution
-  if(mSuffix=="Completed"){mSuffix="✅";}
-  return FullTitleStrNS(mTitle,mPrefix,mSuffix);
+  if(mSubtitle=="Completed"){mSubtitle="✅";}
+  return FullTitleStrNS(mTitle,mPrefix,mSubtitle);
 }
-function FullTitleStrNS(mTitle,mPrefix,mSuffix){
+function FullTitleStrNS(mTitle,mPrefix,mSubtitle){
   // 20240429: Cardinal
   let mFullTitle = "";
   if(NotBlank(mPrefix)){mFullTitle += mPrefix + " ";}
   mFullTitle += mTitle;
-  if(NotBlank(mSuffix)){
-    if(mSuffix.slice(0,1)=="/"){
-      mFullTitle += mSuffix;
+  if(NotBlank(mSubtitle)){
+    if(mSubtitle.slice(0,1)=="/"){
+      mFullTitle += mSubtitle;
     }else{
-      mFullTitle += " " + mSuffix;
+      mFullTitle += " " + mSubtitle;
     }
     
   }
@@ -1388,7 +1389,7 @@ function MacroMsg(el){
     let mHTML = "";
     let bFirst = (mTag.parentNode.querySelector('msg')==mTag);
     let mParentTag = mTag.parentNode.tagName;
-    if(bFirst && mTag.parentNode.hasAttribute('topic')){
+    if(bFirst && (mTag.parentNode.tagName="HIDE" || mTag.parentNode.hasAttribute('topic'))){
       mHTML = RenderEnter(mTag);
     }else if(bFirst && (mParentTag=="SPAN" || mParentTag=="DIV") && (!mTag.parentNode.classList.contains("mbpdc")) ){
       mHTML = RenderStart(mTag);
@@ -1397,6 +1398,7 @@ function MacroMsg(el){
     }
     let elNew = document.createElement("span");
     elNew.setAttribute('DTS',mDTS);
+    elNew.setAttribute("bubble",''); // 20240430: Remember that it is a bubble.
     elNew.setAttribute('parent',mParent);
     elNew.setAttribute('parentname',mParentName);
     elNew.innerHTML = mHTML;
@@ -1442,7 +1444,7 @@ function MSTopic(elTopic){
   MSScanFor(elDisplay,mStart,mEnd);
   return true;
 }
-function MSScanFor(elDisplay,mStart,mEnd){
+function MSScanFor_BAK(elDisplay,mStart,mEnd){
   // 20240426: Patricia: Populate the element with messages.
   elDisplay.innerHTML = "<center><big>⏳</big></center>"
   let elCache = document.createElement("div");
@@ -1454,8 +1456,7 @@ function MSScanFor(elDisplay,mStart,mEnd){
       // 20240427: Black: Expanding the query to get the context.
       $(elCache).load(ArchiveIndex(i) + "[id][date][time]", function(){
         let elMsgs = elCache.querySelectorAll('MSG[dts]');
-        
-        
+                
         // STEP: Push into mMsgList if the message is within range.
         elMsgs.forEach((mMsg)=>{
           let mMsgDTS = Number(DTSPadding(mMsg.getAttribute('DTS')));
@@ -1481,39 +1482,7 @@ function MSScanFor(elDisplay,mStart,mEnd){
     };
   });
 }
-function GetLocalTitle(elMsg, elNode){
-  // 20240429: Cardinal: Search up to the node to get the first local title
-  // STEP: Get the node to know when to stop (currently passed as argument)
-
-  var mPtr = elMsg;
-  var mPrefix = "";
-  var mSuffix = "";
-  while(mPtr != elNode){
-    if(mPtr.hasAttribute('title')){
-      return FullTitle(mPtr,mPrefix,mSuffix);
-    }
-    if(IsBlank(mPrefix)){mPrefix = mPtr.getAttribute("prefix");}
-    if(IsBlank(mSuffix) && NotBlank(mPtr.getAttribute("suffix"))){
-      let tSuffix = mPtr.getAttribute("suffix");
-      if(tSuffix=="Completed"){
-        tSuffix="✅";
-        mSuffix = tSuffix + mSuffix;
-      }else{
-        mSuffix = "/" + tSuffix + mSuffix;
-      }
-    }
-    mPtr = mPtr.parentNode;
-  }
-  return GetNodeTitle(elNode,mPrefix,mSuffix);
-}
-function GetNodeTitle(elNode,mPrefix,mSuffix){
-  // 20240427: Black: Returns the title of the node given the element. 
-  var elJSON = elNode.querySelector('node'); // get the JSON element.
-  if(IsBlank(elJSON)){return "???";}
-  var mJSON = JSON.parse(elJSON.innerHTML);
-  return FullTitleStr(mJSON.title,mPrefix,mSuffix);
-}
-function MSScanFor_BK(elDisplay,mStart,mEnd){
+function MSScanFor(elDisplay,mStart,mEnd){
   // 20240426: Patricia: Populate the element with messages.
   elDisplay.innerHTML = "<center><big>⏳</big></center>"
   let elCache = document.createElement("div");
@@ -1522,28 +1491,160 @@ function MSScanFor_BK(elDisplay,mStart,mEnd){
   var mDone = 0;
   $(document).ready(function(){
     for(let i=1; i<=ArchiveNum();i++){
-      $(elCache).load(ArchiveIndex(i) + "MSG[dts]", function(){
-        let elMsgs = elCache.querySelectorAll('msg');
+      // 20240427: Black: Expanding the query to get the context.
+      $(elCache).load(ArchiveIndex(i) + "[id][date][time]", function(){
+        let elMsgs = elCache.querySelectorAll('MSG[dts]');
+                
         // STEP: Push into mMsgList if the message is within range.
         elMsgs.forEach((mMsg)=>{
           let mMsgDTS = Number(DTSPadding(mMsg.getAttribute('DTS')));
           if(mStart<= mMsgDTS && mMsgDTS < mEnd){
-            mMsgList.push([mMsgDTS,mMsg.outerHTML]);
+            let elNode = SearchPS(mMsg,'time');
+            mMsg.setAttribute('parent',elNode.id.slice(1));
+            mMsg.setAttribute('nodeName',GetNodeTitle(elNode));
+            mMsg.setAttribute('parentName',GetLocalTitle(mMsg,elNode));
+            mMsgList.push([mMsgDTS,mMsg]);
           }
         });
         mDone ++;
         if(mDone >= ArchiveNum()){
-          mMsgList.sort();
-          for(let j=0;j<mMsgList.length;j++){
-            mHTML += mMsgList[j][1];
+          mMsgList.sort();  // Sort by DTS
+
+          // STEP: Check if the content should be sorted by group.          
+          let elWidget = SearchPS(elDisplay,'widget');
+          let bGroupByTopic = true;
+          try{
+            bGroupByTopic = elWidget.querySelector('[MS_ByTopic]').checked;
+          }catch(e){
+            bGroupByTopic = false;
           }
+          if(bGroupByTopic){
+            for(let i=0;i<mMsgList.length;i++){
+              mMsgList[i][0] = mMsgList[i][1].getAttribute('nodename');
+            }
+            mMsgList.sort();  // Sort by Topic
+          }
+          // STEP: Output to the container.
+          let mCurTopic = "";
+          let mMsgCount = 0;
+          let mTopicHTML = "";
+          let mCurIcon = "";
+          let mCurDTS = "";
+          for(let i=0;i<mMsgList.length;i++){
+            let mMsg = mMsgList[i][1];
+
+            if(bGroupByTopic){
+              let mMsgTopic = mMsgList[i][0];
+              if(mCurTopic != mMsgTopic){
+                if(mCurTopic !=""){
+                  // If this is not the first topic, wrap the previous cached HTML in a topic object.
+                  mHTML += TopicWrap(mCurDTS,mMsgCount,mCurIcon,mCurTopic,mTopicHTML);
+                }
+                mTopicHTML = "";
+                mMsgCount = 0;
+                mCurDTS = mMsg.getAttribute('dts');
+                mCurIcon = mMsg.getAttribute('icon');
+                mCurTopic = mMsgTopic;
+                
+              }
+              mTopicHTML += mMsgList[i][1].outerHTML;
+              mMsgCount ++;
+            }else{
+              // Not grouping by topic
+              mHTML += mMsgList[i][1].outerHTML;
+            }
+          }// END FOR EACH MESSAGE
+
+          // Close the topic if there were any
+          if(mCurTopic!=""){
+            mHTML += TopicWrap(mCurDTS,mMsgCount,mCurIcon,mCurTopic,mTopicHTML);
+            elDisplay.style.display = "flex";
+            elDisplay.style.flexDirection = "column";
+            elDisplay.classList.remove('mbscroll');
+          }else{
+            elDisplay.style.display = "block";
+            elDisplay.classList.add('mbscroll');
+            //elDisplay.style.flexDirection = "initial";
+          }
+
+          // Wrap in a flex display
           elDisplay.innerHTML = mHTML;
           Macro(elDisplay);
+
           elCache.remove();
         }
       });
     };
   });
+}
+function MSSortTopics(el,bFL){
+  // 20240430: Sylvia
+  var elDisplay = SearchPS(el,'widget').querySelector('[display]');
+  var mTopics = elDisplay.querySelectorAll('[topic]');
+  var mTopicList=[];
+  var mOrder = "";
+  mTopics.forEach((mTopic)=>{    
+    // This assumes that the topic is already sorted internally.
+    if(bFL){
+      // Sort by first message
+      mOrder = mTopic.querySelector('[bubble]').getAttribute('dts');
+      mTopic.setAttribute('start',mOrder);
+    }else{
+      // Sort by last message
+      let mBubbles = mTopic.querySelectorAll('[bubble]');
+      mOrder = mBubbles[mBubbles.length-1].getAttribute('dts');
+      mTopic.setAttribute('end',mOrder);
+    }
+    mTopicList.push([mOrder,mTopic]);
+  });
+  mTopicList.sort();
+  for(let i=0;i<mTopicList.length;i++){
+    mTopicList[i][1].style.order = i;
+  }
+  if(bFL){
+    elDisplay.style.flexDirection = 'column';
+  }else{
+    elDisplay.style.flexDirection = 'column-reverse';
+  }
+
+}
+function TopicWrap(mDTS,mCount,mIcon,mTopic,mTopicHTML){
+  let mHTML = "<topic dts=\""+mDTS+"\" title=\"" + mTopic + " ["+mCount+ "]\" Icon=\"" +mIcon + "\">";
+  mHTML += mTopicHTML;
+  mHTML += "</topic>";
+  return mHTML;
+}
+function GetLocalTitle(elMsg, elNode){
+  // 20240429: Cardinal: Search up to the node to get the first local title
+  // STEP: Get the node to know when to stop (currently passed as argument)
+
+  var mPtr = elMsg;
+  var mPrefix = "";
+  var mSubtitle = "";
+  while(mPtr != elNode){
+    if(mPtr.hasAttribute('title')){
+      return FullTitle(mPtr,mPrefix,mSubtitle);
+    }
+    if(IsBlank(mPrefix)){mPrefix = mPtr.getAttribute("prefix");}
+    if(IsBlank(mSubtitle) && NotBlank(mPtr.getAttribute("Subtitle"))){
+      let tSubtitle = mPtr.getAttribute("Subtitle");
+      if(tSubtitle=="Completed"){
+        tSubtitle="✅";
+        mSubtitle = tSubtitle + mSubtitle;
+      }else{
+        mSubtitle = "/" + tSubtitle + mSubtitle;
+      }
+    }
+    mPtr = mPtr.parentNode;
+  }
+  return GetNodeTitle(elNode,mPrefix,mSubtitle);
+}
+function GetNodeTitle(elNode,mPrefix,mSubtitle){
+  // 20240427: Black: Returns the title of the node given the element. 
+  var elJSON = elNode.querySelector('node'); // get the JSON element.
+  if(IsBlank(elJSON)){return "???";}
+  var mJSON = JSON.parse(elJSON.innerHTML);
+  return FullTitleStr(mJSON.title,mPrefix,mSubtitle);
 }
 function MSScan(elButton){
   // 20240426: StarTree: Implements the Message Scanner
@@ -1555,7 +1656,7 @@ function MSScan(elButton){
   var elDisplay = elWidget.querySelector('[display]');
 
   // STEP: Process the inputs
-  var mStart = elStart.value; DEBUG(mStart);
+  var mStart = elStart.value; 
   if(IsBlank(mStart)){
     // 20240426: Patricia: Default start is the start of today.
     let mNow = DTSNow();
@@ -1563,14 +1664,14 @@ function MSScan(elButton){
   }else{
     mStart = Number(DTSFormatStr(mStart));
   }
-  var mEnd = elEnd.value;DEBUG(mEnd);
+  var mEnd = elEnd.value;
   if(IsBlank(mEnd)){
     mEnd = Number(DTSNow()); 
   }else{
     mEnd = Number(DTSFormatStr(mEnd));
   }
 
-  elDisplay.classList.add('mbpuzzle');
+  //elDisplay.classList.add('mbpuzzle');
 
 
   MSScanFor(elDisplay,mStart,mEnd);
@@ -6186,7 +6287,11 @@ function TAInsertDocLen(el){
   var elTA = TAGet(el);
   var mHead = document.head.outerHTML.length;
   var mBody = document.body.outerHTML.length;
-  var mArchive = document.querySelector('archives').outerHTML.length;
+  try{
+    var mArchive = document.querySelector('archives').outerHTML.length;
+  }catch(e){
+    mArchive = 0;
+  }
   var mHTML = DTSNow() + "|Head:"+ mHead + " Body:"+mBody + " Archive:" + mArchive + "\n";
   TAInsert(elTA,mHTML);
 }

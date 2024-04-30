@@ -149,6 +149,16 @@ margin:-5px;
   flex: 250px; 
   margin:5px 5px;
 }
+.mbStack > div {
+  margin:5px 0px;
+}
+/*.mbStack > div:first-of-type {
+  margin-top:5px;
+}
+.mbStack > div:last-of-type {
+  margin-bottom:0px;
+}*/
+
 .flex > .spacer{
   margin:0px 5px;
   order:99999999;
