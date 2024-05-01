@@ -1389,10 +1389,10 @@ function MacroMsg(el){
     let mHTML = "";
     let bFirst = (mTag.parentNode.querySelector('msg')==mTag);
     let mParentTag = mTag.parentNode.tagName;
-    if(bFirst && (mTag.parentNode.tagName="HIDE" || mTag.parentNode.hasAttribute('topic'))){
-      mHTML = RenderEnter(mTag);
-    }else if(bFirst && (mParentTag=="SPAN" || mParentTag=="DIV") && (!mTag.parentNode.classList.contains("mbpdc")) ){
+    if(bFirst && (mParentTag=="SPAN" || mParentTag=="DIV") && (!mTag.parentNode.classList.contains("mbpdc")) ){
       mHTML = RenderStart(mTag);
+    }else if(bFirst && (mTag.parentNode.tagName="HIDE" || mTag.parentNode.hasAttribute('topic'))){
+      mHTML = RenderEnter(mTag);
     }else{
       mHTML = RenderMsg(mTag);
     }
@@ -1560,10 +1560,10 @@ function MSScanFor(elDisplay,mStart,mEnd){
             mHTML += TopicWrap(mCurDTS,mMsgCount,mCurIcon,mCurTopic,mTopicHTML);
             elDisplay.style.display = "flex";
             elDisplay.style.flexDirection = "column";
-            elDisplay.classList.remove('mbscroll');
+            elDisplay.classList.remove('mbpuzzle');
           }else{
             elDisplay.style.display = "block";
-            elDisplay.classList.add('mbscroll');
+            elDisplay.classList.add('mbpuzzle');
             //elDisplay.style.flexDirection = "initial";
           }
 
