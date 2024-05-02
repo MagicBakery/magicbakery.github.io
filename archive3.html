@@ -23962,16 +23962,17 @@
               <input nm-icon="" type="text" placeholder="" title="Icon" style="width:30px;text-align: center;">        
               <input nm-tags="" type="text" placeholder="Tags" title="Tags" style="width:180px;text-align: center;">
             </div>
-  
-            <a class="mbbutton" onclick="NMNSPKRmv(this)" title="Rest Speaker">RST</a> 
-            <a class="mbbutton" onclick="NMNode(this)" title="Make Node">NDE</a> 
-            <a class="mbbutton" onclick="NMNode(this,true)" title="Make Chat">CHT</a>
-            <a class="mbbutton" onclick="NMCard(this)" title="Make Card">CRD</a> 
-            <a class="mbbutton" onclick="NMTopic(this)" title="Make Topic Section">SEC</a> 
-            <a class="mbbutton" onclick="NMMsg(this,'',true)" title="Make Bubble">MSG</a>
-            <a class="mbbutton" onclick="NMMsg(this)" title="Make EXP Bubble">EXP</a> 
-            <a class="mbbutton" onclick="NMURL(this)" title="Make URL Macro">URL</a> 
-            
+            <small>
+              <a class="mbbutton" onclick="NMNSPKRmv(this)" title="Rest Speaker">RST</a> 
+              <a class="mbbutton" onclick="NMNode(this)" title="Make Node">NDE</a> 
+              <a class="mbbutton" onclick="NMNode(this,true)" title="Make Chat">CHT</a>
+              <a class="mbbutton" onclick="NMCard(this)" title="Make Card">CRD</a> 
+              <a class="mbbutton" onclick="NMTopic(this)" title="Make Topic Section">SEC</a> 
+              <a class="mbbutton" onclick="NMNote(this)" title="Make Note Section">NTE</a> 
+              <a class="mbbutton" onclick="NMMsg(this,'',true)" title="Make Bubble">MSG</a>
+              <a class="mbbutton" onclick="NMMsg(this)" title="Make EXP Bubble">EXP</a> 
+              <a class="mbbutton" onclick="NMURL(this)" title="Make URL Macro">URL</a> 
+            </small>
           </center>
           
           <center style="letter-spacing: -20px;padding:0px;max-height:118px;overflow-y: auto;" nm-spklist="">
@@ -23981,7 +23982,7 @@
             <!--#NM-->
             <span class="mbhide">
             <macro>{"cmd":"ButtonList","func":"NMMsg",
-              "list":"🐾|❓|❌|🍎|⛔|🧰|🎀|💟|🌺|🎯|🎪|🔥|⏳|🥁|🎡|🎠|🚀|🥚|🐣||⚖️|🧹|🏹|👍|🖐|☀️|🌛|🍌|📒|🔔|🛎️|🏆|👑|🥘|🥞|🍯|🎟️|🥠|🍮|🧭|💡|⚡|🍍|🐢|🏕️|🌾|♻️|🍀|🧶|🐸|🥝|🍵|🏅|❄️|🎼|🌠|💍|💎|🧊|🌊|🌀|⚗️|🧪|🔮|🎤|🎓|🎩|🗃️|💼|🐿️|🦋|🎻|🕰️|🥥|🥨|📜|🥼|⬜|📰|🗞️|📬|🐇|☁️|🎹|☕|⚙️|⚔️|🏛️|🛒|🐺|⚓|🎧"}</macro>
+              "list":"🐾|❓|❌|🍎|⛔|🧰|🎀|💟|🌺|🎯|🎪|🔥|⏳|🥁|🎡|🎠|🚀|🥚|🐣||⚖️|🧹|🏹|👍|🖐|☀️|🌛|🍌|📒|🔔|🛎️|🏆|👑|🥘|🥞|🍯|🎟️|🥠|🍮|🧭|💡|⚡|🍍|🐢|🏕️|🌾|♻️|🍀|🧶|🐸|🥝|🍵|🏅|❄️|🎼|🌠|💍|💎|🧊|💧|🌊|🌀|⚗️|🧪|🔮|🎤|🎓|🎩|🗃️|💼|🐿️|🦋|🕰️|🎻|🕰️|🥥|🥨|📜|🥼|⬜|📰|🗞️|📬|🐇|☁️|🎹|☕|⚙️|⚔️|🏛️|🛒|🐺|⚓|🎧"}</macro>
             </span>
             <hr class="mbCB mbpointer" onclick="ShowPrev(this)">
         </div>
@@ -25351,29 +25352,102 @@
     </topic>
     <topic DTS='20240430092513' Icon='🐣' subtitle="Design">
       <ol>
-        <topic DTS='20240430092741' Icon='🐣' title='Sort by Node'>
-          <msg DTS='20240430092824' SPK='Black' EXP Icon='🐣'>This is the feature to sort the result by topic. Starting with sorting by node.</msg>
-          <msg DTS='20240430092940' SPK='Black' EXP Icon='⚡'>Changed 'suffix' to 'subtitle'.</msg>
-          <msg DTS='20240430093228' SPK='Black' EXP Icon='🔮'>Design: After getting the messages and sorting them, if the "Group by Topic" checkbox is active, the code sorts the bubbles one more time by the name of the node the message is from.</msg>
-          <msg DTS='20240430093625' END="20240430104513" SPK='Black' EXP=5 Icon='⚔️'>Adding a checkbox. Making a backup copy of the function. Modifying MSScanFor. Testing</msg>
-          <msg DTS='20240430104314' SPK='Sylvia' EXP Icon='📌'>After grouping by topic, can the topics be sorted by time?</msg>
-          <msg DTS='20240430105757' SPK='Sylvia' EXP Icon='📌'>Add sort topic by start or end time.</msg>
-          <msg DTS='20240430110628' SPK='LRRH' EXP Icon='📌'>Could you add a switch to the date input? Having the time is not convenient most of the time?</msg>
-          <msg DTS='20240430110950' SPK='Ledia' EXP Icon='💟'>This seems promising.</msg>
-          <msg DTS='20240430111538' SPK='LRRH' EXP Icon='📌'>I think group by topic should be the default setting.</msg>
-          <msg DTS='20240430114624' SPK='Sylvia' EXP=5 Icon='🎻'>Implemented sort by start or end time.</msg>
-          <msg DTS='20240430114913' SPK='Black' EXP Icon='💟'><mbKudo>To Sylvia.</mbKudo></msg>
-          <msg DTS='20240430120534' SPK='Ledia' EXP Icon='💟'>I wouldn't mind if the calendar code show a button that scans for that calendar day.</msg>
-          <msg DTS='20240430121800' SPK='Sylvia' EXP Icon='🥨'>Fixed a bug where the display was wrong when switching back fro chronological.</msg>
-          <msg DTS='20240430121841' SPK='Vivi' EXP Icon='📌'>Could you add a participant and XP tally based on what is in view?</msg>
-          <msg DTS='20240430124754' SPK='Sylvia' EXP=2 Icon='🎀'>Removed the outer frame when grouping by topics. Modified CSS by adding a stack style.</msg>
+
+      </ol>
+      <note DTS='20240502092539' Icon='🐤' subtitle='Now'>
+        
+      </note>
+    </topic>
+
+    <topic DTS='20240502093255' Icon='🕊️' subtitle='Implemented Features'>
+      <ul>
+        <topic DTS='20240429030630' Icon='🕊️'  Title='Context Link'>
+          
+          <note DTS='20240429013146' subtitle='Start'>
+            <msg dts="20240426073550" spk="Black" exp="" icon="📌">Need a button to show the context of a message. </msg>      
+            <msg dts="20240427114314" spk="Black" exp="" icon="📯">Let's upgrade the message scanner.</msg>
+            <msg dts="20240427114456" spk="Black" exp="" icon="🎯">To me the most pressing feature needed is to show the DTS of the msg. I think maybe the name can become a button. When it is clicked, additional information is shown. That would let me split topics easily when they belong to the same thread.</msg>
+            <msg dts="20240427114832" spk="Evelyn" exp="" icon="💟">I like the message scanner and I want to see it grow. It is already functional and it can become more useful.</msg>
+            <msg dts="20240427115401" spk="Black" exp="4" icon="⚔️">Adding a button to the name in the Render functions. Adding MsgContext. It will use a new CSS mbContext. Modifying the NodeID code to take an archive number as an argument.</msg>
+            <msg dts="20240427121753" spk="Arcacia" exp="1" icon="🎀">Defining CSS mbContext. Updating the chain to pass down the archive number...</msg>
+            <msg dts="20240427124848" spk="Arcacia" exp="" icon="💗">The bubble needs to know its parent node, then you can pass the parent node ID to the clipboard button function.</msg>
+            <msg dts="20240427125019" spk="Black" exp="" icon="👍">Okay. Then we are very close to what we need, plus more.</msg>
+            <msg dts="20240427125106" spk="Arcacia" exp="" icon="💗">Applying the button code to Enter and Start. Expanding the query in MSScanFor to get the node instead the message.</msg>
+            <msg dts="20240427131612" spk="Sylvia" exp="" icon="🔍">The text files of the archives together is less than 20 MB. If the browser routinely manages hundreds of MB for the webpage, why not keep the entire archive as part of the page?</msg>
+            <msg dts="20240427131849" spk="Ivy" exp="" icon="🥼">The code structure is supposed to scale, so we can't assume that the archives are only 20MB.</msg>
+            <msg dts="20240427132015" spk="Ledia" exp="" icon="⚔️">What if the loading mode switches based on the archive size?</msg>
+            <msg dts="20240427132128" spk="Ivy" exp="" icon="🥼">If you don't get from the server, then you are not getting the most up-to-date content.</msg>
+            <msg dts="20240427132220" spk="Ledia" exp="" icon="⚔️">But that could also just be an option to choose if you want to reload your archives, or always load from server. If you let the user query from a local copy of the archive, maybe the webpage will continue to function when internet had gone down. That could be a huge plus.</msg>
+            <msg dts="20240427132400" spk="Zoey" exp="" icon="💟">I am glad somebody is thinking like a paladin. XD</msg>
+            <msg dts="20240427132445" spk="Tanya" exp="" icon="📌">Ledia's argument is very convincing. But we need to confirm if the website will continue to function as long as the browser is not closed or refreshed.</msg>
+            <msg dts="20240427132805" spk="Black" exp="2" icon="⚔️">Modifying MacroMsg to save the parent information. Testing.</msg>
+            <msg dts="20240427144926" spk="Black" exp="" icon="📯">So right now the rendered bubble has the parent ID, but not its name. At which point should the bubble know its parent's name?</msg>
+            <msg dts="20240427145634" spk="LRRH" exp="" icon="🥠">I think it should be the same time when you know the parent's ID.</msg>
+            <msg dts="20240427145753" spk="Black" exp="" icon="🔍">Only the newer nodes have the Title parameter in the JSON string.</msg>
+            <msg dts="20240427145927" spk="Ivy" exp="" icon="🔍">Only newer nodes have DTS message objects to be scanned, so it is fine.</msg>
+            <msg dts="20240427150201" spk="Black" exp="2" icon="⚔️">Adding a function GetNodeTitle. Testing.</msg>
+            <msg dts="20240427150803" spk="LRRH" exp="" icon="🍯">Added a link to jQuery Selectors.</msg>
+            <msg dts="20240427154020" spk="Black" exp="" icon="🕊️">Okay. I think I am done coding for today.</msg>
+            <msg dts="20240427154435" spk="Evelyn" exp="" icon="🐤">The new tag marker is quite cute. Could it be chicken color?</msg>
+            <msg dts="20240427154534" spk="LRRH" exp="" icon="🐤">Actually could we change the clipboard icon into the chicken?</msg>
+            <msg dts="20240427154631" spk="Sylvia" exp="2" icon="🎻">Done.</msg>
+            <msg dts="20240427155406" spk="Evelyn" exp="" icon="💟">Cute !!!😍</msg>
+            <msg dts="20240427155637" spk="Sylvia" exp="" icon="🎻">Added title display to link code.</msg>
+            <msg dts="20240427160359" spk="StarTree" exp="" icon="🎀">Adding a space at the end of the tag.</msg>
+          </note>
+          <note DTS='20240502095035' subtitle='Local Title'>
+            <msg DTS='20240428144238' SPK='Black' EXP Icon='📌'>Upgrade the title logic to use the closest title up to the node's title.</msg>
+            <msg DTS='20240428181147' SPK='Black' EXP Icon='📌'>Add the concept of subtitle or prefix and suffix to topics.</msg>
+            <msg DTS='20240429030807' SPK='Cardinal' EXP=10 Icon='⚔️'>Done.</msg>
+            <msg DTS='20240429105250' SPK='Arcacia' EXP Icon='💗'>Reformatted other titles to use subtitle for the hashtag.</msg>
+            <msg DTS='20240429105530' SPK='Arcacia' EXP Icon='📌'>Instead of just using the first suffix, why not concatenate the suffixes up to the title?</msg>
+            <msg DTS='20240429105747' SPK='Black' EXP Icon='🔮'>The plan is to let the link jump directly to the section, then we don't need to show the full path.</msg>
+            <msg DTS='20240429110753' SPK='Arcacia' EXP Icon='💟'>Added suffix concatenation anyway.</msg>
+            <msg DTS='20240429125307' SPK='Black' EXP Icon='📌'>Subtitle instead of prefix and suffix</msg>
+          </note>
+
+          
+          
+
 
 
         </topic>
-      </ol>
+
+
+        <topic DTS='20240430092741' Icon='🕊️' title='Sort by Node'>
+          <note DTS='20240502093435' subtitle='Log'>
+            <msg DTS='20240430063900' SPK='LRRH' EXP Icon='📌'>Need buttons to sort scanner result by time or by node. </msg>
+            <msg DTS='20240430092824' SPK='Black' EXP Icon='🐣'>This is the feature to sort the result by topic. Starting with sorting by node.</msg>
+            <msg DTS='20240430092940' SPK='Black' EXP Icon='⚡'>Changed 'suffix' to 'subtitle'.</msg>
+            <msg DTS='20240430093228' SPK='Black' EXP Icon='🔮'>Design: After getting the messages and sorting them, if the "Group by Topic" checkbox is active, the code sorts the bubbles one more time by the name of the node the message is from.</msg>
+            <msg DTS='20240430093625' END="20240430104513" SPK='Black' EXP=5 Icon='⚔️'>Adding a checkbox. Making a backup copy of the function. Modifying MSScanFor. Testing</msg>
+            <msg DTS='20240430104314' SPK='Sylvia' EXP Icon='📌'>After grouping by topic, can the topics be sorted by time?</msg>
+            <msg DTS='20240430105757' SPK='Sylvia' EXP Icon='📌'>Add sort topic by start or end time.</msg>
+            <msg DTS='20240430110628' SPK='LRRH' EXP Icon='📌'>Could you add a switch to the date input? Having the time is not convenient most of the time?</msg>
+            <msg DTS='20240430110950' SPK='Ledia' EXP Icon='💟'>This seems promising.</msg>
+            <msg DTS='20240430111538' SPK='LRRH' EXP Icon='📌'>I think group by topic should be the default setting.</msg>
+            <msg DTS='20240430114624' SPK='Sylvia' EXP=5 Icon='🎻'>Implemented sort by start or end time.</msg>
+            <msg DTS='20240430114913' SPK='Black' EXP Icon='💟'><mbKudo>To Sylvia.</mbKudo></msg>
+            <msg DTS='20240430120534' SPK='Ledia' EXP Icon='💟'>I wouldn't mind if the calendar code show a button that scans for that calendar day.</msg>
+            <msg DTS='20240430121800' SPK='Sylvia' EXP Icon='🥨'>Fixed a bug where the display was wrong when switching back fro chronological.</msg>
+            <msg DTS='20240430121841' SPK='Vivi' EXP Icon='📌'>Could you add a participant and XP tally based on what is in view?</msg>
+            <msg DTS='20240430124754' SPK='Sylvia' EXP=2 Icon='🎀'>Removed the outer frame when grouping by topics. Modified CSS by adding a stack style.</msg>
+          </note>
+        </topic>
+
+
+        <topic DTS='20240502093744' Icon='💗' subtitle='Usability'>
+          
+
+          <note DTS='20240502093759' title='No Result Message'>
+            <msg DTS='20240502000512' SPK='LRRH' EXP Icon='📌'>When the scanner scans no result, there should be a message saying that there is no result in that date range.</msg>
+            <msg DTS='20240502092742' END="20240502095300" SPK='Arcacia' EXP=5 Icon='💗'>Added no result message. Sorting and other small fixes.</msg>
+          </note>
+        </topic>
+      </ul>
     </topic>
 
-
+    
 
 	</content>
   <inv>
@@ -25759,36 +25833,74 @@
 </div><!-- STATUS -->
 <div id="P202405010908" date='20240501' time='0908' data-skill data-Herald data-guild data-quest>
 	<content>
+    <topic DTS='20240502071925' Icon='🌱' subtitle='About'>
+      <div class='mbpdc'><b>The Guild Inbox</b> collects messages to the guild from various sources so that they can be processed in batch.</div><hr class='mbCL'>
+      <note DTS="20240502072506" subtitle="How">
+        <note DTS='20240502072658' subtitle='01'>
+          <topic DTS='20240502073032' Icon='🐣' title=': Direct Delivery'>
+            <msg DTS='20240502072554' SPK='Black' EXP Icon='🐣'>This buffer should be used for difficult to sort messages. Messages corresponding to a clear topic should be delivered directly to the destination node.</msg>
+          </topic>
+        </note>
+        <note DTS='20240502073208' subtitle='02'>
+          <topic DTS='20240502073231' Icon='🐤' title='Batching'>
+            <msg DTS='20240502073302' SPK='Black' EXP Icon='🐤'>Many messages come with chapter information, but when importing the messages, they should be batched not by chapter, but by destination if it is marked.
+              <note DTS='20240502073433' subtitle='Ex'>
+                <msg DTS='20240502073501' SPK='Black' EXP Icon='🐤'>Many chapters logged notes with "Intelligence" marked as a topic. To import those messages, first find the node related to intelligence, then import all messages if that category directly to that node.</msg>
+              </note>
+            </msg>
+          </topic>
+        </note>
+      </note>
+      <note DTS='20240429101441' Subtitle='Log'>
+        <note DTS='20240429101500' subtitle='2024'>
+          <msg DTS='20240429103134' SPK='Arcacia' EXP Icon='✅'><mbcomplete>Guild Log count is now at 93 to go!</mbcomplete></msg>
+          <msg DTS='20240430073417' END="20240430083216" SPK='Kisaragi' EXP=10 Icon='🧹'>Kisaragi cleans the guild log.</msg>
+          <msg DTS='20240430092409' SPK='Black' EXP Icon='✅'><mbcomplete>Guild Log count is now at 87 to go!</mbcomplete></msg>
+          <msg DTS='20240501083643' SPK='Ivy' EXP Icon='📌'>Make Red's drawer the generic buffer for Google Form suggestions.</msg>
+          <msg DTS='20240501085607' END="20240501093226" SPK='Albatross' EXP=6 Icon='📬'>Importing messages.<mbComplete>Guild Log count now at 75.</mbComplete></msg>
+          <msg DTS='20240502071848' SPK='Black' EXP Icon='☀️'>Importing from Guild Log and slightly updating the format. Adding an About section.</msg>
+          <msg DTS='20240502074102' SPK='Zoey' EXP Icon='🏹'>Processing.</msg>
+          <msg DTS='20240502080843' END="20240502084550" SPK='Kisaragi' EXP=4 Icon='🧹'>Importing to Intelligence node. Adding a shortcut section for where the nodes are.</msg>
+          <msg DTS='20240502084424' SPK='3B' EXP Icon='💧'>Finishing up the intelligence section. The current count at 65 to go below 1000.</msg>
+          <msg DTS='20240502085853' END="20240502091225" SPK='Skyle' EXP=2 Icon='🌾'>Triage target areas.</msg>
 
-    <topic Icon='📯' title='@Detective'>
+        </note>      
+      </note>
+    </topic>
+    <topic DTS='20240502081014' Icon='🐤' title='Recent Destinations'>
+      <lnk>202209250932|Automation</lnk> |
+      <lnk>202305110938|Intelligence</lnk> | 
+      <lnk>202208212113|Tools</lnk>
+    </topic>
+    <topic DTS='20240502085932' Icon='🎯' subtitle='Target Areas'>
       <ul>
-        <topic DTS='20240501201106' Icon='🌱' title='Intelligence'>
-          <msg DTS='20240501045012' SPK='StarTree' EXP Icon='📌'>12 signs of intelligence <macro>{"cmd":"url","url":"https://geediting.com/signs-youre-mentally-sharper-than-the-average-person-according-to-psychology/","desc":"🔗"}</macro></msg>
-
+        <topic DTS='20240502090001'  icon="26" subtitle='Health'>
+          <msg DTS='20240501044223' SPK='Ivy' EXP Icon='📌'>Calorie restriction and telomere. Research source? <macro>{"cmd":"url","url":"https://www.newsweek.com/low-calorie-diet-unexpected-effect-aging-1891783","desc":"🔗"}</macro></msg>
         </topic>
+        <topic DTS='20240502090530' Icon='9' title='Emotion'>
+        </topic>
+        <topic DTS='20240502091758' Icon='8' title='Tidying'>
+          <msg DTS='20240501044626' SPK='Evelyn' EXP Icon='📌'>Discard / Donate / Designate <macro>{"cmd":"url","url":"https://lifehacker.com/home/use-the-12-12-12-decluttering-method","desc":"🔗"}</macro></msg>
+          <msg DTS='20231209063110' SPK='Evelyn' EXP Icon='📌'>Carpet cleaner on floors</msg>
+          <msg DTS='20231202094422' SPK='LRRH' EXP Icon='📌'>Tidying tips 10 <macro>{"cmd":"url","url":"https://www.youtube.com/watch?v=xRGXi1aTh1w","desc":"📺"}</macro></msg>
+        </topic>
+        <topic DTS='20240502091713' Icon='5' title='Home Issues'>
+          <msg DTS='20231206101726' SPK='Kisaragi' EXP Icon='📌'>How to add charge to the use of garage?</msg>
+          <msg DTS='20231206094707' SPK='Kisaragi' EXP Icon='📌'>Airbnb setup?</msg>
+          <msg DTS='20231204014800' SPK='Sasha' EXP Icon='📌'>The car needs to be gone because gardening tools should be on the left side. Tidying</msg>
+          <msg DTS='20240501192158' END="20240501200426" SPK='Kisaragi' EPIC EXP="8" Icon='🧹'>Preparing form to serve. Studying. Print form. Fill out the form. Scan the filled form. Print a copy. Serve the copy. They say they would move out start Friday and finish in the weekend. Fill the proof of service form and scan.</msg>
+          <msg DTS='20240501200535' SPK='LRRH' EXP Icon='💟'>ご苦労さま。</msg>
+        </topic>
+        
       </ul>
-      
-
     </topic>
-  
-    <topic Icon='📯' subtitle='@Guild' dts="20240501192257">
-      
-
-    </topic>
-
     
 
-    <topic DTS='20240501091729' Icon='📯' subtitle='@Home'>
-      <msg DTS='20240501044626' SPK='Evelyn' EXP Icon='📌'>Discard / Donate / Designate <macro>{"cmd":"url","url":"https://lifehacker.com/home/use-the-12-12-12-decluttering-method","desc":"🔗"}</macro></msg>
-      <msg DTS='20231209063110' SPK='Evelyn' EXP Icon='📌'>Carpet cleaner on floors</msg>
-      <msg DTS='20231206101726' SPK='Kisaragi' EXP Icon='📌'>How to add charge to the use of garage?</msg>
-      <msg DTS='20231206094707' SPK='Kisaragi' EXP Icon='📌'>Airbnb setup?</msg>
-      <msg DTS='20231204014800' SPK='Sasha' EXP Icon='📌'>The car needs to be gone because gardening tools should be on the left side. Tidying</msg>
-      <msg DTS='20231202094422' SPK='LRRH' EXP Icon='📌'>Tidying tips 10 <macro>{"cmd":"url","url":"https://www.youtube.com/watch?v=xRGXi1aTh1w","desc":"📺"}</macro></msg>
+    <topic DTS='20240501091729' Icon='📯' subtitle='@Home'>  
+      
       <msg DTS='20231112112117' SPK='Casey' EXP Icon='📌'>Register bicycle?</msg>
 
-      <msg DTS='20240501192158' END="20240501200426" SPK='Kisaragi' EXP="8" Icon='🧹'>Preparing form to serve. Studying. Print form. Fill out the form. Scan the filled form. Print a copy. Serve the copy. They say they would move out start Friday and finish in the weekend. Fill the proof of service form and scan.</msg>
-      <msg DTS='20240501200535' SPK='LRRH' EXP Icon='💟'>ご苦労さま。</msg>
+      
 
       <msg DTS='20240501112550' SPK='LRRH' EXP Icon='📌'>Add email checks to Red's Drawer and automatically show the time since last check </msg>
       <msg DTS='20240501130659' SPK='Black' EXP Icon='📌'>It is cheaper by $1.50 when ordering in person.</msg>
@@ -25796,27 +25908,7 @@
 
     </topic>
 
-    <topic DTS='20240501092902' Icon='📯' title='@Skill'>
-      <msg DTS='20240501044223' SPK='Ivy' EXP Icon='📌'>Calorie restriction and telomere. Research source? <macro>{"cmd":"url","url":"https://www.newsweek.com/low-calorie-diet-unexpected-effect-aging-1891783","desc":"🔗"}</macro></msg>
-    </topic>
-
-    <topic DTS='20240501092212' Icon='📯' subtitle='@Whale'>
-      <msg DTS='20240429153442' SPK='Casey' EXP Icon='📌'>Bring magnet bracelet.</msg>
-      <msg DTS='20240501045129' SPK='Black' EXP Icon='📌'>Farewell atlas <macro>{"cmd":"url","url":"https://newatlas.com/robotics/farewell-boston-dynamics-atlas/","desc":"🔗"}</macro></msg>
-    </topic>
-    <ul>
-      <topic DTS='20240429101441' Icon='✅' Subtitle='Log'>
-        <ul>
-          <topic DTS='20240429101500' Icon='✅' subtitle='2024'>
-            <msg DTS='20240429103134' SPK='Arcacia' EXP Icon='✅'><mbcomplete>Guild Log count is now at 93 to go!</mbcomplete></msg>
-            <msg DTS='20240430073417' END="20240430083216" SPK='Kisaragi' EXP=10 Icon='🧹'>Kisaragi cleans the guild log.</msg>
-            <msg DTS='20240430092409' SPK='Black' EXP Icon='✅'><mbcomplete>Guild Log count is now at 87 to go!</mbcomplete></msg>
-            <msg DTS='20240501083643' SPK='Ivy' EXP Icon='📌'>Make Red's drawer the generic buffer for Google Form suggestions.</msg>
-            <msg DTS='20240501085607' END="20240501093226" SPK='Albatross' EXP=6 Icon='📬'>Importing messages.<mbComplete>Guild Log count now at 75.</mbComplete></msg>
-          </topic>
-        </ul>
-      </topic>
-    </ul>
+    
 	</content>
 	<inv><card DTS='20240501091031' title="Magic Bakery Inbox" subtitle='Herald Skill' img='https://cdn.pixabay.com/photo/2014/10/29/05/52/mailbox-507594_640.jpg'></card></inv>
 	<ref></ref>

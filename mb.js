@@ -1397,9 +1397,12 @@ function FullTitleStrNS(mTitle,mPrefix,mSubtitle){
     if(mSubtitle.slice(0,1)=="/"){
       mFullTitle += mSubtitle;
     }else{
-      mFullTitle += " " + mSubtitle;
+      if(NotBlank(mFullTitle)){
+        mFullTitle += " " + mSubtitle;
+      }else{
+        mFullTitle += mSubtitle;
+      }
     }
-    
   }
   return mFullTitle;
 }
@@ -1427,6 +1430,7 @@ function MacroMsg(el){
       // The situation of topic after topic is already rendered.
       mHTML = RenderEnter(mTag);
     }else{
+      
       mHTML = RenderMsg(mTag);
     }
     let elNew = document.createElement("span");
@@ -1476,44 +1480,6 @@ function MSTopic(elTopic){
   let elDisplay = elNew.querySelector('[display]');
   MSScanFor(elDisplay,mStart,mEnd);
   return true;
-}
-function MSScanFor_BAK(elDisplay,mStart,mEnd){
-  // 20240426: Patricia: Populate the element with messages.
-  elDisplay.innerHTML = "<center><big>⏳</big></center>"
-  let elCache = document.createElement("div");
-  var mHTML = "";
-  var mMsgList = [];
-  var mDone = 0;
-  $(document).ready(function(){
-    for(let i=1; i<=ArchiveNum();i++){
-      // 20240427: Black: Expanding the query to get the context.
-      $(elCache).load(ArchiveIndex(i) + "[id][date][time]", function(){
-        let elMsgs = elCache.querySelectorAll('MSG[dts]');
-                
-        // STEP: Push into mMsgList if the message is within range.
-        elMsgs.forEach((mMsg)=>{
-          let mMsgDTS = Number(DTSPadding(mMsg.getAttribute('DTS')));
-          if(mStart<= mMsgDTS && mMsgDTS < mEnd){
-            let elNode = SearchPS(mMsg,'time');
-            mMsg.setAttribute('parent',elNode.id.slice(1));
-            mMsg.setAttribute('parentName',GetLocalTitle(mMsg,elNode));
-            mMsgList.push([mMsgDTS,mMsg.outerHTML]);
-          }
-        });
-        mDone ++;
-        if(mDone >= ArchiveNum()){
-          mMsgList.sort();
-          for(let j=0;j<mMsgList.length;j++){
-            mHTML += mMsgList[j][1];
-          }
-          elDisplay.innerHTML = mHTML;
-          Macro(elDisplay);
-
-          elCache.remove();
-        }
-      });
-    };
-  });
 }
 function MSScanFor(elDisplay,mStart,mEnd){
   // 20240426: Patricia: Populate the element with messages.
@@ -1600,7 +1566,10 @@ function MSScanFor(elDisplay,mStart,mEnd){
             //elDisplay.style.flexDirection = "initial";
           }
 
-          // Wrap in a flex display
+          // 20240502: Arcacia: No Result message
+          if(IsBlank(mHTML)){
+            mHTML = "No result from " + mStart + " to " + mEnd + ".";
+          }
           elDisplay.innerHTML = mHTML;
           Macro(elDisplay);
 
@@ -1750,7 +1719,7 @@ function RenderEnter(el){
   var mSPK = Default(el.getAttribute("SPK"),"???");
   var mEXP = RenderExp(el);
   var mIcon = Default(el.getAttribute("Icon"),"⭐");
-  mHTML = "<div></div>"
+  mHTML = "<div class=\"mbCL\"></div>"
   mHTML += RenderAvXP(mSPK,mEXP,mIcon);
   if(el.hasAttribute('DTS')){
     mHTML += "<a class='mbbutton' onclick='MsgContext(this)'>" + mSPK + ":</a> ";
@@ -5859,7 +5828,7 @@ function NodeMarkCode(iNodeID,iDesc){
   var mVDTS = NodeMarkLoadDTS(iNodeID);
   var mSepia = 0;   
   var mHTML = "";
-  mHTML += "<a class='"+mButtonStyle+"' id='P"+ iNodeID+"-V'onclick=\"NodeMarkCycle(this," + iNodeID + ")\" title='Cycle node marking' style='filter:sepia(" + mSepia + "%)'>";
+  mHTML += "<a class=\""+mButtonStyle+"\" id=\"P"+ iNodeID+"-V\" onclick=\"NodeMarkCycle(this," + iNodeID + ")\" title=\"Cycle node marking\" style=\"filter:sepia(" + mSepia + "%)\">";
   mHTML += NodeMarkLoad(iNodeID)+"</a>";
   return mHTML;
 }
@@ -5910,8 +5879,8 @@ function NMMsg(el,iIcon,bNoEXP){
   }else{
     mEXPStr = " EXP";
   }
-  var mHTML = "<msg DTS='" + DTSNow() + "' SPK='"+mSPK+"'"+mEXPStr;
-  if(NotBlank(iIcon) && !bNoEXP){mHTML += " Icon='"+iIcon+"'";}
+  var mHTML = "<msg DTS=\"" + DTSNow() + "\" SPK=\""+mSPK+"\""+mEXPStr;
+  if(NotBlank(iIcon) && !bNoEXP){mHTML += " Icon=\""+iIcon+"\"";}
   mHTML += "></msg>";
   navigator.clipboard.writeText(mHTML);
 }
@@ -5946,8 +5915,8 @@ function NMCard(el){
   var mImg = Default(elControl.querySelector('[NM-URL]').value,"https://cdn.pixabay.com/photo/2014/05/20/21/25/bird-349035_640.jpg");
   
   // 20240427: Skyle: New format
-  var mHTML = "<card DTS='" + mDTS + "' title='" + mTitle + "' subtitle='" + mSubTitle +"'";
-  mHTML += " img='" + mImg + "'></card>";
+  var mHTML = "<card DTS=\"" + mDTS + "\" title=\"" + mTitle + "\" subtitle=\"" + mSubTitle +"\"";
+  mHTML += " img=\"" + mImg + "\"></card>";
   /*var mHTML = "<div class='mbCharCard'>\n";
   mHTML += "\t<div class='mbCharCardTitle2'>"+mTitle+"</div>\n";
   mHTML += "\t<div class='mbCharCardImg' style=\"background-position: 50% 50%; background-image:url('"+mImg+"')\"></div>\n";
@@ -5963,6 +5932,15 @@ function NMCard(el){
   navigator.clipboard.writeText(mHTML);
   return mHTML;
 }
+function NMNote(el){
+  // 20240502: Arcacia: Notes by default don't have icons and only has a subtitle.
+  var elWidget = SearchPS(el,"Widget");
+  var mDTS = DTSNow(); // Use new DTS by default.
+  var mSubTitle = Default(elWidget.querySelector('[NM-Title]').value,"Log");
+  var mHTML = "<note dts=\""+mDTS+"\" subtitle=\""+mSubTitle+"\">\n\n</note>";
+  navigator.clipboard.writeText(mHTML);
+  return mHTML;
+}
 function NMTopic(el,iSecIcon){
   // 20240416: StarTree: Puts a chat section to Clipboard.
   // 20240420: StarTree: Updated to use tag.
@@ -5972,13 +5950,13 @@ function NMTopic(el,iSecIcon){
   }else{
     elControl.querySelector('[NM-Icon]').value = iSecIcon;
   }
-  var mDTS = Default(elControl.querySelector('[NM-DTS]').value,DTSNow());
+  var mDTS = DTSNow(); // 20240502: Arcacia: Use new DTS by default.
   var mTitle = Default(elControl.querySelector('[NM-Title]').value,"New Topic");
-  var mHTML = "<topic DTS='"+mDTS+"' Icon='"+iSecIcon+"' title='"+mTitle+"'>\n"
+  var mHTML = "<topic dts=\""+mDTS+"\" icon=\""+iSecIcon+"\" title=\""+mTitle+"\">\n"
   
   // 20240417: StarTree: Special format for Initate node section.
   if(iSecIcon=="🌱"){
-    mHTML += "\t<div class='mbpdc'><b>First</b> word</div><hr class='mbCL'>\n";
+    mHTML += "\t<div class=\"mbpdc\"><b>First</b> word</div><hr class=\"mbCL\">\n";
   }
   
   // 20240425: Kisaragi
@@ -6000,9 +5978,9 @@ function NMLI(el){
   var mTitle = Default(elControl.querySelector('[NM-Title]').value,"New Bullet");
   var mHTML = "";
   if(NotBlank(mIcon)){
-    mHTML = "<bullet icon='"+mIcon+"' title='"+mTitle+"'>\n</bullet>";
+    mHTML = "<bullet icon=\""+mIcon+"\" title=\""+mTitle+"\">\n</bullet>";
   }else{
-    mHTML = "<bullet title='"+mTitle+"'>\n</bullet>";
+    mHTML = "<bullet title=\""+mTitle+"\">\n</bullet>";
   }
   
   navigator.clipboard.writeText(mHTML);
@@ -6020,19 +5998,19 @@ function NMNodeSec(el,iSecIcon){
   var mDTS = Default(elControl.querySelector('[NM-DTS]').value,DTSNow());
   
   var mTitle = "About";
-  var mHTML = "<div DTS='"+mDTS+"' class='mbscroll'>\n";
-  mHTML += "\t<div class='mbbutton' onclick='ShowNext(this)'>"+iSecIcon+" "+mTitle+"</div>\n\t<hide><hr>";
+  var mHTML = "<div DTS=\""+mDTS+"\" class=\"mbscroll\">\n";
+  mHTML += "\t<div class=\"mbbutton\" onclick=\"ShowNext(this)\">"+iSecIcon+" "+mTitle+"</div>\n\t<hide><hr>";
 
   // 20240417: StarTree: Special format for Initate node section.
   if(iSecIcon=="🌱"){
-    mHTML += "\n\t\t<div class='mbpdc'><b>First</b> word</div><hr class='mbCB mbhr'>\n";
+    mHTML += "\n\t\t<div class=\"mbpdc\"><b>First</b> word</div><hr class=\"mbCB mbhr\">\n";
   }else if(IsMasteryIcon(iSecIcon)){
     mHTML += "\n";
   }else{
-    mHTML += "<div class='mbav50r mbCB mb"+mAuthor+"\'></div><b>"+mAuthor+":</b> \n";
+    mHTML += "<div class=\"mbav50r mbCB mb"+mAuthor+"\"></div><b>"+mAuthor+":</b> \n";
   }
   mHTML += "\t\t<ol></ol>\n\t\t<ul></ul>\n";
-  mHTML += "\t\t<div class='mbCB'></div>\n";
+  mHTML += "\t\t<div class=\"mbCB\"></div>\n";
   mHTML += "\t</hide>\n</div>";
 
   navigator.clipboard.writeText(mHTML);
@@ -6173,13 +6151,13 @@ function NMNode(el,bChatChannel){
   var mSubTitle = "Subtitle";
   var mKids="";
   var mMusic="";
-  var mHTML = "<div id=\"P" + mID + "\" date='" + mYYYYMMDD +"' time='" + mHHMM + "'" + mTags;
+  var mHTML = "<div id=\"P" + mID + "\" date=\"" + mYYYYMMDD +"\" time=\"" + mHHMM + "\"" + mTags;
   if(bChatChannel){mHTML += " data-chat data-happy";}
   mHTML += ">\n";
 
   mHTML += "\t<content>\n";
   if(bChatChannel){
-    mHTML += "\t\t<msg DTS='" + mDTS + "' SPK='" + mAuthor +"' EXP Icon='" + mIcon + "'><b>First</b> word</msg>\n"
+    mHTML += "\t\t<msg DTS=\"" + mDTS + "\" SPK=\"" + mAuthor +"\" EXP Icon=\"" + mIcon + "\"><b>First</b> word</msg>\n"
 
     //mHTML += "\t\t<div class='mbav50r mbCB mb"+mAuthor+"'></div>\n";
     //mHTML += "\t\t<div class='mbpdc'><b>First</b> word</div><hr class='mbCB mbhr'>\n";

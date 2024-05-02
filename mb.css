@@ -235,6 +235,9 @@ a{
   white-space: nowrap;
   text-decoration: none;
 }
+.mbContext > a{
+  white-space: normal;
+}
 
 h1{
   color: saddlebrown;
@@ -1104,7 +1107,7 @@ cursor:pointer;
 .mbILB20,.mbILB25,.mbILB30,.mbILB35{
   border-radius:2px;
   box-sizing:border-box; 
-  color:white;
+  /*color:white;*/
   display:inline-block;
   margin:0px 0px 0px 0px;
   text-align:center;
