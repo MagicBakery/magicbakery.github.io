@@ -1128,6 +1128,7 @@ function Macro(elScope){
   // 20240414: StarTree: Added Bubble.
   ProcessNodeData(elScope);
   MacroTopic(elScope);
+  MacroNote(elScope);
   MacroMacro(elScope);
   MacroRes(elScope);
   MacroJQ(elScope);  
@@ -1242,6 +1243,32 @@ function MacroCard2(elCard){
    elCard.before(elNew);
    elCard.remove();
   return true;
+}
+function MacroNote(el){
+  // 20240501: Cardinal: A note defines an inline collapsible section.
+  /* CHANGES:
+      <note dts icon title subtitle>...</node>
+     INTO:
+      <span node dts>
+        <a class="mbbutton" onclick="ShowNextInline(this)">Icon Title Subtitle</a>
+        <hide>...</hide>
+      </span>*/
+  var mTags = el.querySelectorAll('note');
+  for(let i=mTags.length-1;i>-1;i--){
+    let mTag = mTags[i];
+    let mDTS = mTag.getAttribute("dts");
+    let mIcon = Default(mTag.getAttribute("icon"),"");
+    let mTitle = Default(mTag.getAttribute("title"),"");
+    let mSubtitle = Default(mTag.getAttribute("Subtitle"),"");
+    let mHTML = "";
+    mHTML = "<mbnote dts=\"" + mDTS +"\">";
+    mHTML += "<a class='mbbutton' onclick='ShowNextInline(this)'>[";
+    if(NotBlank(mIcon)){mHTML += mIcon + " ";}
+    if(NotBlank(mTitle)){mHTML += mTitle + " ";}
+    if(NotBlank(mSubtitle)){mHTML += mSubtitle;}
+    mHTML += "]</a><hide>" + mTag.innerHTML + "</hide></a></mbnote>";
+    mTag.outerHTML = mHTML;
+  }
 }
 function MacroRes(el){
   // 20240428: Zoey: To support nested resources (image) and to include music and file also.
@@ -1387,11 +1414,17 @@ function MacroMsg(el){
     let mParent = mTag.getAttribute('parent'); // 20240427: Black: This comes from MSScanFor
     let mParentName = mTag.getAttribute('parentname');
     let mHTML = "";
-    let bFirst = (mTag.parentNode.querySelector('msg')==mTag);
+    //let bFirst = (mTag.parentNode.querySelector('msg')==mTag);
+    let bFirst = (mTag.parentNode.firstElementChild==mTag);
     let mParentTag = mTag.parentNode.tagName;
+    let elPrev = mTag.previousElementSibling;
     if(bFirst && (mParentTag=="SPAN" || mParentTag=="DIV") && (!mTag.parentNode.classList.contains("mbpdc")) ){
       mHTML = RenderStart(mTag);
-    }else if(bFirst && (mTag.parentNode.tagName="HIDE" || mTag.parentNode.hasAttribute('topic'))){
+    //}else if(bFirst && mTag.parentNode.hasAttribute('topic')){
+      // The situation of a bullet.
+      //mHTML = RenderEnter(mTag);
+    }else if(NotBlank(elPrev) && elPrev.tagName=='HR'){
+      // The situation of topic after topic is already rendered.
       mHTML = RenderEnter(mTag);
     }else{
       mHTML = RenderMsg(mTag);
@@ -1698,7 +1731,7 @@ function RenderStart(el){
 function RenderAvXP(mSPK,mEXP,mIcon){
   // 20240426: Skyle: Function called by other render functions
   var mHTML="";
-  mHTML = "<div class='mbav50r mb" + mSPK + "'>";
+  mHTML = "<div class='mbav50e mb" + mSPK + "'>";
   if(mEXP){
     mHTML += "<div class='mbavXP'>"
     mHTML += mIcon;
@@ -1717,7 +1750,8 @@ function RenderEnter(el){
   var mSPK = Default(el.getAttribute("SPK"),"???");
   var mEXP = RenderExp(el);
   var mIcon = Default(el.getAttribute("Icon"),"⭐");
-  mHTML = RenderAvXP(mSPK,mEXP,mIcon);
+  mHTML = "<div></div>"
+  mHTML += RenderAvXP(mSPK,mEXP,mIcon);
   if(el.hasAttribute('DTS')){
     mHTML += "<a class='mbbutton' onclick='MsgContext(this)'>" + mSPK + ":</a> ";
   }else{
@@ -4396,42 +4430,42 @@ function GuildEXP(iMember){
   // 20230129: Ledia: Added for total EXP.
   // #GuildEXP
   var dict={
-    "Evelyn": 10000,
-    "StarTree": 9921,
-    "Black": 9476,
-    "LRRH": 6797,
-    "Tanya": 6545,
-    "Ledia": 6498,
-    "Zoey": 6204,
-    "Arcacia": 5934,
-    "Sasha": 5352,
-    "3B": 5013,
-    "P4": 4797,
-    "Vivi": 4582,
-    "Natalie": 4339,
-    "Sylvia": 4326,
-    "Kisaragi": 3803,
-    "Casey": 3590,
-    "Ivy": 3367,
-    "V": 2951,
-    "James": 2532,
-    "Helen": 2291,
-    "Vladanya": 2107,
-    "Patricia": 2092,
-    "Fina": 1901,
-    "Skyle": 1866,
-    "Cardinal": 1479,
-    "Albatross": 1225,
-    "Mikela": 1097,
-    "Gaia": 965,
-    "Ken": 675,
-    "Amelia": 642,
-    "Melody": 546,
+    "Evelyn": 10168,
+    "StarTree": 10161,
+    "Black": 10050,
+    "LRRH": 6979,
+    "Tanya": 6615,
+    "Ledia": 6577,
+    "Zoey": 6354,
+    "Arcacia": 6098,
+    "Sasha": 5441,
+    "3B": 5071,
+    "P4": 4914,
+    "Vivi": 4723,
+    "Sylvia": 4448,
+    "Natalie": 4398,
+    "Kisaragi": 3897,
+    "Casey": 3605,
+    "Ivy": 3528,
+    "V": 3004,
+    "James": 2537,
+    "Helen": 2311,
+    "Patricia": 2187,
+    "Vladanya": 2148,
+    "Skyle": 2058,
+    "Fina": 1926,
+    "Cardinal": 1539,
+    "Albatross": 1269,
+    "Mikela": 1103,
+    "Gaia": 987,
+    "Ken": 677,
+    "Amelia": 646,
+    "Melody": 592,
     "44": 528,
     "Neil": 241,
     "Robert": 75,
     "Karl": 26,
-    "Rikk": 18,
+    "Rikk": 19,
     "Emi": 11,
     "RS": 11,
   };
@@ -6360,6 +6394,10 @@ function ToggleNextPN(elThis){
   }else{
     ToggleHide(elTarget);
   }
+}
+function ShowLCInline(el){
+  // 20240501: Cardinal
+  ShowElInline(el.lastElementChild);
 }
 function ShowNextP2N(elThis){
   var elTarget = elThis.parentNode.parentNode;

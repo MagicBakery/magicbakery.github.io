@@ -326,6 +326,10 @@ column-gap: 2em;
 }
 }
 
+mbNote > a:first-child{
+  font-size:15px;
+  text-transform:uppercase;
+}
 
 .locbanner {background-color:#000000; background-size:cover; color:#ffffff; border:0px solid #000000; border-radius:0px; display:block; font-size:18px; line-height:1.1em; margin: 2px 0px;padding:10px; width:100%; text-align:left; font-family:Bitter;}
 .locbanner:hover {box-shadow: 0 0px 12px 0 rgba(255, 255, 255, 1);cursor:default;}
@@ -723,14 +727,34 @@ todo::before{content:"TODO: ";font-size: 12px;}
   font-size: 16px;
   height:50px; 
   line-height:1em; 
-  margin:-4px -4px -4px 4px;     
-  
+  margin:-4px -4px -4px 4px;       
   overflow-x: visible;
   text-wrap:nowrap;
   position:relative;
   text-align:center;
   text-shadow: 0px 0px 4px #ffffff;
   width:50px; 
+  z-index:1
+}
+.mbav50e { /*ENTER BUBBLE*/
+  background-position: 50% 50%; 
+  background-size:cover; 
+  border-radius:10px;
+  border: 3px solid saddlebrown;
+  box-shadow: 0px 0px 2px saddlebrown;
+  box-sizing: border-box;
+  color:lightgoldenrodyellow;  
+  float:left;
+  font-size: 14px;
+  height:45px; 
+  line-height:1em; 
+  margin:0px 5px -4px 0px;       
+  overflow-x: visible;
+  text-wrap:nowrap;
+  position:relative;
+  text-align:center;
+  text-shadow: 0px 0px 4px #ffffff;
+  width:45px; 
   z-index:1
 }
 .mbavXP{
