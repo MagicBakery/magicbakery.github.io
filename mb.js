@@ -1153,7 +1153,7 @@ function MacroBullet(el){
     let mTitle = Default(mTag.getAttribute("title"),"New Bullet");
     let mIcon = Default(mTag.getAttribute("icon"),"");
     let mHTML = "<span class='mbbutton' onclick='ShowNextInline(this)'>";
-    mHTML += "<span class='mbILB25'>" + mIcon + "</span>";
+    mHTML += "<span class='mbILB30'>" + mIcon + "</span>";
     mHTML += FullTitleNS(mTag) + "</span><hide>";
     mHTML += mTag.innerHTML + "</hide>";
     let elNew = document.createElement('li');
@@ -1261,12 +1261,20 @@ function MacroNote(el){
     let mTitle = Default(mTag.getAttribute("title"),"");
     let mSubtitle = Default(mTag.getAttribute("Subtitle"),"");
     let mHTML = "";
+    let mLabel = "";
     mHTML = "<mbnote dts=\"" + mDTS +"\">";
-    mHTML += "<a class='mbbutton' onclick='ShowNextInline(this)'>[";
-    if(NotBlank(mIcon)){mHTML += mIcon + " ";}
-    if(NotBlank(mTitle)){mHTML += mTitle + " ";}
-    if(NotBlank(mSubtitle)){mHTML += mSubtitle;}
-    mHTML += "]</a><hide>" + mTag.innerHTML + "</hide></a></mbnote>";
+    mHTML += "<a class='mbbutton' onclick='ShowNextInline(this)'>";
+    
+    if(NotBlank(mTitle)){mLabel += mTitle + " ";}
+    if(NotBlank(mSubtitle)){mLabel += mSubtitle;}
+    if(mLabel ==""){ // 20240502: StarTree: Don't add the brackets when there is just the icon.
+      mLabel = mIcon;
+    }else{
+      if(NotBlank(mIcon)){mLabel = mIcon + " " + mLabel;}
+      mLabel = "[" + mLabel + "]";
+    }
+    mHTML += mLabel;
+    mHTML += "</a><hide>" + mTag.innerHTML + "</hide></a></mbnote>";
     mTag.outerHTML = mHTML;
   }
 }
@@ -1937,7 +1945,11 @@ function MacroMacro(elScope){
   if(hit<=0){return;}
   var i;
   for (i=0;i<hit;i++){
-    MMInner(z[i],JSON.parse(z[i].innerHTML));
+    try{
+      MMInner(z[i],JSON.parse(z[i].innerHTML));
+    }catch(e){
+      DEBUG("MacroMacro Exception:" + z[i].innerHTML);
+    }    
   }
   for (i=0;i<hit;i++){
     z = elScope.getElementsByTagName("macro");
@@ -6720,11 +6732,15 @@ function TextSearchPN(elSearchBox){
   var mKeyword = elSearchBox.value.toUpperCase().trim();
   var mScope = elSearchBox.parentNode.nextElementSibling;
   TextFilter(mScope,mKeyword,"div");
+  TextFilter(mScope,mKeyword,"mbNote");
+  TextFilter(mScope,mKeyword,"li");
 }
 function TextSearchPS(elSearchBox){  
   var mKeyword = elSearchBox.value.toUpperCase().trim();
   var mScope = SearchPS(elSearchBox,'control').nextElementSibling;
   TextFilter(mScope,mKeyword,"div");
+  TextFilter(mScope,mKeyword,"mbNote");
+  TextFilter(mScope,mKeyword,"li");
 }
 function TextSearchPNEV(e,elSearchBox){
   // 20240401: StarTree: 
@@ -6735,6 +6751,8 @@ function TextSearchPNEV(e,elSearchBox){
   var mKeyword = elSearchBox.value.toUpperCase().trim();
   var mScope = elSearchBox.parentNode.nextElementSibling;
   TextFilter(mScope,mKeyword,"div");
+  TextFilter(mScope,mKeyword,"mbNote");
+  TextFilter(mScope,mKeyword,"li");
 }
 function ToggleNext(el) {
   var eNext = el.nextElementSibling;
