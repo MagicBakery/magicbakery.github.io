@@ -1127,10 +1127,10 @@ function Macro(elScope){
   // 20230220: Ivy: Added MacroLL for languages
   // 20240414: StarTree: Added Bubble.
   ProcessNodeData(elScope);
-  MacroTopic(elScope);
+  MacroRes(elScope); // RES might expand into Topic objects.
+  MacroTopic(elScope); // TOPIC might expand into Bullets.
   MacroNote(elScope);
   MacroMacro(elScope);
-  MacroRes(elScope);
   MacroJQ(elScope);  
   MacroBullet(elScope);
   MacroMsg(elScope);
@@ -1288,8 +1288,9 @@ function MacroRes(el){
   //for(let i=mTags.length-1;i>-1;i--){ 
   // 20240428: Zoey: Does not need reverse order to process nested resources.
   for(let i=0;i<mTags.length;i++){
-    let mTag = mTags[i];
+    let mTag = mTags[i];    
     // STEP: Determine the type and process accordingly.
+    if(MacroResItem(mTag)){continue;} // Library Item
     if(MacroResImage(mTag)){continue;} // Default as image
   }
 }
@@ -1308,6 +1309,65 @@ function MacroResImage(mTag){
   mHTML += mTag.innerHTML + "</div>";
   /* Example:
   <div DTS="..." style="position: relative; margin:5px 5px;padding:20px 10px; background-image:url('HTTP');border-radius:10px; box-shadow: 0px 0px 5px saddlebrown;background-position: 50% 50%; background-size:cover; ">*/
+  let elNew = document.createElement('div');
+  mTag.after(elNew);
+  elNew.outerHTML = mHTML;
+  mTag.remove();
+  return true;
+}
+function MacroResItem(mTag){
+  // 20240503: Skyle: For Board Game Library
+  if(!mTag.hasAttribute('item')){return false;}
+  /* FROM:
+      <res dts="20240502234934" available item icon="" title="Item Name"  loc="" src="" node=""></res>
+  TO:
+      <topic dts="20240502232826" icon="⬜" title="Catan Junior">*/
+  let mDTS = mTag.getAttribute("dts");
+  let mIcon = Default(mTag.getAttribute("icon"),"🎲");
+  let mTitle = mTag.getAttribute("title");
+  let mAvail = mTag.getAttribute("avail");
+  let mloc = mTag.getAttribute("loc");
+  let mNode = mTag.getAttribute("node");
+  let mSrc = mTag.getAttribute("src");
+
+  // Save the Title in the name field for sorting.
+  let mHTML = "<div class=\"mbscroll\" item dts=\"" + mDTS + "\" name=\"" + mTitle + "\">";
+  
+  // TITLE: Availablility Status
+  mHTML += "<span class=\"mbILB25\" style=\"font-size:14px\">";
+  if(mTag.hasAttribute('available')){mHTML += "🟢" ;}else{mHTML += "🟡";}
+  mHTML += "</span>";
+  /* ATTEMPT: FILTER: Result cannot be easily filtered by text.
+  mHTML += "<span class=\"mbILB30\" style=\"filter:sepia(";
+  if(mTag.hasAttribute('available')){mHTML += "0%);opacity:1" ;}else{mHTML += "100%);opacity:0.2";}
+  mHTML += "\">" + mIcon + "</span>";*/
+
+  // TITLE: This is where to add float right icons or sort parameters.
+  mHTML += "<span label style=\"float:right;font-size:15px\"></span>"
+  // TITLE: Item Title, this is a button to expand the rest.
+  mHTML += "<a class=\"mbbutton\" onclick=\"ShowNext(this)\">" + mTitle +"</a>";
+  mHTML += "<hide><hr>";
+  // DATA: This is the area for basic data about the item
+  mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:0px 0px 5px 0px\">";  
+  if(mTag.hasAttribute('available')){
+    mHTML += "<center style=\"color:green\"><b>AVAILABLE</b></center>";
+  }else{
+    mHTML += "<center style=\"color:darkgoldenrod\"><b>IN USE</b></center>";
+  }  
+  mHTML += "<b>ID:</b> " + mDTS;
+  if(NotBlank(mNode)){
+    mHTML += " " + NodeIDClipboardButtonCode(mNode) + "<br>";
+  }else{
+    mHTML += " 🥚<br>"
+  }
+  mHTML += "<b>Loc:</b> " + mloc + "<br>";
+  mHTML += "</div>"
+  
+  // Custom Content about this item.
+  mHTML += "<hr class=\"mbhide\">"; // Trick to use Enter bubble.
+  mHTML += mTag.innerHTML;
+  mHTML += "<hr class=\"mbCB\"></hide>"
+  mHTML += "</div>";
   let elNew = document.createElement('div');
   mTag.after(elNew);
   elNew.outerHTML = mHTML;
