@@ -142,12 +142,15 @@ display:flex;
 flex-direction: row;
 flex-wrap: wrap;
 align-items: stretch;
-padding:5px 0px 5px 0px;
-margin:-5px;
+gap:10px;
+/*padding:5px 0px 5px 0px;
+margin:-5px;*/
+
+
 }
 .flex > div {
   flex: 250px; 
-  margin:5px 5px;
+  /*margin:5px 5px;*/
 }
 .mbStack > div {
   margin:5px 0px;
@@ -1577,7 +1580,7 @@ padding-right:4px;
   margin:2px 0px;
 }
 .mbSearch > .mbscroll{
-  margin:4px 0px;
+  margin:0px 0px;
 }
 
 .mbPinner{
@@ -1607,6 +1610,9 @@ padding-right:4px;
 }
 .mbshowIB{
   display:inline-block;
+}
+.mbURL{
+  font-size:15px;
 }
 mbAH{
   height:auto;

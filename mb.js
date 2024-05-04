@@ -1136,6 +1136,7 @@ function Macro(elScope){
   MacroMsg(elScope);
   MacroCard(elScope);
   MacroLnk(elScope);
+  MacroURL(elScope);
 }
 function MacroBullet(el){
   // 20240420: StarTree: Changes:
@@ -1329,6 +1330,8 @@ function MacroResItem(mTag){
   let mloc = mTag.getAttribute("loc");
   let mNode = mTag.getAttribute("node");
   let mSrc = mTag.getAttribute("src");
+  let mGenre = Default(mTag.getAttribute("genre"),"???");
+  let mOwner = Default(mTag.getAttribute("owner"),"???");
 
   // Save the Title in the name field for sorting.
   let mHTML = "<div class=\"mbscroll\" item dts=\"" + mDTS + "\" name=\"" + mTitle + "\">";
@@ -1345,7 +1348,7 @@ function MacroResItem(mTag){
   // TITLE: This is where to add float right icons or sort parameters.
   mHTML += "<span label style=\"float:right;font-size:15px\"></span>"
   // TITLE: Item Title, this is a button to expand the rest.
-  mHTML += "<a class=\"mbbutton\" onclick=\"ShowNext(this)\">" + mTitle +"</a>";
+  mHTML += "<a class=\"mbbutton\" onclick=\"ShowNext(this)\" style=\"text-wrap:wrap\">" + mTitle +"</a>";
   mHTML += "<hide><hr>";
   // DATA: This is the area for basic data about the item
   mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:0px 0px 5px 0px\">";  
@@ -1354,15 +1357,27 @@ function MacroResItem(mTag){
   }else{
     mHTML += "<center style=\"color:darkgoldenrod\"><b>IN USE</b></center>";
   }  
-  mHTML += "<b>ID:</b> " + mDTS;
+  mHTML += "<b>ID:</b> [" + mDTS +"]";
   if(NotBlank(mNode)){
     mHTML += " " + NodeIDClipboardButtonCode(mNode) + "<br>";
   }else{
     mHTML += " 🥚<br>"
   }
-  mHTML += "<b>Loc:</b> " + mloc + "<br>";
+  // Genre. Need to display this for text filter
+  mHTML += "<b>Genre:</b> " + mGenre +" | ";
+  mHTML += "<b>Owner:</b> " + mOwner +" | ";
+  mHTML += "<b>Loc:</b> " + mloc + "";
   mHTML += "</div>"
+
   
+  // Node Link in the body
+  if(NotBlank(mTag.getAttribute('node'))){
+    mHTML += "<small>" + LnkCode(mNode,"[Node]","") + "</small>";
+  }
+  // URL in the Body
+  if(NotBlank(mTag.getAttribute('src'))){
+    mHTML += GetURLCode(mTag.getAttribute('src'));
+  }
   // Custom Content about this item.
   mHTML += "<hr class=\"mbhide\">"; // Trick to use Enter bubble.
   mHTML += mTag.innerHTML;
@@ -1436,6 +1451,22 @@ function MacroTopic(el){
     }
     mTag.remove();
   }
+}
+function MacroURL(el){
+  // 20240503: StarTree: 
+  /* FROM: <url>...</url>
+     TO:   <a class="mbbuttonEx mbURL" onclick="ExURL('https://www.youtube.com/watch?v=DS2sP8CDLas&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx')">🔗</a>
+  */
+  let mTags = el.querySelectorAll("src");
+  mTags.forEach((mTag)=>{mTag.outerHTML = GetURLCode(mTag.innerHTML);});
+}
+function GetURLCode(mURL){
+  let mDesc = "🔗";
+  if(mURL.includes("amazon.com")){mDesc="[Amazon]"};
+  if(mURL.includes("boardgamegeek.com")){mDesc="[BGG]"};
+  if(mURL.includes("wikipedia.org")){mDesc="[Wiki]"};
+
+  return "<a class=\"mbbuttonEx mbURL\" onclick=\"ExURL('" + mURL + "')\">" + mDesc + "</a>";
 }
 function FullTitle(el,mPrefix,mSubtitle){
   // 20240429: Cardinal
