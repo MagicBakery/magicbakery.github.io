@@ -126,6 +126,79 @@ function BoardToggleHeight(elButton){
     elButton.style.opacity = 0.75;
   }
 }
+function DTC(mDTS,mDTC){
+  // 20240504: StarTree: Converts a DTS number into a DTC item code.
+  if(IsBlank(mDTC)){
+    //DEBUG(DTCYear(mDTS) + "|"+ DTCMonth(mDTS) +"|"+ DTCDay(mDTS) +"|"+ DTCHour(mDTS) +"|"+ DTCMMSS(mDTS));
+    return DTCYear(mDTS) + DTCMonth(mDTS) + DTCDay(mDTS) + DTCHour(mDTS) + DTCMMSS(mDTS);
+  }else{
+    return DTCYear("",mDTC) + DTCMonth("",mDTC) + DTCDay("",mDTC) + DTCHour("",mDTC) + DTCMMSS("",mDTC);
+  }
+}
+function DTCDay(mDTS,mDTC){
+  // 20240504: StarTree: Converts the day between DTS and DTC formats.
+  const aDay = "123456789ABCDEFGHJKLMNPQRTUVXYZ";
+  if(IsBlank(mDTC)){ // From DTS to DTC
+    let i = Number(String(mDTS).slice(6,8));
+    return aDay.slice(i-1,i);
+  }else{ // From DTC to DTS
+    let mDD = String(aDay.search(mDTC.slice(3,4))+1);
+    if(mDD.length<1){
+      mDD = "0" + mDD;
+    }
+    return mDD;
+  }
+}
+function DTCHour(mDTS,mDTC){
+  // 20240504: StarTree: Converts the hour between DTS and DTC formats.
+  const aHour = "0123456789ABCDEFGHJKLMNP";
+  if(IsBlank(mDTC)){  // From DTS to DTC
+    let i = Number(String(mDTS).slice(8,10));
+    return aHour.slice(i,i+1);
+  }else{ // From DTC to DTS
+    let mHH = String(aHour.search(mDTC.slice(4,5))+1);
+    if(mHH.length<1){
+      mHH = "0" + mHH;
+    }
+    return mHH;
+  }
+}
+function DTCMMSS(mDTS,mDTC){
+  // 20240504: StarTree: Converts the mmss between DTS and DTC formats.
+  if(IsBlank(mDTC)){ // From DTS to DTC
+    let mMM = Number(String(mDTS).slice(10,12));
+    let mSS = Number(String(mDTS).slice(12,14));
+    return (mMM * 60 + mSS).toString(16).padStart(3,"0").toUpperCase();
+  }else{ // From DTC to DTS
+    let mNum = Number("0x" + mDTC.slice(5,8));
+    let mMM = String(mNum / 60).padStart(2,"0");
+    let mSS = String(mNum % 60).padStart(2,"0");
+    return mMM + mSS;
+  }
+}
+function DTCMonth(mDTS,mDTC){
+  // 20240504: StarTree: Converts the month between DTS and DTC formats.
+  const aDTCMonth = "ABCDEFTUVXYZ";
+  if(IsBlank(mDTC)){ // From DTS to DTC
+    let i = Number(String(mDTS).slice(4,6));
+    return aDTCMonth.slice(i-1,i);
+  }else{ // From DTC to DTS
+    let mMM = String(aDTCMonth.search(mDTC.slice(2,3))+1);
+    if(mMM.length<1){
+      mMM = "0" + mMM;
+    }
+    return mMM;
+  }
+}
+function DTCYear(mDTS,mDTC){
+  // 20240504: StarTree: Converts the year portion of DTS to DTC.
+  if(IsBlank(mDTC)){ // If DTC is blank, return the DTC value of the DTS.
+    return String(mDTS).slice(2,4);
+  }else{ // Else, return the DTS value of the DTC.
+    return "20" + mDTC.slice(0,2);
+  }
+}
+
 function JSONPartiStr(mJSON){
   // 20240404: StarTree: For new chat node format.
   var mHTML = ""
@@ -177,6 +250,7 @@ function ChatNodeContent(elAttr,mJSON){
   
   return mHTMLInner;
 }
+
 function Pin2Code(mJSON){
   // 20240405: StarTree: Creates the HTML for the node pin.
   var mHTML="";
@@ -1288,12 +1362,23 @@ function MacroRes(el){
   var mTags = el.querySelectorAll('res');
   //for(let i=mTags.length-1;i>-1;i--){ 
   // 20240428: Zoey: Does not need reverse order to process nested resources.
+  
+  // TEMP
+  //var mConvert = "";
+  
   for(let i=0;i<mTags.length;i++){
     let mTag = mTags[i];    
     // STEP: Determine the type and process accordingly.
-    if(MacroResItem(mTag)){continue;} // Library Item
+    if(MacroResItem(mTag)){
+      // TEMP
+      //mTag.setAttribute('item',DTC(mTag.getAttribute('dts')));
+      //mConvert += mTag.outerHTML + "\n";
+
+      continue;} // Library Item
     if(MacroResImage(mTag)){continue;} // Default as image
   }
+  /// TEMP
+  //if(mConvert!=""){navigator.clipboard.writeText(mConvert);alert("Done!!!!")}
 }
 function MacroResImage(mTag){
   // 20240428: Zoey // image type is the default. This process should be last.  
@@ -1317,6 +1402,7 @@ function MacroResImage(mTag){
   return true;
 }
 function MacroResItem(mTag){
+
   // 20240503: Skyle: For Board Game Library
   if(!mTag.hasAttribute('item')){return false;}
   /* FROM:
@@ -1327,11 +1413,12 @@ function MacroResItem(mTag){
   let mIcon = Default(mTag.getAttribute("icon"),"🎲");
   let mTitle = mTag.getAttribute("title");
   let mAvail = mTag.getAttribute("avail");
-  let mloc = mTag.getAttribute("loc");
+  let mloc = Default(mTag.getAttribute("loc"),"📌loc?");
   let mNode = mTag.getAttribute("node");
   let mSrc = mTag.getAttribute("src");
   let mGenre = Default(mTag.getAttribute("genre"),"???");
   let mOwner = Default(mTag.getAttribute("owner"),"???");
+  let mItem = mTag.getAttribute("item");
 
   // Save the Title in the name field for sorting.
   let mHTML = "<div class=\"mbscroll\" item dts=\"" + mDTS + "\" name=\"" + mTitle + "\">";
@@ -1351,33 +1438,41 @@ function MacroResItem(mTag){
   mHTML += "<a class=\"mbbutton\" onclick=\"ShowNext(this)\" style=\"text-wrap:wrap\">" + mTitle +"</a>";
   mHTML += "<hide><hr>";
   // DATA: This is the area for basic data about the item
-  mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:0px 0px 5px 0px\">";  
+  mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:0px 0px 5px 0px;\">";  //max-width:145px
   if(mTag.hasAttribute('available')){
     mHTML += "<center style=\"color:green\"><b>AVAILABLE</b></center>";
   }else{
     mHTML += "<center style=\"color:darkgoldenrod\"><b>IN USE</b></center>";
   }  
-  mHTML += "<b>ID:</b> [" + mDTS +"]";
-  if(NotBlank(mNode)){
-    mHTML += " " + NodeIDClipboardButtonCode(mNode) + "<br>";
-  }else{
-    mHTML += " 🥚<br>"
-  }
+
   // Genre. Need to display this for text filter
-  mHTML += "<b>Genre:</b> " + mGenre +" | ";
-  mHTML += "<b>Owner:</b> " + mOwner +" | ";
-  mHTML += "<b>Loc:</b> " + mloc + "";
+  mHTML += "<b>Genre:</b>&nbsp;" + mGenre +" ";
+  // URL in the Side Bar
+  if(NotBlank(mSrc)){
+    mHTML += GetURLCode(mSrc) +"<br>";
+  }else{
+    // 20240504: Sasha: If the url is blank, output error flag
+    mHTML += "[📌src?]<br>";
+  }
+  if(NotBlank(mItem)){
+    mHTML += "<b>ID:</b> [" + mItem +"] ";
+  }else{
+    mHTML += "<b>ID:</b> [📌" + mDTS +"] ";
+  }  
+  // Node Link in the Side Panel
+  if(NotBlank(mTag.getAttribute('node'))){
+    mHTML += LnkCode(mNode,"[Node]","") +"<br>";
+  }else{
+    mHTML += "🥚<br>"
+  }
+  //mHTML += "<b>Owner:</b>&nbsp;" + mOwner +"<br>";
+  mHTML += "<b>Loc:</b>&nbsp;" + mloc  +" ";
   mHTML += "</div>"
 
-  
-  // Node Link in the body
-  if(NotBlank(mTag.getAttribute('node'))){
-    mHTML += "<small>" + LnkCode(mNode,"[Node]","") + "</small>";
-  }
-  // URL in the Body
-  if(NotBlank(mTag.getAttribute('src'))){
-    mHTML += GetURLCode(mTag.getAttribute('src'));
-  }
+  // Header Links section.
+  //mHTML += "<small>";
+  //mHTML += "</small>";
+
   // Custom Content about this item.
   mHTML += "<hr class=\"mbhide\">"; // Trick to use Enter bubble.
   mHTML += mTag.innerHTML;
@@ -1457,15 +1552,24 @@ function MacroURL(el){
   /* FROM: <url>...</url>
      TO:   <a class="mbbuttonEx mbURL" onclick="ExURL('https://www.youtube.com/watch?v=DS2sP8CDLas&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx')">🔗</a>
   */
-  let mTags = el.querySelectorAll("src");
-  mTags.forEach((mTag)=>{mTag.outerHTML = GetURLCode(mTag.innerHTML);});
+ // 20240504: Sylvia: Optional argument <url title="...">...</url>
+  let mTags = el.querySelectorAll("url");
+  mTags.forEach((mTag)=>{
+    mTag.outerHTML = GetURLCode(mTag.innerHTML, mTag.getAttribute('title'),mTag.getAttribute('lang'));
+  });
 }
-function GetURLCode(mURL){
-  let mDesc = "🔗";
-  if(mURL.includes("amazon.com")){mDesc="[Amazon]"};
-  if(mURL.includes("boardgamegeek.com")){mDesc="[BGG]"};
-  if(mURL.includes("wikipedia.org")){mDesc="[Wiki]"};
-
+function GetURLCode(mURL,mDesc, mLang){
+  // 20240504: Sylvia: mDesc argument is optional.
+  if(IsBlank(mDesc)){
+    mDesc = "url";
+    if(mURL.includes("amazon.com")){mDesc="Amazon"};
+    if(mURL.includes("boardgamegeek.com")){mDesc="BGG"};
+    if(mURL.includes("wikipedia.org")){mDesc="Wiki"};
+  }
+  if(NotBlank(mLang)){
+    mDesc += "&nbsp;" + mLang;
+  }
+  mDesc = "[" + mDesc + "]";
   return "<a class=\"mbbuttonEx mbURL\" onclick=\"ExURL('" + mURL + "')\">" + mDesc + "</a>";
 }
 function FullTitle(el,mPrefix,mSubtitle){
@@ -5965,6 +6069,12 @@ function TextAreaSave(elTextArea){
   // STEP: Check for cookie enable.
   if(!CookieCheck(elTextArea)){return;}
   localStorage.setItem("TextArea-Value",elTextArea.value);
+}
+function NMDTC(el){
+  // 20240504: StarTree: Creates a DTC or converts the number in Node ID to DTC.
+  var elWidget = SearchPS(el,"Widget");
+  var mDTS = Default(elWidget.querySelector('[NM-DTS]').value,DTSNow());
+  navigator.clipboard.writeText(DTC(mDTS));
 }
 function NMMsg(el,iIcon,bNoEXP){
   // 20240416: StarTree: Bubble code
