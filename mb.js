@@ -1558,6 +1558,7 @@ function MacroURL(el){
     mTag.outerHTML = GetURLCode(mTag.innerHTML, mTag.getAttribute('title'),mTag.getAttribute('lang'));
   });
 }
+
 function GetURLCode(mURL,mDesc, mLang){
   // 20240504: Sylvia: mDesc argument is optional.
   if(IsBlank(mDesc)){
@@ -1565,6 +1566,11 @@ function GetURLCode(mURL,mDesc, mLang){
     if(mURL.includes("amazon.com")){mDesc="Amazon"};
     if(mURL.includes("boardgamegeek.com")){mDesc="BGG"};
     if(mURL.includes("wikipedia.org")){mDesc="Wiki"};
+    if(mURL.includes("nextdoor.com")){mDesc="🏡"};
+    if(mURL.includes("youtube.com")){mDesc="📺"};
+    if(mURL.includes("&list=")){mDesc="🎧"};
+    if(mURL.includes("podcast")){mDesc="📻"};
+
   }
   if(NotBlank(mLang)){
     mDesc += "&nbsp;" + mLang;
@@ -6412,7 +6418,8 @@ function NMURL(el){
       mIcon = "🔗";
     }
   }
-  var mHTML = "<macro>{\"cmd\":\"url\",\"url\":\""+mURL+"\",\"desc\":\""+mIcon+"\"}</macro>";  
+  //var mHTML = "<macro>{\"cmd\":\"url\",\"url\":\""+mURL+"\",\"desc\":\""+mIcon+"\"}</macro>";  
+  var mHTML = "<url>" + mURL+ "</url>";  
   navigator.clipboard.writeText(mHTML);
   return mHTML;
 }
