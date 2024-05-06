@@ -751,9 +751,9 @@ todo::before{content:"TODO: ";font-size: 12px;}
   box-sizing: border-box;
   color:lightgoldenrodyellow;  
   float:left;
-  font-size: 14px;
+  font-size: 16px;
   height:45px; 
-  line-height:1em; 
+  line-height:14.5px; 
   margin:0px 5px -4px 0px;       
   overflow-x: visible;
   text-wrap:nowrap;
@@ -764,7 +764,7 @@ todo::before{content:"TODO: ";font-size: 12px;}
   z-index:1
 }
 .mbavXP{
-  padding-left:27px;
+  padding-left:23px;
   padding-right:0px;
   text-align:center;
 }
@@ -1116,6 +1116,39 @@ cursor:pointer;
   text-align:center;
   
 }
+
+.mbMaintenance:hover,.mbUpgrade:hover,.mbService:hover{
+  background-color:saddlebrown;
+}
+.mbMaintenance{
+  background-color: darkgoldenrod;
+  color:white;
+  font-weight: bolder;
+}
+.mbMaintenanceTx{
+  color:darkgoldenrod;
+  font-weight: bolder;
+}
+.mbUpgrade{
+  background-color: gold;
+  color:white;
+  font-weight: bolder;
+}
+.mbUpgradeTx{
+  color:goldenrod;
+  font-weight: bolder;
+}
+.mbService{
+  background-color: yellowgreen;
+  color:white;
+  font-weight: bolder;
+}
+.mbServiceTx{
+  color:green;
+  font-weight: bolder;
+}
+
+
 .mbILB20{width:20px;}
 .mbILB25{width:25px;}
 .mbILB30{width:30px;}
@@ -1127,6 +1160,11 @@ cursor:pointer;
 .mbRankQtyH{background-color:yellowgreen;}
 .mbRankQtyHH{background-color:green;}
 .mbRankQtyHHH{background-color:darkgreen;}
+
+.mbRankSS,.mbRankS,.mbRankA,.mbRankB,.mbRankC,.mbRankD,.mbRankU{
+  font-weight: bolder;
+}
+
 .mbRankSS::before{content:"SS";}
 .mbRankSS{background-color:none;color:gold; text-shadow: -1px -1px 0 darkgoldenrod, 1px -1px 0 darkgoldenrod, -1px 1px 0 darkgoldenrod, 1px 1px 0 darkgoldenrod;}
 .mbRankS::before{content:"S";}

@@ -1503,7 +1503,7 @@ function MacroTopic(el){
     let mIcon = Default(mTag.getAttribute("icon"),"");
     let mTitle = Default(mTag.getAttribute("title"),"");
     let mPrefix = Default(mTag.getAttribute("prefix"),"");
-    let mSubtitle = Default(mTag.getAttribute("Subtitle"),"");
+    let mSubtitle = Default(mTag.getAttribute("Subtitle"),""); 
     let mHTML = "";
 
     // STEP: If a topic is inside OL or UL, turn it into a bullet.
@@ -1656,6 +1656,38 @@ function MacroMsg(el){
     mTag.remove();
   });
 }
+function MSIconToggle(elButton){
+  // 20240505: StarTree: Show or hide XP icons.
+  let elWidget = SearchPS(elButton,"widget");
+  let elDisplay = elWidget.querySelector("[display]");
+  let bMode = (elButton.getAttribute('mode')=="show");
+  let elIcons = elDisplay.querySelectorAll('[d-XPIcon]');
+  let elXPs = elDisplay.querySelectorAll('[d-XP]');
+
+  if(bMode){ // Currently Showing. So hide all of them.
+    elButton.setAttribute('mode','hide');
+    elIcons.forEach((mTag)=>{mTag.classList.add("mbhide");});
+    elXPs.forEach((mTag)=>{mTag.classList.add("mbhide");});
+  }else{ // Show them.
+    elButton.setAttribute('mode','show');
+    elIcons.forEach((mTag)=>{mTag.classList.remove("mbhide");});
+    elXPs.forEach((mTag)=>{mTag.classList.remove("mbhide");});
+  }
+}
+function MSModeToggle(elButton){
+  // 20240505: StarTree: Show or hide Mode Info.
+  let elWidget = SearchPS(elButton,"widget");
+  let bMode = (elButton.getAttribute('mode')=="show");
+  let elModes = elWidget.querySelectorAll('[d-mode]');
+
+  if(bMode){ // Currently Showing. So hide all of them.
+    elButton.setAttribute('mode','hide');
+    elModes.forEach((mTag)=>{mTag.classList.add("mbhide");});
+  }else{ // Show them.
+    elButton.setAttribute('mode','show');
+    elModes.forEach((mTag)=>{mTag.classList.remove("mbhide");});
+  }
+}
 function MSTopic(elTopic){
   // 20240426: Patricia: Check if this topic should replace its content with scanned content. If so, get the start and end time and commission a scan.
   if(!elTopic.hasAttribute('scan')){return false;}
@@ -1687,16 +1719,32 @@ function MSTopic(elTopic){
   elNew.innerHTML = mHTML;
   elTopic.before(elNew);
   let elDisplay = elNew.querySelector('[display]');
-  MSScanFor(elDisplay,mStart,mEnd);
+  MSScanFor(elDisplay,mStart,mEnd,elNew.querySelector('[header]'));
   return true;
 }
-function MSScanFor(elDisplay,mStart,mEnd){
+function MSModeTally(elStruct,mArea,mModeCode){
+  // 20240505: Sasha
+  // 20240505: StarTree: Changed to Mode.
+  let mAreaCode = 1;
+  if(mArea=="academy"){mAreaCode = 0;}
+  if(mArea=="help"){mAreaCode = 2;}
+  elStruct[mAreaCode][mModeCode]++;
+}
+function MSScanFor(elDisplay,mStart,mEnd,elHeader){
   // 20240426: Patricia: Populate the element with messages.
   elDisplay.innerHTML = "<center><big>⏳</big></center>"
+  if(NotBlank(elHeader)){elHeader.innerHTML = ""}
+
   let elCache = document.createElement("div");
   var mHTML = "";
+  var mHeaderHTML = ""
   var mMsgList = [];
   var mDone = 0;
+  
+  var mModeTally = [[0,0,0],[0,0,0],[0,0,0]]; 
+    // This is an array of mode tally. 0=Academy, 1=Guild, 2=Help
+    // Then 0=maintenance, 1=upgrade, 2=service
+  
   $(document).ready(function(){
     for(let i=1; i<=ArchiveNum();i++){
       // 20240427: Black: Expanding the query to get the context.
@@ -1710,6 +1758,7 @@ function MSScanFor(elDisplay,mStart,mEnd){
             let elNode = SearchPS(mMsg,'time');
             mMsg.setAttribute('parent',elNode.id.slice(1));
             mMsg.setAttribute('nodeName',GetNodeTitle(elNode));
+            mMsg.setAttribute('area',GetNodeArea(elNode));
             mMsg.setAttribute('parentName',GetLocalTitle(mMsg,elNode));
             mMsgList.push([mMsgDTS,mMsg]);
           }
@@ -1734,10 +1783,14 @@ function MSScanFor(elDisplay,mStart,mEnd){
           }
           // STEP: Output to the container.
           let mCurTopic = "";
+          let mCurArea = "";
           let mMsgCount = 0;
           let mTopicHTML = "";
           let mCurIcon = "";
           let mCurDTS = "";
+          let mCurNode = "";
+          let mMaintenance = 0; let mUpgrade = 0; let mService = 0;
+          let mTopicEXP = 0;
           for(let i=0;i<mMsgList.length;i++){
             let mMsg = mMsgList[i][1];
 
@@ -1746,17 +1799,36 @@ function MSScanFor(elDisplay,mStart,mEnd){
               if(mCurTopic != mMsgTopic){
                 if(mCurTopic !=""){
                   // If this is not the first topic, wrap the previous cached HTML in a topic object.
-                  mHTML += TopicWrap(mCurDTS,mMsgCount,mCurIcon,mCurTopic,mTopicHTML);
+                  mHTML += TopicWrap(mCurNode,mCurDTS,mMsgCount,mCurIcon,mCurTopic,mTopicHTML,mCurArea,mTopicEXP,mMaintenance,mUpgrade,mService);
                 }
                 mTopicHTML = "";
                 mMsgCount = 0;
                 mCurDTS = mMsg.getAttribute('dts');
                 mCurIcon = mMsg.getAttribute('icon');
+                mCurArea = mMsg.getAttribute('area');
+                mCurNode = mMsg.getAttribute('parent');
                 mCurTopic = mMsgTopic;
-                
+                mTopicEXP = 0;
+                mMaintenance = mUpgrade = mService = 0;
               }
               mTopicHTML += mMsgList[i][1].outerHTML;
               mMsgCount ++;
+
+              // 20240505: StarTree: Account for the rank if the message is ranked.
+              let mEXP = 0;
+              if(mMsg.hasAttribute('exp')){
+                mEXP = Number(Default(mMsg.getAttribute('EXP'),1));
+              }
+              mTopicEXP += mEXP;
+              if(mMsg.hasAttribute('mode')){
+                //if(mEXP==0){mEXP = 1} // Assumes that mEXP was 0 because it was blank.
+                // 20240505: StarTree: LRRH wants this count to be per occurence, not per XP.
+                switch(mMsg.getAttribute('mode').toLowerCase()){
+                  case "maintenance": mMaintenance++;MSModeTally(mModeTally,mCurArea,0);break;
+                  case "upgrade": mUpgrade++;MSModeTally(mModeTally,mCurArea,1);break;
+                  case "service": mService++;MSModeTally(mModeTally,mCurArea,2);break;
+                }
+              }
             }else{
               // Not grouping by topic
               mHTML += mMsgList[i][1].outerHTML;
@@ -1765,7 +1837,7 @@ function MSScanFor(elDisplay,mStart,mEnd){
 
           // Close the topic if there were any
           if(mCurTopic!=""){
-            mHTML += TopicWrap(mCurDTS,mMsgCount,mCurIcon,mCurTopic,mTopicHTML);
+            mHTML += TopicWrap(mCurNode,mCurDTS,mMsgCount,mCurIcon,mCurTopic,mTopicHTML,mCurArea,mTopicEXP,mMaintenance,mUpgrade,mService);
             elDisplay.style.display = "flex";
             elDisplay.style.flexDirection = "column";
             elDisplay.classList.remove('mbpuzzle');
@@ -1775,18 +1847,44 @@ function MSScanFor(elDisplay,mStart,mEnd){
             //elDisplay.style.flexDirection = "initial";
           }
 
+          // Compose the header.
+          mHeaderHTML = "<center>";
+          mHeaderHTML+= MSModeShow(mModeTally);
+          mHeaderHTML += "</center>";
+
           // 20240502: Arcacia: No Result message
           if(IsBlank(mHTML)){
             mHTML = "No result from " + mStart + " to " + mEnd + ".";
+            mHeaderHTML = "";
+          }else{
+
           }
+          if(NotBlank(elHeader)){elHeader.innerHTML = mHeaderHTML;}
           elDisplay.innerHTML = mHTML;
           Macro(elDisplay);
-
           elCache.remove();
         }
       });
     };
   });
+}
+function MSModeShow(elStruct){
+  // 20240505: Sasha: Returns an HTML string.
+  var mHTML = "<span class=\"mbhide\" d-mode>";
+  const mMode = ["mbMaintenanceTx","mbUpgradeTx","mbServiceTx"];
+  let i = 0;
+  for(let i=0;i<3;i++){
+    if(i==0){mHTML += "🎓"}
+    if(i==1){mHTML += " 🥨"}
+    if(i==2){mHTML += " ☎️"}
+    for(let j=0;j<3;j++){
+      //if(elStruct[i][j] > 0){
+        mHTML+=" <span class=\"" + mMode[j] + "\"><small>" + elStruct[i][j] + "</small></span> ";
+      //}
+    }
+  }
+  mHTML += "</span>";
+  return mHTML;
 }
 function MSSortTopics(el,bFL){
   // 20240430: Sylvia
@@ -1819,10 +1917,60 @@ function MSSortTopics(el,bFL){
   }
 
 }
-function TopicWrap(mDTS,mCount,mIcon,mTopic,mTopicHTML){
-  let mHTML = "<topic dts=\""+mDTS+"\" title=\"" + mTopic + " ["+mCount+ "]\" Icon=\"" +mIcon + "\">";
+function TopicWrap(mNode,mDTS,mCount,mIcon,mTitle,mTopicHTML,mArea,mTopicEXP,mMaintenance,mUpgrade,mService){
+  // 20240505: StarTree: This display is getting complex and needs to be a custom header like the library code.
+  let mNodeIcon = "📌"
+  let mHTML = "<div topic class=\"mbscroll\" item dts=\"" + mDTS + "\" name=\"" + mTitle + "\">";
+
+  // Topic Header: Show the Quest Area
+  mHTML += "<span class=\"mbhide\" d-mode style=\"float:right;font-size:14px;\">";
+  
+  if(IsBlank(mArea)){mArea = "guild"}
+  switch(mArea){
+    case "academy": mNodeIcon = "🎓";break;
+    case "guild": mNodeIcon = "🥨";break;
+    case "help":  mNodeIcon = "☎️";break;
+  }
+   
+  // Simplified Display: Mode Display
+  
+  mHTML += "<span class=\"mbMaintenanceTx\">" + mMaintenance +"</span> ";
+  mHTML += "<span class=\"mbUpgradeTx\">" + mUpgrade +"</span> ";
+  mHTML += "<span class=\"mbServiceTx\">" + mService +"</span> ";
+  mHTML += NodeIDClipboardButtonCode(mNode,"",mNodeIcon)+" "; 
+
+  /*
+  //mHTML += "<b>";
+  if(mRankS > 0){ mHTML += "<span class=\"mbRankS\"><small>" + mRankS + "</small></span> ";}
+  if(mRankA > 0){ mHTML += "<span class=\"mbRankA\"><small>" + mRankA + "</small></span> ";}
+  if(mRankB > 0){ mHTML += "<span class=\"mbRankB\"><small>" + mRankB + "</small></span> ";}
+  if(mRankC > 0){ mHTML += "<span class=\"mbRankC\"><small>" + mRankC + "</small></span> ";}
+  if(mRankD > 0){ mHTML += "<span class=\"mbRankD\"><small>" + mRankD + "</small></span> ";}
+  mHTML += "</b>";
+  */
+
+  
+  
+  //
+  /*mHTML += " <b>" + Cap(mArea) + "</b>";
+  mHTML += "<br>"
+  mHTML += "<small>⭐</small>" + mTopicEXP;*/
+  mHTML += "</span>";
+
+  // Topic Title
+  mHTML += "<span class=\"mbILB30\">" + LnkCode(mNode,"",mIcon) + "</span>";
+  mHTML += "<a class=\"mbbutton\" onclick=\"ShowNext(this)\" style=\"text-wrap:wrap\">";
+  mHTML += mTitle;
+  mHTML += " <small>[" + mCount + "]</small>"
+  mHTML += "</a><hide><hr>";
   mHTML += mTopicHTML;
-  mHTML += "</topic>";
+  mHTML += "<div class=\"mbCB\"></div><hr></hide></div>";
+
+  
+  
+  //mHTML = "<topic dts=\""+mDTS+"\" title=\"" + mTopic + " ["+mCount+ "]\" Icon=\"" +mIcon + "\">";
+  //mHTML += mTopicHTML;
+  //mHTML += "</topic>";
   return mHTML;
 }
 function GetLocalTitle(elMsg, elNode){
@@ -1850,6 +1998,17 @@ function GetLocalTitle(elMsg, elNode){
   }
   return GetNodeTitle(elNode,mPrefix,mSubtitle);
 }
+function GetNodeArea(elNode){
+  // 20240505: StarTree: Given a node element, return the area, which should be distinct.
+  // Rule: If the area is specified, return that.
+  //   Else, if the node has data-subject, then its area is academy.
+  //   Otherwise, its area is guild.
+  if(elNode.hasAttribute('area')){return elNode.getAttribute('area')}
+  if(elNode.hasAttribute('data-subject')){return "academy"}
+  return "guild";
+
+
+}
 function GetNodeTitle(elNode,mPrefix,mSubtitle){
   // 20240427: Black: Returns the title of the node given the element. 
   var elJSON = elNode.querySelector('node'); // get the JSON element.
@@ -1865,6 +2024,7 @@ function MSScan(elButton){
   var elStart = elControl.querySelector('[title="Start"]');
   var elEnd = elControl.querySelector('[title="End"]');
   var elDisplay = elWidget.querySelector('[display]');
+  var elHeader = elWidget.querySelector('[header]');
 
   // STEP: Process the inputs
   var mStart = elStart.value; 
@@ -1885,7 +2045,7 @@ function MSScan(elButton){
   //elDisplay.classList.add('mbpuzzle');
 
 
-  MSScanFor(elDisplay,mStart,mEnd);
+  MSScanFor(elDisplay,mStart,mEnd,elHeader);
 }
 function RenderStart(el){
   // 20240420: StarTree: Renders a bubble in the a traditional START format.
@@ -1895,7 +2055,7 @@ function RenderStart(el){
   var mEXP = RenderExp(el);
   var mIcon = Default(el.getAttribute("Icon"),"⭐");
   if(NotBlank(mSPK)){
-    mHTML += RenderAvXP(mSPK,mEXP,mIcon);
+    mHTML += RenderAvXP(mSPK,mEXP,mIcon,el.getAttribute('rank'),el.getAttribute('mode'));
   }
 
   mHTML += "<div class='mbpdc'>" + el.innerHTML;
@@ -1906,15 +2066,25 @@ function RenderStart(el){
   mHTML += "<div class='mbCL'></div>";
   return mHTML;
 }
-function RenderAvXP(mSPK,mEXP,mIcon){
+function RenderAvXP(mSPK,mEXP,mIcon,mRank,mMode){
   // 20240426: Skyle: Function called by other render functions
   var mHTML="";
-  mHTML = "<div class='mbav50e mb" + mSPK + "'>";
-  if(mEXP){
-    mHTML += "<div class='mbavXP'>"
+  mHTML = "<div class=\"mbav50e mb" + mSPK;
+  if(NotBlank(mMode)){
+    if(mMode=="maintenance"){mHTML += " mbMaintenance"}
+    if(mMode=="upgrade"){mHTML += " mbUpgrade"}
+    if(mMode=="service"){mHTML += " mbService"}
+  }
+  mHTML += "\">";
+  if(mEXP || NotBlank(mRank)){
+    mHTML += "<div class='mbavXP' d-xpicon>"
     mHTML += mIcon;
-    if(mEXP !=1){
-      mHTML += "<br><br><span class='mbXPTB mbILB20'>" + mEXP +"</span>";
+    if(mEXP !=1 || NotBlank(mRank)){
+      mHTML += "<br><br><span class=\"mbXPTB mbILB20";
+      if(NotBlank(mRank)){
+        mHTML += " mbRank"+ mRank;
+      }
+      mHTML += "\" d-xp>" + mEXP +"</span>";
     }
     mHTML += "</div>";
   }
@@ -1929,7 +2099,7 @@ function RenderEnter(el){
   var mEXP = RenderExp(el);
   var mIcon = Default(el.getAttribute("Icon"),"⭐");
   mHTML = "<div class=\"mbCL\"></div>"
-  mHTML += RenderAvXP(mSPK,mEXP,mIcon);
+  mHTML += RenderAvXP(mSPK,mEXP,mIcon,el.getAttribute('rank'),el.getAttribute('mode'));
   if(el.hasAttribute('DTS')){
     mHTML += "<a class='mbbutton' onclick='MsgContext(this)'>" + mSPK + ":</a> ";
   }else{
@@ -1996,10 +2166,22 @@ function RenderMsg(el){
   var mHTML = "";
   let mDTS = el.getAttribute("DTS");
   if(NotBlank(mDTS)){mHTML += " DTS='" + mDTS + "'";}
-  let mSPK = el.getAttribute("SPK");    
+  let mSPK = el.getAttribute("SPK");  
+  let mRank = el.getAttribute("Rank")  ;
   let mEXP = RenderExp(el);
   let mIcon = el.getAttribute("Icon");
-  mHTML = "<button class='mbbutton' onclick='ShowNextInline(this)'";
+  mHTML = "<button class=\"mbbutton";
+
+  // 20240505: StarTree: Mode coloring
+  if(el.hasAttribute('mode')){
+    let mMode = (el.getAttribute('mode')).toLowerCase();
+    if(mMode=="maintenance"){mHTML += " mbMaintenance"}
+    if(mMode=="upgrade"){mHTML += " mbUpgrade"}
+    if(mMode=="service"){mHTML += " mbService"}
+  }
+
+  mHTML += "\" onclick=\"ShowNextInline(this)\"";
+
   if(mEXP!=0){
     mHTML += " EXP='" + mEXP + "'";
     if(IsBlank(mIcon)){
@@ -2010,9 +2192,17 @@ function RenderMsg(el){
     mHTML += " Icon='" + mIcon + "'";
   }
   mHTML += ">";
-  if(NotBlank(mIcon)){mHTML += "<small>"+mIcon+"</small>";}
+  if(NotBlank(mIcon)){mHTML += "<small d-XPIcon>"+mIcon+"</small>";}
   //if(NotBlank(mEXP)){mHTML += "<sup class='mbSS'>⭐</sup>";}
-  if(NotBlank(mEXP) && mEXP > 1){mHTML += "<small>" + mEXP + "</small> ";}
+  mHTML += "<span class=\"";
+  if(NotBlank(mRank)){
+    mHTML += "mbRank" + mRank
+    if(!el.hasAttribute('EXP')){mEXP=0} // 20240505: P4: Show a 0 if there is rank but no EXP.
+  }
+  mHTML += "\">";
+  if(NotBlank(mRank) || (NotBlank(mEXP) && mEXP > 1)){mHTML += "<small d-XP>" + mEXP + " </small>";}
+  mHTML += "</span>";
+  
   mHTML += "<div class='mbavem mb" + mSPK + "'></div></button><hide>";
   if(el.hasAttribute('DTS')){
     mHTML += "<a class='mbbutton' onclick='MsgContext(this)'>" + mSPK + ":</a> ";
@@ -5858,7 +6048,7 @@ function ReloadFP(el){
     }
   });
 }
-function NodeIDClipboardButtonCode(mNodeID,mParentID){
+function NodeIDClipboardButtonCode(mNodeID,mParentID,mIcon){
   // 20240422: V
   // 20240427: Black: Added mArchiveID for showing bubble context.
   var mHTML = "<a class='mbbutton' onclick=\"ClipboardAlert('"+ mNodeID+"')\" title=\"" +  mNodeID+  " [";
@@ -5867,7 +6057,8 @@ function NodeIDClipboardButtonCode(mNodeID,mParentID){
   }else{
     mHTML += ArchiveNumSelect(mParentID);
   }
-  mHTML += "]\">🐤</a>";
+  if(IsBlank(mIcon)){mIcon = "🐤"}
+  mHTML += "]\">"+mIcon+"</a>";
 
   return mHTML
 }
@@ -6110,7 +6301,6 @@ function DTSFormatStr(mYYYYMMDD){
   var mDay = mYYYYMMDD.slice(8,10);
   var mHour = mYYYYMMDD.slice(11,13);
   var mMinute = mYYYYMMDD.slice(14,16);
-  DEBUG(mYear + mMonth + mDay + mHour + mMinute);
   return DTSPadding(mYear + mMonth + mDay + mHour + mMinute);
 }
 function DTSNow(){
