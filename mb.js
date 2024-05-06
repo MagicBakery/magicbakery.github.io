@@ -1823,10 +1823,10 @@ function MSScanFor(elDisplay,mStart,mEnd,elHeader){
               if(mMsg.hasAttribute('mode')){
                 //if(mEXP==0){mEXP = 1} // Assumes that mEXP was 0 because it was blank.
                 // 20240505: StarTree: LRRH wants this count to be per occurence, not per XP.
-                switch(mMsg.getAttribute('mode').toLowerCase()){
-                  case "maintenance": mMaintenance++;MSModeTally(mModeTally,mCurArea,0);break;
-                  case "upgrade": mUpgrade++;MSModeTally(mModeTally,mCurArea,1);break;
-                  case "service": mService++;MSModeTally(mModeTally,mCurArea,2);break;
+                switch(ModeCSS(mMsg.getAttribute('mode'))){
+                  case "Maintenance": mMaintenance++;MSModeTally(mModeTally,mCurArea,0);break;
+                  case "Upgrade": mUpgrade++;MSModeTally(mModeTally,mCurArea,1);break;
+                  case "Service": mService++;MSModeTally(mModeTally,mCurArea,2);break;
                 }
               }
             }else{
@@ -2066,15 +2066,30 @@ function RenderStart(el){
   mHTML += "<div class='mbCL'></div>";
   return mHTML;
 }
+function ModeCSS(mMode){
+  // 20240506: Sasha
+  if(NotBlank(mMode)){
+    switch (mMode.toLowerCase()){
+      case "maintenance":
+      case "sort":
+        return "Maintenance";
+      case "upgrade":
+      case "make":
+      case "bake":
+        return "Upgrade";
+      case "service":
+      case "give":
+        return "Service";
+    }
+  }
+  return "";
+}
 function RenderAvXP(mSPK,mEXP,mIcon,mRank,mMode){
   // 20240426: Skyle: Function called by other render functions
   var mHTML="";
   mHTML = "<div class=\"mbav50e mb" + mSPK;
-  if(NotBlank(mMode)){
-    if(mMode=="maintenance"){mHTML += " mbMaintenance"}
-    if(mMode=="upgrade"){mHTML += " mbUpgrade"}
-    if(mMode=="service"){mHTML += " mbService"}
-  }
+  let mModeCSS = ModeCSS(mMode);
+  if(NotBlank(mModeCSS)){mHTML += " mb" + mModeCSS;}
   mHTML += "\">";
   if(mEXP || NotBlank(mRank)){
     mHTML += "<div class='mbavXP' d-xpicon>"
@@ -2174,10 +2189,9 @@ function RenderMsg(el){
 
   // 20240505: StarTree: Mode coloring
   if(el.hasAttribute('mode')){
+    let mModeCSS = ModeCSS(el.getAttribute('mode'));
+    if(NotBlank(mModeCSS)){mHTML += " mb" + mModeCSS;}
     let mMode = (el.getAttribute('mode')).toLowerCase();
-    if(mMode=="maintenance"){mHTML += " mbMaintenance"}
-    if(mMode=="upgrade"){mHTML += " mbUpgrade"}
-    if(mMode=="service"){mHTML += " mbService"}
   }
 
   mHTML += "\" onclick=\"ShowNextInline(this)\"";
