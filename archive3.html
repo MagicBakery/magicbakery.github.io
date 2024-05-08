@@ -1,4 +1,4 @@
-<div id="P800000000000" class="mbscroll" data-quest="" data-upgrade="" data-minor="">
+<div id="P800000000000" date="80000000" time="0000" class="mbscroll" data-quest="" data-upgrade="" data-minor="">
   <content dts="80000000000000" title="Site Search" node="800000000000" icon="🔍">
     <div control="">
       
@@ -62,58 +62,67 @@
         </hide><!--Sort Modes-->
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Sitemap Quests">🎪</a>
         <hide>
-          <h4>🎪 Sitemap Quests Queries</h4><hr>
-          <div>
-            <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-documentation]')">
-            <span class="mbILB20 mbRankS"></span>🏆</a>  
-            <span class="mbbutton" onclick="ShowNextInline(this)">Documentation</span>
-            <hide>
-              <msg spk="Arcacia data=&quot;20240409&quot;" exp="" icon="📌">20240409: Showcase new features so others can follow.</msg>
-              
-            </hide>
-          </div><!--Rank S Queries-->
-          <div>
-            <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-major]')">
-            <span class="mbILB20 mbRankA"></span>⭐</a>  
-            <span class="mbbutton" onclick="ShowNextInline(this)">Major Upgrades</span>
-            <hide>
-              <msg spk="Vivi">20240331: Add new useful feature.</msg>
-              <button class="mbbutton" onclick="ShowNextInline(this)" date="20240401">📌<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> 20240401: Implement TSN at sitemap. 🚨🟥Alarms 🟨Features 🟩Reference 🟦Tasks</hide>
-              <msg spk="Arcacia data=&quot;20240409&quot;" exp="" icon="📌">20240409: Showcase new features so others can follow.</msg>
-            </hide>
-          </div><!--Rank A Queries-->
-          <div>
-            <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-minor]')">
-            <span class="mbILB20 mbRankB"></span>⭐</a>  
-            <span class="mbbutton" onclick="ShowNextInline(this)">Minor Upgrades</span>
-            <hide>
-              <msg spk="Vivi">20240331: Upgrade existing features of the sitemap.</msg>
-
-            </hide>
-          </div><!--Rank B Queries-->
-          <div>
-            <a class="mbbutton" onclick="QSL(this,'[id][date][time]:not([data-subject],[data-skill],[data-chat],[data-podcast],[data-book],[data-game],[data-puzzle]):not(:contains(\'⭐\'))')"><span class="mbILB20 mbRankC"></span>📌</a>  
-            <span class="mbbutton" onclick="ShowNextInline(this)">Tag Audit</span>
-            <hide>
-              <msg dts="20240331" spk="LRRH" exp="" icon="📌">Check directory categories. Are there too many? What should be added?</msg>
-              <msg dts="20240331" spk="LRRH" exp="" icon="🎯">Target area: I want to clear the Issues tag, or nodes tagged with Issue should addressed.</msg>
-              <msg spk="Vivi" exp="" icon="📌">Every node should be reachable from a tree at sitemap.</msg>
-            </hide>
-          </div><!--Rank C Queries-->
-          <div>
-            <a class="mbbutton" onclick="QSL(this,'[id][date][time]:not(:contains(\'parentid\')),[id]:contains(\'|pin\'),[id]:contains(\'pin2\')')"><span class="mbILB20 mbRankD"></span>📌</a> 
-            <span class="mbbutton" onclick="ShowNextInline(this)">Node Reformat</span>
-            <hide>
-              <msg dts="20240331" spk="StarTree">Update the node format to the latest that has a tag for the sitemap.</msg>
-              <msg dts="20240331" spk="StarTree" exp="" icon="🎯">Target area: Prioritize any node with the 📌 icon or with a name on the sitemap that is not descriptive.</msg>
-              <msg dts="20240331" spk="Vivi" exp="" icon="📌">Tag all non-chat nodes so all of them can be reached from sitemap.</msg>
-              <msg dts="20240420081932" spk="Skyle" exp="" icon="🔍">There are nodes with old format that start with a date and time tag, but the ID tag is in its child. Those nodes do not show in the query. Found 18+187 cases in Archive 1.</msg>
-              <msg dts="20240420101742" spk="Skyle" exp="20" icon="🌾">Did not reformat the nodes, but changed enough for them to be queried. The count is now 1240/1699.</msg>
-            </hide>
-          </div><!--Rank D Queries-->
-          <div>
-            <span class="mbbutton" onclick="ShowNextInline(this)"><small>Completed</small></span>
-            <hide>
+          <h4>🎪 Quest Queries</h4><hr>
+            <a class="mbbutton" onclick="QSL(this,'topic[monthly]')" title="All monthly quests">📅</a> 
+            <a class="mbbutton" onclick="QSL(this,'topic[monthly]','todo')" title="Yet to do this month">📯</a> 
+            <a class="mbbutton" onclick="QSL(this,'topic[monthly]','done')" title="Completed this month">✅</a>
+            <a class="mbbutton" onclick="QSL(this,'[id][date][time]','done')" title="All nodes with updates this month">🔔</a>
+          <hr>
+          <note dts="20240507214626" subtitle="Log">
+            <msg DTS="20240507214634" mode="make" SPK="Natalie" EXP=5 Icon="🔍">According to Ivy, the Sitemap can already query month quests if we tag a topic, such as "monthly". Here I try to add the query. It is working! 😀 But still need to add a version of QSL that understands "this month".</msg>
+            <msg DTS="20240507224446" SPK="Natalie" EXP Icon="🔍">The "not" selector isn't working as expected. When a node has more than one monthly quest and only some of them are done, the selector cannot tell that the node is not done. I think I will change QSL to be able to query a topic, but lists the node ID in the result. Then it will be more clear what is or is not done.</msg>
+            <msg DTS="20240507230259" SPK="Sasha" EXP=5 Icon="🚀">Making BoardLoad understand a DTS and load its node. Checking BoardFill. Making JQAdd trim for DTS also.</msg>
+          </note>
+          <note dts="20240508002723" subtitle="Sitemap Quests">
+            <div>
+              <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-documentation]')">
+              <span class="mbILB20 mbRankS"></span>🏆</a>  
+              <span class="mbbutton" onclick="ShowNextInline(this)">Documentation</span>
+              <hide>
+                <msg spk="Arcacia data=&quot;20240409&quot;" exp="" icon="📌">20240409: Showcase new features so others can follow.</msg>
+                
+              </hide>
+            </div><!--Rank S Queries-->
+            <div>
+              <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-major]')">
+              <span class="mbILB20 mbRankA"></span>⭐</a>  
+              <span class="mbbutton" onclick="ShowNextInline(this)">Major Upgrades</span>
+              <hide>
+                <msg spk="Vivi">20240331: Add new useful feature.</msg>
+                <button class="mbbutton" onclick="ShowNextInline(this)" date="20240401">📌<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> 20240401: Implement TSN at sitemap. 🚨🟥Alarms 🟨Features 🟩Reference 🟦Tasks</hide>
+                <msg spk="Arcacia" data="20240409" exp="" icon="📌">20240409: Showcase new features so others can follow.</msg>
+              </hide>
+            </div><!--Rank A Queries-->
+            <div>
+              <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-minor]')">
+              <span class="mbILB20 mbRankB"></span>⭐</a>  
+              <span class="mbbutton" onclick="ShowNextInline(this)">Minor Upgrades</span>
+              <hide>
+                <msg spk="Vivi">20240331: Upgrade existing features of the sitemap.</msg>
+  
+              </hide>
+            </div><!--Rank B Queries-->
+            <div>
+              <a class="mbbutton" onclick="QSL(this,'[id][date][time]:not([data-subject],[data-skill],[data-chat],[data-podcast],[data-book],[data-game],[data-puzzle]):not(:contains(\'⭐\'))')"><span class="mbILB20 mbRankC"></span>📌</a>  
+              <span class="mbbutton" onclick="ShowNextInline(this)">Tag Audit</span>
+              <hide>
+                <msg dts="20240331" spk="LRRH" exp="" icon="📌">Check directory categories. Are there too many? What should be added?</msg>
+                <msg dts="20240331" spk="LRRH" exp="" icon="🎯">Target area: I want to clear the Issues tag, or nodes tagged with Issue should addressed.</msg>
+                <msg spk="Vivi" exp="" icon="📌">Every node should be reachable from a tree at sitemap.</msg>
+              </hide>
+            </div><!--Rank C Queries-->
+            <div>
+              <a class="mbbutton" onclick="QSL(this,'[id][date][time]:not(:contains(\'parentid\')),[id]:contains(\'|pin\'),[id]:contains(\'pin2\')')"><span class="mbILB20 mbRankD"></span>📌</a> 
+              <span class="mbbutton" onclick="ShowNextInline(this)">Node Reformat</span>
+              <hide>
+                <msg dts="20240331" spk="StarTree">Update the node format to the latest that has a tag for the sitemap.</msg>
+                <msg dts="20240331" spk="StarTree" exp="" icon="🎯">Target area: Prioritize any node with the 📌 icon or with a name on the sitemap that is not descriptive.</msg>
+                <msg dts="20240331" spk="Vivi" exp="" icon="📌">Tag all non-chat nodes so all of them can be reached from sitemap.</msg>
+                <msg dts="20240420081932" spk="Skyle" exp="" icon="🔍">There are nodes with old format that start with a date and time tag, but the ID tag is in its child. Those nodes do not show in the query. Found 18+187 cases in Archive 1.</msg>
+                <msg dts="20240420101742" spk="Skyle" exp="20" icon="🌾">Did not reformat the nodes, but changed enough for them to be queried. The count is now 1240/1699.</msg>
+              </hide>
+            </div><!--Rank D Queries-->
+            <note dts="20240508002753" subtitle="Done">
               <div>
                 <a class="mbbutton" onclick="QSL(this,'[data-skill]:not([data-alchemist],[data-cleric],[data-herald],[data-magician],[data-oracle],[data-paladin])')">
                 <span class="mbILB20 mbRankC"></span>✅</a>  
@@ -123,10 +132,8 @@
                   <button class="mbbutton" onclick="ShowNextInline(this)">🏹<div class="mbavem mbZoey"></div></button><hide> <b>Ivy:</b> 20240409: Tag 86 nodes</hide>
                 </hide>
               </div><!--Rank C Queries-->
-            </hide>
-          </div><!--Completed-->
-
-          
+            </note>            
+          </note>
         </hide>
       </span>
       <div class="mbpuzzle mbhide"></div><!--Control details viewer-->
@@ -510,7 +517,7 @@
             <center>
               <lnk>202303052122|🐤 Website Upgrades 🐤</lnk>
             </center>
-            <h4>2024 April</h4>
+            <h4>2024 May</h4>
             <macro>{"cmd":"MC3"}</macro>
             <div class="mbMC3" onclick="MC3Resize(this)">
               <div style="display:flex;flex-direction: column;">
@@ -600,7 +607,7 @@
                 </div><!--@Book / Patricia-->   
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202307161350|🎲</lnk></span>
-                  <macro>{"guildlog":"28","icon":"","rank":"U","updates":"0","node":"202208250038","author":"Cardinal","chapter":"@Cardinal","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"28","icon":"","rank":"D","updates":"1","node":"202208250038","author":"Cardinal","chapter":"@Cardinal","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"","priority":"1","icon":"🏳️","node":"202404052316","title":"TPK Records","cmd":"quest"}</macro>
@@ -613,8 +620,8 @@
                     <span class="mbListCapNC mbRankC"></span>
                     <macro>{"log":"","priority":"2","icon":"🥨","node":"202208250038","title":"Guild Log Quest","info":"2305:34. 2306:33 2307:32 2309:30 2310:28 2311:27 2401:26.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🎪","node":"202208250038","title":"Status Check","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"1","icon":"🍯","node":"202208250038","title":"Potion Quest 1","info":"Import quest entries from Cardinal Field Log to Guild Log.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
+                    <macro>{"log":"0507","priority":"1","icon":"🍯","node":"202208250038","title":"Potion Quest 1","info":"Import quest entries from Cardinal Field Log to Guild Log.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"3","cmd":"quest","title":"Layout Update","icon":"⚔️"}</macro>
                   </div>
                 </div><!--@Cardinal / Cardinal-->
@@ -664,7 +671,7 @@
                     <macro>{"log":"","priority":"9","icon":"🔦","node":"202309171832","title":"CSI The Board Game","cmd":"quest"}</macro>                    
                     <span class="mbListCapNC mbRankC"></span>
                     <macro>{"log":"0506","priority":"0","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"🍋","node":"202307231931","title":"Productive Habits","cmd":"quest"}</macro> 
+                    
                     
                     <macro>{"log":"","priority":"0","icon":"📛","node":"202403292132","title":"Self Introduction","info":"","cmd":"quest"}</macro>  
                     <span class="mbListCapNC mbRankD"></span>    
@@ -756,7 +763,7 @@
                 </div><!--@Guild / LRRH-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202302160912|📅</lnk></span>
-                  <macro>{"guildlog":"74","rank":"C","updates":"3","node":"202208181022","author":"Evelyn","chapter":"@Happy","cmd":"pb"}</macro>        
+                  <macro>{"guildlog":"74","rank":"C","updates":"5","node":"202208181022","author":"Evelyn","chapter":"@Happy","cmd":"pb"}</macro>        
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     <span class="mbListCapNC mbRankA"></span>
@@ -776,12 +783,14 @@
                     <macro>{"log":"0502","priority":"3","icon":"💝","node":"202306222131","title":"Happy Clinic","info":"Combine with Status Effects","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🗓️","node":"202201161334","title":"Rolling Update","info":"Set icons for the happy calendar or the previous month.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
+                    <macro>{"log":"0507","priority":"0","icon":"❤️","node":"202403172052","title":"Emotional Intelligence","cmd":"quest"}</macro> 
+                    <macro>{"log":"0507","priority":"0","icon":"🍋","node":"202307231931","title":"Productive Habits","cmd":"quest"}</macro> 
                     <macro>{"log":"0502","priority":"9","icon":"🎀","node":"202208181022","title":"Layout Sync","info":"Update layout to stack style.","cmd":"quest"}</macro>
                   </div>
                 </div><!--@Happy / Evelyn-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202303191144|🛒</lnk></span>
-                  <macro>{"guildlog":"6","rank":"B","updates":"2","node":"202310232341","author":"Kisaragi","chapter":"@Home","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"6","rank":"B","updates":"3","node":"202310232341","author":"Kisaragi","chapter":"@Home","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     <span class="mbListCapNC mbRankA"></span>
@@ -798,10 +807,11 @@
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202310232341","title":"Guild Log","info":"2311:1 2401:6.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
                     <macro>{"log":"","priority":"9","icon":"🛒","node":"202303191144","title":"Grocery List","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"9","icon":"🐣","node":"202209282350","title":"Homemaking","info":"","cmd":"quest"}</macro>   
+                     
                     <macro>{"log":"","priority":"9","icon":"🎧","node":"202207220710","title":"Playlist Update","info":"Playlist content update.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"9","icon":"🎁","node":"","title":"Gift Making","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
+                    <macro>{"log":"0507","priority":"9","icon":"🐣","node":"202209282350","title":"Homemaking","info":"","cmd":"quest"}</macro>  
                     <macro>{"log":"","priority":"9","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro>
                   </div>
                 </div><!--@Home / Kisaragi-->
@@ -872,7 +882,7 @@
                 </div><!--@Mira / Ledia-->
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202207220710|🎧</lnk></span>
-                  <macro>{"guildlog":"0","rank":"U","updates":"0","node":"202208172107","author":"P4","chapter":"@Music","cmd":"pb"}</macro>       
+                  <macro>{"guildlog":"0","rank":"B","updates":"1","node":"202208172107","author":"P4","chapter":"@Music","cmd":"pb"}</macro>       
                   <div class="mbPinner mbhide">                         
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"0","icon":"🎼","node":"202209161947","title":"Musescore Posting","cmd":"quest"}</macro>
@@ -881,16 +891,15 @@
                     <macro>{"log":"","priority":"4","icon":"🎼","node":"202401021825","title":"Chord Progressions","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"4","icon":"🎹","node":"202207220710","title":"Music Upgrade","info":"Show stage code for original Kanban sort.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
+                    <macro>{"log":"0507","priority":"6","icon":"🧹","node":"202207141002","title":"Page cleanup","cmd":"quest"}</macro>  
                     <macro>{"log":"","priority":"0","icon":"🏰","node":"202312251111","title":"Arcacian Quest","info":"This is a board game design project.","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"3","icon":"🥁","node":"202303190920","title":"Instrument Study","cmd":"quest"}</macro>
-                    
-                    <macro>{"log":"","priority":"2","icon":"🍯","node":"202301140917","title":"Potion Quest 2","info":"Import from field recordings.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"9","icon":"📒","node":"202302112157","title":"Music making notes","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
                     <macro>{"log":"","priority":"4","icon":"🎹","node":"202209161947","title":"Practice Room","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"9","icon":"🎧","node":"202207220710","title":"Playlist Update","info":"Playlist content update.","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"6","icon":"🧹","node":"202207141002","title":"Page cleanup","cmd":"quest"}</macro>              
                     <span class="mbListCapNC mbRankD"></span>
+                    <macro>{"log":"0507","priority":"2","icon":"🍯","node":"202301140917","title":"Potion Quest 2","info":"Import from field recordings.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"7","cmd":"quest","title":"Layout update","icon":"🥨"}</macro>
                     <macro>{"log":"","priority":"9","icon":"🥨","node":"202208172107","title":"Guild log tasks","info":"2306:23 2307:21 2308:19 2309:18 2310:15 2311:13 2401:11 2404:0 2405:0.","cmd":"quest"}</macro> 
                 
@@ -898,7 +907,7 @@
                 </div><!--@Music / P4-->             
                 <div class="mbCB">
                   <span style="float:right"><lnk>202301011739|⚖️</lnk></span>
-                  <macro>{"guildlog":"44","rank":"D","updates":"4","node":"202208092007","author":"Natalie","chapter":"@Paladin","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"44","rank":"C","updates":"5","node":"202208092007","author":"Natalie","chapter":"@Paladin","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     
@@ -908,7 +917,7 @@
                     <macro>{"log":"","priority":"1","icon":"⚖️","node":"202301011739","title":"Law Game","info":"Since 2023 Jan.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"⚔️","node":"202207142102","title":"Training","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
-                    <macro>{"log":"","priority":"0","icon":"🥜","node":"202208092007","title":"Small update","cmd":"quest"}</macro>    
+                    <macro>{"log":"0507","priority":"0","icon":"🍩","node":"202208092007","title":"Small update","cmd":"quest"}</macro>    
                     <span class="mbListCapNC mbRankD"></span>
                     <macro>{"log":"0507","priority":"0","icon":"🐾","node":"202307232251","title":"Lost Pets","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"0507","priority":"1","icon":"💙","node":"202312242104","title":"Peacemaking","info":"","cmd":"quest"}</macro>
@@ -5623,7 +5632,7 @@
 </div>
 <div id="P202405000000">
   <div style="width:auto;max-width:450px;float:left">
-    <div>
+    <div widget>
       <div class="mbbanner">
         <div>
           <center>
@@ -5664,7 +5673,7 @@
               <tr>  
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240505')">5<br><div class="mbavem mbStarTree"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240506')">6<br><div class="mbavem mbBlack"></div></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240507')">7<br>&nbsp;</td>                    
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240507')">7<br><div class="mbavem mbP4"></div></td>                    
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240508')">8<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240509')">9<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240510')">10<br>&nbsp;</td>
@@ -5723,7 +5732,7 @@
               <tr>  
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240505')">5<br>☎️</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240506')">6<br>🎓</td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240507')">7<br>&nbsp;</td>                    
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240507')">7<br>🌠</td>                    
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240508')">8<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240509')">9<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240510')">10<br>&nbsp;</td>
@@ -5762,6 +5771,7 @@
           <button class="mbbuttonIcon" onclick="QueryAllPP(this, '#P202405000000-Cal1')">🗓️</button>
           <button class="mbbuttonIcon" onclick="QueryAllPP(this, '#P202405000000-Cal2')">👑</button>
           <button class="mbbuttonIcon" onclick="QueryAllPP(this, '#P202212031850-Cal')">💟</button>
+          <div display class="mbStack"></div>
         </div><!--Calendar Tab Buttons-->         
       </div>
       <div class="mbCalCB mbhide"></div> 
@@ -19116,7 +19126,7 @@
       <msg DTS='20231028085510' SPK='Ledia' EXP Icon='📌'>Mental strength  <url>https://www.newtraderu.com/2023/10/25/6-habits-of-mentally-strong-people-you-need-to-know/</url></msg>
       <msg DTS='20230831114158' SPK='Evelyn' EXP Icon='📌'>Grief <url>https://nextdoor.com/p/d3TKNFgpnYZz?utm_source=share&extras=NzgyNzc1NA%3D%3D</url></msg>
       <msg DTS='20220824090348' SPK='Ivy' EXP Icon='📌'>Signs of maturity <url>https://twitter.com/orangebook_/status/1562369546476199936</url></msg>
-      <msg DTS='20240507083331' SPK='Evelyn' EXP Icon='📌'>9 lonely behaviors <url>https://ideapod.com/men-who-are-lonely-in-life-often-display-these-8-behaviors-without-realizing-it/</url></msg>
+      <msg DTS='20240507083331' SPK='Evelyn' mode="sort" EXP Icon='📌'>9 lonely behaviors <url>https://ideapod.com/men-who-are-lonely-in-life-often-display-these-8-behaviors-without-realizing-it/</url></msg>
       <msg DTS='20240507083421' SPK='Evelyn' EXP Icon='📌'>8 times to say no <url>https://geediting.com/situations-in-life-when-the-best-answer-is-no-according-to-psychology/</url></msg>
       <msg DTS='20210818000000' SPK='Ivy' EXP Icon='📌'>Talking to themselves in third person. <url>https://twitter.com/Fact/status/1427916683046490112</url></msg>
       <msg DTS='20210817000000' SPK='Ivy' EXP Icon='📌'>Anger makes people honest <url>https://twitter.com/Fact/status/1427784560822169601</url></msg>
@@ -26622,10 +26632,57 @@
   ]}</macro>
 </div><!-- STATUS -->
 <div date="20240507" time="2359" data-status="">
-  <macro>{"cmd":"daisy2","issues":"0","quests":"980","activities":[
-    
-    ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
-    
+  <macro>{"cmd":"daisy2","issues":"0","quests":"952","activities":[
+    {"ch":"32","rank":"U","updates":"0","last":"20240403"},
+    {"ch":"12","rank":"U","updates":"0","last":"20240406"},
+    {"ch":"33","rank":"C","updates":"1","last":"20240408"},
+    {"ch":"26","rank":"U","updates":"0","last":"20240411"},
+    {"ch":"35","rank":"U","updates":"0","last":"20240411"},
+    {"ch":"31","rank":"B","updates":"3","last":"20240414"},
+    {"ch":"34","rank":"C","updates":"1","last":"20240415"},
+    {"ch":"17","rank":"B","updates":"2","last":"20240416"},
+    {"ch":"11","rank":"U","updates":"0","last":"20240417"},
+    {"ch":"30","rank":"D","updates":"1","last":"20240418"},
+    {"ch":"24","rank":"C","updates":"5","last":"20240418"},
+    {"ch":"16","rank":"U","updates":"0","last":"20240419"},
+    {"ch":"29","rank":"U","updates":"0","last":"20240419"},
+    {"ch":"28","rank":"U","updates":"0","last":"20240422"},
+    {"ch":"13","rank":"U","updates":"0","last":"20240422"},
+    {"ch":"25","rank":"B","updates":"2","last":"20240423"},
+    {"ch":"7","rank":"B","updates":"3","last":"20240424"},
+    {"ch":"22","rank":"C","updates":"1","last":"20240425"},
+    {"ch":"27","rank":"A","updates":"1","last":"20240425"},
+    {"ch":"5","rank":"S","updates":"1","last":"20240425"},
+    {"ch":"14","rank":"C","updates":"1","last":"20240428"},
+    {"ch":"15","rank":"C","updates":"2","last":"20240430"},
+    {"ch":"19","rank":"C","updates":"1","last":"20240501"},
+    {"ch":"20","rank":"B","updates":"1","last":"20240502"},
+    {"ch":"18","rank":"B","updates":"3","last":"20240503"},
+    {"ch":"23","rank":"U","updates":"0","last":"20240503"},
+    {"ch":"21","rank":"C","updates":"1","last":"20240504"}
+    ],"players":"","merits":"","recognitions":"P4","kudos":"","awards":"3B, Albatross, Arcacia, Black, Evelyn, Ivy, Kisaragi, LRRH, Melody, Natalie, P4, Patricia, Sasha, Skyle, StarTree, Sylvia, V, Zoey","top":[
+    {"name":"P4","score":"18"},
+    {"name":"Natalie","score":"17"},
+    {"name":"Evelyn","score":"13"},
+    {"name":"StarTree","score":"13"},
+    {"name":"Patricia","score":"11"},
+    {"name":"Black","score":"10"},
+    {"name":"Sasha","score":"9"},
+    {"name":"Kisaragi","score":"8"},
+    {"name":"3B","score":"8"},
+    {"name":"Zoey","score":"8"},
+    {"name":"Arcacia","score":"7"},
+    {"name":"Melody","score":"6"},
+    {"name":"Ivy","score":"6"},
+    {"name":"LRRH","score":"6"},
+    {"name":"Skyle","score":"5"},
+    {"name":"V","score":"5"},
+    {"name":"Sylvia","score":"5"},
+    {"name":"Albatross","score":"4"},
+    {"name":"Cardinal","score":"3"},
+    {"name":"Ledia","score":"3"},
+    {"name":"Fina","score":"1"},
+    {"name":"Tanya","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
 <!--

@@ -533,15 +533,11 @@ function JQAdd(el){
   //   Creates a new container with a close button below the control section for the content.
 
   // STEP: Reading the content of the input box
-  // 2023
-  var mInput = GetInputBoxValue(el);
-  var mNodeID = mInput.substr(mInput.length - 12);
-
-  // STEP: Create a new container with a close button.
-  var elBoard = BoardAdd(el);
-
-  // STEP: Fill the board with node content
-  BoardFill(elBoard,mNodeID);
+  // 20240507: Sasha: Making the code work for DTS number.
+  var mInput = GetInputBoxValue(el).toLowerCase();  
+  var mNodeIDs = mInput.split('p');
+  var mNodeID = mNodeIDs[mNodeIDs.length-1];
+  BoardLoad(el,mNodeID);
 }
 function InterLink(){
   // 20231006: Black: Returns the Interlinking function depending on current website
@@ -551,6 +547,19 @@ function InterLink(){
   return "QueryBanner(";
 }
 function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget){
+  // 20240507: Sasha: Remove the leading P if iNodeID has it.
+  if(iNodeID.slice(0,1).toLowerCase()=="p"){
+    iNodeID = iNodeID.slice(1);
+  }
+
+
+  // 20240507: Sasha: If iNodeID is a DTS number, call another function
+  if(String(iNodeID).length==14){
+    BoardLoadDTS(el,iNodeID,iDoNotScroll,iNoReTarget);
+    return;
+  }
+
+
   // 20231006: Black: Make a board in the current column panel given the ID.
   var mBoard="";
   var elBoard;
@@ -609,6 +618,23 @@ function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget){
   //var prevHTML = document.body;
   /*@@P4*/var nextState = {"html":prevHTML};
   /*@@P4*/window.history.pushState(nextState, '', "/?id=P" + iNodeID);  
+}
+function BoardLoadDTS(el,iDTS,iDoNotScroll,iNoReTarget){
+  // 20240507: Sasha: Fine the DTS's nodeID, then call BoardLoad with the Node ID.
+  let elContainer = document.createElement("div");
+  let eQuery = "[id]:has([dts='"+ iDTS+"'])";
+  $(document).ready(function(){
+    for(let i=1; i<=ArchiveNum();i++){
+      $(elContainer).load(ArchiveIndex(i) + eQuery, function(){
+        if(NotBlank(elContainer.innerHTML)){
+          let iNodeID = elContainer.firstElementChild.id.slice(1);
+          DEBUG(iNodeID);
+          BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget);
+          return true;
+        }
+      });
+    }
+  });
 }
 function BoardLoadPF(el,iNodeID, iDoNotScroll){
   // 20240324: StarTree: Loads the board at the top of the first column panel.
@@ -1730,7 +1756,7 @@ function MSModeTally(elStruct,mArea,mModeCode){
   if(mArea=="help"){mAreaCode = 2;}
   elStruct[mAreaCode][mModeCode]++;
 }
-function MSScanFor(elDisplay,mStart,mEnd,elHeader){
+function MSScanFor(elDisplay,mStart,mEnd,elHeader,bGroupByTopic){
   // 20240426: Patricia: Populate the element with messages.
   elDisplay.innerHTML = "<center><big>⏳</big></center>"
   if(NotBlank(elHeader)){elHeader.innerHTML = ""}
@@ -1769,12 +1795,15 @@ function MSScanFor(elDisplay,mStart,mEnd,elHeader){
 
           // STEP: Check if the content should be sorted by group.          
           let elWidget = SearchPS(elDisplay,'widget');
-          let bGroupByTopic = true;
-          try{
-            bGroupByTopic = elWidget.querySelector('[MS_ByTopic]').checked;
-          }catch(e){
-            bGroupByTopic = false;
+          if(IsBlank(bGroupByTopic)){
+            bGroupByTopic = true;
+            try{
+              bGroupByTopic = elWidget.querySelector('[MS_ByTopic]').checked;
+            }catch(e){
+              bGroupByTopic = false;
+            }
           }
+          
           if(bGroupByTopic){
             for(let i=0;i<mMsgList.length;i++){
               mMsgList[i][0] = mMsgList[i][1].getAttribute('nodename');
@@ -3926,9 +3955,9 @@ function QSLEL(elSearchList,iQuery){
             mJSONKids = mJSON.kids;
           }else{
             mID = elDiv.getAttribute("id");
+            if(IsBlank(mID)){mID = elDiv.getAttribute('DTS');}
             mTitle = elDiv.getAttribute("title");
             mIcon = elDiv.getAttribute("icon");
-
           }
           
           
@@ -4112,7 +4141,7 @@ function ScrollIntoView(el){
   }catch(error){}
 }
 
-function QSL(el,iQuery){
+function QSL(el,iQuery,iMonthly){
   // 20230323: Ivy: Query for Search List.
   //   Usage: Runs JQuery and lists the result for the context of a search list.
   //   Assumes that the entry div has attributes: id, name, icon, and keywords.
@@ -4127,10 +4156,26 @@ function QSL(el,iQuery){
   //      (... search entries ...)
   //   </div>
   // </div>
+  // 20240507: Natalie: Adding an argument to specify the context for querying monthly quests.
+  
+  if(NotBlank(iMonthly)){
+    iMonthly = iMonthly.toLowerCase();
+    let mYYYYMM = DTSNow().slice(0,6);
+    switch(iMonthly){
+      //case "monthly": iQuery += ":has([monthly])"; break;
+      //case "done": iQuery += ":has([monthly]:has([dts^='"+mYYYYMM+"']))"; break;
+      case "done": iQuery += ":has(msg[dts^='"+mYYYYMM+"'])"; break;
+      //case "todo": iQuery += ":has([monthly]:not(:has([dts^='"+mYYYYMM+"'])))"; break;
+      case "todo": iQuery += ":not(:has([dts^='"+mYYYYMM+"']))"; break;
+    }
+  }
 
   var elSearchList = SearchPS(el,"control").nextElementSibling.lastElementChild;
   elSearchList.parentNode.classList.remove('mbhide');
   QSLEL(elSearchList,iQuery);  
+}
+function QSLThisMonth(el,iQuery){
+  // 20240507: Natalie: This version of QSL only return
 }
 function QSLSortBy(el,iAttribute){
   // 20240413: StarTree: This sort function assumes that the attribute is already set.
@@ -5414,6 +5459,11 @@ function QueryDayP6N(elThis, eDate){
 }
 // 20221206: StarTree: For Node Calendar
 function QueryDayEl(elContainer,eDate){
+  try{
+    var elWidget = SearchPS(elContainer,'widget');
+    var elDisplay = elWidget.querySelector('[display]');
+    MSScanFor(elDisplay,DTSPadding(eDate),DTSPadding(Number(eDate)+1),"",true);
+  }catch(e){}
   var qArchive = ArchiveSelect(eDate);
   var qDate = "[date='" + eDate + "'][id],[date='" + eDate + "'][time],[date='" + eDate + "'][data-happy]";
   var sDate = new Date(eDate.substring(0,4) + "/" + eDate.substring(4,6) + "/" + eDate.substring(6,8));
