@@ -621,14 +621,35 @@ function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget){
 }
 function BoardLoadDTS(el,iDTS,iDoNotScroll,iNoReTarget){
   // 20240507: Sasha: Fine the DTS's nodeID, then call BoardLoad with the Node ID.
+  
+  // STEP: First check if there is a recent archive
+  var elArchives = document.querySelector('archives');
+  var elDTS = elArchives.querySelector("[dts='"+iDTS+"']");
+  if(NotBlank(elDTS)){
+    let elArchive = SearchPS(elDTS,'archive');
+    let mLoaded = elArchive.getAttribute('loaded');
+    if(NotBlank(mLoaded)){
+      let mAge = Number(DTSNow()) - Number(mLoaded);
+      if(mAge < 10000){ // Within one hour
+        let elNode = SearchPS(elDTS,'date');
+
+        BoardLoad(el,elNode.id,iDoNotScroll,iNoReTarget);
+        DEBUG("Used Cache. Age:" + mAge);
+        return true;
+      }
+    }
+  }
+
+
+
   let elContainer = document.createElement("div");
   let eQuery = "[id]:has([dts='"+ iDTS+"'])";
+
   $(document).ready(function(){
     for(let i=1; i<=ArchiveNum();i++){
       $(elContainer).load(ArchiveIndex(i) + eQuery, function(){
         if(NotBlank(elContainer.innerHTML)){
           let iNodeID = elContainer.firstElementChild.id.slice(1);
-          DEBUG(iNodeID);
           BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget);
           return true;
         }
@@ -816,23 +837,36 @@ function ArchiveCacheAll(){
   // 20240427: StarTree: Experimental: Load all the archives into onto the document
   // --> Load to a region <archive> after <body>
 
-  /**/return false;
-  var bPreempt = true; // Set to true to not load the default node.
+  //**/return false;
+  var bPreempt = false; // Set to true to not load the default node.
   
   $(document).ready(function(){
     var elArchives = document.createElement('archives');
-    var mSingleArchive = 101;
-    var mDTS = DTSNow();
     document.body.after(elArchives);
-    //for(let i=1;i<=ArchiveNum();i++){
-    for(let i=mSingleArchive;i==mSingleArchive;i++){
-      let elCache = document.createElement("archive");
-      elCache.setAttribute('archive',i);
-      elArchives.append(elCache);
-      $(elCache).load(ArchiveIndex(mSingleArchive), function(){
+
+    var mSingleArchive = 101;
+    var mHTML = "";
+    // STEP: Create the containers
+    for(let i=1;i<=ArchiveNum();i++){
+      mHTML += "<archive" + i+" archive class=\"mbhide\"></archive" + i+">";
+    }
+    elArchives.innerHTML = mHTML;
+
+
+    
+    for(let i=1;i<=ArchiveNum();i++){
+    //for(let i=mSingleArchive;i==mSingleArchive;i++){
+      let elArchive = elArchives.querySelector('archive'+i);
+      //let elArchive = document.createElement("archive" + i);  
+      //elArchive.classList.add('mbhide');
+      //elArchives.append(elArchive);
+      //$(elCache).load(ArchiveIndex(mSingleArchive), function(){
+      $(elArchive).load(ArchiveIndex(i), function(){
+        
+        elArchive.setAttribute('loaded',DTSNow());
 
         // SPECIAL PROCESSING
-        let elArchive = elArchives.querySelector('[archive=\"'+i+'\"]');
+        //let elArchive = elArchives.querySelector('[updated=\"'+DTSNow()+'\"]');
 
         // 20240427: Sasha: To fix Cards
         /*
