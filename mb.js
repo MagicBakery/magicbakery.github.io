@@ -18,6 +18,20 @@ jQuery.expr[':'].contains = function(a, i, m) {
   return jQuery(a).text().toUpperCase()
       .indexOf(m[3].toUpperCase()) >= 0;
 };
+function ACLoadAll_20240508_DELETE(bReport){
+  // 20240508: Natalie: Load all archives.
+  var elArchives = document.querySelector('archives');
+  $(document).ready(function(){
+    for(let i=1;i<=ArchiveNum();i++){
+      let elArchive = elArchives.querySelector('archive'+i);
+      $(elArchive).load(ArchiveIndex(i), function(){
+        let mDTS = DTSNow();
+        elArchive.setAttribute('loaded',mDTS);
+        if(bReport){OLReport(mDTS,true)}
+      });
+    }
+  });
+}
 function AtBlogSpot(){
   // 20230916: StarTree: Return true if this code is at BlogSpot
   return _At("BlogSpot");
@@ -75,6 +89,344 @@ function BoardAddAfter(el){
   elTemp.style.marginBottom = "0px";
   el.after(elTemp);
   return elTemp;
+}
+function BoardFill(elBoard,iNodeID,iDoNotScroll,elArchives){
+  // 20230821: StarTree: Fill the Board container with content from the node.
+  //   The node ID does not have a leading P.
+  //   Reference function: LoadArchivePostEl from Blogspot.
+
+  // For Testing: if iNodeID is blank, use this default:
+  if(iNodeID==""){iNodeID="202208172056";};
+  elBoard.setAttribute("board",iNodeID);
+
+  // STEP: Create a container within the Board after the control section for the content.
+  //       ((The board itself has a close button))
+  var elContainer = document.createElement("span");
+  
+  var mQuery = "#P" + iNodeID;
+
+  // 20240509: Skyle: For Offline Mode
+  if(IsBlank(elArchives)){elArchives = Offline()}
+  if( NotBlank(elArchives)){    
+    //elBoard.firstElementChild.after(elContainer);
+    //elContainer.outerHTML = elArchives.querySelector(mQuery).outerHTML;
+    BoardFillEL(elBoard,elContainer,elArchives.querySelector(mQuery),iDoNotScroll,true);
+    return;
+  }
+  
+  
+  // 20231224: StarTree: Make the board itself has an area to display discussions.
+  // The structure of a board:
+  // <div board>
+  //   <div control/> // This has the pudding close button
+  //   <span>     // This is a span to support the pudding close button
+  //     <span class="mbDayHeader"/>   // This is loaded from the node
+  //     <span/>                       // This is the title button loaded from the node
+  //     <span class="mbDayContent"/>  // This is loaded from the node
+  //   </span>
+  //   <div class="mbCB"></div> // // This is also for displaying the discussion section. 
+  
+  // STEP: Get Archive
+  var mArchive = ArchiveSelect(iNodeID);
+  
+
+  // STEP: JQuery
+  $(document).ready(function(){
+    $(elContainer).load(mArchive + mQuery, function(){	
+      // elContainer contains the node outer div.
+      var elRecord = elContainer.firstElementChild; 
+      BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll);
+    }); // END JQuery Load
+  }); // END Document ready
+}
+function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
+  // 20240509: Skyle: Added to handle Offline Archive.
+
+  // 20231224: StarTree: If the node has a <content> section, then assume that this is the new node style that has <node>, <content>, and <ref> sections.
+  var elBanner; try{elBanner = elRecord.querySelector('banner');}catch(error){}        
+  var elContent = elRecord.querySelector('content');
+  var elNode = elRecord.querySelector('node');
+
+  if(!IsBlank(elContent) && !IsBlank(elNode)){ 
+    // 20231224: StarTree: New Format
+    var mJSON = JSON.parse(elNode.innerHTML);
+
+    var mHTMLInner = "<span class='mbDayHeader'></span>";
+    mHTMLInner += "<lnk>" + mJSON.id + "|" + mJSON.icon +"</lnk>&nbsp;<a class='mbbutton' onclick='ShowBothInline(this)'>" + mJSON.title;
+    if(bOffline){
+      mHTMLInner += " <span style='font-size:10px;color:darkgoldenrod'>(OFFLINE)</span>";
+    }
+    mHTMLInner += "</a>";
+    mHTMLInner += "<span class='mbDayContent'>";     
+    
+    // 20240105: Natalie: If there is no music link, still need the link to the node.
+    mHTMLInner += Pin2Code(mJSON);
+    mHTMLInner += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>½</button>"
+    mHTMLInner += "<div class='mbCB'></div><hr>";
+
+    if(NotBlank(elBanner)){
+      mHTMLInner += "<div>" + elBanner.innerHTML + "</div><div class='mbCB'></div>";
+    }
+    
+    // 20240329: StarTree: if there is no card at all, don't show the author badge.
+    var mHasCard = false;
+    var elCard;
+    try{
+      elCard = elRecord.querySelector('inv');
+    }catch(error){
+      mHasCard = true; // 20240427: Skyle: Has inventory.
+    }
+    // STEP: Start the Card section
+    if(!IsBlank(elCard)){
+      mHTMLInner +=  "<div class='mbCardMat'>";
+      mHTMLInner +=   "<div class='mbCardRM'>" + elCard.innerHTML + "</div>";
+      mHTMLInner +=   "<div class='mbCardMatText'>";
+      mHTMLInner += "<a class='mbbutton' onclick='HidePP(this)' style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></a>";
+      
+    }else{
+      if(mHasCard){
+        mHTMLInner += "<span style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></span>";
+      }
+      
+    }
+
+    // STEP: Show Chat header section if it is a chat node.
+    if(elRecord.hasAttribute("data-chat")){
+      mHTMLInner += ChatNodeContent(elRecord,mJSON);
+    }else{
+      // STEP: CONTENT Section
+      mHTMLInner += elContent.innerHTML;
+    }
+
+    // STEP: Close the Card section.
+    if(!IsBlank(elCard)){
+      mHTMLInner += "</div>"; // End Text
+      mHTMLInner += "</div>"; // End Card Mat
+    }
+
+
+    var elRef = elRecord.querySelector('ref');
+    
+    // REF SECTION
+    if(!IsBlank(elRef)){
+      mHTMLInner += "<hr class='mbCB'><div class='mbRef'>";
+      
+      // STEP: Include custom reference links.
+      // 20240407: Skyle: Rearranged this first because the link is green.
+      mHTMLInner += elRef.innerHTML;
+
+
+      // 20240304: Ivy: Need to show parent link
+      if(NotBlank(mJSON.parentid)){
+        //mHTMLInner += "<div style='padding-left:28px;font-size:14px;line-height:16px'><lnk>"+mJSON.parentid+"|"+mJSON.parentname+"</lnk></div>";
+        mHTMLInner += "<lnk>"+mJSON.parentid+"|🤎"+mJSON.parentname+"</lnk> ";
+      }
+
+      
+      // STEP: Follow the tags section with the children section.
+      // 20240405: StarTree: include the tag.
+      if(NotBlank(mJSON.kids)){
+        var mJSONKids = mJSON.kids.split(',');
+        var mKid = "";
+        var mKidHTML = "";
+        for(i=0;i<mJSONKids.length;i++){
+          mKid = mJSONKids[i].replaceAll(" ","");
+          if(i!=0){mKidHTML += ","}
+          mKidHTML += " <a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mKid + "]')\">" + Cap(mKid.replaceAll("-"," ")) + "</a>";
+        }
+        mHTMLInner += "<a class='mbbutton' onclick='ShowNextInline(this)'>🐣Kids</a><hide>:" + mKidHTML + "</hide> ";
+      }
+
+      // 20240403: StarTree: Trial: Listing all tags (starts with data-)
+      // 20240406: StarTree: Start with the tags section. 
+      var elAttr = elRecord.attributes;
+      let mTags = [];
+      var mTagHTML = ""       
+      for(j=0;j<elAttr.length;j++){
+        if(elAttr[j].name.startsWith('data-')){
+          mTags.push(elAttr[j].name.replace('data-',''));              
+        }
+      }
+      mTags.sort();
+      for(k=0;k<mTags.length;k++){            
+        if(k!=0){mTagHTML += ","}
+        mTagHTML += " <a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mTags[k] + "]')\">" + Cap(mTags[k].replaceAll("-"," ")) + "</a>";
+        
+      }
+      if(mTagHTML!=""){
+        mHTMLInner += "<a class='mbbutton' onclick='ShowNextInline(this)'>🏷️Tags</a><hide>:" + mTagHTML + "</hide> ";
+      }
+
+
+      // STEP: Show discussion list query button
+      //mHTMLInner += "<a class='mbbutton' onclick=\"QueryAllPSL(this,'[data-" + mJSON.id + "]',false,'board')\">💬 Discussions</a>";
+      mHTMLInner += "<a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mJSON.id + "]')\">💬 Discussions</a>";
+      
+
+      mHTMLInner += "</div>";
+    }
+    //mHTMLInner += "<hr class='mbCB'>";
+    mHTMLInner += "<div class='mbCB'></div>";
+
+    // STEP: Create the QSL area.
+    mHTMLInner += "<div class='mbhide mbpuzzle'><button class='mbbutton mbRef' onclick='HideParent(this)'>🍮</button>";
+    mHTMLInner += "<div control></div><div class='mbCB mbSearch' QSL BL style='display:flex;flex-direction: column;''></div></div>";
+
+    elContainer.innerHTML = mHTMLInner;
+    Macro(elContainer);
+
+  }else{
+    elContainer.innerHTML = elRecord.innerHTML;
+    Macro(elContainer);
+    NodeFormatter(elContainer); // This is for Sasha's format. P202207191024
+  }
+
+  // 20240324: StarTree: If there is already content, remove it.
+  try{
+    var elnextelement = elBoard.firstElementChild.nextElementSibling;
+    if(elnextelement.nodeName!="DIV"){
+      elnextelement.remove();
+    }
+  }catch(error){
+  }
+  elBoard.firstElementChild.after(elContainer);
+
+
+  // 20231115: Sylvia: Scroll to View
+  // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+  // Ref: https://stackoverflow.com/questions/7408100/can-i-change-the-scroll-speed-using-css-or-jquery
+  if(iDoNotScroll){
+  }else{
+    ScrollIntoView(elBoard);
+  } 
+
+
+}
+function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget,elArchives){
+  // 20240507: Sasha: Remove the leading P if iNodeID has it.
+  if(iNodeID.slice(0,1).toLowerCase()=="p"){
+    iNodeID = iNodeID.slice(1);
+  }
+
+
+  // 20240507: Sasha: If iNodeID is a DTS number, call another function
+  if(String(iNodeID).length==14){
+    BoardLoadDTS(el,iNodeID,iDoNotScroll,iNoReTarget,elArchives);
+    return;
+  }
+
+
+  // 20231006: Black: Make a board in the current column panel given the ID.
+  var mBoard="";
+  var elBoard;
+  var curBoardID;
+
+  // STEP: Check if the target ID is the same as the current board.
+  try{
+    mBoard = SearchPS(el,'board');
+    if(NotBlank(mBoard) ){
+      curBoardID = mBoard.getAttribute('board');
+    }
+  }catch(error){}
+
+  // 20240325: StarTree: Find the target panel if there is one.
+  // Do not retarget if the iNoReTarget flag is set.
+  if((!iNoReTarget) && (curBoardID!=iNodeID)){
+    var elPanel = PanelGetTarget();
+    if(NotBlank(elPanel)){
+      el = elPanel.firstElementChild;
+    }
+  }
+  try{
+    // 20231030: StarTree: If there is a board, add it after the board.
+    mBoard = SearchPS(el,'board');
+    if(mBoard.hasAttribute('reserved')){
+      mBoard = "";
+    }
+
+    if(curBoardID==iNodeID){
+      elBoard = mBoard;
+
+      // 20240406: If the lnk is in the QSL area, just scroll to view.
+      if(NotBlank(SearchPS(el,"qsl"))){
+        el.classList.add('mbbuttonSelf');
+        el.classList.remove('mbbutton');
+
+        ScrollIntoView(elBoard);
+        return;
+      }
+
+      // 20240405: StarTree: Clear the footer area when refreshing
+      elBoard.lastElementChild.innerHTML = "";
+    }else{
+      elBoard = BoardAddAfter(mBoard);
+    }
+    
+  }catch(error){
+    // STEP: Search up for the column control panel
+    var mControl = SearchPS(el,'panel').firstElementChild;
+    // STEP: Create a new container with a close button.
+    elBoard = BoardAdd(mControl);  
+  }
+  BoardFill(elBoard,iNodeID,iDoNotScroll,elArchives);
+  var elContainer = document.getElementById('MBJQSW');  
+  var prevHTML = $(elContainer).html();
+  //var prevHTML = document.body;
+  /*@@P4*/var nextState = {"html":prevHTML};
+  /*@@P4*/window.history.pushState(nextState, '', "/?id=P" + iNodeID);  
+}
+function BoardLoadDTS(el,iDTS,iDoNotScroll,iNoReTarget){
+  // 20240507: Sasha: Fine the DTS's nodeID, then call BoardLoad with the Node ID.
+  
+  // STEP: First check if there is a recent archive
+  var elArchives = Offline();
+  var elDTS = "";
+  if(elArchives){
+    elDTS = elArchives.querySelector("[dts='"+iDTS+"']");
+    if(NotBlank(elDTS)){
+      let elArchive = SearchPS(elDTS,'archive');
+      let mLoaded = elArchive.getAttribute('loaded');
+      if(NotBlank(mLoaded)){
+        //let mAge = Number(DTSNow()) - Number(mLoaded);
+        //if(mAge < 10000){ // Within one hour
+        let elNode = SearchPS(elDTS,'date');
+        BoardLoad(el,elNode.id,iDoNotScroll,iNoReTarget,elArchives);
+        //DEBUG("Used Cache. Age:" + mAge);
+        return true;
+        //}
+      }
+    }
+  }
+
+
+
+  let elContainer = document.createElement("div");
+  let eQuery = "[id]:has([dts='"+ iDTS+"'])";
+
+  $(document).ready(function(){
+    for(let i=1; i<=ArchiveNum();i++){
+      $(elContainer).load(ArchiveIndex(i) + eQuery, function(){
+        if(NotBlank(elContainer.innerHTML)){
+          let iNodeID = elContainer.firstElementChild.id.slice(1);
+          BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget);
+          return true;
+        }
+      });
+    }
+  });
+}
+function BoardLoadPF(el,iNodeID, iDoNotScroll){
+  // 20240324: StarTree: Loads the board at the top of the first column panel.
+  BoardLoad(PanelGetFirst().firstElementChild,iNodeID,iDoNotScroll);
+}
+function BoardLoadPL(el,iNodeID, iDoNotScroll){
+  // 20240324: StarTree: Loads the board at the top of the first column panel.
+  BoardLoad(PanelGetLast().firstElementChild,iNodeID,iDoNotScroll);
+}
+function BoardRemove(el){
+  // 20231119: StarTree: Need to do it for "board"
+  var mBoard = SearchPS(el,'board');
+  mBoard.remove();
 }
 function BoardToggleHeight(elButton){
   // 20240425: StarTree: Toggles a board between half and full size.
@@ -198,7 +550,6 @@ function DTCYear(mDTS,mDTC){
     return "20" + mDTC.slice(0,2);
   }
 }
-
 function JSONPartiStr(mJSON){
   // 20240404: StarTree: For new chat node format.
   var mHTML = ""
@@ -223,7 +574,6 @@ function DateStrFromID(mID){
   mDateString = mDateString.toUpperCase();
   return mDateString.substring(10,15)+" "+mDateString.substring(4,7)+" "+ mDateString.substring(8,10) +" "+ mDateString.substring(0,3)+" " + mDateString.substring(16);
 }
-
 function ChatNodeContent(elAttr,mJSON){
   // 20240405: StarTree: For the new chat node format.
   var mHTMLInner = "";
@@ -250,7 +600,6 @@ function ChatNodeContent(elAttr,mJSON){
   
   return mHTMLInner;
 }
-
 function Pin2Code(mJSON){
   // 20240405: StarTree: Creates the HTML for the node pin.
   var mHTML="";
@@ -265,203 +614,6 @@ function Pin2Code(mJSON){
   }
   mHTML += "}</macro>";
   return mHTML;
-}
-function BoardFill(elBoard,iNodeID,iDoNotScroll){
-  // 20230821: StarTree: Fill the Board container with content from the node.
-  //   The node ID does not have a leading P.
-  //   Reference function: LoadArchivePostEl from Blogspot.
-
-  // For Testing: if iNodeID is blank, use this default:
-  if(iNodeID==""){iNodeID="202208172056";};
-  elBoard.setAttribute("board",iNodeID);
-
-  // STEP: Create a container within the Board after the control section for the content.
-  //       ((The board itself has a close button))
-  var elContainer = document.createElement("span");
-  
-  // 20231224: StarTree: Make the board itself has an area to display discussions.
-  // The structure of a board:
-  // <div board>
-  //   <div control/> // This has the pudding close button
-  //   <span>     // This is a span to support the pudding close button
-  //     <span class="mbDayHeader"/>   // This is loaded from the node
-  //     <span/>                       // This is the title button loaded from the node
-  //     <span class="mbDayContent"/>  // This is loaded from the node
-  //   </span>
-  //   <div class="mbCB"></div> // // This is also for displaying the discussion section. 
-  
-  // STEP: Get Archive
-  var mArchive = ArchiveSelect(iNodeID);
-  var mQuery = "#P" + iNodeID;
-
-  // STEP: JQuery
-  $(document).ready(function(){
-    $(elContainer).load(mArchive + mQuery, function(){	
-      // elContainer contains the node outer div.
-
-      // 20231224: StarTree: If the node has a <content> section, then assume that this is the new node style that has <node>, <content>, and <ref> sections.
-      var elBanner; try{elBanner = elContainer.getElementsByTagName('banner')[0];}catch(error){}
-      
-      var elContent = elContainer.getElementsByTagName('content')[0];
-      var elNode = elContainer.getElementsByTagName('node')[0];
-      
-    
-    
-      if(!IsBlank(elContent) && !IsBlank(elNode)){ 
-        // 20231224: StarTree: New Format
-        var mJSON = JSON.parse(elNode.innerHTML);
-      
-        var mHTMLInner = "<span class='mbDayHeader'></span>";
-        mHTMLInner += "<lnk>" + mJSON.id + "|" + mJSON.icon +"</lnk>&nbsp;<a class='mbbutton' onclick='ShowBothInline(this)'>" + mJSON.title + "</a>";
-        mHTMLInner += "<span class='mbDayContent'>";     
-        
-        // 20240105: Natalie: If there is no music link, still need the link to the node.
-        
-        mHTMLInner += Pin2Code(mJSON);
-        mHTMLInner += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>½</button>"
-        mHTMLInner += "<div class='mbCB'></div><hr>";
-
-        if(NotBlank(elBanner)){
-          mHTMLInner += "<div>" + elBanner.innerHTML + "</div><div class='mbCB'></div>";
-        }
-        
-        // 20240329: StarTree: if there is no card at all, don't show the author badge.
-        var mHasCard = false;
-        var elCard;
-        try{
-          elCard = elContainer.getElementsByTagName('inv')[0];
-        }catch(error){
-          mHasCard = true; // 20240427: Skyle: Has inventory.
-        }
-        // STEP: Start the Card section
-        if(!IsBlank(elCard)){
-          mHTMLInner +=  "<div class='mbCardMat'>";
-          mHTMLInner +=   "<div class='mbCardRM'>" + elCard.innerHTML + "</div>";
-          mHTMLInner +=   "<div class='mbCardMatText'>";
-          mHTMLInner += "<a class='mbbutton' onclick='HidePP(this)' style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></a>";
-          
-        }else{
-          if(mHasCard){
-            mHTMLInner += "<span style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></span>";
-          }
-          
-        }
-
-        // STEP: Show Chat header section if it is a chat node.
-        if(elContainer.firstElementChild.hasAttribute("data-chat")){
-          mHTMLInner += ChatNodeContent(elContainer.firstElementChild,mJSON);
-        }else{
-          // STEP: CONTENT Section
-          mHTMLInner += elContent.innerHTML;
-        }
-      
-        // STEP: Close the Card section.
-        if(!IsBlank(elCard)){
-          mHTMLInner += "</div>"; // End Text
-          mHTMLInner += "</div>"; // End Card Mat
-        }
-
-
-        var elRef = elContainer.getElementsByTagName('ref')[0];
-        
-        // REF SECTION
-        if(!IsBlank(elRef)){
-          mHTMLInner += "<hr class='mbCB'><div class='mbRef'>";
-          
-          // STEP: Include custom reference links.
-          // 20240407: Skyle: Rearranged this first because the link is green.
-          mHTMLInner += elRef.innerHTML;
-
-
-          // 20240304: Ivy: Need to show parent link
-          if(NotBlank(mJSON.parentid)){
-            //mHTMLInner += "<div style='padding-left:28px;font-size:14px;line-height:16px'><lnk>"+mJSON.parentid+"|"+mJSON.parentname+"</lnk></div>";
-            mHTMLInner += "<lnk>"+mJSON.parentid+"|🤎"+mJSON.parentname+"</lnk> ";
-          }
-
-          
-          // STEP: Follow the tags section with the children section.
-          // 20240405: StarTree: include the tag.
-          if(NotBlank(mJSON.kids)){
-            var mJSONKids = mJSON.kids.split(',');
-            var mKid = "";
-            var mKidHTML = "";
-            for(i=0;i<mJSONKids.length;i++){
-              mKid = mJSONKids[i].replaceAll(" ","");
-              if(i!=0){mKidHTML += ","}
-              mKidHTML += " <a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mKid + "]')\">" + Cap(mKid.replaceAll("-"," ")) + "</a>";
-            }
-            mHTMLInner += "<a class='mbbutton' onclick='ShowNextInline(this)'>🐣Kids</a><hide>:" + mKidHTML + "</hide> ";
-          }
-
-          // 20240403: StarTree: Trial: Listing all tags (starts with data-)
-          // 20240406: StarTree: Start with the tags section. 
-          var elAttr = elContainer.firstElementChild.attributes;
-          let mTags = [];
-          var mTagHTML = ""       
-          for(j=0;j<elAttr.length;j++){
-            if(elAttr[j].name.startsWith('data-')){
-              mTags.push(elAttr[j].name.replace('data-',''));              
-            }
-          }
-          mTags.sort();
-          for(k=0;k<mTags.length;k++){            
-            if(k!=0){mTagHTML += ","}
-            mTagHTML += " <a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mTags[k] + "]')\">" + Cap(mTags[k].replaceAll("-"," ")) + "</a>";
-            
-          }
-          if(mTagHTML!=""){
-            mHTMLInner += "<a class='mbbutton' onclick='ShowNextInline(this)'>🏷️Tags</a><hide>:" + mTagHTML + "</hide> ";
-          }
-
-
-          // STEP: Show discussion list query button
-          //mHTMLInner += "<a class='mbbutton' onclick=\"QueryAllPSL(this,'[data-" + mJSON.id + "]',false,'board')\">💬 Discussions</a>";
-          mHTMLInner += "<a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mJSON.id + "]')\">💬 Discussions</a>";
-          
-
-          mHTMLInner += "</div>";
-        }
-        //mHTMLInner += "<hr class='mbCB'>";
-        mHTMLInner += "<div class='mbCB'></div>";
-
-        // STEP: Create the QSL area.
-        mHTMLInner += "<div class='mbhide mbpuzzle'><button class='mbbutton mbRef' onclick='HideParent(this)'>🍮</button>";
-        mHTMLInner += "<div control></div><div class='mbCB mbSearch' QSL BL style='display:flex;flex-direction: column;''></div></div>";
-
-        elContainer.innerHTML = mHTMLInner;
-        Macro(elContainer);
-
-        mHTMLInner += "</span>";
-
-        
-
-      }else{
-        Macro(elContainer);
-        NodeFormatter(elContainer); // This is for Sasha's format. P202207191024
-        elContainer.innerHTML = elContainer.firstElementChild.innerHTML;
-      }
-      
-      // 20240324: StarTree: If there is already content, remove it.
-      try{
-        var elnextelement = elBoard.firstElementChild.nextElementSibling;
-        if(elnextelement.nodeName!="DIV"){
-          elnextelement.remove();
-        }
-      }catch(error){
-      }
-
-      elBoard.firstElementChild.after(elContainer);
-      
-      // 20231115: Sylvia: Scroll to View
-      // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
-      // Ref: https://stackoverflow.com/questions/7408100/can-i-change-the-scroll-speed-using-css-or-jquery
-      if(iDoNotScroll){
-      }else{
-        ScrollIntoView(elBoard);
-      }            
-    }); // END JQuery Load
-  }); // END Document ready
 }
 
 function GetInputBoxValue(el){
@@ -546,129 +698,94 @@ function InterLink(){
   }
   return "QueryBanner(";
 }
-function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget){
-  // 20240507: Sasha: Remove the leading P if iNodeID has it.
-  if(iNodeID.slice(0,1).toLowerCase()=="p"){
-    iNodeID = iNodeID.slice(1);
+function Offline(elArchives,bToggle,bReload){
+  // 20240508: Patricia: This is an overloaded function that performs different functions depending on the arguments.
+  if(IsBlank(elArchives)){
+    elArchives = document.querySelector('archives');
   }
+  // STEP: If the archives section does not exist, initialize the section and calls itself again.
+  if(IsBlank(elArchives)){
+    $(document).ready(function(){
+      elArchives = document.createElement('archives');
+      document.body.after(elArchives);
+      var mHTML = "";
+      for(let i=1;i<=ArchiveNum();i++){
+        mHTML += "<archive" + i+" archive class=\"mbhide\"></archive" + i+">";
+      }
+      elArchives.innerHTML = mHTML;
+      Offline(elArchives,bToggle,bReload); // Update this with the argument list.
+    });
+    return false;
+  }
+  var bOffline = elArchives.hasAttribute('offline');
+  // STEP: Handle Toggle Request;
+  if(bToggle){
+    if(bOffline && confirm("Disable offline mode?")){
+      // Set Offline mode to OFF and load.
+      elArchives.removeAttribute('offline');
+      bOffline = false;
+    }else if(!bOffline && confirm("Enable offline mode?")){
+      elArchives.setAttribute('offline','');
+      bOffline = true;
+      bReload = true;
+    }
+  }
+  // STEP: Handle Reload Request
+  if(bReload){
+    $(document).ready(function(){
+      for(let i=1;i<=ArchiveNum();i++){
+        let elArchive = elArchives.querySelector('archive'+i);
+        $(elArchive).load(ArchiveIndex(i), function(){
+          let mDTS = DTSNow();
+          elArchive.setAttribute('loaded',mDTS);
+          elArchives.setAttribute('loaded',mDTS);
+          Offline(elArchives); // Report
+        });
+      }
+    });
+    return elArchives;
+  }
+  // STEP: Report the status
+  var elIndicator = document.body.querySelector('[d-offline]');
+  var mLoaded = elArchives.getAttribute('loaded');
+  if(bOffline){
+    elIndicator.innerHTML = "[ OFFLINE " + mLoaded + " ]";
+    return elArchives;
+  }else{
+    elIndicator.innerHTML = "";
+    return false;
+  }    
+}
+function OLButton_20240508_DELETE(){
+  // 20240508: Natalie: Offline mode button. 
+  // Save the current mode at the attributes of Archives.
+  var elArchives = document.querySelector('archives');
+  var bOffline = elArchives.hasAttribute('offline');
+  if(bOffline){
+    if(confirm("Disable offline mode?")){
+      elArchives.removeAttribute('offline');
+      OLReport("",false);
+    }
+    return;
+  }else{
+    if(!confirm("Enable offline mode?")){
+      return;
+    }
+  }
+  // STEP: Start Offline Mode by Loading All Archives.
+  elArchives.setAttribute('offline',"");
+  ACLoadAll(true);
+}
 
-
-  // 20240507: Sasha: If iNodeID is a DTS number, call another function
-  if(String(iNodeID).length==14){
-    BoardLoadDTS(el,iNodeID,iDoNotScroll,iNoReTarget);
+function OLReport_20240508_DELETE(mDTS,mActive){ 
+  // 20240508: StarTree: Offline mode indicator.
+  var elReport = document.body.querySelector('[d-offline]');
+  if(!mActive){
+    elReport.innerHTML = "";
     return;
   }
+  elReport.innerHTML = "🛩️" + mDTS;
 
-
-  // 20231006: Black: Make a board in the current column panel given the ID.
-  var mBoard="";
-  var elBoard;
-  var curBoardID;
-
-  // STEP: Check if the target ID is the same as the current board.
-  try{
-    mBoard = SearchPS(el,'board');
-    if(NotBlank(mBoard) ){
-      curBoardID = mBoard.getAttribute('board');
-    }
-  }catch(error){}
-
-  // 20240325: StarTree: Find the target panel if there is one.
-  // Do not retarget if the iNoReTarget flag is set.
-  if((!iNoReTarget) && (curBoardID!=iNodeID)){
-    var elPanel = PanelGetTarget();
-    if(NotBlank(elPanel)){
-      el = elPanel.firstElementChild;
-    }
-  }
-  try{
-    // 20231030: StarTree: If there is a board, add it after the board.
-    mBoard = SearchPS(el,'board');
-    if(mBoard.hasAttribute('reserved')){
-      mBoard = "";
-    }
-
-    if(curBoardID==iNodeID){
-      elBoard = mBoard;
-
-      // 20240406: If the lnk is in the QSL area, just scroll to view.
-      if(NotBlank(SearchPS(el,"qsl"))){
-        el.classList.add('mbbuttonSelf');
-        el.classList.remove('mbbutton');
-
-        ScrollIntoView(elBoard);
-        return;
-      }
-
-      // 20240405: StarTree: Clear the footer area when refreshing
-      elBoard.lastElementChild.innerHTML = "";
-    }else{
-      elBoard = BoardAddAfter(mBoard);
-    }
-    
-  }catch(error){
-    // STEP: Search up for the column control panel
-    var mControl = SearchPS(el,'panel').firstElementChild;
-    // STEP: Create a new container with a close button.
-    elBoard = BoardAdd(mControl);  
-  }
-  BoardFill(elBoard,iNodeID,iDoNotScroll);
-  var elContainer = document.getElementById('MBJQSW');  
-  var prevHTML = $(elContainer).html();
-  //var prevHTML = document.body;
-  /*@@P4*/var nextState = {"html":prevHTML};
-  /*@@P4*/window.history.pushState(nextState, '', "/?id=P" + iNodeID);  
-}
-function BoardLoadDTS(el,iDTS,iDoNotScroll,iNoReTarget){
-  // 20240507: Sasha: Fine the DTS's nodeID, then call BoardLoad with the Node ID.
-  
-  // STEP: First check if there is a recent archive
-  var elArchives = document.querySelector('archives');
-  var elDTS = elArchives.querySelector("[dts='"+iDTS+"']");
-  if(NotBlank(elDTS)){
-    let elArchive = SearchPS(elDTS,'archive');
-    let mLoaded = elArchive.getAttribute('loaded');
-    if(NotBlank(mLoaded)){
-      let mAge = Number(DTSNow()) - Number(mLoaded);
-      if(mAge < 10000){ // Within one hour
-        let elNode = SearchPS(elDTS,'date');
-
-        BoardLoad(el,elNode.id,iDoNotScroll,iNoReTarget);
-        DEBUG("Used Cache. Age:" + mAge);
-        return true;
-      }
-    }
-  }
-
-
-
-  let elContainer = document.createElement("div");
-  let eQuery = "[id]:has([dts='"+ iDTS+"'])";
-
-  $(document).ready(function(){
-    for(let i=1; i<=ArchiveNum();i++){
-      $(elContainer).load(ArchiveIndex(i) + eQuery, function(){
-        if(NotBlank(elContainer.innerHTML)){
-          let iNodeID = elContainer.firstElementChild.id.slice(1);
-          BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget);
-          return true;
-        }
-      });
-    }
-  });
-}
-function BoardLoadPF(el,iNodeID, iDoNotScroll){
-  // 20240324: StarTree: Loads the board at the top of the first column panel.
-  BoardLoad(PanelGetFirst().firstElementChild,iNodeID,iDoNotScroll);
-}
-function BoardLoadPL(el,iNodeID, iDoNotScroll){
-  // 20240324: StarTree: Loads the board at the top of the first column panel.
-  BoardLoad(PanelGetLast().firstElementChild,iNodeID,iDoNotScroll);
-}
-function BoardRemove(el){
-  // 20231119: StarTree: Need to do it for "board"
-  var mBoard = SearchPS(el,'board');
-  mBoard.remove();
 }
 function PanelAdd(){
   // 20230722: StarTree
@@ -833,11 +950,13 @@ function DTSInc(mDTS){
 
   return DTSPadding(sNewDTS);
 }
-function ArchiveCacheAll(){
+function ArchiveCacheAll_20240508_DELETE(){
   // 20240427: StarTree: Experimental: Load all the archives into onto the document
   // --> Load to a region <archive> after <body>
 
   //**/return false;
+  Offline();
+  return false;
   var bPreempt = false; // Set to true to not load the default node.
   
   $(document).ready(function(){
@@ -853,6 +972,7 @@ function ArchiveCacheAll(){
     elArchives.innerHTML = mHTML;
 
 
+    return false; // 20240508: LRRH: Don't test by default. Make a button for those trying to test.
     
     for(let i=1;i<=ArchiveNum();i++){
     //for(let i=mSingleArchive;i==mSingleArchive;i++){
@@ -2371,6 +2491,7 @@ function MacroLnk(elScope){
     elJQ = z[i];
     cmd = elJQ.innerHTML;
     cmds = cmd.split("|");
+    if(cmds.length<2){cmds[1] = "🥨";} // 20240508: LRRH: Added a default icon.
     // NEW Code
 
     // 20240331: StarTree: Disable bMark if it is within a questboard.
@@ -3230,6 +3351,7 @@ function NotBlank(e){
   // 20230310: Fina
   return (!IsBlank(e));
 }
+
 function PNDInner(el,mJSON){
   // 20230621: StarTree
   //If the node type is not chat, return.
@@ -4200,7 +4322,7 @@ function QSL(el,iQuery,iMonthly){
       //case "done": iQuery += ":has([monthly]:has([dts^='"+mYYYYMM+"']))"; break;
       case "done": iQuery += ":has(msg[dts^='"+mYYYYMM+"'])"; break;
       //case "todo": iQuery += ":has([monthly]:not(:has([dts^='"+mYYYYMM+"'])))"; break;
-      case "todo": iQuery += ":not(:has([dts^='"+mYYYYMM+"']))"; break;
+      case "todo": iQuery += ":not(:has(msg[dts^='"+mYYYYMM+"']))"; break;
     }
   }
 
@@ -4393,66 +4515,6 @@ function QueryAllEL(elContainer, eQuery,iInner){
       });
     }
     
-  });
-}
-function QueryAllEL20230313(elContainer, eQuery,iInner){
-  // 20230220: StarTree: Upgraded to allow querying only the inner.
-  // 20230220: Ivy: If the container is a flex class, add the spacers in the end.
-  // 20230225: StarTree: saves the query string. if the query string is the same as before, hide if it is shown.
-  const InnerCache = [];
-  var Hit = 0;
-  var bFlex = (window.getComputedStyle(elContainer).display ==="flex");
-  var mFlex = "";
-  var mQuery = elContainer.getAttribute("mQueryString");
-  var mDisplay = window.getComputedStyle(elContainer).display;
-  if(mQuery==eQuery && mDisplay!="none"){
-    elContainer.setAttribute("mDefaultDisplay",elContainer.style.display);
-    
-    HideEl(elContainer);
-    
-    return;
-  }
-  elContainer.setAttribute("mQueryString", eQuery);
-  if(elContainer.classList.contains("flex")){
-    mFlex = "<div class='spacer'></div>";
-  }
-  var elTemp = document.createElement("div");
-  $(document).ready(function(){
-    for(let i=1; i<=ArchiveNum();i++){
-      //$(elContainer).hide();
-      var backup = $(elContainer).html();
-      $(elTemp).load(ArchiveIndex(i) + eQuery, function(){
-        if(iInner){
-          var elChild = elTemp.firstElementChild;
-          if(elChild != null){
-            InnerCache[i]=elChild.innerHTML;
-          }
-        }else{
-          InnerCache[i]=$(elTemp).html();
-        }
-        Hit = Hit + 1
-        if(Hit==ArchiveNum()){        
-          $(elTemp).html(InnerCache.join(""));
-          if( $(elTemp).html().length == 0){
-            $(elContainer).html("<div><small>🐣 <i>(No record for "+ eQuery + ")</i></small></div>");
-            ShowEl(elContainer);
-            //$(elContainer).show();
-            return;
-          }else{ 
-            $(elContainer).html($(elTemp).html() + mFlex + mFlex);
-          }
-          if(backup == $(elTemp).html() && $(elContainer).is(':visible') ){
-            HideEl(elContainer);
-            //$(elContainer).hide();
-          }else{
-            $(elContainer).html($(elTemp).html());
-            Macro(elContainer);
-            ShowEl(elContainer);
-            //$(elContainer).show();
-          }	
-        }
-      });
-    }
   });
 }
 function XP_Counter(iCache,iFrame,iCode,iName){
