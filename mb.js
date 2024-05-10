@@ -139,6 +139,12 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll,elArchives){
     }); // END JQuery Load
   }); // END Document ready
 }
+function OfflineTag(bOffline){
+  if(bOffline){
+    return " <span style='font-size:10px;color:darkgoldenrod'>(OFFLINE)</span>";
+  }
+  return "";
+}
 function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   // 20240509: Skyle: Added to handle Offline Archive.
 
@@ -153,9 +159,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
 
     var mHTMLInner = "<span class='mbDayHeader'></span>";
     mHTMLInner += "<lnk>" + mJSON.id + "|" + mJSON.icon +"</lnk>&nbsp;<a class='mbbutton' onclick='ShowBothInline(this)'>" + mJSON.title;
-    if(bOffline){
-      mHTMLInner += " <span style='font-size:10px;color:darkgoldenrod'>(OFFLINE)</span>";
-    }
+    mHTMLInner += OfflineTag(bOffline);    
     mHTMLInner += "</a>";
     mHTMLInner += "<span class='mbDayContent'>";     
     
@@ -722,7 +726,8 @@ function Offline(elArchives,bToggle,bReload){
   if(bToggle){
     if(bOffline && confirm("Disable offline mode?")){
       // Set Offline mode to OFF and load.
-      elArchives.removeAttribute('offline');
+      elArchives.remove(); // 20240509: Black: Remove the archives.
+      //elArchives.removeAttribute('offline');
       bOffline = false;
     }else if(!bOffline && confirm("Enable offline mode?")){
       elArchives.setAttribute('offline','');
@@ -1914,142 +1919,155 @@ function MSScanFor(elDisplay,mStart,mEnd,elHeader,bGroupByTopic){
   // 20240426: Patricia: Populate the element with messages.
   elDisplay.innerHTML = "<center><big>⏳</big></center>"
   if(NotBlank(elHeader)){elHeader.innerHTML = ""}
-
   let elCache = document.createElement("div");
-  var mHTML = "";
-  var mHeaderHTML = ""
-  var mMsgList = [];
-  var mDone = 0;
-  
-  var mModeTally = [[0,0,0],[0,0,0],[0,0,0]]; 
-    // This is an array of mode tally. 0=Academy, 1=Guild, 2=Help
-    // Then 0=maintenance, 1=upgrade, 2=service
-  
   $(document).ready(function(){
+    // STEP: If it is Offline Mode, populate the archives with cache data.
+    var elArchives = Offline();
+    var mMsgList = [];    
+    if(NotBlank(elArchives)){
+      let elMsgs = elArchives.querySelectorAll("MSG[dts]");
+      MSScanForPush(mMsgList,elMsgs,mStart,mEnd);
+      MSScanForEL(elDisplay,mMsgList,elHeader,bGroupByTopic)
+      return;
+    }
+    var mDone = 0;  
     for(let i=1; i<=ArchiveNum();i++){
       // 20240427: Black: Expanding the query to get the context.
       $(elCache).load(ArchiveIndex(i) + "[id][date][time]", function(){
         let elMsgs = elCache.querySelectorAll('MSG[dts]');
-                
-        // STEP: Push into mMsgList if the message is within range.
-        elMsgs.forEach((mMsg)=>{
-          let mMsgDTS = Number(DTSPadding(mMsg.getAttribute('DTS')));
-          if(mStart<= mMsgDTS && mMsgDTS < mEnd){
-            let elNode = SearchPS(mMsg,'time');
-            mMsg.setAttribute('parent',elNode.id.slice(1));
-            mMsg.setAttribute('nodeName',GetNodeTitle(elNode));
-            mMsg.setAttribute('area',GetNodeArea(elNode));
-            mMsg.setAttribute('parentName',GetLocalTitle(mMsg,elNode));
-            mMsgList.push([mMsgDTS,mMsg]);
-          }
-        });
+        MSScanForPush(mMsgList,elMsgs,mStart,mEnd);        
         mDone ++;
         if(mDone >= ArchiveNum()){
-          mMsgList.sort();  // Sort by DTS
-
-          // STEP: Check if the content should be sorted by group.          
-          let elWidget = SearchPS(elDisplay,'widget');
-          if(IsBlank(bGroupByTopic)){
-            bGroupByTopic = true;
-            try{
-              bGroupByTopic = elWidget.querySelector('[MS_ByTopic]').checked;
-            }catch(e){
-              bGroupByTopic = false;
-            }
-          }
-          
-          if(bGroupByTopic){
-            for(let i=0;i<mMsgList.length;i++){
-              mMsgList[i][0] = mMsgList[i][1].getAttribute('nodename');
-            }
-            mMsgList.sort();  // Sort by Topic
-          }
-          // STEP: Output to the container.
-          let mCurTopic = "";
-          let mCurArea = "";
-          let mMsgCount = 0;
-          let mTopicHTML = "";
-          let mCurIcon = "";
-          let mCurDTS = "";
-          let mCurNode = "";
-          let mMaintenance = 0; let mUpgrade = 0; let mService = 0;
-          let mTopicEXP = 0;
-          for(let i=0;i<mMsgList.length;i++){
-            let mMsg = mMsgList[i][1];
-
-            if(bGroupByTopic){
-              let mMsgTopic = mMsgList[i][0];
-              if(mCurTopic != mMsgTopic){
-                if(mCurTopic !=""){
-                  // If this is not the first topic, wrap the previous cached HTML in a topic object.
-                  mHTML += TopicWrap(mCurNode,mCurDTS,mMsgCount,mCurIcon,mCurTopic,mTopicHTML,mCurArea,mTopicEXP,mMaintenance,mUpgrade,mService);
-                }
-                mTopicHTML = "";
-                mMsgCount = 0;
-                mCurDTS = mMsg.getAttribute('dts');
-                mCurIcon = mMsg.getAttribute('icon');
-                mCurArea = mMsg.getAttribute('area');
-                mCurNode = mMsg.getAttribute('parent');
-                mCurTopic = mMsgTopic;
-                mTopicEXP = 0;
-                mMaintenance = mUpgrade = mService = 0;
-              }
-              mTopicHTML += mMsgList[i][1].outerHTML;
-              mMsgCount ++;
-
-              // 20240505: StarTree: Account for the rank if the message is ranked.
-              let mEXP = 0;
-              if(mMsg.hasAttribute('exp')){
-                mEXP = Number(Default(mMsg.getAttribute('EXP'),1));
-              }
-              mTopicEXP += mEXP;
-              if(mMsg.hasAttribute('mode')){
-                //if(mEXP==0){mEXP = 1} // Assumes that mEXP was 0 because it was blank.
-                // 20240505: StarTree: LRRH wants this count to be per occurence, not per XP.
-                switch(ModeCSS(mMsg.getAttribute('mode'))){
-                  case "Maintenance": mMaintenance++;MSModeTally(mModeTally,mCurArea,0);break;
-                  case "Upgrade": mUpgrade++;MSModeTally(mModeTally,mCurArea,1);break;
-                  case "Service": mService++;MSModeTally(mModeTally,mCurArea,2);break;
-                }
-              }
-            }else{
-              // Not grouping by topic
-              mHTML += mMsgList[i][1].outerHTML;
-            }
-          }// END FOR EACH MESSAGE
-
-          // Close the topic if there were any
-          if(mCurTopic!=""){
-            mHTML += TopicWrap(mCurNode,mCurDTS,mMsgCount,mCurIcon,mCurTopic,mTopicHTML,mCurArea,mTopicEXP,mMaintenance,mUpgrade,mService);
-            elDisplay.style.display = "flex";
-            elDisplay.style.flexDirection = "column";
-            elDisplay.classList.remove('mbpuzzle');
-          }else{
-            elDisplay.style.display = "block";
-            elDisplay.classList.add('mbpuzzle');
-            //elDisplay.style.flexDirection = "initial";
-          }
-
-          // Compose the header.
-          mHeaderHTML = "<center>";
-          mHeaderHTML+= MSModeShow(mModeTally);
-          mHeaderHTML += "</center>";
-
-          // 20240502: Arcacia: No Result message
-          if(IsBlank(mHTML)){
-            mHTML = "No result from " + mStart + " to " + mEnd + ".";
-            mHeaderHTML = "";
-          }else{
-
-          }
-          if(NotBlank(elHeader)){elHeader.innerHTML = mHeaderHTML;}
-          elDisplay.innerHTML = mHTML;
-          Macro(elDisplay);
+          MSScanForEL(elDisplay,mMsgList,elHeader,bGroupByTopic)
           elCache.remove();
         }
       });
     };
   });
+}
+function MSScanForPush(mMsgList,elMsgs,mStart,mEnd){
+  // STEP: Push into mMsgList if the message is within range.
+  elMsgs.forEach((mMsg)=>{
+    let mMsgDTS = Number(DTSPadding(mMsg.getAttribute('DTS')));
+    if(mStart<= mMsgDTS && mMsgDTS < mEnd){
+      let elNode = SearchPS(mMsg,'time');
+      mMsg.setAttribute('parent',elNode.id.slice(1));
+      mMsg.setAttribute('nodeName',GetNodeTitle(elNode));
+      mMsg.setAttribute('area',GetNodeArea(elNode));
+      mMsg.setAttribute('parentName',GetLocalTitle(mMsg,elNode));
+      mMsgList.push([mMsgDTS,mMsg]);
+    }
+  });
+}
+function MSScanForEL(elDisplay,mMsgList,elHeader, bGroupByTopic){
+  // 20240509: Black: The inner function of MSScanFor, shared between online and offline mode.
+  var mHTML = "";
+  var mHeaderHTML = ""
+  var mModeTally = [[0,0,0],[0,0,0],[0,0,0]]; 
+  // This is an array of mode tally. 0=Academy, 1=Guild, 2=Help
+  // Then 0=maintenance, 1=upgrade, 2=service
+
+  mMsgList.sort();  // Sort by DTS
+
+  // STEP: Check if the content should be sorted by group.          
+  let elWidget = SearchPS(elDisplay,'widget');
+  if(IsBlank(bGroupByTopic)){
+    bGroupByTopic = true;
+    try{
+      bGroupByTopic = elWidget.querySelector('[MS_ByTopic]').checked;
+    }catch(e){
+      bGroupByTopic = false;
+    }
+  }
+  if(bGroupByTopic){
+    for(let i=0;i<mMsgList.length;i++){
+      mMsgList[i][0] = mMsgList[i][1].getAttribute('nodename');
+    }
+    mMsgList.sort();  // Sort by Topic
+  }
+  // STEP: Output to the container.
+  let mCurTopic = "";
+  let mCurArea = "";
+  let mMsgCount = 0;
+  let mTopicHTML = "";
+  let mCurIcon = "";
+  let mCurDTS = "";
+  let mCurNode = "";
+  let mMaintenance = 0; let mUpgrade = 0; let mService = 0;
+  let mTopicEXP = 0;
+  for(let i=0;i<mMsgList.length;i++){
+    let mMsg = mMsgList[i][1];
+
+    if(bGroupByTopic){
+      let mMsgTopic = mMsgList[i][0];
+      if(mCurTopic != mMsgTopic){
+        if(mCurTopic !=""){
+          // If this is not the first topic, wrap the previous cached HTML in a topic object.
+          mHTML += TopicWrap(mCurNode,mCurDTS,mMsgCount,mCurIcon,mCurTopic,mTopicHTML,mCurArea,mTopicEXP,mMaintenance,mUpgrade,mService);
+        }
+        mTopicHTML = "";
+        mMsgCount = 0;
+        mCurDTS = mMsg.getAttribute('dts');
+        mCurIcon = mMsg.getAttribute('icon');
+        mCurArea = mMsg.getAttribute('area');
+        mCurNode = mMsg.getAttribute('parent');
+        mCurTopic = mMsgTopic;
+        mTopicEXP = 0;
+        mMaintenance = mUpgrade = mService = 0;
+      }
+      mTopicHTML += mMsgList[i][1].outerHTML;
+      mMsgCount ++;
+
+      // 20240505: StarTree: Account for the rank if the message is ranked.
+      let mEXP = 0;
+      if(mMsg.hasAttribute('exp')){
+        mEXP = Number(Default(mMsg.getAttribute('EXP'),1));
+      }
+      mTopicEXP += mEXP;
+      if(mMsg.hasAttribute('mode')){
+        //if(mEXP==0){mEXP = 1} // Assumes that mEXP was 0 because it was blank.
+        // 20240505: StarTree: LRRH wants this count to be per occurence, not per XP.
+        switch(ModeCSS(mMsg.getAttribute('mode'))){
+          case "Maintenance": mMaintenance++;MSModeTally(mModeTally,mCurArea,0);break;
+          case "Upgrade": mUpgrade++;MSModeTally(mModeTally,mCurArea,1);break;
+          case "Service": mService++;MSModeTally(mModeTally,mCurArea,2);break;
+        }
+      }
+    }else{
+      // Not grouping by topic
+      mHTML += mMsgList[i][1].outerHTML;
+    }
+  }// END FOR EACH MESSAGE
+
+  // Close the topic if there were any
+  if(mCurTopic!=""){
+    mHTML += TopicWrap(mCurNode,mCurDTS,mMsgCount,mCurIcon,mCurTopic,mTopicHTML,mCurArea,mTopicEXP,mMaintenance,mUpgrade,mService);
+    elDisplay.style.display = "flex";
+    elDisplay.style.flexDirection = "column";
+    elDisplay.classList.remove('mbpuzzle');
+  }else{
+    elDisplay.style.display = "block";
+    elDisplay.classList.add('mbpuzzle');
+    //elDisplay.style.flexDirection = "initial";
+  }
+
+  // Compose the header.
+  mHeaderHTML = "<center>";
+  mHeaderHTML+= MSModeShow(mModeTally);
+  mHeaderHTML += "</center>";
+
+  // 20240502: Arcacia: No Result message
+  if(IsBlank(mHTML)){
+    mHTML = "No result from " + mStart + " to " + mEnd + ".";
+    mHeaderHTML = "";
+  }else{
+
+  }
+  if(NotBlank(elHeader)){elHeader.innerHTML = mHeaderHTML;}
+  elDisplay.innerHTML = mHTML;
+  Macro(elDisplay);
+  
+
 }
 function MSModeShow(elStruct){
   // 20240505: Sasha: Returns an HTML string.
@@ -5126,7 +5144,6 @@ function XP_Tally(elContainer){
         mTally[j] += (iAXP + iBXP + iCXP + iCoXP + iDXP + iGXP + iGaXP + iGcXP + iHXP + iIXP + iJXP + iKXP + iLXP + iLemonXP + iLnXP + iLuckXP + iMXP + iOXP + iPXP + iPhotoXP + iQXP + iRXP + iRcXP + iRecXP + iSXP + iTXP + iTeaXP + iUXP + iVXP + iWarpXP + iWaterXP + iWbXP + iWdXP + iWgXP + iWjXP + iWkXP + iWpXP + iWrXP + iWsXP + iWwXP + iZXP);
         mDone[j] ++;
         if(mDone[j] >= mArchiveSize ){
-        //if(mDone[j] >= 1 ){
           DEBUG(Roster(j) + "(" + mDone[j] + "/" + mArchiveSize + "): " + mTally[j] +" FINAL");
           done++;
           $(elStatus).html(done+"/"+mRosterSize);
@@ -5139,10 +5156,6 @@ function XP_Tally(elContainer){
             mResult = mResult + mTally[k] + "\n";
           }
           ClipboardAlert(mResult,"Tally result is ready for clipboard!");
-          /*if( document.hasFocus()==false){
-            alert("Tally result is ready for clipboard!");
-          }
-          navigator.clipboard.writeText(mResult);*/
           $(elStatus).html(done+"/"+mRosterSize + "✅");
           DEBUG("COMPLETED: Tallied " + mRosterSize + " members!");
           $(elContainer).html("Tallied to Clipboard");
@@ -5769,7 +5782,7 @@ function QueryProfileNext(elThis, iCharID){
   var elNext = elThis.nextElementSibling;
   QueryProfileEL(elNext, iCharID);
 }
-function QueryTabEL(elContainer, eQuery){
+function QueryTabEL_20240509_DELETE(elContainer, eQuery){
   // 20221213: Sasha: Same as QueryAll but does not hide.
   const InnerCache = [];
   var Hit = 0;
@@ -5792,7 +5805,7 @@ function QueryTabEL(elContainer, eQuery){
     });
   }
 }
-function QueryTabPN(elThis,eQuery){
+function QueryTabPN_20240509_DELETE(elThis,eQuery){
   var elTarget = elThis.parentNode;
   elTarget = elTarget.nextElementSibling;
   QueryTabEL(elTarget,eQuery);
@@ -6172,41 +6185,53 @@ function ReloadFP(el){
 
     return;
   }
-
+  // 20240509: Black
+  var elArchives = Offline();
   $(document).ready(function(){
+    // OFFLINE MODE
+    if(NotBlank(elArchives)){
+      ReloadFPEL(elArchives.querySelector("[DTS=\""+mDTS +"\"]"),elFP,mDTS,true);
+      return;
+    }
+
+    // ONLINE MODE
     for(let i=1; i<=ArchiveNum();i++){
       let elCache = document.createElement("div");
-    
       $(elCache).load(ArchiveIndex(i) + " [DTS="+mDTS +"]", function(){
         if(NotBlank(elCache.innerHTML)){
-          // 20240422: StarTree
-          let mWidget = elCache.firstChild;
-          let mNodeID = mWidget.getAttribute('node');
-          let mTitle = mWidget.getAttribute('title');
-          let mIcon = mWidget.getAttribute('icon');
-          
-
-          // 20240422: Add a close button
-          mHTML = "<small><span style='float:right'>";
-          mHTML += NodeIDClipboardButtonCode(mNodeID);
-          mHTML += "<a class='mbbutton' title='Hide Widget' onclick='HideFP(this)'>🍮</a>";
-          mHTML += "<a class='mbbutton' title='Cycle dock position' onclick='WidgetDockCycle(this)'>▶</a>";
-          mHTML += "</span>";
-          mHTML += "<lnk>" + mNodeID + "|" + mIcon + "</lnk> ";
-          mHTML += "<span class='mbbutton' title='Refresh' onclick='ReloadFP(this)'>"+mTitle+"</span></small><hr>";
-          //mHTML += "<div style='overflow-Y:auto;overflow-x: hidden;'>";
-          mHTML += mWidget.innerHTML;
-          //mHTML += "</div>";
-          
-          elFP.innerHTML = mHTML;
-          Macro(elFP);
-          elFP.setAttribute('FP',mDTS);
-          elFP.setAttribute('Widget',mDTS);
+          ReloadFPEL(elCache.firstChild,elFP,mDTS);
         }
         elCache.remove();
       });
     }
   });
+}
+function ReloadFPEL(elWidget,elFP,mDTS,bOffline){
+  // 20240509: Black: This is the shared function for handling both offline and online modes
+  
+  // 20240422: StarTree
+  let mNodeID = elWidget.getAttribute('node');
+  let mTitle = elWidget.getAttribute('title');
+  let mIcon = elWidget.getAttribute('icon');
+  
+
+  // 20240422: Add a close button
+  mHTML = "<small><span style='float:right'>";
+  mHTML += NodeIDClipboardButtonCode(mNodeID);
+  mHTML += "<a class='mbbutton' title='Hide Widget' onclick='HideFP(this)'>🍮</a>";
+  mHTML += "<a class='mbbutton' title='Cycle dock position' onclick='WidgetDockCycle(this)'>▶</a>";
+  mHTML += "</span>";
+  mHTML += "<lnk>" + mNodeID + "|" + mIcon + "</lnk> ";
+  mHTML += "<span class='mbbutton' title='Refresh' onclick='ReloadFP(this)'>"+mTitle+ "</span></small>";
+  mHTML += OfflineTag(bOffline) + "<hr>";
+  //mHTML += "<div style='overflow-Y:auto;overflow-x: hidden;'>";
+  mHTML += elWidget.innerHTML;
+  //mHTML += "</div>";
+  
+  elFP.innerHTML = mHTML;
+  Macro(elFP);
+  elFP.setAttribute('FP',mDTS);
+  elFP.setAttribute('Widget',mDTS);
 }
 function NodeIDClipboardButtonCode(mNodeID,mParentID,mIcon){
   // 20240422: V
