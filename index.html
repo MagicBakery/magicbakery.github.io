@@ -226,7 +226,16 @@
 <script>
   function URLViewer(){
     // 20240427: StarTree: Experiment of having a local copy of the entire archive.
-  
+    /*
+    //var elTest = document.body.querySelector("div:contains('panel')");
+    var elTest = document.body.querySelector("div");
+    var elTestArea = document.getElementsByTagName('test')[0];
+    //var elResult = $("div:contains('panel')");
+    //var elResult = $(elTestArea).has("div:contains('Hello')");
+    var elResult = $("test>div:contains('Hello')");
+    DEBUG(elResult.length);
+    DEBUG(elResult[0].outerHTML);
+*/
     
     // 20231007: StarTree: make this function add the first panel.  
     var mPanel = PanelAdd();

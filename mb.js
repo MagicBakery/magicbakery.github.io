@@ -4117,144 +4117,151 @@ function QSLEL(elSearchList,iQuery,elArchives,bOffline){
 
     var bMark = NodeMarkCookieCheck();
     var mCount = 0;
-    var elRecords = elArchives.querySelectorAll(iQuery);
+    //var elRecords = elArchives.querySelectorAll(iQuery);
+    //var elRecords = $(elArchives, "archives >" + iQuery);
+    //var elRecords = $("html > archives > [archive] > " + iQuery);
+    var elRecords = $(elArchives).find(iQuery);
+    //var elRecords = $(iQuery);
     var mHTML = "";
     // Loop through and add each child.
-    elRecords.forEach((elDiv)=>{
-      
-      let mCategory = iQuery.replace("[data-","");
-      mCategory = mCategory.replace("]","");
-      let mOrder = elDiv.getAttribute("data-"+mCategory);
-      if(mCategory.toLowerCase()=="best"){
-        mOrder = 99999999-mOrder;
-      }
 
-      let mKids = [];
-      let mJSONKids = "";
-      let mID=""; let mTitle=""; let mIcon="";
-      let mJSON=""; let mType=""; 
-      let mNode = elDiv.querySelector("node");
-
-      if(NotBlank(mNode)){
-        mJSON = JSON.parse(mNode.innerHTML);
-        mTitle = mJSON.title;
-        mIcon = mJSON.icon;
-        mID = mJSON.id;
-        mType = mJSON.type;
-        mJSONKids = mJSON.kids;
-      }else{
-        mID = elDiv.getAttribute("id");
-        if(IsBlank(mID)){mID = elDiv.getAttribute('DTS');}
-        mTitle = elDiv.getAttribute("title");
-        mIcon = elDiv.getAttribute("icon");
-      }
-
-      if(IsBlank(mTitle)){
-        if(NotBlank(mID)){
-          // 20230324: Mikela: Guess: A puzzle post.
-          if(elDiv.firstElementChild.lastElementChild!=null){
-            mTitle = elDiv.firstElementChild.lastElementChild.textContent;
-          }else{
-            mTitle="Mini Diary";
-          }
+    setTimeout(function(){
+      for(let i=0;i<elRecords.length;i++){
+        let elDiv = elRecords[i];
+      //}
+      //elRecords.forEach((elDiv)=>{
+        
+        let mCategory = iQuery.replace("[data-","");
+        mCategory = mCategory.replace("]","");
+        let mOrder = elDiv.getAttribute("data-"+mCategory);
+        if(mCategory.toLowerCase()=="best"){
+          mOrder = 99999999-mOrder;
         }
-      }
-      if(IsBlank(mTitle)){
-        if(NotBlank(elDiv.firstElementChild.getAttribute("id"))){
-          // Guess: The entry is a chat post.
-          if(elDiv.firstElementChild.firstElementChild!=null){
-            mTitle = elDiv.firstElementChild.firstElementChild.textContent;
-            if(IsBlank(mTitle)){
+
+        let mKids = [];
+        let mJSONKids = "";
+        let mID=""; let mTitle=""; let mIcon="";
+        let mJSON=""; let mType=""; 
+        let mNode = elDiv.querySelector("node");
+
+        if(NotBlank(mNode)){
+          mJSON = JSON.parse(mNode.innerHTML);
+          mTitle = mJSON.title;
+          mIcon = mJSON.icon;
+          mID = mJSON.id;
+          mType = mJSON.type;
+          mJSONKids = mJSON.kids;
+        }else{
+          mID = elDiv.getAttribute("id");
+          if(IsBlank(mID)){mID = elDiv.getAttribute('DTS');}
+          mTitle = elDiv.getAttribute("title");
+          mIcon = elDiv.getAttribute("icon");
+        }
+
+        if(IsBlank(mTitle)){
+          if(NotBlank(mID)){
+            // 20230324: Mikela: Guess: A puzzle post.
+            if(elDiv.firstElementChild.lastElementChild!=null){
               mTitle = elDiv.firstElementChild.lastElementChild.textContent;
+            }else{
+              mTitle="Mini Diary";
             }
-            
-          }else{
-            mTitle = elDiv.firstElementChild.textContent;
           }
-          mIcon = mTitle.substring(0,2);
-          mTitle = mTitle.substring(3,30);
+        }
+        if(IsBlank(mTitle)){
+          if(NotBlank(elDiv.firstElementChild.getAttribute("id"))){
+            // Guess: The entry is a chat post.
+            if(elDiv.firstElementChild.firstElementChild!=null){
+              mTitle = elDiv.firstElementChild.firstElementChild.textContent;
+              if(IsBlank(mTitle)){
+                mTitle = elDiv.firstElementChild.lastElementChild.textContent;
+              }
+              
+            }else{
+              mTitle = elDiv.firstElementChild.textContent;
+            }
+            mIcon = mTitle.substring(0,2);
+            mTitle = mTitle.substring(3,30);
+          }else{
+            // Guess: The entry is an flex show style post.
+            mTitle = elDiv.firstElementChild.lastChild.textContent;
+            mTitle = mTitle.substring(0,30);
+          }
+        }
+        if(IsBlank(mIcon)){mIcon="📌";}
+        if(IsBlank(mID)){mID = elDiv.getAttribute("date")+elDiv.getAttribute("time");}
+        if(IsBlank(mID)){ 
+        }else if(mID.substring(0,1)=="P"){
+          // Remove the leading P in ID.
+          mID = mID.substring(1,13);
+        }
+        if(IsBlank(mTitle)){mTitle = mID;}
+        if(IsBlank(mType)){mType = "";}
+        if(mType=="chat" || NotBlank(elDiv.hasAttribute('data-chat'))){mType = "<span style='margin-left:-16px;-20px;font-size:14px'><sup>💬</sup></span>";}
+        if(IsBlank(mOrder)){mOrder = mID;}
+        
+        
+        if(IsBlank(mJSONKids)){
+          //mTag = TitleToTag(mTitle);
+          mKids.push(mID);
         }else{
-          // Guess: The entry is an flex show style post.
-          mTitle = elDiv.firstElementChild.lastChild.textContent;
-          mTitle = mTitle.substring(0,30);
+      
+          mKids = mJSONKids.split(',');
+          for(let j=0;j<mKids.length;j++){
+            mKids[j]=mKids[j].replaceAll(" ","");
+            mKids[j] = Cap(mKids[j]);
+          }
+        }
+        // 20240331: StarTree: Further Exploration Icon     
+        // 20240406: StarTree: Multiple kids:     
+        for(let k=0;k<mKids.length;k++){
+          mCount ++;
+          mHTML += "<div name='"+ mTitle + "'";
+          //var mUpdated = elDiv.getAttribute("date");
+
+          let mUpdated = DTSGetLatest(elDiv).toString().slice(0,8);
+          
+          mHTML += " date='" + mUpdated + "'";
+          mHTML += " size='" + elDiv.innerHTML.length + "'";
+          mHTML += " style='order:" + mOrder + "'>";
+
+          // 20240413: StarTree: Add a float right display frame.
+          mHTML += "<code class='mbRefS mbCB'></code>";
+
+          mHTML += "<div control>";
+          mHTML += "<hide>"+ elDiv.textContent +"</hide>";
+
+          
+          mHTML += "<a class='mbbutton mbILB25' onclick='QSLTree(this,\"[data-"+ mKids[k] +"]\")'>📒</a>";
+          if(k==0){
+            mHTML += LnkCode(mID,mTitle,mIcon+mType,bMark); 
+          }else{
+
+            mHTML += LnkCode(mID,mTitle + "\\" + Cap(mKids[k]).replaceAll("-"," "),mIcon+mType,bMark); 
+          }
+
+          mHTML += "</div>";// End of Control
+          mHTML += "<div class='mbhide'><div style='margin-left:10px' control></div><div class='mbnav mbSearch' QSL></div></div>"; // QSL Container
+          mHTML += "</div>";
         }
       }
-      if(IsBlank(mIcon)){mIcon="📌";}
-      if(IsBlank(mID)){mID = elDiv.getAttribute("date")+elDiv.getAttribute("time");}
-      if(IsBlank(mID)){ 
-      }else if(mID.substring(0,1)=="P"){
-        // Remove the leading P in ID.
-        mID = mID.substring(1,13);
-      }
-      if(IsBlank(mTitle)){mTitle = mID;}
-      if(IsBlank(mType)){mType = "";}
-      if(mType=="chat" || NotBlank(elDiv.hasAttribute('data-chat'))){mType = "<span style='margin-left:-16px;-20px;font-size:14px'><sup>💬</sup></span>";}
-      if(IsBlank(mOrder)){mOrder = mID;}
-      
-      
-      if(IsBlank(mJSONKids)){
-        //mTag = TitleToTag(mTitle);
-        mKids.push(mID);
-      }else{
     
-        mKids = mJSONKids.split(',');
-        for(let j=0;j<mKids.length;j++){
-          mKids[j]=mKids[j].replaceAll(" ","");
-          mKids[j] = Cap(mKids[j]);
-        }
+      // STEP Display the result.
+      elSearchList.innerHTML = mHTML;    
+      // STEP: Display the sort bar
+      if(NotBlank(elSearchList.previousElementSibling)){
+        mHTML = "<a class='mbbutton' onclick='ShowNextInline(this)'><small><b>Found: "
+        + mCount +"</b></small>" + OfflineTag(bOffline) + "</a><hide><small> "
+        + "<input type='text' onclick='TextSearchPS(this)' onkeyup='TextSearchPS(this)' placeholder='Search...' title='Input a keyword' style='width:80px'>"
+        + "<button class='mbbutton' onclick='QSLSortByName(this)'>🍎</button>" 
+        + "<button class='mbbutton' onclick='QSLSortBy(this,\"date\")'>🗓️</button>"
+        + "<button class='mbbutton' onclick='QSLSortBy(this,\"size\")'>🐘</button>"
+        + "<button class='mbbutton' onclick='QSLSortRandom(this)'>🎲</button>"
+        + "</small></hide>";
+        elSearchList.previousElementSibling.innerHTML = mHTML;
+        elSearchList.previousElementSibling.classList.remove('mbhide');
       }
-      // 20240331: StarTree: Further Exploration Icon     
-      // 20240406: StarTree: Multiple kids:     
-      for(let k=0;k<mKids.length;k++){
-        mCount ++;
-        mHTML += "<div name='"+ mTitle + "'";
-        //var mUpdated = elDiv.getAttribute("date");
-
-        let mUpdated = DTSGetLatest(elDiv).toString().slice(0,8);
-        
-        mHTML += " date='" + mUpdated + "'";
-        mHTML += " size='" + elDiv.innerHTML.length + "'";
-        mHTML += " style='order:" + mOrder + "'>";
-
-        // 20240413: StarTree: Add a float right display frame.
-        mHTML += "<code class='mbRefS mbCB'></code>";
-
-        mHTML += "<div control>";
-        mHTML += "<hide>"+ elDiv.textContent +"</hide>";
-
-        
-        mHTML += "<a class='mbbutton mbILB25' onclick='QSLTree(this,\"[data-"+ mKids[k] +"]\")'>📒</a>";
-        if(k==0){
-          mHTML += LnkCode(mID,mTitle,mIcon+mType,bMark); 
-        }else{
-
-          mHTML += LnkCode(mID,mTitle + "\\" + Cap(mKids[k]).replaceAll("-"," "),mIcon+mType,bMark); 
-        }
-
-        mHTML += "</div>";// End of Control
-        mHTML += "<div class='mbhide'><div style='margin-left:10px' control></div><div class='mbnav mbSearch' QSL></div></div>"; // QSL Container
-        mHTML += "</div>";
-      }
-
-    });
-  
-
-      
-    // STEP Display the result.
-    elSearchList.innerHTML = mHTML;    
-    // STEP: Display the sort bar
-    if(NotBlank(elSearchList.previousElementSibling)){
-      mHTML = "<a class='mbbutton' onclick='ShowNextInline(this)'><small><b>Found: "
-      + mCount +"</b></small>" + OfflineTag(bOffline) + "</a><hide><small> "
-      + "<input type='text' onclick='TextSearchPS(this)' onkeyup='TextSearchPS(this)' placeholder='Search...' title='Input a keyword' style='width:80px'>"
-      + "<button class='mbbutton' onclick='QSLSortByName(this)'>🍎</button>" 
-      + "<button class='mbbutton' onclick='QSLSortBy(this,\"date\")'>🗓️</button>"
-      + "<button class='mbbutton' onclick='QSLSortBy(this,\"size\")'>🐘</button>"
-      + "<button class='mbbutton' onclick='QSLSortRandom(this)'>🎲</button>"
-      + "</small></hide>";
-      elSearchList.previousElementSibling.innerHTML = mHTML;
-      elSearchList.previousElementSibling.classList.remove('mbhide');
-    }
+    },0);
   });//END Document Ready
 }
 function TitleToTag(mTitle){
@@ -7282,7 +7289,7 @@ function TextQSL(elButton){
   var elControl = SearchPS(elButton,'control');
   var elInput = elControl.querySelector('input');
   // 20240410: StarTree: Changed implementation to do a general text search.
-  QSL(elButton,"[id][date][time]:contains('" + elInput.value +"')");
+  QSL(elButton,"[id][date][time]:contains(" + elInput.value +")");
   return;
 }
 function TextQSLTag(elButton){
