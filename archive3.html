@@ -66,12 +66,16 @@
             <a class="mbbutton" onclick="QSL(this,'topic[monthly]')" title="All monthly quests">📅</a> 
             <a class="mbbutton" onclick="QSL(this,'topic[monthly]','todo')" title="Yet to do this month">📯</a> 
             <a class="mbbutton" onclick="QSL(this,'topic[monthly]','done')" title="Completed this month">✅</a>
-            <a class="mbbutton" onclick="QSL(this,'[id][date][time]','done')" title="All nodes with updates this month">🔔</a>
+            <a class="mbbutton" onclick="QSL(this,'[id][date][time]','done')" title="All nodes with updates this month">🔔</a> | 
+            <a class="mbbutton" onclick="QSL(this,'[id][date][time]:has(note[subtitle=&quot;Inbox&quot;])')" title="All nodes with an Inbox bin">📬</a>
+            <a class="mbbutton" onclick="QSL(this,'[id][date][time]:has(note[subtitle=&quot;Todo&quot;])')" title="All nodes with a Todo bin">📌</a>
+
           <hr>
           <note dts="20240507214626" subtitle="Log">
             <msg DTS="20240507214634" mode="make" SPK="Natalie" EXP=5 Icon="🔍">According to Ivy, the Sitemap can already query month quests if we tag a topic, such as "monthly". Here I try to add the query. It is working! 😀 But still need to add a version of QSL that understands "this month".</msg>
             <msg DTS="20240507224446" SPK="Natalie" EXP Icon="🔍">The "not" selector isn't working as expected. When a node has more than one monthly quest and only some of them are done, the selector cannot tell that the node is not done. I think I will change QSL to be able to query a topic, but lists the node ID in the result. Then it will be more clear what is or is not done.</msg>
             <msg DTS="20240507230259" SPK="Sasha" EXP=5 Icon="🚀">Making BoardLoad understand a DTS and load its node. Checking BoardFill. Making JQAdd trim for DTS also.</msg>
+            <msg DTS="20240511095351" SPK="Vivi" mode="sort" EXP=2 Icon="🔮">Added a query for all nodes with an Inbox bin, or a Todo bin.</msg>
           </note>
           <note dts="20240508002723" subtitle="Sitemap Quests">
             <div>
@@ -593,12 +597,12 @@
                 </div><!--@Detective / Sasha-->
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202207161025|🍂</lnk></span>
-                  <macro>{"guildlog":"8","rank":"U","updates":"0","node":"202207161025","author":"Tanya","chapter":"@Dungeon","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"7","rank":"D","updates":"1","node":"202207161025","author":"Tanya","chapter":"@Dungeon","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"2","icon":"🏘️","node":"202307231022","title":"NextDoor Workflow","info":"Replying/Deploying.","cmd":"quest"}</macro> 
                     <span class="mbListCapNC mbRankA"></span>
-                    <macro>{"log":"","priority":"1","icon":"🥨","node":"202207161025","title":"Guild Log Quests","info":"Process guild log topics. 2304:16 2305:15 2306:14 2307:12 2308:11 2309:9 2310:8.","cmd":"quest"}</macro>
+                    <macro>{"log":"0511","priority":"1","icon":"🥨","node":"202207161025","title":"Guild Log Quests","info":"Process guild log topics. 2304:16 2305:15 2306:14 2307:12 2308:11 2309:9 2310:8 2405:7","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"3","icon":"🍂","node":"202207241111","title":"Biases","info":"Since 2022 Dec","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🏰","node":"202312251111","title":"Arcacian Quest","info":"This is a board game design project.","cmd":"quest"}</macro>     
@@ -633,12 +637,13 @@
                 </div><!--@Freedom / James-->
                 <div class="mbCB">
                   <!--<span style="float:right"><lnk>202311072250|👑</lnk></span>-->
-                  <macro>{"guildlog":"0","rank":"U","updates":"0","node":"202209251051","author":"Gaia","chapter":"@Gaia","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"A","updates":"1","node":"202209251051","author":"Gaia","chapter":"@Gaia","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     
                     <macro>{"log":"","priority":"1","icon":"👑","node":"202209212113","title":"Progressing Democracy","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankA"></span>
+                    <macro>{"log":"0511","priority":"2","icon":"🐕","node":"202405111043","title":"Home Remedies","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"2","icon":"🐕","node":"202404022358","title":"Pet Keeping","info":"","cmd":"quest"}</macro>   
                     <macro>{"log":"","priority":"0","icon":"👓","node":"202404161037","title":"Eyesight","info":"","cmd":"quest"}</macro>                    
                     <span class="mbListCapNC mbRankB"></span>   
@@ -731,7 +736,7 @@
                   </div>
                 </div><!--@Home / Kisaragi-->
                 <div class="mbCB">
-                  <macro>{"guildlog":"0","icon":"","rank":"U","updates":"0","node":"202303052122","author":"Vivi","chapter":"@Night","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","icon":"","rank":"C","updates":"1","node":"202303052122","author":"Vivi","chapter":"@Night","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
@@ -740,10 +745,10 @@
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"2","icon":"🏷️","node":"202211251037","title":"Taxonomy","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"📜","node":"202403231324","title":"Charter","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"1","icon":"🍒","node":"202311282256","title":"Typo Quest","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"1","icon":"🎃","node":"202112000000","title":"Issue Report Log","cmd":"quest"}</macro>
+                    
                     <macro>{"log":"","priority":"1","icon":"☠️","node":"202311082248","title":"Undead Rising","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
+                    <macro>{"log":"0511","priority":"1","icon":"🍒","node":"202311282256","title":"Typo Quest","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"9","icon":"🕸️","node":"202303052122","title":"Bug Fix","cmd":"quest"}</macro>   
                     <span class="mbListCapNC mbRankD"></span>
                     <macro>{"log":"","priority":"9","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro>                     
@@ -751,7 +756,7 @@
                 </div><!--@Night / Vivi--> 
                 <div class="mbCB">
                   <span style="float:right"><lnk>202302261915|🎁</lnk></span>
-                  <macro>{"guildlog":"13","icon":"","rank":"U","updates":"0","node":"202210032214","author":"3B","chapter":"@Manga","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"8","icon":"","rank":"D","updates":"1","node":"202210032214","author":"3B","chapter":"@Manga","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"1","icon":"🎁","node":"202210032214","title":"Shop Posting","info":"","cmd":"quest"}</macro>
@@ -765,7 +770,7 @@
                     <macro>{"log":"","priority":"4","icon":"📐","node":"202208012343","title":"Workflow guide","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"1","icon":"🐣","node":"202210032214","title":"Drawing Discussion","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
-                    <macro>{"log":"","priority":"1","icon":"🥨","node":"202405010908","title":"Guild Log","info":"2305:32. 2306:31 2307:30 2308:29 2309:28 2310:24 2311:22 2312:21 2401:20 2402:19 2403:16 2404:13.","cmd":"quest"}</macro>
+                    <macro>{"log":"0511","priority":"1","icon":"🥨","node":"202405010908","title":"Guild Log","info":"2305:32. 2306:31 2307:30 2308:29 2309:28 2310:24 2311:22 2312:21 2401:20 2402:19 2403:16 2404:13 2405:8.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202210032214","title":"Practice","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"9","icon":"🥨","node":"202303052122","title":"Layout update","info":"","cmd":"quest"}</macro>    
                   </div>
@@ -910,7 +915,7 @@
                 </div><!--@Seed / Zoey-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202207170113|🍮</lnk></span>
-                  <macro>{"guildlog":"106","rank":"B","updates":"1","node":"202212090038","author":"Ivy","chapter":"@Skill","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"106","rank":"B","updates":"2","node":"202212090038","author":"Ivy","chapter":"@Skill","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->              
                     <span class="mbListCapNC mbRankA"></span>
@@ -922,7 +927,7 @@
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202303232253","title":"Guild log topics","info":"Process Guild Log topics. 2304:119. 2305:124. 2306:116 2307:115 2308:114 2309:107 2310:104 2311:100.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
                     <macro>{"log":"","priority":"1","icon":"🏫","node":"202403231454","title":"Panarcademy","info":"Expanding Syllabus","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"5","icon":"🥨","node":"202209241553","title":"Layout update","cmd":"quest"}</macro>   
+                    <macro>{"log":"0511","priority":"5","icon":"🥨","node":"202209241553","title":"Layout update","cmd":"quest"}</macro>   
                     <!--<span class="mbListCapNC mbRankD"></span>-->
                      
                   </div>
@@ -3616,7 +3621,7 @@
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"0314","priority":"2","icon":"🏘️","node":"202307231022","title":"NextDoor Workflow","info":"Replying/Deploying.","cmd":"quest"}</macro> 
                     <span class="mbListCapNC mbRankA"></span>
-                    <macro>{"log":"0309","priority":"0","icon":"⚔️","node":"202403091025","title":"Trolling","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"0309","priority":"0","icon":"⚔️","node":"202304060737","title":"Trolling","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202207161025","title":"Guild Log Quests","info":"Process guild log topics. 2304:16 2305:15 2306:14 2307:12 2308:11 2309:9 2310:8.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
                     
@@ -13865,6 +13870,8 @@
           <ol>
             <topic DTS='20240430082005' Icon='🐣' Subtitle='Resilience'>
               <msg DTS='20240430082025' SPK='Kisaragi' EXP Icon='🐣'><macro>{"cmd":"url","url":"https://hackspirit.com/people-who-grew-up-with-very-little-affection-tend-to-develop-these-traits-later-in-life/","desc":"[8]"}</macro></msg>
+              <msg DTS='20240403121312' SPK='Gaia' EXP Icon='🐣'>Building resilience <url>https://www.psychologytoday.com/us/blog/live-better/202403/navigating-emotions-and-building-resilience-with-children?amp</url></msg>
+              <msg DTS='20240403120448' SPK='Gaia' EXP Icon='🐣'>3 Tips <url>https://www.forbes.com/sites/traversmark/2024/04/01/a-psychologist-gives-3-tips-on-raising-a-resilient-child/amp/</url></msg>
             </topic>
             <topic DTS='20240430080621' Icon='🐣' Subtitle='Self Reliance'>
               <msg DTS='20240430080704' SPK='Kisaragi' EXP Icon='🐣'><macro>{"cmd":"url","url":"https://hackspirit.com/people-who-grew-up-with-very-little-affection-tend-to-develop-these-traits-later-in-life/","desc":"[2,4]"}</macro></msg>
@@ -17186,6 +17193,9 @@
         <div class="mbCB"></div>
       </hide>
     </div><!--Convenience-->
+    <note dts="20240511174358" subtitle="Log">
+      <msg DTS='20240215082035' SPK='Black' EXP Icon='📌'>Forum features that would disquality the forum as an open forum: some types of blocking.</msg>
+    </note>
   </content>
   <inv>
       
@@ -17517,7 +17527,7 @@
     {"name":"P4","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
-<div id="P202403091019" date="20240309" time="1019" data-202307231022="" data-happy="" data-202403082352="" data-202403091025="" data-202403050033="">
+<div id="P202403091019" date="20240309" time="1019" data-202307231022="" data-happy="" data-202403082352="" data-202304060737="" data-202403050033="">
   <button class="mbbuttonIcon" onclick="ShowSkip(this)">⚔️ <b>Trolling</b></button><span>
   <button class="mbbuttonIcon" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div><small><b>⭐5</b></small></button><hide>
   <div class="mbavem mbTanya"></div>
@@ -17533,7 +17543,7 @@
   <msg spk="Tanya">StarTree please make node.</msg>
   <msg spk="StarTree" exp="" icon="🔍">The parent is set to "Constructive Feedback", which also has notes on destructive responses!</msg>
   <msg spk="Evelyn">I don't know how you want to define trolling, but I want a section on the difference of calling someone a troll versus identifying what behaviors are seen as trolling.</msg>
-  <msg spk="Tanya" exp="" icon="🔮">"Trolling refers to unhelpful discussion tactics aimmed to distract the participants from resolving the discussion topic."</msg>
+  <msg spk="Tanya" exp="" icon="🔮">"Trolling refers to unhelpful discussion tactics aimed to distract the participants from resolving the discussion topic."</msg>
   <msg spk="Black" exp="" icon="🎓">It also includes discussions that were started without an aim to resolve the topic. </msg>
   <msg spk="Black" exp="" icon="📌">I think the parent should have a link to the child topic.</msg>
   <msg spk="StarTree" exp="" icon="⭐">Added!</msg>
@@ -17572,29 +17582,15 @@
   <mbkudo>Wee~~!</mbkudo>
   </div><node>{"type":"chat","id":"202403091019","parentid":"202207252131","parentname":"Cleric","icon":"⚔️","title":"Trolling","prev":"202403082352","author":"Evelyn","location":"Game Room"}</node>
 </div><!--Trolling-->
-<div id="P202403091025" class="mbscroll" date="20240309" time="1025">
-  <content>
-    <div class="mbpdc"><b>Trolling</b> refers to unhelpful discussion tactics aimmed to distract the participants from resolving the discussion topic, or an invitation to a discussion without a genuine aim to resolve the topic.</div><div style="clear:left"></div>
-    <div class="mbscroll">
-      <div class="mbbutton" onclick="ShowNext(this)">Troll vs Trolling</div>
-      <hide><hr><div class="mbav50r mbEvelyn"></div>
-        In general it is not appropriate to call someone a troll even when their behavior is the same as a troll because whether they are a troll is a judgment, not a fact.
-        <msg spk="Evelyn">Instead of calling someone a troll, you could instead identify what part of their comment is helpful or unhelpful, on-topic or off-topic.</msg>
-        <div class="mbCB"></div>
-      </hide>
-    </div>
-
-
-
-  </content>
+<div id="P202304060737" class="mbscroll" date="20240309" time="1025">
+  
   <inv>
     <card dts="20240427233105" title="Trolling" subtitle="Behavior" img="https://cdn.pixabay.com/photo/2015/07/17/13/44/cucumbers-849269_1280.jpg">
-            <macro>{"cmd":"url","url":"https://en.wikipedia.org/wiki/Troll_(slang)","desc":"Wikepedia"}</macro>
-            <small></small>
-          </card>
+      <url>https://en.wikipedia.org/wiki/Troll_(slang)</url>
+    </card>
   </inv>
   <ref></ref>
-  <node>{"id":"202403091025","parentid":"202209251110","parentname":"Constructive Feedback","icon":"⚔️","title":"Trolling","subtitle":"Behavior","img":"https://cdn.pixabay.com/photo/2015/07/17/13/44/cucumbers-849269_1280.jpg","music":"","author":"Tanya","description":"","card-text":""}</node>
+  <node>{"id":"202304060737","parentid":"202209251110","parentname":"Constructive Feedback","icon":"⚔️","title":"Trolling","subtitle":"Behavior","img":"https://cdn.pixabay.com/photo/2015/07/17/13/44/cucumbers-849269_1280.jpg","music":"","author":"Tanya","description":"","card-text":""}</node>
 </div><!--Trolling-->
 <div date="20240309" time="2359" data-status="">
   <macro>{"cmd":"daisy2","issues":"8","quests":"1083","activities":[
@@ -19873,7 +19869,7 @@
   </content>
   <inv>
     <card dts="20240427233111" title="Quest Charter 5" subtitle="Panarcademy @Academy" img="https://cdn.pixabay.com/photo/2016/09/01/05/26/study-1635250_640.jpg">
-            Let's make education free to empowering all to do good.<br><br>
+            Let's make education free to empower all to do good.<br><br>
             
             <small>March 23, 2024</small>
           </card>
@@ -22426,7 +22422,7 @@
   <content>
     <msg spk="Sasha" exp="" icon="🔔"><b>Let's</b> see if it stays stable with 3 digits. Although by raw count it should only be 2 digits.</msg>
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">🧭 [2/12] GitHub Sitemap</div><hide><hr>
-  <div></div><div class="mbav50r mbCB mbSasha" spk="Sasha" icon="🔍" EXP></div><b>🔍Sasha:</b> I still only see two hits from GutHub. But we should keep adding to the sitemap for other pages to be searchable.
+  <div></div><div class="mbav50r mbCB mbSasha" spk="Sasha" icon="🔍" EXP></div><b>🔍Sasha:</b> I still only see two hits from GitHub. But we should keep adding to the sitemap for other pages to be searchable.
   <hr class="mbCB">
   <msg spk="StarTree" exp="" icon="⭐">Added Panarcademy node, Failure Analysis, and Cautionary Tales!</msg>
   <hr class="mbCB">
@@ -23071,51 +23067,44 @@
 <div id="P202404122241" class="mbscroll" date="20240412" time="2241" data-help="" data-ground-keeping="">
   <content>
     <div class="mbpdc"></div><div style="clear:left"></div>
-    <div class="mbscroll">
-      <div class="mbbutton" onclick="ShowNext(this)">🐤 Issues...</div>
-      <hide><hr>
-        <div class="mbpuzzle">
-          <span class="mbbutton" onclick="ShowNext(this)">Tree vs Home</span>
-          <hide><hr><div class="mbav50r mbZoey"></div>
-            "A tree near my house is invading my sewage and making a mess. What can I do?"   
-            <macro>{"cmd":"url","url":"https://nextdoor.com/p/kL49r6BYfHn6","desc":"🏡"}</macro>         
-            <hr>
-            <ol>
-              <li>
-                <span class="mbbutton" onclick="ShowNextInline(this)">Is the tree protected?</span>
-                <hide>
-                  <msg spk="Fina">If the tree is protected or has higher priority, then it is the home that needs to work around the tree. </msg>
-                  <msg spk="Fina">A homeowner is said to be "unable to steward the tree" if they find themself complainint about the tree and try to get rid of it instead of building the home and living with the tree.</msg>
-                  <msg spk="Fina"><lnk>202208162055|Stewardism</lnk></msg>
-                </hide>
-              </li>
-              <li>
-                <span class="mbbutton" onclick="ShowNextInline(this)">Homeowner Autonomy</span>
-                <hide>
-                  <msg spk="Ivy">If the tree is not protected, then the homeowner should have autonomy to deal with the tree including removing it by themself or with their choice of helpers.</msg>
-                  <msg spk="Ivy"><lnk>202208050953|Autonomy</lnk></msg>
-                </hide>
-              </li>
-              <li>
-                <span class="mbbutton" onclick="ShowNextInline(this)">Public Credits</span>
-                <hide>
-                  <msg spk="Ivy">If the tree is a public nuisance or it grows in a way that harms the homeowner's autonomy, then the handling or removal of the tree to restore public autonomy would be eligible for quest credits.</msg>
-                  <msg spk="Ivy"><lnk>202402132242|Priority Currency</lnk></msg>
-                </hide>
-              </li>
-            </ol>
 
-          </hide>
-        </div>
-        <div class="mbCB"></div>
-      </hide>
-    </div>
+    <topic dts="20240511103109" icon="🌱" title="Issues...">
+
+      <topic dts="20240511103201" icon="🐤" title="Tree vs Home">
+        <msg DTS='20240410100631' SPK='Kisaragi' EXP Icon='📯'>"A tree near my house is invading my sewage and making a mess. What can I do?" <url>https://nextdoor.com/p/kL49r6BYfHn6</url></msg>
+        <hr>
+        <ol>
+          <li>
+            <span class="mbbutton" onclick="ShowNextInline(this)">Is the tree protected?</span>
+            <hide>
+              <msg spk="Fina">If the tree is protected or has higher priority, then it is the home that needs to work around the tree. </msg>
+              <msg spk="Fina">A homeowner is said to be "unable to steward the tree" if they find themself complainint about the tree and try to get rid of it instead of building the home and living with the tree.</msg>
+              <msg spk="Fina"><lnk>202208162055|Stewardism</lnk></msg>
+            </hide>
+          </li>
+          <li>
+            <span class="mbbutton" onclick="ShowNextInline(this)">Homeowner Autonomy</span>
+            <hide>
+              <msg spk="Ivy">If the tree is not protected, then the homeowner should have autonomy to deal with the tree including removing it by themself or with their choice of helpers.</msg>
+              <msg spk="Ivy"><lnk>202208050953|Autonomy</lnk></msg>
+            </hide>
+          </li>
+          <li>
+            <span class="mbbutton" onclick="ShowNextInline(this)">Public Credits</span>
+            <hide>
+              <msg spk="Ivy">If the tree is a public nuisance or it grows in a way that harms the homeowner's autonomy, then the handling or removal of the tree to restore public autonomy would be eligible for quest credits.</msg>
+              <msg spk="Ivy"><lnk>202402132242|Priority Currency</lnk></msg>
+            </hide>
+          </li>
+        </ol>
+      </topic>
+
+    </topic>
+
+
   </content>
   <inv>
-    <card dts="20240427233129" title="Tree Issues" subtitle="Groundskeeping" img="https://cdn.pixabay.com/photo/2017/04/09/09/56/avenue-2215317_640.jpg">
-
-            <small></small>
-          </card>
+    <card dts="20240427233129" title="Tree Issues" subtitle="Groundskeeping" img="https://cdn.pixabay.com/photo/2017/04/09/09/56/avenue-2215317_640.jpg"></card>
   </inv>
   <ref></ref>
   <node>{"id":"202404122241","parentid":"202404042050","parentname":"Groundskeeping","icon":"🌳","title":"Tree Issues","subtitle":"Groundskeeping","kids":"","img":"https://cdn.pixabay.com/photo/2017/04/09/09/56/avenue-2215317_640.jpg","music":"","author":"James","description":"","card-text":""}</node>
@@ -24621,25 +24610,30 @@
         <div class="mbCB"></div>
       </hide>
     </div>  
-    <div dts="20240420112425" class="mbscroll">
-      <div class="mbbutton" onclick="ShowNext(this)">🐤 Sightings</div>
-      <hide><hr>
-        <ol>
-          <li>
-            <span class="mbbutton" onclick="ShowNextInline(this)">Homeschooling</span><hide>
-              <msg dts="20240420112514" spk="James" exp="" icon="🏛️">Homeschooling could be a sign of inefficient public education. This is a sighting of reasons a parent would prefer homeschooling: <macro>{"cmd":"url","url":"https://www.psychologytoday.com/us/blog/the-parenting-playbook/202404/the-rise-of-homeschooling?amp","desc":"🔗"}</macro></msg>
-            </hide>
-          </li>
-          <li>
-            <span class="mbbutton" onclick="ShowNextInline(this)">Education</span><hide>
-              <msg dts="20240420042711" spk="James" exp="" icon="🔍">This is a sighting of allegedly ineffective teaching method used by public school <macro>{"cmd":"url","url":"https://www.educationnext.org/math-movement-taking-over-our-schools-building-thinking-classrooms/","desc":"🔗"}</macro>. And this is a sighting saying otherwise: <macro>{"cmd":"url","url":"https://www.ksl.com/article/50985357/teacher-applies-thinking-classroom-method-to-help-students-learn-math","desc":"🔗"}</macro>.</msg>
-            </hide>
-          </li>
-        </ol>
-        <ul></ul>
-        <div class="mbCB"></div>
-      </hide>
-    </div>      
+    <topic dts="20240511110415" icon="🐣" title="Sightings">
+      <ul>
+        <topic dts="20240511110305" icon="🐣" title="Housing">
+          <msg DTS='20240410100208' SPK='Kisaragi' EXP Icon='📌'>Housing talk <url>https://nextdoor.com/p/36J3LdQ79p83</url></msg>
+        </topic>   
+        <li>
+          <span class="mbbutton" onclick="ShowNextInline(this)">Homeschooling</span><hide>
+            <msg dts="20240420112514" spk="James" exp="" icon="🏛️">Homeschooling could be a sign of inefficient public education. This is a sighting of reasons a parent would prefer homeschooling: <macro>{"cmd":"url","url":"https://www.psychologytoday.com/us/blog/the-parenting-playbook/202404/the-rise-of-homeschooling?amp","desc":"🔗"}</macro></msg>
+          </hide>
+        </li>
+        <li>
+          <span class="mbbutton" onclick="ShowNextInline(this)">Education</span><hide>
+            <msg dts="20240420042711" spk="James" exp="" icon="🔍">This is a sighting of allegedly ineffective teaching method used by public school <macro>{"cmd":"url","url":"https://www.educationnext.org/math-movement-taking-over-our-schools-building-thinking-classrooms/","desc":"🔗"}</macro>. And this is a sighting saying otherwise: <macro>{"cmd":"url","url":"https://www.ksl.com/article/50985357/teacher-applies-thinking-classroom-method-to-help-students-learn-math","desc":"🔗"}</macro>.</msg>
+          </hide>
+
+          
+
+        </li>
+             
+      </ul>
+    </topic>
+
+
+    
 	</content>
 	<inv></inv>
 	<ref></ref>
@@ -26060,6 +26054,7 @@
           <msg DTS="20240508205511" END="20240508210504" SPK="Albatross" mode="sort" EXP=2 Icon="🕊️">Importing. The count is now 930.</msg>
           <msg DTS="20240509221531" END="20240509222342" SPK="Sylvia" mode="sort" EXP=2 Icon="🎻">Importing. Resulting count: 912.</msg>
           <msg DTS="20240510094527" END="20240510100129" SPK="Skyle" mode="sort" EXP=3 Icon="🐈">Guild Log count after importing: 874.</msg>
+          <msg DTS="20240511085112" END="20240511090912" mode="sort" SPK="Sasha" EXP=3 Icon="🌊">Guild Log now at 854.</msg>
         </note>
 
       </note>
@@ -26775,6 +26770,52 @@
     {"name":"Sasha","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
+<div id="P202405110903" date="20240511" time="0903" data-skill data-Herald>
+	<content>
+    <note dts="20240511090358" subtitle="Inbox">
+      <msg DTS='20240504063628' SPK='Evelyn' EXP Icon='📌'>9 unapproachable behaviors <url>https://geediting.com/people-who-become-more-unapproachable-as-they-get-older-often-display-these-behaviors-without-realizing-it/</url></msg>
+      <msg DTS='20240504063353' SPK='Sasha' EXP Icon='📌'>5 ways to deescalate team conflict with curiosity <url>https://www.fastcompany.com/91107951/5-ways-curiosity-de-escalates-team-conflict</url></msg>
+      <msg DTS='20240410095740' SPK='Kisaragi' EXP Icon='📌'>What are commissions <url>https://nextdoor.com/p/drhH7q_kX6xC?utm_source=share&extras=NzgyNzc1NA%3D%3D&utm_campaign=1712768205040</url></msg>
+      <msg DTS='20240106093836' SPK='Sasha' EXP Icon='📌'>9 tips in communication <url>https://www.yourtango.com/self/tiny-habits-make-you-better-communicator-most-people</url></msg>
+      <msg DTS='20231122123647' SPK='Sasha' EXP Icon='📌'>Curiosity not performance <url>https://lifehacker.com/health/make-better-small-talk</url></msg>
+      <msg DTS='20231103131543' SPK='Evelyn' EXP Icon='📌'>Ways to say no <url>https://hackspirit.com/phrases-confident-people-use-to-set-boundaries/</url></msg>
+      <msg DTS='20231101104302' SPK='Evelyn' EXP Icon='📌'>Convo gear shift <url>https://www.psychologytoday.com/us/blog/fixing-families/202310/the-most-important-conversation-skill?amp</url></msg>
+      <msg DTS='20230909073042' SPK='Evelyn' EXP Icon='📌'>What to say <url>https://hackspirit.com/phrases-instantly-make-sound-more-intelligent-thoughtful/</url></msg>
+      <msg DTS='20230520063311' SPK='Evelyn' EXP Icon='📌'>Conversation tips <url>https://www.yourtango.com/self/ways-have-stimulating-conversation-according-professional-interviewer?amp</url></msg>
+      <msg DTS='20230331093124' SPK='Evelyn' EXP Icon='📌'>3 6 rule of friendship  <url>https://www.purewow.com/wellness/3-6-rule-for-making-adult-friendships/amp</url></msg>
+      <msg DTS='20230306085355' SPK='Evelyn' EXP Icon='📌'>Chatting <url>https://www.inc.com/minda-zetlin/3-things-people-who-are-good-at-conversation-dont-do-according-to-a-research-psychologist.html</url></msg>
+      <msg DTS='20230226085613' SPK='Sasha' EXP Icon='📌'>Small talk <url>https://hackspirit.com/steps-to-mastering-the-art-of-small-talk/</url></msg>
+      <msg DTS='20230215080709' SPK='Evelyn' EXP Icon='📌'>Social fitness <url>https://www.cnbc.com/amp/2023/02/10/85-year-harvard-study-found-the-secret-to-a-long-happy-and-successful-life.html</url></msg>
+      <msg DTS='20230122074814' SPK='Evelyn' EXP Icon='📌'>Getting feedbacks <url>https://www.yourtango.com/self/psychological-skills-stole-super-smart-people?amp</url></msg>
+      <msg DTS='20220608205049' SPK='Zoey' EXP Icon='📌'>Hand gestures <url>https://www.johnrampton.com/25-hand-gestures-that-make-you-look-smarter/</url></msg>
+      <msg DTS='20211019080535' SPK='Evelyn' EXP Icon='📌'>Repeated message <url>https://twitter.com/catcer_terminal/status/1450043059127787524?t=R7umOGWu1v-rC076eOivbA&s=19</url></msg>
+      <msg DTS='20211018065332' SPK='Helen' EXP Icon='📌'>Communication on good news <url>https://twitter.com/catcer_terminal/status/1450043059127787524</url></msg>
+      <msg DTS='20210927095743' SPK='Evelyn' EXP Icon='📌'>Interpreting a statement <url>https://twitter.com/LRRHBakery/status/1442532829141733377?s=19</url></msg>
+      <msg DTS='20210927095744' SPK='Tanya' EXP Icon='📌'>Interpreting a statement (Concept) <url>https://twitter.com/LRRHBakery/status/1442532829141733377?s=19</url></msg>
+      <msg DTS='20210924092411' SPK='Patricia' EXP Icon='📌'>Courtesy of definition <url>https://nextdoor.com/p/rwzs-Z8t8jrX/c/660093637?utm_source=share?init_source=share_comment</url></msg>
+      <msg DTS='20210923082801' SPK='Tanya' EXP Icon='📌'>Courtesy of definition <url>https://nextdoor.com/p/rwzs-Z8t8jrX/c/659555928?utm_source=share</url></msg>
+      <msg DTS='20240508142259' SPK='Evelyn' EXP Icon='📌'>Handling criticisms from housemate <url>https://www.psychologytoday.com/us/blog/dbt-for-daily-life/202404/keeping-the-peace-handling-criticism-from-your-housemates?amp</url></msg>
+    </note>
+	</content>
+	<inv></inv>
+	<ref></ref>
+	<node>{"id":"202405110903","parentid":"202209031718","parentname":"Herald","icon":"📯","title":"Communication","subtitle":"Herald Skill","kids":"","img":"","music":"","author":"Fina"}</node>
+</div><!--P202405110903-->
+<div id="P202405111043" date="20240511" time="1043" data-skill data-Cleric data-subject>
+	<content>
+    <topic dts="20240511105256" icon="🌱" title="About">
+      <msg DTS="20240511105309" SPK="Gaia" EXP mode="make" Icon="🐈">The content of this node may not be medical advices but for inspirations and curiosities purposes.</msg><hr>
+      <ol>
+        <topic dts="20240511105449" icon="🍎" title="gastrointestinal">
+          <msg DTS='20240504065407' SPK='Gaia' mode="make" EXP=2 Icon='🍎'>Treating (pet) UTI with Apple Cider Vinegar (ACV) <url>https://www.webmd.com/pets/cats/remedies-cat-urinary-tract-infection</url> <url>https://www.verywellhealth.com/apple-cider-vinegar-for-yeast-infections-5121050</url></msg>
+        </topic>
+      </ol>
+    </topic>    
+	</content>
+	<inv></inv>
+	<ref></ref>
+	<node>{"id":"202405111043","parentid":"202207252131","parentname":"Cleric","icon":"❤️","title":"Home Remedies","subtitle":"Cleric Skills","kids":"","img":"","music":"","author":"Gaia"}</node>
+</div><!--Home Remedies-->
 <div date="20240511" time="2359" data-status="">
   <macro>{"cmd":"daisy2","issues":"0","quests":"864","activities":[
     

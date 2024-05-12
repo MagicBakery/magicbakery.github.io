@@ -1749,21 +1749,26 @@ function MacroURL(el){
 
 function GetURLCode(mURL,mDesc, mLang){
   // 20240504: Sylvia: mDesc argument is optional.
+  var bIcon = false;
   if(IsBlank(mDesc)){
     mDesc = "url";
     if(mURL.includes("amazon.com")){mDesc="Amazon"};
     if(mURL.includes("boardgamegeek.com")){mDesc="BGG"};
     if(mURL.includes("wikipedia.org")){mDesc="Wiki"};
-    if(mURL.includes("nextdoor.com")){mDesc="🏡"};
-    if(mURL.includes("youtube.com")){mDesc="📺"};
-    if(mURL.includes("&list=")){mDesc="🎧"};
-    if(mURL.includes("podcast")){mDesc="📻"};
+    if(mURL.includes("nextdoor.com")){mDesc="🏡";bIcon=true;};
+    if(mURL.includes("twitter.com")){mDesc="🐤";bIcon=true;};    
+    if(mURL.includes("youtube.com")){mDesc="📺";bIcon=true;};
+    if(mURL.includes("&list=")){mDesc="🎧";bIcon=true;};
+    if(mURL.includes("podcast")){mDesc="📻";bIcon=true;};
 
   }
   if(NotBlank(mLang)){
     mDesc += "&nbsp;" + mLang;
   }
-  mDesc = "[" + mDesc + "]";
+  // 20240511: Black Don't put brackets around an icon. 
+  if(!bIcon){
+    mDesc = "[" + mDesc + "]";
+  }
   return "<a class=\"mbbuttonEx mbURL\" onclick=\"ExURL('" + mURL + "')\">" + mDesc + "</a>";
 }
 function FullTitle(el,mPrefix,mSubtitle){
