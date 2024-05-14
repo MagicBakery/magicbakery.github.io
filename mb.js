@@ -4332,9 +4332,9 @@ function QSL(el,iQuery,iMonthly){
     switch(iMonthly){
       //case "monthly": iQuery += ":has([monthly])"; break;
       //case "done": iQuery += ":has([monthly]:has([dts^='"+mYYYYMM+"']))"; break;
-      case "done": iQuery += ":has(msg[dts^='"+mYYYYMM+"'])"; break;
+      case "done": iQuery += ":has(msg[dts^='"+mYYYYMM+"']:not([icon='📌']))"; break;
       //case "todo": iQuery += ":has([monthly]:not(:has([dts^='"+mYYYYMM+"'])))"; break;
-      case "todo": iQuery += ":not(:has(msg[dts^='"+mYYYYMM+"']))"; break;
+      case "todo": iQuery += ":not(:has(msg[dts^='"+mYYYYMM+"']:not([icon='📌'])))"; break;
     }
   }
 
