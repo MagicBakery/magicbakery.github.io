@@ -1936,7 +1936,7 @@ function MSScanFor(elDisplay,mStart,mEnd,elHeader,bGroupByTopic){
     if(NotBlank(elArchives)){
       let elMsgs = elArchives.querySelectorAll("MSG[dts]");
       MSScanForPush(mMsgList,elMsgs,mStart,mEnd);
-      MSScanForEL(elDisplay,mMsgList,elHeader,bGroupByTopic)
+      MSScanForEL(elDisplay,mMsgList,elHeader,bGroupByTopic,mStart,mEnd)
       return;
     }
     var mDone = 0;  
@@ -1947,7 +1947,7 @@ function MSScanFor(elDisplay,mStart,mEnd,elHeader,bGroupByTopic){
         MSScanForPush(mMsgList,elMsgs,mStart,mEnd);        
         mDone ++;
         if(mDone >= ArchiveNum()){
-          MSScanForEL(elDisplay,mMsgList,elHeader,bGroupByTopic)
+          MSScanForEL(elDisplay,mMsgList,elHeader,bGroupByTopic,mStart,mEnd)
           elCache.remove();
         }
       });
@@ -1968,7 +1968,7 @@ function MSScanForPush(mMsgList,elMsgs,mStart,mEnd){
     }
   });
 }
-function MSScanForEL(elDisplay,mMsgList,elHeader, bGroupByTopic){
+function MSScanForEL(elDisplay,mMsgList,elHeader, bGroupByTopic, mStart, mEnd){
   // 20240509: Black: The inner function of MSScanFor, shared between online and offline mode.
   var mHTML = "";
   var mHeaderHTML = ""
