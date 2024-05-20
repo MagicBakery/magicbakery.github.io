@@ -63,9 +63,9 @@
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Sitemap Quests">🎪</a>
         <hide>
           <h4>🎪 Quest Queries</h4><hr>
-            <a class="mbbutton" onclick="QSL(this,'topic[monthly]')" title="All monthly quests">📅</a> 
-            <a class="mbbutton" onclick="QSL(this,'topic[monthly]','todo')" title="Yet to do this month">📯</a> 
-            <a class="mbbutton" onclick="QSL(this,'topic[monthly]','done')" title="Completed this month">✅</a>
+            <a class="mbbutton" onclick="QSL(this,'[monthly]')" title="All monthly quests">📅</a> 
+            <a class="mbbutton" onclick="QSL(this,'[monthly]','todo')" title="Yet to do this month">📯</a> 
+            <a class="mbbutton" onclick="QSL(this,'[monthly]','done')" title="Completed this month">✅</a>
             <a class="mbbutton" onclick="QSL(this,'[id][date][time]','done')" title="All nodes with updates this month">🔔</a> | 
             <a class="mbbutton" onclick="QSL(this,'[id][date][time]:has(note[subtitle=&quot;Inbox&quot;])')" title="All nodes with an Inbox bin">📬</a>
             <a class="mbbutton" onclick="QSL(this,'[id][date][time]:has(note[subtitle=&quot;Todo&quot;])')" title="All nodes with a Todo bin">📌</a>
@@ -458,12 +458,13 @@
                   </div>
                 </div><!--@Academy / LRRH-->                
                 <div class="mbCB">
-                  <macro>{"guildlog":"272","rank":"D","updates":"2","node":"202208162133","author":"Fina","chapter":"@Arena","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"272","rank":"A","updates":"3","node":"202208162133","author":"Fina","chapter":"@Arena","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"2","icon":"🏘️","node":"202307231022","title":"NextDoor Workflow","info":"Replying/Deploying.","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"2","icon":"⚔️","node":"202309070833","title":"Bad Policies","info":"S Rank: With external posting.","cmd":"quest"}</macro>   
                     <span class="mbListCapNC mbRankA"></span>   
+                    <macro>{"log":"0520","priority":"3","icon":"📗","node":"202405201027","title":"Changing Planet","info":"Monthly critical reading.","cmd":"quest"}</macro>  
                     <macro>{"log":"","priority":"2","icon":"🔔","node":"202403150017","title":"Discussion Log","info":"Replying/Deploying.","cmd":"quest"}</macro>            
                     <macro>{"log":"","priority":"2","icon":"⚔️","node":"202301011739","title":"Differences","info":"Process significant differences in philosophy or constitution.","cmd":"quest"}</macro>                
                     <macro>{"log":"","priority":"9","icon":"Lyre","node":"202309142125","title":"Custom Icon","info":"Custom Icons: Need new node.","cmd":"quest"}</macro>
@@ -987,9 +988,10 @@
                   </div>
                 </div><!--@Treasure / Casey-->        
                 <div class="mbCB">
-                  <macro>{"guildlog":"89","rank":"C","updates":"2","node":"202210080934","author":"Helen","chapter":"@Vacation","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"89","rank":"A","updates":"3","node":"202210080934","author":"Helen","chapter":"@Vacation","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
-                    <span class="mbListCapNC mbRankA"></span>     
+                    <span class="mbListCapNC mbRankA"></span>    
+                    <macro>{"log":"0520","priority":"0","icon":"📗","node":"202405201123","title":"Jokes","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"🍜","node":"202404100216","title":"Ramen","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🎤","node":"202207220710","title":"Singalong Quest","info":"Make lyrics pages","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
@@ -23995,7 +23997,7 @@
             <!--#NM-->
             <span class="mbhide">
             <macro>{"cmd":"ButtonList","func":"NMMsg",
-              "list":"🐾|❓|❌|🍎|🚨|⛔|🧰|☎️|🎀|💟|🌺|🎯|📅|🎪|🔥|⏳|🥁|🎡|🎠|🚀|🥚|🐣||⚖️|🧹|🏹|👍|🖐|☀️|🌛|🍌|🛩️|🐈|📒|🔔|🛎️|🏆|👑|🥘|🥞|🍯|🎟️|🥠|🍮|🧭|💡|⚡|🍍|🐢|🏕️|🌾|♻️|🍀|🧶|🐸|🥝|🍵|🏅|❄️|🎼|🌠|💍|💎|🗺️|🧊|💧|🌊|🌀|🌌|⚗️|🧪|🔮|🎤|🎓|🎩|🗃️|🍱|💼|🐿️|🦋|🕰️|🎻|🕰️|🥥|🥨|📜|🥼|⬜|📰|🗞️|📬|🐇|☁️|🎹|☕|⚙️|⚔️|🏛️|🛒|🐺|⚓|🎧"}</macro>
+              "list":"🐾|❓|❌|🍎|🚨|⛔|🧰|☎️|🎀|💟|🌺|🎯|📅|🎪|🔥|⏳|🥁|🎡|🎠|🚀|🥚|🐣||⚖️|🧹|🏹|👍|🖐|☀️|🌛|🍌|🔑|🛩️|🐈|📒|🔔|🛎️|🏆|👑|🥘|🥞|🍯|🎟️|🥠|🍮|🧭|💡|⚡|🍍|🐢|🏕️|🌾|♻️|🍀|🧶|🐸|🥝|🍵|🏅|❄️|🎼|🌠|💍|💎|🗺️|🧊|💧|🌊|🌀|🌌|⚗️|🧪|🔮|🎤|🎓|🎩|🗃️|🍱|💼|🐿️|🦋|🕰️|🎻|🕰️|🥥|🥨|📜|🥼|⬜|📰|🗞️|📬|🐇|☁️|🎹|☕|⚙️|⚔️|🏛️|🛒|🐺|⚓|🎧"}</macro>
             </span>
             <hr class="mbCB mbpointer" onclick="ShowPrev(this)">
         </div>
@@ -26078,7 +26080,7 @@
           <msg DTS="20240516103610" SPK="LRRH" EXP Icon="🥨">773.</msg>
           <msg DTS="20240517215427" SPK="Fina" mode="sort" EXP Icon="⚔️">764</msg>
           <msg DTS="20240518201200" SPK="Arcacia" EXP Icon="💗">762</msg>
-
+          <msg DTS="20240520102534" SPK="Sasha" EXP Icon="⚡">757</msg>
         </note>
 
       </note>
@@ -27415,6 +27417,88 @@
     {"name":"Ledia","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
+<div id="P202405201027" date="20240520" time="1027" data-Book>
+	<content>
+    <topic dts="20240520103339" icon="🌱" title="About">
+      <msg DTS="20240519120047" SPK="Sasha" EXP Icon="🍀">This book has infographics on almost every page, it looks pretty but also hard to focus on the many topics it covers.</msg>
+      <msg DTS="20240520103952" SPK="Sasha" EXP Icon="📯">Can we do better?</msg>
+      <ol>
+      </ol>
+      <note dts="20240520103057" subtitle="Log">
+        <msg DTS="20240519120047" SPK="Sasha" EXP Icon="🍀">Got this book on sale at thrift store for $1.50. It had been on the shelves for over a month but its condition is like new, I liked the color scheme of the cover, and supposedly it has action plans for changes.</msg>
+        <msg DTS="20240520105332" SPK="Sasha" EXP Icon="🎩">Upgraded sitemap quest list to scan for monthly quest in notes also.</msg>
+      </note>
+      <note dts="20240520104645" icon="🎓" title="Reading Quest">
+        <msg DTS="20240520104157" SPK="Sasha" EXP Icon="📌">I think we should review at one topic in the book each month.</msg>
+
+      </note>
+    </topic>
+    <topic dts="20240520105429" icon="🐣" monthly title="§0 Introduction">
+      <msg DTS="20240520105916" SPK="Sasha" EXP Icon="🔍">Page 10-13: The introduction text says that the reader should be aware of the rapid growth and consumption of the human population and shows six attention-catching graphs with titles like "Flesh water use has increased fivefold."</msg>
+      <msg DTS="20240520110414" SPK="Sasha" EXP Icon="⚡">The graph titles fall short of generating any alarm because it does not show any bad consequence for the consumption, "We use more fresh water. So what? We haven't run out of fresh water."</msg>
+      <msg DTS="20240520110957" SPK="Sasha" EXP Icon="🔍">The only graph title that does not fall short is "Mass extinction of animals and plantsgather momentum" on page 13, assuming that the reader believes that mass extinction is necessarily bad. Is that assumption correct? Do we really "need" all the species? Why can't the ecosystem be simpler?</msg>
+
+    </topic>
+    <topic dts="20240520105429" icon="🐣" title="§1 Drivers of Change">
+      <ol>
+      </ol>
+    </topic>
+    <topic dts="20240520105429" icon="🐣" title="§2 Consequences of Change">
+      <ol>
+      </ol>
+    </topic>
+    <topic dts="20240520105429" icon="🐣" title="§3 Bending the Curves">
+      <ol>
+      </ol>
+    </topic>
+    
+	</content>
+	<inv>
+    <card DTS="20240520102758" title="Changing Planet" subtitle="Book" img="https://m.media-amazon.com/images/I/711ptr0pckL._AC_UY218_.jpg">The Science of our Changing Planet<br>
+      2021<br>
+      <url>https://www.amazon.com/Science-our-Changing-Planet/dp/0241515130</url>
+    </card>
+  </inv>
+	<ref></ref>
+	<node>{"id":"202405201027","parentid":"202210151642","parentname":"Book","icon":"📗","title":"Changing Planet","subtitle":"Book","kids":"","img":"","music":"","author":"Sasha"}</node>
+</div><!--P202405201027-->
+<div id="P202405201123" date="20240520" time="1123" data-Book>
+	<content>
+    <topic dts="20240520112623" icon="🌱" title="New Topic">
+      <msg DTS="20240520112632" SPK="Zoey" EXP Icon="🌱">I think jokes are not useful unless you memorize them. How many can you memorize?</msg>
+      <note dts="20240520112520" subtitle="Log">
+        <msg DTS="20240519122533" SPK="Zoey" EXP Icon="🍀">Thift Store sale, $1.00.</msg>
+      </note>
+    </topic>
+    <topic dts="20240520112812" icon="🐣" monthly title="Favorites">
+      <ol>
+        <topic dts="20240520113143" icon="🎩" title="Bottom at the top">
+          <msg DTS="20240520113330" SPK="Zoey">What has a bottom at the top?</msg>
+          <msg DTS="20240520113020" SPK="Zoey" EXP Icon="🛎️">Your leg</msg>
+        </topic>
+        <topic dts="20240520113428" icon="🎩" title="Laziest Vegetable">
+          <msg DTS="20240520113444" SPK="Zoey">What is the laziest vegetable?</msg>
+          <msg DTS="20240520113501" SPK="Zoey" EXP Icon="🛎️">A couch potato</msg>
+        </topic>
+
+        <topic dts="20240520113218" icon="🎩" title="Walking Stick">
+          <msg DTS="20240520113240" SPK="Zoey">If slow old men use walking sticks, what do fast old men use?</msg>
+          <msg DTS="20240520113307" SPK="Zoey" EXP Icon="🛎️">Hurry-canes</msg>
+        </topic>
+      </ol>
+      
+    </topic>
+
+	</content>
+	<inv>
+    <card DTS="20240520112426" title="Awesome Jokes" subtitle="Book" img="https://m.media-amazon.com/images/I/61CcV0JoauL._SY342_.jpg">
+      Awesome Jokes That Every 8 Year Old Should Know<br>2018<br>
+      <url>https://www.amazon.com/Awesome-Jokes-That-Every-Should/dp/1999914740</url>
+    </card>
+  </inv>
+	<ref></ref>
+	<node>{"id":"202405201123","parentid":"202210151642","parentname":"Book","icon":"📗","title":"8-Year-old Jokes","subtitle":"Book","kids":"","img":"","music":"","author":"Zoey"}</node>
+</div><!--P202405201123-->
 <div date="20240520" time="2359" data-status="">
   <macro>{"cmd":"daisy2","issues":"0","quests":"817","activities":[
     

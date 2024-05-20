@@ -4160,7 +4160,7 @@ function QSLEL(elSearchList,iQuery,elArchives,bOffline){
         }else{
           mID = elDiv.getAttribute("id");
           if(IsBlank(mID)){mID = elDiv.getAttribute('DTS');}
-          mTitle = elDiv.getAttribute("title");
+          mTitle = Default(elDiv.getAttribute("title"),elDiv.getAttribute("subtitle"));
           mIcon = elDiv.getAttribute("icon");
         }
 
