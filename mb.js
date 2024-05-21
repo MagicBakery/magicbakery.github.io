@@ -2259,6 +2259,13 @@ function MSScan(elButton){
 }
 function RenderStart(el){
   // 20240420: StarTree: Renders a bubble in the a traditional START format.
+
+  // 20240521: StarTree: If the first character is not alphabet, return a normal bubble.
+  var mTextFC = el.innerHTML.slice(0,1);
+  if(mTextFC.toLowerCase() == mTextFC.toUpperCase()){
+    return RenderMsg(el);
+  }
+
   var mHTML="";
   // STEP: Show the Avatar with optional EXP icon.
   var mSPK = Default(el.getAttribute("SPK"),"");
