@@ -1557,13 +1557,10 @@ function MacroRes(el){
   for(let i=0;i<mTags.length;i++){
     let mTag = mTags[i];    
     // STEP: Determine the type and process accordingly.
-    if(MacroResItem(mTag)){
-      // TEMP
-      //mTag.setAttribute('item',DTC(mTag.getAttribute('dts')));
-      //mConvert += mTag.outerHTML + "\n";
-
-      continue;} // Library Item
+    if(MacroResItem(mTag)){continue;} // Library Item
+    if(MacroResTimeline(mTag)){continue;}
     if(MacroResImage(mTag)){continue;} // Default as image
+    
   }
   /// TEMP
   //if(mConvert!=""){navigator.clipboard.writeText(mConvert);alert("Done!!!!")}
@@ -1666,6 +1663,27 @@ function MacroResItem(mTag){
   mHTML += mTag.innerHTML;
   mHTML += "<hr class=\"mbCB\"></hide>"
   mHTML += "</div>";
+  let elNew = document.createElement('div');
+  mTag.after(elNew);
+  elNew.outerHTML = mHTML;
+  mTag.remove();
+  return true;
+}
+function MacroResTimeline(mTag){
+  // 20240522: StarTree: A timeline object has a year
+  if(!mTag.hasAttribute("year")){return false;}
+  let mYear = mTag.getAttribute("year");
+  let mTitle=mTag.getAttribute('title');
+  let mSrc = mTag.getAttribute("src");
+
+  // Pad the year if it has fewer than 5 characters.
+  mYear = mYear.padStart(5," ").replaceAll(" ","&nbsp;");
+  
+  let mHTML = "<div>";
+  mHTML += "<code>" + mYear + "</code> <span class=\"mbbutton\" onclick=\"ShowNextInline(this)\">" + mTitle + "</span> <hide>";
+  mHTML +="<url>" + mSrc + "</url>";
+
+  mHTML += "</hide></div>";
   let elNew = document.createElement('div');
   mTag.after(elNew);
   elNew.outerHTML = mHTML;
