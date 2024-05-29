@@ -1417,7 +1417,10 @@ function MacroBullet(el){
     let mIcon = Default(mTag.getAttribute("icon"),"");
     let mHTML = "<span class='mbbutton' onclick='ShowNextInline(this)'>";
     mHTML += "<span class='mbILB30'>" + mIcon + "</span>";
-    mHTML += FullTitleNS(mTag) + "</span><hide>";
+    mHTML += FullTitle(mTag,"","",true) + "</span><hide>";
+
+    //DEBUG(FullTitle(mTag,"","",true));
+
     mHTML += mTag.innerHTML + "</hide>";
     let elNew = document.createElement('li');
     elNew.setAttribute('DTS',mDTS);
@@ -1682,7 +1685,7 @@ function MacroResTimeline(mTag){
   let mHTML = "<div>";
   mHTML += "<code>" + mYear + "</code> <span class=\"mbbutton\" onclick=\"ShowNextInline(this)\">" + mTitle + "</span> <hide>";
   mHTML +="<url>" + mSrc + "</url>";
-
+  mHTML += mTag.innerHTML;
   mHTML += "</hide></div>";
   let elNew = document.createElement('div');
   mTag.after(elNew);
@@ -1720,6 +1723,10 @@ function MacroTopic(el){
       elNew.setAttribute('prefix',mPrefix);
       elNew.setAttribute('DTS',mDTS);
       elNew.setAttribute('Icon',mIcon);
+      if(mTag.hasAttribute('monthly')){
+        elNew.setAttribute('monthly',mTag.getAttribute("monthly"));
+      }
+
       elNew.innerHTML = mTag.innerHTML;
       mTag.before(elNew);
       mTag.remove();
@@ -1790,27 +1797,66 @@ function GetURLCode(mURL,mDesc, mLang){
   }
   return "<a class=\"mbbuttonEx mbURL\" onclick=\"ExURL('" + mURL + "')\">" + mDesc + "</a>";
 }
-function FullTitle(el,mPrefix,mSubtitle){
+function FullTitle(el,mPrefix,mSubtitle,bNS){
   // 20240429: Cardinal
   let mTitle = Default(el.getAttribute("title"),"");
   mPrefix = Default(mPrefix,el.getAttribute("prefix"));
   mSubtitle = Default(mSubtitle,el.getAttribute("Subtitle"));
-  return FullTitleStr(mTitle,mPrefix,mSubtitle);
+  let mHTML = FullTitleStr(mTitle,mPrefix,mSubtitle,bNS);
+  
+  // 20240528: Sasha: Auto display of monthly attribute.
+  if(el.hasAttribute("monthly") || NotBlank(el.querySelector('[monthly]'))){
+    let mYYYYMM = DTSNow().slice(0,6); // Get the current month.
+    let mMTodo = el.querySelector("[monthly]:not(:has(msg[dts^='"+mYYYYMM+"']:not([icon='📌'])))");
+    let mMDone = el.querySelector("msg[dts^='"+mYYYYMM+"']:not([icon='📌'])");
+    if(NotBlank(mMTodo) || IsBlank(mMDone)){
+      mHTML += " <small title='Monthly Quest'>🔔</small>";
+    }else{
+      mHTML += " <small title='Monthly Quest Completed'>✅</small>";
+    }
+    
+  }
+
+  return mHTML;
 }
-function FullTitleNS(el,mPrefix,mSubtitle){
+function FullTitleNS_DELETE20240528(el,mPrefix,mSubtitle){
   // 20240429: Cardinal
   let mTitle = Default(el.getAttribute("title"),"");
   mPrefix = Default(mPrefix,el.getAttribute("prefix"));
   mSubtitle = Default(mSubtitle,el.getAttribute("Subtitle"));
-  return FullTitleStrNS(mTitle,mPrefix,mSubtitle);
+  let mHTML = FullTitleStr(mTitle,mPrefix,mSubtitle,true);
+  // 20240528: Sasha: Auto display of monthly attribute.
+  if(el.hasAttribute("monthly")){
+    mHTML += " <small>🔔</small>";
+  }
+  return mHTML;
 }
-function FullTitleStr(mTitle,mPrefix,mSubtitle){
+function FullTitleStr(mTitle,mPrefix,mSubtitle,bNS){
   // 20240429: Cardinal: With substitution
-  if(mSubtitle=="Completed"){mSubtitle="✅";}
-  return FullTitleStrNS(mTitle,mPrefix,mSubtitle);
+  if(!bNS){
+    if(mSubtitle=="Completed"){mSubtitle="✅";}
+  }else{
+    // 20240429: Cardinal: NO Substitution.
+    let mFullTitle = "";
+    if(NotBlank(mPrefix)){mFullTitle += mPrefix + " ";}
+    mFullTitle += mTitle;
+    if(NotBlank(mSubtitle)){
+      if(mSubtitle.slice(0,1)=="/"){
+        mFullTitle += mSubtitle;
+      }else{
+        if(NotBlank(mFullTitle)){
+          mFullTitle += " " + mSubtitle;
+        }else{
+          mFullTitle += mSubtitle;
+        }
+      }
+    }
+    return mFullTitle;
+  }
+  return FullTitleStr(mTitle,mPrefix,mSubtitle,true);
 }
-function FullTitleStrNS(mTitle,mPrefix,mSubtitle){
-  // 20240429: Cardinal
+function FullTitleStrNS_DELETE20240528(mTitle,mPrefix,mSubtitle){
+  // 20240429: Cardinal: NO Substitution.
   let mFullTitle = "";
   if(NotBlank(mPrefix)){mFullTitle += mPrefix + " ";}
   mFullTitle += mTitle;
