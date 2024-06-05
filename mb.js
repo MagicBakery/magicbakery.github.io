@@ -6394,6 +6394,14 @@ function QueryAllPSN(el,eQuery,iInner,iAttribute){
   elTarget.setAttribute("mQueryString","");
   QueryAllEL(elTarget,eQuery,iInner);
 }
+function ShowLBL(el,iAttribute){
+  // 20240604: Ledia: Added for profiles.
+  var elSource = el.lastElementChild;
+  var elTarget = SearchPS(el,"board").querySelector('[qsl][bl]');
+  elTarget.parentNode.classList.remove('mbhide');
+  elTarget.innerHTML = elSource.innerHTML;
+  elTarget.classList.remove("mbhide");
+}
 function ShowLPSL(el,iAttribute){
   // 20231220: StarTree: Goes up the parents until it has the attribute.
   var elSource = el.lastElementChild;
