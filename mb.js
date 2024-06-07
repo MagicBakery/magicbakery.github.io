@@ -264,7 +264,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
 
       // STEP: Show discussion list query button
       //mHTMLInner += "<a class='mbbutton' onclick=\"QueryAllPSL(this,'[data-" + mJSON.id + "]',false,'board')\">💬 Discussions</a>";
-      mHTMLInner += "<a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mJSON.id + "]')\">💬 Discussions</a>";
+      mHTMLInner += "<a class='mbbutton' onclick=\"QSLBL(this,'[id][date][time][data-" + mJSON.id + "],[id][date][time]:has([data-" + mJSON.id + "])')\">💬 Discussions</a>";
       
 
       mHTMLInner += "</div>";
