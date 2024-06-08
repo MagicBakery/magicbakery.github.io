@@ -1560,6 +1560,7 @@ function MacroRes(el){
   for(let i=0;i<mTags.length;i++){
     let mTag = mTags[i];    
     // STEP: Determine the type and process accordingly.
+    if(MacroResCalendar(mTag)){continue;} // Calendar Object
     if(MacroResItem(mTag)){continue;} // Library Item
     if(MacroResTimeline(mTag)){continue;}
     if(MacroResImage(mTag)){continue;} // Default as image
@@ -1567,6 +1568,73 @@ function MacroRes(el){
   }
   /// TEMP
   //if(mConvert!=""){navigator.clipboard.writeText(mConvert);alert("Done!!!!")}
+}
+function MacroResCalendar(mTag){
+  // 20240608: Arcacia
+  // Type = Calendar: Required attribute
+  // Icons = A | separated list.
+  // Month = Indicates which month to use for rolling diary
+  // .. Plan: If the length is 2, interpret it as MM for a rolling calendar.
+  // .. Plan: Otherwise, interpret as YYYYMMM for a regular calendar
+  let mType = mTag.getAttribute("type").toLowerCase();
+  if(mType != "calendar"){return false;}
+  let mIcons = mTag.getAttribute("icons");
+  let mMonth = mTag.getAttribute("month");
+  let bRolling = (mMonth.length==2);
+
+  // STEP: Interpret the number of days in the calendar
+  let mIconArr = mIcons.split("|");
+  let mNumberOfDays = mIconArr.length;
+  // STEP: Starting Offset: Default is to have no offset.
+  
+  
+  let mHTML = "<table control class=\"mbCalendarb\" style=\"margin-bottom:10px\">";
+  // STEP: Add Header Row only if it is not a rolling diary
+  if(!bRolling){
+    mHTML += "<thead><tr><th>SUN</th><th>MON</th><th>TUE</th><th>WED</th><th>THU</th><th>FRI</th><th>SAT</th></tr></thead>";
+  }
+  // STEP: Compose the body
+  mHTML += "</tbody>";
+  let i = 0; // Also keeps track of the column position.
+  let mDay = 1; 
+
+  while(mDay <= mNumberOfDays){
+
+    // STEP: start a row if at column count mods 7.
+    if(i%7==0){
+      if(i==0){mHTML += "<tr>";}else{mHTML += "</tr><tr>";}
+    }
+    // STEP: Fill the day content
+    mHTML += "<td class=\"mbbuttonCal\" ";
+
+    // STEP: Add the OnClick function call
+    if(bRolling && mDay > 0){ // Assumes that Rolling calendar is a happy/kudo calendar
+      let mMMDD = mMonth + mDay.toString().padStart(2,'0');
+      mHTML += " onclick=\"QSL(this,&quot;[date$='"+mMMDD+"'][data-happy],[id][date][time]:has([date$='"+mMMDD+"'][icon='💟'],[date$='"+mMMDD+"'][icon='💗'],mbkudo[date$='"+mMMDD+"'])&quot;)\"";
+    }
+
+    mHTML += ">";
+    if(mDay >0){
+      mHTML += mDay + "<br>";
+      let mDayIcon = Default(mIconArr[mDay-1],"&nbsp;");
+      if(!isNaN(mDayIcon)){mDayIcon = "&nbsp;"} // If the content is just a number, assume that it is just a position marker and don't display it.
+      mHTML += mDayIcon;
+      mHTML += "</td>";
+    }
+    mDay ++;i++;
+  }
+  mHTML += "</tr>";
+  mHTML += "</tbody></table>";
+  // STEP: Add the search result area
+  mHTML += "<div style=\"text-align:left\">";
+  mHTML += "<div control=\"\"></div>";
+  mHTML += "<div class=\"mbSearch\" style=\"display:flex;flex-direction: column;\"></div>"
+  mHTML += "</div>";
+  let elNew = document.createElement('div');
+  mTag.after(elNew);
+  elNew.innerHTML = mHTML;
+  mTag.remove();
+  return true;
 }
 function MacroResImage(mTag){
   // 20240428: Zoey // image type is the default. This process should be last.  
