@@ -498,10 +498,8 @@ function DTCDay(mDTS,mDTC){
     let i = Number(String(mDTS).slice(6,8));
     return aDay.slice(i-1,i);
   }else{ // From DTC to DTS
-    let mDD = String(aDay.search(mDTC.slice(3,4))+1);
-    if(mDD.length<1){
-      mDD = "0" + mDD;
-    }
+    let mDD = String(aDay.search(mDTC.slice(3,4))+1).padStart(2,"0");
+
     return mDD;
   }
 }
@@ -512,10 +510,8 @@ function DTCHour(mDTS,mDTC){
     let i = Number(String(mDTS).slice(8,10));
     return aHour.slice(i,i+1);
   }else{ // From DTC to DTS
-    let mHH = String(aHour.search(mDTC.slice(4,5))+1);
-    if(mHH.length<1){
-      mHH = "0" + mHH;
-    }
+    let mHH = String(aHour.search(mDTC.slice(4,5))+1).padStart(2,"0");
+
     return mHH;
   }
 }
@@ -527,9 +523,9 @@ function DTCMMSS(mDTS,mDTC){
     return (mMM * 60 + mSS).toString(16).padStart(3,"0").toUpperCase();
   }else{ // From DTC to DTS
     let mNum = Number("0x" + mDTC.slice(5,8));
-    let mMM = String(mNum / 60).padStart(2,"0");
+    let mMM = String(Math.floor(mNum / 60)).padStart(2,"0");
     let mSS = String(mNum % 60).padStart(2,"0");
-    return mMM + mSS;
+    return mMM;// + mSS;
   }
 }
 function DTCMonth(mDTS,mDTC){
@@ -539,10 +535,8 @@ function DTCMonth(mDTS,mDTC){
     let i = Number(String(mDTS).slice(4,6));
     return aDTCMonth.slice(i-1,i);
   }else{ // From DTC to DTS
-    let mMM = String(aDTCMonth.search(mDTC.slice(2,3))+1);
-    if(mMM.length<1){
-      mMM = "0" + mMM;
-    }
+    let mMM = String(aDTCMonth.search(mDTC.slice(2,3))+1).padStart(2,"0");
+    
     return mMM;
   }
 }
@@ -1576,8 +1570,8 @@ function MacroResCalendar(mTag){
   // Month = Indicates which month to use for rolling diary
   // .. Plan: If the length is 2, interpret it as MM for a rolling calendar.
   // .. Plan: Otherwise, interpret as YYYYMMM for a regular calendar
-  let mType = mTag.getAttribute("type").toLowerCase();
-  if(mType != "calendar"){return false;}
+  let mType = Default(mTag.getAttribute("type"),"");
+  if(mType.toLowerCase() != "calendar"){return false;}
   let mIcons = mTag.getAttribute("icons");
   let mMonth = mTag.getAttribute("month");
   let bRolling = (mMonth.length==2);
@@ -1665,7 +1659,8 @@ function MacroResItem(mTag){
       <res dts="20240502234934" available item icon="" title="Item Name"  loc="" src="" node=""></res>
   TO:
       <topic dts="20240502232826" icon="⬜" title="Catan Junior">*/
-  let mDTS = mTag.getAttribute("dts");
+  let mDTS = DTC("",mTag.getAttribute("item"));
+  let mDate = mDTS.slice(0,8);
   let mIcon = Default(mTag.getAttribute("icon"),"🎲");
   let mTitle = mTag.getAttribute("title");
   let mAvail = mTag.getAttribute("avail");
@@ -1675,10 +1670,19 @@ function MacroResItem(mTag){
   let mGenre = Default(mTag.getAttribute("genre"),"???");
   let mOwner = Default(mTag.getAttribute("owner"),"???");
   let mItem = mTag.getAttribute("item");
+  
+
+  
+
 
   // Save the Title in the name field for sorting.
-  let mHTML = "<div class=\"mbscroll\" item dts=\"" + mDTS + "\" name=\"" + mTitle + "\">";
+  let mHTML = "<div class=\"mbscroll\" item date=\""+mDate +"\" dts=\"" + mDTS + "\"";
+  //mHTML += " 🐱=\"" + mTry +"\"";
+  mHTML += "\" name=\"" + mTitle + "\">";
   
+  // Right header for sorting info
+  mHTML += "<code label style=\"float:right;font-size:15px\"></code>"
+
   // TITLE: Availablility Status
   mHTML += "<span class=\"mbILB25\" style=\"font-size:14px\">";
   if(mTag.hasAttribute('available')){mHTML += "🟢" ;}else{mHTML += "🟡";}
@@ -1691,7 +1695,16 @@ function MacroResItem(mTag){
   // TITLE: This is where to add float right icons or sort parameters.
   mHTML += "<span label style=\"float:right;font-size:15px\"></span>"
   // TITLE: Item Title, this is a button to expand the rest.
-  mHTML += "<a class=\"mbbutton\" onclick=\"ShowNext(this)\" style=\"text-wrap:wrap\">" + mTitle +"</a>";
+  mHTML += "<a class=\"mbbutton\" onclick=\"ShowPL(this)\" style=\"text-wrap:wrap\">" + mTitle +"</a>";
+
+  // INTEREST
+  /// 20240608: Patricia
+  /*mHTML += "<code style=\"font-size:15px;font-weight:bold\">"
+  if(mTry>0){
+    mHTML += " 🐱<b>" + mTry + "</b>";
+  }
+  mHTML += "</code>";*/
+
   mHTML += "<hide><hr>";
   // DATA: This is the area for basic data about the item
   mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:0px 0px 5px 0px;\">";  //max-width:145px
@@ -1702,6 +1715,7 @@ function MacroResItem(mTag){
   }  
 
   // Genre. Need to display this for text filter
+  mHTML += "<hide>+" + mGenre.replaceAll(" ","+") + "+</hide>";
   mHTML += "<b>Genre:</b>&nbsp;" + mGenre +" ";
   // URL in the Side Bar
   if(NotBlank(mSrc)){
@@ -4496,20 +4510,50 @@ function QSLSortBy(el,iAttribute){
        item.style.order = item.firstElementChild.innerHTML;
     }    
   });
+  elContainer.scrollTop = -elContainer.scrollHeight;
 }
 function QSLSortByDate(el){
   // 20240407: Ledia: This function sort the entries in a QSL by date.
   // .. To get the last updated date, it checks the attribute "updated" if it exists.
   // .. If not, it uses the node ID as the date.
   var elContainer = QSLGetContainer(el);
-  QSLSortReverseIfSet(elContainer,'date');
+  var bReversed = QSLSortReverseIfSet(elContainer,'date');
   var elEntries = elContainer.querySelectorAll(".mbSearch > div[date]");
-  elEntries.forEach((item)=>{item.style.order = item.getAttribute('date');});
+  elEntries.forEach((item)=>{
+    let mDate = item.getAttribute('date');
+    item.firstElementChild.innerHTML = mDate;
+    item.style.order = mDate;
+  });
+  elContainer.scrollTop = -elContainer.scrollHeight;
+}
+function QSLSortByIcon(el,iIcon){
+  // 20240608: Patricia: Counts the icons within the item and sort by that number.
+  // If the sort type had just change into this type, just show the stats without sorting.
+  var elContainer = QSLGetContainer(el);
+  var bReversed = QSLSortReverseIfSet(elContainer,iIcon);
+  var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
+  elEntries.forEach((item)=>{
+    // STEP: Count the number of such icon in the item.
+    let mCount = item.querySelectorAll("[icon="+iIcon+"]").length;
+    item.firstElementChild.setAttribute("count",mCount);
+    
+    item.firstElementChild.innerHTML = iIcon + "<b>" + mCount + "</b>";
+    if(bReversed){
+       item.style.order = item.firstElementChild.getAttribute("count");
+    }
+    // Auto Hide those that don't have the icon
+    if(mCount==0){
+      item.classList.add("mbhide");
+    }else{
+      item.classList.remove("mbhide");
+    }
+  });
+  elContainer.scrollTop = -elContainer.scrollHeight;
 }
 function QSLSortByName(el){
   // 20240407: Ledia: This function sort the entries recursivly in a QSL by name.
   var elContainer = QSLGetContainer(el);
-  QSLSortReverseIfSet(elContainer,'name');
+  let bReversed = QSLSortReverseIfSet(elContainer,'name');
   var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
   // STEP: Create an array of pairs to for the name and address.
   var mKV = [];
@@ -4520,6 +4564,8 @@ function QSLSortByName(el){
   for(i=0;i<mKV.length;i++){
     mKV[i][1].style.order = i;
   }
+  elContainer.scrollTop = -elContainer.scrollHeight;
+  
 }
 function QSLSortReverseIfSet(elContainer,iSortBy){
   // 20240408: Ledia: Set the sortby attribute.
@@ -4543,6 +4589,22 @@ function QSLSortReverseIfSet(elContainer,iSortBy){
   }
   return true;
 }
+function QSLSortRandom(el){
+  // 20240407: Ledia: This function sorts the entries in a QSL randomly.
+  // STEP: Locate the container:
+  var elContainer = QSLGetContainer(el);
+  elContainer.setAttribute('sortby','random');
+  elContainer.style.flexDirection = 'column';
+  // STEP: For each Div in elContainer that has a name and with a parent node that has mbSearch class, assign a random order number.
+  // https://www.w3schools.com/jquery/jquery_ref_selectors.asp
+  var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
+  for(i=0;i<elEntries.length;i++){
+    let mRand = getRandomInt(1,elEntries.length);
+    elEntries[i].style.order = mRand;
+    elEntries[i].firstElementChild.innerHTML = "🎲<b>" + mRand +"</b>"
+  }
+  elContainer.scrollTop = -elContainer.scrollHeight;
+}
 function QSLGetContainer(el){
   // 20240407: Ledia: Return the QSL container that has the mbSearch class.
   var elControl = SearchPS(el,'control');
@@ -4552,18 +4614,7 @@ function QSLGetContainer(el){
 
   return elControlNext.querySelector(".mbSearch");
 }
-function QSLSortRandom(el){
-  // 20240407: Ledia: This function sorts the entries in a QSL randomly.
-  // STEP: Locate the container:
-  var elContainer = QSLGetContainer(el);
-  elContainer.setAttribute('sortby','random');
-  // STEP: For each Div in elContainer that has a name and with a parent node that has mbSearch class, assign a random order number.
-  // https://www.w3schools.com/jquery/jquery_ref_selectors.asp
-  var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
-  for(i=0;i<elEntries.length;i++){
-    elEntries[i].style.order = getRandomInt(0,elEntries.length);
-  }
-}
+
 function QSLBL(el,iQuery){
   // 20240404: StarTree For automatically showing tags of a node.
   var elContainer = SearchPS(el,"board").querySelector('[qsl][bl]');
@@ -7417,8 +7468,10 @@ function TextFilter(iScope,iKeyword,iDOMType){
       }else{
         if (el.textContent.toUpperCase().indexOf(iKeyword) == -1) {
           el.style.display= "none";
+          el.classList.add("mbhide");
         } else {      
           el.style.display= "";
+          el.classList.remove("mbhide");
         }
       }
     }
@@ -7455,17 +7508,19 @@ function TextQSLTag(elButton){
 function TextSearchPN(elSearchBox){  
   var mKeyword = elSearchBox.value.toUpperCase().trim();
   var mScope = elSearchBox.parentNode.nextElementSibling;
-  TextFilter(mScope,mKeyword,"div");
-  TextFilter(mScope,mKeyword,"mbNote");
-  TextFilter(mScope,mKeyword,"li");
+  TextSearchEL(mScope,mKeyword);
 }
-function TextSearchPS(elSearchBox){  
-  var mKeyword = elSearchBox.value.toUpperCase().trim();
+function TextSearchPS(elSearchBox,iKeyword){  
+  // 20240609: Black: Overload: when the iKeyword is present, use it verbatim.
+  if(IsBlank(iKeyword)){
+    iKeyword = elSearchBox.value.toUpperCase().trim();
+  } else{
+    iKeyword = iKeyword.toUpperCase();
+  }
   var mScope = SearchPS(elSearchBox,'control').nextElementSibling;
-  TextFilter(mScope,mKeyword,"div");
-  TextFilter(mScope,mKeyword,"mbNote");
-  TextFilter(mScope,mKeyword,"li");
+  TextSearchEL(mScope,iKeyword);
 }
+
 function TextSearchPNEV(e,elSearchBox){
   // 20240401: StarTree: 
   if(e.code=='Enter'){
@@ -7474,6 +7529,13 @@ function TextSearchPNEV(e,elSearchBox){
   }
   var mKeyword = elSearchBox.value.toUpperCase().trim();
   var mScope = elSearchBox.parentNode.nextElementSibling;
+  TextFilter(mScope,mKeyword,"div");
+  TextFilter(mScope,mKeyword,"mbNote");
+  TextFilter(mScope,mKeyword,"li");
+}
+function TextSearchEL(mScope,mKeyword){
+  // 20240608: Sasha
+  DEBUG(mKeyword);
   TextFilter(mScope,mKeyword,"div");
   TextFilter(mScope,mKeyword,"mbNote");
   TextFilter(mScope,mKeyword,"li");
