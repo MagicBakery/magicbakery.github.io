@@ -1664,10 +1664,10 @@ function MacroResItem(mTag){
   let mIcon = Default(mTag.getAttribute("icon"),"🎲");
   let mTitle = mTag.getAttribute("title");
   let mAvail = mTag.getAttribute("avail");
-  let mloc = Default(mTag.getAttribute("loc"),"📌loc?");
+  
   let mNode = mTag.getAttribute("node");
   let mSrc = mTag.getAttribute("src");
-  let mGenre = Default(mTag.getAttribute("genre"),"???");
+  let mTags = Default(mTag.getAttribute("tags"),"???");
   let mOwner = Default(mTag.getAttribute("owner"),"???");
   let mItem = mTag.getAttribute("item");
   
@@ -1685,7 +1685,13 @@ function MacroResItem(mTag){
 
   // TITLE: Availablility Status
   mHTML += "<span class=\"mbILB25\" style=\"font-size:14px\">";
-  if(mTag.hasAttribute('available')){mHTML += "🟢" ;}else{mHTML += "🟡";}
+  if(mTag.hasAttribute('available')){mHTML += "🟢" ;
+
+  }else if(mTag.hasAttribute('seeking')){
+    mHTML += "⚪";
+  }else{
+    mHTML += "🟡";
+  }
   mHTML += "</span>";
   /* ATTEMPT: FILTER: Result cannot be easily filtered by text.
   mHTML += "<span class=\"mbILB30\" style=\"filter:sepia(";
@@ -1710,13 +1716,13 @@ function MacroResItem(mTag){
   mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:0px 0px 5px 0px;\">";  //max-width:145px
   if(mTag.hasAttribute('available')){
     mHTML += "<center style=\"color:green\"><b>AVAILABLE</b></center>";
-  }else{
+  }else if(mTag.hasAttribute('unavailable')){
     mHTML += "<center style=\"color:darkgoldenrod\"><b>IN USE</b></center>";
   }  
 
-  // Genre. Need to display this for text filter
-  mHTML += "<hide>+" + mGenre.replaceAll(" ","+") + "+</hide>";
-  mHTML += "<b>Genre:</b>&nbsp;" + mGenre +" ";
+  // Tags. Need to display this for text filter
+  mHTML += "<hide>+" + mTags.replaceAll(" ","+") + "+</hide>";
+  mHTML += "<b>Tags:</b>&nbsp;" + mTags +" ";
   // URL in the Side Bar
   if(NotBlank(mSrc)){
     mHTML += GetURLCode(mSrc) +"<br>";
@@ -1731,12 +1737,15 @@ function MacroResItem(mTag){
   }  
   // Node Link in the Side Panel
   if(NotBlank(mTag.getAttribute('node'))){
-    mHTML += LnkCode(mNode,"[Node]","") +"<br>";
+    mHTML += LnkCode(mNode,"🐤","") +"<br>";
   }else{
     mHTML += "🥚<br>"
   }
   //mHTML += "<b>Owner:</b>&nbsp;" + mOwner +"<br>";
-  mHTML += "<b>Loc:</b>&nbsp;" + mloc  +" ";
+  if(mTag.hasAttribute("loc")){
+    mHTML += "<b>Loc:</b>&nbsp;" + Default(mTag.getAttribute("loc"),"📌loc?")  +" ";
+  }
+  
   mHTML += "</div>"
 
   // Header Links section.
@@ -1761,11 +1770,15 @@ function MacroResTimeline(mTag){
   let mTitle=mTag.getAttribute('title');
   let mSrc = mTag.getAttribute("src");
 
+  
+  
+  let mHTML = "<div name=\""+mTitle+"\"";
+  mHTML += " year=\""+mYear+"\"";
   // Pad the year if it has fewer than 5 characters.
   mYear = mYear.padStart(5," ").replaceAll(" ","&nbsp;");
-  
-  let mHTML = "<div>";
-  mHTML += "<code>" + mYear + "</code> <span class=\"mbbutton\" onclick=\"ShowNextInline(this)\">" + mTitle + "</span> <hide>";
+  mHTML += ">";
+  mHTML += "<code class=\"mbhide\" label style=\"float:right;font-size:15px\"></code>"
+  mHTML += "<a onclick=\"ShowNextHTIL(this)\" class=\"mbbutton mbhide\"><code>" + mYear + "</code></a><a onclick=\"ShowPrevHTIL(this)\" class=\"mbbutton\"><code>&nbsp;???&nbsp;</code></a> <span class=\"mbbutton\" onclick=\"ShowNextInline(this)\">" + mTitle + "</span> <hide>";
   mHTML +="<url>" + mSrc + "</url>";
   mHTML += mTag.innerHTML;
   mHTML += "</hide></div>";
@@ -2455,7 +2468,7 @@ function RenderAvXP(mSPK,mEXP,mIcon,mRank,mMode){
   if(NotBlank(mModeCSS)){mHTML += " mb" + mModeCSS;}
   mHTML += "\">";
   if(mEXP || NotBlank(mRank)){
-    mHTML += "<div class='mbavXP' d-xpicon>"
+    mHTML += "<div class='mbavXP' d-xpicon icon=\""+mIcon+"\">";
     mHTML += mIcon;
     if(mEXP !=1 || NotBlank(mRank)){
       mHTML += "<br><br><span class=\"mbXPTB mbILB20";
