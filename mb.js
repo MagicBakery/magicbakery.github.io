@@ -1804,7 +1804,7 @@ function MacroResTimeline(mTag){
   // Pad the year if it has fewer than 5 characters.
   mYear = mYear.padStart(5," ").replaceAll(" ","&nbsp;");
   mHTML += ">";
-  mHTML += "<code class=\"mbhide\" label style=\"float:right;font-size:15px\"></code>"
+  mHTML += "<code class=\"\" label style=\"float:right;font-size:15px\"></code>"
   mHTML += "<a onclick=\"ShowNextHTIL(this)\" class=\"mbbutton mbhide\"><code>" + mYear + "</code></a><a onclick=\"ShowPrevHTIL(this)\" class=\"mbbutton\"><code>&nbsp;???&nbsp;</code></a> <span class=\"mbbutton\" onclick=\"ShowNextInline(this)\">" + mTitle + "</span> <hide>";
   mHTML +="<url>" + mSrc + "</url>";
   mHTML += mTag.innerHTML;
