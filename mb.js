@@ -677,7 +677,7 @@ function IFrameURLSet(el){
   elTemp.style.marginBottom = "0px";
   mControl.nextElementSibling.prepend(elTemp);  
 }
-function JQAdd(el){
+function JQAdd(el,iNoReTarget){
   // 20230821: StarTree: Add to JQuery from GitHub Archive.
   //   Reads the node ID from the input box of the control section.
   //   Creates a new container with a close button below the control section for the content.
@@ -687,7 +687,12 @@ function JQAdd(el){
   var mInput = GetInputBoxValue(el).toLowerCase();  
   var mNodeIDs = mInput.split('p');
   var mNodeID = mNodeIDs[mNodeIDs.length-1];
-  BoardLoad(el,mNodeID);
+  
+  // 20240610: StarTree: For Panel
+  // BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget,elArchives){
+
+  BoardLoad(el,mNodeID,"",iNoReTarget);
+  
 }
 function InterLink(){
   // 20231006: Black: Returns the Interlinking function depending on current website
@@ -1667,26 +1672,34 @@ function MacroResItem(mTag){
   
   let mNode = mTag.getAttribute("node");
   let mSrc = mTag.getAttribute("src");
-  let mTags = Default(mTag.getAttribute("tags"),"???");
+  let mTags = Default(mTag.getAttribute("tags"),"(None)");
   let mOwner = Default(mTag.getAttribute("owner"),"???");
   let mItem = mTag.getAttribute("item");
-  
+  let mChannel = Default(mTag.getAttribute('channel'),"");
 
   
 
 
   // Save the Title in the name field for sorting.
-  let mHTML = "<div class=\"mbscroll\" item date=\""+mDate +"\" dts=\"" + mDTS + "\"";
-  //mHTML += " 🐱=\"" + mTry +"\"";
-  mHTML += "\" name=\"" + mTitle + "\">";
+  //let mHTML = "<div class=\"mbscroll\" item date=\""+mDate +"\" dts=\"" + mDTS + "\"";
+  //mHTML += "\" name=\"" + mTitle + "\">";
   
   // Right header for sorting info
-  mHTML += "<code label style=\"float:right;font-size:15px\"></code>"
+  mHTML = "<code label style=\"float:right;font-size:15px\"></code>";
 
   // TITLE: Availablility Status
   mHTML += "<span class=\"mbILB25\" style=\"font-size:14px\">";
-  if(mTag.hasAttribute('available')){mHTML += "🟢" ;
-
+  if(mTag.hasAttribute('icon')){    
+    mHTML += mTag.getAttribute("icon");
+  }else if(mTag.hasAttribute('channel')){
+    if(mChannel=="Crunchyroll"){
+      mHTML += "🥐";
+    }
+    if(mChannel == "Netflix"){
+      mHTML += "🌮";
+    }
+  }else if(mTag.hasAttribute('available')){
+    mHTML += "🟢" ;
   }else if(mTag.hasAttribute('seeking')){
     mHTML += "⚪";
   }else{
@@ -1718,7 +1731,11 @@ function MacroResItem(mTag){
     mHTML += "<center style=\"color:green\"><b>AVAILABLE</b></center>";
   }else if(mTag.hasAttribute('unavailable')){
     mHTML += "<center style=\"color:darkgoldenrod\"><b>IN USE</b></center>";
-  }  
+  }
+  // DATA: Channel Info
+  if(NotBlank(mChannel)){
+    mHTML += "<center><b>"+ mChannel+ "</b></center>";
+  }
 
   // Tags. Need to display this for text filter
   mHTML += "<hide>+" + mTags.replaceAll(" ","+") + "+</hide>";
@@ -1748,18 +1765,28 @@ function MacroResItem(mTag){
   
   mHTML += "</div>"
 
-  // Header Links section.
-  //mHTML += "<small>";
-  //mHTML += "</small>";
-
   // Custom Content about this item.
   mHTML += "<hr class=\"mbhide\">"; // Trick to use Enter bubble.
   mHTML += mTag.innerHTML;
   mHTML += "<hr class=\"mbCB\"></hide>"
-  mHTML += "</div>";
+  
   let elNew = document.createElement('div');
   mTag.after(elNew);
-  elNew.outerHTML = mHTML;
+  elNew.innerHTML = mHTML;
+  elNew.classList.add("mbscroll");
+  // tags copying
+  elNew.setAttribute('topic','');
+  elNew.setAttribute('name',mTitle);
+  elNew.setAttribute("date",mDate);
+  elNew.setAttribute("dts",mDTS);
+
+  
+
+
+  if(mTag.hasAttribute("year")){
+    
+    elNew.setAttribute("year",mTag.getAttribute("year"))}
+
   mTag.remove();
   return true;
 }
