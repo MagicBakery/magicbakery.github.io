@@ -1689,6 +1689,7 @@ function MacroResItem(mTag){
 
   // TITLE: Availablility Status
   mHTML += "<span class=\"mbILB25\" style=\"font-size:14px\">";
+  
   if(mTag.hasAttribute('icon')){    
     mHTML += mTag.getAttribute("icon");
   }else if(mTag.hasAttribute('channel')){
