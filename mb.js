@@ -1918,7 +1918,7 @@ function GetURLCode(mURL,mDesc, mLang){
   if(!bIcon){
     mDesc = "[" + mDesc + "]";
   }
-  return "<a class=\"mbbuttonEx mbURL\" onclick=\"ExURL('" + mURL + "')\">" + mDesc + "</a>";
+  return "<a class=\"mbbuttonEx mbURL\" onclick=\"ExURL('" + mURL + "');return false;\" href=\""+mURL+"\">" + mDesc + "</a>";
 }
 function FullTitle(el,mPrefix,mSubtitle,bNS){
   // 20240429: Cardinal
