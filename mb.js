@@ -2354,6 +2354,9 @@ function TopicWrap(mNode,mDTS,mCount,mIcon,mTitle,mTopicHTML,mArea,mTopicEXP,mMa
   mHTML += "<small>⭐</small>" + mTopicEXP;*/
   mHTML += "</span>";
 
+  // 20240619: Patricia: Use the chat icon as the default icon if there is none
+  mIcon = Default(mIcon,"💬");
+
   // Topic Title
   mHTML += "<span class=\"mbILB30\">" + LnkCode(mNode,"",mIcon) + "</span>";
   mHTML += "<a class=\"mbbutton\" onclick=\"ShowNext(this)\" style=\"text-wrap:wrap\">";
