@@ -2008,10 +2008,13 @@ function MacroMsg(el){
     let mParentName = mTag.getAttribute('parentname');
     let mHTML = "";
     //let bFirst = (mTag.parentNode.querySelector('msg')==mTag);
-    let bFirst = (mTag.parentNode.firstElementChild==mTag);
+    let bFirst = (mTag.parentNode.querySelector('msg')==mTag);
+    
+
+    // 20240620: Mikela: The first element is HR.
     let mParentTag = mTag.parentNode.tagName;
     let elPrev = mTag.previousElementSibling;
-    if(bFirst && (mParentTag=="SPAN" || mParentTag=="DIV") && (!mTag.parentNode.classList.contains("mbpdc")) ){
+    if(bFirst && (mTag.parentNode.classList.contains("mbDayContent")) ){
       mHTML = RenderStart(mTag);
     //}else if(bFirst && mTag.parentNode.hasAttribute('topic')){
       // The situation of a bullet.
@@ -4643,7 +4646,7 @@ function QSLSortRandom(el){
   // https://www.w3schools.com/jquery/jquery_ref_selectors.asp
   var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
   for(i=0;i<elEntries.length;i++){
-    let mRand = getRandomInt(1,elEntries.length);
+    let mRand = getRandomInt(1,elEntries.length+1);
     elEntries[i].style.order = mRand;
     elEntries[i].firstElementChild.innerHTML = "🎲<b>" + mRand +"</b>"
   }
@@ -6856,9 +6859,14 @@ function NMSetParent(el,mParentID,mParentName,mIcon){
   }
   if(mParentName=="Alchemist" || mParentName=="Cleric" || mParentName=="Herald" || mParentName=="Magician" || mParentName=="Oracle" || mParentName=="Paladin"){
     elControl.querySelector('[NM-Tags]').value = "data-skill data-" + mParentName;
-  }else{
+  }else if(NotBlank(mParentName)){    
     elControl.querySelector('[NM-Tags]').value = "data-" + mParentName;
-  }  return NMNode(el);
+  }else{
+    // 20240620: Mikela: Erase the Tags field if mParentName is blank.
+    elControl.querySelector('[NM-Tags]').value = "";
+    return; // Mikela: Do not copy to clipboard after clearing.
+  }  
+  return NMNode(el);
 }
 function NMAddSPK(el){
   // 29249423: StarTree
