@@ -1742,11 +1742,14 @@ function MacroResItem(mTag){
   mHTML += "<hide>+" + mTags.replaceAll(" ","+") + "+</hide>";
   mHTML += "<b>Tags:</b>&nbsp;" + mTags +" ";
   // URL in the Side Bar
-  if(NotBlank(mSrc)){
-    mHTML += GetURLCode(mSrc) +"<br>";
-  }else{
-    // 20240504: Sasha: If the url is blank, output error flag
-    mHTML += "[📌src?]<br>";
+  // 20240622: Zoey: Don't show this if the field is missing entirely.
+  if(mTag.hasAttribute("mSrc")){
+    if(NotBlank(mSrc)){
+      mHTML += GetURLCode(mSrc) +"<br>";
+    }else{
+      // 20240504: Sasha: If the url is blank, output error flag
+      mHTML += "[📌src?]<br>";
+    }
   }
   if(NotBlank(mItem)){
     mHTML += "<b>ID:</b> [" + mItem +"] ";
