@@ -1750,6 +1750,8 @@ function MacroResItem(mTag){
       // 20240504: Sasha: If the url is blank, output error flag
       mHTML += "[📌src?]<br>";
     }
+  }else{
+    mHTML += "<div></div>";
   }
   if(NotBlank(mItem)){
     mHTML += "<b>ID:</b> [" + mItem +"] ";
