@@ -4608,7 +4608,8 @@ function QSLSortByName(el){
   // STEP: Create an array of pairs to for the name and address.
   var mKV = [];
   elEntries.forEach((item)=>{
-    mKV.push([item.getAttribute('name'),item]);
+    // 20240622: Arcacia: Made the sort order more intuitive by using lower case and adding a space in the end.
+    mKV.push([item.getAttribute('name').toLowerCase()+" ",item]);
   });
   mKV.sort();
   for(i=0;i<mKV.length;i++){
