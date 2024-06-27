@@ -1533,7 +1533,7 @@ function MacroNote(el){
     if(NotBlank(mTitle)){mLabel += mTitle + " ";}
     if(NotBlank(mSubtitle)){mLabel += mSubtitle;}
     if(mLabel ==""){ // 20240502: StarTree: Don't add the brackets when there is just the icon.
-      mLabel = mIcon;
+      mLabel = mIcon +" ";
     }else{
       if(NotBlank(mIcon)){mLabel = mIcon + " " + mLabel;}
       mLabel = "[" + mLabel + "]";
