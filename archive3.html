@@ -116,7 +116,8 @@
               </hide>
             </div><!--Rank C Queries-->
             <div>
-              <a class="mbbutton" onclick="QSL(this,'[id][date][time]:not(:contains(\'parentid\')),[id]:contains(\'|pin\'),[id]:contains(\'pin2\')')"><span class="mbILB20 mbRankD"></span>📌</a> 
+              <a class="mbbutton" onclick="QSL(this,'[id][date][time]:not(:has(node)),[id]:contains(\'pin2\')')"><span class="mbILB20 mbRankD"></span>📌</a> 
+              <!--<a class="mbbutton" onclick="QSL(this,'[id][date][time]:not(:has(node)),[id]:contains(\'|pin\'),[id]:contains(\'pin2\')')"><span class="mbILB20 mbRankD"></span>📌</a> -->
               <span class="mbbutton" onclick="ShowNextInline(this)">Node Reformat</span>
               <hide>
                 <msg dts="20240331" spk="StarTree">Update the node format to the latest that has a tag for the sitemap.</msg>
@@ -532,7 +533,6 @@
                   <div class="mbPinner mbhide">
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"","priority":"1","icon":"🏳️","node":"202404052316","title":"TPK Records","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"🚋","node":"202403102311","title":"Trial by Trolley","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"1","icon":"🍪","node":"202302050852","title":"Self-Evaluation","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"9","icon":"🎲","node":"202305102255","title":"RPG Rules","cmd":"quest"}</macro>
@@ -577,28 +577,22 @@
                 </div><!--@Carrot / Arcacia-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202207131009|♟️</lnk></span>
-                  <macro>{"guildlog":"8","rank":"B","updates":"2","node":"202208141844","author":"Sasha","chapter":"@Detective","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"8","rank":"A","updates":"4","node":"202208141844","author":"Sasha","chapter":"@Detective","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">           
                     <span class="mbListCapNC mbRankS"></span>
-                    <macro>{"log":"","priority":"1","icon":"⚖️","node":"202309282125","title":"Policy Evaluation","info":"Update the node and make sub nodes.","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"1","icon":"🌺","node":"202207112218","title":"Search Visibility","info":"Follow up with discussion. Fix Index Errors","cmd":"quest"}</macro>  
                     <span class="mbListCapNC mbRankA"></span>   
-                    
+                    <macro>{"log":"0628","priority":"9","icon":"🎩","node":"202406282333","title":"Design","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"9","icon":"🥯","node":"202302032008","title":"221B Baker Street","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"1","icon":"🏰","node":"202312251111","title":"Arcacian Quest","info":"This is a board game design project.","cmd":"quest"}</macro>                
-                    <macro>{"log":"","priority":"1","icon":"🥨","node":"202208141844","title":"Guild Log Quests","info":"Clear quest at guild log. 2304:6 2305:11 2306:12 2307:9 2404:42.","cmd":"quest"}</macro> 
+                    
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"0608","priority":"0","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"0608","priority":"0","icon":"🎲","node":"202207131009","title":"Board Games","info":"","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"1","icon":"🍍","node":"202305110938","title":"Intelligence","info":"","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"1","icon":"📯","node":"202305262224","title":"Leadership","info":"Update the node and make sub nodes.","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"9","icon":"🔦","node":"202309171832","title":"CSI The Board Game","cmd":"quest"}</macro>                    
-                    <span class="mbListCapNC mbRankC"></span>
-                    
-                    
-                    
-                    <macro>{"log":"","priority":"0","icon":"📛","node":"202403292132","title":"Self Introduction","info":"","cmd":"quest"}</macro>  
+                    <!--<span class="mbListCapNC mbRankC"></span>-->
                     <span class="mbListCapNC mbRankD"></span>    
+                    <macro>{"log":"0628","priority":"1","icon":"🥨","node":"202208141844","title":"Guild Log Quests","info":"Clear quest at guild log. 2304:6 2305:11 2306:12 2307:9 2404:42 2406:22.","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"4","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro> 
                   </div>
                 </div><!--@Detective / Sasha-->
@@ -624,7 +618,7 @@
                 </div><!--@Dungeon / Tanya-->
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202207141002|💎</lnk></span>
-                  <macro>{"guildlog":"37","rank":"C","updates":"3","node":"202208141916","author":"James","chapter":"@Freedom","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"37","rank":"C","updates":"4","node":"202208141916","author":"James","chapter":"@Freedom","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"0","icon":"💬","node":"202403050033","title":"Democratic Forum","info":"","cmd":"quest"}</macro> 
@@ -643,7 +637,7 @@
 
                     <macro>{"log":"0623","priority":"1","icon":"🥨","node":"202303222147","title":"Guild log quests","info":"2305:78 2306:77 2307:77 2308:75 2309:73 2310:71 2311:51 2403:50 2405:48 2406:37.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"5","icon":"💰","node":"202209161125","title":"Money","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"5","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro> 
+                    <macro>{"log":"0628","priority":"5","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro> 
                   </div>
                 </div><!--@Freedom / James-->
                 <div class="mbCB">
@@ -670,7 +664,7 @@
                 </div><!--@Gaia / Gaia-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202301251008|👑</lnk></span>
-                  <macro>{"guildlog":"8","rank":"C","updates":"3","node":"202208172056","author":"LRRH","chapter":"@Guild","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"8","rank":"C","updates":"4","node":"202208172056","author":"LRRH","chapter":"@Guild","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     <span class="mbListCapNC mbRankA"></span>
@@ -689,7 +683,7 @@
                     <macro>{"log":"","priority":"9","icon":"🎀","node":"202208172056","title":"Layout Upgrade","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
                     <macro>{"log":"0626","priority":"9","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"3", "icon":"📧","node":"","title":"Emails cleanup","info":"2306:35|173. 2307:20|5 2308:8|4 2309:4|4 2310:3|1 2401:2|0","cmd":"quest"}</macro>
+                    <macro>{"log":"0627","priority":"3", "icon":"📧","node":"202405010908","title":"Emails cleanup","info":"2306:35|173. 2307:20|5 2308:8|4 2309:4|4 2310:3|1 2401:2|0","cmd":"quest"}</macro>
                   </div>
                 </div><!--@Guild / LRRH-->
                 <div class="mbCB">
@@ -966,7 +960,7 @@
                 </div><!--@Tavern / Sylvia-->           
                 <div class="mbCB">
                   <span style="float:right"><lnk>202303121053|🍀</lnk></span>
-                  <macro>{"guildlog":"24","rank":"C","updates":"3","node":"202208212113","author":"Casey","chapter":"@Treasure","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"17","rank":"C","updates":"4","node":"202208212113","author":"Casey","chapter":"@Treasure","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     
@@ -985,7 +979,7 @@
                     <macro>{"log":"0602","priority":"8","icon":"🍀","node":"202303121053","title":"Wanted List Sort","info":"Add sort function.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
                     <macro>{"log":"0605","priority":"9","icon":"🧰","node":"202208212113","title":"Maint. updates","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"1","icon":"🥨","node":"202208212113","title":"Guild log tasks","info":"Clear guild log tasks. 2306:31 2307:30 2308:29 2309:27 2310:26 2311:25 2401:24 2402:23 2405:20.","cmd":"quest"}</macro> 
+                    <macro>{"log":"0627","priority":"1","icon":"🥨","node":"202208212113","title":"Guild log tasks","info":"Clear guild log tasks. 2306:31 2307:30 2308:29 2309:27 2310:26 2311:25 2401:24 2402:23 2405:20 2406:17.","cmd":"quest"}</macro> 
                     <macro>{"log":"0602","priority":"2","icon":"🥨","node":"202208212113","title":"Layout update","cmd":"quest"}</macro>
                   </div>
                 </div><!--@Treasure / Casey-->        
@@ -1047,7 +1041,7 @@
                 </div><!--@Whale / Black-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202302160912|🍵</lnk></span>
-                  <macro>{"guildlog":"4","rank":"B","updates":"2","node":"202208180941","author":"LRRH","chapter":"@Wish","cmd":"pb"}</macro>            
+                  <macro>{"guildlog":"4","rank":"B","updates":"3","node":"202208180941","author":"LRRH","chapter":"@Wish","cmd":"pb"}</macro>            
                   <div class="mbPinner mbhide">
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     
@@ -1067,7 +1061,7 @@
                     
                     <macro>{"log":"","priority":"0","icon":"🎊","node":"202301011001","title":"New Yr Resolution","info":"Support new year resolutions.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
-                    <macro>{"log":"","priority":"4","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro>  
+                    <macro>{"log":"0628","priority":"4","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro>  
                   </div>
                 </div><!--@Wish / LRRH-->   
                 <div class="spacer"></div><div class="spacer"></div>
@@ -6850,7 +6844,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240624')">24<br><div class="mbavem mbEvelyn"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240625')">25<br><div class="mbavem mbLRRH"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240626')">26<br><div class="mbavem mbArcacia"></div></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240627')">27<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240627')">27<br><div class="mbavem mbLRRH"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240628')">28<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240629')">29<br>&nbsp;</td>
               </tr>
@@ -6913,7 +6907,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240624')">24<br>🥗</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240625')">25<br>🗺️</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240626')">26<br>☠️</td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240627')">27<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240627')">27<br>🌺</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240628')">28<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240629')">29<br>&nbsp;</td>
               </tr>
@@ -24590,7 +24584,9 @@
           </li>
         </ol>
       </topic>
-
+      <topic dts="20240628230359" icon="🐣" title="Leaf Blowers">
+        <msg DTS='20240504065840' SPK='Evelyn' EXP Icon='📌'>What can be done about leafblowers at 7am? <url>https://nextdoor.com/p/ypYSNGNDckHr</url></msg>
+      </topic>
     </topic>
 
 
@@ -26245,6 +26241,9 @@
           
             </hide>
           </li>
+          <topic dts="20240628230606" icon="🐣" title="Cultural Appropriation">
+            <msg DTS='20220726000000' SPK='LRRH' EXP Icon='📌'>What is cultural appropriation? <url>https://twitter.com/JacketNation81/status/1551903246142373888</url></msg>
+          </topic>
         </ol>
         <ul></ul>
         <div class="mbCB"></div>
@@ -27665,7 +27664,7 @@
           <msg DTS="20240623000948" SPK="Natalie" EXP Icon="🗃️">593</msg>
           <msg DTS="20240623202353" SPK="Albatross" EXP Icon="🕊️">590</msg>
           <msg DTS="20240626221407" SPK="Vivi" EXP Icon="⚔️">581</msg>
-
+          <msg DTS="20240629003723" SPK="Sylvia" EXP Icon="🎻">575</msg>
 
         </note><!--#Inbox-->
       </note>      
@@ -27717,7 +27716,14 @@
     <topic dts="20240504234521" icon="🕊️" title="New Discussions">
       
     </topic>
-
+    <topic dts="20240627234052" icon="🐣" monthly title="Emails cleanup">
+      <note dts="20240627234120" monthly subtitle="Account 1">
+        <msg DTS="20240627234130" SPK="LRRH" EXP Icon="🗃️">Cleared main account.</msg>        
+      </note>
+      <note dts="20240628003055" monthly subtitle="Account 2">
+        <msg DTS="20240628003114" SPK="Evelyn" EXP Icon="🗃️">14 remaining.</msg>
+      </note>
+    </topic>
 
 
     
@@ -28901,6 +28907,7 @@
       <msg DTS='20240622154928' SPK='StarTree' EXP Icon='🗃️'>Logging expenses.</msg>
       <msg DTS='20240623195504' SPK='StarTree' EXP Icon='🗃️'>Logging expenses.</msg>
       <msg DTS="20240624210511" SPK="Kisaragi" EXP Icon="🍱">Refilling</msg>
+      <msg DTS="20240628002914" SPK="Evelyn" EXP Icon="🗃️">Updating forms.</msg>
       
 
 
@@ -31939,12 +31946,79 @@
   ]}</macro>
 </div><!-- STATUS -->
 <div date="20240627" time="2359" data-status="">
-  <macro>{"cmd":"daisy2","issues":"0","quests":"578","activities":[
+  <macro>{"cmd":"daisy2","issues":"0","quests":"583","activities":[
+    {"ch":"17","rank":"S","updates":"3","last":"20240416"},
+    {"ch":"12","rank":"A","updates":"1","last":"20240602"},
+    {"ch":"22","rank":"C","updates":"2","last":"20240605"},
+    {"ch":"15","rank":"A","updates":"4","last":"20240607"},
+    {"ch":"13","rank":"D","updates":"2","last":"20240608"},
+    {"ch":"31","rank":"B","updates":"2","last":"20240609"},
+    {"ch":"25","rank":"B","updates":"3","last":"20240609"},
+    {"ch":"29","rank":"B","updates":"2","last":"20240610"},
+    {"ch":"14","rank":"B","updates":"5","last":"20240610"},
+    {"ch":"16","rank":"A","updates":"1","last":"20240614"},
+    {"ch":"33","rank":"S","updates":"3","last":"20240614"},
+    {"ch":"26","rank":"A","updates":"3","last":"20240619"},
+    {"ch":"32","rank":"A","updates":"4","last":"20240621"},
+    {"ch":"34","rank":"B","updates":"3","last":"20240622"},
+    {"ch":"30","rank":"C","updates":"3","last":"20240623"},
+    {"ch":"19","rank":"A","updates":"3","last":"20240623"},
+    {"ch":"24","rank":"B","updates":"4","last":"20240624"},
+    {"ch":"5","rank":"B","updates":"3","last":"20240624"},
+    {"ch":"28","rank":"C","updates":"3","last":"20240624"},
+    {"ch":"18","rank":"B","updates":"3","last":"20240624"},
+    {"ch":"20","rank":"A","updates":"4","last":"20240624"},
+    {"ch":"23","rank":"S","updates":"3","last":"20240626"},
+    {"ch":"35","rank":"A","updates":"3","last":"20240626"},
+    {"ch":"7","rank":"C","updates":"4","last":"20240626"},
+    {"ch":"11","rank":"C","updates":"4","last":"20240626"},
+    {"ch":"21","rank":"C","updates":"4","last":"20240627"},
+    {"ch":"27","rank":"C","updates":"4","last":"20240628"}
+    ],"players":"","merits":"","recognitions":"","kudos":"","awards":"3B, Albatross, Arcacia, Black, Evelyn, Gaia, Ivy, James, Kisaragi, LRRH, Natalie, P4, Patricia, Sasha, Skyle, StarTree, Sylvia, Tanya, V, Vivi, Zoey","top":[
+    {"name":"LRRH","score":"18"},
+    {"name":"Black","score":"12"},
+    {"name":"Evelyn","score":"12"},
+    {"name":"Albatross","score":"10"},
+    {"name":"Arcacia","score":"10"},
+    {"name":"StarTree","score":"10"},
+    {"name":"Skyle","score":"9"},
+    {"name":"Kisaragi","score":"9"},
+    {"name":"Natalie","score":"8"},
+    {"name":"Patricia","score":"7"},
+    {"name":"V","score":"7"},
+    {"name":"Sylvia","score":"7"},
+    {"name":"P4","score":"7"},
+    {"name":"Zoey","score":"7"},
+    {"name":"Tanya","score":"7"},
+    {"name":"Gaia","score":"6"},
+    {"name":"Ivy","score":"6"},
+    {"name":"Vivi","score":"6"},
+    {"name":"3B","score":"6"},
+    {"name":"Sasha","score":"6"},
+    {"name":"James","score":"4"},
+    {"name":"Ledia","score":"3"},
+    {"name":"Fina","score":"2"},
+    {"name":"Ken","score":"1"},
+    {"name":"Casey","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div id="P202406282333" date="20240628" time="2333" data-skill data-Magician data-art data-subject>
+	<content>
+    <note dts="20240628233413" subtitle="Inbox">
+      <msg DTS="20240628233433" SPK="Patricia" EXP Icon="🔮">Issues with user interface in VR <url>https://www.youtube.com/watch?v=Fhlw88_Beu4</url></msg>
+      <msg DTS="20240628233520" SPK="Patricia" EXP Icon="🔮">Good designs are invisible. Affordance, signifer, feedback. Analogous to Conceptual Models. Good design is good communication. Spatial Respect. Hands first, controller second. Standardization. Predictability of Confirmation. The VR OS model.</msg>
+    </note>
+	</content>
+	<inv></inv>
+	<ref></ref>
+	<node>{"id":"202406282333","parentid":"202209082209","parentname":"Magician","icon":"🎩","title":"Design","subtitle":"Subtitle","kids":"","img":"","music":"","author":"Patricia"}</node>
+</div><!--Design-->
+<div date="20240628" time="2359" data-status="">
+  <macro>{"cmd":"daisy2","issues":"0","quests":"586","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
     
   ]}</macro>
-</div><!-- STATUS -->
 <!--
 <div class="mbscroll">
   <div class="mbbutton" onclick="QueryAllNext(this,'#P202307231906-Inner')">✅ 12 Productive Habits</div>
