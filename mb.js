@@ -1878,7 +1878,12 @@ function MacroTopic(el){
       mHTML += mTag.innerHTML;
       
       mHTML += "<div class='mbCB'></div></hide>";
+      // 20240711: Natalie: to improve formatting.
       let elNew = document.createElement('div');
+      elNew.classList.add("mbCL");
+      mTag.before(elNew);
+
+      elNew = document.createElement('div');
       elNew.classList.add(mClass);
       elNew.setAttribute('DTS',mDTS);
       elNew.setAttribute('topic',"");
@@ -2473,12 +2478,12 @@ function RenderStart(el){
     mHTML += RenderAvXP(mSPK,mEXP,mIcon,el.getAttribute('rank'),el.getAttribute('mode'));
   }
 
-  mHTML += "<div class='mbpdc'>" + el.innerHTML;
+  mHTML += "<div class='mbpdc' style='display:inline'>" + el.innerHTML;
   if(el.hasAttribute('DTS')){
     mHTML += " <a class='mbbutton' onclick='MsgContext(this)'><small>...</small></a>";
   }
   mHTML += "</div>";
-  mHTML += "<div class='mbCL'></div>";
+  //mHTML += "<div class='mbCL'></div>";
   return mHTML;
 }
 function ModeCSS(mMode){
