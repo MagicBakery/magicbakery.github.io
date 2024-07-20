@@ -1743,7 +1743,7 @@ function MacroResItem(mTag){
   mHTML += "<b>Tags:</b>&nbsp;" + mTags +" ";
   // URL in the Side Bar
   // 20240622: Zoey: Don't show this if the field is missing entirely.
-  if(mTag.hasAttribute("mSrc")){
+  if(mTag.hasAttribute("src")){
     if(NotBlank(mSrc)){
       mHTML += GetURLCode(mSrc) +"<br>";
     }else{
@@ -1880,7 +1880,7 @@ function MacroTopic(el){
       mHTML += "<div class='mbCB'></div></hide>";
       // 20240711: Natalie: to improve formatting.
       let elNew = document.createElement('div');
-      elNew.classList.add("mbCL");
+      elNew.classList.add("mbCL");      
       mTag.before(elNew);
 
       elNew = document.createElement('div');
