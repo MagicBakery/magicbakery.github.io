@@ -146,12 +146,14 @@ function OfflineTag(bOffline){
   return "";
 }
 function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
+  // 20240720: StarTree: This function fills a board with content.
   // 20240509: Skyle: Added to handle Offline Archive.
 
   // 20231224: StarTree: If the node has a <content> section, then assume that this is the new node style that has <node>, <content>, and <ref> sections.
   var elBanner; try{elBanner = elRecord.querySelector('banner');}catch(error){}        
   var elContent = elRecord.querySelector('content');
   var elNode = elRecord.querySelector('node');
+  var mHasCard = false;
 
   if(!IsBlank(elContent) && !IsBlank(elNode)){ 
     // 20231224: StarTree: New Format
@@ -173,7 +175,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     }
     
     // 20240329: StarTree: if there is no card at all, don't show the author badge.
-    var mHasCard = false;
+    mHasCard = false;
     var elCard;
     try{
       elCard = elRecord.querySelector('inv');
@@ -182,6 +184,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     }
     // STEP: Start the Card section
     if(!IsBlank(elCard)){
+      mHasCard = true;
       mHTMLInner +=  "<div class='mbCardMat'>";
       mHTMLInner +=   "<div class='mbCardRM'>" + elCard.innerHTML + "</div>";
       mHTMLInner +=   "<div class='mbCardMatText'>";
@@ -199,7 +202,25 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       mHTMLInner += ChatNodeContent(elRecord,mJSON);
     }else{
       // STEP: CONTENT Section
+      // 20240720: StarTree: Adding a default search box.      
+      if(mHasCard==false){ 
+        mHTMLInner += "<div control>"; 
+        mHTMLInner += "<input type=\"text\" onclick=\"TextSearchPN(this)\" onkeyup=\"TextSearchPN(this)\" placeholder=\"Search...\" title=\"Input a keyword\" style=\"width:100px\">";
+
+        // 20240720: StarTree: If there is a search section, add it here.
+        try{
+          var elSearch = elRecord.querySelector('Search');
+          mHTMLInner += elSearch.innerHTML;
+        }catch(error){          
+        }
+
+        mHTMLInner += "</div>"; 
+        mHTMLInner += "<div class=\"mbSearch mbStack\" style=\"max-height:50vh;overflow-y:auto;padding:5px 2px;display:flex;flex-direction: column;gap:10px;\">";
+      }
       mHTMLInner += elContent.innerHTML;
+      if(mHasCard==false){
+        mHTMLInner += "</div>";
+      }
     }
 
     // STEP: Close the Card section.
@@ -1873,18 +1894,18 @@ function MacroTopic(el){
 
       mHTML = "<div class='mbbutton' onclick='ShowNext(this)'>";
       mHTML += "<span class='mbILB30'>" + mIcon + "</span>";
-      mHTML += mFullTitle + "</div><hide><hr class='mbhr'>";
+      mHTML += mFullTitle + "</div><hide class=\"mbSearch\"><hr class='mbhr'>";
   
       mHTML += mTag.innerHTML;
       
       mHTML += "<div class='mbCB'></div></hide>";
       // 20240711: Natalie: to improve formatting.
       let elNew = document.createElement('div');
-      elNew.classList.add("mbCL");      
+      /*elNew.classList.add("mbCL");      
       mTag.before(elNew);
 
-      elNew = document.createElement('div');
-      elNew.classList.add(mClass);
+      elNew = document.createElement('div');*/
+      elNew.classList.add(mClass);      
       elNew.setAttribute('DTS',mDTS);
       elNew.setAttribute('topic',"");
       elNew.innerHTML = mHTML;
@@ -4549,8 +4570,8 @@ function QSL(el,iQuery,iMonthly){
   }
 
   var elSearchList = SearchPS(el,"control").nextElementSibling.lastElementChild;
-  elSearchList.parentNode.classList.remove('mbhide');
-  QSLEL(elSearchList,iQuery);  
+  elSearchList.classList.remove('mbhide');
+  QSLEL(elSearchList.lastElementChild,iQuery);  
 }
 function QSLThisMonth(el,iQuery){
   // 20240507: Natalie: This version of QSL only return
@@ -7599,7 +7620,7 @@ function TextSearchPNEV(e,elSearchBox){
 }
 function TextSearchEL(mScope,mKeyword){
   // 20240608: Sasha
-  DEBUG(mKeyword);
+  
   TextFilter(mScope,mKeyword,"div");
   TextFilter(mScope,mKeyword,"mbNote");
   TextFilter(mScope,mKeyword,"li");

@@ -1,149 +1,147 @@
 <div id="P800000000000" date="80000000" time="0000" class="mbscroll" data-quest="" data-upgrade="" data-minor="">
-  <content dts="80000000000000" title="Site Search" node="800000000000" icon="🔍">
-    <div control="">
-      
-      <input type="text" onclick="TextSearchPN(this)" onkeyup="TextSearchPNEV(event,this)" placeholder="Search..." title="Input a keyword" style="width:150px">
-      <span style="float:right">
-        <button class="mbbutton" onclick="NodeMarkUseCookie(this)">🍪</button>
-      </span>
-      <span>
-        <a class="mbbutton" onclick="ToggleNextPN(this)" title="Special Queries">📯</a>
-        <hide>
-          <small><a class="mbbutton" onclick="TextQSL(this)" title="Query textbox content as tag">🔍 Query Textbox as Text</a></small>
-          <hr><h4>📯 Special Queries</h4>
-          <a class="mbbutton" onclick="QSL(this,'[data-college]')">🎓 Academy</a><br>
-          <a class="mbbutton" onclick="QSL(this,'[data-Guild]')">🥨 Guild</a><br>
-          <a class="mbbutton" onclick="QSL(this,'[data-help]')">☎️ Help</a> <small><lnk>202405051137|[Unsorted]</lnk></small><br>
-          <hr>
-          <a class="mbbutton" onclick="QSL(this,'[id][date][time]:contains(\'hostil\'):contains(\'quest\')')">⭐ Special</a><br>
-        </hide>
-        <a class="mbbutton" onclick="ToggleNextPN(this)" title="Tags">🏷️</a>
-        <hide>
-          <small><a class="mbbutton" onclick="TextQSLTag(this)" title="Query textbox content as tag">🔍 Query Textbox as a Tag</a></small>
+  <search>
+    <span style="float:right">
+      <button class="mbbutton" onclick="NodeMarkUseCookie(this)">🍪</button>
+    </span>
+    <span>
+      <a class="mbbutton" onclick="ToggleNextPN(this)" title="Special Queries">📯</a>
+      <hide>
+        <small><a class="mbbutton" onclick="TextQSL(this)" title="Query textbox content as tag">🔍 Query Textbox as Text</a></small>
+        <hr><h4>📯 Special Queries</h4>
+        <a class="mbbutton" onclick="QSL(this,'[data-college]')">🎓 Academy</a><br>
+        <a class="mbbutton" onclick="QSL(this,'[data-Guild]')">🥨 Guild</a><br>
+        <a class="mbbutton" onclick="QSL(this,'[data-help]')">☎️ Help</a> <small><lnk>202405051137|[Unsorted]</lnk></small><br>
+        <hr>
+        <a class="mbbutton" onclick="QSL(this,'[id][date][time]:contains(\'hostil\'):contains(\'quest\')')">⭐ Special</a><br>
+      </hide>
+      <a class="mbbutton" onclick="ToggleNextPN(this)" title="Tags">🏷️</a>
+      <hide>
+        <small><a class="mbbutton" onclick="TextQSLTag(this)" title="Query textbox content as tag">🔍 Query Textbox as a Tag</a></small>
 
-          
-          <hr>
-          <h4>🏷️ Tags</h4>
-          <a class="mbbutton" onclick="QSL(this,'[id][date][time]')" title="All with id, date and time">(ALL)</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-academy]')">Academy</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-announcement]')">Announcement</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-archetype]')">Archetypes</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-best]')">Best</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-book]')">Books</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-charter]')">Charters</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-card]')">Cards</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-chat]')">Chats</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-college]')">Colleges</a> |
-          
-          <a class="mbbutton" onclick="QSL(this,'[data-game]')">Games</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-issue]')">Issues</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-manga]')">Manga</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-place]')">Places</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-puzzle]')">Puzzles</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-quest]')">Quests</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-rule]')">Rules</a> | 
-          <a class="mbbutton" onclick="QSL(this,'[data-singalong]')">Singalong</a> | 
-          <a class="mbbutton" onclick="QSL(this,'[data-skill]')">Skills</a> | 
-          <a class="mbbutton" onclick="QSL(this,'[data-slide]')">Slides</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-subject]')">Subjects</a> |
-          <a class="mbbutton" onclick="QSL(this,'[data-widget]')">Widgets</a>     
-          <hr>
-        </hide>
-        <a class="mbbutton" onclick="ToggleNextPN(this)" title="Sorting">👑</a>
-        <hide date="20240413">
-          <h4>👑 Sort by</h4><hr>
-          <a class="mbbutton" style="float:right" onclick="QSLSortRandom(this)">🎲</a>
-          <a class="mbbutton" onclick="QSLSortByName(this)">🍎 Name</a>
-          <a class="mbbutton" onclick="QSLSortBy(this,'date')">🗓️ Date</a>
-          <a class="mbbutton" onclick="QSLSortBy(this,'size')">🐘 Size</a>
-          
-          
-          <hr>
-        </hide><!--Sort Modes-->
-        <a class="mbbutton" onclick="ToggleNextPN(this)" title="Sitemap Quests">🎪</a>
-        <hide>
-          <h4>🎪 Quest Queries</h4><hr>
-            <a class="mbbutton" onclick="QSL(this,'[monthly]')" title="All monthly quests">📅</a> 
-            <a class="mbbutton" onclick="QSL(this,'[monthly]','todo')" title="Yet to do this month">🔔</a> 
-            <a class="mbbutton" onclick="QSL(this,'[monthly]','done')" title="Completed this month">✅</a>
-            <a class="mbbutton" onclick="QSL(this,'[id][date][time]','done')" title="All nodes with updates this month">⭐</a> | 
-            <a class="mbbutton" onclick="QSL(this,'[id][date][time]:has(note[subtitle=&quot;Inbox&quot;])')" title="All nodes with an Inbox bin">📬</a>
-            <a class="mbbutton" onclick="QSL(this,'[id][date][time]:has(note[subtitle=&quot;Todo&quot;])')" title="All nodes with a Todo bin">📌</a>
+        
+        <hr>
+        <h4>🏷️ Tags</h4>
+        <a class="mbbutton" onclick="QSL(this,'[id][date][time]')" title="All with id, date and time">(ALL)</a> |
+        <a class="mbbutton" onclick="QSL(this,'[data-academy]')">Academy</a> |
+        <a class="mbbutton" onclick="QSL(this,'[data-announcement]')">Announcement</a> |
+        <a class="mbbutton" onclick="QSL(this,'[data-archetype]')">Archetypes</a> |
+        <a class="mbbutton" onclick="QSL(this,'[data-best]')">Best</a> |
+        <a class="mbbutton" onclick="QSL(this,'[data-book]')">Books</a> |
+        <a class="mbbutton" onclick="QSL(this,'[data-charter]')">Charters</a> |
+        <a class="mbbutton" onclick="QSL(this,'[data-card]')">Cards</a> |
+        <a class="mbbutton" onclick="QSL(this,'[data-chat]')">Chats</a> |
+        <a class="mbbutton" onclick="QSL(this,'[data-college]')">Colleges</a> |
+        
+        <a class="mbbutton" onclick="QSL(this,'[data-game]')">Games</a> |
+        <a class="mbbutton" onclick="QSL(this,'[data-issue]')">Issues</a> |
+        <a class="mbbutton" onclick="QSL(this,'[data-manga]')">Manga</a> |
+        <a class="mbbutton" onclick="QSL(this,'[data-place]')">Places</a> |
+        <a class="mbbutton" onclick="QSL(this,'[data-puzzle]')">Puzzles</a> |
+        <a class="mbbutton" onclick="QSL(this,'[data-quest]')">Quests</a> |
+        <a class="mbbutton" onclick="QSL(this,'[data-rule]')">Rules</a> | 
+        <a class="mbbutton" onclick="QSL(this,'[data-singalong]')">Singalong</a> | 
+        <a class="mbbutton" onclick="QSL(this,'[data-skill]')">Skills</a> | 
+        <a class="mbbutton" onclick="QSL(this,'[data-slide]')">Slides</a> |
+        <a class="mbbutton" onclick="QSL(this,'[data-subject]')">Subjects</a> |
+        <a class="mbbutton" onclick="QSL(this,'[data-widget]')">Widgets</a>     
+        <hr>
+      </hide>
+      <a class="mbbutton" onclick="ToggleNextPN(this)" title="Sorting">👑</a>
+      <hide date="20240413">
+        <h4>👑 Sort by</h4><hr>
+        <a class="mbbutton" style="float:right" onclick="QSLSortRandom(this)">🎲</a>
+        <a class="mbbutton" onclick="QSLSortByName(this)">🍎 Name</a>
+        <a class="mbbutton" onclick="QSLSortBy(this,'date')">🗓️ Date</a>
+        <a class="mbbutton" onclick="QSLSortBy(this,'size')">🐘 Size</a>
+        
+        
+        <hr>
+      </hide><!--Sort Modes-->
+      <a class="mbbutton" onclick="ToggleNextPN(this)" title="Sitemap Quests">🎪</a>
+      <hide>
+        <h4>🎪 Quest Queries</h4><hr>
+          <a class="mbbutton" onclick="QSL(this,'[monthly]')" title="All monthly quests">📅</a> 
+          <a class="mbbutton" onclick="QSL(this,'[monthly]','todo')" title="Yet to do this month">🔔</a> 
+          <a class="mbbutton" onclick="QSL(this,'[monthly]','done')" title="Completed this month">✅</a>
+          <a class="mbbutton" onclick="QSL(this,'[id][date][time]','done')" title="All nodes with updates this month">⭐</a> | 
+          <a class="mbbutton" onclick="QSL(this,'[id][date][time]:has(note[subtitle=&quot;Inbox&quot;])')" title="All nodes with an Inbox bin">📬</a>
+          <a class="mbbutton" onclick="QSL(this,'[id][date][time]:has(note[subtitle=&quot;Todo&quot;])')" title="All nodes with a Todo bin">📌</a>
 
-          <hr>
-          <note dts="20240507214626" subtitle="Log">
-            <msg DTS="20240507214634" mode="make" SPK="Natalie" EXP=5 Icon="🔍">According to Ivy, the Sitemap can already query month quests if we tag a topic, such as "monthly". Here I try to add the query. It is working! 😀 But still need to add a version of QSL that understands "this month".</msg>
-            <msg DTS="20240507224446" SPK="Natalie" EXP Icon="🔍">The "not" selector isn't working as expected. When a node has more than one monthly quest and only some of them are done, the selector cannot tell that the node is not done. I think I will change QSL to be able to query a topic, but lists the node ID in the result. Then it will be more clear what is or is not done.</msg>
-            <msg DTS="20240507230259" SPK="Sasha" EXP=5 Icon="🚀">Making BoardLoad understand a DTS and load its node. Checking BoardFill. Making JQAdd trim for DTS also.</msg>
-            <msg DTS="20240511095351" SPK="Vivi" mode="sort" EXP=2 Icon="🔮">Added a query for all nodes with an Inbox bin, or a Todo bin.</msg>
-          </note>
-          <note dts="20240508002723" subtitle="Sitemap Quests">
+        <hr>
+        <note dts="20240507214626" subtitle="Log">
+          <msg DTS="20240507214634" mode="make" SPK="Natalie" EXP=5 Icon="🔍">According to Ivy, the Sitemap can already query month quests if we tag a topic, such as "monthly". Here I try to add the query. It is working! 😀 But still need to add a version of QSL that understands "this month".</msg>
+          <msg DTS="20240507224446" SPK="Natalie" EXP Icon="🔍">The "not" selector isn't working as expected. When a node has more than one monthly quest and only some of them are done, the selector cannot tell that the node is not done. I think I will change QSL to be able to query a topic, but lists the node ID in the result. Then it will be more clear what is or is not done.</msg>
+          <msg DTS="20240507230259" SPK="Sasha" EXP=5 Icon="🚀">Making BoardLoad understand a DTS and load its node. Checking BoardFill. Making JQAdd trim for DTS also.</msg>
+          <msg DTS="20240511095351" SPK="Vivi" mode="sort" EXP=2 Icon="🔮">Added a query for all nodes with an Inbox bin, or a Todo bin.</msg>
+        </note>
+        <note dts="20240508002723" subtitle="Sitemap Quests">
+          <div>
+            <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-documentation]')">
+            <span class="mbILB20 mbRankS"></span>🏆</a>  
+            <span class="mbbutton" onclick="ShowNextInline(this)">Documentation</span>
+            <hide>
+              <msg spk="Arcacia data=&quot;20240409&quot;" exp="" icon="📌">20240409: Showcase new features so others can follow.</msg>
+              
+            </hide>
+          </div><!--Rank S Queries-->
+          <div>
+            <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-major]')">
+            <span class="mbILB20 mbRankA"></span>⭐</a>  
+            <span class="mbbutton" onclick="ShowNextInline(this)">Major Upgrades</span>
+            <hide>
+              <msg spk="Vivi">20240331: Add new useful feature.</msg>
+              <button class="mbbutton" onclick="ShowNextInline(this)" date="20240401">📌<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> 20240401: Implement TSN at sitemap. 🚨🟥Alarms 🟨Features 🟩Reference 🟦Tasks</hide>
+              <msg spk="Arcacia" data="20240409" exp="" icon="📌">20240409: Showcase new features so others can follow.</msg>
+            </hide>
+          </div><!--Rank A Queries-->
+          <div>
+            <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-minor]')">
+            <span class="mbILB20 mbRankB"></span>⭐</a>  
+            <span class="mbbutton" onclick="ShowNextInline(this)">Minor Upgrades</span>
+            <hide>
+              <msg spk="Vivi">20240331: Upgrade existing features of the sitemap.</msg>
+
+            </hide>
+          </div><!--Rank B Queries-->
+          <div>
+            <a class="mbbutton" onclick="QSL(this,'[id][date][time]:not([data-subject],[data-skill],[data-chat],[data-podcast],[data-book],[data-game],[data-puzzle],:contains(\'⭐\'))')"><span class="mbILB20 mbRankC"></span>📌</a>  
+            <span class="mbbutton" onclick="ShowNextInline(this)">Tag Audit</span>
+            <hide>
+              <msg dts="20240331" spk="LRRH" exp="" icon="📌">Check directory categories. Are there too many? What should be added?</msg>
+              <msg dts="20240331" spk="LRRH" exp="" icon="🎯">Target area: I want to clear the Issues tag, or nodes tagged with Issue should addressed.</msg>
+              <msg spk="Vivi" exp="" icon="📌">Every node should be reachable from a tree at sitemap.</msg>
+            </hide>
+          </div><!--Rank C Queries-->
+          <div>
+            <a class="mbbutton" onclick="QSL(this,'[id][date][time]:not(:has(node)),[id]:contains(\'pin2\')')"><span class="mbILB20 mbRankD"></span>📌</a> 
+            <!--<a class="mbbutton" onclick="QSL(this,'[id][date][time]:not(:has(node)),[id]:contains(\'|pin\'),[id]:contains(\'pin2\')')"><span class="mbILB20 mbRankD"></span>📌</a> -->
+            <span class="mbbutton" onclick="ShowNextInline(this)">Node Reformat</span>
+            <hide>
+              <msg dts="20240331" spk="StarTree">Update the node format to the latest that has a tag for the sitemap.</msg>
+              <msg dts="20240331" spk="StarTree" exp="" icon="🎯">Target area: Prioritize any node with the 📌 icon or with a name on the sitemap that is not descriptive.</msg>
+              <msg dts="20240331" spk="Vivi" exp="" icon="📌">Tag all non-chat nodes so all of them can be reached from sitemap.</msg>
+              <msg dts="20240420081932" spk="Skyle" exp="" icon="🔍">There are nodes with old format that start with a date and time tag, but the ID tag is in its child. Those nodes do not show in the query. Found 18+187 cases in Archive 1.</msg>
+              <msg dts="20240420101742" spk="Skyle" exp="20" icon="🌾">Did not reformat the nodes, but changed enough for them to be queried. The count is now 1240/1699.</msg>
+            </hide>
+          </div><!--Rank D Queries-->
+          <note dts="20240508002753" subtitle="Done">
             <div>
-              <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-documentation]')">
-              <span class="mbILB20 mbRankS"></span>🏆</a>  
-              <span class="mbbutton" onclick="ShowNextInline(this)">Documentation</span>
+              <a class="mbbutton" onclick="QSL(this,'[data-skill]:not([data-alchemist],[data-cleric],[data-herald],[data-magician],[data-oracle],[data-paladin])')">
+              <span class="mbILB20 mbRankC"></span>✅</a>  
+              <span class="mbbutton" onclick="ShowNextInline(this)">Archetype Tags</span>
               <hide>
-                <msg spk="Arcacia data=&quot;20240409&quot;" exp="" icon="📌">20240409: Showcase new features so others can follow.</msg>
-                
-              </hide>
-            </div><!--Rank S Queries-->
-            <div>
-              <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-major]')">
-              <span class="mbILB20 mbRankA"></span>⭐</a>  
-              <span class="mbbutton" onclick="ShowNextInline(this)">Major Upgrades</span>
-              <hide>
-                <msg spk="Vivi">20240331: Add new useful feature.</msg>
-                <button class="mbbutton" onclick="ShowNextInline(this)" date="20240401">📌<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> 20240401: Implement TSN at sitemap. 🚨🟥Alarms 🟨Features 🟩Reference 🟦Tasks</hide>
-                <msg spk="Arcacia" data="20240409" exp="" icon="📌">20240409: Showcase new features so others can follow.</msg>
-              </hide>
-            </div><!--Rank A Queries-->
-            <div>
-              <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-minor]')">
-              <span class="mbILB20 mbRankB"></span>⭐</a>  
-              <span class="mbbutton" onclick="ShowNextInline(this)">Minor Upgrades</span>
-              <hide>
-                <msg spk="Vivi">20240331: Upgrade existing features of the sitemap.</msg>
-  
-              </hide>
-            </div><!--Rank B Queries-->
-            <div>
-              <a class="mbbutton" onclick="QSL(this,'[id][date][time]:not([data-subject],[data-skill],[data-chat],[data-podcast],[data-book],[data-game],[data-puzzle],:contains(\'⭐\'))')"><span class="mbILB20 mbRankC"></span>📌</a>  
-              <span class="mbbutton" onclick="ShowNextInline(this)">Tag Audit</span>
-              <hide>
-                <msg dts="20240331" spk="LRRH" exp="" icon="📌">Check directory categories. Are there too many? What should be added?</msg>
-                <msg dts="20240331" spk="LRRH" exp="" icon="🎯">Target area: I want to clear the Issues tag, or nodes tagged with Issue should addressed.</msg>
-                <msg spk="Vivi" exp="" icon="📌">Every node should be reachable from a tree at sitemap.</msg>
+                <msg spk="Ivy" exp="" icon="📌">20240409: Each skill should have at least one archetype tag.</msg>
+                <button class="mbbutton" onclick="ShowNextInline(this)">🏹<div class="mbavem mbZoey"></div></button><hide> <b>Ivy:</b> 20240409: Tag 86 nodes</hide>
               </hide>
             </div><!--Rank C Queries-->
-            <div>
-              <a class="mbbutton" onclick="QSL(this,'[id][date][time]:not(:has(node)),[id]:contains(\'pin2\')')"><span class="mbILB20 mbRankD"></span>📌</a> 
-              <!--<a class="mbbutton" onclick="QSL(this,'[id][date][time]:not(:has(node)),[id]:contains(\'|pin\'),[id]:contains(\'pin2\')')"><span class="mbILB20 mbRankD"></span>📌</a> -->
-              <span class="mbbutton" onclick="ShowNextInline(this)">Node Reformat</span>
-              <hide>
-                <msg dts="20240331" spk="StarTree">Update the node format to the latest that has a tag for the sitemap.</msg>
-                <msg dts="20240331" spk="StarTree" exp="" icon="🎯">Target area: Prioritize any node with the 📌 icon or with a name on the sitemap that is not descriptive.</msg>
-                <msg dts="20240331" spk="Vivi" exp="" icon="📌">Tag all non-chat nodes so all of them can be reached from sitemap.</msg>
-                <msg dts="20240420081932" spk="Skyle" exp="" icon="🔍">There are nodes with old format that start with a date and time tag, but the ID tag is in its child. Those nodes do not show in the query. Found 18+187 cases in Archive 1.</msg>
-                <msg dts="20240420101742" spk="Skyle" exp="20" icon="🌾">Did not reformat the nodes, but changed enough for them to be queried. The count is now 1240/1699.</msg>
-              </hide>
-            </div><!--Rank D Queries-->
-            <note dts="20240508002753" subtitle="Done">
-              <div>
-                <a class="mbbutton" onclick="QSL(this,'[data-skill]:not([data-alchemist],[data-cleric],[data-herald],[data-magician],[data-oracle],[data-paladin])')">
-                <span class="mbILB20 mbRankC"></span>✅</a>  
-                <span class="mbbutton" onclick="ShowNextInline(this)">Archetype Tags</span>
-                <hide>
-                  <msg spk="Ivy" exp="" icon="📌">20240409: Each skill should have at least one archetype tag.</msg>
-                  <button class="mbbutton" onclick="ShowNextInline(this)">🏹<div class="mbavem mbZoey"></div></button><hide> <b>Ivy:</b> 20240409: Tag 86 nodes</hide>
-                </hide>
-              </div><!--Rank C Queries-->
-            </note>            
-          </note>
-        </hide>
-      </span>
-      <div class="mbpuzzle mbhide"></div><!--Control details viewer-->
-    </div><!--CONTROLS-->
-    <macro>{"cmd":"MC3"}</macro>
+          </note>            
+        </note>
+      </hide>
+    </span>
+    <div class="mbpuzzle mbhide"></div><!--Control details viewer-->
+  </search>
+  <content dts="80000000000000" title="Site Search" node="800000000000" icon="🔍">
+    
     <div class="mbpuzzle mbhide" onclick="MC3Resize(this)">
       <div control=""></div>
       <div class="mbSearch" style="display:flex;flex-direction: column;">
@@ -457,9 +455,10 @@
                   </div>
                 </div><!--@Academy / LRRH-->                
                 <div class="mbCB">
-                  <macro>{"guildlog":"272","rank":"D","updates":"2","node":"202208162133","author":"Fina","chapter":"@Arena","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"114","rank":"S","updates":"3","node":"202208162133","author":"Fina","chapter":"@Arena","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
+                    <macro>{"log":"0720","priority":"0","icon":"🏛️","node":"202407200843","title":"Custody Laws","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"2","icon":"🍀","node":"202209111548","title":"Housing","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"2","icon":"🏘️","node":"202307231022","title":"NextDoor Workflow","info":"Replying/Deploying.","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"2","icon":"⚔️","node":"202309070833","title":"Bad Policies","info":"S Rank: With external posting.","cmd":"quest"}</macro>   
@@ -479,7 +478,7 @@
                 </div><!--@Arena / Fina-->
                 <div class="mbCB">
                   <span class="mbRankNone" style="float:right;"><lnk>202302201503|⚙️</lnk></span>
-                  <macro>{"guildlog":"20","rank":"C","updates":"2","node":"202208161957","author":"StarTree","chapter":"@Board","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"20","rank":"B","updates":"3","node":"202208161957","author":"StarTree","chapter":"@Board","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <lnk>202207242047|📋</lnk><span></span><button class="mbbutton" onclick="XP_Tally(this)">XP Tally</button><br>
                     <!--<span class="mbListCapNC mbRankS"></span>-->
@@ -488,7 +487,7 @@
                     <macro>{"log":"","priority":"0","icon":"📝","node":"202404162138","title":"Node Maker","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"0","icon":"📟","node":"202404260005","title":"Message Scanner","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>          
+                    <macro>{"log":"0720","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>          
                     <macro>{"log":"","priority":"9","icon":"⭐","node":"202208032040","title":"Web Programming","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
                     
@@ -578,17 +577,18 @@
                 </div><!--@Carrot / Arcacia-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202207131009|♟️</lnk></span>
-                  <macro>{"guildlog":"21","rank":"D","updates":"2","node":"202208141844","author":"Sasha","chapter":"@Detective","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"21","rank":"A","updates":"3","node":"202208141844","author":"Sasha","chapter":"@Detective","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">           
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"1","icon":"🌺","node":"202207112218","title":"Search Visibility","info":"Follow up with discussion. Fix Index Errors","cmd":"quest"}</macro>  
-                    <span class="mbListCapNC mbRankA"></span>   
+                    <span class="mbListCapNC mbRankA"></span>  
+                    <macro>{"log":"0720","priority":"0","icon":"🎲","node":"202207131009","title":"Board Games","info":"","cmd":"quest"}</macro>  
                     <macro>{"log":"","priority":"9","icon":"🎩","node":"202406282333","title":"Design","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"9","icon":"🥯","node":"202302032008","title":"221B Baker Street","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"1","icon":"🏰","node":"202312251111","title":"Arcacian Quest","info":"This is a board game design project.","cmd":"quest"}</macro>                
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"0","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"🎲","node":"202207131009","title":"Board Games","info":"","cmd":"quest"}</macro> 
+                    
                     <macro>{"log":"","priority":"9","icon":"🔦","node":"202309171832","title":"CSI The Board Game","cmd":"quest"}</macro>                    
                     <!--<span class="mbListCapNC mbRankC"></span>-->
                     <span class="mbListCapNC mbRankD"></span>    
@@ -598,11 +598,12 @@
                 </div><!--@Detective / Sasha-->
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202207161025|🍂</lnk></span>
-                  <macro>{"guildlog":"5","rank":"D","updates":"2","node":"202207161025","author":"Tanya","chapter":"@Dungeon","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"5","rank":"A","updates":"3","node":"202207161025","author":"Tanya","chapter":"@Dungeon","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"2","icon":"🏘️","node":"202307231022","title":"NextDoor Workflow","info":"Replying/Deploying.","cmd":"quest"}</macro> 
                     <span class="mbListCapNC mbRankA"></span>
+                    <macro>{"log":"0719","priority":"0","icon":"📯","node":"202407192134","title":"Online Ethics","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"3","icon":"⚔️","node":"202406140044","title":"Military Strategies","info":"Since 2022 Dec","cmd":"quest"}</macro>
                     
                     <span class="mbListCapNC mbRankB"></span>
@@ -747,15 +748,14 @@
                   </div>
                 </div><!--@Home / Kisaragi-->
                 <div class="mbCB">
-                  <macro>{"guildlog":"0","icon":"","rank":"D","updates":"2","node":"202303052122","author":"Vivi","chapter":"@Night","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","icon":"","rank":"B","updates":"3","node":"202303052122","author":"Vivi","chapter":"@Night","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"","priority":"1","icon":"☠️","node":"202406262226","title":"Undead Rising","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
-                    <macro>{"log":"","priority":"0","icon":"📜","node":"202403231324","title":"Charter","info":"","cmd":"quest"}</macro>                    
-                    
+                    <macro>{"log":"0720","priority":"9","icon":"🕸️","node":"202303052122","title":"Bug Fix","cmd":"quest"}</macro> 
                     <span class="mbListCapNC mbRankC"></span>
-                    <macro>{"log":"","priority":"9","icon":"🕸️","node":"202303052122","title":"Bug Fix","cmd":"quest"}</macro>   
+                    <macro>{"log":"","priority":"0","icon":"📜","node":"202403231324","title":"Charter","info":"","cmd":"quest"}</macro>                    
                     <span class="mbListCapNC mbRankD"></span>
                     <macro>{"log":"0706","priority":"1","icon":"🍒","node":"202311282256","title":"Typo Quest","cmd":"quest"}</macro>
                     <macro>{"log":"0711","priority":"9","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro>                     
@@ -812,11 +812,11 @@
                 </div><!--@Mira / Ledia-->
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202207220710|🎧</lnk></span>
-                  <macro>{"guildlog":"0","rank":"D","updates":"2","node":"202208172107","author":"P4","chapter":"@Music","cmd":"pb"}</macro>       
+                  <macro>{"guildlog":"0","rank":"S","updates":"3","node":"202208172107","author":"P4","chapter":"@Music","cmd":"pb"}</macro>       
                   <div class="mbPinner mbhide">                         
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"0","icon":"🎼","node":"202209161947","title":"Musescore Posting","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"1","icon":"💗","node":"202301140917","title":"Youtube Posting","cmd":"quest"}</macro>
+                    <macro>{"log":"0720","priority":"1","icon":"💗","node":"202301140917","title":"Youtube Posting","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"","priority":"4","icon":"🎼","node":"202401021825","title":"Chord Progressions","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"4","icon":"🎹","node":"202207220710","title":"Music Upgrade","info":"Show stage code for original Kanban sort.","cmd":"quest"}</macro>
@@ -832,7 +832,7 @@
                     <macro>{"log":"","priority":"9","icon":"🎧","node":"202207220710","title":"Playlist Update","info":"Playlist content update.","cmd":"quest"}</macro>
                     <macro>{"log":"0711","priority":"1","icon":"🍯","node":"202208250038","title":"Potion Quest 1","info":"Import quest entries from Cardinal Field Log to Guild Log.","cmd":"quest"}</macro>
                     <macro>{"log":"0705","priority":"2","icon":"🍯","node":"202301140917","title":"Potion Quest 2","info":"Import from field recordings.","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"7","cmd":"quest","title":"Layout update","icon":"🥨"}</macro>
+                    <macro>{"log":"","priority":"7","cmd":"quest","title":"Layout update","icon":"🥨","node":"202303052122"}</macro>
                     <macro>{"log":"","priority":"9","icon":"🥨","node":"202208172107","title":"Guild log tasks","info":"2306:23 2307:21 2308:19 2309:18 2310:15 2311:13 2401:11 2404:0 2405:0.","cmd":"quest"}</macro> 
                 
                   </div>          
@@ -8005,8 +8005,8 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240716')">16<br><div class="mbavem mbBlack"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240717')">17<br><div class="mbavem mbBlack"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240718')">18<br<div class="mbavem mbLRRH"></div></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240719')">19<br>&nbsp;</td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240720')">20<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240719')">19<br><div class="mbavem mbLRRH"></div></td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240720')">20<br><div class="mbavem mbCardinal"></div></td>
               </tr>
               <tr>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240721')">21<br>&nbsp;</td>
@@ -8062,8 +8062,8 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240716')">16<br>🏷️</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240717')">17<br>🔮</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240718')">18<br>⚖️</td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240719')">19<br>&nbsp;</td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240720')">20<br>&nbsp;</td>    
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240719')">19<br>📯</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240720')">20<br>🦄</td>    
                 </tr>
               <tr>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240721')">21<br>&nbsp;</td>
@@ -29006,6 +29006,7 @@
           <msg DTS="20240713230836" SPK="LRRH" EXP Icon="🐾">544</msg>
           <msg DTS="20240714091800" SPK="StarTree" EXP Icon="⭐">540</msg>
           <msg DTS="20240717203403" SPK="Patricia" EXP Icon="🌌">525</msg>
+          <msg DTS="20240720173203" SPK="Ivy" EXP Icon="🗃️">523</msg>
 
         </note><!--#Inbox-->
       </note>      
@@ -34686,14 +34687,278 @@
     {"name":"P4","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
+<div id="P202407192134" date="20240719" time="2134" data-skill data-Herald data-subject data-civics>
+	<content>
+    <topic dts="20240719213455" icon="🌱" title="About">
+      <msg DTS="20240719213521" SPK="Tanya" EXP Icon="📯">This node is about what behaviors ethical or unethical on social media or online discussions.</msg>
+      <note dts="20240719213727" subtitle="Todo">
+        <msg DTS="20240719213736" SPK="Tanya" EXP Icon="📌">When you think of an online behavior, start a topic and we will discuss how it should be classified or ranked.</msg>        
+      </note>
+    </topic>
+    <topic dts="20240719214838" icon="✅" title="Ethical Behaviors">
+      <msg DTS="20240719231944" SPK="Tanya" EXP Icon="🏛️">Ethical Behaviors are those that do not create victims.</msg>
+
+      <topic dts="20240719224149" icon="💗" title="Spreading a kind message">
+        <msg DTS="20240719224211" SPK="Evelyn" EXP Icon="💗">I think it is ethical to quote tweet a loving or kind message.</msg>
+        <msg DTS="20240719224333" SPK="Evelyn" EXP Icon="💗">I mean the case when you are quote tweeting a stranger. You shouldn't need to worry too much about hurting author when you quote tweet them, unless they explicitly wish not to be quoted.</msg>
+      </topic>
+      
+      <topic dts="20240719215144" icon="📯" title="Telling someone when their behavior is unethical">
+        <msg DTS="20240719221335" SPK="Tanya" EXP Icon="🔮">You can tell someone when their behavior is unethical.</msg>
+        <msg DTS="20240719221430" SPK="Tanya" EXP Icon="🔮">If you have told them before, you can link to the last time you have told them.</msg>
+
+
+        <topic dts="20240719223010" icon="🏛️" title="Q: Why is it ethical to tell?">
+          <msg DTS="20240719222722" SPK="Tanya" EXP Icon="🏛️">An unethical behavior is one that creates a victim. Telling the offender about the injury is among the first steps to stop the injury.</msg>
+          <msg DTS="20240719223106" SPK="Ledia" EXP Icon="🏛️">I would add that if you see an unethical behavior and you don't say anything you could be allowing the offense to normalize.</msg>
+        </topic>
+        <topic dts="20240719221601" icon="🔮" title="Q: Is it harassment if you had already told them what they do is unethical?">
+          <msg DTS="20240719221801" SPK="Tanya" EXP Icon="🏛️">Each violation only needs to be told once. If someone else already said it, you don't need to say it again.</msg>
+        </topic>
+      </topic>
+      
+    </topic>
+    <topic dts="20240719233749" icon="⚖️" title="Grey Area">
+      <msg DTS="20240719233802" SPK="LRRH" EXP Icon="📯">This section is for behaviors to be classified.</msg>
+      <topic dts="20240719233929" icon="⚖️" title="Quote Tweeting an Opposing View">
+        <msg DTS="20240719233959" SPK="LRRH" EXP Icon="⚖️">I think it is unethical when you encounter a view you disagree with, and use quote tweet to get your followers' attention to reply to that author.</msg>
+        <msg DTS="20240719234123" SPK="LRRH" EXP Icon="⚖️">Related factors: The more followers you have that are not peace-trained, the more unethical that is. </msg>
+        <msg DTS="20240719234458" SPK="LRRH" EXP Icon="⚖️">If you leave out the context that would make their view more understandable, then your behavior is more unethical.</msg>
+        <msg DTS="20240719234558" SPK="LRRH" EXP Icon="🔍">This is for posts where you could have talked about the subject without quote tweeting</msg>
+        <msg DTS="20240719235935" SPK="Evelyn" EXP Icon="⚖️">I think you shouldn't use quote tweet to rally your followers to harass someone just because they have a different view. But as a third person, how do you know if that is what they are trying to do?</msg>
+        <msg DTS="20240720000244" SPK="LRRH" EXP Icon="⚖️">I think you don't need to judge them, you could just tell them that there behavior is questionable. If you see someone's behavior is suspicious, it should be okay to tell them so.</msg>
+        <msg DTS="20240720000547" SPK="Evelyn" EXP Icon="💟">I think I agree.</msg>
+        <msg DTS="20240720000603" SPK="Zoey" EXP Icon="🔍">So when is it okay to quote tweet someone's opposing view?</msg>
+
+
+
+      </topic>
+    </topic>
+    <topic dts="20240719214938" icon="❌" title="Unethical Behaviors">
+      <msg DTS="20240719232031" SPK="Tanya" EXP Icon="🏛️">Unethical Behaviors are those that create victims.</msg>
+      <topic dts="20240719224646" icon="❌" title="Spreading an unkind message">
+        <msg DTS="20240719224717" SPK="Evelyn" EXP Icon="💗">I think it is unethical to spread in support of an unkind message. Although there might be a special circumstance when that becomes a necessary tactic.</msg>
+        <msg DTS="20240719225145" SPK="Ledia" EXP Icon="⚔️">Note: A necessary evil does not become "good". An unethical tactic (which creates victim), does not become "ethical" even when it is used as a last resort. It is just the least unethical option.</msg>
+      </topic>
+    </topic>
+    <topic dts="20240719214501" icon="💬" title="Discussion">
+      <msg DTS="20240719214525" SPK="LRRH" EXP Icon="📯">I want to talk about the criticism that when you point out something someone does online is bad, they say that you have tunnel vision. How do I explain that it is not tunnel vision? When I point out what someone does is wrong, I am supposed to at least provide one right way to do it.</msg>
+      <msg DTS="20240719214744" SPK="Tanya" EXP Icon="🔮">I think first we need to show a ranking of the behaviors in terms of ethics. </msg>
+      <msg DTS="20240719215036" SPK="Evelyn" EXP Icon="💗">I think it is ethical when you sees that someone's behavior is unethical and you tell them.</msg>
+      <msg DTS="20240719215233" SPK="Tanya">I think you can directly add that in the ethical section.</msg>
+      <msg DTS="20240719215329" SPK="Evelyn" EXP Icon="💗">If you don't have reason to believe that someone intends to be malicious, it is ethical to tell them when their behavior is unethical.</msg>
+      <msg DTS="20240719215424" SPK="Evelyn" EXP Icon="💗">The reason is that an ethical person would appreciate correction to keep themself in check.</msg>
+      <msg DTS="20240719220219" SPK="Tanya" EXP Icon="🔮">I think you don't need the part that says "If you don't have reason to believe that they are malicious." It is still ethical if you know that are malicious.</msg>
+      <msg DTS="20240719220520" SPK="Evelyn" EXP Icon="🐣">I think if you already know that they are malicious, and you tell them as if they didn't know, your response might become part of the deception.</msg>
+      <msg DTS="20240719220906" SPK="Tanya" EXP Icon="🔮">I think in that case you can still tell them, but also include a link to the last time you told them. In general you won't be able to tell if they are malicious, the protocol shouldn't require much judgement by the peacemaker.</msg>
+      <msg DTS="20240719221205" SPK="Zoey" EXP Icon="💟">I think Tanya's protocol is easier.</msg>
+      <msg DTS="20240719221310" SPK="Evelyn" EXP Icon="💟">Tanya please rewrite the section.</msg>
+      <msg DTS="20240719222557" SPK="Ledia" EXP Icon="⚔️">The new explanation doesn't explain why it is ethical.</msg>
+      <msg DTS="20240719222722" SPK="Tanya" EXP Icon="🏛️">An unethical behavior is one that creates a victim. Telling the offender about the injury is among the first steps to stop the injury.</msg>
+      <msg DTS="20240719223258" SPK="LRRH" EXP Icon="🐣">Is there such a thing as a victimless unethical behavior?</msg>
+      <msg DTS="20240719223413" SPK="Tanya" EXP Icon="🔮">I think there is none. What is your example?</msg>
+      <msg DTS="20240719223749" SPK="LRRH" EXP Icon="🔍">P1 poses a question. P2 answers the question. P3 doesn't like P2's answer and quote tweet them. How do you tell if something unethical has occurred?</msg>
+      <msg DTS="20240719223958" SPK="Evelyn" EXP Icon="💗">I just want to point out that it is ethical to quote tweet in support of a kind message. And unethical to quote tweet in support of an unkind message.</msg>
+      <msg DTS="20240719224551" SPK="Tanya" EXP Icon="💟">Moved Evelyn's section on kind message up because it is less controversial.</msg>
+      <msg DTS="20240719224952" SPK="Tanya" EXP Icon="📯">Conceptually speaking, when an unethical behavior becomes "necessarily", does it become ethical?</msg>
+      <msg DTS="20240719225106" SPK="Ledia" EXP Icon="⚔️">A necessary evil is not "good".</msg>
+      <msg DTS="20240719225405" SPK="Tanya" EXP Icon="💟">I see.</msg>
+      <msg DTS="20240719225536" SPK="Tanya" EXP Icon="🔍">Back to Red's question. Could you identify a victim? Two people could routinely insult each other. To a third party observer, either one would look like an offender, but that remains a victimless exchange.</msg>
+      <msg DTS="20240719230006" SPK="Zoey" EXP Icon="🐣">So say an "unethical behavior" is one that creates a victim. A behavior that does not create a victim is not an unethical behavior. Is that the same as an ethical behavior? Does an ethical behavior just mean not unethical, or something more than neutral?</msg>
+      <msg DTS="20240719230334" SPK="Evelyn" EXP Icon="💟">I think it is more intuitive to include a neutral zone, but I am okay with ethical just mean not unethical.</msg>
+      <msg DTS="20240719231329" SPK="Tanya" EXP Icon="🔮">To me, ethical means it is okay to do. You should make sure that everything you do is at least ethical (not unethical). There is no need to have a middle ground. On top of being ethical, your behavior could be helpful.</msg>
+      <msg DTS="20240719231634" SPK="Ledia" EXP Icon="⚔️">I think we need that definition pinned.</msg>
+
+    </topic>
+	</content>
+	<inv></inv>
+	<ref></ref>
+	<node>{"id":"202407192134","parentid":"202209031718","parentname":"Herald","icon":"📯","title":"Online Ethics","subtitle":"Subtitle","kids":"","img":"","music":"","author":"Tanya"}</node>
+</div><!--P202407192134-->
 <div date="20240719" time="2359" data-status="">
+  <macro>{"cmd":"daisy2","issues":"0","quests":"527","activities":[
+    {"ch":"16","rank":"D","updates":"2","last":"20240707"},
+    {"ch":"23","rank":"D","updates":"2","last":"20240710"},
+    {"ch":"34","rank":"B","updates":"3","last":"20240711"},
+    {"ch":"24","rank":"A","updates":"3","last":"20240711"},
+    {"ch":"17","rank":"D","updates":"2","last":"20240711"},
+    {"ch":"35","rank":"D","updates":"2","last":"20240711"},
+    {"ch":"31","rank":"D","updates":"2","last":"20240712"},
+    {"ch":"30","rank":"D","updates":"2","last":"20240712"},
+    {"ch":"33","rank":"A","updates":"3","last":"20240712"},
+    {"ch":"20","rank":"C","updates":"3","last":"20240714"},
+    {"ch":"18","rank":"C","updates":"2","last":"20240714"},
+    {"ch":"26","rank":"B","updates":"2","last":"20240714"},
+    {"ch":"13","rank":"B","updates":"2","last":"20240714"},
+    {"ch":"22","rank":"B","updates":"3","last":"20240714"},
+    {"ch":"14","rank":"B","updates":"4","last":"20240714"},
+    {"ch":"12","rank":"A","updates":"3","last":"20240714"},
+    {"ch":"7","rank":"B","updates":"2","last":"20240714"},
+    {"ch":"15","rank":"D","updates":"2","last":"20240714"},
+    {"ch":"11","rank":"C","updates":"2","last":"20240715"},
+    {"ch":"27","rank":"C","updates":"2","last":"20240715"},
+    {"ch":"32","rank":"D","updates":"3","last":"20240716"},
+    {"ch":"25","rank":"B","updates":"3","last":"20240717"},
+    {"ch":"5","rank":"C","updates":"3","last":"20240717"},
+    {"ch":"19","rank":"A","updates":"3","last":"20240717"},
+    {"ch":"21","rank":"B","updates":"4","last":"20240717"},
+    {"ch":"28","rank":"S","updates":"3","last":"20240718"},
+    {"ch":"29","rank":"C","updates":"3","last":"20240719"}
+    ],"players":"","merits":"","recognitions":"","kudos":"","awards":"Albatross, Arcacia, Black, Cardinal, Evelyn, Ivy, Kisaragi, LRRH, Natalie, P4, Patricia, Skyle, StarTree, Vladanya","top":[
+    {"name":"LRRH","score":"19"},
+    {"name":"Tanya","score":"18"},
+    {"name":"Evelyn","score":"18"},
+    {"name":"StarTree","score":"14"},
+    {"name":"Black","score":"12"},
+    {"name":"Kisaragi","score":"10"},
+    {"name":"P4","score":"10"},
+    {"name":"Ledia","score":"9"},
+    {"name":"Albatross","score":"8"},
+    {"name":"Vladanya","score":"8"},
+    {"name":"Skyle","score":"8"},
+    {"name":"Arcacia","score":"8"},
+    {"name":"Patricia","score":"7"},
+    {"name":"Cardinal","score":"6"},
+    {"name":"Ivy","score":"6"},
+    {"name":"Natalie","score":"6"},
+    {"name":"Zoey","score":"6"},
+    {"name":"Vivi","score":"4"},
+    {"name":"Helen","score":"3"},
+    {"name":"Ken","score":"2"},
+    {"name":"Fina","score":"2"},
+    {"name":"V","score":"1"},
+    {"name":"Sylvia","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div id="P202407200843" date="20240720" time="0843" data-skill data-Paladin data-subject data-civics>
+	<content>
+    <topic dts="20240720084434" icon="🌱" title="About">
+      <msg DTS="20240720084455" SPK="Black" EXP Icon="🌱">This node covers principles and laws related to custody, which may apply to child custody, <lnk>202308012104|pet custody</lnk>, and protection of domestic violence victims.</msg>
+
+      <hr>
+      <note dts="20240720091409" subtitle="Log">
+        <msg DTS='20240719075628' SPK='Natalie' EXP Icon='📯'>The case when a DV victim wants a suspect released <url>https://nextdoor.com/p/Dg_t2DST27cb</url></msg>
+        <msg DTS='20240719083432' SPK='Black' mode="give" EXP Icon='📯'>Dv protection law <url>https://nextdoor.com/p/Dg_t2DST27cb/c/1188490487</url></msg>
+        <msg DTS='20240720080021' SPK='Black' mode="give" EXP Icon='📯'>Risk assessment  <url>https://nextdoor.com/p/Dg_t2DST27cb/c/1189024410</url></msg>
+      </note>
+    </topic>
+    <topic dts="20240720084810" icon="🐣" title="Principles">
+      <ol>
+        <topic dts="20240720085318" icon="🐣" title="Permissible Force">
+          <msg DTS="20240720085337" SPK="Black" EXP Icon="🏛️">When you see someone is putting themself into harm, it is permissable to use force as necessary to remove them from the harm.</msg>
+          <msg DTS="20240720085717" SPK="Black" EXP Icon="⚖️">This is not considered a violation of their autonomy when you have no reason to believe that they were trying to put themselves in harm's way.</msg>
+          <msg DTS="20240720090144" SPK="Black" EXP Icon="🏛️">The role of the law is to protect good samaritans who are just trying to help keep others from harm.</msg>
+          <msg DTS="20240720090217" SPK="Black" EXP Icon="⚖️">The protection ends when the subject has <lnk>202403142342|deliberated</lnk> about their choice.</msg>
+          <note dts="20240720085536" subtitle="Example">
+            <msg DTS="20240720085542" SPK="Black" EXP Icon="🔍">If you see someone playing near traffic and they are at risk of getting hit by traffic, it is permissible to alert them or if urgent, physically get them away from traffic.</msg>
+          </note>
+        </topic>
+      </ol>
+    </topic>
+    <topic dts="20240720090544" icon="🐤" title="Risk Assessment">
+      <msg DTS="20240720090641" SPK="Black" EXP Icon="🏛️">Risk assessment should be done independent to available counter measures,</msg>
+      <msg DTS="20240720091146" SPK="Black">so that new counter measures can be devised to fill gaps where an appropriate counter measure is missing.</msg>
+      <topic dts="20240720091239" icon="🐤" title="Domestic Violence">
+        
+        <ol>
+          <topic dts="20240720091519" icon="🐤" title="The likelihood of attack">
+
+          </topic>
+          <topic dts="20240720091622" icon="🐤" title="The victim's awareness and readiness">
+            <msg DTS="20240720091813" SPK="Black" EXP Icon="🔍">How well does the victim understand domestic violence?</msg>
+            <msg DTS="20240720091846" SPK="Black" EXP Icon="🔍">How capable is the victim in defending themself?</msg>
+            <msg DTS="20240720092049" SPK="Black" EXP Icon="🔍">How much opportunity/how confident does the victim have to seek help or get to safety?</msg>
+          </topic>
+        </ol>
+        
+      </topic><!--Domestic Violence Risk Assessment-->
+    </topic>
+    <topic dts="20240720092608" icon="🕊️" title="Countermeasures">
+      <msg DTS="20240720092650" SPK="Black" EXP Icon="⚖️">When an attack is likely, countermeasures done to the potential attacker is justified.</msg>
+      <msg DTS="20240720092801" SPK="Black">On the other hand, if an attack is unlikely but the potential victim lacks awareness or readiness, then countermeasures done to the victim is justified. </msg>
+      <ol>
+        <topic dts="20240720092903" icon="🏛️" title="Confining the potential attacker">
+
+        </topic>
+        <topic dts="20240720093010" icon="🔍" title="Watching the potential attacker">
+          <ol>
+          </ol>
+        </topic>
+        <topic dts="20240720093043" icon="🔍" title="Watching over the potential victim">
+
+        </topic>
+        <topic dts="20240720093115" icon="🏛️" title="Confining the potential victim">
+          <ol>
+          </ol>
+        </topic>
+      </ol>
+    </topic>
+	</content>
+	<inv></inv>
+	<ref></ref>
+	<node>{"id":"202407200843","parentid":"202209192238","parentname":"Paladin","icon":"🏛️","title":"Custody Laws","subtitle":"Subtitle","kids":"","img":"","music":"","author":"Black"}</node>
+</div><!--P202407200843-->
+<div date="20240720" time="2359" data-status="">
+  <macro>{"cmd":"daisy2","issues":"0","quests":"518","activities":[
+    {"ch":"34","rank":"B","updates":"3","last":"20240711"},
+    {"ch":"24","rank":"A","updates":"3","last":"20240711"},
+    {"ch":"30","rank":"D","updates":"2","last":"20240712"},
+    {"ch":"33","rank":"A","updates":"3","last":"20240712"},
+    {"ch":"20","rank":"C","updates":"3","last":"20240714"},
+    {"ch":"26","rank":"B","updates":"2","last":"20240714"},
+    {"ch":"13","rank":"B","updates":"2","last":"20240714"},
+    {"ch":"22","rank":"B","updates":"3","last":"20240714"},
+    {"ch":"14","rank":"B","updates":"4","last":"20240714"},
+    {"ch":"12","rank":"A","updates":"3","last":"20240714"},
+    {"ch":"7","rank":"B","updates":"2","last":"20240714"},
+    {"ch":"15","rank":"D","updates":"2","last":"20240714"},
+    {"ch":"11","rank":"C","updates":"2","last":"20240715"},
+    {"ch":"27","rank":"C","updates":"2","last":"20240715"},
+    {"ch":"32","rank":"D","updates":"3","last":"20240716"},
+    {"ch":"25","rank":"B","updates":"3","last":"20240717"},
+    {"ch":"5","rank":"C","updates":"3","last":"20240717"},
+    {"ch":"19","rank":"A","updates":"3","last":"20240717"},
+    {"ch":"21","rank":"B","updates":"4","last":"20240717"},
+    {"ch":"28","rank":"S","updates":"3","last":"20240718"},
+    {"ch":"29","rank":"C","updates":"3","last":"20240719"},
+    {"ch":"16","rank":"A","updates":"3","last":"20240720"},
+    {"ch":"23","rank":"S","updates":"3","last":"20240720"},
+    {"ch":"17","rank":"S","updates":"3","last":"20240720"},
+    {"ch":"18","rank":"B","updates":"3","last":"20240720"},
+    {"ch":"35","rank":"B","updates":"3","last":"20240720"},
+    {"ch":"31","rank":"A","updates":"3","last":"20240721"}
+    ],"players":"","merits":"","recognitions":"Evelyn, Natalie","kudos":"","awards":"Albatross, Arcacia, Black, Cardinal, Evelyn, Ivy, Ken, LRRH, P4, Patricia, Skyle, StarTree, V, Vivi","top":[
+    {"name":"Cardinal","score":"38"},
+    {"name":"P4","score":"24"},
+    {"name":"Black","score":"22"},
+    {"name":"Evelyn","score":"19"},
+    {"name":"Zoey","score":"17"},
+    {"name":"Ledia","score":"17"},
+    {"name":"StarTree","score":"17"},
+    {"name":"V","score":"16"},
+    {"name":"Sasha","score":"11"},
+    {"name":"Arcacia","score":"10"},
+    {"name":"LRRH","score":"10"},
+    {"name":"Natalie","score":"7"},
+    {"name":"Vivi","score":"7"},
+    {"name":"Skyle","score":"6"},
+    {"name":"Ivy","score":"6"},
+    {"name":"Kisaragi","score":"6"},
+    {"name":"Ken","score":"4"},
+    {"name":"Albatross","score":"4"},
+    {"name":"Patricia","score":"4"},
+    {"name":"Casey","score":"4"},
+    {"name":"Fina","score":"2"},
+    {"name":"Sylvia","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div date="20240721" time="2359" data-status="">
   <macro>{"cmd":"daisy2","issues":"0","quests":"545","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
     
   ]}</macro>
 </div><!-- STATUS -->
-
 <!--
 <div class="mbscroll">
   <div class="mbbutton" onclick="QueryAllNext(this,'#P202307231906-Inner')">✅ 12 Productive Habits</div>
