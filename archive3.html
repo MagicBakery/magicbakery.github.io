@@ -1,147 +1,149 @@
 <div id="P800000000000" date="80000000" time="0000" class="mbscroll" data-quest="" data-upgrade="" data-minor="">
-  <search>
-    <span style="float:right">
-      <button class="mbbutton" onclick="NodeMarkUseCookie(this)">🍪</button>
-    </span>
-    <span>
-      <a class="mbbutton" onclick="ToggleNextPN(this)" title="Special Queries">📯</a>
-      <hide>
-        <small><a class="mbbutton" onclick="TextQSL(this)" title="Query textbox content as tag">🔍 Query Textbox as Text</a></small>
-        <hr><h4>📯 Special Queries</h4>
-        <a class="mbbutton" onclick="QSL(this,'[data-college]')">🎓 Academy</a><br>
-        <a class="mbbutton" onclick="QSL(this,'[data-Guild]')">🥨 Guild</a><br>
-        <a class="mbbutton" onclick="QSL(this,'[data-help]')">☎️ Help</a> <small><lnk>202405051137|[Unsorted]</lnk></small><br>
-        <hr>
-        <a class="mbbutton" onclick="QSL(this,'[id][date][time]:contains(\'hostil\'):contains(\'quest\')')">⭐ Special</a><br>
-      </hide>
-      <a class="mbbutton" onclick="ToggleNextPN(this)" title="Tags">🏷️</a>
-      <hide>
-        <small><a class="mbbutton" onclick="TextQSLTag(this)" title="Query textbox content as tag">🔍 Query Textbox as a Tag</a></small>
+  <content dts="80000000000000" title="Site Search" node="800000000000" icon="🔍">
+    <div control="">
+      
+      <input type="text" onclick="TextSearchPN(this)" onkeyup="TextSearchPNEV(event,this)" placeholder="Search..." title="Input a keyword" style="width:150px">
+      <span style="float:right">
+        <button class="mbbutton" onclick="NodeMarkUseCookie(this)">🍪</button>
+      </span>
+      <span>
+        <a class="mbbutton" onclick="ToggleNextPN(this)" title="Special Queries">📯</a>
+        <hide>
+          <small><a class="mbbutton" onclick="TextQSL(this)" title="Query textbox content as tag">🔍 Query Textbox as Text</a></small>
+          <hr><h4>📯 Special Queries</h4>
+          <a class="mbbutton" onclick="QSL(this,'[data-college]')">🎓 Academy</a><br>
+          <a class="mbbutton" onclick="QSL(this,'[data-Guild]')">🥨 Guild</a><br>
+          <a class="mbbutton" onclick="QSL(this,'[data-help]')">☎️ Help</a> <small><lnk>202405051137|[Unsorted]</lnk></small><br>
+          <hr>
+          <a class="mbbutton" onclick="QSL(this,'[id][date][time]:contains(\'hostil\'):contains(\'quest\')')">⭐ Special</a><br>
+        </hide>
+        <a class="mbbutton" onclick="ToggleNextPN(this)" title="Tags">🏷️</a>
+        <hide>
+          <small><a class="mbbutton" onclick="TextQSLTag(this)" title="Query textbox content as tag">🔍 Query Textbox as a Tag</a></small>
 
-        
-        <hr>
-        <h4>🏷️ Tags</h4>
-        <a class="mbbutton" onclick="QSL(this,'[id][date][time]')" title="All with id, date and time">(ALL)</a> |
-        <a class="mbbutton" onclick="QSL(this,'[data-academy]')">Academy</a> |
-        <a class="mbbutton" onclick="QSL(this,'[data-announcement]')">Announcement</a> |
-        <a class="mbbutton" onclick="QSL(this,'[data-archetype]')">Archetypes</a> |
-        <a class="mbbutton" onclick="QSL(this,'[data-best]')">Best</a> |
-        <a class="mbbutton" onclick="QSL(this,'[data-book]')">Books</a> |
-        <a class="mbbutton" onclick="QSL(this,'[data-charter]')">Charters</a> |
-        <a class="mbbutton" onclick="QSL(this,'[data-card]')">Cards</a> |
-        <a class="mbbutton" onclick="QSL(this,'[data-chat]')">Chats</a> |
-        <a class="mbbutton" onclick="QSL(this,'[data-college]')">Colleges</a> |
-        
-        <a class="mbbutton" onclick="QSL(this,'[data-game]')">Games</a> |
-        <a class="mbbutton" onclick="QSL(this,'[data-issue]')">Issues</a> |
-        <a class="mbbutton" onclick="QSL(this,'[data-manga]')">Manga</a> |
-        <a class="mbbutton" onclick="QSL(this,'[data-place]')">Places</a> |
-        <a class="mbbutton" onclick="QSL(this,'[data-puzzle]')">Puzzles</a> |
-        <a class="mbbutton" onclick="QSL(this,'[data-quest]')">Quests</a> |
-        <a class="mbbutton" onclick="QSL(this,'[data-rule]')">Rules</a> | 
-        <a class="mbbutton" onclick="QSL(this,'[data-singalong]')">Singalong</a> | 
-        <a class="mbbutton" onclick="QSL(this,'[data-skill]')">Skills</a> | 
-        <a class="mbbutton" onclick="QSL(this,'[data-slide]')">Slides</a> |
-        <a class="mbbutton" onclick="QSL(this,'[data-subject]')">Subjects</a> |
-        <a class="mbbutton" onclick="QSL(this,'[data-widget]')">Widgets</a>     
-        <hr>
-      </hide>
-      <a class="mbbutton" onclick="ToggleNextPN(this)" title="Sorting">👑</a>
-      <hide date="20240413">
-        <h4>👑 Sort by</h4><hr>
-        <a class="mbbutton" style="float:right" onclick="QSLSortRandom(this)">🎲</a>
-        <a class="mbbutton" onclick="QSLSortByName(this)">🍎 Name</a>
-        <a class="mbbutton" onclick="QSLSortBy(this,'date')">🗓️ Date</a>
-        <a class="mbbutton" onclick="QSLSortBy(this,'size')">🐘 Size</a>
-        
-        
-        <hr>
-      </hide><!--Sort Modes-->
-      <a class="mbbutton" onclick="ToggleNextPN(this)" title="Sitemap Quests">🎪</a>
-      <hide>
-        <h4>🎪 Quest Queries</h4><hr>
-          <a class="mbbutton" onclick="QSL(this,'[monthly]')" title="All monthly quests">📅</a> 
-          <a class="mbbutton" onclick="QSL(this,'[monthly]','todo')" title="Yet to do this month">🔔</a> 
-          <a class="mbbutton" onclick="QSL(this,'[monthly]','done')" title="Completed this month">✅</a>
-          <a class="mbbutton" onclick="QSL(this,'[id][date][time]','done')" title="All nodes with updates this month">⭐</a> | 
-          <a class="mbbutton" onclick="QSL(this,'[id][date][time]:has(note[subtitle=&quot;Inbox&quot;])')" title="All nodes with an Inbox bin">📬</a>
-          <a class="mbbutton" onclick="QSL(this,'[id][date][time]:has(note[subtitle=&quot;Todo&quot;])')" title="All nodes with a Todo bin">📌</a>
+          
+          <hr>
+          <h4>🏷️ Tags</h4>
+          <a class="mbbutton" onclick="QSL(this,'[id][date][time]')" title="All with id, date and time">(ALL)</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-academy]')">Academy</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-announcement]')">Announcement</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-archetype]')">Archetypes</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-best]')">Best</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-book]')">Books</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-charter]')">Charters</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-card]')">Cards</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-chat]')">Chats</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-college]')">Colleges</a> |
+          
+          <a class="mbbutton" onclick="QSL(this,'[data-game]')">Games</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-issue]')">Issues</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-manga]')">Manga</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-place]')">Places</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-puzzle]')">Puzzles</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-quest]')">Quests</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-rule]')">Rules</a> | 
+          <a class="mbbutton" onclick="QSL(this,'[data-singalong]')">Singalong</a> | 
+          <a class="mbbutton" onclick="QSL(this,'[data-skill]')">Skills</a> | 
+          <a class="mbbutton" onclick="QSL(this,'[data-slide]')">Slides</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-subject]')">Subjects</a> |
+          <a class="mbbutton" onclick="QSL(this,'[data-widget]')">Widgets</a>     
+          <hr>
+        </hide>
+        <a class="mbbutton" onclick="ToggleNextPN(this)" title="Sorting">👑</a>
+        <hide date="20240413">
+          <h4>👑 Sort by</h4><hr>
+          <a class="mbbutton" style="float:right" onclick="QSLSortRandom(this)">🎲</a>
+          <a class="mbbutton" onclick="QSLSortByName(this)">🍎 Name</a>
+          <a class="mbbutton" onclick="QSLSortBy(this,'date')">🗓️ Date</a>
+          <a class="mbbutton" onclick="QSLSortBy(this,'size')">🐘 Size</a>
+          
+          
+          <hr>
+        </hide><!--Sort Modes-->
+        <a class="mbbutton" onclick="ToggleNextPN(this)" title="Sitemap Quests">🎪</a>
+        <hide>
+          <h4>🎪 Quest Queries</h4><hr>
+            <a class="mbbutton" onclick="QSL(this,'[monthly]')" title="All monthly quests">📅</a> 
+            <a class="mbbutton" onclick="QSL(this,'[monthly]','todo')" title="Yet to do this month">🔔</a> 
+            <a class="mbbutton" onclick="QSL(this,'[monthly]','done')" title="Completed this month">✅</a>
+            <a class="mbbutton" onclick="QSL(this,'[id][date][time]','done')" title="All nodes with updates this month">⭐</a> | 
+            <a class="mbbutton" onclick="QSL(this,'[id][date][time]:has(note[subtitle=&quot;Inbox&quot;])')" title="All nodes with an Inbox bin">📬</a>
+            <a class="mbbutton" onclick="QSL(this,'[id][date][time]:has(note[subtitle=&quot;Todo&quot;])')" title="All nodes with a Todo bin">📌</a>
 
-        <hr>
-        <note dts="20240507214626" subtitle="Log">
-          <msg DTS="20240507214634" mode="make" SPK="Natalie" EXP=5 Icon="🔍">According to Ivy, the Sitemap can already query month quests if we tag a topic, such as "monthly". Here I try to add the query. It is working! 😀 But still need to add a version of QSL that understands "this month".</msg>
-          <msg DTS="20240507224446" SPK="Natalie" EXP Icon="🔍">The "not" selector isn't working as expected. When a node has more than one monthly quest and only some of them are done, the selector cannot tell that the node is not done. I think I will change QSL to be able to query a topic, but lists the node ID in the result. Then it will be more clear what is or is not done.</msg>
-          <msg DTS="20240507230259" SPK="Sasha" EXP=5 Icon="🚀">Making BoardLoad understand a DTS and load its node. Checking BoardFill. Making JQAdd trim for DTS also.</msg>
-          <msg DTS="20240511095351" SPK="Vivi" mode="sort" EXP=2 Icon="🔮">Added a query for all nodes with an Inbox bin, or a Todo bin.</msg>
-        </note>
-        <note dts="20240508002723" subtitle="Sitemap Quests">
-          <div>
-            <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-documentation]')">
-            <span class="mbILB20 mbRankS"></span>🏆</a>  
-            <span class="mbbutton" onclick="ShowNextInline(this)">Documentation</span>
-            <hide>
-              <msg spk="Arcacia data=&quot;20240409&quot;" exp="" icon="📌">20240409: Showcase new features so others can follow.</msg>
-              
-            </hide>
-          </div><!--Rank S Queries-->
-          <div>
-            <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-major]')">
-            <span class="mbILB20 mbRankA"></span>⭐</a>  
-            <span class="mbbutton" onclick="ShowNextInline(this)">Major Upgrades</span>
-            <hide>
-              <msg spk="Vivi">20240331: Add new useful feature.</msg>
-              <button class="mbbutton" onclick="ShowNextInline(this)" date="20240401">📌<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> 20240401: Implement TSN at sitemap. 🚨🟥Alarms 🟨Features 🟩Reference 🟦Tasks</hide>
-              <msg spk="Arcacia" data="20240409" exp="" icon="📌">20240409: Showcase new features so others can follow.</msg>
-            </hide>
-          </div><!--Rank A Queries-->
-          <div>
-            <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-minor]')">
-            <span class="mbILB20 mbRankB"></span>⭐</a>  
-            <span class="mbbutton" onclick="ShowNextInline(this)">Minor Upgrades</span>
-            <hide>
-              <msg spk="Vivi">20240331: Upgrade existing features of the sitemap.</msg>
-
-            </hide>
-          </div><!--Rank B Queries-->
-          <div>
-            <a class="mbbutton" onclick="QSL(this,'[id][date][time]:not([data-subject],[data-skill],[data-chat],[data-podcast],[data-book],[data-game],[data-puzzle],:contains(\'⭐\'))')"><span class="mbILB20 mbRankC"></span>📌</a>  
-            <span class="mbbutton" onclick="ShowNextInline(this)">Tag Audit</span>
-            <hide>
-              <msg dts="20240331" spk="LRRH" exp="" icon="📌">Check directory categories. Are there too many? What should be added?</msg>
-              <msg dts="20240331" spk="LRRH" exp="" icon="🎯">Target area: I want to clear the Issues tag, or nodes tagged with Issue should addressed.</msg>
-              <msg spk="Vivi" exp="" icon="📌">Every node should be reachable from a tree at sitemap.</msg>
-            </hide>
-          </div><!--Rank C Queries-->
-          <div>
-            <a class="mbbutton" onclick="QSL(this,'[id][date][time]:not(:has(node)),[id]:contains(\'pin2\')')"><span class="mbILB20 mbRankD"></span>📌</a> 
-            <!--<a class="mbbutton" onclick="QSL(this,'[id][date][time]:not(:has(node)),[id]:contains(\'|pin\'),[id]:contains(\'pin2\')')"><span class="mbILB20 mbRankD"></span>📌</a> -->
-            <span class="mbbutton" onclick="ShowNextInline(this)">Node Reformat</span>
-            <hide>
-              <msg dts="20240331" spk="StarTree">Update the node format to the latest that has a tag for the sitemap.</msg>
-              <msg dts="20240331" spk="StarTree" exp="" icon="🎯">Target area: Prioritize any node with the 📌 icon or with a name on the sitemap that is not descriptive.</msg>
-              <msg dts="20240331" spk="Vivi" exp="" icon="📌">Tag all non-chat nodes so all of them can be reached from sitemap.</msg>
-              <msg dts="20240420081932" spk="Skyle" exp="" icon="🔍">There are nodes with old format that start with a date and time tag, but the ID tag is in its child. Those nodes do not show in the query. Found 18+187 cases in Archive 1.</msg>
-              <msg dts="20240420101742" spk="Skyle" exp="20" icon="🌾">Did not reformat the nodes, but changed enough for them to be queried. The count is now 1240/1699.</msg>
-            </hide>
-          </div><!--Rank D Queries-->
-          <note dts="20240508002753" subtitle="Done">
+          <hr>
+          <note dts="20240507214626" subtitle="Log">
+            <msg DTS="20240507214634" mode="make" SPK="Natalie" EXP=5 Icon="🔍">According to Ivy, the Sitemap can already query month quests if we tag a topic, such as "monthly". Here I try to add the query. It is working! 😀 But still need to add a version of QSL that understands "this month".</msg>
+            <msg DTS="20240507224446" SPK="Natalie" EXP Icon="🔍">The "not" selector isn't working as expected. When a node has more than one monthly quest and only some of them are done, the selector cannot tell that the node is not done. I think I will change QSL to be able to query a topic, but lists the node ID in the result. Then it will be more clear what is or is not done.</msg>
+            <msg DTS="20240507230259" SPK="Sasha" EXP=5 Icon="🚀">Making BoardLoad understand a DTS and load its node. Checking BoardFill. Making JQAdd trim for DTS also.</msg>
+            <msg DTS="20240511095351" SPK="Vivi" mode="sort" EXP=2 Icon="🔮">Added a query for all nodes with an Inbox bin, or a Todo bin.</msg>
+          </note>
+          <note dts="20240508002723" subtitle="Sitemap Quests">
             <div>
-              <a class="mbbutton" onclick="QSL(this,'[data-skill]:not([data-alchemist],[data-cleric],[data-herald],[data-magician],[data-oracle],[data-paladin])')">
-              <span class="mbILB20 mbRankC"></span>✅</a>  
-              <span class="mbbutton" onclick="ShowNextInline(this)">Archetype Tags</span>
+              <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-documentation]')">
+              <span class="mbILB20 mbRankS"></span>🏆</a>  
+              <span class="mbbutton" onclick="ShowNextInline(this)">Documentation</span>
               <hide>
-                <msg spk="Ivy" exp="" icon="📌">20240409: Each skill should have at least one archetype tag.</msg>
-                <button class="mbbutton" onclick="ShowNextInline(this)">🏹<div class="mbavem mbZoey"></div></button><hide> <b>Ivy:</b> 20240409: Tag 86 nodes</hide>
+                <msg spk="Arcacia data=&quot;20240409&quot;" exp="" icon="📌">20240409: Showcase new features so others can follow.</msg>
+                
+              </hide>
+            </div><!--Rank S Queries-->
+            <div>
+              <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-major]')">
+              <span class="mbILB20 mbRankA"></span>⭐</a>  
+              <span class="mbbutton" onclick="ShowNextInline(this)">Major Upgrades</span>
+              <hide>
+                <msg spk="Vivi">20240331: Add new useful feature.</msg>
+                <button class="mbbutton" onclick="ShowNextInline(this)" date="20240401">📌<div class="mbavem mbBlack"></div></button><hide> <b>Black:</b> 20240401: Implement TSN at sitemap. 🚨🟥Alarms 🟨Features 🟩Reference 🟦Tasks</hide>
+                <msg spk="Arcacia" data="20240409" exp="" icon="📌">20240409: Showcase new features so others can follow.</msg>
+              </hide>
+            </div><!--Rank A Queries-->
+            <div>
+              <a class="mbbutton" onclick="QSL(this,'[id][date][time][data-upgrade][data-minor]')">
+              <span class="mbILB20 mbRankB"></span>⭐</a>  
+              <span class="mbbutton" onclick="ShowNextInline(this)">Minor Upgrades</span>
+              <hide>
+                <msg spk="Vivi">20240331: Upgrade existing features of the sitemap.</msg>
+  
+              </hide>
+            </div><!--Rank B Queries-->
+            <div>
+              <a class="mbbutton" onclick="QSL(this,'[id][date][time]:not([data-subject],[data-skill],[data-chat],[data-podcast],[data-book],[data-game],[data-puzzle],:contains(\'⭐\'))')"><span class="mbILB20 mbRankC"></span>📌</a>  
+              <span class="mbbutton" onclick="ShowNextInline(this)">Tag Audit</span>
+              <hide>
+                <msg dts="20240331" spk="LRRH" exp="" icon="📌">Check directory categories. Are there too many? What should be added?</msg>
+                <msg dts="20240331" spk="LRRH" exp="" icon="🎯">Target area: I want to clear the Issues tag, or nodes tagged with Issue should addressed.</msg>
+                <msg spk="Vivi" exp="" icon="📌">Every node should be reachable from a tree at sitemap.</msg>
               </hide>
             </div><!--Rank C Queries-->
-          </note>            
-        </note>
-      </hide>
-    </span>
-    <div class="mbpuzzle mbhide"></div><!--Control details viewer-->
-  </search>
-  <content dts="80000000000000" title="Site Search" node="800000000000" icon="🔍">
-    
+            <div>
+              <a class="mbbutton" onclick="QSL(this,'[id][date][time]:not(:has(node)),[id]:contains(\'pin2\')')"><span class="mbILB20 mbRankD"></span>📌</a> 
+              <!--<a class="mbbutton" onclick="QSL(this,'[id][date][time]:not(:has(node)),[id]:contains(\'|pin\'),[id]:contains(\'pin2\')')"><span class="mbILB20 mbRankD"></span>📌</a> -->
+              <span class="mbbutton" onclick="ShowNextInline(this)">Node Reformat</span>
+              <hide>
+                <msg dts="20240331" spk="StarTree">Update the node format to the latest that has a tag for the sitemap.</msg>
+                <msg dts="20240331" spk="StarTree" exp="" icon="🎯">Target area: Prioritize any node with the 📌 icon or with a name on the sitemap that is not descriptive.</msg>
+                <msg dts="20240331" spk="Vivi" exp="" icon="📌">Tag all non-chat nodes so all of them can be reached from sitemap.</msg>
+                <msg dts="20240420081932" spk="Skyle" exp="" icon="🔍">There are nodes with old format that start with a date and time tag, but the ID tag is in its child. Those nodes do not show in the query. Found 18+187 cases in Archive 1.</msg>
+                <msg dts="20240420101742" spk="Skyle" exp="20" icon="🌾">Did not reformat the nodes, but changed enough for them to be queried. The count is now 1240/1699.</msg>
+              </hide>
+            </div><!--Rank D Queries-->
+            <note dts="20240508002753" subtitle="Done">
+              <div>
+                <a class="mbbutton" onclick="QSL(this,'[data-skill]:not([data-alchemist],[data-cleric],[data-herald],[data-magician],[data-oracle],[data-paladin])')">
+                <span class="mbILB20 mbRankC"></span>✅</a>  
+                <span class="mbbutton" onclick="ShowNextInline(this)">Archetype Tags</span>
+                <hide>
+                  <msg spk="Ivy" exp="" icon="📌">20240409: Each skill should have at least one archetype tag.</msg>
+                  <button class="mbbutton" onclick="ShowNextInline(this)">🏹<div class="mbavem mbZoey"></div></button><hide> <b>Ivy:</b> 20240409: Tag 86 nodes</hide>
+                </hide>
+              </div><!--Rank C Queries-->
+            </note>            
+          </note>
+        </hide>
+      </span>
+      <div class="mbpuzzle mbhide"></div><!--Control details viewer-->
+    </div><!--CONTROLS-->
+    <macro>{"cmd":"MC3"}</macro>
     <div class="mbpuzzle mbhide" onclick="MC3Resize(this)">
       <div control=""></div>
       <div class="mbSearch" style="display:flex;flex-direction: column;">
@@ -220,8 +222,9 @@
       <!--<div class="mbCB" style="margin-top:20px"></div>-->
     </div>    
   </content>
+  <inv></inv>
   <ref></ref>
-  <node>{"id":"800000000000","parentid":"202208172056","parentname":"Magic Bakery","icon":"🗂️","title":"Sitemap","subtitle":"Index","img":"https://cdn.pixabay.com/photo/2014/07/06/14/13/portfolio-385530_1280.jpg","music":"","author":"StarTree","description":"","card-text":""}</node>
+  <node>{"id":"800000000000","parentid":"202208172056","parentname":"Magic Bakery","icon":"🗂️","title":"Sitemap","subtitle":"Index","img":"https://cdn.pixabay.com/photo/2014/07/06/14/13/portfolio-385530_1280.jpg","music":"","description":"","card-text":""}</node>
 </div><!--Sitemap-->
 <span data-cache-p202207161025="">
   <a class="mbbutton" onclick="ShowNext(this)">🔮 Operation View</a>
@@ -526,9 +529,10 @@
                 </div><!--@Book / Patricia-->   
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202307161350|🎲</lnk></span>
-                  <macro>{"guildlog":"28","icon":"","rank":"D","updates":"2","node":"202208250038","author":"Cardinal","chapter":"@Cardinal","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"28","icon":"","rank":"A","updates":"3","node":"202208250038","author":"Cardinal","chapter":"@Cardinal","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">
                     <span class="mbListCapNC mbRankA"></span>
+                    <macro>{"log":"0721","priority":"9","icon":"🎩","node":"202407211041","title":"Draw Deck","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🎪","node":"202201080801","title":"Import Blogspot","info":"Import from Blogspot Deer Crossing post."}</macro> 
                     <macro>{"log":"","priority":"1","icon":"🏳️","node":"202404052316","title":"TPK Records","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
@@ -34952,6 +34956,79 @@
     {"name":"Sylvia","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
+<div id="P202407211041" date="20240721" time="1041" data-skill data-Magician data-game>
+	<banner>
+    <topic dts="20240721111256" icon="🎪" title="About">
+      <msg DTS="20240721111339" SPK="Cardinal" EXP Icon="📯">This is a draw deck and inventory to keep track of the items we have already encountered.</msg>
+      <hr>  
+      <topic dts="20240721112302" icon="📌" title="Content">
+        <msg DTS="20240721111435" SPK="Cardinal" EXP Icon="📯">Should all items, including the ones we have not yet encountered in quests, be listed?</msg>
+        <msg DTS="20240721112505" SPK="Tanya" EXP Icon="🔮">If this is about avoiding spoiler could we add an attribute that will hide the name of items we have not encountered?</msg>
+        <msg DTS="20240721112631" SPK="Sasha" EXP Icon="💟">I think we should add everything and I like the spoiler attribute idea.</msg>
+        <msg DTS="20240721112853" SPK="Evelyn" EXP Icon="💟">I like this list.</msg>
+
+      </topic>
+      <topic dts="20240721112324" icon="📌" title="Default Search Buttons">
+        <msg DTS="20240721111603" SPK="Cardinal" EXP Icon="📌">Should the default search list include the random button?</msg>
+        <msg DTS="20240721113953" SPK="Tanya" EXP Icon="🔮">I think the alpha, date, and random buttons should be default.</msg>
+        
+      </topic>
+      <topic dts="20240721113725" icon="📌" title="Layout">
+        <msg DTS="20240721111658" SPK="Cardinal" EXP Icon="📌">Should the search list section be part of Content or part of Inv? The logic could be that if the Inv section contains RES objects, then the search box is automatically added.</msg>
+        
+      </topic>
+    
+    </topic>
+  </banner>
+  <content>
+    <!--#Deck
+    <res item="24FK1274" title="TITLE" tags="Tip"></res>
+    -->
+    <res available item="24TMB299" title="Sky Palace" tags="Flying Place">
+      <msg DTS="20240721111127" SPK="Cardinal" EXP Icon="🗃️">Home of the migratory winged unicorns.</msg>
+    </res>
+    <res available item="24TMB233" title="Giant Beanstalk" tags="Plant Bridge">
+      <msg DTS="20240721111004" SPK="Cardinal" EXP Icon="🗃️">StarTree can grow this.</msg>
+    </res>
+    <res available item="24TMB1C5" title="Sky Palace Flying Unicorns" tags="Creature">
+      <msg DTS="20240721110741" SPK="Cardinal" EXP Icon="🗃️">These migratory dazzling creatures use rainbow magic and are interested in the fusion skill.</msg>
+    </res>
+    <res available item="24TMB0B9" title="Used Raishuu Time Bomb" tags="Weapon Item">
+      <msg DTS="20240721110345" SPK="Cardinal" EXP Icon="🗃️">This item came from the Sky Palace and was used. It had a count down timer of one week and its blast fast forwards one week.</msg>
+      <msg DTS="20240721110535" SPK="Cardinal" EXP Icon="🎩">Its working was note well studied, but someone could reverse engineer or recharge it.</msg>
+    </res>
+    <res available item="24TMB029" title="Pumpkin RV" tags="Plant Vehicle House">
+      <msg DTS="20240721110112" SPK="Cardinal" EXP Icon="🗃️">Sasha has this RV that can be deployed at night, move until midnight, and stay up until brunch or when Sasha runs out of mana.</msg>
+    </res>
+    <res available item="24TMAE03" title="Winged Mirror Shield" tags="Shield Weapon Item">
+      <msg DTS="20240721110009" SPK="Cardinal" EXP Icon="🗃️">Ledia has this shield that reflects attacks.</msg>
+    </res>
+    <res available item="24TMAD94" title="AE Winter Wand" tags="Weapon Item">
+      <msg DTS="20240721105835" SPK="Cardinal" EXP Icon="🗃️">Zoey has this wand that can freeze things centered at itself.</msg>
+    </res>
+    <res available item="24TMAD5C" title="Half-Giant Thunder Hammer" tags="Weapon Item">
+      <msg DTS="20240721105718" SPK="Cardinal" EXP Icon="🗃️">Casey has this hammer.</msg>
+    </res>
+    <res available item="24TMAD0C" title="Philosopher's Stone" tags="Item">
+      <msg DTS="20240721105555" SPK="Cardinal" EXP Icon="🗃️">Red has this catalyst that can transform stuff into other stuff.</msg>
+    </res>
+    <res available item="24TMAC64" title="Excalibur" tags="Weapon Item">
+      <msg DTS="20240721105314" SPK="Cardinal" EXP Icon="🗃️">Natalie is the current Lady of the Lake and has custody to hand out this sword.</msg>
+    </res>
+    <res available item="24TMABFD" title="Mega Mushroom" tags="Food Item">
+      <msg DTS="20240721105133" SPK="Cardinal" EXP Icon="🗃️">Eating this makes you grow humongous. StarTree can make grow this.</msg>
+    </res>
+    <res available item="24TMAB14" title="Wishing Star" tags="Item">
+      <msg DTS="20240721104756" SPK="Cardinal" EXP Icon="🗃️">This Wishing Star, which looks like a one-star Dragon Ball, was a drop item from the Sky Palace. It may grant the wish ironically of someone touching it. It is inside the Tempest Teapot.</msg>
+    </res>
+    <res available item="24TMAA2B" title="Tempest Teapot" tags="Item" owner="Sasha">
+      <msg DTS="20240721104412" SPK="Cardinal" EXP Icon="🗃️">This item was dropped from the Sky Palace. The Wishing Star inside was keeping it from rattling.</msg>
+    </res>
+
+	</content>
+	<ref></ref>
+	<node>{"id":"202407211041","parentid":"202209082209","parentname":"Magician","icon":"🎩","title":"Draw Deck","subtitle":"Subtitle","kids":"","img":"","music":"","author":"Cardinal"}</node>
+</div><!--P202407211041-->
 <div date="20240721" time="2359" data-status="">
   <macro>{"cmd":"daisy2","issues":"0","quests":"545","activities":[
     

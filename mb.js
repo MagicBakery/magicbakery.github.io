@@ -182,19 +182,23 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     }catch(error){
       mHasCard = true; // 20240427: Skyle: Has inventory.
     }
+    
     // STEP: Start the Card section
     if(!IsBlank(elCard)){
       mHasCard = true;
       mHTMLInner +=  "<div class='mbCardMat'>";
       mHTMLInner +=   "<div class='mbCardRM'>" + elCard.innerHTML + "</div>";
       mHTMLInner +=   "<div class='mbCardMatText'>";
-      mHTMLInner += "<a class='mbbutton' onclick='HidePP(this)' style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></a>";
       
+      // 20240721: StarTree: If there is no author, don't show the inv section.
+      // This is done for the Sitemap node.
+      if(NotBlank(mJSON.author)){
+        mHTMLInner += "<a class='mbbutton' onclick='HidePP(this)' style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></a>";
+      }
     }else{
-      if(mHasCard){
+      if(mHasCard ){
         mHTMLInner += "<span style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></span>";
       }
-      
     }
 
     // STEP: Show Chat header section if it is a chat node.
@@ -1936,6 +1940,7 @@ function GetURLCode(mURL,mDesc, mLang){
     if(mURL.includes("boardgamegeek.com")){mDesc="BGG"};
     if(mURL.includes("wikipedia.org")){mDesc="Wiki"};
     if(mURL.includes("nextdoor.com")){mDesc="🏡";bIcon=true;};
+    if(mURL.includes("reddit.com")){mDesc="Reddit"};
     if(mURL.includes("twitter.com")){mDesc="🐤";bIcon=true;};    
     if(mURL.includes("youtube.com")){mDesc="📺";bIcon=true;};
     if(mURL.includes("&list=")){mDesc="🎧";bIcon=true;};
@@ -4570,8 +4575,8 @@ function QSL(el,iQuery,iMonthly){
   }
 
   var elSearchList = SearchPS(el,"control").nextElementSibling.lastElementChild;
-  elSearchList.classList.remove('mbhide');
-  QSLEL(elSearchList.lastElementChild,iQuery);  
+  elSearchList.parentNode.classList.remove('mbhide');
+  QSLEL(elSearchList,iQuery);  
 }
 function QSLThisMonth(el,iQuery){
   // 20240507: Natalie: This version of QSL only return
