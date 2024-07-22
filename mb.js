@@ -209,7 +209,13 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       // 20240720: StarTree: Adding a default search box.      
       if(mHasCard==false){ 
         mHTMLInner += "<div control>"; 
-        mHTMLInner += "<input type=\"text\" onclick=\"TextSearchPN(this)\" onkeyup=\"TextSearchPN(this)\" placeholder=\"Search...\" title=\"Input a keyword\" style=\"width:100px\">";
+        mHTMLInner += "<input type=\"text\" onclick=\"TextSearchPN(this)\" onkeyup=\"TextSearchPN(this)\" placeholder=\"Search...\" title=\"Input a keyword\" style=\"width:100px\"> ";
+
+        // 20240721: StarTree: Default Search List buttons
+        mHTMLInner += "<span>";
+        mHTMLInner += "<a class=\"mbbutton\" style=\"float:right\" onclick=\"QSLSortRandom(this)\">🎲</a>";
+        mHTMLInner += "<a class=\"mbbutton\" onclick=\"QSLSortByName(this)\">🍎</a>";
+        mHTMLInner += "<a class=\"mbbutton\" onclick=\"QSLSortByDate(this)\" title=\"Sort by registry date\">🗓️</a>";
 
         // 20240720: StarTree: If there is a search section, add it here.
         try{
@@ -218,8 +224,11 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
         }catch(error){          
         }
 
+
+        mHTMLInner += "</span>"; // End the control category buttons
+        mHTMLInner += "<div class=\"mbpuzzle mbhide\"></div>"; // Control Details Viewer
         mHTMLInner += "</div>"; 
-        mHTMLInner += "<div class=\"mbSearch mbStack\" style=\"max-height:50vh;overflow-y:auto;padding:5px 2px;display:flex;flex-direction: column;gap:10px;\">";
+        mHTMLInner += "<div class=\"mbSearch mbStack\" style=\"max-height:30vh;overflow-y:auto;padding:5px 2px;display:flex;flex-direction: column;gap:10px;\">";
       }
       mHTMLInner += elContent.innerHTML;
       if(mHasCard==false){
@@ -1702,9 +1711,8 @@ function MacroResItem(mTag){
   let mItem = mTag.getAttribute("item");
   let mChannel = Default(mTag.getAttribute('channel'),"");
 
+  var bSpoiler = mTag.hasAttribute('spoiler');
   
-
-
   // Save the Title in the name field for sorting.
   //let mHTML = "<div class=\"mbscroll\" item date=\""+mDate +"\" dts=\"" + mDTS + "\"";
   //mHTML += "\" name=\"" + mTitle + "\">";
@@ -1713,7 +1721,8 @@ function MacroResItem(mTag){
   mHTML = "<code label style=\"float:right;font-size:15px\"></code>";
 
   // TITLE: Availablility Status
-  mHTML += "<span class=\"mbILB25\" style=\"font-size:14px\">";
+  //mHTML += "<span class=\"mbILB25\" style=\"font-size:14px\">";
+  mHTML += "<span class=\"mbILB30\">";
   
   if(mTag.hasAttribute('icon')){    
     mHTML += mTag.getAttribute("icon");
@@ -1728,6 +1737,8 @@ function MacroResItem(mTag){
     mHTML += "🟢" ;
   }else if(mTag.hasAttribute('seeking')){
     mHTML += "⚪";
+  }else if(bSpoiler){
+    mHTML += "🟤";
   }else{
     mHTML += "🟡";
   }
@@ -1740,8 +1751,13 @@ function MacroResItem(mTag){
   // TITLE: This is where to add float right icons or sort parameters.
   mHTML += "<span label style=\"float:right;font-size:15px\"></span>"
   // TITLE: Item Title, this is a button to expand the rest.
-  mHTML += "<a class=\"mbbutton\" onclick=\"ShowPL(this)\" style=\"text-wrap:wrap\">" + mTitle +"</a>";
 
+  if(!bSpoiler){
+    mHTML += "<a class=\"mbbutton\" onclick=\"ShowPL(this)\" style=\"text-wrap:wrap\">" + mTitle +"</a>";
+  }else{
+    mHTML += "<a class=\"mbbutton\" onclick=\"ShowPL(this)\" style=\"text-wrap:wrap\">" + "< ? ? ? > " +"</a>";
+  }
+  
   // INTEREST
   /// 20240608: Patricia
   /*mHTML += "<code style=\"font-size:15px;font-weight:bold\">"
@@ -1749,7 +1765,6 @@ function MacroResItem(mTag){
     mHTML += " 🐱<b>" + mTry + "</b>";
   }
   mHTML += "</code>";*/
-
   mHTML += "<hide><hr>";
   // DATA: This is the area for basic data about the item
   mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:0px 0px 5px 0px;\">";  //max-width:145px
@@ -1757,6 +1772,8 @@ function MacroResItem(mTag){
     mHTML += "<center style=\"color:green\"><b>AVAILABLE</b></center>";
   }else if(mTag.hasAttribute('unavailable')){
     mHTML += "<center style=\"color:darkgoldenrod\"><b>IN USE</b></center>";
+  }else if(bSpoiler){
+    mHTML += "<center><note subtitle=\"Reveal Spoiler\"><br>" + mTitle+ "</note></center>";
   }
   // DATA: Channel Info
   if(NotBlank(mChannel)){
