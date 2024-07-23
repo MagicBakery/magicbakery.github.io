@@ -4750,7 +4750,7 @@ function QSLSortRandom(el){
   // https://www.w3schools.com/jquery/jquery_ref_selectors.asp
   var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
   for(i=0;i<elEntries.length;i++){
-    let mRand = getRandomInt(1,Math.max(100,elEntries.length+10));
+    let mRand = getRandomInt(1,Math.max(99,elEntries.length+10));
     elEntries[i].style.order = mRand;
     elEntries[i].firstElementChild.innerHTML = "🎲<b>" + mRand +"</b>"
   }
