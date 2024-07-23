@@ -183,12 +183,25 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       mHasCard = true; // 20240427: Skyle: Has inventory.
     }
     
-    // STEP: Start the Card section
+    // STEP: Start the Card/Inventory section
     if(!IsBlank(elCard)){
       mHasCard = true;
-      mHTMLInner +=  "<div class='mbCardMat'>";
-      mHTMLInner +=   "<div class='mbCardRM'>" + elCard.innerHTML + "</div>";
-      mHTMLInner +=   "<div class='mbCardMatText'>";
+      mHTMLInner += "<div class='mbCardMat'>";
+      
+      
+      // 20240723: StarTree: If the INV section contains RES objects, show add a search section.
+      if(NotBlank(elCard.querySelector("RES"))){
+        mHTMLInner += "<div class='mbpuzzle' style='width:100%'>";
+        mHTMLInner += SearchWrapper(elRecord,elCard);
+        mHTMLInner += "</div>";
+      }else{        
+        mHTMLInner += "<div class='mbCardRM'>";
+        mHTMLInner += elCard.innerHTML;
+        mHTMLInner += "</div>";        
+      }
+      mHTMLInner += "<div class='mbCardMatText'>";
+      
+      
       
       // 20240721: StarTree: If there is no author, don't show the inv section.
       // This is done for the Sitemap node.
@@ -1733,6 +1746,12 @@ function MacroResItem(mTag){
     if(mChannel == "Netflix"){
       mHTML += "🌮";
     }
+  }else if(mTag.hasAttribute('done')){
+    mHTML += "✅" ;
+  }else if(mTag.hasAttribute('answered')){
+    mHTML += "✅" ;
+  }else if(mTag.hasAttribute('unanswered')){
+    mHTML += "📌" ;
   }else if(mTag.hasAttribute('available')){
     mHTML += "🟢" ;
   }else if(mTag.hasAttribute('seeking')){
@@ -1847,7 +1866,7 @@ function MacroResTimeline(mTag){
 
   
   
-  let mHTML = "<div name=\""+mTitle+"\"";
+  let mHTML = "<div class=\"mbscroll\" name=\""+mTitle+"\"";
   mHTML += " year=\""+mYear+"\"";
   // Pad the year if it has fewer than 5 characters.
   mYear = mYear.padStart(5," ").replaceAll(" ","&nbsp;");
@@ -3719,6 +3738,32 @@ function SearchPS(el,iAttribute){
     return "";
   }
 }
+function SearchWrapper(elScope,elInner){
+  // 20240722: StarTree: Wraps the Inner content with a search frame.
+  var mHTML = "<div control>" + 
+  "<input type=\"text\" onclick=\"TextSearchPN(this)\" onkeyup=\"TextSearchPN(this)\" placeholder=\"Search...\" title=\"Input a keyword\" style=\"width:100px\"> " + 
+  "<span>" + 
+  "<a class=\"mbbutton\" style=\"float:right\" onclick=\"QSLSortRandom(this)\">🎲</a>" + 
+  "<a class=\"mbbutton\" onclick=\"QSLSortByName(this)\">🍎</a>" +
+  "<a class=\"mbbutton\" onclick=\"QSLSortByDate(this)\" title=\"Sort by registry date\">🗓️</a>";
+
+  // 20240720: StarTree: If there is a search section, add it here.
+  try{
+    var elSearch = elScope.querySelector('Search');
+    mHTML += elSearch.innerHTML;
+  }catch(error){          
+  }
+
+  // 20240722: StarTree: Closing the search control section.
+  mHTML +=  "</span>" +
+          "<div class=\"mbpuzzle mbhide\"></div>" + 
+        "</div>";
+  // Starting the container for the RES content
+  mHTML += "<div class=\"mbSearch mbStack\" style=\"resize:vertical; max-height:265px;overflow-y:auto;padding:5px 2px;display:flex;flex-direction: column;gap:10px;\">";
+  mHTML += elInner.innerHTML;
+  mHTML += "</div>";
+  return mHTML;
+}
 function ShowSkip(el) {
   var eNext = el.nextElementSibling.nextElementSibling;
   if (eNext.style.display != "block") {
@@ -3741,11 +3786,16 @@ function HideN3Inline(el) {
 }
 function HidePP(elThis){
   var eTar = elThis.parentNode.previousElementSibling;
-  if (eTar.style.display != "none") {
+  if(eTar.classList.contains('mbhide')){
+    eTar.classList.remove('mbhide');
+  }else{
+    eTar.classList.add("mbhide");
+  }
+  /*if (eTar.style.display != "none") {
     eTar.style.display = "none";
   } else {
     eTar.style.display = "";
-  }
+  }*/
 }
 function HideP2(elThis){
   var eTar = elThis.parentNode.parentNode;
@@ -4700,7 +4750,7 @@ function QSLSortRandom(el){
   // https://www.w3schools.com/jquery/jquery_ref_selectors.asp
   var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
   for(i=0;i<elEntries.length;i++){
-    let mRand = getRandomInt(1,elEntries.length+1);
+    let mRand = getRandomInt(1,Math.max(100,elEntries.length+10));
     elEntries[i].style.order = mRand;
     elEntries[i].firstElementChild.innerHTML = "🎲<b>" + mRand +"</b>"
   }
