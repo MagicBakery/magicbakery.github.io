@@ -280,11 +280,11 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
         var mJSONKids = mJSON.kids.split(',');
         var mKid = "";
         var mKidHTML = "";
-        for(i=0;i<mJSONKids.length;i++){
+        for(let i=0;i<mJSONKids.length;i++){
           mKid = mJSONKids[i].replaceAll(" ","");
           if(i!=0){mKidHTML += ","}
           mKidHTML += " <a class='mbbutton' onclick=\"QSLBL(this,'[data-" + mKid + "]')\">" + Cap(mKid.replaceAll("-"," ")) + "</a>";
-        }
+        }      
         mHTMLInner += "<a class='mbbutton' onclick='ShowNextInline(this)'>🐣Kids</a><hide>:" + mKidHTML + "</hide> ";
       }
 
