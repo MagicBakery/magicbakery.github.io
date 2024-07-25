@@ -1786,7 +1786,8 @@ function MacroResItem(mTag){
   mHTML += "</code>";*/
   mHTML += "<hide><hr>";
   // DATA: This is the area for basic data about the item
-  mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:0px 0px 5px 0px;\">";  //max-width:145px
+  mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:0px 0px 5px 0px;padding:5px\">";  //max-width:145px
+  //mHTML += "<div class=\"mbpuzzle\" style=\"font-size:15px;margin:0px 0px 0px 0px;\">";  
   if(mTag.hasAttribute('available')){
     mHTML += "<center style=\"color:green\"><b>AVAILABLE</b></center>";
   }else if(mTag.hasAttribute('unavailable')){
@@ -1801,7 +1802,10 @@ function MacroResItem(mTag){
 
   // Tags. Need to display this for text filter
   mHTML += "<hide>+" + mTags.replaceAll(" ","+") + "+</hide>";
-  mHTML += "<b>Tags:</b>&nbsp;" + mTags +" ";
+  if(mTag.hasAttribute("tags")){
+    mHTML += "<b>Tags:</b>&nbsp;" + mTags +" ";
+  }
+  
   // URL in the Side Bar
   // 20240622: Zoey: Don't show this if the field is missing entirely.
   if(mTag.hasAttribute("src")){
