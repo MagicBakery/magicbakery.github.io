@@ -1801,7 +1801,7 @@ function MacroResItem(mTag){
   mHTML += "</code>";*/
   mHTML += "<hide><hr>";
   // DATA: This is the area for basic data about the item
-  mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:0px 0px 5px 0px;padding:5px\">";  //max-width:145px
+  mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:0px 0px -5px 0px;padding:2px 5px\">";  //max-width:145px
   //mHTML += "<div class=\"mbpuzzle\" style=\"font-size:15px;margin:0px 0px 0px 0px;\">";  
   if(mTag.hasAttribute('available')){
     mHTML += "<center style=\"color:green\"><b>AVAILABLE</b></center>";
@@ -2106,6 +2106,8 @@ function MacroMsg(el){
     let mParentTag = mTag.parentNode.tagName;
     let elPrev = mTag.previousElementSibling;
     if(bFirst && (mTag.parentNode.classList.contains("mbDayContent")) ){
+      mHTML = RenderStart(mTag);
+    }else if(bFirst && (mTag.parentNode.classList.contains("mbCardMatText"))){
       mHTML = RenderStart(mTag);
     //}else if(bFirst && mTag.parentNode.hasAttribute('topic')){
       // The situation of a bullet.
@@ -2545,8 +2547,12 @@ function RenderStart(el){
   // 20240420: StarTree: Renders a bubble in the a traditional START format.
 
   // 20240521: StarTree: If the first character is not alphabet, return a normal bubble.
+  // 20240726: Evelyn: We need code that can automatically bold all beginning capitalized words.
   var mTextFC = el.innerHTML.slice(0,1);
-  if(mTextFC.toLowerCase() == mTextFC.toUpperCase()){
+  var mFirst3 = el.innerHTML.slice(0,3);
+
+  if(mFirst3.toLowerCase() != "<b>" &&  mTextFC.toLowerCase() == mTextFC.toUpperCase()){
+  //  if( mTextFC.toLowerCase() == mTextFC.toUpperCase()){
     return RenderMsg(el);
   }
 
@@ -2555,14 +2561,17 @@ function RenderStart(el){
   var mSPK = Default(el.getAttribute("SPK"),"");
   var mEXP = RenderExp(el);
   var mIcon = Default(el.getAttribute("Icon"),"⭐");
-  if(NotBlank(mSPK)){
-    mHTML += RenderAvXP(mSPK,mEXP,mIcon,el.getAttribute('rank'),el.getAttribute('mode'));
-  }
+  
+  // 20240726: Evelyn: Hide the avatar in Start format.
+  //if(NotBlank(mSPK)){
+  //  mHTML += RenderAvXP(mSPK,mEXP,mIcon,el.getAttribute('rank'),el.getAttribute('mode'));
+  //}
 
-  mHTML += "<div class='mbpdc' style='display:inline'>" + el.innerHTML;
-  if(el.hasAttribute('DTS')){
+  mHTML += "<div class='mbpdc'>" + el.innerHTML;
+  // 20240726: Evelyn: I think the start format doesn't need this chicken.
+  /*if(el.hasAttribute('DTS')){
     mHTML += " <a class='mbbutton' onclick='MsgContext(this)'><small>...</small></a>";
-  }
+  }*/
   mHTML += "</div>";
   //mHTML += "<div class='mbCL'></div>";
   return mHTML;
@@ -7126,6 +7135,9 @@ function NMNode(el,bChatChannel){
     //mHTML += "\t\t<div class='mbpdc'><b>First</b> word</div><hr class='mbCB mbhr'>\n";
     mHTML += "\n";
     mHTML += "\t\t<mbKudo></mbKudo>\n";
+  }else{
+    // 20240726: Evelyn: I think it is more convenient to have this.
+    mHTML += "\t\t<div class='mbpdc'><b>First</b> word</div>";
   }
   mHTML += "\t</content>\n";
   if(!bChatChannel){
