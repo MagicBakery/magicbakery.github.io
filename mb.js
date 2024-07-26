@@ -1394,6 +1394,21 @@ function LangIcon(eCode){
     default:   return "🇬🇧";
   }
 }
+function LatestDate(elScope){
+  // 20240725: Patricia: Given a scope, return the largest DTS within.  
+  var mDTSmax = Default(elScope.getAttribute("dts"),0);
+  if(mDTSmax == 0 && elScope.hasAttribute("item")){
+    mDTSmax = DTC("",elScope.getAttribute("item"));
+  }
+  var elDTS = elScope.querySelectorAll("[dts]");
+  for(i=0;i<elDTS.length;i++){
+    let mDTScur = elDTS[i].getAttribute("dts") ;
+    if(mDTScur > mDTSmax){
+      mDTSmax = mDTScur;
+    }
+  }
+  return mDTSmax.slice(0,8);
+}
 function LnkCode(iID,iDesc,iIcon,bMark){
   // 20230323: Ivy: For QSL. <lnk>
   var mHTML="";
@@ -1712,7 +1727,7 @@ function MacroResItem(mTag){
   TO:
       <topic dts="20240502232826" icon="⬜" title="Catan Junior">*/
   let mDTS = DTC("",mTag.getAttribute("item"));
-  let mDate = mDTS.slice(0,8);
+  let mDate = LatestDate(mTag);
   let mIcon = Default(mTag.getAttribute("icon"),"🎲");
   let mTitle = mTag.getAttribute("title");
   let mAvail = mTag.getAttribute("avail");
@@ -3749,7 +3764,8 @@ function SearchWrapper(elScope,elInner){
   "<span>" + 
   "<a class=\"mbbutton\" style=\"float:right\" onclick=\"QSLSortRandom(this)\">🎲</a>" + 
   "<a class=\"mbbutton\" onclick=\"QSLSortByName(this)\">🍎</a>" +
-  "<a class=\"mbbutton\" onclick=\"QSLSortByDate(this)\" title=\"Sort by registry date\">🗓️</a>";
+  "<a class=\"mbbutton\" onclick=\"QSLSortByDate(this)\" title=\"Sort by registry date\">🗓️</a>" +
+  "<a class=\"mbbutton\" onclick=\"QSLSortByIcon(this,'📌')\">📌</a>";
 
   // 20240720: StarTree: If there is a search section, add it here.
   try{
