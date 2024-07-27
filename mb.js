@@ -220,7 +220,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     }else{
       // STEP: CONTENT Section
       // 20240720: StarTree: Adding a default search box.      
-      if(mHasCard==false){ 
+      if(mHasCard==false && false){ 
         mHTMLInner += "<div control>"; 
         mHTMLInner += "<input type=\"text\" onclick=\"TextSearchPN(this)\" onkeyup=\"TextSearchPN(this)\" placeholder=\"Search...\" title=\"Input a keyword\" style=\"width:100px\"> ";
 
@@ -244,7 +244,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
         mHTMLInner += "<div class=\"mbSearch mbStack\" style=\"max-height:30vh;overflow-y:auto;padding:5px 2px;display:flex;flex-direction: column;gap:10px;\">";
       }
       mHTMLInner += elContent.innerHTML;
-      if(mHasCard==false){
+      if(mHasCard==false && false){
         mHTMLInner += "</div>";
       }
     }
