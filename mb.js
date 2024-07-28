@@ -1748,6 +1748,11 @@ function MacroResItem(mTag){
   // Right header for sorting info
   mHTML = "<code label style=\"float:right;font-size:15px\"></code>";
 
+
+   // TITLE: Local Storage Mark
+  // 20240728: StarTree: Added for the Grocery List so that the data can be stored on the phone.
+  mHTML += "<lnk>" + mItem +"|</lnk>"
+
   // TITLE: Availablility Status
   //mHTML += "<span class=\"mbILB25\" style=\"font-size:14px\">";
   mHTML += "<span class=\"mbILB30\">";
@@ -1777,6 +1782,10 @@ function MacroResItem(mTag){
     mHTML += "🟡";
   }
   mHTML += "</span>";
+
+ 
+
+
   /* ATTEMPT: FILTER: Result cannot be easily filtered by text.
   mHTML += "<span class=\"mbILB30\" style=\"filter:sepia(";
   if(mTag.hasAttribute('available')){mHTML += "0%);opacity:1" ;}else{mHTML += "100%);opacity:0.2";}
@@ -6790,7 +6799,7 @@ function NodeMarkCode(iNodeID,iDesc){
   var mVDTS = NodeMarkLoadDTS(iNodeID);
   var mSepia = 0;   
   var mHTML = "";
-  mHTML += "<a class=\""+mButtonStyle+"\" id=\"P"+ iNodeID+"-V\" onclick=\"NodeMarkCycle(this," + iNodeID + ")\" title=\"Cycle node marking\" style=\"filter:sepia(" + mSepia + "%)\">";
+  mHTML += "<a class=\""+mButtonStyle+"\" id=\"P"+ iNodeID+"-V\" onclick=\"NodeMarkCycle(this,'" + iNodeID + "')\" title=\"Cycle node marking\" style=\"filter:sepia(" + mSepia + "%)\">";
   mHTML += NodeMarkLoad(iNodeID)+"</a>";
   return mHTML;
 }
