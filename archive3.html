@@ -960,11 +960,12 @@
                 </div><!--@Tavern / Sylvia-->           
                 <div class="mbCB">
                   <span style="float:right"><lnk>202303121053|🍀</lnk></span>
-                  <macro>{"guildlog":"17","rank":"B","updates":"4","node":"202208212113","author":"Casey","chapter":"@Treasure","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"17","rank":"A","updates":"5","node":"202208212113","author":"Casey","chapter":"@Treasure","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     
                     <span class="mbListCapNC mbRankA"></span>
+                    <macro>{"log":"0729","priority":"0","icon":"🏗️","node":"202407290841","title":"Architecture","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","icon":"🏡","node":"202306112141","title":"Building Catalog","info":"This is for making background building standees.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🏰","node":"202208292134","title":"Quest Map Quest","info":"For tracking progress of quests.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","icon":"🗺️","node":"202208292134","title":"Map Tiles","info":"This is for making map tiles.","cmd":"quest"}</macro>
@@ -26801,11 +26802,12 @@
               <a class="mbbutton" onclick="NMNode(this)" title="Make Node">NDE</a> 
               <a class="mbbutton" onclick="NMNode(this,true)" title="Make Chat">CHT</a>
               <a class="mbbutton" onclick="NMCard(this)" title="Make Card">CRD</a> 
-              <a class="mbbutton" onclick="NMTopic(this)" title="Make Topic Section">SEC</a> 
+              <a class="mbbutton" onclick="NMTopic(this)" title="Make Topic Section">SEC</a>
+              <a class="mbbutton" onclick="NMRES(this)" title="Make RES Item">RES</a> 
               <a class="mbbutton" onclick="NMNote(this)" title="Make Note Section">NTE</a> 
               <a class="mbbutton" onclick="NMMsg(this,'',true)" title="Make Bubble">MSG</a>
-              <a class="mbbutton" onclick="NMMsg(this)" title="Make EXP Bubble">EXP</a> 
-              <a class="mbbutton" onclick="NMRES(this)" title="Make RES Item">RES</a> 
+              <!--<a class="mbbutton" onclick="NMMsg(this)" title="Make EXP Bubble">EXP</a> -->
+              
               <a class="mbbutton" onclick="NMURL(this)" title="Make URL Macro">URL</a> 
               
             </small>
@@ -26834,7 +26836,7 @@
             |
             <a class="mbbutton" onclick="ToggleNextPP(this)" title="Faces & Hands">😀</a>
             <hide>
-              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"😍|😀|😊|🤗|😖|😇|😅|😭|👍|🖐|🙏"}</macro>
+              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"😍|😀|😊|🤗|😖|😇|😅|😭|👍|🖐|🙏|💬"}</macro>
             </hide><!--Faces and Hands-->
             |
             <a class="mbbutton" onclick="ToggleNextPP(this)" title="Animals">🐸</a>
@@ -26846,7 +26848,7 @@
             <a class="mbbutton" onclick="ToggleNextPP(this)" title="Items">💼</a>
             <hide>
               <macro>{"cmd":"ButtonList","func":"NMMsg",
-                "list":"🚨|📕|🧰|🎒|☎️|📅|⏳|📙|🌂|✂️|🌡️|⚖️|✏️|🎉|🎨|🔑|🗝️|🛩️|🛎️|🔔|🔒|📒|🏆|👑|🎟️|🧭|💡|🧩|🧶|🔋|📗|📘|🧵|🏅|💍|💎|🗺️|⚗️|🧪|☂️|🚪|💼|🧱|🎻|🥾|🕰️|📦|📜|🥼|🎲|🎹|🎼|📰|🗞️|📬|🤖|⚙️|🛒|🎡|🎠|⚓|🎧|🎤|🎬|📷|📺|💻|🖥️|💾|🎮|🕹️|🎓|🎩|🗃️"}</macro>
+                "list":"🚨|📕|🧰|🎒|☎️|📅|⏳|📙|🌂|✂️|🌡️|⚖️|✏️|🎉|🎨|🔑|🗝️|🛩️|🛎️|🔔|🔒|📒|🏆|👑|🎟️|🧭|💡|🧩|🧶|🔋|📗|📘|🧵|🏅|💍|💎|🗺️|⚗️|🧪|☂️|🚪|💼|🧱|🎻|🥾|🕰️|📦|📜|🥼|🎲|🎹|🎼|📰|🗞️|📬|🤖|⚙️|🛒|🎡|🎠|⚓|🎧|🎤|🎬|📷|📺|💻|🖥️|💾|🧳|🎮|🕹️|🎓|🎩|🗃️"}</macro>
             </hide><!--Items-->
             
             |
@@ -26861,8 +26863,8 @@
             |
             <a class="mbbutton" onclick="ToggleNextPP(this)" title="Places">🏰</a>
             <hide>
-              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🌋|🏫|🏰|🎪|🏕️|🏝️|🏞️|🏔️|🧭|🌎|🌍|🌏|🗺️|🧳|🏛️|🏡"}</macro>
-              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"❓|❌|⛔|💟|⚠️|🚧|♻️|✔️|✅|💠|☠️|💬|🏳️|🟥|🟧|🟨|🟩|🟦|🟪|🟫|⬛|⬜"}</macro>
+              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🌋|🏫|🏰|🎪|🏗️|🏡|🏕️|🏝️|🏞️|🏔️|🧭|🌎|🌍|🌏|🗺️|🏛️"}</macro>
+              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"❓|❌|⛔|💟|⚠️|🚧|♻️|✔️|✅|💠|🏳️|🟥|🟧|🟨|🟩|🟦|🟪|🟫|⬛|⬜"}</macro>
             </hide><!--Places-->
             |
             <a class="mbbutton" onclick="ToggleNextPP(this)" title="Noto">🌃</a>
@@ -34850,6 +34852,15 @@
     <!--✅⚖️❌
     <res icon="⚖️" item="000" title="Title" tags=""></res>
     -->
+    <res icon="📌" item="24TX8D97" title="Agree to Disagree" tags="Conversation">
+      <msg DTS="20240729085904" SPK="LRRH" EXP Icon="🐣">Agree to Disagree is a common phrase to end a conversation.</msg>
+      <msg DTS="20240729085940" SPK="LRRH" EXP Icon="🔍">It means, "I know how thinkings are different but I don't want to spend more time discussing it." <url>https://x.com/LRRHBakery/status/1817575697294217409</url></msg>
+      <msg DTS="20240729090319" SPK="LRRH" EXP Icon="🦉">If the person who suggests to end the conversation is a violator, by opting out of the conversation, it becomes permissible to escalate to the next lowest reasonable response.</msg>
+      <msg DTS="20240729090436" SPK="LRRH" EXP Icon="🦉">When escalating, you should show that they opted out of a peace discussion.</msg>
+      <msg DTS="20240729090604" SPK="LRRH" EXP Icon="🔍">If the person trying to end the conversation was not a violator, you can't demand their time to continue the conversation. <url>https://x.com/LRRHBakery/status/1817577140575178984</url></msg>
+
+
+    </res>
     <res icon="⚖️" item="24TT7842" title="Quote Tweeting / Spotlighting" tags="Spotlight" node="202407260804">
       <msg DTS="20240726073354" SPK="Evelyn" EXP Icon="🔍">"Quote Tweeting" here means starting a thread by quoting a message someone else made.</msg>
       <msg DTS="20240726074902" SPK="Evelyn" EXP Icon="⚖️">Quote Tweeting draws attention to the author of the quoted message, so there are considerations on when doing so is okay.</msg>
@@ -36564,6 +36575,16 @@
     {"name":"P4","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
+<div id="P202407290841" date="20240729" time="0841" data-skill data-Alchemist data-subject data-engineering="">
+	<content></content>
+	<inv>
+    <res icon="☁️" item="24TX8AF1" title="Awnings" tags="Cooling">
+      <msg DTS="20240729084750" SPK="Casey" EXP Icon="🏡">Awnings are shades above windows to reduce heating from sunlight. <url>https://www.youtube.com/watch?v=uhbDfi7Ee7k</url></msg>
+    </res>
+  </inv>
+	<ref></ref>
+	<node>{"id":"202407290841","parentid":"202207170956","parentname":"Alchemist","icon":"🏗️","title":"Architecture","subtitle":"Subtitle","kids":"","img":"","music":"","author":"Casey"}</node>
+</div><!--Architecture-->
 <div date="20240729" time="2359" data-status="">
   <macro>{"cmd":"daisy2","issues":"0","quests":"487","activities":[
     

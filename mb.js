@@ -2005,7 +2005,7 @@ function GetURLCode(mURL,mDesc, mLang){
     if(mURL.includes("wikipedia.org")){mDesc="Wiki"};
     if(mURL.includes("nextdoor.com")){mDesc="🏡";bIcon=true;};
     if(mURL.includes("reddit.com")){mDesc="Reddit"};
-    if(mURL.includes("twitter.com")){mDesc="🐤";bIcon=true;};    
+    if(mURL.includes("twitter.com")){mDesc="💬";bIcon=true;};    
     if(mURL.includes("youtube.com")){mDesc="📺";bIcon=true;};
     if(mURL.includes("&list=")){mDesc="🎧";bIcon=true;};
     if(mURL.includes("podcast")){mDesc="📻";bIcon=true;};
@@ -7138,19 +7138,22 @@ function NMNode(el,bChatChannel){
   if(bChatChannel){mHTML += " data-chat data-happy";}
   mHTML += ">\n";
 
-  mHTML += "\t<content>\n";
+  mHTML += "\t<content>";
   if(bChatChannel){
+    mHTML += "\n";
     mHTML += "\t\t<msg DTS=\"" + mDTS + "\" SPK=\"" + mAuthor +"\" EXP Icon=\"" + mIcon + "\"><b>First</b> word</msg>\n"
 
     //mHTML += "\t\t<div class='mbav50r mbCB mb"+mAuthor+"'></div>\n";
     //mHTML += "\t\t<div class='mbpdc'><b>First</b> word</div><hr class='mbCB mbhr'>\n";
     mHTML += "\n";
     mHTML += "\t\t<mbKudo></mbKudo>\n";
+    mHTML += "\t";
   }else{
     // 20240726: Evelyn: I think it is more convenient to have this.
-    mHTML += "\t\t<div class='mbpdc'><b>First</b> word</div>\n";
+    // 20240729: Evelyn: This is covered by the first message in RenderStart
+    //mHTML += "\t\t<div class='mbpdc'><b>First</b> word</div>\n";
   }
-  mHTML += "\t</content>\n";
+  mHTML += "</content>\n";
   if(!bChatChannel){
     mHTML += "\t<inv></inv>\n";
   }  
@@ -7171,7 +7174,7 @@ function NMRES(el){
   // 20240728: StarTree: Makes a generic RES object with the item code filled.
   var elWidget = SearchPS(el,"Widget");
   var mDTS = Default(elWidget.querySelector('[NM-DTS]').value,DTSNow());
-  var mIcon = Default(elWidget.querySelector('[NM-Icon]').value,""); 
+  var mIcon = Default(elWidget.querySelector('[NM-Icon]').value,"📌"); 
   var mHTML = "<res icon=\""+mIcon+"\" item=\""+DTC(mDTS)+"\" title=\"Title\" tags=\"\">\n</res>";
   navigator.clipboard.writeText(mHTML);
 }
