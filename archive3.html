@@ -607,22 +607,19 @@
                 </div><!--@Detective / Sasha-->
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202207161025|🍂</lnk></span>
-                  <macro>{"guildlog":"5","rank":"A","updates":"3","node":"202207161025","author":"Tanya","chapter":"@Dungeon","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"5","rank":"A","updates":"4","node":"202207161025","author":"Tanya","chapter":"@Dungeon","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"2","icon":"🏘️","node":"202307231022","title":"NextDoor Workflow","info":"Replying/Deploying.","cmd":"quest"}</macro> 
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"0719","priority":"0","icon":"📯","node":"202407192134","title":"Online Ethics","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"3","icon":"⚔️","node":"202406140044","title":"Military Strategies","info":"Since 2022 Dec","cmd":"quest"}</macro>
-                    
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"1","icon":"🍂","node":"202207241111","title":"Biases","info":"Since 2022 Dec","cmd":"quest"}</macro>    
                     <macro>{"log":"","priority":"5","icon":"♟️","node":"202309042239","title":"Game Theory","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"0707","priority":"1","icon":"🥨","node":"202207161025","title":"Guild Log Quests","info":"Process guild log topics. 2304:16 2305:15 2306:14 2307:12 2308:11 2309:9 2310:8 2405:7 2406:6 2407:5.","cmd":"quest"}</macro>
-                    
-                    <!--<span class="mbListCapNC mbRankC"></span>-->
+                    <span class="mbListCapNC mbRankC"></span>
+                    <macro>{"log":"0728","priority":"3","icon":"🍂","node":"202207161025","title":"Log Fall Quest","info":"Since 2022 Dec","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
-                    <macro>{"log":"","priority":"3","icon":"🍂","node":"202207161025","title":"Log Fall Quest","info":"Since 2022 Dec","cmd":"quest"}</macro>
                     <macro>{"log":"0707","priority":"4","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro> 
                   </div>
                 </div><!--@Dungeon / Tanya-->
@@ -839,7 +836,7 @@
                 </div><!--@Music / P4-->             
                 <div class="mbCB">
                   <span style="float:right"><lnk>202301011739|⚖️</lnk></span>
-                  <macro>{"guildlog":"24","rank":"A","updates":"4","node":"202208092007","author":"Natalie","chapter":"@Paladin","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"24","rank":"A","updates":"5","node":"202208092007","author":"Natalie","chapter":"@Paladin","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     
@@ -848,7 +845,7 @@
                     <span class="mbListCapNC mbRankB"></span> 
                     <macro>{"log":"0711","priority":"1","icon":"⚖️","node":"202301011739","title":"Law Game","info":"Since 2023 Jan.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
-                    <macro>{"log":"","priority":"0","icon":"🙂","node":"202207120913","title":"Good Deed Daily","cmd":"quest"}</macro>  
+                    <macro>{"log":"0728","priority":"0","icon":"🙂","node":"202207120913","title":"Good Deed Daily","cmd":"quest"}</macro>  
                     <macro>{"log":"0711","priority":"0","icon":"🍩","node":"202208092007","title":"Small update","cmd":"quest"}</macro>    
                     <span class="mbListCapNC mbRankD"></span>
                     <macro>{"log":"","priority":"1","icon":"💙","node":"202312242104","title":"Peacemaking","info":"","cmd":"quest"}</macro>
@@ -26757,7 +26754,11 @@
           <a class="mbbutton" onclick="NMSetParent(this,'202209082209','Magician','🎩')">🎩</a>
 
           <a class="mbbutton" title="More Nodes" onclick="ShowNext(this)">💫</a>
-          <div class="mbpuzzle mbhide">
+          <div class="mbhide">
+            <span style="float:right">
+              <a class="mbbutton" onclick="NMSetParent(this,'','','🧹')">🧹</a>
+            </span>
+
             <a class="mbbutton" onclick="NMSetParent(this,'202307231022','TSN','☎️')">☎️</a>
             <a class="mbbutton" onclick="NMSetParent(this,'202307231022','Case','📂')">📂</a>  
             <a class="mbbutton" onclick="NMSetParent(this,'202301011739','Law','⚖️')"> ⚖️</a>
@@ -26765,29 +26766,34 @@
 
             <a class="mbbutton" onclick="NMSetParent(this,'202210151642','Book','📗')">📗</a>
             <a class="mbbutton" onclick="NMSetParent(this,'202308240030','Science','🥼')">🥼</a>
-            <a class="mbbutton" onclick="NMSetParent(this,'','','💣')">💣</a>
-          </div>
-          
-          
+            
+            <center>
+              <div style="display:flex;justify-content: center;">
+                <input nm-previd="" type="text" placeholder="Prev ID" title="Prev ID" style="width:130px;text-align: center;">
+                <input nm-nextid="" type="text" placeholder="Next ID" title="Next ID" style="width:130px;text-align: center;">
+                <input nm-tags="" type="text" placeholder="Tags" title="Tags" style="width:50px;text-align: center;">
+  
+                
+              </div>
+              <div style="display:flex;justify-content: center;">
+                
+                <input nm-parentid="" type="text" placeholder="Parent ID" title="Parent ID" style="width:130px;text-align: center;">
+                <input nm-parentname="" type="text" placeholder="Parent Name / Subtitle" title="Parent Name" style="width:180px;text-align: center;">
+              </div>
+              <div style="display:flex;justify-content: center;">
+                <input nm-dts="" type="text" placeholder="Node ID" title="Timestamp" style="width:130px;text-align: center;">
+                <input nm-title="" type="text" placeholder="Title" title="Title" style="width:180px;text-align: center;">
+              </div>
+
+            </center>
+          </div>          
           <center>
-            <div style="display:flex;justify-content: center;">
-              <input nm-previd="" type="text" placeholder="Prev ID" title="Prev ID" style="width:130px;text-align: center;">
-              <input nm-nextid="" type="text" placeholder="Next ID" title="Next ID" style="width:130px;text-align: center;">
-              <input nm-url="" type="text" placeholder="URL" title="Input a keyword" style="width:50px;text-align: center;">
-            </div>
-            <div style="display:flex;justify-content: center;">
-              
-              <input nm-parentid="" type="text" placeholder="Parent ID" title="Parent ID" style="width:130px;text-align: center;">
-              <input nm-parentname="" type="text" placeholder="Parent Name / Subtitle" title="Parent Name" style="width:180px;text-align: center;">
-            </div>
-            <div style="display:flex;justify-content: center;">
-              <input nm-dts="" type="text" placeholder="Node ID" title="Timestamp" style="width:130px;text-align: center;">
-              <input nm-title="" type="text" placeholder="Title" title="Title" style="width:180px;text-align: center;">
-            </div>
+            
             <div style="display:flex;justify-content: center;">
               <input nm-spk="" type="text" placeholder="Speaker" title="Speaker" style="width:100px;text-align: center;" onclick="NMAddSPK(this)" onkeyup="NMAddSPKev(event,this)">
-              <input nm-icon="" type="text" placeholder="" title="Icon" style="width:30px;text-align: center;">        
-              <input nm-tags="" type="text" placeholder="Tags" title="Tags" style="width:180px;text-align: center;">
+              <input nm-icon="" type="text" placeholder="" title="Icon" style="width:30px;text-align: center;">
+              <input nm-url="" type="text" placeholder="URL" title="Input a keyword" style="width:180px;text-align: center;">     
+              
             </div>
             <small>
               <a class="mbbutton" onclick="NMNSPKRmv(this)" title="Rest Speaker">RST</a> 
@@ -26800,47 +26806,70 @@
               <a class="mbbutton" onclick="NMMsg(this)" title="Make EXP Bubble">EXP</a> 
               <a class="mbbutton" onclick="NMURL(this)" title="Make URL Macro">URL</a> 
             </small>
-          </center>
+          </center><!--Command Buttons-->           
+          <center style="letter-spacing: -20px;padding:0px;max-height:110px;overflow-y: auto;" nm-spklist="">
+          </center><!--Speaker Buttons List-->
           
-          <center style="letter-spacing: -20px;padding:0px;max-height:115px;overflow-y: auto;" nm-spklist="">
-          </center>    
-          
-          <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🌱|🐤|🕊️|🦉|🦅|📌|💗|⭐|📯|🔍|✅"}</macro>
-          <!--#NM-->
-        
-  
-          <note dts="20240725232020" subtitle="Animal">
-            <macro>{"cmd":"ButtonList","func":"NMMsg",
-              "list":"🐾|🦊|🦄|🥚|🐣|🐈|🐱|🐢|🐉|🐸|🐿️|🦋|🐇|🐺"}</macro>
-          </note>
-          <note dts="20240725234252" subtitle="Fight">
-            <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🎯|🏹|⚔️"}</macro>
-          </note>
-          <note dts="20240725232724" subtitle="Food">
-            <macro>{"cmd":"ButtonList","func":"NMMsg",
-              "list":"🍎|🍌|🥘|🥞|🍯|🥠|🍮|🍍|🌾|🥝|🍵|🧊|🍱|🥥|🥨|☕|"}</macro>
-          </note>
-          <note dts="20240725234034" subtitle="Hand">
-            <macro>{"cmd":"ButtonList","func":"NMMsg","list":"👍|🖐"}</macro>
-          </note>
-          <note dts="20240725233011" subtitle="Item">
-            <macro>{"cmd":"ButtonList","func":"NMMsg",
-              "list":"🚨|🧰|☎️|🎀|📅|⏳|🥁|🎡|🎠|🚀|⚖️|🧹|🎉|🎨|🔑|🛩️|🎁|🎃|📒|🔔|🛎️|🏆|👑|🎟️|🧭|💡|🧩|🧶|🧵|🏅|💍|💎|🗺️|⚗️|🧪|🔮|🎤|🎓|🎩|🗃️|💼|🧱|🎻|🕰️|📦|📜|🥼|🎲|📰|🗞️|📬|🎹|⚙️|🛒|⚓|🎧"}</macro>
-          </note>
-          <note dts="20240725233625" subtitle="Nature">
-            <macro>{"cmd":"ButtonList","func":"NMMsg",
-              "list":"🌈|🔥|☀️|🌛|⚡|❄️|🌠|💧|🌊|🌀|🌌|☁️"}</macro>
-          </note>
-          <note dts="20240725233828" subtitle="Place">
-            <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🎪|🏕️|🏡|🏛️"}</macro>
-          </note>
-          <note dts="20240725234404" subtitle="Plant">
-            <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🌺|🍀"}</macro>
-          </note>
-          <note dts="20240725234157" subtitle="Symbol">
-            <macro>{"cmd":"ButtonList","func":"NMMsg","list":"❓|❌|⛔|💟|♻️|🎼|💬|🏳️|⬜"}</macro>
-          </note>
-          <hr class="mbCB">
+          <div></div><!--ICONS TAB DISPLAY FRAME-->
+          <div style="text-align:center">
+            <hr><!--#NM-->
+            <a class="mbbutton" onclick="ToggleNextPP(this);" title="Compose">📝</a>
+            <hide>
+              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🌱|🥚|🐣|🐤|🕊️|🦉|🦅|📌|🎀|💟|💗|🧭|⭐|📯|⚖️|🛎️|🔔|✅|🔍|🔮|📋|📝|🏛️"}</macro>
+            </hide><!--COMPOSE Icons-->
+            |
+            <a class="mbbutton" onclick="ToggleNextPP(this)" title="Questing">🎪</a>
+            <hide>
+              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🚨|🧰|🐾|💟|💗|🎯|🎪|🥁|🏹|⚔️|🚀|🧭|🧹|📯|💡|🛎️|🔔|👑|🎁|✨|🌟|⭐|🎄|🏕️|🍃|🧩|🗺️|🔍|💫|🔮|🎻|🥾|🎲|🥋|👻|☠️|🗃️|🎩|🎓|💣|🎃"}</macro>
+            </hide><!--QUESTING Icons-->
+            |
+            <a class="mbbutton" onclick="ToggleNextPP(this)" title="Food">🍎</a>
+            <hide>
+              <macro>{"cmd":"ButtonList","func":"NMMsg",
+                "list":"🍎|🍅|🍓|🌶️|🍒|🍄|🍚|🌰|🥕|🥧|🍌|🧅|🥘|🥞|🍯|🧀|🧇|🍞|🥐|🥨|🥠|🥪|🍮|🍍|🌾|🍐|🍏|🥦|🥑|🥝|🍵|🧊|🍇|🥔|🥜|🥥|☕|🍜|🍛|🍨|🍱"}</macro>
+            </hide><!--Animal Icons-->
+            |
+            <a class="mbbutton" onclick="ToggleNextPP(this)" title="Faces & Hands">😀</a>
+            <hide>
+              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"😍|😀|😊|🤗|😖|😇|😅|😭|👍|🖐|🙏"}</macro>
+            </hide><!--Faces and Hands-->
+            |
+            <a class="mbbutton" onclick="ToggleNextPP(this)" title="Animals">🐸</a>
+            <hide>
+              <macro>{"cmd":"ButtonList","func":"NMMsg",
+                "list":"🐾|🦊|🦉|🐕‍🦺|🦀|🥚|🐣|🐤|🐕|🐈|🐱|🦁|🐢|🐉|🐸|🐿️|🦃|🦋|🦅|🦌|🐇|🦢|🕊️|🦄|🐬|🐳|🦈|🐺|🦇|🐀|🕷️|🕸️"}</macro>
+            </hide><!--Animal Icons-->
+            |
+            <a class="mbbutton" onclick="ToggleNextPP(this)" title="Items">💼</a>
+            <hide>
+              <macro>{"cmd":"ButtonList","func":"NMMsg",
+                "list":"🚨|📕|🧰|🎒|☎️|📅|⏳|📙|🌂|✂️|🌡️|⚖️|✏️|🎉|🎨|🔑|🗝️|🛩️|🛎️|🔔|🔒|📒|🏆|👑|🎟️|🧭|💡|🧩|🧶|🔋|📗|📘|🧵|🏅|💍|💎|🗺️|⚗️|🧪|☂️|🚪|💼|🧱|🎻|🥾|🕰️|📦|📜|🥼|🎲|🎹|🎼|📰|🗞️|📬|🤖|⚙️|🛒|🎡|🎠|⚓|🎧|🎤|🎬|📷|📺|💻|🖥️|💾|🎮|🕹️|🎓|🎩|🗃️"}</macro>
+            </hide><!--Items-->
+            
+            |
+            <a class="mbbutton" onclick="ToggleNextPP(this)" title="Nature">🌈</a>
+            <hide>
+              <macro>{"cmd":"ButtonList","func":"NMMsg",
+                "list":"🔥|☀️|🌛|⚡|❄️|🌠|💧|🌊|🌀|🌌|☁️|🌈"}</macro>
+              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🍁|🍂|🌹|🥀|🌺|🌷|🌻|🌾|🌱|🍃|🌵|🍀|🌳|🌴|🌼"}</macro>
+
+              
+            </hide><!--Nature-->
+            |
+            <a class="mbbutton" onclick="ToggleNextPP(this)" title="Places">🏰</a>
+            <hide>
+              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🌋|🏫|🏰|🎪|🏕️|🏝️|🏞️|🏔️|🧭|🌎|🌍|🌏|🗺️|🧳|🏛️|🏡"}</macro>
+              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"❓|❌|⛔|💟|⚠️|🚧|♻️|✔️|✅|💠|☠️|💬|🏳️|🟥|🟧|🟨|🟩|🟦|🟪|🟫|⬛|⬜"}</macro>
+            </hide><!--Places-->
+            |
+            <a class="mbbutton" onclick="ToggleNextPP(this)" title="Noto">🌃</a>
+            <hide>
+              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪭|🩷|🛟|🪵|🪨|🪦"}</macro>
+              
+            </hide><!--Places-->
+
+          </div><!--Category Tab Buttons-->
+          <!--<hr class="mbCB">-->
         </div>
       </widget>
     </div>
@@ -30288,6 +30317,8 @@
       <msg DTS="20240717200541" SPK="Kisaragi" EXP Icon="🍱">Logging expenses.</msg>
       <msg DTS="20240724233056" SPK="Kisaragi" EXP Icon="🍱">Refilling</msg>
       <msg DTS="20240726223903" SPK="Skyle" EXP Icon="🗃️">Logging expenses.</msg>
+      <msg DTS="20240728185554" SPK="Kisaragi" EXP Icon="🗃️">Logging expenses</msg>
+
 
 
 

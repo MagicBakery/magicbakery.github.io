@@ -7351,6 +7351,16 @@ function ToggleNextPN(elThis){
   // 20230313: Ledia: For Scoreboard
   var elTarget = elThis.parentNode.nextElementSibling;
   var elSource = elThis.nextElementSibling;
+  ToggleTS(elSource,elTarget)
+}
+function ToggleNextPP(elThis){
+  // 20240728: StarTree
+  var elTarget = elThis.parentNode.previousElementSibling;
+  var elSource = elThis.nextElementSibling;
+  ToggleTS(elSource,elTarget)
+}
+function ToggleTS(elSource,elTarget){
+  // 20240728: StarTree
   if(elTarget.innerHTML != elSource.innerHTML){
     elTarget.innerHTML = elSource.innerHTML;
     elTarget.classList.remove("mbhide");
