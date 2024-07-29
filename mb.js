@@ -2234,6 +2234,7 @@ function MSScanFor(elDisplay,mStart,mEnd,elHeader,bGroupByTopic){
     var mDone = 0;  
     for(let i=1; i<=ArchiveNum();i++){
       // 20240427: Black: Expanding the query to get the context.
+
       $(elCache).load(ArchiveIndex(i) + "[id][date][time]", function(){
         let elMsgs = elCache.querySelectorAll('MSG[dts]');
         MSScanForPush(mMsgList,elMsgs,mStart,mEnd);        
@@ -2248,6 +2249,7 @@ function MSScanFor(elDisplay,mStart,mEnd,elHeader,bGroupByTopic){
 }
 function MSScanForPush(mMsgList,elMsgs,mStart,mEnd){
   // STEP: Push into mMsgList if the message is within range.
+
   elMsgs.forEach((mMsg)=>{
     let mMsgDTS = Number(DTSPadding(mMsg.getAttribute('DTS')));
     if(mStart<= mMsgDTS && mMsgDTS < mEnd){
@@ -7146,7 +7148,7 @@ function NMNode(el,bChatChannel){
     mHTML += "\t\t<mbKudo></mbKudo>\n";
   }else{
     // 20240726: Evelyn: I think it is more convenient to have this.
-    mHTML += "\t\t<div class='mbpdc'><b>First</b> word</div>";
+    mHTML += "\t\t<div class='mbpdc'><b>First</b> word</div>\n";
   }
   mHTML += "\t</content>\n";
   if(!bChatChannel){
@@ -7164,6 +7166,14 @@ function NMNode(el,bChatChannel){
 
   navigator.clipboard.writeText(mHTML);
   return mHTML;
+}
+function NMRES(el){
+  // 20240728: StarTree: Makes a generic RES object with the item code filled.
+  var elWidget = SearchPS(el,"Widget");
+  var mDTS = Default(elWidget.querySelector('[NM-DTS]').value,DTSNow());
+  var mIcon = Default(elWidget.querySelector('[NM-Icon]').value,""); 
+  var mHTML = "<res icon=\""+mIcon+"\" item=\""+DTC(mDTS)+"\" title=\"Title\" tags=\"\">\n</res>";
+  navigator.clipboard.writeText(mHTML);
 }
 function NMURL(el){
   // 20240417: StarTree

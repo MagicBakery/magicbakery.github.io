@@ -746,9 +746,10 @@
                   </div>
                 </div><!--@Home / Kisaragi-->
                 <div class="mbCB">
-                  <macro>{"guildlog":"0","icon":"","rank":"B","updates":"3","node":"202303052122","author":"Vivi","chapter":"@Night","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","icon":"","rank":"A","updates":"4","node":"202303052122","author":"Vivi","chapter":"@Night","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankA"></span>
+                    <macro>{"log":"0728","priority":"0","icon":"🥋","node":"202407282208","title":"Martial Arts","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"☠️","node":"202406262226","title":"Undead Rising","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"0720","priority":"9","icon":"🕸️","node":"202303052122","title":"Bug Fix","cmd":"quest"}</macro> 
@@ -8008,10 +8009,10 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240724')">24<br><div class="mbavem mbArcacia"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240725')">25<br><div class="mbavem mbEvelyn"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240726')">26<br><div class="mbavem mbCasey"></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240727')">27<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240727')">27<br><div class="mbavem mbCasey"></div></td>
               </tr>
               <tr>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240728')">28<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240728')">28<br><div class="mbavem mbStarTree"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240729')">29<br>&nbsp;</td>                
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240730')">30<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240731')">31<br>&nbsp;</td>
@@ -8068,7 +8069,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240727')">27<br>📦</td>
               </tr>
               <tr>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240728')">28<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240728')">28<br>🐤</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240729')">29<br>&nbsp;</td>                
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240730')">30<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240731')">31<br>&nbsp;</td>
@@ -26804,7 +26805,9 @@
               <a class="mbbutton" onclick="NMNote(this)" title="Make Note Section">NTE</a> 
               <a class="mbbutton" onclick="NMMsg(this,'',true)" title="Make Bubble">MSG</a>
               <a class="mbbutton" onclick="NMMsg(this)" title="Make EXP Bubble">EXP</a> 
+              <a class="mbbutton" onclick="NMRES(this)" title="Make RES Item">RES</a> 
               <a class="mbbutton" onclick="NMURL(this)" title="Make URL Macro">URL</a> 
+              
             </small>
           </center><!--Command Buttons-->           
           <center style="letter-spacing: -20px;padding:0px;max-height:110px;overflow-y: auto;" nm-spklist="">
@@ -26864,8 +26867,16 @@
             |
             <a class="mbbutton" onclick="ToggleNextPP(this)" title="Noto">🌃</a>
             <hide>
-              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪭|🩷|🛟|🫠|🪵|🪨|🪦|🪽|🪡"}</macro>
-              
+              Buoy <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🛟"}</macro>
+              Fan <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪭"}</macro>
+              Headstone <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪦"}</macro>
+              Heart Hand <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🫶"}</macro>
+              Melting Face <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🫠"}</macro>
+              Pink Heart <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🩷"}</macro>
+              Rock <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪨"}</macro>
+              Sewing Needle <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪡"}</macro>
+              Wing <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪽"}</macro>
+              Wood <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪵"}</macro>
             </hide><!--Places-->
 
           </div><!--Category Tab Buttons-->
@@ -36484,8 +36495,77 @@
 	<ref></ref>
 	<node>{"id":"202407280015","parentid":"202207170956","parentname":"Alchemist","icon":"🍀","title":"Origami","subtitle":"Subtitle","kids":"","img":"","music":"","author":"Kisaragi"}</node>
 </div><!--P202407280015-->
+<div id="P202407282208" date="20240728" time="2208" data-skill data-Paladin data-arts>
+	<content>
+		<!--<div class='mbpdc'><b>First</b> word</div>-->
+  </content>
+	<inv>
+    <res icon="🪭" item="24TVN41F" title="War Fan (Tessen)" tags="">
+      <msg DTS="20240728222147" SPK="Vivi" EXP=3 Icon="🪭">Tessen (鉄扇/てっせん) <url>https://www.youtube.com/watch?v=HaClcoK0cOY</url> <url>https://www.youtube.com/watch?v=PdJLQfLaOP4</url> <url>https://www.youtube.com/watch?v=z-R5I9rZHxc</url></msg>
+    </res>
+  </inv>
+	<ref></ref>
+	<node>{"id":"202407282208","parentid":"202209192238","parentname":"Paladin","icon":"🥋","title":"Martial Arts","subtitle":"Subtitle","kids":"","img":"","music":"","author":"Vivi"}</node>
+</div><!--P202407282208-->
 <div date="20240728" time="2359" data-status="">
-  <macro>{"cmd":"daisy2","issues":"0","quests":"500","activities":[
+  <macro>{"cmd":"daisy2","issues":"0","quests":"487","activities":[
+    {"ch":"21","rank":"B","updates":"4","last":"20240717"},
+    {"ch":"23","rank":"S","updates":"3","last":"20240720"},
+    {"ch":"17","rank":"S","updates":"3","last":"20240720"},
+    {"ch":"31","rank":"A","updates":"3","last":"20240721"},
+    {"ch":"30","rank":"A","updates":"4","last":"20240721"},
+    {"ch":"32","rank":"S","updates":"5","last":"20240721"},
+    {"ch":"25","rank":"B","updates":"4","last":"20240722"},
+    {"ch":"34","rank":"A","updates":"4","last":"20240723"},
+    {"ch":"33","rank":"A","updates":"4","last":"20240723"},
+    {"ch":"27","rank":"C","updates":"4","last":"20240724"},
+    {"ch":"20","rank":"B","updates":"4","last":"20240724"},
+    {"ch":"5","rank":"S","updates":"4","last":"20240724"},
+    {"ch":"22","rank":"B","updates":"4","last":"20240725"},
+    {"ch":"11","rank":"S","updates":"4","last":"20240725"},
+    {"ch":"12","rank":"A","updates":"4","last":"20240725"},
+    {"ch":"19","rank":"A","updates":"4","last":"20240725"},
+    {"ch":"26","rank":"B","updates":"4","last":"20240725"},
+    {"ch":"15","rank":"S","updates":"5","last":"20240726"},
+    {"ch":"28","rank":"S","updates":"4","last":"20240727"},
+    {"ch":"29","rank":"A","updates":"4","last":"20240727"},
+    {"ch":"7","rank":"B","updates":"5","last":"20240728"},
+    {"ch":"14","rank":"B","updates":"5","last":"20240728"},
+    {"ch":"13","rank":"B","updates":"4","last":"20240728"},
+    {"ch":"18","rank":"B","updates":"4","last":"20240728"},
+    {"ch":"24","rank":"A","updates":"5","last":"20240728"},
+    {"ch":"16","rank":"A","updates":"4","last":"20240728"},
+    {"ch":"35","rank":"A","updates":"4","last":"20240728"}
+    ],"players":"","merits":"","recognitions":"","kudos":"","awards":"Albatross, Arcacia, Casey, Evelyn, Helen, Ivy, Kisaragi, Koyo, LRRH, Melody, Natalie, Patricia, Sasha, Skyle, StarTree, Sylvia, Tanya, V, Vivi, Zoey","top":[
+    {"name":"StarTree","score":"27"},
+    {"name":"V","score":"20"},
+    {"name":"Kisaragi","score":"13"},
+    {"name":"Arcacia","score":"12"},
+    {"name":"Vivi","score":"8"},
+    {"name":"Natalie","score":"7"},
+    {"name":"Sylvia","score":"7"},
+    {"name":"Zoey","score":"7"},
+    {"name":"Black","score":"7"},
+    {"name":"Skyle","score":"6"},
+    {"name":"Tanya","score":"6"},
+    {"name":"LRRH","score":"6"},
+    {"name":"Evelyn","score":"6"},
+    {"name":"Koyo","score":"5"},
+    {"name":"Melody","score":"4"},
+    {"name":"Albatross","score":"4"},
+    {"name":"Helen","score":"4"},
+    {"name":"Patricia","score":"4"},
+    {"name":"Casey","score":"4"},
+    {"name":"Ivy","score":"4"},
+    {"name":"Sasha","score":"4"},
+    {"name":"Ledia","score":"3"},
+    {"name":"Fina","score":"2"},
+    {"name":"James","score":"1"},
+    {"name":"P4","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div date="20240729" time="2359" data-status="">
+  <macro>{"cmd":"daisy2","issues":"0","quests":"487","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
     
@@ -36498,7 +36578,7 @@
   2) Update function ArchiveSelect with the correct cutoff dates.
 -->
 <div date="20240700" time="2359" data-status="">
-  <macro>{"cmd":"daisy2","issues":"0","quests":"500","activities":[
+  <macro>{"cmd":"daisy2","issues":"0","quests":"487","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
     
