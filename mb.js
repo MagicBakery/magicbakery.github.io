@@ -6343,12 +6343,12 @@ function RollCallUseCookie(el){
   }
   if(bCookieEnabled){
     elContainer.setAttribute("CookieEnabled","true");
-    el.innerHTML = "🍪✅";
+    el.innerHTML = "🍯✅";
     elListButton.innerHTML = "Refresh";
     RollCallList(elListButton);
   }else{
     elContainer.setAttribute("CookieEnabled","false");
-    el.innerHTML = "🍪⛔";
+    el.innerHTML = "🍯⛔";
     elListButton.innerHTML = "Reset";
   }
 }
@@ -7289,11 +7289,11 @@ function NodeMarkUseCookie(el,iNoIcon){
   if(bCookieEnabled){
     elMain.setAttribute("CookieEnabled","true");
     if(iNoIcon){return;}
-    el.innerHTML = "🍪✅";
+    el.innerHTML = "🍯✅";
   }else{
     elMain.setAttribute("CookieEnabled","false");
     if(iNoIcon){return;}
-    el.innerHTML = "🍪⛔";
+    el.innerHTML = "🍯⛔";
   }
 }
 function TACount(el,mInc){
@@ -7366,11 +7366,11 @@ function TextAreaUseCookie(el){
   }
   if(bCookieEnabled){
     elWidget.setAttribute("CookieEnabled","true");
-    el.innerHTML = "🍪✅";
+    el.innerHTML = "🍯✅";
     TextAreaLoad(elTextArea);
   }else{
     elWidget.setAttribute("CookieEnabled","false");
-    el.innerHTML = "🍪⛔";
+    el.innerHTML = "🍯⛔";
   }
 }
 function ToggleHidePN(el){
