@@ -1738,6 +1738,9 @@ function MacroResItem(mTag){
   let mOwner = Default(mTag.getAttribute("owner"),"???");
   let mItem = mTag.getAttribute("item");
   let mChannel = Default(mTag.getAttribute('channel'),"");
+  let mSinger = Default(mTag.getAttribute("Singer"),"");
+  let mYouTube = Default(mTag.getAttribute("Youtube"),"");
+
 
   var bSpoiler = mTag.hasAttribute('spoiler');
   
@@ -1810,7 +1813,7 @@ function MacroResItem(mTag){
   mHTML += "</code>";*/
   mHTML += "<hide><hr>";
   // DATA: This is the area for basic data about the item
-  mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:0px 0px -5px 0px;padding:2px 5px\">";  //max-width:145px
+  mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:-2px 0px -3px 0px;padding:2px 5px;max-width:140px\">";  //max-width:145px
   //mHTML += "<div class=\"mbpuzzle\" style=\"font-size:15px;margin:0px 0px 0px 0px;\">";  
   if(mTag.hasAttribute('available')){
     mHTML += "<center style=\"color:green\"><b>AVAILABLE</b></center>";
@@ -1824,11 +1827,39 @@ function MacroResItem(mTag){
     mHTML += "<center><b>"+ mChannel+ "</b></center>";
   }
 
+  // DATA: Youtube Playlist Link
+  if(NotBlank(mYouTube)){
+    mHTML += "<center>";
+    let mURL = "https://www.youtube.com/watch?v=" + mYouTube + "&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx";
+    mHTML += "<a class='mbbuttonEx' onclick=\"ExURL('"+ mURL + "');return false;\" href='"+mURL+"'>🎧</a>";
+    mHTML += "</center>";
+  }
+
+  // DATA: ID
+  if(NotBlank(mItem)){
+    mHTML += "<b>ID:</b> [" + mItem +"] ";
+  }else{
+    mHTML += "<b>ID:</b> [📌" + mDTS +"] ";
+  }  
+  // Node Link in the Side Panel
+  if(NotBlank(mTag.getAttribute('node'))){
+    mHTML += LnkCode(mNode,"🐤","") +"<br>";
+  }else{
+    mHTML += "🥚<br>"
+  }
+
   // Tags. Need to display this for text filter
   mHTML += "<hide>+" + mTags.replaceAll(" ","+") + "+</hide>";
   if(mTag.hasAttribute("tags")){
-    mHTML += "<b>Tags:</b>&nbsp;" + mTags +" ";
+    mHTML += "<b>Tags:</b>&nbsp;" + mTags +"<br>";
   }
+
+  // Singers.
+  if(NotBlank(mSinger)){
+    mHTML += "<b>Singer:</b>&nbsp;" + mSinger +" ";
+  }
+
+  
   
   // URL in the Side Bar
   // 20240622: Zoey: Don't show this if the field is missing entirely.
@@ -1842,17 +1873,8 @@ function MacroResItem(mTag){
   }else{
     mHTML += "<div></div>";
   }
-  if(NotBlank(mItem)){
-    mHTML += "<b>ID:</b> [" + mItem +"] ";
-  }else{
-    mHTML += "<b>ID:</b> [📌" + mDTS +"] ";
-  }  
-  // Node Link in the Side Panel
-  if(NotBlank(mTag.getAttribute('node'))){
-    mHTML += LnkCode(mNode,"🐤","") +"<br>";
-  }else{
-    mHTML += "🥚<br>"
-  }
+
+  
   //mHTML += "<b>Owner:</b>&nbsp;" + mOwner +"<br>";
   if(mTag.hasAttribute("loc")){
     mHTML += "<b>Loc:</b>&nbsp;" + Default(mTag.getAttribute("loc"),"📌loc?")  +" ";
@@ -1863,7 +1885,8 @@ function MacroResItem(mTag){
   // Custom Content about this item.
   mHTML += "<hr class=\"mbhide\">"; // Trick to use Enter bubble.
   mHTML += mTag.innerHTML;
-  mHTML += "<hr class=\"mbCB\"></hide>"
+  mHTML += "<div class=\"mbCB\"></div><hr>";
+  mHTML += "</hide>";
   
   let elNew = document.createElement('div');
   mTag.after(elNew);
@@ -5350,45 +5373,46 @@ function GuildEXP(iMember){
   // 20230129: Ledia: Added for total EXP.
   // #GuildEXP
   var dict={
-"3B": 5349,
-"44": 573,
-"Albatross": 1554,
-"Amelia": 712,
-"Arcacia": 6605,
+"3B": 5395,
+"44": 574,
+"Albatross": 1679,
+"Amelia": 717,
+"Arcacia": 6854,
 "Black": 10744,
-"Cardinal": 1755,
-"Casey": 3763,
+"Cardinal": 1867,
+"Casey": 3871,
+"Evelyn": 11086,
+"Fina": 2129,
+"Gaia": 1114,
+"Helen": 2400,
+"Ivy": 3967,
+"James": 2633,
+"Kisaragi": 4695,
+"Ledia": 6949,
+"LRRH": 8040,
+"Melody": 713,
+"Mikela": 1186,
+"Natalie": 4773,
+"P4": 5296,
+"Patricia": 2604,
+"Robert": 92,
+"Sasha": 5980,
+"Skyle": 2571,
+"StarTree": 11308,
+"Sylvia": 4968,
+"Tanya": 7067,
+"Therese": 4,
+"V": 3269,
+"Vivi": 4934,
+"Vladanya": 2335,
+"Zoey": 6948,
+"Koyo": 29,
 "Emi": 11,
-"Evelyn": 10841,
-"Fina": 2064,
-"Gaia": 1092,
-"Helen": 2373,
-"Ivy": 3847,
-"James": 2589,
-"Karl": 26,
-"Ken": 700,
-"Kisaragi": 4485,
-"Koyo": 4,
-"Ledia": 6812,
-"LRRH": 7738,
-"Melody": 682,
-"Mikela": 1182,
-"Natalie": 4704,
-"Neil": 245,
-"P4": 5138,
-"Patricia": 2505,
-"Rikk": 38,
-"Robert": 82,
 "RS": 11,
-"Sasha": 5867,
-"Skyle": 2446,
-"StarTree": 10983,
-"Sylvia": 4872,
-"Tanya": 6988,
-"V": 3188,
-"Vivi": 4871,
-"Vladanya": 2286,
-"Zoey": 6776,
+"Karl": 26,
+"Rikk": 44,
+"Neil": 245,
+"Ken": 708,
   };
   return dict[iMember];
 }
@@ -5399,7 +5423,7 @@ function RandomMember(){
 function Roster(iIndex){
   // 20230125: Ledia: Preparing for roster stats display.
   //   Returns the length if the argument is negative.
-  const mRoster = ["3B", "44", "Albatross", "Amelia", "Arcacia", "Black", "Cardinal", "Casey", "Emi", "Evelyn", "Fina", "Gaia", "Helen", "Ivy", "James", "Karl", "Ken", "Kisaragi", "Koyo", "Ledia", "LRRH", "Melody", "Mikela", "Natalie", "Neil", "P4", "Patricia", "Rikk", "Robert", "RS", "Sasha", "Skyle", "StarTree", "Sylvia", "Tanya", "V", "Vivi", "Vladanya", "Zoey"];
+  const mRoster = ["3B", "44", "Albatross", "Amelia", "Arcacia", "Black", "Cardinal", "Casey", "Emi", "Evelyn", "Fina", "Gaia", "Helen", "Ivy", "James", "Karl", "Ken", "Kisaragi", "Koyo", "Ledia", "LRRH", "Melody", "Mikela", "Natalie", "Neil", "P4", "Patricia", "Rikk", "Robert", "RS", "Sasha", "Skyle", "StarTree", "Sylvia", "Tanya", "Therese", "V", "Vivi", "Vladanya", "Zoey"];
   //const mRoster = ["3B","44", "Albatross"];
   if(iIndex>=0){
     return mRoster[iIndex];
