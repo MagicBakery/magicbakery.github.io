@@ -40,6 +40,35 @@ function AtGitHub(){
   // 20230916: StarTree: Return true if this code is at GitHub
   return _At("GitHub");
 }
+function AuthorButton(elAuthor){
+  // 20240730: StarTree: This handles the effect when the big author button is pressed.
+  // Algorithm: Interpret the current state and cycle through these states:
+  // 1) [0] SHOW RES LIST | SHOW Card
+  // 2) [1] SHOW RES LIST | HIDE Card
+  // 3) [3] HIDE RES LIST | HIDE Card
+  // 4) [2] HIDE RES LIST | SHOW Card
+  var elBoard = SearchPS(elAuthor,"board");
+  var elResList = elBoard.querySelector("[ResList]");
+  var elCardList = elBoard.querySelector("[CardList]");
+
+  // If both lists are empty, just return.
+  if(IsBlank(elResList) && IsBlank(elCardList)){return;}
+
+  // If one list is empty, toggle the other.
+  if(IsBlank(elResList)){ToggleHide(elCardList);return;}
+  if(IsBlank(elCardList)){ToggleHide(elResList);return;}
+
+  // If Both List Exist, Cycle
+  var mState = 0;
+  if(elResList.classList.contains("mbhide")){mState += 2;}
+  if(elCardList.classList.contains("mbhide")){mState += 1;}
+  switch(mState){
+    case 0: ToggleHide(elCardList); return;
+    case 1: ToggleHide(elResList); return;
+    case 3: ToggleHide(elCardList); return;
+    case 2: ToggleHide(elResList); return;
+  }
+}
 function BasePath(){
   // 20230916: StarTree: Returns the base path depending on where the code is running at.
   if(AtGitHub()){
@@ -170,35 +199,45 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     mHTMLInner += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>½</button>"
     mHTMLInner += "<div class='mbCB'></div><hr>";
 
+    // BANNER
     if(NotBlank(elBanner)){
       mHTMLInner += "<div>" + elBanner.innerHTML + "</div><div class='mbCB'></div>";
     }
+
+    // CARD / Gallery Section
+    var mCardList = ResCardList(elRecord);
+    // RES LIST SEARCH SECTION
+    var mResList = ResList(elRecord, IsBlank(mCardList)); 
+    
+    mHTMLInner += mResList;
+
+    
+    // 20240731: StarTree: If there is no RES or Card, but there is INV, show the content of INV.
+    var mInv = elRecord.querySelector("inv");
+    if(IsBlank(mResList) && IsBlank(mCardList) && NotBlank(mInv)){
+      mHTMLInner += "<div Reslist>" + mInv.innerHTML + "</div>";
+    }
+
+
     
     // 20240329: StarTree: if there is no card at all, don't show the author badge.
     mHasCard = false;
     var elCard;
     try{
-      elCard = elRecord.querySelector('inv');
+      elCard = elRecord.querySelector('card');
     }catch(error){
       mHasCard = true; // 20240427: Skyle: Has inventory.
     }
     
     // STEP: Start the Card/Inventory section
-    if(!IsBlank(elCard)){
+    if(true || !IsBlank(elCard)){ // 20240730: StarTree: Always use the same frame.
       mHasCard = true;
       mHTMLInner += "<div class='mbCardMat'>";
       
       
       // 20240723: StarTree: If the INV section contains RES objects, show add a search section.
-      if(NotBlank(elCard.querySelector("RES"))){
-        mHTMLInner += "<div class='mbpuzzle' style='width:100%'>";
-        mHTMLInner += SearchWrapper(elRecord,elCard);
-        mHTMLInner += "</div>";
-      }else{        
-        mHTMLInner += "<div class='mbCardRM'>";
-        mHTMLInner += elCard.innerHTML;
-        mHTMLInner += "</div>";        
-      }
+      
+      mHTMLInner += mCardList;      
       mHTMLInner += "<div class='mbCardMatText'>";
       
       
@@ -206,7 +245,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       // 20240721: StarTree: If there is no author, don't show the inv section.
       // This is done for the Sitemap node.
       if(NotBlank(mJSON.author)){
-        mHTMLInner += "<a class='mbbutton' onclick='HidePP(this)' style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></a>";
+        mHTMLInner += "<a class='mbbutton' onclick='AuthorButton(this)' style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></a>";
       }
     }else{
       if(mHasCard ){
@@ -1760,8 +1799,9 @@ function MacroResItem(mTag){
   //mHTML += "<span class=\"mbILB25\" style=\"font-size:14px\">";
   mHTML += "<span class=\"mbILB30\">";
   
-  if(mTag.hasAttribute('icon')){    
-    mHTML += mTag.getAttribute("icon");
+  if(mTag.hasAttribute('todo')){
+    mHTML += "📌" ;
+  
   }else if(mTag.hasAttribute('channel')){
     if(mChannel=="Crunchyroll"){
       mHTML += "🥐";
@@ -1769,12 +1809,15 @@ function MacroResItem(mTag){
     if(mChannel == "Netflix"){
       mHTML += "🌮";
     }
+  }else if(mTag.hasAttribute('icon')){    
+    mHTML += mTag.getAttribute("icon");
+  }else if(mTag.hasAttribute('unanswered')){
+    mHTML += "📌" ;    
   }else if(mTag.hasAttribute('done')){
     mHTML += "✅" ;
   }else if(mTag.hasAttribute('answered')){
     mHTML += "✅" ;
-  }else if(mTag.hasAttribute('unanswered')){
-    mHTML += "📌" ;
+
   }else if(mTag.hasAttribute('available')){
     mHTML += "🟢" ;
   }else if(mTag.hasAttribute('seeking')){
@@ -1813,7 +1856,7 @@ function MacroResItem(mTag){
   mHTML += "</code>";*/
   mHTML += "<hide><hr>";
   // DATA: This is the area for basic data about the item
-  mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:-2px 0px -3px 0px;padding:2px 5px;max-width:140px\">";  //max-width:145px
+  mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:-2px 0px -3px 0px;padding:2px 5px;max-width:140px;\">";  //max-width:145px
   //mHTML += "<div class=\"mbpuzzle\" style=\"font-size:15px;margin:0px 0px 0px 0px;\">";  
   if(mTag.hasAttribute('available')){
     mHTML += "<center style=\"color:green\"><b>AVAILABLE</b></center>";
@@ -2609,6 +2652,52 @@ function RenderStart(el){
   mHTML += "</div>";
   //mHTML += "<div class='mbCL'></div>";
   return mHTML;
+}
+function ResCardList(elRecord){
+  // 20240730: StarTree: Given a record, return a section HTML code for displaying cards.
+
+  // STEP: Applicability:
+  var elInv = elRecord.querySelector("Inv");
+  if(IsBlank(elInv)){return "";}
+  var elCardList = elInv.querySelectorAll("Card");
+  if(elCardList.length==0){return "";}
+
+  // STEP: Make the Card section
+  // 20240730: StarTree: Milestone 1: Just display the first card.
+  var mHTML = "<div CardList class='mbCardRM'>";
+  mHTML += "<div>" + elCardList[0].outerHTML + "</div>";
+  var mIndex=""
+  if(elCardList.length>1){ // Gallery Code
+    mHTML += "<div>";
+    for(i=0;i<elCardList.length;i++){
+      mIndex = Default(elCardList[i].getAttribute("index"),String(i).padStart(2,"0"));
+      mHTML += "<a class=\"mbbutton\" onclick=\"ShowNextPP(this)\">"+ mIndex  +"</a>";
+      mHTML += "<hide>" + elCardList[i].outerHTML + "</hide> ";
+
+    }
+    mHTML += "</div>";
+  }
+  mHTML += "</div>";  
+  return mHTML;
+}
+function ResList(elRecord,bShow){
+  // 20240730: StarTree: Given a record (a node) object, return the section HTML code of a search enabled RES List
+  
+  // STEP: Applicability Check: If the record does not have a RES items in the INV section, return an empty string.
+  var elInv = elRecord.querySelector("Inv");
+  if(IsBlank(elInv)){return "";}
+  var elResList = elInv.querySelectorAll("Res");
+  if(elResList.length==0){return "";}
+
+  // STEP: There is content, so make the searchable RES List.
+  // Sub Step: Concatenate the Res Items.
+  var mResPack = "";
+  elResList.forEach((item)=>{
+    mResPack += item.outerHTML;
+  });
+  //DEBUG(mResPack);
+  // Sub Step: Call the wrapper function
+  return SearchWrapper(elRecord,mResPack,bShow);
 }
 function ModeCSS(mMode){
   // 20240506: Sasha
@@ -3800,9 +3889,13 @@ function SearchPS(el,iAttribute){
     return "";
   }
 }
-function SearchWrapper(elScope,elInner){
+function SearchWrapper(elScope,iInner,bShow){
   // 20240722: StarTree: Wraps the Inner content with a search frame.
-  var mHTML = "<div control>" + 
+  var mHideClass = "";
+  if(!bShow){
+    mHideClass = " class=\"mbhide\"";
+  }
+  var mHTML = "<div ResList"+ mHideClass +" style=\"margin-bottom:5px\"><div control>" + 
   "<input type=\"text\" onclick=\"TextSearchPN(this)\" onkeyup=\"TextSearchPN(this)\" placeholder=\"Search...\" title=\"Input a keyword\" style=\"width:100px\"> " + 
   "<span>" + 
   "<a class=\"mbbutton\" style=\"float:right\" onclick=\"QSLSortRandom(this)\">🎲</a>" + 
@@ -3822,9 +3915,9 @@ function SearchWrapper(elScope,elInner){
           "<div class=\"mbpuzzle mbhide\"></div>" + 
         "</div>";
   // Starting the container for the RES content
-  mHTML += "<div class=\"mbSearch mbStack\" style=\"resize:vertical; max-height:265px;overflow-y:auto;padding:5px 2px;display:flex;flex-direction: column;gap:10px;\">";
-  mHTML += elInner.innerHTML;
-  mHTML += "</div>";
+  mHTML += "<div class=\"mbSearch mbStack\" style=\"resize:vertical; max-height:263px;overflow-y:auto;padding:5px 2px;display:flex;flex-direction: column;gap:10px;\">";
+  mHTML += iInner;
+  mHTML += "</div></div>";
   return mHTML;
 }
 function ShowSkip(el) {
