@@ -2022,11 +2022,13 @@ function MacroTopic(el){
       mHTML += "<div class='mbCB'></div></hide>";
       // 20240711: Natalie: to improve formatting.
       let elNew = document.createElement('div');
-      /*elNew.classList.add("mbCL");      
+      /*
+      elNew.classList.add("mbCL");      
       mTag.before(elNew);
 
-      elNew = document.createElement('div');*/
-      elNew.classList.add(mClass);      
+      elNew = document.createElement('div');//*/
+      elNew.classList.add(mClass);   
+      elNew.classList.add("mbCL"); // 20240801: Arcacia
       elNew.setAttribute('DTS',mDTS);
       elNew.setAttribute('topic',"");
       elNew.innerHTML = mHTML;
