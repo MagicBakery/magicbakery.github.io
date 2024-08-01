@@ -24941,8 +24941,8 @@
   <inv>
     <card dts="20240427233122" title="Total Party KO" subtitle="Failure Analysis" img="https://cdn.pixabay.com/photo/2015/08/05/15/04/mistake-876597_640.jpg"></card>
     <res icon="🔥" item="24TZ2925" title="2407 Burnt Gear" tags="Damage">
-      <msg DTS="20240731024158" SPK="StarTree" EXP Icon="🔍">The enchantment did not consider how others use the artifact when it is still being put together. A disabled check was not communicated and a gear was run without cooling and fused.</msg>
-      <msg DTS="20240731024625" SPK="StarTree" EXP=2 Icon="🔍">Countermeasure: Redesigned enchantment so that the check does not need to be disabled, and retraining on communicating changes among teams.</msg>
+      <msg DTS="20240731024158" SPK="StarTree" EXP Icon="🔍">The enchantment did not consider how others use the artifact when it is still being put together. Self protection was disabled but not told to the next team. The artifact took damage when the next team tried to activate it.</msg>
+      <msg DTS="20240731024625" SPK="StarTree" EXP=2 Icon="🔍">Countermeasure: Redesigned enchantment so that self protection does not need to be disabled, and retraining on communicating changes among teams.</msg>
     </res>
     <res icon="🔥" item="24TYP6C2" title="2311 Burnt Crystal" tags="Damage">
       <msg DTS="20240515231721" SPK="StarTree" EXP=2 Icon="🍍">The crystal meant for the fire dungeon was planned but did not have fire resist before it was placed and ended up burnt! The quest guide was updated to show if enchantment is needed.</msg>
@@ -26868,7 +26868,7 @@
             <a class="mbbutton" onclick="ToggleNextPP(this)" title="Nature">🌈</a>
             <hide>
               <macro>{"cmd":"ButtonList","func":"NMMsg",
-                "list":"🔥|☀️|🌛|⚡|❄️|🌠|☄️|💧|🌊|🌀|🌌|☁️|🌈"}</macro>
+                "list":"🔥|☀️|🌛|⭐|⚡|❄️|🌠|☄️|💧|🌊|🌀|🌌|☁️|🌈"}</macro>
               <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🍁|🍂|🌹|🥀|🌺|🌷|🌻|🌾|🌱|🍃|🌵|🍀|🌳|🌴|🌼"}</macro>
 
               
@@ -36590,10 +36590,11 @@
       <msg DTS="20240731093402" SPK="Black" EXP Icon="📌">I think we need a decision matrix for this subject. It could be an image or somehow done interactively.</msg>
       <msg DTS="20240731093501" SPK="Black" EXP Icon="📌">Maybe it can be a checklist of red flags, then the filter returns the remaining list of appropriate intervention approaches.</msg>
       <msg DTS="20240731093609" SPK="Tanya" EXP Icon="🔮">It might be similar to listing the least intrusive approaches, and let the user cross out the ones that already failed.</msg>
+      <msg DTS='20240731100726' SPK='Black' EXP Icon='📌'>After filtering by check boxes, the remaining can be sorted by intrusiveness.</msg>
 
 
     </res>
-    <res icon="⚔️" item="24TZ975B" title="Disagreeing" tags="">
+    <res icon="⚔️" item="24TZ975B" title="Disagreeing" tags="Intent Situation">
       <msg DTS='20240730091519' SPK='Black' EXP Icon='📌'>Mocking someone you disagree with is a negative action. If you want to mock something you need to check if that is justified. <url>https://nextdoor.com/p/k98S5D2Lf8sW/c/1194798487?utm_source=share&utm_campaign=1722356062566</url></msg>
     </res>
   </inv>

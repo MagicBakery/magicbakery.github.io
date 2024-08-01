@@ -43,31 +43,48 @@ function AtGitHub(){
 function AuthorButton(elAuthor){
   // 20240730: StarTree: This handles the effect when the big author button is pressed.
   // Algorithm: Interpret the current state and cycle through these states:
-  // 1) [0] SHOW RES LIST | SHOW Card
-  // 2) [1] SHOW RES LIST | HIDE Card
-  // 3) [3] HIDE RES LIST | HIDE Card
-  // 4) [2] HIDE RES LIST | SHOW Card
+  // 1) [0] SHOW BANNER | SHOW SIDEPANEL
+  // 2) [1] SHOW BANNER | HIDE SIDEPANEL
+  // 3) [3] HIDE BANNER | HIDE SIDEPANEL
+  // 4) [2] HIDE BANNER | SHOW SIDEPANEL
   var elBoard = SearchPS(elAuthor,"board");
-  var elResList = elBoard.querySelector("[ResList]");
-  var elCardList = elBoard.querySelector("[CardList]");
+  var elBanner = elBoard.querySelector("[Banner]");
+  var elSidePanel = elBoard.querySelector("[SidePanel]");
 
   // If both lists are empty, just return.
-  if(IsBlank(elResList) && IsBlank(elCardList)){return;}
+  if(IsBlank(elBanner) && IsBlank(elSidePanel)){return;}
 
   // If one list is empty, toggle the other.
-  if(IsBlank(elResList)){ToggleHide(elCardList);return;}
-  if(IsBlank(elCardList)){ToggleHide(elResList);return;}
+  if(IsBlank(elBanner)){ToggleHide(elSidePanel);return;}
+  if(IsBlank(elSidePanel)){ToggleHide(elBanner);return;}
 
-  // If Both List Exist, Cycle
+  // If Both List Exist, Cycle through them.
   var mState = 0;
-  if(elResList.classList.contains("mbhide")){mState += 2;}
-  if(elCardList.classList.contains("mbhide")){mState += 1;}
-  switch(mState){
-    case 0: ToggleHide(elCardList); return;
-    case 1: ToggleHide(elResList); return;
-    case 3: ToggleHide(elCardList); return;
-    case 2: ToggleHide(elResList); return;
+  if(elBanner.classList.contains("mbhide")){mState += 2;}
+  if(elSidePanel.classList.contains("mbhide")){mState += 1;}
+
+  // On Desktop:
+  if(!AtMobile()){
+    switch(mState){
+      case 0: ToggleHide(elSidePanel); return;
+      case 1: ToggleHide(elBanner); return;
+      case 3: ToggleHide(elSidePanel); return;
+      case 2: ToggleHide(elBanner); return;
+    }
+  }else{ // On Mobile: only the side panel or the banner should be displayed. so cycle through these: If Both are shown, the next step should hide the banner.
+  // X) [0] SHOW BANNER | SHOW SIDEPANEL
+  // 1) [2] HIDE BANNER | SHOW SIDEPANEL
+  // 2) [1] SHOW BANNER | HIDE SIDEPANEL
+  // 3) [3] HIDE BANNER | HIDE SIDEPANEL
+    switch(mState){
+      case 0: ToggleHide(elBanner); return;
+      case 2: ToggleHide(elBanner); ToggleHide(elSidePanel); return;
+      case 1: ToggleHide(elBanner); return;
+      case 3: ToggleHide(elSidePanel); return;
+      
+    }
   }
+  
 }
 function BasePath(){
   // 20230916: StarTree: Returns the base path depending on where the code is running at.
@@ -1795,39 +1812,9 @@ function MacroResItem(mTag){
   // 20240728: StarTree: Added for the Grocery List so that the data can be stored on the phone.
   mHTML += "<lnk>" + mItem +"|</lnk>"
 
-  // TITLE: Availablility Status
+  // TITLE: Icon
   //mHTML += "<span class=\"mbILB25\" style=\"font-size:14px\">";
-  mHTML += "<span class=\"mbILB30\">";
-  
-  if(mTag.hasAttribute('todo')){
-    mHTML += "📌" ;
-  
-  }else if(mTag.hasAttribute('channel')){
-    if(mChannel=="Crunchyroll"){
-      mHTML += "🥐";
-    }
-    if(mChannel == "Netflix"){
-      mHTML += "🌮";
-    }
-  }else if(mTag.hasAttribute('icon')){    
-    mHTML += mTag.getAttribute("icon");
-  }else if(mTag.hasAttribute('unanswered')){
-    mHTML += "📌" ;    
-  }else if(mTag.hasAttribute('done')){
-    mHTML += "✅" ;
-  }else if(mTag.hasAttribute('answered')){
-    mHTML += "✅" ;
-
-  }else if(mTag.hasAttribute('available')){
-    mHTML += "🟢" ;
-  }else if(mTag.hasAttribute('seeking')){
-    mHTML += "⚪";
-  }else if(bSpoiler){
-    mHTML += "🟤";
-  }else{
-    mHTML += "🟡";
-  }
-  mHTML += "</span>";
+  mHTML += "<span class=\"mbILB30\">" + ResIcon(mTag) + "</span>";
 
  
 
@@ -2656,15 +2643,15 @@ function RenderStart(el){
 function ResCardList(elRecord){
   // 20240730: StarTree: Given a record, return a section HTML code for displaying cards.
 
-  // STEP: Applicability:
-  var elInv = elRecord.querySelector("Inv");
-  if(IsBlank(elInv)){return "";}
-  var elCardList = elInv.querySelectorAll("Card");
+  // STEP: Applicability: 20240731: Vivi: Query for all cards in the node, not just from the INV section.
+  //var elInv = elRecord.querySelector("Inv");
+  //if(IsBlank(elInv)){return "";}
+  var elCardList = elRecord.querySelectorAll("Card");
   if(elCardList.length==0){return "";}
 
   // STEP: Make the Card section
   // 20240730: StarTree: Milestone 1: Just display the first card.
-  var mHTML = "<div CardList class='mbCardRM'>";
+  var mHTML = "<div SidePanel class='mbCardRM'>";
   mHTML += "<div>" + elCardList[0].outerHTML + "</div>";
   var mIndex=""
   if(elCardList.length>1){ // Gallery Code
@@ -2680,13 +2667,40 @@ function ResCardList(elRecord){
   mHTML += "</div>";  
   return mHTML;
 }
+function ResIcon(mRes){
+  // 20240731: StarTree: Returns an icon based on the content of the RES object.
+
+  // RULE: If the RES contains any icon field with a pin, use the pin as the icon.
+  var mPins = mRes.querySelectorAll("[icon=📌]");
+  if(mPins.length > 0){return "📌";}
+
+  // RULE: If the RES has one of these status attribute, then ignore any specified icon.
+  if(mRes.hasAttribute('todo')){return "📌";}
+  if(mRes.hasAttribute('unanswered')){return "📌";}
+  if(mRes.hasAttribute('done')){return "✅";}
+  if(mRes.hasAttribute('answered')){return "✅";}
+  
+  // RULE: If the Icon is defined, use the icon.
+  if(mRes.hasAttribute('icon')){return mRes.getAttribute("icon");}
+
+  // RULE: If there is no icon specified, check available flags.
+  
+  if(mRes.hasAttribute('unavailable')){return "🟡";}
+  if(mRes.hasAttribute('spoiler')){return "🟤";}
+  if(mRes.hasAttribute('seeking')){return "⚪";}
+  if(mRes.hasAttribute('available')){return "🟢";}
+
+  // RULE: If it doesn't match any situation above, use a checkmark.
+  return "✅";
+}
 function ResList(elRecord,bShow){
   // 20240730: StarTree: Given a record (a node) object, return the section HTML code of a search enabled RES List
   
   // STEP: Applicability Check: If the record does not have a RES items in the INV section, return an empty string.
-  var elInv = elRecord.querySelector("Inv");
-  if(IsBlank(elInv)){return "";}
-  var elResList = elInv.querySelectorAll("Res");
+  // 20240731: Vivi: Get RES items from the whole node, not just the INV section.
+  //var elInv = elRecord.querySelector("Inv");
+  //if(IsBlank(elInv)){return "";}
+  var elResList = elRecord.querySelectorAll("Res");
   if(elResList.length==0){return "";}
 
   // STEP: There is content, so make the searchable RES List.
@@ -3895,13 +3909,14 @@ function SearchWrapper(elScope,iInner,bShow){
   if(!bShow){
     mHideClass = " class=\"mbhide\"";
   }
-  var mHTML = "<div ResList"+ mHideClass +" style=\"margin-bottom:5px\"><div control>" + 
+  var mHTML = "<div banner"+ mHideClass +" style=\"margin-bottom:5px\"><div control>" + 
   "<input type=\"text\" onclick=\"TextSearchPN(this)\" onkeyup=\"TextSearchPN(this)\" placeholder=\"Search...\" title=\"Input a keyword\" style=\"width:100px\"> " + 
   "<span>" + 
-  "<a class=\"mbbutton\" style=\"float:right\" onclick=\"QSLSortRandom(this)\">🎲</a>" + 
-  "<a class=\"mbbutton\" onclick=\"QSLSortByName(this)\">🍎</a>" +
-  "<a class=\"mbbutton\" onclick=\"QSLSortByDate(this)\" title=\"Sort by registry date\">🗓️</a>" +
-  "<a class=\"mbbutton\" onclick=\"QSLSortByIcon(this,'📌')\">📌</a>";
+  "<a class=\"mbbutton\" style=\"float:right\" onclick=\"QSLSortRandom(this)\">🎲</a> " + 
+  "<a class=\"mbbutton\" onclick=\"QSLSortByName(this)\">🍎</a> " +
+  "<a class=\"mbbutton\" onclick=\"QSLSortByIcon(this,'📌')\">📌</a> " +
+  "<a class=\"mbbutton\" onclick=\"QSLSortByDate(this)\" title=\"Sort by registry date\">🗓️</a> " ;
+  
 
   // 20240720: StarTree: If there is a search section, add it here.
   try{
