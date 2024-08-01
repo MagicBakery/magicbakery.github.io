@@ -43,10 +43,10 @@ function AtGitHub(){
 function AuthorButton(elAuthor){
   // 20240730: StarTree: This handles the effect when the big author button is pressed.
   // Algorithm: Interpret the current state and cycle through these states:
-  // 1) [0] SHOW BANNER | SHOW SIDEPANEL
-  // 2) [1] SHOW BANNER | HIDE SIDEPANEL
-  // 3) [3] HIDE BANNER | HIDE SIDEPANEL
-  // 4) [2] HIDE BANNER | SHOW SIDEPANEL
+  // 1) [2] HIDE BANNER | SHOW SIDEPANEL 
+  // 2) [0] SHOW BANNER | SHOW SIDEPANEL 
+  // 3) [1] SHOW BANNER | HIDE SIDEPANEL
+  // 4) [3] HIDE BANNER | HIDE SIDEPANEL 
   var elBoard = SearchPS(elAuthor,"board");
   var elBanner = elBoard.querySelector("[Banner]");
   var elSidePanel = elBoard.querySelector("[SidePanel]");
@@ -66,10 +66,10 @@ function AuthorButton(elAuthor){
   // On Desktop:
   if(!AtMobile()){
     switch(mState){
+      case 2: ToggleHide(elBanner); return;
       case 0: ToggleHide(elSidePanel); return;
       case 1: ToggleHide(elBanner); return;
       case 3: ToggleHide(elSidePanel); return;
-      case 2: ToggleHide(elBanner); return;
     }
   }else{ // On Mobile: only the side panel or the banner should be displayed. so cycle through these: If Both are shown, the next step should hide the banner.
   // X) [0] SHOW BANNER | SHOW SIDEPANEL
@@ -5481,46 +5481,46 @@ function GuildEXP(iMember){
   // 20230129: Ledia: Added for total EXP.
   // #GuildEXP
   var dict={
-"3B": 5395,
+"3B": 5411,
 "44": 574,
-"Albatross": 1679,
+"Albatross": 1697,
 "Amelia": 717,
-"Arcacia": 6854,
-"Black": 10744,
-"Cardinal": 1867,
-"Casey": 3871,
-"Evelyn": 11086,
-"Fina": 2129,
-"Gaia": 1114,
-"Helen": 2400,
-"Ivy": 3967,
-"James": 2633,
-"Kisaragi": 4695,
-"Ledia": 6949,
-"LRRH": 8040,
-"Melody": 713,
-"Mikela": 1186,
-"Natalie": 4773,
-"P4": 5296,
-"Patricia": 2604,
-"Robert": 92,
-"Sasha": 5980,
-"Skyle": 2571,
-"StarTree": 11308,
-"Sylvia": 4968,
-"Tanya": 7067,
-"Therese": 4,
-"V": 3269,
-"Vivi": 4934,
-"Vladanya": 2335,
-"Zoey": 6948,
-"Koyo": 29,
+"Arcacia": 6886,
+"Black": 11096,
+"Cardinal": 1873,
+"Casey": 3884,
 "Emi": 11,
-"RS": 11,
+"Evelyn": 11111,
+"Fina": 2133,
+"Gaia": 1114,
+"Helen": 2410,
+"Ivy": 3980,
+"James": 2637,
 "Karl": 26,
-"Rikk": 44,
-"Neil": 245,
 "Ken": 708,
+"Kisaragi": 4721,
+"Koyo": 38,
+"Ledia": 6958,
+"LRRH": 8067,
+"Melody": 725,
+"Mikela": 1190,
+"Natalie": 4782,
+"Neil": 245,
+"P4": 5310,
+"Patricia": 2619,
+"Rikk": 44,
+"Robert": 96,
+"RS": 11,
+"Sasha": 5989,
+"Skyle": 2592,
+"StarTree": 11363,
+"Sylvia": 4972,
+"Tanya": 7072,
+"Therese": 10,
+"V": 3279,
+"Vivi": 4944,
+"Vladanya": 2358,
+"Zoey": 6963,
   };
   return dict[iMember];
 }
