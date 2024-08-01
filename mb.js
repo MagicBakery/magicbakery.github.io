@@ -7065,7 +7065,8 @@ function NMTopic(el,iSecIcon){
   var mHTML = "<topic dts=\""+mDTS+"\" icon=\""+iSecIcon+"\" title=\""+mTitle+"\">\n"
   
   // 20240417: StarTree: Special format for Initate node section.
-  if(iSecIcon=="🌱"){
+  // 20240801: Black: Don't need this any more.
+  if(false && iSecIcon=="🌱"){
     mHTML += "\t<div class=\"mbpdc\"><b>First</b> word</div><hr class=\"mbCL\">\n";
   }
   
@@ -7263,7 +7264,7 @@ function NMNode(el,bChatChannel){
   if(bChatChannel && NotBlank(mParentID)){mTags += " data-" + mParentID;}
   if(bChatChannel){if(NotBlank(mPrevID)){mTags += " data-" + mPrevID;}}
 
-  var mSubTitle = "Subtitle";
+  //var mSubTitle = "Subtitle"; // 20240801: Black Removed.
   var mKids="";
   var mMusic="";
   var mHTML = "<div id=\"P" + mID + "\" date=\"" + mYYYYMMDD +"\" time=\"" + mHHMM + "\"" + mTags;
@@ -7290,7 +7291,9 @@ function NMNode(el,bChatChannel){
     mHTML += "\t<inv></inv>\n";
   }  
   mHTML += "\t<ref></ref>\n";
-  mHTML += "\t<node>{\"id\":\""+mID+"\",\"parentid\":\""+mParentID+"\",\"parentname\":\""+mParent+"\",\"icon\":\""+mIcon+"\",\"title\":\""+mTitle+"\",\"subtitle\":\""+mSubTitle+"\",\"kids\":\""+mKids+"\",\"img\":\""+mImg+"\",\"music\":\""+mMusic+"\",\"author\":\""+mAuthor+"\"";
+
+  // 20240801: Black Removed subtitle.
+  mHTML += "\t<node>{\"id\":\""+mID+"\",\"parentid\":\""+mParentID+"\",\"parentname\":\""+mParent+"\",\"icon\":\""+mIcon+"\",\"title\":\""+mTitle+"\",\"kids\":\""+mKids+"\",\"img\":\""+mImg+"\",\"music\":\""+mMusic+"\",\"author\":\""+mAuthor+"\"";
   if(bChatChannel){
     mHTML += ",\"prev\":\"" + mPrevID + "\"";
     mHTML += ",\"next\":\"" + mNextID + "\"";
