@@ -232,7 +232,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     // 20240731: StarTree: If there is no RES or Card, but there is INV, show the content of INV.
     var mInv = elRecord.querySelector("inv");
     if(IsBlank(mResList) && IsBlank(mCardList) && NotBlank(mInv)){
-      mHTMLInner += "<div Reslist>" + mInv.innerHTML + "</div>";
+      mHTMLInner += "<div Banner>" + mInv.innerHTML + "</div>";
     }
 
 
@@ -1727,6 +1727,7 @@ function MacroResCalendar(mTag){
     // STEP: Add the OnClick function call
     if(bRolling && mDay > 0){ // Assumes that Rolling calendar is a happy/kudo calendar
       let mMMDD = mMonth + mDay.toString().padStart(2,'0');
+      //mHTML += " onclick=\"QSL(this,&quot;[date$='"+mMMDD+"'][data-happy],[id][date][time]:has([date$='"+mMMDD+"'][icon='💟'],[date$='"+mMMDD+"'][icon='💗'],mbkudo[date$='"+mMMDD+"'])&quot;)\"";
       mHTML += " onclick=\"QSL(this,&quot;[date$='"+mMMDD+"'][data-happy],[id][date][time]:has([date$='"+mMMDD+"'][icon='💟'],[date$='"+mMMDD+"'][icon='💗'],mbkudo[date$='"+mMMDD+"'])&quot;)\"";
     }
 
@@ -2185,7 +2186,7 @@ function MacroMsg(el){
     }
     let elNew = document.createElement("span");
     elNew.setAttribute('DTS',mDTS);
-    elNew.setAttribute("bubble",''); // 20240430: Remember that it is a bubble.
+    elNew.setAttribute("bubble",''); // 20240430: Remember that it is a bubble.    
     elNew.setAttribute('parent',mParent);
     elNew.setAttribute('parentname',mParentName);
     elNew.innerHTML = mHTML;
@@ -3914,7 +3915,7 @@ function SearchWrapper(elScope,iInner,bShow){
   var mHTML = "<div banner"+ mHideClass +" style=\"margin-bottom:5px\"><div control>" + 
   "<input type=\"text\" onclick=\"TextSearchPN(this)\" onkeyup=\"TextSearchPN(this)\" placeholder=\"Search...\" title=\"Input a keyword\" style=\"width:100px\"> " + 
   "<span>" + 
-  "<a class=\"mbbutton\" style=\"float:right\" onclick=\"QSLSortRandom(this)\">🎲</a> " + 
+  "<a class=\"mbbutton\" style=\"float:right\" onclick=\"QSLSortRandom(this)\">🎲</a>" + 
   "<a class=\"mbbutton\" onclick=\"QSLSortByName(this)\">🍎</a> " +
   "<a class=\"mbbutton\" onclick=\"QSLSortByIcon(this,'📌')\">📌</a> " +
   "<a class=\"mbbutton\" onclick=\"QSLSortByDate(this)\" title=\"Sort by registry date\">🗓️</a> " ;
@@ -4711,7 +4712,7 @@ function QSLEL(elSearchList,iQuery,elArchives,bOffline){
           mHTML += "<code class='mbRefS mbCB'></code>";
 
           mHTML += "<div control>";
-          mHTML += "<hide>"+ elDiv.textContent +"</hide>";
+          mHTML += "<hide>"+ elDiv.innerHTML + "</hide>"; // 20240802: Arcacia: Changed to use innherHTML to query icons.
 
           
           mHTML += "<a class='mbbutton mbILB25' onclick='QSLTree(this,\"[data-"+ mKids[k] +"]\")'>📒</a>";
@@ -4734,11 +4735,12 @@ function QSLEL(elSearchList,iQuery,elArchives,bOffline){
       if(NotBlank(elSearchList.previousElementSibling)){
         mHTML = "<a class='mbbutton' onclick='ShowNextInline(this)'><small><b>Found: "
         + mCount +"</b></small>" + OfflineTag(bOffline) + "</a><hide><small> "
-        + "<input type='text' onclick='TextSearchPS(this)' onkeyup='TextSearchPS(this)' placeholder='Search...' title='Input a keyword' style='width:80px'>"
-        + "<button class='mbbutton' onclick='QSLSortByName(this)'>🍎</button>" 
-        + "<button class='mbbutton' onclick='QSLSortBy(this,\"date\")'>🗓️</button>"
-        + "<button class='mbbutton' onclick='QSLSortBy(this,\"size\")'>🐘</button>"
-        + "<button class='mbbutton' onclick='QSLSortRandom(this)'>🎲</button>"
+        + "<input type='text' onclick='TextSearchPS(this)' onkeyup='TextSearchPS(this)' placeholder='Search...' title='Input a keyword' style='width:80px'> "
+        + "<a class='mbbutton' onclick='QSLSortByName(this)'>🍎</a> " 
+        + "<a class=\"mbbutton\" onclick=\"QSLSortByIcon(this,'📌')\">📌</a> "
+        + "<a class='mbbutton' onclick='QSLSortBy(this,\"date\")'>🗓️</a> "
+        + "<a class='mbbutton' onclick='QSLSortBy(this,\"size\")'>🐘</a> "
+        + "<a class='mbbutton' onclick='QSLSortRandom(this)'>🎲</a>"
         + "</small></hide>";
         elSearchList.previousElementSibling.innerHTML = mHTML;
         elSearchList.previousElementSibling.classList.remove('mbhide');
@@ -4857,7 +4859,15 @@ function QSLSortByIcon(el,iIcon){
   var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
   elEntries.forEach((item)=>{
     // STEP: Count the number of such icon in the item.
-    let mCount = item.querySelectorAll("[icon="+iIcon+"]").length;
+    // 20240802: Arcacia: First check if there is any "icon" attribute, if not, just match the icon.
+    let mCount = item.querySelectorAll("[icon]").length;
+    if(mCount>0){
+      mCount = item.querySelectorAll("[icon=\""+iIcon+"\"]").length;
+      DEBUG("Icon=" + mCount);
+    }else{
+      mCount = item.innerHTML.split(">"+iIcon+"<").length -1;
+      DEBUG("Raw=" + mCount);
+    }    
     item.firstElementChild.setAttribute("count",mCount);
     
     item.firstElementChild.innerHTML = iIcon + "<b>" + mCount + "</b>";
