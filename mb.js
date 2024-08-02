@@ -7321,8 +7321,10 @@ function NMRES(el){
   // 20240728: StarTree: Makes a generic RES object with the item code filled.
   var elWidget = SearchPS(el,"Widget");
   var mDTS = Default(elWidget.querySelector('[NM-DTS]').value,DTSNow());
-  var mIcon = Default(elWidget.querySelector('[NM-Icon]').value,"📌"); 
-  var mHTML = "<res icon=\""+mIcon+"\" item=\""+DTC(mDTS)+"\" title=\"Title\" tags=\"\">\n</res>";
+  // 20240802: StarTere: Don't add an icon by default.
+  //var mIcon = Default(elWidget.querySelector('[NM-Icon]').value,"📌"); 
+  //var mHTML = "<res icon=\""+mIcon+"\" item=\""+DTC(mDTS)+"\" title=\"Title\" tags=\"\">\n</res>";
+  var mHTML = "<res item=\""+DTC(mDTS)+"\" title=\"Title\" tags=\"\">\n</res>";
   navigator.clipboard.writeText(mHTML);
 }
 function NMURL(el){
