@@ -6167,6 +6167,7 @@ function NodeEditWidgetLoad(elWidget,mDTS){
   // 20240804: StarTree: If this widget is the notepad being loaded by NodeEdit button, populate the content with local storage content.
   if(mDTS != "20240330201200"){return;}
   var mNodeID = Parameter("NodeEditID");
+  if(IsBlank(mNodeID)){return}
   elWidget.setAttribute("NodeEditID",mNodeID);  
   // STEP: Remove the Honey Button.
   var elButton = elWidget.querySelector("button[title='Use Cookie']");
