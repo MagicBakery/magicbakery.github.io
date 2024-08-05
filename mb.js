@@ -198,12 +198,20 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   // 20231224: StarTree: If the node has a <content> section, then assume that this is the new node style that has <node>, <content>, and <ref> sections.
   var elBanner; try{elBanner = elRecord.querySelector('banner');}catch(error){}        
   var elContent = elRecord.querySelector('content');
+
+
   var elNode = elRecord.querySelector('node');
-  var mHasCard = false;
+  var mNodeID = "";
 
   if(!IsBlank(elContent) && !IsBlank(elNode)){ 
     // 20231224: StarTree: New Format
     var mJSON = JSON.parse(elNode.innerHTML);
+    mNodeID = mJSON.id;
+
+    // 20240804: StarTree: Add local content if enabled.
+    if(NodeEditModeCheck()){
+      elContent.innerHTML += Default(localStorage.getItem(mNodeID + "-N"),"");
+    }
 
     var mHTMLInner = "<span class='mbDayHeader'></span>";
     mHTMLInner += "<lnk>" + mJSON.id + "|" + mJSON.icon +"</lnk>&nbsp;<a class='mbbutton' onclick='ShowBothInline(this)'>" + mJSON.title;
@@ -264,10 +272,6 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       if(NotBlank(mJSON.author)){
         mHTMLInner += "<a class='mbbutton' onclick='AuthorButton(this)' style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></a>";
       }
-    }else{
-      if(mHasCard ){
-        mHTMLInner += "<span style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></span>";
-      }
     }
 
     // STEP: Show Chat header section if it is a chat node.
@@ -276,33 +280,9 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     }else{
       // STEP: CONTENT Section
       // 20240720: StarTree: Adding a default search box.      
-      if(mHasCard==false && false){ 
-        mHTMLInner += "<div control>"; 
-        mHTMLInner += "<input type=\"text\" onclick=\"TextSearchPN(this)\" onkeyup=\"TextSearchPN(this)\" placeholder=\"Search...\" title=\"Input a keyword\" style=\"width:100px\"> ";
 
-        // 20240721: StarTree: Default Search List buttons
-        mHTMLInner += "<span>";
-        mHTMLInner += "<a class=\"mbbutton\" style=\"float:right\" onclick=\"QSLSortRandom(this)\">🎲</a>";
-        mHTMLInner += "<a class=\"mbbutton\" onclick=\"QSLSortByName(this)\">🍎</a>";
-        mHTMLInner += "<a class=\"mbbutton\" onclick=\"QSLSortByDate(this)\" title=\"Sort by registry date\">🗓️</a>";
-
-        // 20240720: StarTree: If there is a search section, add it here.
-        try{
-          var elSearch = elRecord.querySelector('Search');
-          mHTMLInner += elSearch.innerHTML;
-        }catch(error){          
-        }
-
-
-        mHTMLInner += "</span>"; // End the control category buttons
-        mHTMLInner += "<div class=\"mbpuzzle mbhide\"></div>"; // Control Details Viewer
-        mHTMLInner += "</div>"; 
-        mHTMLInner += "<div class=\"mbSearch mbStack\" style=\"max-height:30vh;overflow-y:auto;padding:5px 2px;display:flex;flex-direction: column;gap:10px;\">";
-      }
       mHTMLInner += elContent.innerHTML;
-      if(mHasCard==false && false){
-        mHTMLInner += "</div>";
-      }
+
     }
 
     // STEP: Close the Card section.
@@ -321,6 +301,8 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       // STEP: Include custom reference links.
       // 20240407: Skyle: Rearranged this first because the link is green.
       mHTMLInner += elRef.innerHTML;
+
+      
 
 
       // 20240304: Ivy: Need to show parent link
@@ -369,7 +351,10 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       //mHTMLInner += "<a class='mbbutton' onclick=\"QueryAllPSL(this,'[data-" + mJSON.id + "]',false,'board')\">💬 Discussions</a>";
       mHTMLInner += "<a class='mbbutton' onclick=\"QSLBL(this,'[id][date][time][data-" + mJSON.id + "],[id][date][time]:has([data-" + mJSON.id + "])')\">💬 Discussions</a>";
       
-
+      // 20240804: StarTree: Edit Mode Button @@@@
+      if(NotBlank(mNodeID)){
+        mHTMLInner += " <a class=\"mbbutton\" onclick=\"NodeEdit(this,'"+mNodeID+"')\">📝</a>";
+      }
       mHTMLInner += "</div>";
     }
     //mHTMLInner += "<hr class='mbCB'>";
@@ -1728,7 +1713,8 @@ function MacroResCalendar(mTag){
     if(bRolling && mDay > 0){ // Assumes that Rolling calendar is a happy/kudo calendar
       let mMMDD = mMonth + mDay.toString().padStart(2,'0');
       //mHTML += " onclick=\"QSL(this,&quot;[date$='"+mMMDD+"'][data-happy],[id][date][time]:has([date$='"+mMMDD+"'][icon='💟'],[date$='"+mMMDD+"'][icon='💗'],mbkudo[date$='"+mMMDD+"'])&quot;)\"";
-      mHTML += " onclick=\"QSL(this,&quot;[date$='"+mMMDD+"'][data-happy],[id][date][time]:has([date$='"+mMMDD+"'][icon='💟'],[date$='"+mMMDD+"'][icon='💗'],mbkudo[date$='"+mMMDD+"'])&quot;)\"";
+      //mHTML += " onclick=\"QSL(this,&quot;[date$='"+mMMDD+"'][data-happy],[id][date][time]:has([date$='"+mMMDD+"'][icon='💟'],[date$='"+mMMDD+"'][icon='💗'],mbkudo[date$='"+mMMDD+"'])&quot;)\"";
+      mHTML += " onclick=\"QSLRollingKudo(this,&quot;"+mMMDD+"&quot;)\"";
     }
 
     mHTML += ">";
@@ -2625,7 +2611,7 @@ function RenderStart(el){
 
   var mHTML="";
   // STEP: Show the Avatar with optional EXP icon.
-  var mSPK = Default(el.getAttribute("SPK"),"");
+  var mSPK = Default(SPKAvatar(el),"");
   var mEXP = RenderExp(el);
   var mIcon = Default(el.getAttribute("Icon"),"⭐");
   
@@ -2703,7 +2689,7 @@ function ResList(elRecord,bShow){
   // 20240731: Vivi: Get RES items from the whole node, not just the INV section.
   //var elInv = elRecord.querySelector("Inv");
   //if(IsBlank(elInv)){return "";}
-  var elResList = elRecord.querySelectorAll("Res");
+  var elResList = elRecord.querySelectorAll("Res[item]");
   if(elResList.length==0){return "";}
 
   // STEP: There is content, so make the searchable RES List.
@@ -2760,15 +2746,19 @@ function RenderEnter(el){
   // 20240420: StarTree: Renders a bubble in the a traditional ENTER format.
   var mHTML="";
   // STEP: Show the Avatar with optional EXP icon.
-  var mSPK = Default(el.getAttribute("SPK"),"???");
+  var mSPK = Default(SPKAvatar(el),"???");
   var mEXP = RenderExp(el);
+  var mTitle = el.getAttribute("Title");
   var mIcon = Default(el.getAttribute("Icon"),"⭐");
   mHTML = "<div class=\"mbCL\"></div>"
   mHTML += RenderAvXP(mSPK,mEXP,mIcon,el.getAttribute('rank'),el.getAttribute('mode'));
   if(el.hasAttribute('DTS')){
-    mHTML += "<a class='mbbutton' onclick='MsgContext(this)'>" + mSPK + ":</a> ";
+    mHTML += "<a class='mbbutton' onclick='MsgContext(this)'>" + mSPK + "</a>" + SPKMultiStr(el) +" ";
   }else{
     mHTML += "<b>"+mSPK+":</b> ";
+  }
+  if(NotBlank(mTitle)){
+    mHTML += "<b>" + mTitle +":</b> ";
   }
   mHTML += el.innerHTML;
   //mHTML += "<hr class='mbCB'>";
@@ -2831,9 +2821,10 @@ function RenderMsg(el){
   var mHTML = "";
   let mDTS = el.getAttribute("DTS");
   if(NotBlank(mDTS)){mHTML += " DTS='" + mDTS + "'";}
-  let mSPK = el.getAttribute("SPK");  
+  let mSPK = SPKAvatar(el);  
   let mRank = el.getAttribute("Rank")  ;
   let mEXP = RenderExp(el);
+  let mTitle = el.getAttribute("Title");
   let mIcon = el.getAttribute("Icon");
   mHTML = "<button class=\"mbbutton";
 
@@ -2856,6 +2847,7 @@ function RenderMsg(el){
     mHTML += " Icon='" + mIcon + "'";
   }
   mHTML += ">";
+  if(NotBlank(mTitle)){mHTML += "<small>" + mTitle + "</small> ";}
   if(NotBlank(mIcon)){mHTML += "<small d-XPIcon>"+mIcon+"</small>";}
   //if(NotBlank(mEXP)){mHTML += "<sup class='mbSS'>⭐</sup>";}
   mHTML += "<span class=\"";
@@ -2867,13 +2859,16 @@ function RenderMsg(el){
   if(NotBlank(mRank) || (NotBlank(mEXP) && mEXP > 1)){mHTML += "<small d-XP>" + mEXP + " </small>";}
   mHTML += "</span>";
   
-  mHTML += "<div class='mbavem mb" + mSPK + "'></div></button><hide>";
+  mHTML += "<div class='mbavem mb" + mSPK + "'></div>";
+  mHTML += SPKPlus(el);
+  mHTML += "</button><hide>";
   if(el.hasAttribute('DTS')){
-    mHTML += "<a class='mbbutton' onclick='MsgContext(this)'>" + mSPK + ":</a> ";
+    mHTML += "<a class='mbbutton' onclick='MsgContext(this)'>" + mSPK + "</a>" + SPKMultiStr(el) +" ";
   }else{
-    mHTML += "<b>"+mSPK+":</b> ";
+    mHTML += "<b>"+ mSPK + SPKMultiStr(el) + "</b> ";
   }
-  mHTML += el.innerHTML + "</hide>"
+  mHTML += el.innerHTML;
+  mHTML += "</hide>";
   return mHTML;
 }
 function MacroID(eScopeID){
@@ -3947,6 +3942,45 @@ function ShowSkip(el) {
       eNext.style.display = "none";
   }
 }
+function SPKAvatar(el){
+  // 20240803: StarTree: Returns the first person in SPK as the avatar speaker.
+  // .. Needs to handle two formats of SPK:
+  // .. 1) SPK="StarTree"
+  // .. 2) SPK="|StarTree|Tanya|"
+  
+  var mSPK = el.getAttribute("SPK");
+  if(IsBlank(mSPK)){return "";}
+  var mSPKs = mSPK.split("|");
+  if(mSPKs.length==1){return mSPK;} // Case 1
+  return mSPKs[1];
+}
+function SPKPlus(el){
+  // 20240803: StarTree: Returns a mark string to indicate that the entry EXP applies to multiple persons.
+  var mSPK = el.getAttribute('SPK');
+  if(IsBlank(mSPK)){return ""}
+  var mSPKs = mSPK.split("|");
+  if(mSPKs.length<=2){return ""}
+  return " <small><b>" + String(mSPKs.length-2)+"</b></small> ";
+}
+function SPKMultiStr(el){
+  // 20240803: StarTree: Returns a string listing the SPK if it contains multiple.
+  var mSPK = el.getAttribute("SPK");
+  if(IsBlank(mSPK)){return ":"}
+  var mSPKs = mSPK.split("|");
+  if(mSPKs.length<=2){return ":"}
+  var mHTML="";
+  mHTML = mSPK.replace("|"+mSPKs[1]+"|","");
+  mHTML = mHTML.slice(0,mHTML.length-1).replaceAll("|",", ");
+
+  // Kudo Format: 
+  if(el.getAttribute("icon")=="💟"){
+    mHTML = "<b> thanks " + mHTML + ":</b>";
+  }else{
+    // Generic Format:
+    mHTML = "<b> with " + mHTML + ":</b>";
+  }
+  return mHTML;  
+}
 function HideN3Inline(el) {
   // 20230213: StarTree: For Vacation Island
   var eNext = el.nextElementSibling;
@@ -4576,9 +4610,7 @@ function QSLEL(elSearchList,iQuery,elArchives,bOffline){
     if(IsBlank(elArchives)){
       // 20240510: Skyle: If this function was called with blank elArchives argument this is called for the first time for the query.
       elArchives=Offline();
-      if(NotBlank(elArchives)){
-        bOffline = true;
-      }
+      if(NotBlank(elArchives)){bOffline = true;}
     }
     if(IsBlank(elArchives)){
       elArchives = document.querySelector('archives');
@@ -4598,16 +4630,17 @@ function QSLEL(elSearchList,iQuery,elArchives,bOffline){
     // STEP: The archive argument is not blank. Just get the data from the archive.
     // 20240510: Skyle: The data in the archive may not be complete.
 
-    var bMark = NodeMarkCookieCheck();
-    var mCount = 0;
+
     //var elRecords = elArchives.querySelectorAll(iQuery);
     //var elRecords = $(elArchives, "archives >" + iQuery);
     //var elRecords = $("html > archives > [archive] > " + iQuery);
     var elRecords = $(elArchives).find(iQuery);
     //var elRecords = $(iQuery);
-    var mHTML = "";
     // Loop through and add each child.
 
+    QSLContentCompose(bOffline,elRecords,elSearchList);
+
+    /*
     setTimeout(function(){
       for(let i=0;i<elRecords.length;i++){
         let elDiv = elRecords[i];
@@ -4745,7 +4778,7 @@ function QSLEL(elSearchList,iQuery,elArchives,bOffline){
         elSearchList.previousElementSibling.innerHTML = mHTML;
         elSearchList.previousElementSibling.classList.remove('mbhide');
       }
-    },0);
+    },0);*/
   });//END Document Ready
 }
 function TitleToTag(mTitle){
@@ -4863,10 +4896,8 @@ function QSLSortByIcon(el,iIcon){
     let mCount = item.querySelectorAll("[icon]").length;
     if(mCount>0){
       mCount = item.querySelectorAll("[icon=\""+iIcon+"\"]").length;
-      DEBUG("Icon=" + mCount);
     }else{
       mCount = item.innerHTML.split(">"+iIcon+"<").length -1;
-      DEBUG("Raw=" + mCount);
     }    
     item.firstElementChild.setAttribute("count",mCount);
     
@@ -4976,6 +5007,224 @@ function Cap(mStr){
     return mStr;
   }
 }
+function QSLRollingKudo(el,mDate){
+  // 20240804: Skyle: Query for the rolling kudos diary.
+  var elSearchList = SearchPS(el,"control").nextElementSibling.lastElementChild;
+  elSearchList.parentNode.classList.remove('mbhide');
+  QSLRollingKudoEL(elSearchList,mDate);
+}
+function QSLRollingKudoEL(elSearchList,mDate,elArchives,bOffline){
+  // 20240804: Skyle: Query for the rolling kudos diary.
+  // .. First query all entries with date or dts with the mDate substring, 
+  // .. then check for correcty matches.
+  
+  var iQuery = "[date*='"+mDate+"'][data-happy],[id][date][time]:has([dts*='"+mDate+"'][icon='💟'],[dts*='"+mDate+"'][icon='💗'],mbkudo[dts*='"+mDate+"'])";
+  var iQuery2 = "[date*='"+mDate+"'][data-happy],[dts*='"+mDate+"'][icon='💟'],[dts*='"+mDate+"'][icon='💗'],mbkudo[dts*='"+mDate+"']";
+
+  elSearchList.previousElementSibling.innerHTML = "<small>Loading " + iQuery + "... </small><center><big>⏳</big></center>";
+  elSearchList.innerHTML="";
+
+
+  $(document).ready(function(){
+    // STEP: Initialization
+    if(IsBlank(elArchives)){  // This function is newly called.
+      elArchives = Offline();
+      if(NotBlank(elArchives)){bOffline = true;}
+    }
+    if(IsBlank(elArchives)){
+      elArchives = document.querySelector('archives');
+      var mHit = 0; // Archive Hit Counter
+      for(let i=ArchiveNum(); i>0;i--){  
+        let elArchive = elArchives.querySelector('archive'+i);
+        $(elArchive).load(ArchiveIndex(i) + iQuery, function(){
+          mHit++;
+          if(mHit >= ArchiveNum()){
+            QSLRollingKudoEL(elSearchList,mDate,elArchives,bOffline);
+            return;
+          }
+        });
+      }
+      return;
+    }
+    // STEP: Process the content in the cached archives.
+    var elRecords = $(elArchives).find(iQuery2);
+    QSLContentCompose(bOffline,elRecords,elSearchList,mDate);
+  });// END Document Ready
+}
+function QSLContentCompose(bOffline,elRecords,elSearchList,mDate){
+  // 20240804: Skyle: Check the date if it is specified.
+  
+  setTimeout(function(){
+    var bMark = NodeMarkCookieCheck();
+    var mCount = 0;
+    var mHTML = "";
+    var bDate = NotBlank(mDate);
+    var elDivPrev = "";
+    for(let i=0;i<elRecords.length;i++){
+      let elDiv = elRecords[i];
+
+      /*
+        let mCategory = iQuery.replace("[data-","");
+        mCategory = mCategory.replace("]","");
+        let mOrder = elDiv.getAttribute("data-"+mCategory);
+        if(mCategory.toLowerCase()=="best"){
+          mOrder = 99999999-mOrder;
+        }
+      */
+
+      // 20240804: Skyle: Check the date if it is specified.
+      if(bDate){
+        let mYYMM = Default(elDiv.getAttribute("date"),"00000000").slice(4,8);
+        if(mYYMM=="0000"){
+          mYYMM = Default(elDiv.getAttribute("dts"),"00000000").slice(4,8);
+        }
+        if(mYYMM != mDate){ // Entry is not a match
+          continue;
+        }
+      }
+      // Avoid listing duplicate nodes with more than one kudo message.
+      if(!elDiv.hasAttribute('time')){
+        elDiv = SearchPS(elDiv,'time');
+        if(IsBlank(elDiv)){continue;}
+        if(elDiv == elDivPrev){continue;}
+      }
+      elDivPrev = elDiv;
+      
+      let mOrder="";
+      let mKids = [];
+      let mJSONKids = "";
+      let mID=""; let mTitle=""; let mIcon="";
+      let mJSON=""; let mType=""; 
+      let mNode ="";
+      mNode = elDiv.querySelector("node");
+
+      if(NotBlank(mNode)){
+        mJSON = JSON.parse(mNode.innerHTML);
+        mTitle = mJSON.title;
+        mIcon = mJSON.icon;
+        mID = mJSON.id;
+        mType = mJSON.type;
+        mJSONKids = mJSON.kids;
+      }else{
+        try{
+          mID = elDiv.getAttribute("id");
+        }catch{
+          DEBUG(elDiv.outerHTML);
+        }
+        //mID = elDiv.getAttribute("id");
+        if(IsBlank(mID)){mID = elDiv.getAttribute('DTS');}
+        mTitle = Default(elDiv.getAttribute("title"),elDiv.getAttribute("subtitle"));
+        mIcon = elDiv.getAttribute("icon");
+      }
+
+      if(IsBlank(mTitle)){
+        if(NotBlank(mID)){
+          // 20230324: Mikela: Guess: A puzzle post.
+          if(elDiv.firstElementChild.lastElementChild!=null){
+            mTitle = elDiv.firstElementChild.lastElementChild.textContent;
+          }else{
+            mTitle="Mini Diary";
+          }
+        }
+      }
+      if(IsBlank(mTitle)){
+        if(NotBlank(elDiv.firstElementChild.getAttribute("id"))){
+          // Guess: The entry is a chat post.
+          if(elDiv.firstElementChild.firstElementChild!=null){
+            mTitle = elDiv.firstElementChild.firstElementChild.textContent;
+            if(IsBlank(mTitle)){
+              mTitle = elDiv.firstElementChild.lastElementChild.textContent;
+            }
+            
+          }else{
+            mTitle = elDiv.firstElementChild.textContent;
+          }
+          mIcon = mTitle.substring(0,2);
+          mTitle = mTitle.substring(3,30);
+        }else{
+          // Guess: The entry is an flex show style post.
+          mTitle = elDiv.firstElementChild.lastChild.textContent;
+          mTitle = mTitle.substring(0,30);
+        }
+      }
+      if(IsBlank(mIcon)){mIcon="📌";}
+      if(IsBlank(mID)){mID = elDiv.getAttribute("date")+elDiv.getAttribute("time");}
+      if(IsBlank(mID)){ 
+      }else if(mID.substring(0,1)=="P"){
+        // Remove the leading P in ID.
+        mID = mID.substring(1,13);
+      }
+      if(IsBlank(mTitle)){mTitle = mID;}
+      if(IsBlank(mType)){mType = "";}
+      if(mType=="chat" || NotBlank(elDiv.hasAttribute('data-chat'))){mType = "<span style='margin-left:-16px;-20px;font-size:14px'><sup>💬</sup></span>";}
+      if(IsBlank(mOrder)){mOrder = mID;}
+      
+      
+      if(IsBlank(mJSONKids)){
+        //mTag = TitleToTag(mTitle);
+        mKids.push(mID);
+      }else{
+    
+        mKids = mJSONKids.split(',');
+        for(let j=0;j<mKids.length;j++){
+          mKids[j]=mKids[j].replaceAll(" ","");
+          mKids[j] = Cap(mKids[j]);
+        }
+      }
+      // 20240331: StarTree: Further Exploration Icon     
+      // 20240406: StarTree: Multiple kids:   
+      // 20240804: Don  
+      for(let k=0;k<mKids.length;k++){
+        mCount ++;
+        mHTML += "<div name='"+ mTitle + "'";
+        //var mUpdated = elDiv.getAttribute("date");
+
+        let mUpdated = DTSGetLatest(elDiv).toString().slice(0,8);
+        
+        mHTML += " date='" + mUpdated + "'";
+        mHTML += " size='" + elDiv.innerHTML.length + "'";
+        mHTML += " style='order:" + mOrder + "'>";
+
+        // 20240413: StarTree: Add a float right display frame.
+        mHTML += "<code class='mbRefS mbCB'></code>";
+
+        mHTML += "<div control>";
+        mHTML += "<hide>"+ elDiv.innerHTML + "</hide>"; // 20240802: Arcacia: Changed to use innherHTML to query icons.
+
+        
+        mHTML += "<a class='mbbutton mbILB25' onclick='QSLTree(this,\"[data-"+ mKids[k] +"]\")'>📒</a>";
+        if(k==0){
+          mHTML += LnkCode(mID,mTitle,mIcon+mType,bMark); 
+        }else{
+
+          mHTML += LnkCode(mID,mTitle + "\\" + Cap(mKids[k]).replaceAll("-"," "),mIcon+mType,bMark); 
+        }
+
+        mHTML += "</div>";// End of Control
+        mHTML += "<div class='mbhide'><div style='margin-left:10px' control></div><div class='mbnav mbSearch' QSL></div></div>"; // QSL Container
+        mHTML += "</div>";
+      }
+    }
+  
+    // STEP Display the result.
+    elSearchList.innerHTML = mHTML;    
+    // STEP: Display the sort bar
+    if(NotBlank(elSearchList.previousElementSibling)){
+      mHTML = "<a class='mbbutton' onclick='ShowNextInline(this)'><small><b>Found: "
+      + mCount +"</b></small>" + OfflineTag(bOffline) + "</a><hide><small> "
+      + "<input type='text' onclick='TextSearchPS(this)' onkeyup='TextSearchPS(this)' placeholder='Search...' title='Input a keyword' style='width:80px'> "
+      + "<a class='mbbutton' onclick='QSLSortByName(this)'>🍎</a> " 
+      + "<a class=\"mbbutton\" onclick=\"QSLSortByIcon(this,'📌')\">📌</a> "
+      + "<a class='mbbutton' onclick='QSLSortBy(this,\"date\")'>🗓️</a> "
+      + "<a class='mbbutton' onclick='QSLSortBy(this,\"size\")'>🐘</a> "
+      + "<a class='mbbutton' onclick='QSLSortRandom(this)'>🎲</a>"
+      + "</small></hide>";
+      elSearchList.previousElementSibling.innerHTML = mHTML;
+      elSearchList.previousElementSibling.classList.remove('mbhide');
+    }
+  },0);
+
+}
 function QSLTree(el,iQuery){
   // 20240331: StarTree: Customized QSL for Sitemap display  
   var elContainer = SearchPS(el,"control").nextElementSibling;
@@ -5078,7 +5327,7 @@ function XP_Counter2(iCache,iFrame,iCode1,iCode2,iCodeName, iName){
 function XP_Count(iCache,iName){
   // 20240414: StarTree: This function counts the EXP value for the SPK in the archive cache. It doesn't care what icon is used.
   var mCount = 0;
-  iCache.querySelectorAll("[EXP][SPK='"+iName+"']").forEach((item)=>{
+  iCache.querySelectorAll("[EXP][SPK='"+iName+"'],[EXP][SPK*='|"+iName+"|']").forEach((item)=>{
     let mXP = Default(item.getAttribute('exp'),1);
     mCount += Number(mXP);
   });
@@ -5199,7 +5448,7 @@ function XP_DisplayEL(elFrame,bOrder){
         // 20240414: Ledia: For the new EXP tag format.
         let mIcon = "";
         let mValue = "";
-        mEXPList = elCache.querySelectorAll("[EXP][SPK='"+mName+"'");
+        mEXPList = elCache.querySelectorAll("[EXP][SPK='"+mName+"'],[EXP][SPK*='|"+mName+"|']");
         mEXPList.forEach((mEXPItem)=>{
           mIcon = Default(mEXPItem.getAttribute('icon'),"⭐");
           if(!mEXPMap.has(mIcon)){mValue = 0;}else{mValue = mEXPMap.get(mIcon);}
@@ -5596,7 +5845,8 @@ function XP_QueryStr(iName){
         "[data-WsXP-" + iName + "]" +"," + 
         "[data-WwXP-" + iName + "]" +"," + 
         "[data-ZXP-" + iName + "]" + "," +
-        "[EXP][SPK='" + iName + "']";
+        "[EXP][SPK='" + iName + "']" + "," + 
+        "[EXP][SPK*='|" + iName + "|']" ;
 }
 function XP_Tally(elContainer){
   // 20230117: StarTree: To tally and copy PXP scores to Guild Log
@@ -5900,6 +6150,29 @@ function QueryAllReplace(elNode, eQuery){
       });
     });
   }
+}
+function NodeEdit(el,mNodeID){
+  // 20240804: StarTree: The NodeEdit button has been clicked.
+  var bNodeEdit = NodeEditModeCheck(el);
+  if(!bNodeEdit){return;}
+  
+  // STEP: NodeEdit mode is ON, pass the Node ID to be edited through main param,
+  Parameter("NodeEditID",mNodeID);
+  
+  // STEP: NodeEdit mode is ON, show the NotePad widget.
+  var elWidgetButton = document.querySelector("button[BB][title='Notepad']");
+  ShowNextFP(elWidgetButton,"20240330201200",true);
+}
+function NodeEditWidgetLoad(elWidget,mDTS){
+  // 20240804: StarTree: If this widget is the notepad being loaded by NodeEdit button, populate the content with local storage content.
+  if(mDTS != "20240330201200"){return;}
+  var mNodeID = Parameter("NodeEditID");
+  elWidget.setAttribute("NodeEditID",mNodeID);  
+  // STEP: Remove the Honey Button.
+  var elButton = elWidget.querySelector("button[title='Use Cookie']");
+  elButton.innerHTML = "📝" + mNodeID;
+  var elTextArea = elWidget.querySelector("textarea[textarea]");
+  TextAreaLoad(elTextArea);
 }
 function NodeFormatter(elTemp){
   // 20231224: StarTree: Update: This function is also used by calendar when listing nodes.
@@ -6406,6 +6679,7 @@ function RollCallTally(el){
   ClipboardAlert(mTallyStr, "Tally result is ready for clipboard!");
 
 }
+
 function ClipboardAlert(iResult,iMessage){
   // 20230204: StarTree: Used by Tally functions.
   if( document.hasFocus()==false){
@@ -6609,13 +6883,14 @@ function FPShow(elFP){
   elFP.classList.remove('mbhide');
   elFP.style.zIndex=FPGetTopZ()+1;
 }
-function ShowNextFP(el,mDTS){
+function ShowNextFP(el,mDTS,bRefresh){
   // 20240420: StarTree: Show the FP within the next element.
   // 20240424: P4: Reorganized
+  // 20240804: StarTree: Added bRefresh to not hide the frame.
 
   var elFP = el.nextElementSibling.querySelector('[FP]');
   // STEP: If the FP is already shown, either bring it to top or close it.
-  if(!elFP.classList.contains('mbhide')){
+  if(!bRefresh && !elFP.classList.contains('mbhide')){
     var mTopZ = FPGetTopZ();
     if(elFP.style.zIndex == mTopZ){
       // Close it if it is at the top.
@@ -6630,7 +6905,7 @@ function ShowNextFP(el,mDTS){
 
   // STEP: Load the content as needed.
   // STEP: If mDTS is blank, skip loading.
-  if(NotBlank(mDTS) && elFP.classList.contains('mbhide') && elFP.innerHTML==""){
+  if(NotBlank(mDTS) && (bRefresh || (elFP.classList.contains('mbhide') && elFP.innerHTML==""))){
     elFP.setAttribute('FP',mDTS);
     ReloadFP(elFP);
   }
@@ -6639,7 +6914,7 @@ function ShowNextFP(el,mDTS){
   if(!AtMobile()){
     FPShow(elFP);
     FPGetTopZ();
-    return;
+    return elFP;
   }
   // The following is for the case when the FP is on a phone.
 
@@ -6651,37 +6926,6 @@ function ShowNextFP(el,mDTS){
   FPGetTopZ();
   return;
 
-  var elFPs = document.querySelectorAll('[FP]');
-  var elFP = el.nextElementSibling.querySelector('[FP]');
-  var mMax = elFPs.length;
-
-
-  
-
-  // STEP: Find the current top-most widget.
-  var elMax = elFPs[0];
-  var curMax = Number(elMax.style.zIndex);
-  elFPs.forEach((mTag)=>{
-    if(!mTag.classList.contains('mbhide')){
-      if(curMax < Number(mTag.style.zIndex)){
-        curMax = Number(mTag.style.zIndex);
-        elMax = mTag;
-      }
-    }else{
-      mTag.style.zIndex = 0;
-    }
-  });
-
-  // 20240423: Zoey: If the FP that is being clicked on is at the top, hide it and exit.
-  if(elFP == elMax){
-    elFP.classList.add('mbhide');
-    elFP.style.zIndex = 0;
-    return;
-  }
-  // 20240423: Zoey: If the FP that is clicked on is not at the top, bring it to top and quit.
-  elFP.style.zIndex = Number(curMax) +1;
-  elFP.classList.remove('mbhide');
-  return;
 }
 function ReloadFP(el){
   // 20240420: Skyle: Reload an FP that is in display.
@@ -6752,6 +6996,9 @@ function ReloadFPEL(elWidget,elFP,mDTS,bOffline){
   Macro(elFP);
   elFP.setAttribute('FP',mDTS);
   elFP.setAttribute('Widget',mDTS);
+
+  // 20240804: StarTree: Special Handling for Notepad when using Node Edit
+  NodeEditWidgetLoad(elFP,mDTS);
 }
 function NodeIDClipboardButtonCode(mNodeID,mParentID,mIcon){
   // 20240422: V
@@ -6956,15 +7203,60 @@ function NodeDTS(iNodeID){
   // STEP: Call DTSGetLatest
   return 0;
 }
+
+function NodeEditModeCheck(el){
+  // 20240804: StarTree: Checks if the page should load local node content.
+  // .. If el is Blank: Check if the page should load local node content.
+  // .. Else: Show the dialog and update the parameter value.
+  var mParam = 'NodeEditMode';
+  if(el==null){return Parameter(mParam);}
+  var bParam = Parameter(mParam);
+  bParam = confirm("Enable local node content?");
+  if(bParam){Parameter(mParam,"true");}
+  /*
+  if(bParam!="true"){
+    bParam = confirm("Enable local node content?");
+  }else{
+    bParam = !confirm("Disable loading local node content?");
+  }
+  if(bParam){
+    Parameter(mParam,"true");
+    el.innerHTML = "📝✅";
+  }else{
+    Parameter(mParam,"false");
+    el.innerHTML = "📝⛔";
+  }
+    */
+  return bParam;
+}
 function NodeMarkCookieCheck(){
   // 20240330: StarTree: Checks if the page should mark node visit status.
+  return Parameter('CookieEnabled');
+}
+function Parameter(mParam,mSet){
+  // 20240804: StarTree: Check attribute parameters of document main.
+  // .. This function is overloaded. 
+  // .. If mSet is blank, it checks the parameter.
+  // .. If mSet is not blank, it sets the parameter.
   var elMain = document.querySelector('[main]');
-  return (elMain.getAttribute('CookieEnabled')=="true");
-
+  if(IsBlank(mSet)){
+    return (elMain.getAttribute(mParam));
+  }
+  elMain.setAttribute(mParam,mSet);
+  return mSet;
 }
 function TextAreaLoad(elTextArea){
   // 20240330: StarTree: For Cookie TextArea. Loads from Cookie when it is first activated.
   
+  // STEP: If NodeEditID exists, load from local storage for that.
+  var elWidget = SearchPS(elTextArea,"widget");
+  var mNodeID = elWidget.getAttribute("NodeEditID");
+  if(NotBlank(mNodeID)){ // The Content is for a specific node.
+    elTextArea.value = localStorage.getItem(mNodeID + "-N");
+    return;
+  }
+
+
   // STEP: Check for cookie enable.
   if(!CookieCheck(elTextArea)){return;}
 
@@ -6975,8 +7267,16 @@ function TextAreaLoad(elTextArea){
   }
 }
 function TextAreaSave(elTextArea){
-  // 20240330: StarTree: Saves the TextArea text to cookie.
-  // STEP: Check for cookie enable.
+  // 20240330: StarTree: Saves the TextArea text to Local Storage.
+  
+  // STEP: 20240804: StarTree: Save content to NodeEdit if in that mode.
+  var elWidget = SearchPS(elTextArea,"widget");
+  var mNodeID = elWidget.getAttribute("NodeEditID");
+  if(NotBlank(mNodeID)){ // The Content is for a specific node.
+    localStorage.setItem(mNodeID + "-N",elTextArea.value);
+    return;
+  }
+  // STEP: Check for Local Storage enable.
   if(!CookieCheck(elTextArea)){return;}
   localStorage.setItem("TextArea-Value",elTextArea.value);
 }
@@ -7407,7 +7707,7 @@ function NodeMarkUseCookie(el,iNoIcon){
   // 20240330: StarTree: For saving the the node marking
   var bCookieEnabled = NodeMarkCookieCheck();
   if(!bCookieEnabled){
-    bCookieEnabled = confirm("Would you want to enable marking and showing where you have visited using local storage of your browser?");
+    bCookieEnabled = confirm("Would you like to enable marking and showing where you have visited using local storage of your browser?");
   }else{ // Cookie is enabled, does user want to disable?
     bCookieEnabled = !confirm("Would you like to stop showing and saving node visit marking to local storage of your browser?");
   }
@@ -7484,13 +7784,21 @@ function TextAreaUseCookie(el){
   var elWidget = SearchPS(el,"Widget");
   var elTextArea = elWidget.querySelector('[textarea]');
   var bCookieEnabled = (elWidget.getAttribute('CookieEnabled')=="true");
-  if(!bCookieEnabled){
-    bCookieEnabled = confirm("Would you allow saving notepad content to local storage on your browser?");
-  }else{ // Cookie is enabled, does user want to disable?
-    bCookieEnabled = !confirm("Would you like to stop saving notepad content to local storage on your browser?");
+
+  // 20240804: StarTree: Check if the current area has NodeEdit content.
+  if(NotBlank(elWidget.getAttribute("NodeEditID"))){
+    bCookieEnabled = confirm("Switch to the regular local storage Notepad?");
+    if(!bCookieEnabled){return;}
+  }else{
+    if(!bCookieEnabled){
+      bCookieEnabled = confirm("Would you allow saving notepad content to local storage on your browser?");
+    }else{ // Cookie is enabled, does user want to disable?
+      bCookieEnabled = !confirm("Would you like to stop saving notepad content to local storage on your browser?");
+    }
   }
   if(bCookieEnabled){
     elWidget.setAttribute("CookieEnabled","true");
+    elWidget.setAttribute("NodeEditID","");
     el.innerHTML = "🍯✅";
     TextAreaLoad(elTextArea);
   }else{

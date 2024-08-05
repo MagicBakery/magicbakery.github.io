@@ -481,7 +481,7 @@ text-align:center;
 mbKey::before{content:"Key Item Received: "; font-weight:bold;}
 mbKudo{ /* Kudo */
 color: #e06666;
-display:block;
+display: block;
 font-weight:bold;
 text-align:center; 
 }
@@ -957,7 +957,9 @@ todo::before{content:"TODO: ";font-size: 12px;}
   box-shadow: none;
   background-repeat: no-repeat;
 }
-
+.mbKudo{
+  color: #e06666;
+}
 .mbbanner {
     background-image:url('https://github.com/MagicBakery/Images/blob/main/Parchment%20Crop.png?raw=true');
   background-position: 50% 50%; 

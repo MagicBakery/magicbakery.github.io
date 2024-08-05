@@ -113,8 +113,22 @@
                 <msg dts="20240331" spk="LRRH" exp="" icon="📌">Check directory categories. Are there too many? What should be added?</msg>
                 <msg dts="20240331" spk="LRRH" exp="" icon="🎯">Target area: I want to clear the Issues tag, or nodes tagged with Issue should addressed.</msg>
                 <msg spk="Vivi" exp="" icon="📌">Every node should be reachable from a tree at sitemap.</msg>
+                
+
               </hide>
             </div><!--Rank C Queries-->
+            <div>
+              <a class="mbbutton" onclick="QSL(this,'[id][date][time]:has(MSG[EXP][icon=\'💟\']:not([SPK*=\'|\']))')"><span class="mbILB20 mbRankC"></span>💟</a>  
+              <span class="mbbutton" onclick="ShowNextInline(this)">Kudo Audit</span>
+              <hide>
+                <msg DTS="20240804000021" SPK="Sylvia" EXP Icon="📌">Kudo messages with 💟 should have multiple SPK.</msg>
+                <note dts="20240804000803" subtitle="Log">
+                  <msg DTS="20240804000813" END="20240804004241" SPK="Sylvia" EXP=7 Icon="🎻">Fixed node. From 31 to 20 more to go.</msg>
+                </note>
+                
+
+              </hide>
+            </div><!--Rank C Kudo Queries-->
             <div>
               <a class="mbbutton" onclick="QSL(this,'[id][date][time]:not(:has(node)),[id]:contains(\'pin2\')')"><span class="mbILB20 mbRankD"></span>📌</a> 
               <!--<a class="mbbutton" onclick="QSL(this,'[id][date][time]:not(:has(node)),[id]:contains(\'|pin\'),[id]:contains(\'pin2\')')"><span class="mbILB20 mbRankD"></span>📌</a> -->
@@ -482,7 +496,7 @@
                 </div><!--@Arena / Fina-->
                 <div class="mbCB">
                   <span class="mbRankNone" style="float:right;"><lnk>202302201503|⚙️</lnk></span>
-                  <macro>{"guildlog":"20","rank":"C","updates":"1","node":"202208161957","author":"StarTree","chapter":"@Board","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"20","rank":"B","updates":"2","node":"202208161957","author":"StarTree","chapter":"@Board","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <lnk>202207242047|📋</lnk><span></span><button class="mbbutton" onclick="XP_Tally(this)">XP Tally</button><br>
                     <!--<span class="mbListCapNC mbRankS"></span>-->
@@ -492,7 +506,7 @@
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"0","icon":"🛒","node":"202303191144","title":"Grocery List","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"📟","node":"202404260005","title":"Message Scanner","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>          
+                    <macro>{"log":"0803","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>          
                     <macro>{"log":"","priority":"9","icon":"⭐","node":"202208032040","title":"Web Programming","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
                     
@@ -533,7 +547,7 @@
                 </div><!--@Book / Patricia-->   
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202307161350|🎲</lnk></span>
-                  <macro>{"guildlog":"28","icon":"","rank":"U","updates":"0","node":"202208250038","author":"Cardinal","chapter":"@Cardinal","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"28","icon":"","rank":"D","updates":"1","node":"202208250038","author":"Cardinal","chapter":"@Cardinal","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"","priority":"0","icon":"🔍","node":"202407211831","title":"Surprise Ending","cmd":"quest"}</macro>
@@ -550,7 +564,7 @@
                     
                     <span class="mbListCapNC mbRankD"></span>
                     <macro>{"log":"","priority":"2","icon":"🥨","node":"202208250038","title":"Guild Log Quest","info":"2305:34. 2306:33 2307:32 2309:30 2310:28 2311:27 2401:26 2406:21 2407:18.","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"1","icon":"🎪","node":"202208250038","title":"Status Check","cmd":"quest"}</macro>
+                    <macro>{"log":"0803","priority":"1","icon":"🎪","node":"202208250038","title":"Status Check","cmd":"quest"}</macro>
                     
                     <macro>{"log":"","priority":"3","cmd":"quest","title":"Layout Update","icon":"⚔️"}</macro>
                   </div>
@@ -722,14 +736,15 @@
                 </div><!--@Happy / Evelyn-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202303191144|🛒</lnk></span>
-                  <macro>{"guildlog":"0","rank":"B","updates":"1","node":"202310232341","author":"Kisaragi","chapter":"@Home","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"B","updates":"2","node":"202310232341","author":"Kisaragi","chapter":"@Home","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"","priority":"","icon":"🍀","node":"202407280015","title":"Origami","info":"","cmd":"quest"}</macro>
                     
                     <macro>{"log":"","priority":"9","icon":"🔮","node":"202309060852","title":"Safety Checklist","info":"Traffic Safety Node","cmd":"quest"}</macro>
-                    <span class="mbListCapNC mbRankB"></span> 
+                    <span class="mbListCapNC mbRankB"></span>
+                    <macro>{"log":"","priority":"0","icon":"🥘","node":"202303092035","title":"Food Club","cmd":"quest"}</macro> 
                     <macro>{"log":"0803","priority":"9","icon":"🛒","node":"202303191144","title":"Grocery List","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"9","icon":"🏡","node":"202310232341","title":"Guild House","info":"Document violations. List countermeasure process.","cmd":"quest"}</macro>
                            
@@ -739,6 +754,7 @@
                     <macro>{"log":"","priority":"1","icon":"🏡","node":"202310232341","title":"Resolve Issues","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202310232341","title":"Guild Log","info":"2311:1 2401:6 2406:0 2407:0.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
+                    
                     <macro>{"log":"","priority":"2","icon":"🍏","node":"202308061507","title":"Investing","info":"","cmd":"quest"}</macro>
                     
                     <macro>{"log":"","priority":"9","icon":"🎁","node":"","title":"Gift Making","cmd":"quest"}</macro>
@@ -861,13 +877,14 @@
                 </div><!--@Paladin / Natalie-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202208141928|🧩</lnk></span>
-                  <macro>{"guildlog":"0","rank":"U","updates":"0","node":"202208141928","author":"Mikela","chapter":"@Puzzle","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"A","updates":"1","node":"202208141928","author":"Mikela","chapter":"@Puzzle","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">              
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"","priority":"1","icon":"🧩","node":"202208141928","title":"Puzzle Session","info":"","cmd":"quest"}</macro>   
-                    <macro>{"log":"","priority":"0","icon":"🧣","node":"202302050007","title":"Lateral Puzzles","info":"","cmd":"quest"}</macro> 
+                    <macro>{"log":"0803","priority":"0","icon":"🧣","node":"202302050007","title":"Lateral Puzzles","info":"","cmd":"quest"}</macro> 
 
                     <span class="mbListCapNC mbRankB"></span>
+                    
                     <macro>{"log":"","priority":"0","icon":"🕰️","node":"202403112121","title":"Timeline","info":"The Board Game.","cmd":"quest"}</macro> 
                     
                     <macro>{"log":"","priority":"4","cmd":"quest","title":"Add Search List","icon":"🔍","info":"Add puzzle categories for search."}</macro>
@@ -891,8 +908,8 @@
                     <macro>{"log":"","priority":"4","icon":"🕰️","node":"202309161840","title":"Guild History","info":"Create a Guild History node and list guild chapter start dates.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"0802","priority":"0","icon":"🌛","node":"202401122118","title":"Dreaming","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"0804","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
-                    <macro>{"log":"","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"3","icon":"📷","node":"","title":"Process Photos","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"2","icon":"🗓️","node":"202310072314","title":"Make Old Calendar","info":"Upgrade format of old calendars.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
@@ -945,7 +962,7 @@
                 </div><!--@Skill / Ivy-->    
                 <div class="mbCB">
                   <!--<span style="float:right"><lnk>202303121053|🍀</lnk></span>-->
-                  <macro>{"guildlog":"0","rank":"D","updates":"1","node":"202309052239","author":"Sylvia","chapter":"@Tavern","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"C","updates":"2","node":"202309052239","author":"Sylvia","chapter":"@Tavern","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"3","icon":"🍻","node":"202207112218","title":"DeviantArt Upload","info":"Upload Manga Chapters 03, 04, 06 to 10 to DeviantArt","cmd":"quest"}</macro>
@@ -955,6 +972,7 @@
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"1","icon":"🎩","node":"202407211041","title":"Draw Deck","info":"Add Cards","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
+                    <macro>{"log":"0803","priority":"1","icon":"💟","node":"800000000000","title":"Kudo Audit","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🧹","node":"202207141002","title":"Page cleanup","info":"Target areas: See the node for the list.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"📯","node":"202308061507","title":"Monthly Notice","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🧮","node":"202308061507","title":"Accounting","info":"Guild accounting quests.","cmd":"quest"}</macro>
@@ -965,7 +983,7 @@
                 </div><!--@Tavern / Sylvia-->           
                 <div class="mbCB">
                   <span style="float:right"><lnk>202303121053|🍀</lnk></span>
-                  <macro>{"guildlog":"17","rank":"B","updates":"2","node":"202208212113","author":"Casey","chapter":"@Treasure","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"17","rank":"B","updates":"3","node":"202208212113","author":"Casey","chapter":"@Treasure","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     
@@ -982,7 +1000,7 @@
                     <span class="mbListCapNC mbRankC"></span>
                     
                     <macro>{"log":"","priority":"9","icon":"🧭","node":"202310210023","title":"City Planning","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"1","icon":"🎲","node":"202207131009","title":"Board Game Library","info":"Maintain/promote the Board Game Library toward a sharing system.","cmd":"quest"}</macro>
+                    <macro>{"log":"0803","priority":"1","icon":"🎲","node":"202207131009","title":"Board Game Library","info":"Maintain/promote the Board Game Library toward a sharing system.","cmd":"quest"}</macro>
                     <macro>{"log":"0801","priority":"2","icon":"🍀","node":"202303121053","title":"Wanted List Updates","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"8","icon":"🍀","node":"202303121053","title":"Wanted List Sort","info":"Add sort function.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
@@ -992,7 +1010,7 @@
                   </div>
                 </div><!--@Treasure / Casey-->        
                 <div class="mbCB">
-                  <macro>{"guildlog":"49","rank":"B","updates":"1","node":"202210080934","author":"Helen","chapter":"@Vacation","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"49","rank":"B","updates":"2","node":"202210080934","author":"Helen","chapter":"@Vacation","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankA"></span>    
                     
@@ -1001,13 +1019,13 @@
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"0","icon":"🍜","node":"202404100216","title":"Ramen","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"🤗","node":"202309031744","title":"Rubik's Cube","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"🥘","node":"202303092035","title":"Food Club","cmd":"quest"}</macro>
+                    
                     
                     <macro>{"log":"","priority":"1","icon":"🎲","node":"202305102255","title":"Cardinal Core","info":"Make lyrics pages","cmd":"quest"}</macro>
                     
                     <macro>{"log":"0802","priority":"0","icon":"🏆","node":"202305122227","title":"Amazing","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
-                    <macro>{"log":"","priority":"0","icon":"🎀","node":"202207281948","title":"Anime Club","cmd":"quest"}</macro>
+                    <macro>{"log":"0804","priority":"0","icon":"🎀","node":"202207281948","title":"Anime Club","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"📗","node":"202405201123","title":"Jokes","info":"","cmd":"quest"}</macro>
                     
                     <macro>{"log":"","priority":"0","icon":"🍮","node":"202303092159","title":"Favorite Snacks","cmd":"quest"}</macro>
@@ -1020,22 +1038,23 @@
                 </div><!--@Vacation / Helen-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202212040850|🌳</lnk></span>
-                  <macro>{"guildlog":"7","rank":"U","updates":"0","node":"202208180954","author":"Black","chapter":"@Whale","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"7","rank":"B","updates":"1","node":"202208180954","author":"Black","chapter":"@Whale","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"1","icon":"🏫","node":"202402292014","title":"Public Education","info":"","cmd":"quest"}</macro>  
                     <macro>{"log":"","priority":"2","icon":"🏘️","node":"202307231022","title":"NextDoor Workflow","info":"Replying/Deploying.","cmd":"quest"}</macro>  
                     <span class="mbListCapNC mbRankA"></span>
-                    <macro>{"log":"","priority":"1","icon":"📯","node":"202405312120","title":"Response","info":"","cmd":"quest"}</macro>  
+                    <macro>{"log":"0804","priority":"0","icon":"⚡","node":"202208212113","title":"Power Consumption","info":"","cmd":"quest"}</macro>  
                     <macro>{"log":"","priority":"2","icon":"🍏","node":"202404060049","title":"Freakonomics Radio","info":"","cmd":"quest"}</macro>  
                     <macro>{"log":"","priority":"3","icon":"🎪","node":"202208180954","title":"Quest Society","info":"Populate the Quest Society section explanations.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"4","icon":"🏆","node":"202305262150","title":"Suggestions","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"1","icon":"📯","node":"202307231931","title":"Productivity","info":"","cmd":"quest"}</macro> 
+                    <macro>{"log":"","priority":"1","icon":"📯","node":"202307231931","title":"Productivity","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"0","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"0","icon":"📟","node":"202404260005","title":"Message Scanner","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","icon":"🏷️","node":"202211251037","title":"Taxonomy","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"2","icon":"🚨","node":"202209262042","title":"Cautionary Tales","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"0803","priority":"2","icon":"🚨","node":"202209262042","title":"Cautionary Tales","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","icon":"📸","node":"202403262207","title":"Guess this","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"9","icon":"🍪","node":"202302050852","title":"Self-Evaluation","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
@@ -9182,7 +9201,7 @@
                 <td></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240801')">1<br><div class="mbavem mbStarTree"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240802')">2<br><div class="mbavem mbLRRH"></div></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240803')">3<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240803')">3<br><div class="mbavem mbStarTree"></div></td>
                 
               </tr>
               <tr>
@@ -9243,7 +9262,7 @@
                 <td></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240801')">1<br>🍩</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240802')">2<br>🐤</td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240803')">3<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240803')">3<br>🧣</td>
                 
               </tr>
               <tr>
@@ -26271,17 +26290,18 @@
 </div><!-- STATUS -->
 <div id="P202404060014" class="mbscroll" date="20240406" time="0014" data-learning="" data-media="">
   <content>
-    <div class="mbpdc"></div><div style="clear:left"></div>
-    <note dts="20240630235235" subtitle="Inbox">
-      <msg DTS='20240511064848' SPK='LRRH' EXP Icon='📌'>NPR one <url>https://one.npr.org/?sharedMediaId=1198912662:1250765840</url></msg>
-      <msg DTS='20230303124740' SPK='Sasha' EXP Icon='📌'>On purpose podcast <url>https://podcasts.apple.com/us/podcast/on-purpose-with-jay-shetty/id1450994021</url></msg>
-    </note>
   </content>
+  <card dts="20240427233123" title="Podcasts" subtitle="Learning Media" img="https://cdn.pixabay.com/photo/2023/03/17/08/50/podcast-7858186_640.png"></card>
   <inv>
-    <card dts="20240427233123" title="Podcasts" subtitle="Learning Media" img="https://cdn.pixabay.com/photo/2023/03/17/08/50/podcast-7858186_640.png">
-
-            <small></small>
-          </card>
+    <res item="24U3J90A" title="99% Invisible" tags="">
+      <msg DTS="20240803183627" SPK="Black" EXP Icon="📌"><url>https://99percentinvisible.org/</url></msg>
+    </res>
+    <res item="24U3J933" title="NPR One" tags="">
+      <msg DTS='20240511064848' SPK='LRRH' EXP Icon='📌'>NPR one <url>https://one.npr.org/?sharedMediaId=1198912662:1250765840</url></msg>
+    </res>
+    <res item="24U3J941" title="On Purpose" tags="">
+      <msg DTS='20230303124740' SPK='Sasha' EXP Icon='📌'>On purpose podcast <url>https://podcasts.apple.com/us/podcast/on-purpose-with-jay-shetty/id1450994021</url></msg>
+    </res>
   </inv>
   <ref></ref>
   <node>{"id":"202404060014","parentid":"202210151642","parentname":"Library","icon":"📻","title":"Podcasts","subtitle":"Learning Media","kids":"podcast","img":"https://cdn.pixabay.com/photo/2023/03/17/08/50/podcast-7858186_640.png","music":"","author":"Black","description":"","card-text":""}</node>
@@ -28099,24 +28119,24 @@
             <a class="mbbutton" onclick="ToggleNextPP(this)" title="Food">🍎</a>
             <hide>
               <macro>{"cmd":"ButtonList","func":"NMMsg",
-                "list":"🍒|🍎|🍅|🍓|🌶️|🌰|🍊|🥭|🍑|🥕|🥧|🍌|🧅|🍪|🥘|🍩|🥞|🍯|🧀|🧇|🍞|🥐|🥨|🍋|🥠|🥪|🍮|🌽|🍍|🌾|🍐|🍏|🥦|🥑|🥝|🍵|🧊|🍇|🍆|🥔|🥜|🥥|☕|🍜|🍛|🍨|🍚|🍄|🍰|🍶|🍱"}</macro>
+                "list":"🍒|🍎|🍅|🍓|🌶️|🌰|🍊|🥭|🍑|🍠|🥕|🥧|🍌|🧅|🍪|🥘|🍩|🥞|🍯|🧀|🧇|🍞|🥐|🥨|🍋|🥠|🥪|🍮|🌽|🍍|🌾|🍐|🍏|🥦|🥑|🥝|🍵|🧊|🍇|🍆|🥔|🥜|🥥|☕|🍜|🍛|🍨|🍚|🍄|🍰|🍶|🍱"}</macro>
             </hide><!--Animal Icons-->
             |
             <a class="mbbutton" onclick="ToggleNextPP(this)" title="Faces & Hands">😀</a>
             <hide>
-              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"😍|😀|😊|🤗|😖|😇|😅|😭|😎|👍|🖐|🙏|💬"}</macro>
+              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"😍|😀|🤗|😊|😖|🤔|😳|🤪|😇|😅|😭|😎|👍|🖐|🙏|💬"}</macro>
             </hide><!--Faces and Hands-->
             |
             <a class="mbbutton" onclick="ToggleNextPP(this)" title="Animals">🐸</a>
             <hide>
               <macro>{"cmd":"ButtonList","func":"NMMsg",
-                "list":"🐾|🦊|🦉|🐕‍🦺|🦀|🥚|🐣|🐤|🐕|🐈|🐱|🦁|🐢|🐉|🐸|🐿️|🦃|🦋|🦅|🦌|🐇|🦢|🕊️|🦄|🐬|🐳|🦈|🐺|🦇|🐀|🕷️|🕸️"}</macro>
+                "list":"🐾|🦊|🦉|🐕‍🦺|🦀|🥚|🐣|🐤|🐕|🐈|🐱|🦁|🐢|🐉|🐸|🐿️|🦃|🦋|🦅|🦌|🐇|🦴|🦢|🕊️|🦄|🐬|🐳|🦈|🐺|🦇|🐀|🕷️|🕸️"}</macro>
             </hide><!--Animal Icons-->
             |
             <a class="mbbutton" onclick="ToggleNextPP(this)" title="Items">💼</a>
             <hide>
               <macro>{"cmd":"ButtonList","func":"NMMsg",
-                "list":"🚨|📕|🧰|🎒|☎️|📅|⏳|📙|🌂|✂️|🌡️|⚖️|✏️|🎉|🎨|🔑|🗝️|🛩️|🛎️|🔔|🔒|📒|🏆|👑|🎟️|🧭|💡|🧩|🧶|🔋|📗|📘|🧵|🏅|💍|💎|🗺️|⚗️|🧪|☂️|🚪|💼|🧱|🎻|🥾|🕰️|📦|📜|🥼|🎲|🎹|🎼|📰|🗞️|📬|🤖|⚙️|🛒|🎡|🎠|⚓|🎧|🎤|🎬|📷|📺|💻|🖥️|💾|🧳|🎮|🕹️|🎓|🎩|🗃️"}</macro>
+                "list":"🚨|📕|🧰|🎒|☎️|📅|⏳|📙|🌂|✂️|🌡️|⚖️|✏️|🎉|🎨|🔑|🗝️|🛩️|🛎️|🔔|🔒|📒|🏆|👑|🎟️|🧭|💡|🧩|🧶|🔋|📗|📘|🧵|🏅|💍|💎|🗺️|⚗️|🧪|☂️|🚪|💼|🧱|🎻|🥾|🕰️|📦|📜|🥼|🎲|🎹|🎼|✉️📰|🗞️|📬|🤖|⚙️|🛒|🎡|🎠|⚓|🎧|🎤|🎬|📷|📻|📺|💻|🖥️|💾|🧳|🎮|🚂|🕹️|🎓|🎩|🗃️"}</macro>
             </hide><!--Items-->
             |
             <a class="mbbutton" onclick="ToggleNextPP(this)" title="Places">🏰</a>
@@ -30630,10 +30650,10 @@
         <msg DTS="20240505093146" SPK="Tanya" EXP Icon="🔮">How about we start by creating the tracking, after seeing the result we can decide what the minimum standard or if there should be any rule keep development efforts in sync?</msg>
         <msg DTS="20240505093326" SPK="Zoey" EXP Icon="🏹">But don't we know in general you can't force a member to contribute in certain area? I would think some member did not join to do everything.</msg>
         <msg DTS="20240505093444" SPK="LRRH" EXP Icon="🐾">Okay. I need that graph for me to see which area is lacking so that I can decide what I should be doing as guild master, since I am supposed to be able to fill the "slack" in any area. That graph is also for any member wanting to do the same.</msg>
-        <msg DTS="20240505093623" SPK="Ledia" EXP Icon="💟">Good description.</msg>
-        <msg DTS="20240505093725" SPK="Black" EXP Icon="💟">Red is a Red Mage. <url>https://tvtropes.org/pmwiki/pmwiki.php/Main/TheRedMage</url></msg>
-        <msg DTS="20240505094013" SPK="Zoey" EXP Icon="💟">It is canon! XD</msg>
-        <msg DTS="20240505101006" SPK="Evelyn" EXP Icon="💟">The guild Log count is below 1000. Should we stop importing and focus on other priorities?</msg>
+        <msg DTS="20240505093623" SPK="|Ledia|LRRH|" EXP Icon="💟">Good description.</msg>
+        <msg DTS="20240505093725" SPK="|Black|LRRH|" EXP Icon="💟">Red is a Red Mage. <url>https://tvtropes.org/pmwiki/pmwiki.php/Main/TheRedMage</url></msg>
+        <msg DTS="20240505094013" SPK="|Zoey|Black|" EXP Icon="💟">It is canon! XD</msg>
+        <msg DTS="20240505101006" SPK="|Evelyn|LRRH|" EXP Icon="💟">The guild Log count is below 1000. Should we stop importing and focus on other priorities?</msg>
         <msg DTS="20240505101140" SPK="Zoey" EXP Icon="🏹">Why not both? XD</msg>
         <msg DTS="20240505102518" SPK="Tanya" EXP Icon="🔮">I think the code need to get data for this new diagnostic is very similar to Message Scanner. The function would need to scan for activities (which are messages) given a date range, and display a tally for activities that qualifies for Academy, Clinic, or Guild, that qualifies for Rank B, Rank A, or Rank S.</msg>
         <msg DTS="20240505102947" SPK="Zoey" EXP Icon="🏹">I think we should make a node for this discussion to distinguish it from just "Guild Inbox", or even "Message Scanner". Although I thik this could move to Message Scanner.</msg>
@@ -30653,10 +30673,10 @@
         <msg DTS="20240505110547" SPK="LRRH" EXP Icon="🐾">I think I want to distinguish between someone needs help and we delivered help, versus, someone needs help and we showed them the reception area of the clinic where they could get help without us going out to check if anythig is wrong.</msg>
         <msg DTS="20240505110923" SPK="Ledia" EXP Icon="🔍">That sounds like a difference in Rank, not Area.</msg>
         <msg DTS="20240505110958" SPK="Evelyn" EXP Icon="🐣">I think I might understand what Red is saying. Right now at Sitemap, we have three main branches: Guild, Academy, and "Issues & Solutions". It seems that Red wants to track activities specific to "Issues & Solutions".</msg>
-        <msg DTS="20240505111225" SPK="LRRH" EXP Icon="💟">Yes. And it is unsettling that we don't have a single word to describe that branch like the other two. The closest I can think of is "Clinic."</msg>
+        <msg DTS="20240505111225" SPK="|LRRH|Evelyn|" EXP Icon="💟">Yes. And it is unsettling that we don't have a single word to describe that branch like the other two. The closest I can think of is "Clinic."</msg>
         <msg DTS="20240505111406" SPK="Evelyn">I do thik that the word "Clinic" has too much medical connotation that it might be counterproductive.</msg>
         <msg DTS="20240505111512" SPK="Zoey" EXP Icon="🐸">How about just "Support" or "Help"? Almost every website has a support or help section. </msg>
-        <msg DTS="20240505111638" SPK="LRRH" EXP Icon="💟">I think help is fine then. "Support" sounds like we are obligated to help because we sold them something. I think "Help" is better.</msg>
+        <msg DTS="20240505111638" SPK="|LRRH|Zoey|" EXP Icon="💟">I think help is fine then. "Support" sounds like we are obligated to help because we sold them something. I think "Help" is better.</msg>
         <msg DTS="20240505111832" SPK="Tanya" EXP Icon="📌">StarTree.</msg>
         <msg DTS="20240505111945" SPK="StarTree" EXP Icon="📯">The titles of the special queries are now updated to "Academy", "Guild", and "Help"!</msg>
         <msg DTS="20240505112104" SPK="Tanya" EXP Icon="📌">If we stick to the plan to tag area based on node, we need separate nodes specifically about how issues and help topics are classified and reachable from the Helpline. The current candidates of those nodes are Guild Inbox and Taxonomy. Guild Inbox crosses between Guild and Help, and Taxonomy crosses between Academy and Help. Should those nodes have both area tags, or should there be a separate Help node?</msg>
@@ -30664,14 +30684,14 @@
         <msg DTS="20240505112554" SPK="Tanya" EXP Icon="🔍">Why? I think the way we use Guild Inbox, it should only have the Guild area tag if we have to pick just one. It is covered with terms and processes that only members updating the site can understand. It is predominantly a Guild node.</msg>
         <msg DTS="20240505112801" SPK="Ledia">I agree that Guild Inbox is a guild node.</msg>
         <msg DTS="20240505112849" SPK="Zoey" EXP Icon="🐾">I think Taxonomy could be both, and maybe that is all we need.</msg>
-        <msg DTS="20240505112957" SPK="Evelyn" EXP Icon="🔍">I think it might be possible to to talk about Taxonomy without contributing to your help system, so I think we need to start with a node dedicated to maintenance, upgrade, and promotion of the help system. <mbAA>Evelyn receives</mbAA></msg>
+        <msg DTS="20240505112957" SPK="Evelyn" title="💗" EXP Icon="🔍">I think it might be possible to to talk about Taxonomy without contributing to your help system, so I think we need to start with a node dedicated to maintenance, upgrade, and promotion of the help system. <mbAA>Evelyn receives</mbAA></msg>
         <msg DTS="20240505113300" SPK="Ledia">Legit.</msg>
         <msg DTS="20240505113353" SPK="Zoey" EXP Icon="🐸">Arcacia has unspoken! XD</msg>
         <msg DTS="20240505113508" SPK="Tanya" EXP Icon="🔍">StarTree, what is the closest node to "Help"? Or do we need to make one?</msg>
         <msg DTS="20240505113624" SPK="StarTree" mode="upgrade" EXP=2 Icon="🐣">StarTree thinks that the closest nodes are <lnk>202208172056|About</lnk> and <lnk>202307231022|Nextdoor</lnk>, and there should be a <lnk>202405051137|Help</lnk> node! So now there is! The Help node has the new tag "area-help"!</msg>
-        <msg DTS="20240505114237" SPK="Evelyn" EXP Icon="💟">I like this new development. This was the telephone section in the old board. We missed it during migration. 😖</msg>
+        <msg DTS="20240505114237" SPK="|Evelyn|LRRH|Tanya|Zoey|Arcacia|Ledia|StarTree|" EXP Icon="💟">I like this new development. This was the telephone section in the old board. We missed it during migration. 😖</msg>
         <msg DTS="20240505114515" SPK="Tanya">True.</msg>
-        <msg DTS="20240505114528" SPK="Zoey" EXP Icon="💟">Thank you Red for bring it back! XD</msg>
+        <msg DTS="20240505114528" SPK="|Zoey|LRRH|" EXP Icon="💟">Thank you Red for bringing it back! XD</msg>
         <msg DTS="20240505115218" SPK="Black" EXP Icon="🔍">I think the tag "TSN" should be changed to "Help".</msg>
         <msg DTS="20240505115309" SPK="StarTree" EXP Icon="⭐">Done!</msg>
         <msg DTS="20240505115427" SPK="Tanya" EXP Icon="🎪">To recap: Within the Help node, if you tag a message Rank B, it means that you did maintenance task for not the node per se, but the Help System. Activities that should qualify for Rank B includes adding links to the Help directly and introducing to existing classification.</msg>
@@ -31605,7 +31625,8 @@
       <msg DTS="20240801213325" SPK="Kisaragi" EXP=2 Icon="🌊">Laundry.</msg>
       <msg DTS="20240802083526" SPK="Kisaragi" EXP=5 Icon="🧹">Tidying.</msg>
       <msg DTS="20240802083546" SPK="Kisaragi" EXP Icon="🍱">Refilling.</msg>
-
+      <msg DTS="20240803150252" SPK="Gaia" EXP Icon="🗃️">Logging expenses.</msg>
+      <msg DTS="20240804173332" SPK="LRRH" EXP Icon="🗃️">Logging expenses.</msg>
 
 
     </note><!--#Chores-->
@@ -36199,15 +36220,15 @@
       <topic dts="20240721112302" icon="📌" title="Content">
         <msg DTS="20240721111435" SPK="Cardinal" EXP Icon="📯">Should all items, including the ones we have not yet encountered in quests, be listed?</msg>
         <msg DTS="20240721112505" SPK="Tanya" EXP Icon="🔮">If this is about avoiding spoiler could we add an attribute that will hide the name of items we have not encountered?</msg>
-        <msg DTS="20240721112631" SPK="Sasha" EXP Icon="💟">I think we should add everything and I like the spoiler attribute idea.</msg>
-        <msg DTS="20240721112853" SPK="Evelyn" EXP Icon="💟">I like this list.</msg>
-        <msg DTS="20240721150048" SPK="Vivi" EXP Icon="📌">StarTree please code the spoiler flag.</msg>
+        <msg DTS="20240721112631" SPK="|Sasha|Cardinal|Tanya|" EXP Icon="💟">I think we should add everything and I like the spoiler attribute idea.</msg>
+        <msg DTS="20240721112853" SPK="|Evelyn|Cardinal|" EXP Icon="💟">I like this list.</msg>
+        <msg DTS="20240721150048" SPK="Vivi" EXP Icon="🔮">StarTree please code the spoiler flag.</msg>
         <msg DTS="20240721150116" SPK="StarTree" EXP=2 Icon="⭐">Roger! Should the actual name be shown once you expand or remain hidden?</msg>
-        <msg DTS="20240721151309" SPK="Ledia" EXP Icon="💟">Interesting. I think you could add a reveal button to see the answer.</msg>
+        <msg DTS="20240721151309" SPK="|Ledia|StarTree|" EXP Icon="💟">Interesting. I think you could add a reveal button to see the answer.</msg>
         <msg DTS="20240721151748" SPK="StarTree" EXP Icon="⭐">Done!</msg>
-        <msg DTS="20240721151802" SPK="Evelyn" EXP Icon="💟">This is a fun feature 🤗</msg>
+        <msg DTS="20240721151802" SPK="|Evelyn|Vivi|" EXP Icon="💟">This is a fun feature 🤗</msg>
         <msg DTS="20240721152107" SPK="Tanya" EXP Icon="🔮">Added Filter Categories.</msg>
-        <msg DTS="20240721152452" SPK="Ledia" EXP Icon="💟">This almost make you want to hide all of them by default doesn't it?</msg>
+        <msg DTS="20240721152452" SPK="|Ledia|Tanya|" EXP Icon="💟">This almost make you want to hide all of them by default doesn't it?</msg>
         <msg DTS="20240721153823" SPK="StarTree" EXP Icon="🎀">Made the default list 30vh instead of 50vh.</msg>
         <msg DTS="20240723013303" Start="20240723010822" SPK="Patricia" EXP=5 Icon="🗃️">Added more cards.</msg>
         <msg DTS="20240723230231" End="20240723233309" SPK="Black" EXP="6" Icon="🗃️">Adding cards.</msg>
@@ -36916,7 +36937,7 @@
         <msg DTS="20240722232654" SPK="Evelyn" EXP Icon="📬">In this node we try list list and explain all of them. If you find a missing concept please let us know. <url>https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform</url></msg>
       </note>
       <note dts="20240722235632" subtitle="Comments">
-        <msg DTS="20240722235657" SPK="Zoey" EXP Icon="💟">This is like the "Ask a Paladin" section, but for Gaia concepts. I think this will be good.</msg>
+        <msg DTS="20240722235657" SPK="|Zoey|Evelyn|" EXP Icon="💟">This is like the "Ask a Paladin" section, but for Gaia concepts. I think this will be good.</msg>
         <msg DTS="20240722235911" SPK="LRRH" EXP Icon="🐣">So if I get question from Twitter, is this where I can post them and get a proper reply?</msg>
         <msg DTS="20240723000001" SPK="Evelyn" EXP Icon="💗">Yes.</msg>
         <msg DTS="20240723000134" SPK="LRRH" EXP Icon="📌">Could we add answered and unanswered tags?</msg>
@@ -37995,7 +38016,7 @@
               <msg DTS="20240801101722" SPK="Arcacia" EXP Icon="🔍">In terms of treating other humans, I think in general this is a yes. What is your experience?</msg>
               <msg DTS="20240801102512" SPK="LRRH" EXP Icon="🔍">If we accept that a vegetarian is someone who may exploit animals in ways other than eating them, I think we can assume that they could also be unfair to humans.</msg>
               <msg DTS="20240801102656" SPK="Black" EXP Icon="🏛️">I think this question is not about our impression or experience, but whether "being vegetarian" implies "being fair" based on the definition of vegetarianism. So I think even most vegetarians would agree that the term "vegetarianism" does not imply being fair to other human beings. So the answer is maybe (question mark). A No would be reserved for philosophies that by definition are unfair to other human being, such as a race-based supremism.</msg>
-              <msg DTS="20240801103045" SPK="Arcacia" EXP Icon="💟">Then my answer on kindness should be corrected.</msg>
+              <msg DTS="20240801103045" SPK="|Arcacia|Black|" EXP Icon="💟">Then my answer on kindness should be corrected.</msg>
 
 
             </topic>
@@ -38132,6 +38153,67 @@
   ]}</macro>
 </div><!-- STATUS -->
 <div date="20240803" time="2359" data-status="">
+  <macro>{"cmd":"daisy2","issues":"0","quests":"481","activities":[
+    {"ch":"26","rank":"U","updates":"0","last":"20240725"},
+    {"ch":"28","rank":"U","updates":"0","last":"20240727"},
+    {"ch":"13","rank":"U","updates":"0","last":"20240728"},
+    {"ch":"24","rank":"U","updates":"0","last":"20240728"},
+    {"ch":"35","rank":"U","updates":"0","last":"20240728"},
+    {"ch":"23","rank":"U","updates":"0","last":"20240729"},
+    {"ch":"17","rank":"U","updates":"0","last":"20240730"},
+    {"ch":"31","rank":"U","updates":"0","last":"20240730"},
+    {"ch":"27","rank":"U","updates":"0","last":"20240730"},
+    {"ch":"20","rank":"U","updates":"0","last":"20240731"},
+    {"ch":"12","rank":"U","updates":"0","last":"20240731"},
+    {"ch":"32","rank":"D","updates":"1","last":"20240801"},
+    {"ch":"15","rank":"B","updates":"1","last":"20240801"},
+    {"ch":"29","rank":"B","updates":"1","last":"20240801"},
+    {"ch":"14","rank":"B","updates":"1","last":"20240802"},
+    {"ch":"11","rank":"B","updates":"1","last":"20240802"},
+    {"ch":"34","rank":"B","updates":"1","last":"20240802"},
+    {"ch":"16","rank":"D","updates":"1","last":"20240802"},
+    {"ch":"5","rank":"B","updates":"1","last":"20240802"},
+    {"ch":"22","rank":"B","updates":"1","last":"20240803"},
+    {"ch":"7","rank":"B","updates":"1","last":"20240803"},
+    {"ch":"21","rank":"B","updates":"3","last":"20240803"},
+    {"ch":"30","rank":"D","updates":"1","last":"20240803"},
+    {"ch":"25","rank":"B","updates":"1","last":"20240803"},
+    {"ch":"19","rank":"A","updates":"1","last":"20240803"},
+    {"ch":"33","rank":"C","updates":"2","last":"20240804"},
+    {"ch":"18","rank":"B","updates":"2","last":"20240804"}
+    ],"players":"","merits":"","recognitions":"","kudos":"","awards":"Albatross, Arcacia, Black, Cardinal, Casey, Evelyn, Gaia, Ivy, Koyo, LRRH, Melody, Natalie, Patricia, Skyle, StarTree, Sylvia, Tanya, Therese, V, Vivi, Zoey","top":[
+    {"name":"StarTree","score":"43"},
+    {"name":"Tanya","score":"22"},
+    {"name":"Black","score":"20"},
+    {"name":"Mikela","score":"18"},
+    {"name":"Zoey","score":"18"},
+    {"name":"Vivi","score":"16"},
+    {"name":"Sylvia","score":"16"},
+    {"name":"Evelyn","score":"16"},
+    {"name":"Ivy","score":"13"},
+    {"name":"LRRH","score":"13"},
+    {"name":"Skyle","score":"12"},
+    {"name":"Cardinal","score":"10"},
+    {"name":"Sasha","score":"8"},
+    {"name":"Arcacia","score":"7"},
+    {"name":"Ledia","score":"7"},
+    {"name":"Melody","score":"6"},
+    {"name":"Casey","score":"6"},
+    {"name":"Gaia","score":"5"},
+    {"name":"Patricia","score":"5"},
+    {"name":"V","score":"5"},
+    {"name":"Natalie","score":"5"},
+    {"name":"Therese","score":"4"},
+    {"name":"Koyo","score":"4"},
+    {"name":"Albatross","score":"4"},
+    {"name":"Kisaragi","score":"4"},
+    {"name":"P4","score":"4"},
+    {"name":"Fina","score":"2"},
+    {"name":"44","score":"1"}
+    {"name":"Amelia","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div date="20240804" time="2359" data-status="">
   <macro>{"cmd":"daisy2","issues":"0","quests":"481","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
