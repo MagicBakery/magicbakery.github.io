@@ -7742,6 +7742,15 @@ function TAGetSelText(el){
   // 20240423: LRRH: el here is the textarea.
   return el.value.slice(el.selectionStart,el.selectionEnd);;
 }
+function TAInsert(el,mStr){
+  // 20240423: P4
+  var mStart = el.selectionStart;
+  var mEnd = el.selectionEnd;
+  var mText = el.value;
+  el.value = mText.slice(0,mStart) + mStr + mText.slice(mEnd);
+  el.selectionStart = el.selectionEnd = mEnd + mStr.length;
+  el.focus();
+}
 function TAInsertDocLen(el){
   // 20240427: P4
   var elTA = TAGet(el);
@@ -7760,14 +7769,48 @@ function TAInsertDTS(el){
   var elTA = TAGet(el);
   TAInsert(elTA,DTSNow());
 }
-function TAInsert(el,mStr){
-  // 20240423: P4
-  var mStart = el.selectionStart;
-  var mEnd = el.selectionEnd;
-  var mText = el.value;
-  el.value = mText.slice(0,mStart) + mStr + mText.slice(mEnd);
-  el.selectionStart = el.selectionEnd = mEnd + mStr.length;
-  el.focus();
+function TAInsertMsg(el){
+  // 20240806: StarTree
+  // Use the selected speaker and icon at the NodeMaker widget.
+  // If the clipboard has an URL, use it as an url in the message.
+  // STEP: Locate the footer:
+  var mSPK = "";  var mIcon = "";
+  try{
+    var elWidget = document.querySelector(".footer div[widget='20240416213800']");
+    var elIcon = elWidget.querySelector("input[nm-icon]");
+    mIcon = elIcon.value;
+    var mSPK2 = elWidget.querySelector("div.mbav50trg");
+    var mSPKs = mSPK2.outerHTML.split(" ");
+    mSPK = mSPKs[1].slice(9);
+  }catch{}
+  navigator.clipboard.readText().then((mCBText)=>{
+    var mHTML = "<msg DTS=\"" + DTSNow() + "\" SPK=\"" + mSPK +"\" EXP Icon=\"" + mIcon +"\">";
+    if(mCBText.slice(0,4)=="http"){
+      mHTML += " <url>" + mCBText + "</url>";
+    }
+    mHTML += "</msg>\n";
+    TAInsert(TAGet(el),mHTML);
+  });
+}
+function TAInsertResource(el){
+  // 20240806: StarTree
+  // If the clipboard has an URL, use it for the src field.
+  navigator.clipboard.readText().then((mCBText)=>{
+    var mHTML = "<res icon=\"\" item=\""+DTC(DTSNow())+"\" title=\"Title\" tags=\"\"";
+    if(mCBText.slice(0,4)=="http"){
+      mHTML += " src=\"" + mCBText + "\"";
+    }
+    mHTML += ">\n";
+    mHTML += "</res>\n";
+    TAInsert(TAGet(el),mHTML);
+  });
+}
+function TAInsertURL(el){
+  // 20240806: StarTree: Assumes that the clipboard has an URL.
+  navigator.clipboard.readText().then((mCBText)=>{
+    var mHTML = "<url>" + mCBText + "</url>";
+    TAInsert(TAGet(el),mHTML);
+  });
 }
 function TAReplace(el,mStr){
   // 20240423: LRRH
