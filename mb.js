@@ -7778,7 +7778,7 @@ function TAInsertMsg(el){
   try{
     var elWidget = document.querySelector(".footer div[widget='20240416213800']");
     var elIcon = elWidget.querySelector("input[nm-icon]");
-    mIcon = elIcon.value;
+    mIcon = Default(elIcon.value,"📌");
     var mSPK2 = elWidget.querySelector("div.mbav50trg");
     var mSPKs = mSPK2.outerHTML.split(" ");
     mSPK = mSPKs[1].slice(9);
@@ -7796,7 +7796,7 @@ function TAInsertResource(el){
   // 20240806: StarTree
   // If the clipboard has an URL, use it for the src field.
   navigator.clipboard.readText().then((mCBText)=>{
-    var mHTML = "<res icon=\"\" item=\""+DTC(DTSNow())+"\" title=\"Title\" tags=\"\"";
+    var mHTML = "<res item=\""+DTC(DTSNow())+"\" title=\"Title\" tags=\"\"";
     if(mCBText.slice(0,4)=="http"){
       mHTML += " src=\"" + mCBText + "\"";
     }
