@@ -555,7 +555,7 @@ todo::before{content:"TODO: ";font-size: 12px;}
   /*margin:1px 0px 0px 0px;*/
   padding:0;
   /*vertical-align:top;*/
-  vertical-align:-0.4em;
+  vertical-align:-0.3em;
   /*width:20px;*/
   width:1.3em;
 }
@@ -858,6 +858,8 @@ todo::before{content:"TODO: ";font-size: 12px;}
 .iChick{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Chick.png?raw=true');}
 .iFan{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Fan.png?raw=true');}
 .iLyre{background-image:url('https://github.com/MagicBakery/Images/blob/main/Lyre.png?raw=true');}
+.iRock{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Rock.png?raw=true');}
+.iWood{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Wood.png?raw=true');}
 
 /* Avatars */
 .mb3B {background-image:url('https://github.com/MagicBakery/Images/blob/main/3B%20(2).png?raw=true');}
