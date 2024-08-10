@@ -550,9 +550,11 @@ todo::before{content:"TODO: ";font-size: 12px;}
   display:inline-block;
   height:1.25em; 
   padding:0;
+  /*text-shadow: 0px 0px 4px black;*/
   
   width:1.25em;
 }
+a.mbIconShift> span.mbIcon{vertical-align: -0.25em;}
 div.mbIcon{vertical-align: -0.25em;}
 div.mbIcon > icon{font-size: 0px;}
 span.mbIcon > icon{font-size: 0px;}
