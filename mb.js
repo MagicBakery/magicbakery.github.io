@@ -100,9 +100,10 @@ function BoardAdd(el){
 
   // STEP: Add the close button.
   var mHTML = "<div control>";
-  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>🍮</a>";
+  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>:Close:</a>";
   mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
+  MacroIcons(elTemp);
   elTemp.style.marginBottom = "0px";
   var mControl = SearchPS(el,'control');
   mControl.nextElementSibling.prepend(elTemp);
@@ -115,9 +116,10 @@ function BoardAddBefore(el){
 
   // STEP: Add the close button.
   var mHTML = "<div control>";
-  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>🍮</a>";
+  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>:Close:</a>";
   mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
+  MacroIcons(elTemp);
   elTemp.style.marginBottom = "0px";
   el.before(elTemp);
   return elTemp;
@@ -129,9 +131,10 @@ function BoardAddAfter(el){
 
   // STEP: Add the close button.
   var mHTML = "<div control>";
-  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>🍮</a>";
+  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>:Close:</a>";
   mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
+  MacroIcons(elTemp);
   elTemp.style.marginBottom = "0px";
   el.after(elTemp);
   return elTemp;
@@ -1620,6 +1623,7 @@ function MacroIcons(el){
   
   
   const mIconList = [
+    [":Close:","Close"],
     [":Jam:","Jam"],
     [":Lyre:","Lyre"],
     ["🐤","Chick"],
