@@ -1830,7 +1830,7 @@ function MacroResItem(mTag){
   mHTML += "</code>";*/
   mHTML += "<hide><hr>";
   // DATA: This is the area for basic data about the item
-  mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:-2px 0px -3px 0px;padding:2px 5px;max-width:140px;\">";  //max-width:145px
+  mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:-2px 0px -3px 0px;padding:2px 5px;max-width:150px;\">";  //max-width:145px
   //mHTML += "<div class=\"mbpuzzle\" style=\"font-size:15px;margin:0px 0px 0px 0px;\">";  
   if(mTag.hasAttribute('available')){
     mHTML += "<center style=\"color:green\"><b>AVAILABLE</b></center>";
@@ -7232,7 +7232,7 @@ function NodeEditModeCheck(el){
 }
 function NodeMarkCookieCheck(){
   // 20240330: StarTree: Checks if the page should mark node visit status.
-  return Parameter('CookieEnabled');
+  return (Parameter('CookieEnabled')=="true");
 }
 function Parameter(mParam,mSet){
   // 20240804: StarTree: Check attribute parameters of document main.
@@ -7241,6 +7241,7 @@ function Parameter(mParam,mSet){
   // .. If mSet is not blank, it sets the parameter.
   var elMain = document.querySelector('[main]');
   if(IsBlank(mSet)){
+    DEBUG(elMain.getAttribute(mParam));
     return (elMain.getAttribute(mParam));
   }
   elMain.setAttribute(mParam,mSet);

@@ -549,12 +549,15 @@ todo::before{content:"TODO: ";font-size: 12px;}
   background-size:cover; 
   display:inline-block;
   /*filter: blur(0.03rem) contrast(1.2);*/
-  height:20px; 
-  line-height:1.1em;
-  margin:1px 0px 0px 0px;
+  /*height:20px; */
+  height:1.3em; 
+  /*line-height:1.1em;*/
+  /*margin:1px 0px 0px 0px;*/
   padding:0;
-  vertical-align:top;
-  width:20px; 
+  /*vertical-align:top;*/
+  vertical-align:-0.4em;
+  /*width:20px;*/
+  width:1.3em;
 }
 
 .mbavem {
@@ -852,6 +855,8 @@ todo::before{content:"TODO: ";font-size: 12px;}
 }
 
 /* ICONS (20x20 px)*/
+.iChick{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Chick.png?raw=true');}
+.iFan{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Fan.png?raw=true');}
 .iLyre{background-image:url('https://github.com/MagicBakery/Images/blob/main/Lyre.png?raw=true');}
 
 /* Avatars */
