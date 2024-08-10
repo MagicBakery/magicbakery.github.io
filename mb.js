@@ -7702,7 +7702,32 @@ function NMURL(el){
 function NodeMarkCycle(el,iNodeID){
   // 20240330: StarTree: For saving the node marking
   var curMark = el.innerHTML;
-  switch(curMark){
+  if(curMark.indexOf("🤍")!=-1){
+    curMark = "📌"
+  }else if(curMark.indexOf("📌")!=-1){
+    curMark = "🍒"
+  }else if(curMark.indexOf("🍒")!=-1){
+    curMark = "✅"
+  }else if(curMark.indexOf("✅")!=-1){
+    curMark = "🌱"
+  }else if(curMark.indexOf("🌱")!=-1){
+    curMark = "🐣"
+  }else if(curMark.indexOf("🐣")!=-1){
+    curMark = "🐤"
+  }else if(curMark.indexOf("🐤")!=-1){
+    curMark = "🕊️"
+  }else if(curMark.indexOf("🕊️")!=-1){
+    curMark = "🦉"
+  }else if(curMark.indexOf("🦉")!=-1){
+    curMark = "🦅"
+  }else if(curMark.indexOf("🦅")!=-1){
+    curMark = "❌"
+  }else if(curMark.indexOf("❌")!=-1){
+    curMark = "🤍"
+  }else{
+    curMark = "🤍"
+  }
+  /*switch(curMark){
     case "🤍": curMark = "📌";break; 
     case "📌": curMark = "🍒";break; 
     case "🍒": curMark = "✅";break; 
@@ -7715,7 +7740,7 @@ function NodeMarkCycle(el,iNodeID){
     case "🦅": curMark = "❌";break; 
     case "❌": curMark = "🤍";break; 
     default:   curMark = "🤍";break;
-  }
+  }*/
 
   // STEP: 20240402: StarTree: change the icon for all instances on display.
   var mVList = document.querySelectorAll('#P' + iNodeID + "-V");
@@ -7725,6 +7750,7 @@ function NodeMarkCycle(el,iNodeID){
   }
   localStorage.setItem(iNodeID + "-V",curMark);
   localStorage.setItem(iNodeID + "-V-DTS",DTSNow());
+  MacroIcons();
 }
 function NodeMarkLoad(iNodeID){
   // 20240330: StarTree: For loading the node marking
