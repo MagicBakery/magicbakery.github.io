@@ -100,7 +100,7 @@ function BoardAdd(el){
 
   // STEP: Add the close button.
   var mHTML = "<div control>";
-  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>:Close:</a>";
+  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'><small>:Close:</small></a>";
   mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
   MacroIcons(elTemp);
@@ -116,7 +116,7 @@ function BoardAddBefore(el){
 
   // STEP: Add the close button.
   var mHTML = "<div control>";
-  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>:Close:</a>";
+  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'><small>:Close:</small></a>";
   mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
   MacroIcons(elTemp);
@@ -131,7 +131,7 @@ function BoardAddAfter(el){
 
   // STEP: Add the close button.
   var mHTML = "<div control>";
-  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>:Close:</a>";
+  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'><small>:Close:</small></a>";
   mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
   MacroIcons(elTemp);
@@ -714,7 +714,7 @@ function GetInputBoxValue(el){
 function IFrameFeedback(el){
   // 20231029: Black: Spawn a feedback form
   var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
-  var mHTML = "<a class='mbbutton' onClick='RemoveParent(this)' style='float:right' title='Close'>:Close:</a>";
+  var mHTML = "<a class='mbbutton' onClick='RemoveParent(this)' style='float:right' title='Close'><small>:Close:</small></a>";
 
   //mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>⅔</button>";
   mHTML += "<a onClick='IFrameFeedback(this)' title='Feedback Form'>💌</a> <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a>";
@@ -759,7 +759,7 @@ function IFrameURLSet(el){
   //   <button class='mbbutton' onClick='RemoveParent(this)' style='float:right;margin-bottom:-20px;margin-right:20px;position:relative;z-index:1' title='Close'>:Close:</button>
   //   <iframe src='https://panarcana.blogspot.com/p/viewer.html?id=P202303052122' title='Blogspot Node' style='margin:0px -3px;border:none;width:100%;height:calc(100vh - 136px)' allow='clipboard-read; clipboard-write'></iframe>
   // </div>
-  var mHTML = "<a class='mbbutton' onClick='RemoveParent(this)' style='float:right' title='Close'>:Close:</a>";
+  var mHTML = "<a class='mbbutton' onClick='RemoveParent(this)' style='float:right' title='Close'><small>:Close:</small></a>";
   mHTML += "<a onClick='IFrameRefresh(this," + mNodeID + ")' title='Refresh'>🕰️</a> <a class='mbbutton' onClick='HideNext(this)' title='Data from Blogspot'>Blogspot " + mNodeID + "</a>";
   mHTML += "<iframe src='" + mInput + "' title='Blogspot Node' style='border:none;width:100%;height:calc(100vh - 190px)' allow='clipboard-read; clipboard-write'></iframe>";
   var elTemp = document.createElement("div");
@@ -6990,7 +6990,7 @@ function ReloadFP(el){
   // 20240421: Arcacia: Special handling for the Feedback Form.
   if(mDTS=="Feedback"){
     var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
-    mHTML = "<a class='mbbutton' onClick='HideParent(this);FPGetTopZ()' style='float:right' title='Close'>:Close:</a>";
+    mHTML = "<a class='mbbutton' onClick='HideParent(this);FPGetTopZ()' style='float:right' title='Close'><small>:Close:</small></a>";
     mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>⅔</button>"
     mHTML += "💌 <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a><span><hr>";
     mHTML += "<iframe src='" + mInput + "' title='Google Form' style='border:none;width:100%;height:45vh' allow='clipboard-read; clipboard-write'></iframe></span>";
