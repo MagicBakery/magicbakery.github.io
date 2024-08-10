@@ -548,17 +548,15 @@ todo::before{content:"TODO: ";font-size: 12px;}
   background-position: 50% 50%; 
   background-size:cover; 
   display:inline-block;
-  /*filter: blur(0.03rem) contrast(1.2);*/
-  /*height:20px; */
-  height:1.3em; 
-  /*line-height:1.1em;*/
-  /*margin:1px 0px 0px 0px;*/
+  height:1.25em; 
   padding:0;
-  /*vertical-align:top;*/
-  vertical-align:-0.3em;
-  /*width:20px;*/
-  width:1.3em;
+  
+  width:1.25em;
 }
+div.mbIcon{vertical-align: -0.25em;}
+div.mbIcon > icon{font-size: 0px;}
+span.mbIcon > icon{font-size: 0px;}
+
 
 .mbavem {
   background-color:rgba(0,0,0,0);
@@ -854,10 +852,15 @@ todo::before{content:"TODO: ";font-size: 12px;}
   width:100px; 
 }
 
-/* ICONS (20x20 px)*/
+/* ICONS (20x20 px) / 450 px square*/
+
+
 .iChick{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Chick.png?raw=true');}
+
 .iFan{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Fan.png?raw=true');}
+.iJam{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Jam.png?raw=true');}
 .iLyre{background-image:url('https://github.com/MagicBakery/Images/blob/main/Lyre.png?raw=true');}
+.iPretzel{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Pretzel.png?raw=true');}
 .iRock{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Rock.png?raw=true');}
 .iWood{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Wood.png?raw=true');}
 

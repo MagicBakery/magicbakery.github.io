@@ -440,7 +440,7 @@
           <macro>{"cmd":"img","src":"https://github.com/MagicBakery/Images/blob/main/QuestBoard_20221015_Top2.png?raw=true","width":"100%"}</macro>
           <div class="mbscroll" style="margin:-5% 5% -5% 5%;border-radius: 0px;border:5px solid saddlebrown;padding:3% 10px 6% 10px">
             <center>
-              <lnk>202407222317|🐤 Gaia Concepts 🐤</lnk>
+              <lnk>202309142125|🐤 Custom Icons 🐤</lnk>
             </center>
             <h4>2024 August</h4>
             <macro>{"cmd":"MC3"}</macro>
@@ -473,7 +473,7 @@
                   </div>
                 </div><!--@Academy / LRRH-->                
                 <div class="mbCB">
-                  <macro>{"guildlog":"114","rank":"D","updates":"1","node":"202208162133","author":"Fina","chapter":"@Arena","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"114","rank":"A","updates":"2","node":"202208162133","author":"Fina","chapter":"@Arena","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"0","icon":"🏛️","node":"202407200843","title":"Custody Laws","info":"","cmd":"quest"}</macro> 
@@ -484,7 +484,7 @@
                     
                     <macro>{"log":"","priority":"2","icon":"🔔","node":"202403150017","title":"Discussion Log","info":"Replying/Deploying.","cmd":"quest"}</macro>            
                     <macro>{"log":"","priority":"2","icon":"⚔️","node":"202301011739","title":"Differences","info":"Process significant differences in philosophy or constitution.","cmd":"quest"}</macro>                
-                    <macro>{"log":"","priority":"9","icon":"Lyre","node":"202309142125","title":"Custom Icon","info":"Custom Icons: Need new node.","cmd":"quest"}</macro>
+                    <macro>{"log":"0810","priority":"9","icon":":Lyre:","node":"202309142125","title":"Custom Icon","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"3","icon":"📗","node":"202405201027","title":"Changing Planet","info":"Critical reading.","cmd":"quest"}</macro>  
                     <span class="mbListCapNC mbRankC"></span>
@@ -25164,21 +25164,25 @@
     <div widget="" dts="20240330201200" title="Notepad" icon="📋" node="202403302012">
       <span control="">
         <button class="mbbutton" title="Use Cookie" style="float:right" onclick="TextAreaUseCookie(this)">🍯</button>
-        <button class="mbbutton" title="Insert Timestamp" onclick="TAInsertDTS(this)">🕒</button>
-        <button class="mbbutton" title="Insert Document Length" onclick="TAInsertDocLen(this)">🧶</button><br>
+
+        <button class="mbbutton" title="" onclick="ToggleNextPN(this)">⏱️</button>
+        <hide>
+          <button class="mbbutton" title="Insert Timestamp" onclick="TAInsertDTS(this)">🕒</button>
+          <button class="mbbutton" title="Insert Document Length" onclick="TAInsertDocLen(this)">🧶</button>
+          <button class="mbbutton" title="Testing" onclick="TACount(this,'-1')">[-1]</button>
+          <button class="mbbutton" title="Testing" onclick="TACount(this,'0')">[0]</button>
+          <button class="mbbutton" title="Testing" onclick="TACount(this,'1')">[+1]</button>
+        </hide>
+
+        
+        
         <button class="mbbutton" title="Insert Resource" onclick="TAInsertResource(this)">📦</button>
         <button class="mbbutton" title="Insert Resource" onclick="TAInsertURL(this)">🔗</button>
         <button class="mbbutton" title="Insert Resource" onclick="TAInsertMsg(this)">💬</button>
         
 
-        <span style="float:right">
-          <button class="mbbutton" title="Testing" onclick="TACount(this,'-1')">[-1]</button>
-          <button class="mbbutton" title="Testing" onclick="TACount(this,'0')">[0]</button>
-          <button class="mbbutton" title="Testing" onclick="TACount(this,'1')">[+1]</button>
-        </span>
-        
-
       </span>
+      <div class="mbhide"></div>
       <textarea textarea="" style="tab-size:2;width:100%;height:200px;font-size:16px;background-color:FloralWhite;color:saddlebrown" onkeyup="TextAreaSave(this)"></textarea>  
     </div><!--Widget--> 
   </content>
@@ -28149,7 +28153,7 @@
             <a class="mbbutton" onclick="ToggleNextPP(this)" title="Items">💼</a>
             <hide>
               <macro>{"cmd":"ButtonList","func":"NMMsg",
-                "list":"🚨|📕|🧰|🎒|☎️|📅|⏳|📙|🌂|✂️|🌡️|⚖️|✏️|🎉|🎨|🔑|🗝️|🛩️|🛎️|🔔|🔒|📒|🏆|👑|🎟️|🧭|💡|🧩|🧶|🔋|📗|📘|🧵|🏅|💍|💎|🗺️|⚗️|🧪|☂️|🚪|💼|🧱|🎻|🥾|🕰️|📦|📜|🥼|🎲|🎹|🎼|✉️📰|🗞️|📬|🤖|⚙️|🛒|🎡|🎠|⚓|🎧|🎤|🎬|📷|📻|📺|💻|🖥️|💾|🧳|🎮|🚂|🕹️|🎓|🎩|🗃️"}</macro>
+                "list":"🚨|📕|🧰|🎒|☎️|🪭|📅|⏳|📙|🌂|✂️|🌡️|⚖️|✏️|🎉|🎨|🔑|🗝️|🛩️|🛎️|🔔|🔒|📒|🏆|👑|🎟️|🧭|💡|🧩|🧶|🔋|📗|📘|🧵|🏅|💍|💎|🗺️|⚗️|🧪|☂️|🚪|💼|🧱|🎻|:Lyre:|🥾|🕰️|📦|📜|🥼|🎲|🎹|🎼|✉️📰|🗞️|📬|🤖|⚙️|🛒|🎡|🎠|⚓|🎧|🎤|🎬|📷|📻|📺|💻|🖥️|💾|🧳|🎮|🚂|🕹️|🎓|🎩|🗃️"}</macro>
             </hide><!--Items-->
             |
             <a class="mbbutton" onclick="ToggleNextPP(this)" title="Places">🏰</a>
@@ -28162,7 +28166,7 @@
             <hide>
               <macro>{"cmd":"ButtonList","func":"NMMsg",
                 "list":"🔥|☀️|🌛|⭐|⚡|❄️|🌠|☄️|💧|🌊|🌀|🌌|☁️|🌈"}</macro>
-              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🍁|🍂|🌹|🥀|🌺|🌷|🌻|🌾|🌱|🍃|🌵|🍀|🌳|🌴|🌼"}</macro>
+              <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🍁|🍂|🌹|🥀|🌺|🌷|🌻|🌾|🌱|🍃|🌵|🍀|🌳|🌴|🌼|🪨|🪵"}</macro>
 
               
             </hide><!--Nature-->
@@ -28171,16 +28175,17 @@
             <a class="mbbutton" onclick="ToggleNextPP(this)" title="Noto">☄️</a>
             <hide>
               Buoy <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🛟"}</macro>
-              Fan <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪭"}</macro>
+              Coin <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪙"}</macro>
+              <!--Fan <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪭"}</macro>-->
               Headstone <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪦"}</macro>
               Heart Hand <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🫶"}</macro>
               Melting Face <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🫠"}</macro>
               Pink Heart <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🩷"}</macro>
-              Rock <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪨"}</macro>
+              <!--Rock <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪨"}</macro>-->
               Sewing Needle <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪡"}</macro>
               Sign <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪧"}</macro>
               Wing <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪽"}</macro>
-              Wood <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪵"}</macro>
+              <!--Wood <macro>{"cmd":"ButtonList","func":"NMMsg","list":"🪵"}</macro>-->
             </hide><!--Places-->
 
           </div><!--Category Tab Buttons-->

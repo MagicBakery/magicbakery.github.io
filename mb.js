@@ -1501,6 +1501,7 @@ function Macro(elScope){
   MacroCard(elScope);
   MacroLnk(elScope);
   MacroURL(elScope);
+  MacroIcons(elScope);
 }
 function MacroBullet(el){
   // 20240420: StarTree: Changes:
@@ -1611,6 +1612,49 @@ function MacroCard2(elCard){
    elCard.before(elNew);
    elCard.remove();
   return true;
+}
+function MacroIcons(el){
+  // 20240810: Black: Replace emoji in the scope or the entire document.
+  if(IsBlank(el)){el = document.body;}
+  var mHTMLInner = el.innerHTML;  
+  
+  
+  const mIconList = [
+    [":Jam:","Jam"],
+    [":Lyre:","Lyre"],
+    ["🐤","Chick"],
+    ["🪭","Fan"],
+    ["🥨","Pretzel"],
+    ["🪨","Rock"],
+    ["🪵","Wood"]    
+  ];
+  for(i=0;i<mIconList.length;i++){
+    var mSearchIcon = mIconList[i][0];
+    var mImgCode = mIconList[i][1];
+    var mStart = 0;
+    var mPos = 0;  
+    var mLookAround1 = "";
+    var mLookAround = "";
+    var mSubstitute = "";
+
+    while(true){
+      mPos = mHTMLInner.indexOf(mSearchIcon,mStart);
+      if(mPos==-1){break;}
+      
+      // STEP: Check if this match is valid
+      mLookAround1 = mHTMLInner.slice(mPos-1,mPos+mSearchIcon.length+1); 
+      mLookAround = mHTMLInner.slice(mPos-6,mPos+mSearchIcon.length+7);
+      if( (mLookAround != "<icon>"+ mSearchIcon + "</icon>") && (mLookAround1 != "'"+mSearchIcon +"'")){
+        // The match is valid. Compose the substitute string:
+        mSubstitute = "<span class='mbIcon i"+ mImgCode +"'><icon>"+mSearchIcon+"</icon></span>";
+        mHTMLInner = mHTMLInner.slice(0,mPos) + mSubstitute + mHTMLInner.slice(mPos+mSearchIcon.length);
+        mStart = mPos + mSubstitute.length;
+      }else{
+        mStart = mPos + mSearchIcon.length;
+      }
+    }    
+  }
+  el.innerHTML = mHTMLInner;
 }
 function MacroNote(el){
   // 20240501: Cardinal: A note defines an inline collapsible section.
@@ -3619,9 +3663,9 @@ function MMInner(el,mMacro){
     // 🥾 <small><a class="mbbutton" onclick="ShowNextInline(this)">✅1</a>       <hide>0304</hide></small> Layout Update<br>
     var mTitle = mMacro.title;
     var mIcon = mMacro.icon; if(IsBlank(mIcon)){mIcon="⭐";}
-    if(mIcon.length>3){
+    /*if(mIcon.length>3){
       mIcon = "<div class='mbIcon i"+mIcon+"'></div>";
-    }
+    }*/
     
     var mInfo = mMacro.info; if(IsBlank(mInfo)){mInfo="";}
     var mLog = mMacro.log; if(IsBlank(mLog)){mLog="";}
@@ -7240,8 +7284,7 @@ function Parameter(mParam,mSet){
   // .. If mSet is blank, it checks the parameter.
   // .. If mSet is not blank, it sets the parameter.
   var elMain = document.querySelector('[main]');
-  if(IsBlank(mSet)){
-    DEBUG(elMain.getAttribute(mParam));
+  if(IsBlank(mSet)){    
     return (elMain.getAttribute(mParam));
   }
   elMain.setAttribute(mParam,mSet);
