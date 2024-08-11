@@ -856,14 +856,21 @@ span.mbIcon > icon{font-size: 0px;}
 
 /* ICONS (20x20 px) / 450 px square*/
 
-
+.iChecker{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Checker.png?raw=true');}
 .iChick{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Chick.png?raw=true');}
 .iClose{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Close.png?raw=true');}
 .iFan{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Fan.png?raw=true');}
+.iHatch{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Hatch.png?raw=true');}
 .iJam{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Jam.png?raw=true');}
+.iKudookie{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Kudookie.png?raw=true');}
 .iLyre{background-image:url('https://github.com/MagicBakery/Images/blob/main/Lyre.png?raw=true');}
+.iMantleClock{background-image:url('https://github.com/MagicBakery/Icons/blob/main/MantleClock.png?raw=true');}
+.iPalette{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Palette.png?raw=true');}
+.iPancake{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Pancake.png?raw=true');}
+.iPencil{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Pencil.png?raw=true');}
 .iPretzel{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Pretzel.png?raw=true');}
 .iRock{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Rock.png?raw=true');}
+.iStar{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Star.png?raw=true');}
 .iWood{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Wood.png?raw=true');}
 
 /* Avatars */

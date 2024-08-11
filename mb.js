@@ -356,7 +356,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       
       // 20240804: StarTree: Edit Mode Button @@@@
       if(NotBlank(mNodeID)){
-        mHTMLInner += " <a class=\"mbbutton\" onclick=\"NodeEdit(this,'"+mNodeID+"')\">📝</a>";
+        mHTMLInner += " <a class=\"mbbutton\" onclick=\"NodeEdit(this,'"+mNodeID+"')\">✏️</a>";
       }
       mHTMLInner += "</div>";
     }
@@ -904,7 +904,7 @@ function PanelAdd(){
     elTemp.style.flex = "50%";
     PanelToggleServe(elTemp.firstElementChild);
   }
-
+  MacroIcons(elTemp);
   return elTemp;
 }
 function PanelAddAfter(el){
@@ -1623,18 +1623,26 @@ function MacroIcons(el){
   
   
   const mIconList = [
-    [":Close:","Close"],
-    [":Jam:","Jam"],
-    [":Lyre:","Lyre"],
-    ["🐤","Chick"],
-    ["🪭","Fan"],
-    ["🥨","Pretzel"],
-    ["🪨","Rock"],
-    ["🪵","Wood"]    
+    ["Checker",":Checker:"],
+    ["Chick","🐤"],
+    ["Close",":Close:"],
+    ["Fan","🪭"],
+    ["Hatch","🐣"],
+    ["Jam",":Jam:"],
+    ["Kudookie","💟"],
+    ["Lyre",":Lyre:"],
+    ["MantleClock","🕰️"],
+    ["Palette","🎨"],
+    ["Pancake","🥞"],
+    ["Pencil","✏️"],
+    ["Pretzel","🥨"],
+    ["Rock","🪨"],
+    ["Star","⭐"],
+    ["Wood","🪵"]    
   ];
   for(i=0;i<mIconList.length;i++){
-    var mSearchIcon = mIconList[i][0];
-    var mImgCode = mIconList[i][1];
+    var mSearchIcon = mIconList[i][1];
+    var mImgCode = mIconList[i][0];
     var mStart = 0;
     var mPos = 0;  
     var mLookAround1 = "";
@@ -1908,7 +1916,7 @@ function MacroResItem(mTag){
   }  
   // Node Link in the Side Panel
   if(NotBlank(mTag.getAttribute('node'))){
-    mHTML += LnkCode(mNode,"🐤","") +" <br>";
+    mHTML += LnkCode(mNode,"🐤","") +"<br>";
   }else{
     mHTML += "🥚<br>"
   }
@@ -5694,6 +5702,7 @@ function XP_DisplayEL(elFrame,bOrder){
           }else if(mSortedBy=="detectivelvxp"){
             elFrame.style.order = mSortOrder * elFrame.getAttribute("detectivelvxp");
           }
+          MacroIcons(elFrame);
           ScrollIntoView(elFrame);
         }
         elCache.remove();
@@ -6219,7 +6228,7 @@ function NodeEditWidgetLoad(elWidget,mDTS){
   elWidget.setAttribute("NodeEditID",mNodeID);  
   // STEP: Remove the Honey Button.
   var elButton = elWidget.querySelector("button[title='Use Cookie']");
-  elButton.innerHTML = "📝" + mNodeID;
+  elButton.innerHTML = "✏️" + mNodeID;
   var elTextArea = elWidget.querySelector("textarea[textarea]");
   TextAreaLoad(elTextArea);
 }
@@ -7059,7 +7068,7 @@ function NodeIDClipboardButtonCode(mNodeID,mParentID,mIcon){
     mHTML += ArchiveNumSelect(mParentID);
   }
   if(IsBlank(mIcon)){mIcon = "🐤"}
-  mHTML += "]\">"+mIcon+"</a>";
+  mHTML += "]\">"+mIcon+"</a>&nbsp;";
 
   return mHTML
 }
