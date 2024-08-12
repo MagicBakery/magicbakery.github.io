@@ -272,7 +272,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       
       // 20240721: StarTree: If there is no author, don't show the inv section.
       // This is done for the Sitemap node.
-      if(NotBlank(mJSON.author)){
+      if(NotBlank(mJSON.author) && !elRecord.hasAttribute('data-chat')){
         mHTMLInner += "<a class='mbbutton' onclick='AuthorButton(this)' style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></a>";
       }
     }
@@ -682,6 +682,7 @@ function ChatNodeContent(elAttr,mJSON){
     }
     mHTMLInner += "<center><small>" + DateStrFromID(mJSON.id) + "</small></center>";
     mHTMLInner += "<hr class='mbCB'>";
+    mHTMLInner += "<div class=\"mbav100r mb" + mJSON.author + "\"></div>";
   }
   
   mHTMLInner += elAttr.querySelector('content').innerHTML;
@@ -766,6 +767,7 @@ function IFrameURLSet(el){
   elTemp.innerHTML = mHTML;
   elTemp.classList.add('mbscroll');
   elTemp.style.marginBottom = "0px";
+  MacroIcons(elTemp);
   mControl.nextElementSibling.prepend(elTemp);  
 }
 function JQAdd(el,iNoReTarget){
@@ -1637,8 +1639,10 @@ function MacroIcons(el){
     ["Pencil","✏️"],
     ["Pretzel","🥨"],
     ["Rock","🪨"],
+    ["School","🏫"],
     ["Star","⭐"],
-    ["Wood","🪵"]    
+    ["Wand","🪄"],
+    ["Wood","🪵"]
   ];
   for(i=0;i<mIconList.length;i++){
     var mSearchIcon = mIconList[i][1];
@@ -4695,146 +4699,6 @@ function QSLEL(elSearchList,iQuery,elArchives,bOffline){
     // Loop through and add each child.
 
     QSLContentCompose(bOffline,elRecords,elSearchList);
-
-    /*
-    setTimeout(function(){
-      for(let i=0;i<elRecords.length;i++){
-        let elDiv = elRecords[i];
-      //}
-      //elRecords.forEach((elDiv)=>{
-        
-        let mCategory = iQuery.replace("[data-","");
-        mCategory = mCategory.replace("]","");
-        let mOrder = elDiv.getAttribute("data-"+mCategory);
-        if(mCategory.toLowerCase()=="best"){
-          mOrder = 99999999-mOrder;
-        }
-
-        let mKids = [];
-        let mJSONKids = "";
-        let mID=""; let mTitle=""; let mIcon="";
-        let mJSON=""; let mType=""; 
-        let mNode = elDiv.querySelector("node");
-
-        if(NotBlank(mNode)){
-          mJSON = JSON.parse(mNode.innerHTML);
-          mTitle = mJSON.title;
-          mIcon = mJSON.icon;
-          mID = mJSON.id;
-          mType = mJSON.type;
-          mJSONKids = mJSON.kids;
-        }else{
-          mID = elDiv.getAttribute("id");
-          if(IsBlank(mID)){mID = elDiv.getAttribute('DTS');}
-          mTitle = Default(elDiv.getAttribute("title"),elDiv.getAttribute("subtitle"));
-          mIcon = elDiv.getAttribute("icon");
-        }
-
-        if(IsBlank(mTitle)){
-          if(NotBlank(mID)){
-            // 20230324: Mikela: Guess: A puzzle post.
-            if(elDiv.firstElementChild.lastElementChild!=null){
-              mTitle = elDiv.firstElementChild.lastElementChild.textContent;
-            }else{
-              mTitle="Mini Diary";
-            }
-          }
-        }
-        if(IsBlank(mTitle)){
-          if(NotBlank(elDiv.firstElementChild.getAttribute("id"))){
-            // Guess: The entry is a chat post.
-            if(elDiv.firstElementChild.firstElementChild!=null){
-              mTitle = elDiv.firstElementChild.firstElementChild.textContent;
-              if(IsBlank(mTitle)){
-                mTitle = elDiv.firstElementChild.lastElementChild.textContent;
-              }
-              
-            }else{
-              mTitle = elDiv.firstElementChild.textContent;
-            }
-            mIcon = mTitle.substring(0,2);
-            mTitle = mTitle.substring(3,30);
-          }else{
-            // Guess: The entry is an flex show style post.
-            mTitle = elDiv.firstElementChild.lastChild.textContent;
-            mTitle = mTitle.substring(0,30);
-          }
-        }
-        if(IsBlank(mIcon)){mIcon="📌";}
-        if(IsBlank(mID)){mID = elDiv.getAttribute("date")+elDiv.getAttribute("time");}
-        if(IsBlank(mID)){ 
-        }else if(mID.substring(0,1)=="P"){
-          // Remove the leading P in ID.
-          mID = mID.substring(1,13);
-        }
-        if(IsBlank(mTitle)){mTitle = mID;}
-        if(IsBlank(mType)){mType = "";}
-        if(mType=="chat" || NotBlank(elDiv.hasAttribute('data-chat'))){mType = "<span style='margin-left:-16px;-20px;font-size:14px'><sup>💬</sup></span>";}
-        if(IsBlank(mOrder)){mOrder = mID;}
-        
-        
-        if(IsBlank(mJSONKids)){
-          //mTag = TitleToTag(mTitle);
-          mKids.push(mID);
-        }else{
-      
-          mKids = mJSONKids.split(',');
-          for(let j=0;j<mKids.length;j++){
-            mKids[j]=mKids[j].replaceAll(" ","");
-            mKids[j] = Cap(mKids[j]);
-          }
-        }
-        // 20240331: StarTree: Further Exploration Icon     
-        // 20240406: StarTree: Multiple kids:     
-        for(let k=0;k<mKids.length;k++){
-          mCount ++;
-          mHTML += "<div name='"+ mTitle + "'";
-          //var mUpdated = elDiv.getAttribute("date");
-
-          let mUpdated = DTSGetLatest(elDiv).toString().slice(0,8);
-          
-          mHTML += " date='" + mUpdated + "'";
-          mHTML += " size='" + elDiv.innerHTML.length + "'";
-          mHTML += " style='order:" + mOrder + "'>";
-
-          // 20240413: StarTree: Add a float right display frame.
-          mHTML += "<code class='mbRefS mbCB'></code>";
-
-          mHTML += "<div control>";
-          mHTML += "<hide>"+ elDiv.innerHTML + "</hide>"; // 20240802: Arcacia: Changed to use innherHTML to query icons.
-
-          
-          mHTML += "<a class='mbbutton mbILB25' onclick='QSLTree(this,\"[data-"+ mKids[k] +"]\")'>📒</a>";
-          if(k==0){
-            mHTML += LnkCode(mID,mTitle,mIcon+mType,bMark); 
-          }else{
-
-            mHTML += LnkCode(mID,mTitle + "\\" + Cap(mKids[k]).replaceAll("-"," "),mIcon+mType,bMark); 
-          }
-
-          mHTML += "</div>";// End of Control
-          mHTML += "<div class='mbhide'><div style='margin-left:10px' control></div><div class='mbnav mbSearch' QSL></div></div>"; // QSL Container
-          mHTML += "</div>";
-        }
-      }
-    
-      // STEP Display the result.
-      elSearchList.innerHTML = mHTML;    
-      // STEP: Display the sort bar
-      if(NotBlank(elSearchList.previousElementSibling)){
-        mHTML = "<a class='mbbutton' onclick='ShowNextInline(this)'><small><b>Found: "
-        + mCount +"</b></small>" + OfflineTag(bOffline) + "</a><hide><small> "
-        + "<input type='text' onclick='TextSearchPS(this)' onkeyup='TextSearchPS(this)' placeholder='Search...' title='Input a keyword' style='width:80px'> "
-        + "<a class='mbbutton' onclick='QSLSortByName(this)'>🍎</a> " 
-        + "<a class=\"mbbutton\" onclick=\"QSLSortByIcon(this,'📌')\">📌</a> "
-        + "<a class='mbbutton' onclick='QSLSortBy(this,\"date\")'>🗓️</a> "
-        + "<a class='mbbutton' onclick='QSLSortBy(this,\"size\")'>🐘</a> "
-        + "<a class='mbbutton' onclick='QSLSortRandom(this)'>🎲</a>"
-        + "</small></hide>";
-        elSearchList.previousElementSibling.innerHTML = mHTML;
-        elSearchList.previousElementSibling.classList.remove('mbhide');
-      }
-    },0);*/
   });//END Document Ready
 }
 function TitleToTag(mTitle){
@@ -5276,8 +5140,10 @@ function QSLContentCompose(bOffline,elRecords,elSearchList,mDate){
       + "<a class='mbbutton' onclick='QSLSortRandom(this)'>🎲</a>"
       + "</small></hide>";
       elSearchList.previousElementSibling.innerHTML = mHTML;
+      MacroIcons(elSearchList.previousElementSibling);
       elSearchList.previousElementSibling.classList.remove('mbhide');
     }
+    MacroIcons(elSearchList);
   },0);
 
 }
@@ -5826,7 +5692,7 @@ function GuildEXP(iMember){
 "Neil": 245,
 "P4": 5310,
 "Patricia": 2619,
-"Rikk": 44,
+"Rick": 44,
 "Robert": 96,
 "RS": 11,
 "Sasha": 5989,
@@ -5849,7 +5715,7 @@ function RandomMember(){
 function Roster(iIndex){
   // 20230125: Ledia: Preparing for roster stats display.
   //   Returns the length if the argument is negative.
-  const mRoster = ["3B", "44", "Albatross", "Amelia", "Arcacia", "Black", "Cardinal", "Casey", "Emi", "Evelyn", "Fina", "Gaia", "Helen", "Ivy", "James", "Karl", "Ken", "Kisaragi", "Koyo", "Ledia", "LRRH", "Melody", "Mikela", "Natalie", "Neil", "P4", "Patricia", "Rikk", "Robert", "Roger", "RS", "Sasha", "Skyle", "StarTree", "Sylvia", "Tanya", "Therese", "V", "Vivi", "Vladanya", "Zoey"];
+  const mRoster = ["3B", "44", "Albatross", "Amelia", "Arcacia", "Black", "Cardinal", "Casey", "Emi", "Evelyn", "Fina", "Gaia", "Helen", "Ivy", "James", "Karl", "Ken", "Kisaragi", "Koyo", "Ledia", "LRRH", "Melody", "Mikela", "Natalie", "Neil", "P4", "Patricia", "Rick", "Robert", "Roger", "RS", "Sasha", "Skyle", "StarTree", "Sylvia", "Tanya", "Therese", "V", "Vivi", "Vladanya", "Zoey"];
   //const mRoster = ["3B","44", "Albatross"];
   if(iIndex>=0){
     return mRoster[iIndex];
@@ -6938,6 +6804,7 @@ function FPHide(elFP){
 }
 function FPShow(elFP){
   // 20240424: Black: Shows an FP
+  MacroIcons(elFP);
   elFP.classList.remove('mbhide');
   elFP.style.zIndex=FPGetTopZ()+1;
 }
@@ -6957,6 +6824,7 @@ function ShowNextFP(el,mDTS,bRefresh){
       elFP.style.zIndex = mTopZ+1;
     }    
     FPGetTopZ();
+    
     return;
   }
   // The following is for the cases when the FP is currently hidden.

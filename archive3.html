@@ -10,12 +10,12 @@
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Special Queries">📯</a>
         <hide>
           <small><a class="mbbutton" onclick="TextQSL(this)" title="Query textbox content as tag">🔍 Query Textbox as Text</a></small>
-          <hr><h4>📯 Special Queries</h4>
+          <hr><!--<h4>📯 Special Queries</h4>-->
           <a class="mbbutton" onclick="QSL(this,'[data-college]')">🎓 Academy</a><br>
           <a class="mbbutton" onclick="QSL(this,'[data-Guild]')">🥨 Guild</a><br>
           <a class="mbbutton" onclick="QSL(this,'[data-help]')">☎️ Help</a> <small><lnk>202405051137|[Unsorted]</lnk></small><br>
           <hr>
-          <a class="mbbutton" onclick="QSL(this,'[id][date][time]:contains(\'hostil\'):contains(\'quest\')')">⭐ Special</a><br>
+          <!--<a class="mbbutton" onclick="QSL(this,'[id][date][time]:contains(\'hostil\'):contains(\'quest\')')">⭐ Special</a><br>-->
         </hide>
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Tags">🏷️</a>
         <hide>
@@ -76,6 +76,8 @@
             <msg DTS="20240507224446" SPK="Natalie" EXP Icon="🔍">The "not" selector isn't working as expected. When a node has more than one monthly quest and only some of them are done, the selector cannot tell that the node is not done. I think I will change QSL to be able to query a topic, but lists the node ID in the result. Then it will be more clear what is or is not done.</msg>
             <msg DTS="20240507230259" SPK="Sasha" EXP=5 Icon="🚀">Making BoardLoad understand a DTS and load its node. Checking BoardFill. Making JQAdd trim for DTS also.</msg>
             <msg DTS="20240511095351" SPK="Vivi" mode="sort" EXP=2 Icon="🔮">Added a query for all nodes with an Inbox bin, or a Todo bin.</msg>
+            <msg DTS='20240811093440' SPK='Vivi' EXP Icon='⚔️'>Remove special queries from sitemap first tab.</msg>
+
           </note>
           <note dts="20240508002723" subtitle="Sitemap Quests">
             <div>
@@ -118,7 +120,7 @@
               </hide>
             </div><!--Rank C Queries-->
             <div>
-              <a class="mbbutton" onclick="QSL(this,'[id][date][time]:has(MSG[EXP][icon=\'💟\']:not([SPK*=\'|\']))')"><span class="mbILB20 mbRankC"></span>💟</a>  
+              <a class="mbbutton" onclick="QSL(this,&quot;[id][date][time]:has(MSG[EXP][icon='💟']:not([SPK*='|']))&quot;)"><span class="mbILB20 mbRankC"></span>💟</a>  
               <span class="mbbutton" onclick="ShowNextInline(this)">Kudo Audit</span>
               <hide>
                 <msg DTS="20240804000021" SPK="Sylvia" EXP Icon="📌">Kudo messages with 💟 should have multiple SPK.</msg>
@@ -440,7 +442,7 @@
           <macro>{"cmd":"img","src":"https://github.com/MagicBakery/Images/blob/main/QuestBoard_20221015_Top2.png?raw=true","width":"100%"}</macro>
           <div class="mbscroll" style="margin:-5% 5% -5% 5%;border-radius: 0px;border:5px solid saddlebrown;padding:3% 10px 6% 10px">
             <center>
-              <lnk>202309142125|🐤 Custom Icons 🐤</lnk>
+              <lnk>202309142125|:Checker: Custom Icons :Checker:</lnk>
             </center>
             <h4>2024 August</h4>
             <macro>{"cmd":"MC3"}</macro>
@@ -469,7 +471,7 @@
                     
                     <span class="mbListCapNC mbRankD"></span>
                     
-                    <macro>{"log":"","priority":"4","cmd":"quest","title":"Layout update","icon":"🥨"}</macro>
+                    <macro>{"log":"","priority":"4","cmd":"quest","title":"Layout update","icon":"🎀","node":"202303052122"}</macro>
                   </div>
                 </div><!--@Academy / LRRH-->                
                 <div class="mbCB">
@@ -484,7 +486,7 @@
                     
                     <macro>{"log":"","priority":"2","icon":"🔔","node":"202403150017","title":"Discussion Log","info":"Replying/Deploying.","cmd":"quest"}</macro>            
                     <macro>{"log":"","priority":"2","icon":"⚔️","node":"202301011739","title":"Differences","info":"Process significant differences in philosophy or constitution.","cmd":"quest"}</macro>                
-                    <macro>{"log":"0810","priority":"9","icon":"🐤","node":"202309142125","title":"Custom Icon","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"0810","priority":"9","icon":":Checker:","node":"202309142125","title":"Custom Icon","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"3","icon":"📗","node":"202405201027","title":"Changing Planet","info":"Critical reading.","cmd":"quest"}</macro>  
                     <span class="mbListCapNC mbRankC"></span>
@@ -571,13 +573,11 @@
                 </div><!--@Cardinal / Cardinal-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202207112218|🌺</lnk></span>
-                  <macro>{"guildlog":"5","rank":"B","updates":"1","node":"202208181042","author":"Arcacia","chapter":"@Carrot","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"5","rank":"B","updates":"2","node":"202208181042","author":"Arcacia","chapter":"@Carrot","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
-                    <macro>{"log":"","priority":"0","icon":"🍀","node":"202407250947","title":"Gaia Score","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"9","icon":"🧭","node":"202207282137","title":"Moral Compass","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"5","icon":"🥕","node":"","title":"Manga 11","info":"Manga for Cooking with Arcacia","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"4","icon":"👑","node":"","title":"Posting Gallery","info":"Gallery for things that are posted.","cmd":"quest"}</macro>
+                    <macro>{"log":"","priority":"5","icon":"🥕","node":"202210032214","title":"Manga 11","info":"Manga for Cooking with Arcacia","cmd":"quest"}</macro>
+                    <macro>{"log":"","priority":"4","icon":"👑","node":"202210032214","title":"Posting Gallery","info":"Gallery for things that are posted.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"9","icon":"🥧","node":"202302102154","title":"Whose turn to pay","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankA"></span>
                     
@@ -591,9 +591,9 @@
                     <macro>{"log":"","priority":"9","icon":"🎀","node":"202301251008","title":"Clearing old XP tags","info":"On Arcacia","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🌺","node":"202207112218","title":"Search Visibility","info":"Follow up with discussion. Fix Index Errors","cmd":"quest"}</macro>
                     
-                    <macro>{"log":"","priority":"5","icon":"🎀","node":"","title":"Layout upgrade","cmd":"quest"}</macro>
+                    <macro>{"log":"","priority":"5","icon":"🎀","node":"800000000000","title":"Layout upgrade","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
-                    <macro>{"log":"","priority":"3","icon":"🥨","node":"","title":"Guild log quests","cmd":"quest","info":"2304:20 2305:30 2306:31 2307:26 2308:25 2309:23 2310:22 2311:21 2403:20 2405:9 2406:6 2407:5."}</macro> 
+                    <macro>{"log":"0812","priority":"3","icon":"🥨","node":"800000000000","title":"Guild log quests","cmd":"quest","info":"2304:20 2305:30 2306:31 2307:26 2308:25 2309:23 2310:22 2311:21 2403:20 2405:9 2406:6 2407:5 2408:4."}</macro> 
        
 
                         
@@ -601,12 +601,12 @@
                 </div><!--@Carrot / Arcacia-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202207131009|♟️</lnk></span>
-                  <macro>{"guildlog":"21","rank":"C","updates":"1","node":"202208141844","author":"Sasha","chapter":"@Detective","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"21","rank":"C","updates":"2","node":"202208141844","author":"Sasha","chapter":"@Detective","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">           
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"1","icon":"🌺","node":"202207112218","title":"Search Visibility","info":"Follow up with discussion. Fix Index Errors","cmd":"quest"}</macro>  
                     <span class="mbListCapNC mbRankA"></span>  
-                    <macro>{"log":"0809","priority":"0","icon":"🎲","node":"202207131009","title":"Board Games","info":"","cmd":"quest"}</macro>  
+                    
                     <macro>{"log":"","priority":"9","icon":"🎩","node":"202406282333","title":"Design","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"1","icon":"🥯","node":"202302032008","title":"221B Baker Street","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"1","icon":"🏰","node":"202312251111","title":"Arcacian Quest","info":"This is a board game design project.","cmd":"quest"}</macro>                
@@ -614,15 +614,17 @@
                     <macro>{"log":"","priority":"0","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
                     
                     <macro>{"log":"","priority":"9","icon":"🔦","node":"202309171832","title":"CSI The Board Game","cmd":"quest"}</macro>                    
-                    <!--<span class="mbListCapNC mbRankC"></span>-->
-                    <span class="mbListCapNC mbRankD"></span>    
+                    <span class="mbListCapNC mbRankC"></span>
+                    <macro>{"log":"0809","priority":"0","icon":"🎲","node":"202207131009","title":"Board Games","info":"","cmd":"quest"}</macro>  
+                    <span class="mbListCapNC mbRankD"></span>  
+                    <macro>{"log":"0811","priority":"9","icon":"📯","node":"202305262224","title":"Leadership","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202208141844","title":"Guild Log Quests","info":"Clear quest at guild log. 2304:6 2305:11 2306:12 2307:9 2404:42 2406:22 2407:21.","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"4","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro> 
+                    <macro>{"log":"","priority":"4","icon":"🥨","node":"800000000000","title":"Layout update","cmd":"quest"}</macro> 
                   </div>
                 </div><!--@Detective / Sasha-->
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202207161025|🍂</lnk></span>
-                  <macro>{"guildlog":"5","rank":"D","updates":"1","node":"202207161025","author":"Tanya","chapter":"@Dungeon","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"D","updates":"2","node":"202207161025","author":"Tanya","chapter":"@Dungeon","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"2","icon":"🏘️","node":"202307231022","title":"NextDoor Workflow","info":"Replying/Deploying.","cmd":"quest"}</macro> 
@@ -630,13 +632,13 @@
                     <macro>{"log":"","priority":"0","icon":"📯","node":"202301242209","title":"Ethics","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"1","icon":"🍂","node":"202207241111","title":"Biases","info":"Since 2022 Dec","cmd":"quest"}</macro>    
-                    <macro>{"log":"","priority":"5","icon":"♟️","node":"202309042239","title":"Game Theory","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"1","icon":"🥨","node":"202207161025","title":"Guild Log Quests","info":"Process guild log topics. 2304:16 2305:15 2306:14 2307:12 2308:11 2309:9 2310:8 2405:7 2406:6 2407:5.","cmd":"quest"}</macro>
+                    <macro>{"log":"","priority":"5","icon":"♟️","node":"202309042239","title":"Game Theory","info":"","cmd":"quest"}</macro>                    
                     <span class="mbListCapNC mbRankC"></span>
                     <macro>{"log":"","priority":"3","icon":"🍂","node":"202207161025","title":"Log Fall Quest","info":"Since 2022 Dec","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
                     <macro>{"log":"0802","priority":"0","icon":"📯","node":"202305262224","title":"Leadership","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"4","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro> 
+                    <macro>{"log":"","priority":"4","icon":"🪄","node":"202303052122","title":"Layout update","cmd":"quest"}</macro> 
+                    <macro>{"log":"0812","priority":"9","icon":"🥨","node":"202207161025","title":"Guild Log Quests","info":"Process guild log topics. 2304:16 2305:15 2306:14 2307:12 2308:11 2309:9 2310:8 2405:7 2406:6 2407:5 2408:0.","cmd":"quest"}</macro>
                   </div>
                 </div><!--@Dungeon / Tanya-->
                 <div class="mbCB">
@@ -685,7 +687,7 @@
                 </div><!--@Gaia / Gaia-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202301251008|👑</lnk></span>
-                  <macro>{"guildlog":"3","rank":"C","updates":"1","node":"202208172056","author":"LRRH","chapter":"@Guild","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"3","rank":"C","updates":"2","node":"202208172056","author":"LRRH","chapter":"@Guild","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     <span class="mbListCapNC mbRankA"></span>
@@ -700,6 +702,7 @@
                     <macro>{"log":"","priority":"9","icon":"🏰","node":"202211161002","title":"Place Level","info":"Consolidate info on place level.","cmd":"quest"}</macro>            
                     <macro>{"log":"0810","priority":"1","icon":"🗃️","node":"202301151052","title":"Monthly Backup","cmd":"quest"}</macro>             
                     <span class="mbListCapNC mbRankD"></span>
+                    <macro>{"log":"0812","priority":"0","icon":"🍋","node":"202307231931","title":"Productivity","info":"","cmd":"quest"}</macro>  
                     <macro>{"log":"","priority":"2","icon":"🥨","node":"","title":"Guild Log Quests","info":"2305:15 2306:13 2307:11 2308:9 2309:8 2310:6 2402:5 2406:4 2407:3.","cmd":"quest"}</macro>                      
                     <macro>{"log":"","priority":"9","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"3", "icon":"📧","node":"202405010908","title":"Emails cleanup","info":"2306:35|173. 2307:20|5 2308:8|4 2309:4|4 2310:3|1 2401:2|0","cmd":"quest"}</macro>
@@ -707,13 +710,13 @@
                 </div><!--@Guild / LRRH-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202201161334|💟</lnk></span>
-                  <macro>{"guildlog":"55","rank":"B","updates":"2","node":"202208181022","author":"Evelyn","chapter":"@Happy","cmd":"pb"}</macro>        
+                  <macro>{"guildlog":"55","rank":"B","updates":"3","node":"202208181022","author":"Evelyn","chapter":"@Happy","cmd":"pb"}</macro>        
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"0","icon":"📯","node":"202407260804","title":"Spotlighting","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"","priority":"0","icon":"🍀","node":"202407222317","title":"Gaia Concepts","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"📯","node":"202406072318","title":"Relationship","info":"","cmd":"quest"}</macro>
+                    
                     
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"0801","priority":"0","icon":"🔍","node":"202305202124","title":"Animal Sighting","info":"","cmd":"quest"}</macro>
@@ -729,6 +732,7 @@
                     <macro>{"log":"","priority":"1","icon":"🐣","node":"202404180036","title":"Self Care","info":"","cmd":"quest"}</macro>
                     
                     <span class="mbListCapNC mbRankD"></span>
+                    <macro>{"log":"0812","priority":"0","icon":"❤️","node":"202406072318","title":"Relationship","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"0810","priority":"1","icon":"🥨","node":"202208181022","title":"Guild Log","info":"2305:65. 2306:85 2307:80 2308:79 2309:78 2310:74 2406:58 2407:55 2408:54","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"❤️","node":"202403172052","title":"Emotional Intelligence","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"9","icon":"🗓️","node":"202201161334","title":"Layout Update","info":"Update layout of happy calendars to the new format.","cmd":"quest"}</macro>
@@ -736,13 +740,11 @@
                 </div><!--@Happy / Evelyn-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202303191144|🛒</lnk></span>
-                  <macro>{"guildlog":"0","rank":"A","updates":"2","node":"202310232341","author":"Kisaragi","chapter":"@Home","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"A","updates":"3","node":"202310232341","author":"Kisaragi","chapter":"@Home","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     <span class="mbListCapNC mbRankA"></span>
-                    <macro>{"log":"0803","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"","icon":"🍀","node":"202407280015","title":"Origami","info":"","cmd":"quest"}</macro>
-                    
+                    <macro>{"log":"0803","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>                   
                     <macro>{"log":"","priority":"9","icon":"🔮","node":"202309060852","title":"Safety Checklist","info":"Traffic Safety Node","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"0","icon":"🥘","node":"202303092035","title":"Food Club","cmd":"quest"}</macro> 
@@ -760,8 +762,9 @@
                     
                     <macro>{"log":"","priority":"9","icon":"🎁","node":"","title":"Gift Making","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
-                    <macro>{"log":"","priority":"9","icon":"🐣","node":"202209282350","title":"Homemaking","info":"","cmd":"quest"}</macro>  
-                    <macro>{"log":"","priority":"9","icon":"🥨","node":"","title":"Layout update","cmd":"quest"}</macro>
+                    <macro>{"log":"","priority":"9","icon":"🐣","node":"202209282350","title":"Homemaking","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"0812","priority":"9","icon":"🥘","node":"202310222347","title":"Cooking","info":"","cmd":"quest"}</macro>  
+                    <macro>{"log":"","priority":"9","icon":"🥨","node":"800000000000","title":"Layout update","cmd":"quest"}</macro>
                   </div>
                 </div><!--@Home / Kisaragi-->
                 <div class="mbCB">
@@ -809,7 +812,7 @@
                   </div>
                 </div><!--@Manga / 3B-->   
                 <div class="mbCB" date="20240413">
-                  <macro>{"guildlog":"41","rank":"B","updates":"1","node":"202208071528","author":"Ledia","chapter":"@Mira","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"41","rank":"B","updates":"2","node":"202208071528","author":"Ledia","chapter":"@Mira","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"0","icon":"🦄","node":"202208071528","title":"Mira Store Front Poster","cmd":"quest"}</macro>              
@@ -822,12 +825,12 @@
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"0801","priority":"6","icon":"⚔️","node":"202306132141","title":"Personality","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"5","icon":"👒","node":"202310121020","title":"Style Inspirations","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"2","cmd":"quest","title":"Guild Log Quests","icon":"🥨","info":"2306:59 2307:57 2308:56 2309:55 2310:50 2405:47 2406:42 2407:41."}</macro>
+                    
                     <span class="mbListCapNC mbRankC"></span>
                     <macro>{"log":"","priority":"1","icon":"👑","node":"202301251008","title":"Scoreboard","info":"Clear the old XP tags. About 1093 remaining.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
-                    
-                    <macro>{"log":"","priority":"9","cmd":"quest","title":"Layout Update","icon":"🥨"}</macro>
+                    <macro>{"log":"0812","priority":"2","cmd":"quest","title":"Guild Log Quests","icon":"🥨","info":"2306:59 2307:57 2308:56 2309:55 2310:50 2405:47 2406:42 2407:41 2408:40.","node":"202208071528"}</macro>
+                    <macro>{"log":"","priority":"9","cmd":"quest","title":"Layout Update","icon":"🥨","node":"800000000000"}</macro>
                   </div>
                 </div><!--@Mira / Ledia-->
                 <div class="mbCB">
@@ -882,7 +885,7 @@
                 </div><!--@Paladin / Natalie-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202208141928|🧩</lnk></span>
-                  <macro>{"guildlog":"0","rank":"A","updates":"1","node":"202208141928","author":"Mikela","chapter":"@Puzzle","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"A","updates":"2","node":"202208141928","author":"Mikela","chapter":"@Puzzle","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">              
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"","priority":"1","icon":"🧩","node":"202208141928","title":"Puzzle Session","info":"","cmd":"quest"}</macro>   
@@ -898,6 +901,7 @@
                                       
                     <macro>{"log":"","priority":"2","cmd":"quest","title":"Updated the node section","icon":"🍋"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
+                    <macro>{"log":"0812","priority":"0","icon":"🐣","node":"202407111014","title":"Psychology","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"9","info":"2306:25 2307:24 2308:23 2309:20 2310:18 2311:14 2312:13 2401:12 2403:11 2404:8 2405:0 2407:0.","cmd":"quest","title":"Guild Log","icon":"🥨"}</macro> 
                     <macro>{"log":"","priority":"4","cmd":"quest","title":"Layout update","icon":"🍋"}</macro>
                   </div>
@@ -4457,7 +4461,7 @@
       <div><div class="mbavem mbNeil"></div> <b>Lv15 Neil</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP241</button><hide>(+1/day)</hide></div>
       <div><div class="mbavem mbRobert"></div> <b>Lv8 Robert</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP74</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbKarl"></div> <b>Lv5 Karl</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP25</button><hide>(+0/day)</hide></div>
-      <div><div class="mbavem mbRikk"></div> <b>Lv3 Rikk</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP15</button><hide>(+0/day)</hide></div>
+      <div><div class="mbavem mbRick"></div> <b>Lv3 Rick</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP15</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbEmi"></div> <b>Lv3 Emi</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP11</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbRS"></div> <b>Lv3 RS</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP11</button><hide>(+0/day)</hide></div>
     </div><!--LB Member-->
@@ -5581,7 +5585,7 @@
       <div><div class="mbavem mbNeil"></div> <b>Lv15 Neil</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP241</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbRobert"></div> <b>Lv8 Robert</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP75</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbKarl"></div> <b>Lv5 Karl</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP26</button><hide>(+0/day)</hide></div>
-      <div><div class="mbavem mbRikk"></div> <b>Lv4 Rikk</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP19</button><hide>(+0/day)</hide></div>
+      <div><div class="mbavem mbRick"></div> <b>Lv4 Rick</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP19</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbEmi"></div> <b>Lv3 Emi</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP11</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbRS"></div> <b>Lv3 RS</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP11</button><hide>(+0/day)</hide></div>
     </div><!--LB Member-->
@@ -6617,7 +6621,7 @@
             <div class="mbavem mbMikela"></div> <b>Mikela</b> <small>EXP</small>6<br>
             <div class="mbavem mbAmelia"></div> <b>Amelia</b> <small>EXP</small>6<br>
             <div class="mbavem mb44"></div> <b>44</b> <small>EXP</small>6<br>
-            <div class="mbavem mbRikk"></div> <b>Rikk</b> <small>EXP</small>3<br>
+            <div class="mbavem mbRick"></div> <b>Rick</b> <small>EXP</small>3<br>
             <div class="mbavem mbRobert"></div> <b>Robert</b> <small>EXP</small>1<br>
             <div class="mbCB"></div>
             <hr>
@@ -6745,7 +6749,7 @@
       <div><div class="mbavem mbNeil"></div> <b>Lv15 Neil</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP241</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbRobert"></div> <b>Lv9 Robert</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP81</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbKarl"></div> <b>Lv5 Karl</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP26</button><hide>(+0/day)</hide></div>
-      <div><div class="mbavem mbRikk"></div> <b>Lv4 Rikk</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP24</button><hide>(+0/day)</hide></div>
+      <div><div class="mbavem mbRick"></div> <b>Lv4 Rick</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP24</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbEmi"></div> <b>Lv3 Emi</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP11</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbRS"></div> <b>Lv3 RS</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP11</button><hide>(+0/day)</hide></div>
     </div><!--LB Member-->
@@ -6799,7 +6803,7 @@
       <div><div class="mbavem mb44"></div> <b>Lv23 44</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP539</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbHelen"></div> <b>Lv48 Helen</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP2321</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbRobert"></div> <b>Lv9 Robert</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP81</button><hide>(+0/day)</hide></div>
-      <div><div class="mbavem mbRikk"></div> <b>Lv4 Rikk</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP24</button><hide>(+0/day)</hide></div>
+      <div><div class="mbavem mbRick"></div> <b>Lv4 Rick</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP24</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbKen"></div> <b>Lv26 Ken</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP678</button><hide>(+0/day)</hide></div>
     </div><!--LB Member of the Month-->
     </hide>
@@ -7688,7 +7692,7 @@
             <div class="mbavem mbMelody"></div> <b>Melody</b> <small>EXP</small>9<br>
             <div class="mbavem mbFina"></div> <b>Fina</b> <small>EXP</small>6<br>
             <div class="mbavem mbJames"></div> <b>James</b> <small>EXP</small>5<br>
-            <div class="mbavem mbRikk"></div> <b>Rikk</b> <small>EXP</small>5<br>
+            <div class="mbavem mbRick"></div> <b>Rick</b> <small>EXP</small>5<br>
             <div class="mbavem mbRobert"></div> <b>Robert</b> <small>EXP</small>1<br>
             <div class="mbCB"></div>
             <hr>
@@ -7785,7 +7789,7 @@
             <div class="mbavem mbFina"></div> <b>Fina</b> <small>EXP</small>12<br>
             <div class="mbavem mbAmelia"></div> <b>Amelia</b> <small>EXP</small>12<br>
             <div class="mbavem mb44"></div> <b>44</b> <small>EXP</small>9<br>
-            <div class="mbavem mbRikk"></div> <b>Rikk</b> <small>EXP</small>9<br>
+            <div class="mbavem mbRick"></div> <b>Rick</b> <small>EXP</small>9<br>
             <div class="mbCB"></div>
             <hr>
           </section>
@@ -7842,7 +7846,7 @@
       <div class="mbavem mbRobert"></div> <b>8pts Robert</b> ALC 9<br>
       <div class="mbavem mbKen"></div> <b>3pts Ken</b> ALC 26<br>
       <div class="mbavem mbEmi"></div> <b>1pts Emi</b> CLR 3<br>
-      <div class="mbavem mbRikk"></div> <b>0pts Rikk</b> CLR 6<br>
+      <div class="mbavem mbRick"></div> <b>0pts Rick</b> CLR 6<br>
       <div class="mbavem mbRS"></div> <b>0pts RS</b> CLR 3<br>
       <div class="mbavem mbKarl"></div> <b>0pts Karl</b> PLD 5<br>
     </div><!--LB Cardinal-->
@@ -7914,7 +7918,7 @@
       <div><div class="mbavem mb44"></div> <b>Lv23 44</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP559</button><hide>(+1/day)</hide></div>
       <div><div class="mbavem mbNeil"></div> <b>Lv15 Neil</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP241</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbRobert"></div> <b>Lv9 Robert</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP82</button><hide>(+0/day)</hide></div>
-      <div><div class="mbavem mbRikk"></div> <b>Lv6 Rikk</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP38</button><hide>(+0/day)</hide></div>
+      <div><div class="mbavem mbRick"></div> <b>Lv6 Rick</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP38</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbKarl"></div> <b>Lv5 Karl</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP26</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbEmi"></div> <b>Lv3 Emi</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP11</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbRS"></div> <b>Lv3 RS</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP11</button><hide>(+0/day)</hide></div>
@@ -7968,7 +7972,7 @@
       <div><div class="mbavem mbJames"></div> <b>Lv50 James</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP2585</button><hide>(+1/day)</hide></div>
       <div><div class="mbavem mb44"></div> <b>Lv23 44</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP559</button><hide>(+1/day)</hide></div>
       🐣<br>
-      <div><div class="mbavem mbRikk"></div> <b>Lv6 Rikk</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP38</button><hide>(+0/day)</hide></div>
+      <div><div class="mbavem mbRick"></div> <b>Lv6 Rick</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP38</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbKen"></div> <b>Lv26 Ken</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP690</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbRobert"></div> <b>Lv9 Robert</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP82</button><hide>(+0/day)</hide></div>
     </div><!--LB Member of the Month-->
@@ -8864,7 +8868,7 @@
             <div class="mbavem mbFina"></div> <b>Fina</b> <small>EXP</small>9<br>
             <div class="mbavem mb44"></div> <b>44</b> <small>EXP</small>9<br>
             <div class="mbavem mbKen"></div> <b>Ken</b> <small>EXP</small>9<br>
-            <div class="mbavem mbRikk"></div> <b>Rikk</b> <small>EXP</small>3<br>
+            <div class="mbavem mbRick"></div> <b>Rick</b> <small>EXP</small>3<br>
             <div class="mbavem mbRobert"></div> <b>Robert</b> <small>EXP</small>2<br>
             <div class="mbavem mbNeil"></div> <b>Neil</b> <small>EXP</small>1<br>
             <div class="mbCB"></div>
@@ -8964,7 +8968,7 @@
             <div class="mbavem mbRobert"></div> <b>Robert</b> <small>EXP</small>6<br>
             <div class="mbavem mb44"></div> <b>44</b> <small>EXP</small>6<br>
             <div class="mbavem mbTherese"></div> <b>Therese</b> <small>EXP</small>4<br>
-            <div class="mbavem mbRikk"></div> <b>Rikk</b> <small>EXP</small>3<br>
+            <div class="mbavem mbRick"></div> <b>Rick</b> <small>EXP</small>3<br>
             <div class="mbavem mbNeil"></div> <b>Neil</b> <small>EXP</small>3<br>
             <div class="mbCB"></div>
             <hr>
@@ -9024,7 +9028,7 @@
       <div class="mbavem mbTherese"></div> <b>2pts Therese</b> HRD 3<br>
       <div class="mbavem mbEmi"></div> <b>1pts Emi</b> CLR 3<br>
       <div class="mbavem mbKoyo"></div> <b>0pts Koyo</b> MAG 6<br>
-      <div class="mbavem mbRikk"></div> <b>0pts Rikk</b> CLR 6<br>
+      <div class="mbavem mbRick"></div> <b>0pts Rick</b> CLR 6<br>
       <div class="mbavem mbRS"></div> <b>0pts RS</b> CLR 3<br>
       <div class="mbavem mbKarl"></div> <b>0pts Karl</b> PLD 5<br>
     </div><!--LB Cardinal-->
@@ -9096,7 +9100,7 @@
       <div><div class="mbavem mb44"></div> <b>Lv23 44</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP574</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbNeil"></div> <b>Lv15 Neil</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP245</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbRobert"></div> <b>Lv9 Robert</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP96</button><hide>(+0/day)</hide></div>
-      <div><div class="mbavem mbRikk"></div> <b>Lv6 Rikk</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP44</button><hide>(+0/day)</hide></div>
+      <div><div class="mbavem mbRick"></div> <b>Lv6 Rick</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP44</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbKoyo"></div> <b>Lv6 Koyo</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP38</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbKarl"></div> <b>Lv5 Karl</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP26</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbEmi"></div> <b>Lv3 Emi</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP11</button><hide>(+0/day)</hide></div>
@@ -9158,7 +9162,7 @@
       <div><div class="mbavem mbRobert"></div> <b>Lv9 Robert</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP96</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbKoyo"></div> <b>Lv6 Koyo</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP38</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbTherese"></div> <b>Lv3 Therese</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP10</button><hide>(+0/day)</hide></div>
-      <div><div class="mbavem mbRikk"></div> <b>Lv6 Rikk</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP44</button><hide>(+0/day)</hide></div>
+      <div><div class="mbavem mbRick"></div> <b>Lv6 Rick</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP44</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbNeil"></div> <b>Lv15 Neil</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP245</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbKarl"></div> <b>Lv5 Karl</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP26</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbEmi"></div> <b>Lv3 Emi</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP11</button><hide>(+0/day)</hide></div>
@@ -9218,10 +9222,10 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240807')">7<br><div class="mbavem mbBlack"></div></td>                    
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240808')">8<br><div class="mbavem mbEvelyn"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240809')">9<br><div class="mbavem mbVivi"></div></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240810')">10<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240810')">10<br><div class="mbavem mbBlack"></div></td>
               </tr>
               <tr>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240811')">11<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240811')">11<br><div class="mbavem mbStarTree"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240812')">12<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240813')">13<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240814')">14<br>&nbsp;</td>
@@ -9279,10 +9283,10 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240807')">7<br>📯</td>                    
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240808')">8<br>⚖️</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240809')">9<br>🐤</td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240810')">10<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240810')">10<br>:Checker:</td>
               </tr>
               <tr>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240811')">11<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240811')">11<br>💟</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240812')">12<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240813')">13<br>&nbsp;</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240814')">14<br>&nbsp;</td>
@@ -10066,7 +10070,7 @@
             <div class="mbavem mbFina"></div> <b>Fina</b> <small>EXP</small>9<br>
             <div class="mbavem mb44"></div> <b>44</b> <small>EXP</small>9<br>
             <div class="mbavem mbKen"></div> <b>Ken</b> <small>EXP</small>9<br>
-            <div class="mbavem mbRikk"></div> <b>Rikk</b> <small>EXP</small>3<br>
+            <div class="mbavem mbRick"></div> <b>Rick</b> <small>EXP</small>3<br>
             <div class="mbavem mbRobert"></div> <b>Robert</b> <small>EXP</small>2<br>
             <div class="mbavem mbNeil"></div> <b>Neil</b> <small>EXP</small>1<br>
             <div class="mbCB"></div>
@@ -10166,7 +10170,7 @@
             <div class="mbavem mbRobert"></div> <b>Robert</b> <small>EXP</small>6<br>
             <div class="mbavem mb44"></div> <b>44</b> <small>EXP</small>6<br>
             <div class="mbavem mbTherese"></div> <b>Therese</b> <small>EXP</small>4<br>
-            <div class="mbavem mbRikk"></div> <b>Rikk</b> <small>EXP</small>3<br>
+            <div class="mbavem mbRick"></div> <b>Rick</b> <small>EXP</small>3<br>
             <div class="mbavem mbNeil"></div> <b>Neil</b> <small>EXP</small>3<br>
             <div class="mbCB"></div>
             <hr>
@@ -10226,7 +10230,7 @@
       <div class="mbavem mbTherese"></div> <b>2pts Therese</b> HRD 3<br>
       <div class="mbavem mbEmi"></div> <b>1pts Emi</b> CLR 3<br>
       <div class="mbavem mbKoyo"></div> <b>0pts Koyo</b> MAG 6<br>
-      <div class="mbavem mbRikk"></div> <b>0pts Rikk</b> CLR 6<br>
+      <div class="mbavem mbRick"></div> <b>0pts Rick</b> CLR 6<br>
       <div class="mbavem mbRS"></div> <b>0pts RS</b> CLR 3<br>
       <div class="mbavem mbKarl"></div> <b>0pts Karl</b> PLD 5<br>
     </div><!--LB Cardinal-->
@@ -10298,7 +10302,7 @@
       <div><div class="mbavem mb44"></div> <b>Lv23 44</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP574</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbNeil"></div> <b>Lv15 Neil</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP245</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbRobert"></div> <b>Lv9 Robert</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP96</button><hide>(+0/day)</hide></div>
-      <div><div class="mbavem mbRikk"></div> <b>Lv6 Rikk</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP44</button><hide>(+0/day)</hide></div>
+      <div><div class="mbavem mbRick"></div> <b>Lv6 Rick</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP44</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbKoyo"></div> <b>Lv6 Koyo</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP38</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbKarl"></div> <b>Lv5 Karl</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP26</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbEmi"></div> <b>Lv3 Emi</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP11</button><hide>(+0/day)</hide></div>
@@ -10360,7 +10364,7 @@
       <div><div class="mbavem mbRobert"></div> <b>Lv9 Robert</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP96</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbKoyo"></div> <b>Lv6 Koyo</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP38</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbTherese"></div> <b>Lv3 Therese</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP10</button><hide>(+0/day)</hide></div>
-      <div><div class="mbavem mbRikk"></div> <b>Lv6 Rikk</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP44</button><hide>(+0/day)</hide></div>
+      <div><div class="mbavem mbRick"></div> <b>Lv6 Rick</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP44</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbNeil"></div> <b>Lv15 Neil</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP245</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbKarl"></div> <b>Lv5 Karl</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP26</button><hide>(+0/day)</hide></div>
       <div><div class="mbavem mbEmi"></div> <b>Lv3 Emi</b><button class="mbbuttonIcon" onclick="ShowNextInline(this)">EXP11</button><hide>(+0/day)</hide></div>
@@ -23289,7 +23293,7 @@
     {"name":"V","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
-<div id="P202403201957" date="20240320" time="1957" data-202307231022="" data-happy="" data-202403192052="" data-moment-rikk="" data-202207282137="">
+<div id="P202403201957" date="20240320" time="1957" data-202307231022="" data-happy="" data-202403192052="" data-moment-Rick="" data-202207282137="">
   <button class="mbbuttonIcon" onclick="ShowSkip(this)">🥨 <b>General Discussion</b></button><span>
   <button class="mbbuttonIcon" onclick="ShowNextInline(this)"><div class="mbavem mbLRRH"></div><small><b>⭐7</b></small></button><hide>
   <div class="mbavem mbStarTree"></div>
@@ -23305,7 +23309,7 @@
   </div><hr class="mbCB mbhr">
   <div id="P202403201957-Inner">
   <div class="mbpuzzle"><div class="mbbutton" onclick="ShowNext(this)">🥨 Roster Update</div><hide><hr>
-  <div></div><div class="mbav50r mbCB mbLRRH"></div><b>LRRH:</b> StarTree please add Rikk.
+  <div></div><div class="mbav50r mbCB mbLRRH"></div><b>LRRH:</b> StarTree please add Rick.
   <hr class="mbCB">
   <msg spk="StarTree" exp="" icon="⭐">Roger!</msg>
   <msg spk="StarTree" exp="4" icon="⭐">StarTree made it so that members not involved in Cardinal Quest do not need to be added to field log!</msg>
@@ -23391,7 +23395,7 @@
     {"name":"Black","score":"15"},
     {"name":"Evelyn","score":"13"},
     {"name":"Tanya","score":"12"},
-    {"name":"Rikk","score":"10"},
+    {"name":"Rick","score":"10"},
     {"name":"Vladanya","score":"9"},
     {"name":"Kisaragi","score":"9"},
     {"name":"Natalie","score":"9"},
@@ -24506,7 +24510,7 @@
     {"ch":"20","rank":"A","updates":"5","last":"20240324"},
     {"ch":"15","rank":"A","updates":"5","last":"20240324"},
     {"ch":"18","rank":"B","updates":"6","last":"20240321"}
-    ],"players":"Black, Ledia, LRRH, StarTree, Tanya, Vivi, Zoey","merits":"Black","recognitions":"","kudos":"Black, Ledia, LRRH, StarTree, Tanya, Vivi, Zoey","awards":"Albatross, Arcacia, Black, Cardinal, Evelyn, Fina, Helen, Ivy, Kisaragi, LRRH, Natalie, P4, Patricia, Rikk, Sasha, Skyle, StarTree, Sylvia, Tanya, V, Vladanya, Zoey","top":[
+    ],"players":"Black, Ledia, LRRH, StarTree, Tanya, Vivi, Zoey","merits":"Black","recognitions":"","kudos":"Black, Ledia, LRRH, StarTree, Tanya, Vivi, Zoey","awards":"Albatross, Arcacia, Black, Cardinal, Evelyn, Fina, Helen, Ivy, Kisaragi, LRRH, Natalie, P4, Patricia, Rick, Sasha, Skyle, StarTree, Sylvia, Tanya, V, Vladanya, Zoey","top":[
     {"name":"StarTree","score":"46"},
     {"name":"Black","score":"30"},
     {"name":"Vivi","score":"12"},
@@ -24523,7 +24527,7 @@
     {"name":"V","score":"5"},
     {"name":"Sylvia","score":"5"},
     {"name":"P4","score":"5"},
-    {"name":"Rikk","score":"4"},
+    {"name":"Rick","score":"4"},
     {"name":"Albatross","score":"4"},
     {"name":"Cardinal","score":"4"},
     {"name":"Skyle","score":"4"},
@@ -25957,7 +25961,7 @@
     {"name":"Mikela","score":"4"},
     {"name":"Casey","score":"4"},
     {"name":"Gaia","score":"2"},
-    {"name":"Rikk","score":"1"},
+    {"name":"Rick","score":"1"},
     {"name":"Ken","score":"1"},
     {"name":"Fina","score":"1"},
     {"name":"V","score":"1"}
@@ -27127,7 +27131,7 @@
     {"name":"Casey","score":"4"},
     {"name":"P4","score":"4"},
     {"name":"Ledia","score":"4"},
-    {"name":"Rikk","score":"2"},
+    {"name":"Rick","score":"2"},
     {"name":"Tanya","score":"2"},
     {"name":"Robert","score":"1"},
     {"name":"V","score":"1"}
@@ -29541,7 +29545,7 @@
     {"name":"Helen","score":"2"},
     {"name":"V","score":"2"},
     {"name":"Natalie","score":"2"},
-    {"name":"Rikk","score":"1"},
+    {"name":"Rick","score":"1"},
     {"name":"Ken","score":"1"},
     {"name":"Fina","score":"1"}
   ]}</macro>
@@ -30387,6 +30391,7 @@
           <msg DTS="20240802092029" SPK="Ivy" EXP Icon="🗃️">470</msg>
           <msg DTS="20240809003148" SPK="Kisaragi" EXP Icon="🗃️">468</msg>
           <msg DTS="20240809203711" SPK="Arcacia" EXP Icon="💗">467</msg>
+          <msg DTS="20240812022727" SPK="Arcacia" EXP Icon="💗">465</msg>
 
         </note><!--#Inbox-->
       </note>      
@@ -30565,7 +30570,7 @@
     {"name":"Ivy","score":"4"},
     {"name":"Casey","score":"3"},
     {"name":"Ledia","score":"2"},
-    {"name":"Rikk","score":"1"},
+    {"name":"Rick","score":"1"},
     {"name":"V","score":"1"},
     {"name":"Natalie","score":"1"}
   ]}</macro>
@@ -31652,6 +31657,12 @@
       <msg DTS="20240804173332" SPK="LRRH" EXP Icon="🗃️">Logging expenses.</msg>
       <msg DTS="20240809195515" SPK="Kisaragi" EXP Icon="🗃️">Logging expenses.</msg>
       <msg DTS="20240810191915" SPK="Skyle" EXP Icon="🗃️">Logging expenses.</msg>
+      
+      <msg DTS='20240811162025' SPK='3B' EXP="3" Icon='⚔️'>Assembled the shelves but where should they go?</msg>
+      <msg DTS='20240811162044' SPK='Casey' EXP=5 Icon='🧹'>Tidying garage</msg>
+      <msg DTS='20240811164421' END="20240811192844" SPK='|Patricia|Kisaragi|Evelyn|Sasha|3B|' EXP=7 Icon='🧹'>Tidying.</msg>
+      
+      
 
     </note><!--#Chores-->
     <topic dts="20240711222108" icon="🗃️" title="Accounting">
@@ -31730,7 +31741,7 @@
     {"ch":"14","rank":"C","updates":"2","last":"20240428"},
     {"ch":"25","rank":"B","updates":"3","last":"20240423"},
     {"ch":"22","rank":"C","updates":"1","last":"20240425"}
-    ],"players":"","merits":"","recognitions":"","kudos":"","awards":"3B, Arcacia, Evelyn, LRRH, P4, Rikk, StarTree, Sylvia","top":[
+    ],"players":"","merits":"","recognitions":"","kudos":"","awards":"3B, Arcacia, Evelyn, LRRH, P4, Rick, StarTree, Sylvia","top":[
     {"name":"Casey","score":"11"},
     {"name":"LRRH","score":"10"},
     {"name":"StarTree","score":"8"},
@@ -31738,7 +31749,7 @@
     {"name":"Arcacia","score":"6"},
     {"name":"Evelyn","score":"6"},
     {"name":"Sylvia","score":"5"},
-    {"name":"Rikk","score":"4"},
+    {"name":"Rick","score":"4"},
     {"name":"Kisaragi","score":"4"},
     {"name":"3B","score":"4"},
     {"name":"Black","score":"4"},
@@ -32741,7 +32752,7 @@
     {"ch":"18","rank":"C","updates":"1","last":"20240503"},
     {"ch":"23","rank":"U","updates":"0","last":"20240503"},
     {"ch":"21","rank":"U","updates":"0","last":"20240504"}
-    ],"players":"","merits":"","recognitions":"","kudos":"","awards":"3B, 44, Albatross, Arcacia, Black, Cardinal, Evelyn, Fina, Gaia, Helen, Ivy, Kisaragi, Ledia, LRRH, Mikela, P4, Patricia, Rikk, Sasha, Skyle, StarTree, Sylvia, Tanya, Vivi, Zoey","top":[
+    ],"players":"","merits":"","recognitions":"","kudos":"","awards":"3B, 44, Albatross, Arcacia, Black, Cardinal, Evelyn, Fina, Gaia, Helen, Ivy, Kisaragi, Ledia, LRRH, Mikela, P4, Patricia, Rick, Sasha, Skyle, StarTree, Sylvia, Tanya, Vivi, Zoey","top":[
     {"name":"Kisaragi","score":"21"},
     {"name":"Albatross","score":"13"},
     {"name":"Black","score":"12"},
@@ -32751,7 +32762,7 @@
     {"name":"Arcacia","score":"9"},
     {"name":"Zoey","score":"8"},
     {"name":"StarTree","score":"7"},
-    {"name":"Rikk","score":"6"},
+    {"name":"Rick","score":"6"},
     {"name":"Skyle","score":"6"},
     {"name":"Helen","score":"6"},
     {"name":"Patricia","score":"6"},
@@ -33307,7 +33318,11 @@
       <msg DTS='20210919000000' SPK='Evelyn' EXP Icon='📌'>First Message <url>https://chasethewritedream.com/first-online-dating-message/</url></msg>
     </note>
 	</content>
-	<inv></inv>
+	<inv>
+    <res item="24UC23DC" title="Knapp Model" tags="">
+      <msg DTS='20240811092013' SPK='Mikela' EXP Icon='📌'>Knapp model <url>https://www.forbes.com/sites/traversmark/2024/08/03/a-psychologist-reveals-the-5-stages-of-uncoupling/</url></msg>
+    </res>
+  </inv>
 	<ref></ref>
 	<node>{"id":"202406072318","parentid":"202207252131","parentname":"Cleric","icon":"❤️","title":"Relationship","subtitle":"Subtitle","kids":"","img":"https://www.reddit.com/r/Advice/comments/10suw1r/why_do_my_hand_s_get_shaky_after_drinking_coffee/","music":"","author":"Evelyn"}</node>
 </div><!--P202406072318-->
@@ -33340,7 +33355,7 @@
     {"ch":"30","rank":"C","updates":"1","last":"20240607"},
     {"ch":"24","rank":"D","updates":"1","last":"20240607"},
     {"ch":"15","rank":"B","updates":"2","last":"20240607"}
-    ],"players":"","merits":"","recognitions":"Albatross, LRRH","kudos":"","awards":"Albatross, Arcacia, Cardinal, Casey, Evelyn, Gaia, Ivy, James, Kisaragi, LRRH, Melody, Mikela, Natalie, Patricia, Rikk, Sasha, Skyle, StarTree, Sylvia, Tanya, V, Vladanya, Zoey","top":[
+    ],"players":"","merits":"","recognitions":"Albatross, LRRH","kudos":"","awards":"Albatross, Arcacia, Cardinal, Casey, Evelyn, Gaia, Ivy, James, Kisaragi, LRRH, Melody, Mikela, Natalie, Patricia, Rick, Sasha, Skyle, StarTree, Sylvia, Tanya, V, Vladanya, Zoey","top":[
     {"name":"StarTree","score":"16"},
     {"name":"Albatross","score":"12"},
     {"name":"Sylvia","score":"12"},
@@ -33361,7 +33376,7 @@
     {"name":"Casey","score":"5"},
     {"name":"Ivy","score":"5"},
     {"name":"Black","score":"5"},
-    {"name":"Rikk","score":"4"},
+    {"name":"Rick","score":"4"},
     {"name":"Gaia","score":"4"},
     {"name":"Cardinal","score":"4"},
     {"name":"Patricia","score":"4"},
@@ -33911,7 +33926,7 @@
     {"ch":"28","rank":"C","updates":"1","last":"20240614"},
     {"ch":"33","rank":"S","updates":"3","last":"20240614"},
     {"ch":"5","rank":"B","updates":"2","last":"20240615"}
-    ],"players":"","merits":"","recognitions":"Patricia, Tanya","kudos":"","awards":"Arcacia, Casey, Evelyn, Ivy, LRRH, Natalie, P4, Patricia, Rikk, Skyle, Sylvia, V, Zoey","top":[
+    ],"players":"","merits":"","recognitions":"Patricia, Tanya","kudos":"","awards":"Arcacia, Casey, Evelyn, Ivy, LRRH, Natalie, P4, Patricia, Rick, Skyle, Sylvia, V, Zoey","top":[
     {"name":"LRRH","score":"7"},
     {"name":"Evelyn","score":"7"},
     {"name":"Skyle","score":"6"},
@@ -33924,7 +33939,7 @@
     {"name":"Natalie","score":"5"},
     {"name":"P4","score":"5"},
     {"name":"Zoey","score":"5"},
-    {"name":"Rikk","score":"4"},
+    {"name":"Rick","score":"4"},
     {"name":"Ivy","score":"4"},
     {"name":"Black","score":"4"},
     {"name":"StarTree","score":"3"},
@@ -35413,7 +35428,7 @@
     {"ch":"31","rank":"D","updates":"1","last":"20240707"},
     {"ch":"11","rank":"C","updates":"1","last":"20240707"},
     {"ch":"23","rank":"D","updates":"1","last":"20240707"}
-    ],"players":"","merits":"","recognitions":"Arcacia","kudos":"","awards":"3B, Albatross, Arcacia, Black, Cardinal, Evelyn, Fina, Gaia, Helen, Ivy, Kisaragi, Koyo, Ledia, LRRH, Natalie, Patricia, Rikk, Skyle, StarTree, Sylvia, Zoey","top":[
+    ],"players":"","merits":"","recognitions":"Arcacia","kudos":"","awards":"3B, Albatross, Arcacia, Black, Cardinal, Evelyn, Fina, Gaia, Helen, Ivy, Kisaragi, Koyo, Ledia, LRRH, Natalie, Patricia, Rick, Skyle, StarTree, Sylvia, Zoey","top":[
     {"name":"Fina","score":"17"},
     {"name":"Arcacia","score":"17"},
     {"name":"Kisaragi","score":"16"},
@@ -35431,7 +35446,7 @@
     {"name":"Casey","score":"5"},
     {"name":"Natalie","score":"5"},
     {"name":"Koyo","score":"4"},
-    {"name":"Rikk","score":"4"},
+    {"name":"Rick","score":"4"},
     {"name":"Gaia","score":"4"},
     {"name":"Cardinal","score":"4"},
     {"name":"Helen","score":"4"},
@@ -35569,7 +35584,7 @@
     {"name":"Fina","score":"6"},
     {"name":"Evelyn","score":"5"},
     {"name":"Ivy","score":"4"},
-    {"name":"Rikk","score":"2"},
+    {"name":"Rick","score":"2"},
     {"name":"Helen","score":"2"},
     {"name":"Zoey","score":"2"},
     {"name":"Gaia","score":"1"},
@@ -35602,6 +35617,9 @@
 <div id="P202407111014" date="20240711" time="1014" data-subject data-science>
 	<content>	</content>
 	<inv>
+    <res item="24UC2452" title="Mind Games" tags="">
+      <msg DTS='20240811091906' SPK='Mikela' EXP Icon='📌'>Mind games <url>https://www.forbes.com/sites/benjaminlaker/2024/08/06/how-to-deal-with-mind-games-in-the-workplace/</url></msg>
+    </res>
     <res item="24U76CE0" title="Consciousness" tags="" src="https://neurosciencenews.com/eureka-moments-consciousness-26480/">
       <msg DTS="20240807065506" SPK="Black" EXP Icon="📌">Consciousness and eureka moments <url>https://neurosciencenews.com/eureka-moments-consciousness-26480/</url></msg>
     </res>  
@@ -38668,6 +38686,118 @@
   ]}</macro>
 </div><!-- STATUS -->
 <div date="20240810" time="2359" data-status="">
+  <macro>{"cmd":"daisy2","issues":"0","quests":"473","activities":[
+    {"ch":"29","rank":"B","updates":"1","last":"20240801"},
+    {"ch":"11","rank":"B","updates":"1","last":"20240802"},
+    {"ch":"16","rank":"D","updates":"1","last":"20240802"},
+    {"ch":"5","rank":"B","updates":"1","last":"20240802"},
+    {"ch":"30","rank":"D","updates":"1","last":"20240803"},
+    {"ch":"19","rank":"A","updates":"1","last":"20240803"},
+    {"ch":"18","rank":"B","updates":"2","last":"20240804"},
+    {"ch":"34","rank":"B","updates":"2","last":"20240804"},
+    {"ch":"14","rank":"B","updates":"2","last":"20240804"},
+    {"ch":"7","rank":"A","updates":"2","last":"20240805"},
+    {"ch":"25","rank":"B","updates":"3","last":"20240805"},
+    {"ch":"26","rank":"D","updates":"2","last":"20240806"},
+    {"ch":"28","rank":"S","updates":"1","last":"20240806"},
+    {"ch":"22","rank":"B","updates":"2","last":"20240806"},
+    {"ch":"21","rank":"B","updates":"4","last":"20240809"},
+    {"ch":"17","rank":"D","updates":"1","last":"20240809"},
+    {"ch":"13","rank":"D","updates":"1","last":"20240809"},
+    {"ch":"32","rank":"C","updates":"3","last":"20240809"},
+    {"ch":"24","rank":"C","updates":"2","last":"20240809"},
+    {"ch":"31","rank":"C","updates":"1","last":"20240809"},
+    {"ch":"33","rank":"C","updates":"3","last":"20240809"},
+    {"ch":"35","rank":"B","updates":"1","last":"20240809"},
+    {"ch":"23","rank":"A","updates":"2","last":"20240810"},
+    {"ch":"27","rank":"C","updates":"1","last":"20240810"},
+    {"ch":"20","rank":"C","updates":"2","last":"20240810"},
+    {"ch":"12","rank":"D","updates":"2","last":"20240810"},
+    {"ch":"15","rank":"B","updates":"2","last":"20240810"}
+    ],"players":"","merits":"","recognitions":"","kudos":"","awards":"3B, Albatross, Arcacia, Black, Casey, Evelyn, Ivy, Kisaragi, Koyo, Ledia, LRRH, Melody, Natalie, Patricia, Sasha, Skyle, StarTree, Sylvia, Tanya, V, Vladanya, Zoey","top":[
+    {"name":"Black","score":"10"},
+    {"name":"Kisaragi","score":"8"},
+    {"name":"Ledia","score":"7"},
+    {"name":"Zoey","score":"7"},
+    {"name":"Skyle","score":"6"},
+    {"name":"Casey","score":"6"},
+    {"name":"LRRH","score":"6"},
+    {"name":"Evelyn","score":"6"},
+    {"name":"StarTree","score":"6"},
+    {"name":"V","score":"5"},
+    {"name":"Ivy","score":"5"},
+    {"name":"Natalie","score":"5"},
+    {"name":"Sylvia","score":"5"},
+    {"name":"Sasha","score":"5"},
+    {"name":"Arcacia","score":"5"},
+    {"name":"Koyo","score":"4"},
+    {"name":"Melody","score":"4"},
+    {"name":"Albatross","score":"4"},
+    {"name":"Vladanya","score":"4"},
+    {"name":"Patricia","score":"4"},
+    {"name":"Tanya","score":"4"},
+    {"name":"Mikela","score":"2"},
+    {"name":"Fina","score":"2"},
+    {"name":"Vivi","score":"2"},
+    {"name":"3B","score":"2"},
+    {"name":"P4","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div date="20240811" time="2359" data-status="">
+  <macro>{"cmd":"daisy2","issues":"0","quests":"473","activities":[
+    {"ch":"29","rank":"B","updates":"1","last":"20240801"},
+    {"ch":"11","rank":"B","updates":"1","last":"20240802"},
+    {"ch":"16","rank":"D","updates":"1","last":"20240802"},
+    {"ch":"5","rank":"B","updates":"1","last":"20240802"},
+    {"ch":"30","rank":"D","updates":"1","last":"20240803"},
+    {"ch":"19","rank":"A","updates":"1","last":"20240803"},
+    {"ch":"18","rank":"B","updates":"2","last":"20240804"},
+    {"ch":"34","rank":"B","updates":"2","last":"20240804"},
+    {"ch":"14","rank":"B","updates":"2","last":"20240804"},
+    {"ch":"7","rank":"A","updates":"2","last":"20240805"},
+    {"ch":"25","rank":"B","updates":"3","last":"20240805"},
+    {"ch":"26","rank":"D","updates":"2","last":"20240806"},
+    {"ch":"28","rank":"S","updates":"1","last":"20240806"},
+    {"ch":"22","rank":"B","updates":"2","last":"20240806"},
+    {"ch":"21","rank":"B","updates":"4","last":"20240809"},
+    {"ch":"17","rank":"D","updates":"1","last":"20240809"},
+    {"ch":"13","rank":"D","updates":"1","last":"20240809"},
+    {"ch":"32","rank":"C","updates":"3","last":"20240809"},
+    {"ch":"24","rank":"C","updates":"2","last":"20240809"},
+    {"ch":"31","rank":"C","updates":"1","last":"20240809"},
+    {"ch":"33","rank":"C","updates":"3","last":"20240809"},
+    {"ch":"35","rank":"B","updates":"1","last":"20240809"},
+    {"ch":"23","rank":"A","updates":"2","last":"20240810"},
+    {"ch":"27","rank":"C","updates":"1","last":"20240810"},
+    {"ch":"20","rank":"C","updates":"2","last":"20240810"},
+    {"ch":"12","rank":"D","updates":"2","last":"20240810"},
+    {"ch":"15","rank":"B","updates":"2","last":"20240810"}
+    ],"players":"","merits":"","recognitions":"","kudos":"","awards":"3B, Arcacia, Black, Casey, Evelyn, Ivy, Kisaragi, LRRH, Melody, Natalie, Patricia, Sasha, StarTree, Sylvia, Tanya, V, Zoey","top":[
+    {"name":"StarTree","score":"60"},
+    {"name":"Black","score":"21"},
+    {"name":"3B","score":"20"},
+    {"name":"Kisaragi","score":"18"},
+    {"name":"Evelyn","score":"18"},
+    {"name":"Ivy","score":"17"},
+    {"name":"Sasha","score":"16"},
+    {"name":"Casey","score":"15"},
+    {"name":"LRRH","score":"14"},
+    {"name":"Arcacia","score":"12"},
+    {"name":"Patricia","score":"11"},
+    {"name":"Skyle","score":"11"},
+    {"name":"Vivi","score":"7"},
+    {"name":"Zoey","score":"7"},
+    {"name":"Natalie","score":"6"},
+    {"name":"Sylvia","score":"6"},
+    {"name":"V","score":"5"},
+    {"name":"Melody","score":"4"},
+    {"name":"Ledia","score":"4"},
+    {"name":"Tanya","score":"4"},
+    {"name":"Fina","score":"2"},
+    {"name":"P4","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div date="20240812" time="2359" data-status="">
   <macro>{"cmd":"daisy2","issues":"0","quests":"471","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[

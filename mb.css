@@ -551,7 +551,7 @@ todo::before{content:"TODO: ";font-size: 12px;}
   height:1.25em; 
   padding:0;
   /*text-shadow: 0px 0px 4px black;*/
-  
+  pointer-events: auto;
   width:1.25em;
 }
 a.mbIconShift> span.mbIcon{vertical-align: -0.25em;}
@@ -870,7 +870,9 @@ span.mbIcon > icon{font-size: 0px;}
 .iPencil{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Pencil.png?raw=true');}
 .iPretzel{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Pretzel.png?raw=true');}
 .iRock{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Rock.png?raw=true');}
+.iSchool{background-image:url('https://github.com/MagicBakery/Icons/blob/main/School.png?raw=true');}
 .iStar{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Star.png?raw=true');}
+.iWand{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Wand.png?raw=true');}
 .iWood{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Wood.png?raw=true');}
 
 /* Avatars */
