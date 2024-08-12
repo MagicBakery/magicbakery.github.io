@@ -227,6 +227,7 @@ padding-right:10px;
   font-weight: bold;
   line-height: 17.5px;  
   text-align:right;
+  vertical-align: middle;
 }
 .mbRefS{
   /* 20230413: StarTree: Smaller for displaying stats */
@@ -855,7 +856,10 @@ span.mbIcon > icon{font-size: 0px;}
 }
 
 /* ICONS (20x20 px) / 450 px square*/
-
+.iArchive{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Archive.png?raw=true');}
+.iArchive1{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Archive1.png?raw=true');}
+.iArchive2{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Archive2.png?raw=true');}
+.iArchive3{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Archive3.png?raw=true');}
 .iChecker{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Checker.png?raw=true');}
 .iChick{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Chick.png?raw=true');}
 .iClose{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Close.png?raw=true');}

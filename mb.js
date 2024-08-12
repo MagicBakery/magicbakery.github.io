@@ -100,7 +100,7 @@ function BoardAdd(el){
 
   // STEP: Add the close button.
   var mHTML = "<div control>";
-  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'><small>:Close:</small></a>";
+  mHTML += "<span class='mbRef'><a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>:Close:</a></span>";
   mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
   MacroIcons(elTemp);
@@ -116,7 +116,7 @@ function BoardAddBefore(el){
 
   // STEP: Add the close button.
   var mHTML = "<div control>";
-  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'><small>:Close:</small></a>";
+  mHTML += "<span class='mbRef'><a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>:Close:</a></span>";
   mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
   MacroIcons(elTemp);
@@ -131,7 +131,7 @@ function BoardAddAfter(el){
 
   // STEP: Add the close button.
   var mHTML = "<div control>";
-  mHTML += "<a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'><small>:Close:</small></a>";
+  mHTML += "<span class='mbRef'><a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>:Close:</a></span>";
   mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
   MacroIcons(elTemp);
@@ -715,7 +715,7 @@ function GetInputBoxValue(el){
 function IFrameFeedback(el){
   // 20231029: Black: Spawn a feedback form
   var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
-  var mHTML = "<a class='mbbutton' onClick='RemoveParent(this)' style='float:right' title='Close'><small>:Close:</small></a>";
+  var mHTML = "<span class='mbRef'><a class='mbbutton' onClick='RemoveParent(this)' style='float:right' title='Close'>:Close:</a></span>";
 
   //mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>⅔</button>";
   mHTML += "<a onClick='IFrameFeedback(this)' title='Feedback Form'>💌</a> <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a>";
@@ -760,7 +760,7 @@ function IFrameURLSet(el){
   //   <button class='mbbutton' onClick='RemoveParent(this)' style='float:right;margin-bottom:-20px;margin-right:20px;position:relative;z-index:1' title='Close'>:Close:</button>
   //   <iframe src='https://panarcana.blogspot.com/p/viewer.html?id=P202303052122' title='Blogspot Node' style='margin:0px -3px;border:none;width:100%;height:calc(100vh - 136px)' allow='clipboard-read; clipboard-write'></iframe>
   // </div>
-  var mHTML = "<a class='mbbutton' onClick='RemoveParent(this)' style='float:right' title='Close'><small>:Close:</small></a>";
+  var mHTML = "<span class='mbRef'><a class='mbbutton' onClick='RemoveParent(this)' style='float:right' title='Close'>:Close:</a></span>";
   mHTML += "<a onClick='IFrameRefresh(this," + mNodeID + ")' title='Refresh'>🕰️</a> <a class='mbbutton' onClick='HideNext(this)' title='Data from Blogspot'>Blogspot " + mNodeID + "</a>";
   mHTML += "<iframe src='" + mInput + "' title='Blogspot Node' style='border:none;width:100%;height:calc(100vh - 190px)' allow='clipboard-read; clipboard-write'></iframe>";
   var elTemp = document.createElement("div");
@@ -1473,7 +1473,7 @@ function LnkCode(iID,iDesc,iIcon,bMark){
   // 20240415: StarTree: Highlight lnk object used as visit mark differently.
   let mTitle = Default(iDesc,iID);
   mHTML += "<a class='mbbuttonIn' href='" + ViewerPath() + "?id=P"+iID+"'";
-  mHTML += " onclick=\"" + InterLink() + "'" + iID + "');return false;\" title='Go to "+mTitle+"'>";
+  mHTML += " onclick=\"" + InterLink() + "'" + iID + "');return false;\" title='Go to "+iID+"'>";
   
   if(IsBlank(iIcon)){
     mHTML += iDesc + "</a>";
@@ -1618,13 +1618,23 @@ function MacroCard2(elCard){
    elCard.remove();
   return true;
 }
-function MacroIcons(el){
+function MacroIcons(el,iHTMLInner){
+  //DEBUG("MacroIcons");
   // 20240810: Black: Replace emoji in the scope or the entire document.
-  if(IsBlank(el)){el = document.body;}
-  var mHTMLInner = el.innerHTML;  
   
+  if(IsBlank(el)){el = document.body;}
+  var mHTMLInner="";
+  if(IsBlank(iHTMLInner)){
+    mHTMLInner = el.innerHTML;  
+  } else{
+    mHTMLInner = iHTMLInner;
+  }
   
   const mIconList = [
+    ["Archive",":Archive:"],
+    ["Archive1",":Archive1:"],
+    ["Archive2",":Archive2:"],
+    ["Archive3",":Archive3:"],
     ["Checker",":Checker:"],
     ["Chick","🐤"],
     ["Close",":Close:"],
@@ -1670,7 +1680,10 @@ function MacroIcons(el){
       }
     }    
   }
-  el.innerHTML = mHTMLInner;
+  if(IsBlank(iHTMLInner)){
+    el.innerHTML = mHTMLInner;
+  }
+  return mHTMLInner;
 }
 function MacroNote(el){
   // 20240501: Cardinal: A note defines an inline collapsible section.
@@ -1920,7 +1933,7 @@ function MacroResItem(mTag){
   }  
   // Node Link in the Side Panel
   if(NotBlank(mTag.getAttribute('node'))){
-    mHTML += LnkCode(mNode,"🐤","") +"<br>";
+    mHTML += LnkCode(mNode,":Archive:","") +"<br>";
   }else{
     mHTML += "🥚<br>"
   }
@@ -4689,8 +4702,6 @@ function QSLEL(elSearchList,iQuery,elArchives,bOffline){
     }
     // STEP: The archive argument is not blank. Just get the data from the archive.
     // 20240510: Skyle: The data in the archive may not be complete.
-
-
     //var elRecords = elArchives.querySelectorAll(iQuery);
     //var elRecords = $(elArchives, "archives >" + iQuery);
     //var elRecords = $("html > archives > [archive] > " + iQuery);
@@ -5114,10 +5125,10 @@ function QSLContentCompose(bOffline,elRecords,elSearchList,mDate){
         
         mHTML += "<a class='mbbutton mbILB25' onclick='QSLTree(this,\"[data-"+ mKids[k] +"]\")'>📒</a>";
         if(k==0){
-          mHTML += LnkCode(mID,mTitle,mIcon+mType,bMark); 
+          mHTML += MacroIcons(null,LnkCode(mID,mTitle,mIcon+mType,bMark)); 
         }else{
 
-          mHTML += LnkCode(mID,mTitle + "\\" + Cap(mKids[k]).replaceAll("-"," "),mIcon+mType,bMark); 
+          mHTML += MacroIcons(null,LnkCode(mID,mTitle + "\\" + Cap(mKids[k]).replaceAll("-"," "),mIcon+mType,bMark)); 
         }
 
         mHTML += "</div>";// End of Control
@@ -5143,7 +5154,7 @@ function QSLContentCompose(bOffline,elRecords,elSearchList,mDate){
       MacroIcons(elSearchList.previousElementSibling);
       elSearchList.previousElementSibling.classList.remove('mbhide');
     }
-    MacroIcons(elSearchList);
+    
   },0);
 
 }
@@ -6867,7 +6878,7 @@ function ReloadFP(el){
   // 20240421: Arcacia: Special handling for the Feedback Form.
   if(mDTS=="Feedback"){
     var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
-    mHTML = "<a class='mbbutton' onClick='HideParent(this);FPGetTopZ()' style='float:right' title='Close'><small>:Close:</small></a>";
+    mHTML = "<span class='mbRef'><a class='mbbutton' onClick='HideParent(this);FPGetTopZ()' style='float:right' title='Close'>:Close:</a></span>";
     mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>⅔</button>"
     mHTML += "💌 <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a><span><hr>";
     mHTML += "<iframe src='" + mInput + "' title='Google Form' style='border:none;width:100%;height:45vh' allow='clipboard-read; clipboard-write'></iframe></span>";
@@ -6906,7 +6917,7 @@ function ReloadFPEL(elWidget,elFP,mDTS,bOffline){
   
 
   // 20240422: Add a close button
-  mHTML = "<small><span style='float:right'>";
+  mHTML = "<small><span class='mbRef'>";
   mHTML += NodeIDClipboardButtonCode(mNodeID);
   mHTML += "<a class='mbbutton' title='Hide Widget' onclick='HideFP(this)'>:Close:</a>";
   mHTML += "<a class='mbbutton' title='Cycle dock position' onclick='WidgetDockCycle(this)'>▶</a>";
@@ -6930,12 +6941,17 @@ function NodeIDClipboardButtonCode(mNodeID,mParentID,mIcon){
   // 20240422: V
   // 20240427: Black: Added mArchiveID for showing bubble context.
   var mHTML = "<a class='mbbutton' onclick=\"ClipboardAlert('"+ mNodeID+"')\" title=\"" +  mNodeID+  " [";
+  var mArchiveNum = "0";
   if(IsBlank(mParentID)){
-    mHTML += ArchiveNumSelect(mNodeID);
+    mArchiveNum = ArchiveNumSelect(mNodeID);
   }else{
-    mHTML += ArchiveNumSelect(mParentID);
+    mArchiveNum = ArchiveNumSelect(mParentID);
   }
-  if(IsBlank(mIcon)){mIcon = "🐤"}
+  //DEBUG(mArchiveNum);
+  mHTML += mArchiveNum;
+  if(IsBlank(mIcon)){
+    mIcon = ":Archive"+mArchiveNum+":";
+  }
   mHTML += "]\">"+mIcon+"</a>&nbsp;";
 
   return mHTML
