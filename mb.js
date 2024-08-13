@@ -1637,7 +1637,8 @@ function MacroIcons(el,iHTMLInner){
     ["Archive3",":Archive3:"],
     ["Checker",":Checker:"],
     ["Chick","🐤"],
-    ["Pudding",":Close:"],
+    ["Close",":Close:"],
+    ["Dice","🎲"],
     ["Fan","🪭"],
     ["Hatch","🐣"],
     ["Jam",":Jam:"],
@@ -1651,6 +1652,7 @@ function MacroIcons(el,iHTMLInner){
     ["Pudding","🍮"],
     ["Rock","🪨"],
     ["School","🏫"],
+    ["SquareCap","🎓"],
     ["Star","⭐"],
     ["Wand","🪄"],
     ["Wood","🪵"]
@@ -2874,6 +2876,7 @@ function MsgContext(el){
     }
 
     //mContext.innerHTML = "[" + elDTS.getAttribute('dts') +"]";
+    MacroIcons(mContext);
     el.after(mContext);
   }else{
     // Manage Show/Hide
@@ -4834,6 +4837,7 @@ function QSLSortByIcon(el,iIcon){
     item.firstElementChild.setAttribute("count",mCount);
     
     item.firstElementChild.innerHTML = iIcon + "<b>" + mCount + "</b>";
+    MacroIcons(item.firstElementChild);
     if(bReversed){
        item.style.order = item.firstElementChild.getAttribute("count");
     }
@@ -4895,10 +4899,10 @@ function QSLSortRandom(el){
   // STEP: For each Div in elContainer that has a name and with a parent node that has mbSearch class, assign a random order number.
   // https://www.w3schools.com/jquery/jquery_ref_selectors.asp
   var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
-  for(i=0;i<elEntries.length;i++){
+  for(let i=0;i<elEntries.length;i++){
     let mRand = getRandomInt(1,Math.max(99,elEntries.length+10));
     elEntries[i].style.order = mRand;
-    elEntries[i].firstElementChild.innerHTML = "🎲<b>" + mRand +"</b>"
+    elEntries[i].firstElementChild.innerHTML = MacroIcons("","🎲") +"<b>" + mRand +"</b>";
   }
   elContainer.scrollTop = -elContainer.scrollHeight;
 }
