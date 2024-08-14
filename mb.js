@@ -2120,6 +2120,7 @@ function GetURLCode(mURL,mDesc, mLang){
     if(mURL.includes(".pdf")){mDesc="PDF"};
     if(mURL.includes("amazon.com")){mDesc="Amazon"};
     if(mURL.includes("boardgamegeek.com")){mDesc="BGG"};
+    if(mURL.includes("jlptsensei.com")){mDesc="JLPT";};
     if(mURL.includes("wikipedia.org")){mDesc="Wiki"};
     if(mURL.includes("nextdoor.com")){mDesc="🏡";bIcon=true;};
     if(mURL.includes("reddit.com")){mDesc="Reddit"};
@@ -6883,7 +6884,7 @@ function ReloadFP(el){
   // 20240421: Arcacia: Special handling for the Feedback Form.
   if(mDTS=="Feedback"){
     var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
-    mHTML = "<span class='mbRef'><a class='mbbutton' onClick='HideParent(this);FPGetTopZ()' style='float:right' title='Close'>:Close:</a></span>";
+    mHTML = "<span class='mbRef'><a class='mbbutton' onClick='HideFP(this);FPGetTopZ()' style='float:right' title='Close'>:Close:</a></span>";
     mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>⅔</button>"
     mHTML += "💌 <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a><span><hr>";
     mHTML += "<iframe src='" + mInput + "' title='Google Form' style='border:none;width:100%;height:45vh' allow='clipboard-read; clipboard-write'></iframe></span>";
