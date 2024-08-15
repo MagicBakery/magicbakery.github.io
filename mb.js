@@ -1936,7 +1936,8 @@ function MacroResItem(mTag){
   }  
   // Node Link in the Side Panel
   if(NotBlank(mTag.getAttribute('node'))){
-    mHTML += LnkCode(mNode,":Archive:","") +"<br>";
+    var mArchiveNum = ArchiveNumSelect(mNode);
+    mHTML += LnkCode(mNode,":Archive"+mArchiveNum+":","") +"<br>";
   }else{
     mHTML += "🥚<br>"
   }
