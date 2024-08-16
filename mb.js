@@ -364,7 +364,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     mHTMLInner += "<div class='mbCB'></div>";
 
     // STEP: Create the QSL area.
-    mHTMLInner += "<div class='mbhide mbpuzzle'><button class='mbbutton mbRef' onclick='HideParent(this)'>:Close:</button>";
+    mHTMLInner += "<div class='mbhide mbpuzzle'><button class='mbbutton mbRef' onclick='BoardRemove(this)'>:Close:</button>";
     mHTMLInner += "<div control></div><div class='mbCB mbSearch' QSL BL style='display:flex;flex-direction: column;''></div></div>";
 
     elContainer.innerHTML = mHTMLInner;
@@ -715,7 +715,7 @@ function GetInputBoxValue(el){
 function IFrameFeedback(el){
   // 20231029: Black: Spawn a feedback form
   var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
-  var mHTML = "<span class='mbRef'><a class='mbbutton' onClick='RemoveParent(this)' style='float:right' title='Close'>:Close:</a></span>";
+  var mHTML = "<span class='mbRef'><a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>:Close:</a></span>";
 
   //mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>⅔</button>";
   mHTML += "<a onClick='IFrameFeedback(this)' title='Feedback Form'>💌</a> <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a>";
@@ -760,12 +760,13 @@ function IFrameURLSet(el){
   //   <button class='mbbutton' onClick='RemoveParent(this)' style='float:right;margin-bottom:-20px;margin-right:20px;position:relative;z-index:1' title='Close'>:Close:</button>
   //   <iframe src='https://panarcana.blogspot.com/p/viewer.html?id=P202303052122' title='Blogspot Node' style='margin:0px -3px;border:none;width:100%;height:calc(100vh - 136px)' allow='clipboard-read; clipboard-write'></iframe>
   // </div>
-  var mHTML = "<span class='mbRef'><a class='mbbutton' onClick='RemoveParent(this)' style='float:right' title='Close'>:Close:</a></span>";
+  var mHTML = "<span class='mbRef'><a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>:Close:</a></span>";
   mHTML += "<a onClick='IFrameRefresh(this," + mNodeID + ")' title='Refresh'>🕰️</a> <a class='mbbutton' onClick='HideNext(this)' title='Data from Blogspot'>Blogspot " + mNodeID + "</a>";
   mHTML += "<iframe src='" + mInput + "' title='Blogspot Node' style='border:none;width:100%;height:calc(100vh - 190px)' allow='clipboard-read; clipboard-write'></iframe>";
   var elTemp = document.createElement("div");
   elTemp.innerHTML = mHTML;
   elTemp.classList.add('mbscroll');
+  elTemp.setAttribute("Board","");
   elTemp.style.marginBottom = "0px";
   MacroIcons(elTemp);
   mControl.nextElementSibling.prepend(elTemp);  
