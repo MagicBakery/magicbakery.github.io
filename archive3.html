@@ -20985,7 +20985,7 @@
       <msg DTS="20240604103327" SPK="Black" EXP Icon="🐣">A scribe keeps track of the concerns raised in the discussion and their resolution status so that a newcomer to a discussion can quickly know what the discussion needs and participate. <url>https://nextdoor.com/p/DPjBYh5D4xpK/c/1161393713</url></msg>
       <msg DTS="20240711084025" SPK="Black" EXP Icon="🐣">In this context, the purpose of the scribe is not to simply make a record of what is said, since the infrastructure (the online forum) already has such a record when the participants post.</msg>
     </topic>
-    <note dts="20240511174358" subtitle="Log">
+    <note dts="20240511174358" subtitle="Inbox">
       <msg DTS='20240215082035' SPK='Black' EXP Icon='📌'>Forum features that would disqualify the forum as an open forum: some types of blocking.</msg>
     </note>
   </content>
@@ -20993,6 +20993,12 @@
     Where people may discuss to resolve conflicts and coordinate efforts.
   </card>
   <inv>
+    <res icon="📘" item="24ULA2F7" title="Off-Topic Thread" tags="Protocol" node="202408201105">
+      <msg DTS="20240820101429" SPK="Albatross" EXP Icon="📯">Q: What is the best practice when a forum user starts a thread in the wrong section?</msg>
+      <note dts="20240820112127" icon="✅" node="202408201105">
+        <msg DTS="20240820101709" SPK="Black" EXP Icon="🕊️">The best practice to bypass this issue is custom filters.</msg>
+      </note>
+    </res>
     <res item="24UKM5EE" title="Issue: Lacking facilitator" tags="">
       <msg DTS='20240819094945' SPK='Black' EXP Icon='📌'>Townhall facilitator <url>https://nextdoor.com/p/24gczxkNPkn4/c/1206203108</url></msg>
     </res>  
@@ -39479,6 +39485,57 @@
     {"name":"P4","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
+<div id="P202408201105" date="20240820" time="1105" data-skill data-Herald data-solution data-Discussion data-civics>
+	<content>    
+    <msg DTS="20240820112808" SPK="Black" EXP Icon="📯"><b>Custom Filter</b> is a solution to content viewing on an online forum to solve the issue of user posting a thread in the "wrong section".</msg>
+    <topic dts="20240820103631" icon="👑" title="Custom Filters as the Best Practice">
+      <msg DTS="20240820103707" SPK="Black" EXP Icon="🕊️">An online forum can bypass this issue completely by using user-defined custom filters.</msg>
+      <msg DTS="20240820103750" SPK="Black" EXP Icon="🔍">A custom filter is a user-defined algorithm to fetch content into the user's viewer. Even when the user is not a programmer, the user could just select or subscribe to an algorithm made available by another user.</msg>
+      <msg DTS="20240820104015" SPK="Black" EXP Icon="🔍">When a user posts a thread, the algorithm decides whether to query that content into view. The algorithm can be configured to ignore the thread starter's categories and use its own categories.</msg>
+      <msg DTS="20240820104344" SPK="Black" EXP Icon="⚖️">This is the most noninvasive way because it doesn't change the algorithm for anyone who is already happy with their viewer algorithm. (A user can freely switch algorithms to see which algorithm will view their content.)</msg>
+      <msg DTS="20240820104902" SPK="Tanya" EXP Icon="🔮">What if a user intentionally crafts their content to sneak through an algorithm?
+        <note dts="20240820104954" icon="🔍">
+          <msg DTS="20240820105050" SPK="Black" EXP Icon="🔍">If a person can tell the content shouldn't be included, the algorithm can be updated to filter out that content. And, an algorithm is not necessarily fully computerized, it could also include human admin or user feedbacks or tagging.</msg>
+        </note>
+      </msg>
+      <note dts="20240820114539" subtitle="Examples">
+        <msg DTS="20240820114546" SPK="Black" EXP Icon="🔍">Examples of platforms using custom filter to some degrees:
+        </msg>
+        <note dts="20240820114903" subtitle="Substack">
+          <msg DTS="20240820114913" SPK="Black" EXP Icon="🔍">At Substack, you decide which channel you want to view.</msg>
+        </note>
+        <note dts="20240820115107" subtitle="YouTube">
+          <msg DTS="20240820115115" SPK="Black" EXP Icon="🔍">At YouTube, you can also subscribe to different channels.</msg>
+        </note>
+        <note dts="20240820114717" Subtitle="X">
+          <msg DTS="20240820114754" SPK="Black" EXP Icon="🔍">At X, when you follow a user, there is a section to show content that the people you followed interacted with.</msg>
+        </note>
+  
+      </note>
+    </topic>
+    <topic dts="20240820113328" icon="🐤" title="Other Solutions">
+      <note dts="20240820111138" subtitle="Recategorize">
+        <msg DTS="20240820101709" SPK="Black" EXP Icon="🐤">If the forum does not support custom filters, but has an appropriate section for that thread, the thread can be recategorized by the admin to preserve a fixed URL.</msg>
+        <msg DTS="20240820102908" SPK="Sylvia" EXP Icon="💎">The URL to the thread should not change even when the thread is recategorized. If the user had saved a link to the thread, after recategorizing the link should still work.</msg>
+      </note>
+      <note dts="20240820111423" subtitle="Relocate">
+        <msg DTS="20240820111444" SPK="Black" EXP Icon="🐣">If the forum does not support category tags, the admin could relocate the thread. But this is generally an undesirable method when it would change the URL of the thread, or requires the user to jump through several links to piece together the entire thread from start to finish.</msg>
+      </note>
+      <note dts="20240820102154" subtitle="Notice">
+        <msg DTS="20240820102204" SPK="Black" EXP Icon="📜">The thread starter and viewers should be informed that the thread has been moved. This could take the form of a self-expiring notice, so that when you return to where they had recently seen the thread, they can see that it has been moved and can follow a link to the correction section.</msg>
+      </note>
+    </topic>
+    <topic dts="20240820113916" icon="🥚" title="Non Solutions">
+      <note dts="20240820113927" subtitle="Closing">
+        <msg DTS="20240820113940" SPK="Black" EXP Icon="⚔️">Closing the misplaced thread (instead of relocating it) is not a solution but a barrier to participation. By closing a thread, the system puts the burden on the user to learn where to post before they can start a discussion.</msg>
+        <msg DTS="20240820114140" SPK="Black" EXP Icon="⚖️">Since most people do not backup their message before posting, closing a thread poses a risk to destroy a good idea for the forum. Closing a misplaced thread is therefore considered a destructive move.</msg>
+      </note>
+    </topic>
+  </content>
+	<inv></inv>
+	<ref></ref>
+	<node>{"id":"202408201105","parentid":"202403050033","parentname":"Forum","icon":"📯","title":"Custom Filter","kids":"","img":"","music":"","author":"Black"}</node>
+</div><!--P202408201105-->
 <div date="20240820" time="2359" data-status="">
   <macro>{"cmd":"daisy2","issues":"0","quests":"433","activities":[
     

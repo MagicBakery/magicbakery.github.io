@@ -347,7 +347,7 @@ column-gap: 2em;
 
 mbNote > a:first-child{
   font-size:15px;
-  text-transform:uppercase;
+  /*text-transform:uppercase;*/
 }
 
 .locbanner {background-color:#000000; background-size:cover; color:#ffffff; border:0px solid #000000; border-radius:0px; display:block; font-size:18px; line-height:1.1em; margin: 2px 0px;padding:10px; width:100%; text-align:left; font-family:Bitter;}
@@ -863,6 +863,7 @@ span.mbIcon > icon{font-size: 0px;}
 .iChecker{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Checker.png?raw=true');}
 .iChick{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Chick.png?raw=true');}
 .iClose{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Close.png?raw=true');}
+.iCornerRibbon{background-image:url('https://github.com/MagicBakery/Icons/blob/main/CornerRibbon.png?raw=true');}
 .iDice{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Dice.png?raw=true');}
 .iFan{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Fan.png?raw=true');}
 .iHatch{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Hatch.png?raw=true');}

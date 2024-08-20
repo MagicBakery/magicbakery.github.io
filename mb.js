@@ -1459,7 +1459,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20240820 Block Notes";
+  elContainer.innerHTML = "20240820 Spell Cast Note";
 }
 function LnkCode(iID,iDesc,iIcon,bMark){
   // 20230323: Ivy: For QSL. <lnk>
@@ -1644,6 +1644,7 @@ function MacroIcons(el,iHTMLInner){
     ["Checker",":Checker:"],
     ["Chick","🐤"],
     ["Close",":Close:"],
+    ["CornerRibbon",":CornerRibbon:"],
     ["Dice","🎲"],
     ["Fan","🪭"],
     ["Hatch","🐣"],
@@ -1731,14 +1732,17 @@ function MacroNote(el){
     mHTML += "</a><hide>";   
     mHTML += "<small>↴</small>"; 
     
-    mHTML += "<div class=\"mbpuzzle\"><hr class=\"mbhide\">"; // 20240820: StarTree: Use block for note content.
+    mHTML += "<div class=\"mbpuzzle\" style=\"margin-top:0px\"><hr class=\"mbhide\">"; // 20240820: StarTree: Use block for note content.
 
     if(NotBlank(mNode)){ // 20240820: StarTree: Add a link if there is node info.
       //mHTML += "<span class=\"mbRef mbContext\" style=\"margin:-2em -10px -2em -10px\">"
       //mHTML += " " + LnkCode(mNode,"",":Archive"+ArchiveNum(mNode)+":");
-      mHTML += "<span class=\"mbRef\" style=\"margin:-13px -20px -13px -20px\">";
-      mHTML += " " + LnkCode(mNode,"","◥");
-      mHTML += "</span>";
+      //mHTML += "<span class=\"mbRef\" style=\"margin:-13px -20px -13px -20px\">";
+      //mHTML += "<div class=\"mbIcon iCornerRibbon\" style=\"float:right;margin:-0.7em;padding-right:0.7em\">";
+      //mHTML += " " + LnkCode(mNode,"","◥");
+      mHTML += "<div style=\"float:right;margin:-0.7em -0.9em\">";
+      mHTML += " " + LnkCode(mNode,"",":CornerRibbon:");
+      mHTML += "</div><hr class=\"mbhide\">";
     }
 
     mHTML += mTag.innerHTML;
