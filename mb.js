@@ -1459,7 +1459,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20240818 Update Notes";
+  elContainer.innerHTML = "20240820 Block Notes";
 }
 function LnkCode(iID,iDesc,iIcon,bMark){
   // 20230323: Ivy: For QSL. <lnk>
@@ -1479,7 +1479,7 @@ function LnkCode(iID,iDesc,iIcon,bMark){
   // 20240415: StarTree: Highlight lnk object used as visit mark differently.
   let mTitle = Default(iDesc,iID);
   mHTML += "<a class='mbbuttonIn' href='" + ViewerPath() + "?id=P"+iID+"'";
-  mHTML += " onclick=\"" + InterLink() + "'" + iID + "');return false;\" title='Go to "+iID+"'>";
+  mHTML += " onclick=\"" + InterLink() + "'" + iID + "');return false;\" title='Show "+iID+"'>";
   
   if(IsBlank(iIcon)){
     mHTML += iDesc + "</a>";
@@ -1713,6 +1713,7 @@ function MacroNote(el){
     let mIcon = Default(mTag.getAttribute("icon"),"");
     let mTitle = Default(mTag.getAttribute("title"),"");
     let mSubtitle = Default(mTag.getAttribute("Subtitle"),"");
+    let mNode = Default(mTag.getAttribute("node"),"");
     let mHTML = "";
     let mLabel = "";
     mHTML = "<mbnote dts=\"" + mDTS +"\">";
@@ -1727,7 +1728,24 @@ function MacroNote(el){
       mLabel = "[" + mLabel + "]";
     }
     mHTML += mLabel;
-    mHTML += "</a><hide>" + mTag.innerHTML + "</hide></a></mbnote>";
+    mHTML += "</a><hide>";   
+    mHTML += "<small>↴</small>"; 
+    
+    mHTML += "<div class=\"mbpuzzle\"><hr class=\"mbhide\">"; // 20240820: StarTree: Use block for note content.
+
+    if(NotBlank(mNode)){ // 20240820: StarTree: Add a link if there is node info.
+      //mHTML += "<span class=\"mbRef mbContext\" style=\"margin:-2em -10px -2em -10px\">"
+      //mHTML += " " + LnkCode(mNode,"",":Archive"+ArchiveNum(mNode)+":");
+      mHTML += "<span class=\"mbRef\" style=\"margin:-13px -20px -13px -20px\">";
+      mHTML += " " + LnkCode(mNode,"","◥");
+      mHTML += "</span>";
+    }
+
+    mHTML += mTag.innerHTML;
+
+
+    mHTML += "<div class=\"mbCB\"></div></div>";
+    mHTML += "</hide></a></mbnote>";
     mTag.outerHTML = mHTML;
   }
 }
