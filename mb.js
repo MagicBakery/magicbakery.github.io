@@ -364,7 +364,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     mHTMLInner += "<div class='mbCB'></div>";
 
     // STEP: Create the QSL area.
-    mHTMLInner += "<div class='mbhide mbpuzzle'><button class='mbbutton mbRef' onclick='BoardRemove(this)'>:Close:</button>";
+    mHTMLInner += "<div class='mbhide mbpuzzle'><button class='mbbutton mbRef' onclick='HideParent(this)'>:Close:</button>";
     mHTMLInner += "<div control></div><div class='mbCB mbSearch' QSL BL style='display:flex;flex-direction: column;''></div></div>";
 
     elContainer.innerHTML = mHTMLInner;
@@ -1456,6 +1456,11 @@ function LatestDate(elScope){
   }
   return mDTSmax.slice(0,8);
 }
+function LatestUpdate(){
+  // 20240818: StarTree
+  var elContainer = document.body.querySelector("LatestUpdate");
+  elContainer.innerHTML = "20240818 Update Notes";
+}
 function LnkCode(iID,iDesc,iIcon,bMark){
   // 20230323: Ivy: For QSL. <lnk>
   var mHTML="";
@@ -1643,16 +1648,19 @@ function MacroIcons(el,iHTMLInner){
     ["Fan","🪭"],
     ["Hatch","🐣"],
     ["Jam",":Jam:"],
+    ["Jar",":Jar:"],
     ["Kudookie","💟"],
     ["Lyre",":Lyre:"],
     ["MantleClock","🕰️"],
     ["Palette","🎨"],
     ["Pancake","🥞"],
     ["Pencil","✏️"],
+    ["PostHorn","📯"],
     ["Pretzel","🥨"],
     ["Pudding","🍮"],
     ["Rock","🪨"],
     ["School","🏫"],
+    ["ShootingStar","🌠"],
     ["SquareCap","🎓"],
     ["Star","⭐"],
     ["Wand","🪄"],
@@ -1674,7 +1682,7 @@ function MacroIcons(el,iHTMLInner){
       // STEP: Check if this match is valid
       mLookAround1 = mHTMLInner.slice(mPos-1,mPos+mSearchIcon.length+1); 
       mLookAround = mHTMLInner.slice(mPos-6,mPos+mSearchIcon.length+7);
-      if( (mLookAround != "<icon>"+ mSearchIcon + "</icon>") && (mLookAround1 != "'"+mSearchIcon +"'")){
+      if( (mLookAround != "<icon>"+ mSearchIcon + "</icon>") && (mLookAround1 != "'"+mSearchIcon +"'") && (mLookAround1 != "\""+mSearchIcon +"\"")){
         // The match is valid. Compose the substitute string:
         mSubstitute = "<span class='mbIcon i"+ mImgCode +"'><icon>"+mSearchIcon+"</icon></span>";
         mHTMLInner = mHTMLInner.slice(0,mPos) + mSubstitute + mHTMLInner.slice(mPos+mSearchIcon.length);
@@ -4831,14 +4839,15 @@ function QSLSortByIcon(el,iIcon){
   elEntries.forEach((item)=>{
     // STEP: Count the number of such icon in the item.
     // 20240802: Arcacia: First check if there is any "icon" attribute, if not, just match the icon.
-    let mCount = item.querySelectorAll("[icon]").length;
+    let mCount  = 0;
+    mCount = item.querySelectorAll("[icon]").length;
     if(mCount>0){
       mCount = item.querySelectorAll("[icon=\""+iIcon+"\"]").length;
-    }else{
-      mCount = item.innerHTML.split(">"+iIcon+"<").length -1;
+    }
+    if(mCount==0){
+      mCount = item.innerText.split(">"+iIcon+"<").length-1;
     }    
     item.firstElementChild.setAttribute("count",mCount);
-    
     item.firstElementChild.innerHTML = iIcon + "<b>" + mCount + "</b>";
     MacroIcons(item.firstElementChild);
     if(bReversed){

@@ -27,7 +27,7 @@
       
       <small style="font-size: 10px;">
         <a class="mbpointer"  title="Website Updates" href="../?id=P202303052122" style="color:white;" onclick="BoardLoadPF(this,'202303052122');return false">
-          20240812 Archive Icons
+          <LatestUpdate></LatestUpdate>
         </a>
         <a class="mbpointer" title="Turn off Offline mode" d-offline onclick="Offline(null,true)" style="color:gold"></a>
       </small>
@@ -250,6 +250,7 @@
     // 20231006: Black
     const urlParams = new URLSearchParams(window.location.search);
     var iPostID = urlParams.get('id');  
+    LatestUpdate();
     if(NotBlank(iPostID)){
       // 20231006: Enter the Post ID in the first inputbox, then call JQAdd on that inputbox.
       var mInputBox = document.getElementsByTagName("Input")[0];
