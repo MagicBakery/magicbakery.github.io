@@ -1641,6 +1641,7 @@ function MacroIcons(el,iHTMLInner){
     ["Archive1",":Archive1:"],
     ["Archive2",":Archive2:"],
     ["Archive3",":Archive3:"],
+    ["Camp","🏕️"],
     ["Checker",":Checker:"],
     ["Chick","🐤"],
     ["Close",":Close:"],
@@ -1665,6 +1666,9 @@ function MacroIcons(el,iHTMLInner){
     ["SquareCap","🎓"],
     ["Star","⭐"],
     ["Wand","🪄"],
+    ["WingL",":WingL:"],
+    ["WingR",":WingR:"],
+    ["WingR","🪽"],
     ["Wood","🪵"]
   ];
   for(i=0;i<mIconList.length;i++){
@@ -3595,7 +3599,7 @@ function MMInner(el,mMacro){
     // 20240331: StarTree: No need to show it here because it is shown in LnkCode.
     //if(NodeMarkCookieCheck()){ elTemp.innerHTML += NodeMarkCode(mNode); }    
     
-    elTemp.innerHTML += NodeIDClipboardButtonCode(mNode);
+    elTemp.innerHTML += NodeIDClipboardButtonCode(mNode) + "&nbsp;";
     el.after(elTemp);
     return;
   }
@@ -6959,7 +6963,7 @@ function ReloadFPEL(elWidget,elFP,mDTS,bOffline){
 
   // 20240422: Add a close button
   mHTML = "<small><span class='mbRef'>";
-  mHTML += NodeIDClipboardButtonCode(mNodeID);
+  mHTML += NodeIDClipboardButtonCode(mNodeID) +"&nbsp;";
   mHTML += "<a class='mbbutton' title='Hide Widget' onclick='HideFP(this)'>:Close:</a>";
   mHTML += "<a class='mbbutton' title='Cycle dock position' onclick='WidgetDockCycle(this)'>▶</a>";
   mHTML += "</span>";
@@ -6993,7 +6997,7 @@ function NodeIDClipboardButtonCode(mNodeID,mParentID,mIcon){
   if(IsBlank(mIcon)){
     mIcon = ":Archive"+mArchiveNum+":";
   }
-  mHTML += "]\">"+mIcon+"</a>&nbsp;";
+  mHTML += "]\">"+mIcon+"</a>";
 
   return mHTML
 }
