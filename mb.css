@@ -780,9 +780,13 @@ span.mbIcon > icon{font-size: 0px;}
   z-index:1
 }
 .mbavXP{
+  
   padding-left:23px;
   padding-right:0px;
   text-align:center;
+}
+.mbavXP:has(span.mbIcon){
+  margin-top:-5px;
 }
 .mbav50rc {
   background-position: 50% 50%; 
