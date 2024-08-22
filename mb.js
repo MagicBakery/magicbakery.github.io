@@ -1462,7 +1462,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20240820 Spell Cast Note";
+  elContainer.innerHTML = "20240822 Grocery List Shift Fix";
 }
 function LnkCode(iID,iDesc,iIcon,bMark){
   // 20230323: Ivy: For QSL. <lnk>
@@ -7642,6 +7642,7 @@ function NMURL(el){
 }
 function NodeMarkCycle(el,iNodeID){
   // 20240330: StarTree: For saving the node marking
+  
   var curMark = el.innerHTML;
   if(curMark.indexOf("🤍")!=-1){ // 20240810: Natalie: Need to work with custom icon.
     curMark = "📌"
@@ -7668,16 +7669,20 @@ function NodeMarkCycle(el,iNodeID){
   }else{
     curMark = "🤍"
   }
+  // 20240821: StarTree: To fix a scroll bug.
+  curMark = MacroIcons("",curMark); // 20240810: Natalie: For custom icons.
 
+  
   // STEP: 20240402: StarTree: change the icon for all instances on display.
   var mVList = document.querySelectorAll('#P' + iNodeID + "-V");
   for(i=0;i<mVList.length;i++){
     mVList[i].innerHTML = curMark;
     mVList[i].style.filter = "sepia(0%)";
   }
+  
   localStorage.setItem(iNodeID + "-V",curMark);
   localStorage.setItem(iNodeID + "-V-DTS",DTSNow());
-  MacroIcons(); // 20240810: Natalie: For custom icons.
+  
 }
 function NodeMarkLoad(iNodeID){
   // 20240330: StarTree: For loading the node marking
