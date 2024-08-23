@@ -1649,22 +1649,33 @@ function MacroIcons(el,iHTMLInner){
     ["Chick","🐤"],
     ["Close",":Close:"],
     ["CornerRibbon",":CornerRibbon:"],
+    ["Correct","✔"],
     ["Dice","🎲"],
+    ["Done","✅"],
+    ["Dove","🕊️"],
+    ["Eagle","🦅"],
+    ["Egg","🥚"],
     ["Fan","🪭"],
     ["Hatch","🐣"],
+    ["HeartEmpty","🤍"],
     ["Jam",":Jam:"],
     ["Jar",":Jar:"],
     ["Kudookie","💟"],
     ["Lyre",":Lyre:"],
     ["MantleClock","🕰️"],
+    ["Owl","🦉"],
+    
     ["Palette","🎨"],
     ["Pancake","🥞"],
     ["Pencil","✏️"],
+    ["Pin","📌"],
     ["PostHorn","📯"],
     ["Pretzel","🥨"],
     ["Pudding","🍮"],
+    ["Question",":?:"],
     ["Rock","🪨"],
     ["School","🏫"],
+    ["Seeding","🌱"],
     ["ShootingStar","🌠"],
     ["SquareCap","🎓"],
     ["Star","⭐"],
@@ -1672,7 +1683,8 @@ function MacroIcons(el,iHTMLInner){
     ["WingL",":WingL:"],
     ["WingR",":WingR:"],
     ["WingR","🪽"],
-    ["Wood","🪵"]
+    ["Wood","🪵"],
+    ["Wrong","❌"]
   ];
   for(i=0;i<mIconList.length;i++){
     var mSearchIcon = mIconList[i][1];
@@ -1727,13 +1739,16 @@ function MacroNote(el){
     mHTML = "<mbnote dts=\"" + mDTS +"\">";
     mHTML += "<a class='mbbutton' onclick='ShowNextInline(this)'>";
     
-    if(NotBlank(mTitle)){mLabel += mTitle + " ";}
-    if(NotBlank(mSubtitle)){mLabel += mSubtitle;}
+    // 20240822: StarTree: If only Title exists, don't use the brackets. 
+    if(NotBlank(mTitle)){mLabel = mTitle;}
+    else if(NotBlank(mSubtitle)){mLabel = "[" + mSubtitle + "]";}
     if(mLabel ==""){ // 20240502: StarTree: Don't add the brackets when there is just the icon.
-      mLabel = mIcon +" ";
+      mLabel = mIcon;
     }else{
-      if(NotBlank(mIcon)){mLabel = mIcon + " " + mLabel;}
-      mLabel = "[" + mLabel + "]";
+      if(NotBlank(mIcon)){
+        
+        mLabel = "[" + mIcon + " " + mTitle + " " + mSubtitle + "]";
+      }      
     }
     mHTML += mLabel;
     mHTML += "</a><hide>";   
@@ -7647,8 +7662,6 @@ function NodeMarkCycle(el,iNodeID){
   if(curMark.indexOf("🤍")!=-1){ // 20240810: Natalie: Need to work with custom icon.
     curMark = "📌"
   }else if(curMark.indexOf("📌")!=-1){
-    curMark = "🍒"
-  }else if(curMark.indexOf("🍒")!=-1){
     curMark = "✅"
   }else if(curMark.indexOf("✅")!=-1){
     curMark = "🌱"
