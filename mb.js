@@ -303,7 +303,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       
       // STEP: Include custom reference links.
       // 20240407: Skyle: Rearranged this first because the link is green.
-      mHTMLInner += elRef.innerHTML;
+      mHTMLInner += elRef.innerHTML + " ";
 
       
 
@@ -399,7 +399,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
 }
 function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget,elArchives){
   // 20240821: StarTree: If the innerHTML is blank, just return.
-  if(IsBlank(el.innerHTML)){return;}
+  //if(IsBlank(el.innerHTML)){return;} // 20240823: StarTree: This doesn't work with how Quest Board was designed. So it is disabled.
   
   // 20240507: Sasha: Remove the leading P if iNodeID has it.
   if(iNodeID.slice(0,1).toLowerCase()=="p"){
@@ -1462,7 +1462,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20240822 Grocery List Shift Fix";
+  elContainer.innerHTML = "20240823 Simpler Visit Marks and Fixes";
 }
 function LnkCode(iID,iDesc,iIcon,bMark){
   // 20230323: Ivy: For QSL. <lnk>
@@ -1475,7 +1475,7 @@ function LnkCode(iID,iDesc,iIcon,bMark){
       mHTML = NodeMarkCode(iID,iDesc);
     }else{
       var mButtonStyle = "";
-      if(IsBlank(iDesc)){ mButtonStyle=" mbbuttonSelf";}
+      if(IsBlank(iDesc)){ mButtonStyle=" mbbutton";}
       mHTML = "<span class='mbILB30'>" + NodeMarkCode(iID,iDesc) + "</span>";
     }
   }
@@ -1644,6 +1644,7 @@ function MacroIcons(el,iHTMLInner){
     ["Archive1",":Archive1:"],
     ["Archive2",":Archive2:"],
     ["Archive3",":Archive3:"],
+    ["BlankBox","□"],
     ["Camp","🏕️"],
     ["Checker",":Checker:"],
     ["Chick","🐤"],
@@ -4884,15 +4885,22 @@ function QSLSortByIcon(el,iIcon){
     // STEP: Count the number of such icon in the item.
     // 20240802: Arcacia: First check if there is any "icon" attribute, if not, just match the icon.
     let mCount  = 0;
+    let mMarkCount = 0;
     mCount = item.querySelectorAll("[icon]").length;
     if(mCount>0){
       mCount = item.querySelectorAll("[icon=\""+iIcon+"\"]").length;
     }
     if(mCount==0){
-      mCount = item.innerText.split(">"+iIcon+"<").length-1;
+      // 20240823: Black: Need to subtract the result icon.
+      mCount = item.innerHTML.split(">"+iIcon+"<").length-1;
+      mMarkCount = item.firstElementChild.innerHTML.split(">"+iIcon+"<").length-1;
+      mCount = mCount -mMarkCount;
     }    
     item.firstElementChild.setAttribute("count",mCount);
+
     item.firstElementChild.innerHTML = iIcon + "<b>" + mCount + "</b>";
+
+    
     MacroIcons(item.firstElementChild);
     if(bReversed){
        item.style.order = item.firstElementChild.getAttribute("count");
@@ -7192,8 +7200,8 @@ function CookieCheck(el,iScope){
 }
 function NodeMarkCode(iNodeID,iDesc){
   // 20240330: StarTree: Returns the HTML code for the node marking.
-  var mButtonStyle = "mbbuttonSelf";
-  if(IsBlank(iDesc)){ mButtonStyle="mbbuttonSelf";}
+  var mButtonStyle = "mbbutton";
+  if(IsBlank(iDesc)){ mButtonStyle="mbbutton";}
   var mVDTS = NodeMarkLoadDTS(iNodeID);
   var mSepia = 0;   
   var mHTML = "";
@@ -7393,6 +7401,13 @@ function NMTopic(el,iSecIcon){
   mHTML+="</topic>";
   navigator.clipboard.writeText(mHTML);
   return mHTML;
+}
+function NMWidgetIcon(){
+  // 20240823: Patricia: Returns the icon at the float panel Node Maker Widget.
+  var elWidget = document.querySelector(".footer [widget='20240416213800']");
+  if(IsBlank(elWidget)){return ""}
+  var elIconBox = elWidget.querySelector("[nm-icon]");
+  return elIconBox.value;
 }
 function IsMasteryIcon(iIcon){
   // 20240417: StarTree
@@ -7658,7 +7673,20 @@ function NMURL(el){
 function NodeMarkCycle(el,iNodeID){
   // 20240330: StarTree: For saving the node marking
   
-  var curMark = el.innerHTML;
+  var curMark = el.innerHTML; 
+  // 20240823: Patricia: Get the icon at Node Maker widget.
+  var nextMark = Default(NMWidgetIcon(),"✅");
+  
+
+
+  // 20240823: Ledia: Simplified List □
+  if(curMark.indexOf(nextMark)==-1){ // 20240810: Natalie: Need to work with custom icon.
+    curMark = nextMark;
+  }else{
+    curMark = "□"
+  }
+
+  /*
   if(curMark.indexOf("🤍")!=-1){ // 20240810: Natalie: Need to work with custom icon.
     curMark = "📌"
   }else if(curMark.indexOf("📌")!=-1){
@@ -7682,6 +7710,8 @@ function NodeMarkCycle(el,iNodeID){
   }else{
     curMark = "🤍"
   }
+  */
+
   // 20240821: StarTree: To fix a scroll bug.
   curMark = MacroIcons("",curMark); // 20240810: Natalie: For custom icons.
 
@@ -7704,7 +7734,7 @@ function NodeMarkLoad(iNodeID){
   if(NotBlank(mMark)){
     return mMark;
   }
-  return "🤍";//📋
+  return "□";//20240823: Patricia: Set to the blank box.
 }
 function NodeMarkLoadDTS(iNodeID){
   // 20240426: Zoey: Returns an integer.

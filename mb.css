@@ -863,6 +863,7 @@ span.mbIcon > icon{font-size: 0px;}
 .iArchive1{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Archive1.png?raw=true');}
 .iArchive2{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Archive2.png?raw=true');}
 .iArchive3{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Archive3.png?raw=true');}
+.iBlankBox{background-image:url('https://github.com/MagicBakery/Icons/blob/main/BlankBox.png?raw=true');}
 .iCamp{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Camp.png?raw=true');}
 .iChecker{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Checker.png?raw=true');}
 .iChick{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Chick.png?raw=true');}
@@ -1149,7 +1150,7 @@ cursor:pointer;
   color:#ffffff;
 }
 .mbbuttonSelf{
-  background-color:goldenrod; 
+  background-color:Goldenrod; 
 }
 .mbbuttonSelf:hover{
   background-color:goldenrod; 
