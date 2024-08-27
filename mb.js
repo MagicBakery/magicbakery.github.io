@@ -386,6 +386,11 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   }
   elBoard.firstElementChild.after(elContainer);
 
+  // 20240827: James: Auto Sort by Date
+  var elControl = elContainer.querySelector("[control]");
+  QSLSortByDate(elControl.firstElementChild);
+  QSLSortByDate(elControl.firstElementChild);
+
 
   // 20231115: Sylvia: Scroll to View
   // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
@@ -1462,7 +1467,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20240823 Simpler Visit Marks and Fixes";
+  elContainer.innerHTML = "20240827 Res Sort & Scroll Tweaks";
 }
 function LnkCode(iID,iDesc,iIcon,bMark){
   // 20230323: Ivy: For QSL. <lnk>
@@ -1907,7 +1912,7 @@ function MacroResItem(mTag){
   
   let mNode = mTag.getAttribute("node");
   let mSrc = mTag.getAttribute("src");
-  let mTags = Default(mTag.getAttribute("tags"),"(None)");
+  let mTags = Default(mTag.getAttribute("tags"),"");
   let mOwner = Default(mTag.getAttribute("owner"),"???");
   let mItem = mTag.getAttribute("item");
   let mChannel = Default(mTag.getAttribute('channel'),"");
@@ -1967,7 +1972,7 @@ function MacroResItem(mTag){
   }else if(mTag.hasAttribute('unavailable')){
     mHTML += "<center style=\"color:darkgoldenrod\"><b>IN USE</b></center>";
   }else if(bSpoiler){
-    mHTML += "<center><note subtitle=\"Reveal Spoiler\"><br>" + mTitle+ "</note></center>";
+    mHTML += "<center><note subtitle=\"Reveal Spoiler\">" + mTitle+ "</note></center>";
   }
   // DATA: Channel Info
   if(NotBlank(mChannel)){
@@ -1997,8 +2002,10 @@ function MacroResItem(mTag){
   }
 
   // Tags. Need to display this for text filter
-  mHTML += "<hide>+" + mTags.replaceAll(" ","+") + "+</hide>";
-  if(mTag.hasAttribute("tags")){
+  // 20240827: James: Don't show tags if there is none.
+  
+  if(NotBlank(mTags)){ 
+    mHTML += "<hide>+" + mTags.replaceAll(" ","+") + "+</hide>";
     mHTML += "<b>Tags:</b>&nbsp;" + mTags +"<br>";
   }
 
@@ -2830,6 +2837,10 @@ function ResList(elRecord,bShow){
   elResList.forEach((item)=>{
     mResPack += item.outerHTML;
   });
+
+  
+  
+
   //DEBUG(mResPack);
   // Sub Step: Call the wrapper function
   return SearchWrapper(elRecord,mResPack,bShow);
@@ -4044,6 +4055,7 @@ function SearchWrapper(elScope,iInner,bShow){
   "<input type=\"text\" onclick=\"TextSearchPN(this)\" onkeyup=\"TextSearchPN(this)\" placeholder=\"Search...\" title=\"Input a keyword\" style=\"width:100px\"> " + 
   "<span>" + 
   "<a class=\"mbbutton\" style=\"float:right\" onclick=\"QSLSortRandom(this)\">🎲</a>" + 
+  "<a class=\"mbbutton\" style=\"float:right\" onclick=\"ToggleHeight(this)\">🦒</a>" + 
   "<a class=\"mbbutton\" onclick=\"QSLSortByName(this)\">🍎</a> " +
   "<a class=\"mbbutton\" onclick=\"QSLSortByIcon(this,'📌')\">📌</a> " +
   "<a class=\"mbbutton\" onclick=\"QSLSortByDate(this)\" title=\"Sort by registry date\">🗓️</a> " ;
@@ -7899,6 +7911,22 @@ function TextAreaUseCookie(el){
     el.innerHTML = "🍯⛔";
   }
 }
+function ToggleHeight(el,iDefault){
+  // 20240827: James: Toggle the height between the default and the full height.
+  iDefault = Default(iDefault,"263px");
+  var elControl = SearchPS(el,"control");
+  var elContainer = elControl.nextElementSibling;
+  if(elContainer.style.overflowY=="auto"){
+    elContainer.style.overflowY = "visible";
+    elContainer.style.resize = "none";
+    elContainer.style.maxHeight = "none";
+  }else{
+    elContainer.style.overflowY = "auto";
+    elContainer.style.resize = "vertical";
+    elContainer.style.maxHeight = iDefault;
+  }
+
+}
 function ToggleHidePN(el){
   ToggleHide(el.parentNode.nextElementSibling);
 }
@@ -8006,6 +8034,14 @@ function ShowNextHTIL(el){
 }
 function ShowEl(eTar,bNoMacro){
   //20230220: StarTree: Fixed the double click bug with getComputedStyle
+  // 20240827: James: Check flex direction to fix the scroll bug.
+  var elFrame = SearchPS(eTar,"sortby");  
+  var mSH1, mST, mSH2, mDiff;
+  if(NotBlank(elFrame)){
+    mSH1 = elFrame.scrollHeight;
+    mST = elFrame.scrollTop    ;
+  }
+  
   if(window.getComputedStyle(eTar).display === "none"){
     if(!(bNoMacro==true)){
       Macro(eTar);
@@ -8021,9 +8057,26 @@ function ShowEl(eTar,bNoMacro){
     }
     eTar.classList.add("mbhide");
   }  
+  if(NotBlank(elFrame)){
+    mSH2 = elFrame.scrollHeight;
+    mDiff = mSH2 - mSH1;
+    if(elFrame.style.flexDirection=="column-reverse"){
+      elFrame.scrollTop = mST - mDiff;
+      
+    }
+  }
 }
 function ShowElInline(eTar){
+  // 20240827: James: Check flex direction to fix the scroll bug.
+  var elFrame = SearchPS(eTar,"sortby");  
+  var mSH1, mST, mSH2, mDiff;
+  if(NotBlank(elFrame)){
+    mSH1 = elFrame.scrollHeight;
+    mST = elFrame.scrollTop    ;
+  }
+  
   //20230310: Cardinal
+
   if(window.getComputedStyle(eTar).display === "none"){
     Macro(eTar);
     if(eTar.nodeName == "HIDE"){
@@ -8036,10 +8089,18 @@ function ShowElInline(eTar){
     }
     eTar.classList.add("mbhide");
   }  
+  if(NotBlank(elFrame)){
+    mSH2 = elFrame.scrollHeight;
+    mDiff = mSH2 - mSH1;
+    if(elFrame.style.flexDirection=="column-reverse"){
+      elFrame.scrollTop = mST - mDiff;
+    }
+  }
 }
 function ShowPLInline(el){
   var eTar = el.parentNode.lastElementChild;
   ShowElInline(eTar);
+  
 }
 function ShowPL(el){
   var eTar = el.parentNode.lastElementChild;
