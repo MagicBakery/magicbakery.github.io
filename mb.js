@@ -235,7 +235,8 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     // CARD / Gallery Section
     var mCardList = ResCardList(elRecord);
     // RES LIST SEARCH SECTION
-    var mResList = ResList(elRecord, IsBlank(mCardList)); 
+    //var mResList = ResList(elRecord, IsBlank(mCardList)); 
+    var mResList = ResList(elRecord,true); 
     
     mHTMLInner += mResList;
 
@@ -390,7 +391,9 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   var elControl = elContainer.querySelector("[control]");
   QSLSortByDate(elControl.firstElementChild);
   QSLSortByDate(elControl.firstElementChild);
-
+  if(NotBlank(mCardList)){        
+    elControl.parentNode.classList.add("mbhide");
+  }
 
   // 20231115: Sylvia: Scroll to View
   // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
@@ -399,6 +402,8 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   }else{
     ScrollIntoView(elBoard);
   } 
+
+  
 
 
 }
@@ -2828,7 +2833,8 @@ function ResList(elRecord,bShow){
   // 20240731: Vivi: Get RES items from the whole node, not just the INV section.
   //var elInv = elRecord.querySelector("Inv");
   //if(IsBlank(elInv)){return "";}
-  var elResList = elRecord.querySelectorAll("Res[item]");
+  //var elResList = elRecord.querySelectorAll("Res[item]");
+  var elResList = elRecord.querySelectorAll("Res");
   if(elResList.length==0){return "";}
 
   // STEP: There is content, so make the searchable RES List.
@@ -8040,7 +8046,9 @@ function ShowEl(eTar,bNoMacro){
   if(NotBlank(elFrame)){
     mSH1 = elFrame.scrollHeight;
     mST = elFrame.scrollTop    ;
+    //DEBUG(mST + "|" + mSH1);
   }
+  
   
   if(window.getComputedStyle(eTar).display === "none"){
     if(!(bNoMacro==true)){
