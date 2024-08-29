@@ -1472,7 +1472,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20240827 Res Sort & Scroll Tweaks";
+  elContainer.innerHTML = "20240829 Notes without Indent";
 }
 function LnkCode(iID,iDesc,iIcon,bMark){
   // 20230323: Ivy: For QSL. <lnk>
@@ -1765,7 +1765,7 @@ function MacroNote(el){
     mHTML += "</a><hide>";   
     mHTML += "<small>↴</small>"; 
     
-    mHTML += "<div class=\"mbpuzzle\" style=\"margin-top:0px\"><hr class=\"mbhide\">"; // 20240820: StarTree: Use block for note content.
+    mHTML += "<div class=\"mbNotes\"><hr class=\"mbhide\">"; // 20240820: StarTree: Use block for note content.
 
     if(NotBlank(mNode)){ // 20240820: StarTree: Add a link if there is node info.
       //mHTML += "<span class=\"mbRef mbContext\" style=\"margin:-2em -10px -2em -10px\">"
@@ -4884,6 +4884,7 @@ function QSLSortByDate(el){
   // .. To get the last updated date, it checks the attribute "updated" if it exists.
   // .. If not, it uses the node ID as the date.
   var elContainer = QSLGetContainer(el);
+  if(IsBlank(elContainer)){return;}
   var bReversed = QSLSortReverseIfSet(elContainer,'date');
   var elEntries = elContainer.querySelectorAll(".mbSearch > div[date]");
   elEntries.forEach((item)=>{
@@ -4991,6 +4992,7 @@ function QSLSortRandom(el){
 function QSLGetContainer(el){
   // 20240407: Ledia: Return the QSL container that has the mbSearch class.
   var elControl = SearchPS(el,'control');
+  if(IsBlank(elControl)){return;}
   var elControlNext = elControl.nextElementSibling;
   if(elControlNext.classList.contains('mbSearch')){
     return elControlNext;}

@@ -1664,9 +1664,19 @@ padding-right:4px;
   display:flex;
   flex-direction: column;
 }
-.mbnotes{
-  background-color:#ffffff80;
+.mbNotes{
+  background-color:#ffffff40;
   border-radius: 0.6em;
+  border:tan solid 1px;
+  color:inherit;
+  clear:left;
+  font-family:Bitter;
+  font-size:18px; 
+  font-style:inherit;
+  line-height:1.25em; 
+  margin:0px -10px 5px -10px;
+  padding:10px 10px; 
+  text-align:left; 
 }
 .mbpuzzle{
   background-color:#ffffff80;
