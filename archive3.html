@@ -16043,42 +16043,7 @@
 </div><!-- STATUS -->
 <div id="P202401201702" class="mbscroll" date="20240120" time="1702" data-card="">
   <content>
-    <div control="">
-      <input type="text" onclick="TextSearchPN(this)" onkeyup="TextSearchPN(this)" placeholder="Search..." title="Input a keyword" style="width:100px">
-      <span>
-        <a class="mbbutton" style="float:right" onclick="QSLSortRandom(this)">🎲</a>
-        <a class="mbbutton" onclick="QSLSortByName(this)">🍎</a>
-        <a class="mbbutton" onclick="QSLSortByDate(this)" title="Sort by registry date">🗓️</a>
-        
-        <a class="mbbutton" onclick="ToggleNextPN(this)">💟</a>
-        <hide>       
-          <h4>Filter by Comments</h4> 
-          <a class="mbbutton" onclick="QSLSortByIcon(this,'🐱')">🐱 Curious/Interested</a><br>
-          <a class="mbbutton" onclick="QSLSortByIcon(this,'💗')">💗 Like</a><br>
-          <a class="mbbutton" onclick="QSLSortByIcon(this,'👑')">👑 Best/Favorite</a>            
-        </hide>
-      </span>
-      <div class="mbpuzzle mbhide"></div><!--Control details viewer-->
-    </div><!--CONTROLS-->
-    <div class="mbSearch mbStack" style="max-height:50vh;overflow-y:auto;padding:5px 2px;display:flex;flex-direction: column;gap:10px;">
-      <!--Template
-      <res item="24FK1274" title="TITLE" tags="Tip"></res>
-      -->
-      <res item="24FNK2B4" title="Flush Cutter" tags="Treasure Hunting Gear">
-        <msg DTS='20240622154217' SPK='Casey' EXP Icon='🍀'>A flush cutter is a cutter with a short blades where they are flat on one side. They can cut zipties easily and safely.</msg>
-        <msg DTS="20240622191729" SPK="Fina" EXP Icon="⚔️">That is redundant if you already have a knife.</msg>
-        <msg DTS="20240622192118" SPK="Casey" EXP Icon="🍀">Flush cutters may pass checkpoints while knife and scissors cannot.</msg>
-        <msg DTS="20240622192640" SPK="Black" EXP Icon="🍀">For safety and utility, what about a flush nail clipper.</msg>
-      </res>
-      <res item="24FLMCD7" icon="🧢" title="Cap" tags="Day Gear">
-        <msg DTS='20240615074050' SPK='Black' EXP Icon='☀️'>A cap (baseball cap) helps block the sun and keep hair tidy.</msg>
-      </res>
-      <res item="24FLMA5B" icon="🚲" title="Bicycle on Train" tags="Bicycle Train Trip Tip" src="" loc="" >
-        <msg DTS='20240615072312' SPK='Casey' EXP Icon='🚲'>On a train, bicycles might need to be secured vertically, so make sure that it can be done.</msg>
-        <msg DTS="20240620215310" SPK="Black" EXP Icon="🍀">Also be mindful of the luggage limit on trains.</msg>
-
-      </res>
-    </div>
+    
 
 
     <div class="mbscroll">
@@ -16102,8 +16067,25 @@
       </hide>
     </div>    
   </content>
+  <card dts="20240428184943" class="mbCharCardAQ" img="https://github.com/MagicBakery/Images/blob/main/DayPack.png?raw=true"></card>
   <inv>
-    <card dts="20240428184943" class="mbCharCardAQ" img="https://github.com/MagicBakery/Images/blob/main/DayPack.png?raw=true"></card>
+    <res item="24UZ287E" icon="🧰" title="Tools" tags="Repair Gear">
+    </res>
+
+    <res item="24FNK2B4" title="Flush Cutter" tags="Treasure Hunting Gear">
+      <msg DTS='20240622154217' SPK='Casey' EXP Icon='🍀'>A flush cutter is a cutter with a short blades where they are flat on one side. They can cut zipties easily and safely.</msg>
+      <msg DTS="20240622191729" SPK="Fina" EXP Icon="⚔️">That is redundant if you already have a knife.</msg>
+      <msg DTS="20240622192118" SPK="Casey" EXP Icon="🍀">Flush cutters may pass checkpoints while knife and scissors cannot.</msg>
+      <msg DTS="20240622192640" SPK="Black" EXP Icon="🍀">For safety and utility, what about a flush nail clipper.</msg>
+    </res>
+    <res item="24FLMCD7" icon="🧢" title="Cap" tags="Day Gear">
+      <msg DTS='20240615074050' SPK='Black' EXP Icon='☀️'>A cap (baseball cap) helps block the sun and keep hair tidy.</msg>
+    </res>
+    <res item="24FLMA5B" icon="🚲" title="Bicycle on Train" tags="Bicycle Train Trip Tip">
+      <msg DTS='20240615072312' SPK='Casey' EXP Icon='🚲'>On a train, bicycles might need to be secured vertically, so make sure that it can be done.</msg>
+      <msg DTS="20240620215310" SPK="Black" EXP Icon="🍀">Also be mindful of the luggage limit on trains.</msg>
+
+    </res>    
   </inv>
   <ref></ref>
   <node>{"id":"202401201702","parentid":"202212090038","parentname":"Adventurers' Hall","icon":"🎒","title":"Adventure Gear","subtitle":"Gear","img":"https://cdn.pixabay.com/photo/2019/03/18/08/36/architecture-4062650_1280.jpg","music":"","author":"Gaia","description":"","card-text":""}</node>
@@ -27192,7 +27174,7 @@
     <res item="24UTP082" title="Discussion: Stopping Daily Scores" tags="">
       <msg DTS='20240826120018' SPK='Vivi' EXP Icon='📌'>We should stop awarding daily XP for cardinal quest, and retrospectively cancel previous per day XP.</msg>
       <msg DTS='20240829152149' SPK='Black' EXP Icon='🔍'>I think we awarded the per day credit for Cardinal Quest because it is worth a credit for just checking in to look for a task to do. But we don't want to flood the Field Log with just messages of people checking in. So if you did anything at all during Cardinal Quest, it is implied that you also checked in. That credit is the per day credit.</msg>
-      <msg DTS='20240829152426' SPK='Vivi' EXP Icon='🔮'>The credit for "checking in" should be so low compared to actually doing something that it should worth one credit. </msg>
+      <msg DTS='20240829152426' SPK='Vivi' EXP Icon='🔮'>The credit for "checking in" should be so low compared to actually doing something that it shouldn't worth one credit. </msg>
     </res>
   </inv>
   <ref></ref>
@@ -31807,6 +31789,7 @@
       <msg DTS="20240826224231" SPK="Kisaragi" EXP Icon="🥨">Refilling.</msg>
       <msg DTS='20240828205334' SPK='Patricia' EXP Icon='🍵'>Refilling</msg>
       <msg DTS="20240828214300" SPK="Kisaragi" EXP Icon="🍱">Refilling.</msg>
+      
       
 
     </note><!--#Chores-->
@@ -40322,6 +40305,48 @@
     
   ]}</macro>
 </div><!-- STATUS -->
+<div id="P202408310052" date="20240831" time="0052" data-skill data-Herald>
+	<content>
+    <msg DTS="20240831005328" SPK="StarTree" EXP Icon="⭐"><b>Goals of the Day</b> is a skill that focuses team efforts at the start of the day. </msg>
+    
+    <topic dts="20240831015100" icon="🐣" title="Organization">
+      <msg DTS="20240831015128" SPK="StarTree" EXP Icon="📯">How should this node be organized?</msg>
+
+    </topic>
+
+  </content>
+	<inv>
+    <res item="24UZ1ABB" title="2024-08-31" tags="">
+      <msg DTS="20240831014619" SPK="Casey" EXP Icon="📌">Treasure Hunting x2, Transporting.</msg>
+      <msg DTS="20240831014730" SPK="Gaia" EXP Icon="📌">Fan Cleaning.</msg>
+      <msg DTS="20240831021244" SPK="LRRH" EXP Icon="🐣">Need goggles for cleaning ceiling fans.</msg>
+
+    </res>
+    <res item="24UZ0DF8" title="2024-08-30" tags="">
+      <msg DTS="20240830090409" SPK="Tanya" EXP Icon="📯">Arsenal Completion.</msg>
+      <msg DTS="20240830090448" SPK="Tanya" EXP Icon="🔮">Preparation for Field Trip.</msg>
+      <note dts="20240830090220" subtitle="Discussion">
+        <msg DTS="20240830090546" SPK="Tanya" EXP Icon="🔮">I think we need a node to set or archive daily goals. I will start here before we confirm where it should be.</msg>
+        <msg DTS="20240830090659" SPK="LRRH" EXP Icon="🐣">I think it could be a guild node, since daily goals considers all quests.</msg>
+        <msg DTS="20240830090811" SPK="Vivi" EXP Icon="🔮">It should be part of @Night because you are supposed to set the goal the night before, not in the morning.</msg>
+        <msg DTS="20240830091025" SPK="LRRH" EXP Icon="☀️">I prefer it to be a day node because if you use the message scanner, I want to be able to see the day's goal listed on the same day, without needing to query the day before to see the day's goals.</msg>
+        <msg DTS="20240830091225" SPK="Ledia" EXP Icon="⚔️">Couldn't there just be two messages? One at the start of the day to confirm the goals (that nothing changed since yesterday), and if the party is not KO'ed there would also be a conclusion or summary at the end of the day.</msg>
+        <msg DTS="20240830091356" SPK="Tanya" EXP Icon="🔮">You can still add a restrospective message if the party is KOed just so that the result can be seen from querying the same day.</msg>
+        <msg DTS="20240830091447" SPK="|Evelyn|Tanya|Vivi|LRRH|Ledia|" EXP Icon="💟">I think to the person questing, the day message is more important even when the planning was done the night before and had not changed. The quester needs that confirmation. It is more assuring to see that confirmation.</msg>
+        <msg DTS="20240830092415" SPK="Evelyn" EXP Icon="🐣">I think the egg could point to a skill node about daily goal setting. at that node we can have long archive of goals set.</msg>
+        <msg DTS="20240830092540" SPK="Ivy" EXP Icon="🥼">The message scanner allows you to tally the goals set anywhere for the day. I think when you log the result, you can log it at the specific quest's node instead of a common archive. Then at the quest node you can see a proper log of what was done for the quest.</msg>
+        <msg DTS="20240830092923" SPK="Tanya" EXP Icon="🔮">I think the daily goal message can be a combined message that can be archived at a skill node. When a quester actually did the quest, there should be result message at the quest node.</msg>
+        <msg DTS="20240830093118" SPK="StarTree" EXP Icon="🐣">StarTree suggests that the daily goal setting message be in the Skill node already so that no one needs to move them from one node to another, and when it is shown in message scanner, it will be shown under the title "Goals of the Day" instead of "Magic Bakery".</msg>
+        <msg DTS="20240830093455" SPK="|Tanya|Ivy|StarTree|" EXP Icon="💟">I see.</msg>
+        <msg DTS="20240830093722" SPK="Tanya" EXP Icon="📯">Third goal of the day: Confirm/make the goal of the day node.</msg>
+        <msg DTS="20240830093834" SPK="Evelyn" EXP Icon="💗">I look foward to seeing both a sun section and a moon section each day.</msg>
+        <msg DTS="20240831012336" SPK="Casey" EXP Icon="🎒">Packing.</msg>
+      </note>
+    </res>
+  </inv>
+	<ref></ref>
+	<node>{"id":"202408310052","parentid":"202209031718","parentname":"Herald","icon":"☀️","title":"Goals of the Day","kids":"","img":"","music":"","author":"StarTree"}</node>
+</div><!--P202408310052-->
 <!--
   STEPS TO MAKE A NEW ARCHIVE:
   1) Update function ArchiveNum with the correct number of archives.
