@@ -455,14 +455,14 @@
             <div class="mbMC3" onclick="MC3Resize(this)">
               <div style="display:flex;flex-direction: column;">
                 <div class="mbCB">
-                  <macro>{"guildlog":"9","rank":"B","updates":"3","node":"202403231454","author":"LRRH","chapter":"@Academy","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"9","rank":"A","updates":"4","node":"202403231454","author":"LRRH","chapter":"@Academy","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"2","icon":"💗","node":"202407240751","title":"Sancturian Concepts","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","icon":"⚖️","node":"202405061009","title":"Impartiality","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","icon":"🏘️","node":"202307231022","title":"NextDoor Workflow","info":"Replying/Deploying.","cmd":"quest"}</macro>
-                    <!--<span class="mbListCapNC mbRankA"></span>-->
-                    
+                    <span class="mbListCapNC mbRankA"></span>
+                    <macro>{"log":"0831","priority":"2","icon":"🏘️","node":"202408312257","title":"EPIC Solution","info":"Added node.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"0820","priority":"1","icon":"🎓","node":"202403231454","title":"Panarcademy","info":"2408: Added the vision statement section.","cmd":"quest"}</macro>
                     <macro>{"log":"0802","priority":"9","icon":"🥨","node":"202403231454","title":"Guild log quests","info":"Clear guild log quests. 2405:10 2406:9 2407:7 2408:0.","cmd":"quest"}</macro>
@@ -875,7 +875,7 @@
                   <div class="mbPinner mbhide"> 
                     <!--<span class="mbListCapNC mbRankS"></span>-->
                     
-                    <span class="mbListCapNC mbRankA"></span>
+                    <!--<span class="mbListCapNC mbRankA"></span>-->
                     
                     <span class="mbListCapNC mbRankB"></span> 
                     <macro>{"log":"","priority":"1","icon":"⚖️","node":"202301011739","title":"Law Game","info":"Since 2023 Jan.","cmd":"quest"}</macro>
@@ -25880,8 +25880,11 @@
       <msg DTS='20240708094103' SPK='Ivy' EXP Icon='📌'>Using alarm to fight off dog <url>https://nextdoor.com/p/n2JRSH-rjx3h</url></msg>
     </note>
   </content>
+  <card dts="20240427233121" title="Familiars" subtitle="Cleric Skill" img="https://cdn.pixabay.com/photo/2018/10/01/09/21/pets-3715733_640.jpg"></card>
   <inv>
-    <card dts="20240427233121" title="Familiars" subtitle="Cleric Skill" img="https://cdn.pixabay.com/photo/2018/10/01/09/21/pets-3715733_640.jpg"></card>
+    <res item="24UZNC89" title="What to do when a pet dies" tags="">
+      <msg DTS='20240831082608' SPK='Black' EXP Icon='📌'>What to do when a pet dies <url>https://nextdoor.com/p/NqWZbJGF6JHL</url></msg>
+    </res>
     <res item="24U9056D" title="Getting a Cat" tags="">
       <msg DTS='20240807072724' SPK='Gaia' EXP Icon='📌'>Work to do when getting a cat <url>https://www.petco.com/shop/en/petcostore/c/new-cat-guide</url> <url>https://nextdoor.com/p/Wttbhqp7cXHM</url></msg>
     </res>
@@ -30876,7 +30879,14 @@
       </ol>
     </topic>
 	</content>
-	<inv></inv>
+	<inv>
+    <res item="24UZN5CE" title="Noise Issue" tags="Civil Noise">
+      <msg DTS='20240831132457' SPK='Gaia' EXP Icon='🤍'>A neighboring building has an trespassing alarm that got triggered often at night. The alarm was really loud.</msg>
+      <msg DTS="20240831132459" SPK="Amelia" EXP Icon="📯">Please help look up how to file a complaint.</msg>
+      <msg DTS="20240831152459" SPK="|Gaia|StarTree|" EXP=2 Icon="📯">Investigated and message the building and local office.</msg>
+
+    </res>
+  </inv>
 	<ref></ref>
 	<node>{"id":"202405051137","parentid":"202404162138","parentname":"Oracle","icon":"☎️","title":"Help","subtitle":"Subtitle","kids":"Help","img":"","music":"","author":"StarTree"}</node>
 </div><!--P202405051137-->
@@ -31789,7 +31799,12 @@
       <msg DTS="20240826224231" SPK="Kisaragi" EXP Icon="🥨">Refilling.</msg>
       <msg DTS='20240828205334' SPK='Patricia' EXP Icon='🍵'>Refilling</msg>
       <msg DTS="20240828214300" SPK="Kisaragi" EXP Icon="🍱">Refilling.</msg>
-      
+      <msg DTS='20240830204431' SPK='Amelia' EXP Icon='📯'>Need more uber callers.</msg>
+      <msg DTS="20240831213536" SPK="Vivi" EXP Icon="⚔️">Logging expenses.</msg>
+      <msg DTS='20240831171818' SPK='StarTree' EXP Icon='💬'>Golf club replacement support.</msg>
+      <msg DTS='20240831162752' SPK='StarTree' EXP Icon='📜'>Noise complaint form support.</msg>
+      <msg DTS="20240831224924" SPK="Gaia" EXP Icon="📯">Set up more uber callers for the account.</msg>
+
       
 
     </note><!--#Chores-->
@@ -40299,10 +40314,61 @@
   ]}</macro>
 </div><!-- STATUS -->
 <div date="20240830" time="2359" data-status="">
-  <macro>{"cmd":"daisy2","issues":"0","quests":"433","activities":[
-    
-    ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
-    
+  <macro>{"cmd":"daisy2","issues":"0","quests":"440","activities":[
+    {"ch":"7","rank":"A","updates":"4","last":"20240813"},
+    {"ch":"14","rank":"B","updates":"4","last":"20240813"},
+    {"ch":"25","rank":"B","updates":"4","last":"20240813"},
+    {"ch":"20","rank":"C","updates":"4","last":"20240813"},
+    {"ch":"22","rank":"B","updates":"5","last":"20240814"},
+    {"ch":"12","rank":"A","updates":"3","last":"20240816"},
+    {"ch":"26","rank":"B","updates":"4","last":"20240816"},
+    {"ch":"18","rank":"A","updates":"4","last":"20240818"},
+    {"ch":"29","rank":"A","updates":"3","last":"20240819"},
+    {"ch":"11","rank":"B","updates":"3","last":"20240819"},
+    {"ch":"30","rank":"C","updates":"3","last":"20240820"},
+    {"ch":"34","rank":"B","updates":"5","last":"20240820"},
+    {"ch":"5","rank":"B","updates":"3","last":"20240821"},
+    {"ch":"17","rank":"C","updates":"3","last":"20240821"},
+    {"ch":"13","rank":"A","updates":"3","last":"20240821"},
+    {"ch":"31","rank":"C","updates":"3","last":"20240821"},
+    {"ch":"35","rank":"A","updates":"3","last":"20240823"},
+    {"ch":"32","rank":"B","updates":"4","last":"20240823"},
+    {"ch":"21","rank":"B","updates":"5","last":"20240823"},
+    {"ch":"33","rank":"B","updates":"4","last":"20240825"},
+    {"ch":"24","rank":"C","updates":"4","last":"20240825"},
+    {"ch":"27","rank":"B","updates":"4","last":"20240826"},
+    {"ch":"15","rank":"S","updates":"6","last":"20240827"},
+    {"ch":"28","rank":"S","updates":"4","last":"20240827"},
+    {"ch":"23","rank":"A","updates":"4","last":"20240829"},
+    {"ch":"16","rank":"A","updates":"4","last":"20240829"},
+    {"ch":"19","rank":"A","updates":"4","last":"20240829"}
+    ],"players":"","merits":"","recognitions":"James, LRRH, StarTree","kudos":"","awards":"Albatross, Arcacia, Evelyn, Ivy, James, Kisaragi, Koyo, LRRH, Natalie, Robert, Skyle, StarTree, Sylvia, Tanya, Therese","top":[
+    {"name":"Evelyn","score":"16"},
+    {"name":"LRRH","score":"15"},
+    {"name":"StarTree","score":"14"},
+    {"name":"James","score":"12"},
+    {"name":"Natalie","score":"11"},
+    {"name":"Sylvia","score":"11"},
+    {"name":"Ivy","score":"10"},
+    {"name":"Vivi","score":"10"},
+    {"name":"Koyo","score":"8"},
+    {"name":"Skyle","score":"8"},
+    {"name":"Robert","score":"7"},
+    {"name":"Arcacia","score":"7"},
+    {"name":"Black","score":"7"},
+    {"name":"Therese","score":"6"},
+    {"name":"Albatross","score":"6"},
+    {"name":"Kisaragi","score":"6"},
+    {"name":"Tanya","score":"6"},
+    {"name":"Zoey","score":"4"},
+    {"name":"Casey","score":"3"},
+    {"name":"Ledia","score":"3"},
+    {"name":"Fina","score":"2"},
+    {"name":"P4","score":"2"},
+    {"name":"Amelia","score":"1"},
+    {"name":"Vladanya","score":"1"},
+    {"name":"Patricia","score":"1"},
+    {"name":"V","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
 <div id="P202408310052" date="20240831" time="0052" data-skill data-Herald>
@@ -40317,8 +40383,8 @@
   </content>
 	<inv>
     <res item="24UZ1ABB" title="2024-08-31" tags="">
-      <msg DTS="20240831014619" SPK="Casey" EXP Icon="📌">Treasure Hunting x2, Transporting.</msg>
-      <msg DTS="20240831014730" SPK="Gaia" EXP Icon="📌">Fan Cleaning.</msg>
+      <msg DTS="20240831014619" SPK="Casey" EXP Icon="🍀">Treasure Hunting x2, Transporting.</msg>
+      <msg DTS="20240831014730" SPK="Gaia" EXP Icon="🧹">Fan Cleaning.</msg>
       <msg DTS="20240831021244" SPK="LRRH" EXP Icon="🐣">Need goggles for cleaning ceiling fans.</msg>
 
     </res>
@@ -40347,12 +40413,107 @@
 	<ref></ref>
 	<node>{"id":"202408310052","parentid":"202209031718","parentname":"Herald","icon":"☀️","title":"Goals of the Day","kids":"","img":"","music":"","author":"StarTree"}</node>
 </div><!--P202408310052-->
+<div id="P202408312257" date="20240831" time="2257" data-skill data-Herald data-civics>
+  
+	<card DTS="20240831230535" title="EPIC Solution" subtitle="Problem Solving" img="https://cdn.pixabay.com/photo/2014/12/11/02/55/cereals-563796_1280.jpg">Be good,<br>be EPIC good.<br></card>
+  <!--https://cdn.pixabay.com/photo/2016/09/11/10/44/sunset-1661088_1280.jpg-->
+  <content>
+    <msg DTS="20240831225913" SPK="" EXP Icon="🧭"><b>EPIC Problem Solving</b> organizes problem solving into four stages with the acronym EPIC.</msg>
+    <topic dts="20240831230022" icon="🧭" title="Ethical End Goal">
+      <msg DTS="20240831230711" SPK="Skyle" EXP Icon="🧭">The first step of approaching an issue is to identify the end goal that are ethical.</msg>
+      <msg DTS="20240831231158" SPK="Skyle" EXP Icon="🔍">The emphasis on ethics is important at this first stage because often times people perceive a problem just because something is different from before without evaluating whether the change is causing or correcting an ethical problem.</msg>
+      <msg DTS="20240831231405" SPK="Skyle" EXP Icon="🔮">When there are multiple stakeholders to the issue, listing the common end goals make it easier for everyone to identify biases and unethical goals.</msg>
+    </topic>
+    <topic dts="20240831232001" icon="🏛️" title="Principles / Precautions">
+      <msg DTS="20240831232238" SPK="Skyle" EXP Icon="🦉">This step lists the relevant principles and precautions related to the issue.</msg>
+      <msg DTS="20240831232338" SPK="Skyle" EXP Icon="⚖️">Compared to other problem solving procedures, this step happens before brainstorming for solution ideas. You could think of this step as brainstorming on what can't be the solution.</msg>
+      <msg DTS="20240831232710" SPK="Skyle" EXP Icon="🔍">While this step appears to limit creativity, it saves people from imagining solutions that would violate principles or are unsafe. Then all solutions ideas should be at least good enough, although some might be better than others.</msg>
+    </topic>
+    <topic dts="20240831235541" icon="🌱" title="Investigation / Integration / Implementation">
+      <msg DTS="20240831235740" SPK="Skyle" EXP Icon="🔍">This step is about implementing the solution, typically starting in a smaller scale so that the solution can be evaluated before it is applied at scale.</msg>
+      <msg DTS="20240901000003" SPK="Skyle" EXP Icon="🔍">Since all solution ideas at this stage already passed the principles and precautions, their implementation is mainly based on the specific support they receive.</msg>
+      <msg DTS="20240901000227" SPK="Skyle" EXP Icon="🔍">A popular solution might be able to gather its required resources first, and it can be implemented up to the scale of its supporters.</msg>
+    </topic>
+    <topic dts="20240901000356" icon="📋" title="Confirmation / Conclusion">
+      <msg DTS="20240901000511" SPK="Skyle" EXP Icon="🔍">The last step checks whether the solution solves the issue.</msg>
+      <msg DTS="20240901000559" SPK="Skyle" EXP Icon="🔍">This should not be the first check, since prototypes and pilots should be checked also. But this check is at scale and online. This is the actual result, not just a prediction.</msg>
+    </topic>
+
+  </content>
+	<inv>
+    <res item="24UZPC41" title="Principles List" tags="">
+      <msg DTS='20240831081020' SPK='Black' EXP Icon='📌'>For the Principles step, there might be many principles to consider. I think it would be helpful if there is a list of all of them and a way to filter the most relevant ones.</msg>
+    </res>
+  </inv>
+	<ref></ref>
+	<node>{"id":"202408312257","parentid":"202209031718","parentname":"Herald","icon":"🧭","title":"EPIC Problem Solving","kids":"","img":"","music":"","author":"Skyle"}</node>
+</div><!--P202408312257-->
+<div date="20240831" time="2359" data-status="">
+  <macro>{"cmd":"daisy2","issues":"0","quests":"433","activities":[
+    {"ch":"7","rank":"A","updates":"4","last":"20240813"},
+    {"ch":"14","rank":"B","updates":"4","last":"20240813"},
+    {"ch":"25","rank":"B","updates":"4","last":"20240813"},
+    {"ch":"20","rank":"C","updates":"4","last":"20240813"},
+    {"ch":"22","rank":"B","updates":"5","last":"20240814"},
+    {"ch":"12","rank":"A","updates":"3","last":"20240816"},
+    {"ch":"26","rank":"B","updates":"4","last":"20240816"},
+    {"ch":"18","rank":"A","updates":"4","last":"20240818"},
+    {"ch":"29","rank":"A","updates":"3","last":"20240819"},
+    {"ch":"11","rank":"B","updates":"3","last":"20240819"},
+    {"ch":"30","rank":"C","updates":"3","last":"20240820"},
+    {"ch":"34","rank":"B","updates":"5","last":"20240820"},
+    {"ch":"17","rank":"C","updates":"3","last":"20240821"},
+    {"ch":"13","rank":"A","updates":"3","last":"20240821"},
+    {"ch":"31","rank":"C","updates":"3","last":"20240821"},
+    {"ch":"35","rank":"A","updates":"3","last":"20240823"},
+    {"ch":"32","rank":"B","updates":"4","last":"20240823"},
+    {"ch":"21","rank":"B","updates":"5","last":"20240823"},
+    {"ch":"33","rank":"B","updates":"4","last":"20240825"},
+    {"ch":"24","rank":"C","updates":"4","last":"20240825"},
+    {"ch":"27","rank":"B","updates":"4","last":"20240826"},
+    {"ch":"15","rank":"S","updates":"6","last":"20240827"},
+    {"ch":"28","rank":"S","updates":"4","last":"20240827"},
+    {"ch":"23","rank":"A","updates":"4","last":"20240829"},
+    {"ch":"16","rank":"A","updates":"4","last":"20240829"},
+    {"ch":"19","rank":"A","updates":"4","last":"20240829"},
+    {"ch":"5","rank":"A","updates":"4","last":"20240901"}
+    ],"players":"","merits":"","recognitions":"","kudos":"","awards":"Albatross, Arcacia, Casey, Evelyn, Gaia, Ivy, Kisaragi, Koyo, LRRH, Melody, Natalie, Skyle, StarTree, V, Zoey","top":[
+    {"name":"Gaia","score":"16"},
+    {"name":"Skyle","score":"15"},
+    {"name":"StarTree","score":"14"},
+    {"name":"Evelyn","score":"12"},
+    {"name":"Natalie","score":"8"},
+    {"name":"Tanya","score":"8"},
+    {"name":"LRRH","score":"8"},
+    {"name":"Casey","score":"6"},
+    {"name":"Ivy","score":"6"},
+    {"name":"Arcacia","score":"5"},
+    {"name":"Black","score":"5"},
+    {"name":"Koyo","score":"4"},
+    {"name":"Melody","score":"4"},
+    {"name":"Albatross","score":"4"},
+    {"name":"V","score":"4"},
+    {"name":"Kisaragi","score":"4"},
+    {"name":"Vivi","score":"4"},
+    {"name":"Zoey","score":"4"},
+    {"name":"Sasha","score":"3"},
+    {"name":"Ledia","score":"3"},
+    {"name":"Amelia","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div date="20240901" time="2359" data-status="">
+  <macro>{"cmd":"daisy2","issues":"0","quests":"433","activities":[
+    
+    ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
+    
+  ]}</macro>
+</div><!-- STATUS -->
 <!--
   STEPS TO MAKE A NEW ARCHIVE:
   1) Update function ArchiveNum with the correct number of archives.
   2) Update function ArchiveSelect with the correct cutoff dates.
 -->
-<div date="20240800" time="2359" data-status="">
+<div date="20240901" time="2359" data-status="">
   <macro>{"cmd":"daisy2","issues":"0","quests":"433","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
