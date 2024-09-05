@@ -388,12 +388,15 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   elBoard.firstElementChild.after(elContainer);
 
   // 20240827: James: Auto Sort by Date
-  var elControl = elContainer.querySelector("[control]");
-  QSLSortByDate(elControl.firstElementChild);
-  QSLSortByDate(elControl.firstElementChild);
-  if(NotBlank(mCardList)){        
-    elControl.parentNode.classList.add("mbhide");
-  }
+  try{
+    var elControl = elContainer.querySelector("[control]");
+    QSLSortByDate(elControl.firstElementChild);
+    QSLSortByDate(elControl.firstElementChild);
+    if(NotBlank(mCardList)){        
+      elControl.parentNode.classList.add("mbhide");
+    }
+  }catch(e){}
+  
 
   // 20231115: Sylvia: Scroll to View
   // Ref: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
@@ -402,9 +405,6 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   }else{
     ScrollIntoView(elBoard);
   } 
-
-  
-
 
 }
 function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget,elArchives){
