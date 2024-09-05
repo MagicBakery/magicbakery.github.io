@@ -1654,10 +1654,13 @@ function MacroIcons(el,iHTMLInner){
     ["Archive1",":Archive1:"],
     ["Archive2",":Archive2:"],
     ["Archive3",":Archive3:"],
+    ["Bell","🔔"],
     ["BlankBox","□"],
+    ["Bread","🍞"],
     ["Camp","🏕️"],
     ["Checker",":Checker:"],
     ["Chick","🐤"],
+    ["Clipboard","📋"],
     ["Close",":Close:"],
     ["CornerRibbon",":CornerRibbon:"],
     ["Correct","✔"],
@@ -1668,17 +1671,21 @@ function MacroIcons(el,iHTMLInner){
     ["Egg","🥚"],
     ["Fan","🪭"],
     ["Hatch","🐣"],
+    ["Headphone","🎧"],
     ["HeartEmpty","🤍"],
+    ["Hourglass","⏳"],
     ["Jam",":Jam:"],
     ["Jar",":Jar:"],
     ["Kudookie","💟"],
+    ["LoveLetter","💌"],
     ["Lyre",":Lyre:"],
+    ["Magnifier","🔍"],
     ["MantleClock","🕰️"],
     ["Owl","🦉"],
-    
     ["Palette","🎨"],
     ["Pancake","🥞"],
     ["Pencil","✏️"],
+    ["Pie","🥧"],
     ["Pin","📌"],
     ["PostHorn","📯"],
     ["Pretzel","🥨"],
@@ -2404,7 +2411,7 @@ function MSModeTally(elStruct,mArea,mModeCode){
 }
 function MSScanFor(elDisplay,mStart,mEnd,elHeader,bGroupByTopic){
   // 20240426: Patricia: Populate the element with messages.
-  elDisplay.innerHTML = "<center><big>⏳</big></center>"
+  elDisplay.innerHTML = WaitIcon();
   if(NotBlank(elHeader)){elHeader.innerHTML = ""}
   let elCache = document.createElement("div");
   $(document).ready(function(){
@@ -4766,7 +4773,7 @@ function DTSGet(el){
   return 0;
 }
 function QSLEL(elSearchList,iQuery,elArchives,bOffline){
-  elSearchList.previousElementSibling.innerHTML = "<small>Loading " + iQuery + "... </small><center><big>⏳</big></center>";
+  elSearchList.previousElementSibling.innerHTML = "<small>Loading " + iQuery + "... </small>" + WaitIcon();
   elSearchList.innerHTML="";
   
   
@@ -5054,7 +5061,7 @@ function QSLRollingKudoEL(elSearchList,mDate,elArchives,bOffline){
   var iQuery = "[date*='"+mDate+"'][data-happy],[id][date][time]:has([dts*='"+mDate+"'][icon='💟'],[dts*='"+mDate+"'][icon='💗'],mbkudo[dts*='"+mDate+"'])";
   var iQuery2 = "[date*='"+mDate+"'][data-happy],[dts*='"+mDate+"'][icon='💟'],[dts*='"+mDate+"'][icon='💗'],mbkudo[dts*='"+mDate+"']";
 
-  elSearchList.previousElementSibling.innerHTML = "<small>Loading " + iQuery + "... </small><center><big>⏳</big></center>";
+  elSearchList.previousElementSibling.innerHTML = "<small>Loading " + iQuery + "... </small>" + WaitIcon();
   elSearchList.innerHTML="";
 
 
@@ -6947,7 +6954,7 @@ function ShowNextFP(el,mDTS,bRefresh){
 
   // STEP: Load the content as needed.
   // STEP: If mDTS is blank, skip loading.
-  // 2024904: Never reload automatically. There is a a reload button.
+  // 2024904: StarTree: Don't reload automatically. There is a a reload button.
   //if(NotBlank(mDTS) && (bRefresh || (elFP.classList.contains('mbhide') && elFP.innerHTML==""))){
   if(bRefresh || (elFP.classList.contains('mbhide') && elFP.innerHTML=="")){
     elFP.setAttribute('FP',mDTS);
@@ -6971,13 +6978,18 @@ function ShowNextFP(el,mDTS,bRefresh){
   return;
 
 }
+function WaitIcon(){
+  // 20240905: Sasha: Made this its own function and added wings.
+  //return MacroIcons(null,"<center><small>:WingL:</small><big>⏳</big><small>:WingR:</small></center>");
+  return MacroIcons(null,"<center><big>⏳</big></center>");
+}
 function ReloadFP(el){
   // 20240420: Skyle: Reload an FP that is in display.
   var elFP = el;
   if(!elFP.hasAttribute('FP')){
     elFP = SearchPS(el,'FP');
   }  
-  elFP.innerHTML = "<center><big>⏳<big></center>"
+  elFP.innerHTML = WaitIcon();
 
   var mDTS = elFP.getAttribute('FP');
   var mHTML="";

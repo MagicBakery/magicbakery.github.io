@@ -90,7 +90,7 @@
         <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP board reserved style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; ;max-width: 700px;width:100%"></div>
       </div>
     </span>
-    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240416213800')" title="Node Maker" >🥧</button>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240416213800')" title="Node Maker" >🍞</button>
     <span>
       <div style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:right;margin-left:-10px;padding:0;pointer-events: none;">
         <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;max-width:350px; overflow-y:auto"></div>
@@ -116,17 +116,17 @@
           
           <a class="mbbutton mbIconShift" style="float:right"  onClick="BoardLoad(this,'202207242047',false, true);HC(this);return false;" title="Roll Call">📯</a>
           <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202208172056',false, true);HC(this);return false;" title="Calendar" href="./?id=P202208172056">🥨 About</a><br>
-          <a class="mbbutton" style="float:right" onClick="BoardLoad(this,'202404260005',false, true);HC(this);return false" title="Message Scanner" href="./?id=P202404260005">🔔</a>
+          <a class="mbbutton mbIconShift" style="float:right" onClick="BoardLoad(this,'202404260005',false, true);HC(this);return false" title="Message Scanner" href="./?id=P202404260005">🔔</a>
           <a class="mbbutton" onClick="BoardLoad(this,'202310072314',false, true);HC(this);return false;" title="Calendar" href="./?id=P202310072314" >🗓️ Calendar</a><br>
           <a class="mbbutton" style="float:right" onClick="BoardLoad(this,'202405010908',false, true);HC(this);return false;" title="Guild Inbox" href="./?id=P202405010908">📬</a>
-          <a class="mbbutton" onClick="IFrameFeedback(this);HC(this);return false;" target="_blank" title="Feedback" href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">💌 Feedback</a>&nbsp;<br>
+          <a class="mbbutton mbIconShift" onClick="IFrameFeedback(this);HC(this);return false;" target="_blank" title="Feedback" href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">💌 Feedback</a>&nbsp;<br>
           <a class="mbbutton" onClick="BoardLoad(this,'900000000000',false, true);HC(this);return false;" title="Quest Board" href="./?id=P900000000000">🎪 Quest Board</a><br>
           
           <a class="mbbutton" onClick="BoardLoad(this,'202301251008',false, true);HC(this);return false;" title="Scoreboard" href="./?id=P202301251008">👑 Scoreboard</a><br>
           <a class="mbbutton mbIconShift" style="float:right" onClick="Offline(null,true);HC(this);" title="Offline Mode">🪵</a>
           <a class="mbbutton" onClick="BoardLoad(this,'800000000000',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P800000000000">🧭 Sitemap</a><br>
-          <a class="mbbutton" style="float:right" onClick="BoardLoad(this,'202404162138',false, true);HC(this);" title="Node Maker" href="./?id=P202404162138">🥧</a>
-          <a class="mbbutton" onClick="BoardLoad(this,'202403302012',false, true);HC(this);return false;" title="Notepad" href="./?id=P202403302012">📋 Notepad</a><br>
+          <a class="mbbutton mbIconShift" style="float:right" onClick="BoardLoad(this,'202404162138',false, true);HC(this);" title="Node Maker" href="./?id=P202404162138">🍞</a>
+          <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202403302012',false, true);HC(this);return false;" title="Notepad" href="./?id=P202403302012">📋 Notepad</a><br>
           <hr>
           <div >
             <div class="mbbutton" onclick="ShowNext(this)">⚙️ Panel</div>
@@ -162,6 +162,8 @@
     DEBUG(elResult[0].outerHTML);
 */
     
+    MacroIcons(document.body);
+
     // 20231007: StarTree: make this function add the first panel.  
     var mPanel = PanelAdd();
 
