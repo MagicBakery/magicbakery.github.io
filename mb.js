@@ -1472,7 +1472,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20240829 Notes without Indent";
+  elContainer.innerHTML = "20240904 Music Player Widget Fixes & Upgrade";
 }
 function LnkCode(iID,iDesc,iIcon,bMark){
   // 20230323: Ivy: For QSL. <lnk>
@@ -4565,11 +4565,11 @@ function YoutubePNC(el,iLink){
   // 20231029: For GitHub Control
   YoutubeEL(SearchPS(el,"Control").nextElementSibling,iLink)
 }
-function YoutubePPC(el,iLink){
+function YoutubePPC(el,iLink,iPlaylist){
   // 20231029: For GitHub Control
-  YoutubeEL(SearchPS(el,"Control").previousElementSibling,iLink)
+  YoutubeEL(SearchPS(el,"Control").previousElementSibling,iLink,iPlaylist)
 }
-function YoutubeEL(el,iLink){
+function YoutubeEL(el,iLink,iPlaylist){
   // 20230305: StarTree: Added
   // 20231029: StarTree: Split for YouTubePNC
   var elTarget = el;
@@ -4582,8 +4582,21 @@ function YoutubeEL(el,iLink){
   var mHTML = "";
   //mHTML = "https://www.youtube.com/embed/" + iLink + "?version=3&loop=1&autoplay=1&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx";
   // 20231008: Mikela: Don't include the list
-  mHTML = "https://www.youtube.com/embed/" + iLink + "?rel=0?version=3&autoplay=1&loop=1";
-  mHTML = "src='" + mHTML + "' ";
+
+  // 20240904: StarTree: If a playlist is specified:
+  if(NotBlank(iPlaylist)){
+    
+    /*mHTML= "https://www.youtube.com/playlist?list=" + iPlaylist;
+    el.setAttribute("href",mHTML);*/
+    
+    mHTML = "https://www.youtube.com/embed/videoseries?si=m0csnEsQRdzeZSQ1&amp;list=" + iPlaylist;
+
+    mHTML = "src='" + mHTML +"' ";
+  }else{
+    mHTML = "https://www.youtube.com/embed/" + iLink + "?rel=0?version=3&autoplay=1&loop=1";
+    mHTML = "src='" + mHTML + "' ";
+  }
+
   mHTML += "width='100%' frameborder='0' allow='accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture' allowfullscreen";
   mHTML = "<iframe " + mHTML + "></iframe>";
   mHTML = "<center>" + mHTML + "</center>";
@@ -6906,7 +6919,8 @@ function FPHide(elFP){
 }
 function FPShow(elFP){
   // 20240424: Black: Shows an FP
-  MacroIcons(elFP);
+  
+  //MacroIcons(elFP); // 20240904: StarTree: Causes refresh bug on music player and textarea.
   elFP.classList.remove('mbhide');
   elFP.style.zIndex=FPGetTopZ()+1;
 }
@@ -6933,7 +6947,9 @@ function ShowNextFP(el,mDTS,bRefresh){
 
   // STEP: Load the content as needed.
   // STEP: If mDTS is blank, skip loading.
-  if(NotBlank(mDTS) && (bRefresh || (elFP.classList.contains('mbhide') && elFP.innerHTML==""))){
+  // 2024904: Never reload automatically. There is a a reload button.
+  //if(NotBlank(mDTS) && (bRefresh || (elFP.classList.contains('mbhide') && elFP.innerHTML==""))){
+  if(bRefresh || (elFP.classList.contains('mbhide') && elFP.innerHTML=="")){
     elFP.setAttribute('FP',mDTS);
     ReloadFP(elFP);
   }
@@ -6961,7 +6977,7 @@ function ReloadFP(el){
   if(!elFP.hasAttribute('FP')){
     elFP = SearchPS(el,'FP');
   }  
-  elFP.innerHTML = "<big>⏳<big>"
+  elFP.innerHTML = "<center><big>⏳<big></center>"
 
   var mDTS = elFP.getAttribute('FP');
   var mHTML="";
@@ -7021,7 +7037,7 @@ function ReloadFPEL(elWidget,elFP,mDTS,bOffline){
   //mHTML += "</div>";
   
   elFP.innerHTML = mHTML;
-  Macro(elFP);
+  Macro(elFP);  
   elFP.setAttribute('FP',mDTS);
   elFP.setAttribute('Widget',mDTS);
 
