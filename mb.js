@@ -388,14 +388,17 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   elBoard.firstElementChild.after(elContainer);
 
   // 20240827: James: Auto Sort by Date
-  try{
-    var elControl = elContainer.querySelector("[control]");
-    QSLSortByDate(elControl.firstElementChild);
-    QSLSortByDate(elControl.firstElementChild);
-    if(NotBlank(mCardList)){        
-      elControl.parentNode.classList.add("mbhide");
-    }
-  }catch(e){}
+  // 20240905: Skyle: Don't auto sort for the Scoreboard.  
+  if(mNodeID != "202301251008"){// 202301251008 is the scoreboard node
+    try{
+      var elControl = elContainer.querySelector("[control]");
+      QSLSortByDate(elControl.firstElementChild);
+      QSLSortByDate(elControl.firstElementChild);
+      if(NotBlank(mCardList)){        
+        elControl.parentNode.classList.add("mbhide");
+      }
+    }catch(e){}
+  }
   
 
   // 20231115: Sylvia: Scroll to View
@@ -2614,6 +2617,18 @@ function MSSortTopics(el,bFL){
   }
 
 }
+function TextBetween(iStr,iHead,iTail){
+  // 20240906: StarTree: For parsing URL
+  var mSplit = iStr.split(iHead);
+  if(mSplit.length>1){
+    iStr = mSplit[1];
+  }
+  mSplit = iStr.split(iTail);
+  if(mSplit.length>1){
+    iStr = mSplit[0];
+  }
+  return iStr;
+}
 function TopicWrap(mNode,mDTS,mCount,mIcon,mTitle,mTopicHTML,mArea,mTopicEXP,mMaintenance,mUpgrade,mService){
   // 20240505: StarTree: This display is getting complex and needs to be a custom header like the library code.
   let mNodeIcon = "📌"
@@ -4576,15 +4591,30 @@ function YoutubePPC(el,iLink,iPlaylist){
   // 20231029: For GitHub Control
   YoutubeEL(SearchPS(el,"Control").previousElementSibling,iLink,iPlaylist)
 }
+
 function YoutubeEL(el,iLink,iPlaylist){
   // 20230305: StarTree: Added
   // 20231029: StarTree: Split for YouTubePNC
+
+  // 20240905: StarTree: If both iLink and iPlaylist are blank, assume that the link is in the clipboard.
+  if(IsBlank(iLink) && IsBlank(iPlaylist)){
+    navigator.clipboard.readText().then((mCBText)=>{
+      // Parse a url for the video code
+      // Example URL: https://www.youtube.com/watch?v=Xo1g5HWgaRA&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx&index=136
+      mCBText = TextBetween(mCBText,"watch?v=","&list=")
+      return YoutubeEL(el,mCBText);      
+    });
+  }
+
   var elTarget = el;
-  if(elTarget.getAttribute("mQueryString") == iLink){
-    elTarget,innerHTML="";
-    elTarget.setAttribute("mQueryString","");
-    elTarget.classList.add("mbhide");
-    return;
+  if(elTarget.getAttribute("mQueryString") == iLink || elTarget.getAttribute("mQueryString") == iPlaylist){
+    //if(NotBlank(elTarget.innerHTML) && IsBlank(iPlaylist)){ // 20240905: StarTree: Playlist may not have iLink content.
+    if(NotBlank(elTarget.innerHTML)){
+      elTarget.innerHTML="";
+      elTarget.setAttribute("mQueryString","");
+      elTarget.classList.add("mbhide");
+      return;
+    }
   }
   var mHTML = "";
   //mHTML = "https://www.youtube.com/embed/" + iLink + "?version=3&loop=1&autoplay=1&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx";
@@ -4596,7 +4626,8 @@ function YoutubeEL(el,iLink,iPlaylist){
     /*mHTML= "https://www.youtube.com/playlist?list=" + iPlaylist;
     el.setAttribute("href",mHTML);*/
     
-    mHTML = "https://www.youtube.com/embed/videoseries?si=m0csnEsQRdzeZSQ1&amp;list=" + iPlaylist;
+    //mHTML = "https://www.youtube.com/embed/videoseries?si=m0csnEsQRdzeZSQ1&amp;list=" + iPlaylist;
+    mHTML = "https://www.youtube.com/embed/videoseries?list=" + iPlaylist;
 
     mHTML = "src='" + mHTML +"' ";
   }else{
@@ -4608,7 +4639,12 @@ function YoutubeEL(el,iLink,iPlaylist){
   mHTML = "<iframe " + mHTML + "></iframe>";
   mHTML = "<center>" + mHTML + "</center>";
   elTarget.innerHTML = mHTML;
-  elTarget.setAttribute("mQueryString",iLink);
+  if(IsBlank(iLink)){
+    elTarget.setAttribute("mQueryString",iPlaylist);  
+  }else{
+    elTarget.setAttribute("mQueryString",iLink);
+  }
+
   elTarget.classList.remove("mbhide");
   /*<center>
     <iframe width="100%" src="https://www.youtube.com/embed/FUH9S44D1BM?version=3&loop=1&autoplay=1&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -6999,7 +7035,7 @@ function ReloadFP(el){
     var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
     mHTML = "<span class='mbRef'><a class='mbbutton' onClick='HideFP(this);FPGetTopZ()' style='float:right' title='Close'><span class=\"mbIcon iClose\"></span></a></span>";
     mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>⅔</button>"
-    mHTML += "💌 <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a><span><hr>";
+    mHTML += "💌 <a class='mbbutton' onClick='HideFP(this)' title='Feedback Form'>Feedback Form</a><span><hr>";
     mHTML += "<iframe src='" + mInput + "' title='Google Form' style='border:none;width:100%;height:45vh' allow='clipboard-read; clipboard-write'></iframe></span>";
     el.innerHTML = mHTML;
 
