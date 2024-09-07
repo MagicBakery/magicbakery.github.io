@@ -4602,6 +4602,11 @@ function YoutubeEL(el,iLink,iPlaylist){
       // Parse a url for the video code
       // Example URL: https://www.youtube.com/watch?v=Xo1g5HWgaRA&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx&index=136
       mCBText = TextBetween(mCBText,"watch?v=","&list=")
+      
+      // 20240906: StarTree: Make it work for this also:
+      // https://youtu.be/D4OAx2ALK34?si=1eb8Mmnd-BO4Zs9T
+      mCBText = TextBetween(mCBText,"https://youtu.be/","?si=")
+
       return YoutubeEL(el,mCBText);      
     });
   }
@@ -6938,7 +6943,8 @@ function FPSepia(mZArray,mCurMax){
     let mButton = (mZArray[i][1]).parentNode.parentNode.previousElementSibling;    
     if(mZArray[i][0] == 0){
       // If the FP is not shown, grey out its button
-      if(mButton.innerHTML=="🎧"){ // This icon is abnormally dark to begin with.
+  
+      if(false && mButton.innerHTML=="🎧"){ // This icon is abnormally dark to begin with.
         mButton.style.opacity = 0.15;
       }else{
         mButton.style.opacity = 0.1;
