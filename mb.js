@@ -148,6 +148,8 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll,elArchives){
   if(iNodeID==""){iNodeID="202208172056";};
   elBoard.setAttribute("board",iNodeID);
 
+  
+
   // STEP: Create a container within the Board after the control section for the content.
   //       ((The board itself has a close button))
   var elContainer = document.createElement("span");
@@ -205,11 +207,21 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
 
   var elNode = elRecord.querySelector('node');
   var mNodeID = "";
+  //var mProfile = Default(elRecord.getAttribute("data-Profile"),"");
+
+  
+
 
   if(!IsBlank(elContent) && !IsBlank(elNode)){ 
     // 20231224: StarTree: New Format
     var mJSON = JSON.parse(elNode.innerHTML);
     mNodeID = mJSON.id;
+
+
+    // 20240908: Sylvia: If the node is a profile node, set the profile tag at the board.
+    if(elRecord.hasAttribute("data-profile")){
+      elBoard.setAttribute("Profile",mJSON.author);
+    }
 
     // 20240804: StarTree: Add local content if enabled.
     if(NodeEditModeCheck()){
@@ -217,10 +229,34 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     }
 
     var mHTMLInner = "<span class='mbDayHeader'></span>";
-    mHTMLInner += "<lnk>" + mJSON.id + "|" + mJSON.icon +"</lnk>&nbsp;<a class='mbbutton' onclick='ShowBothInline(this)'>" + mJSON.title;
-    mHTMLInner += OfflineTag(bOffline);    
+    // 20240908: Sylvia: If the node is a profile, use the short title at the top.
+    // 20240909: StarTree: If the node is a profile, Show the avatar. 
+    if(elRecord.hasAttribute("data-profile")){
+      //mHTMLInner += RenderAvXP(mJSON.author,"","","","");
+
+
+      mHTMLInner += "<div style=\"float:left;margin-right:5px;margin-bottom:-5px;\"><div class=\"mbav50tp mb"+mJSON.author+"\" >";
+      //mHTMLInner += "<lnk>" + mJSON.id + "|" + mJSON.icon +"</lnk>";
+      mHTMLInner += "</div></lnk></div>";
+      mHTMLInner += "<small><lnk>"+mJSON.id +"|<span style=\"display:inline-block;font-weight:bold;width:50px\">"+ mJSON.icon+ " " +MemberLevel(mJSON.author)+"</span></lnk></small> ";
+      mHTMLInner += MemberHPBar(mJSON.author);
+      mHTMLInner += "<br>";
+      mHTMLInner += "<a class='mbbutton' onclick='ShowBothInline(this)'>";      
+      mHTMLInner += mJSON.author;
+    }else{
+      mHTMLInner += "<lnk>" + mJSON.id + "|" + mJSON.icon +"</lnk>&nbsp;<a class='mbbutton' onclick='ShowBothInline(this)'>";
+      mHTMLInner += mJSON.title;      
+    }
+
+    mHTMLInner += OfflineTag(bOffline);  
     mHTMLInner += "</a>";
-    mHTMLInner += "<span class='mbDayContent'>";     
+    
+    mHTMLInner += "<span class='mbDayContent";
+    // 20240909: StarTree: Don't show when it is profile.
+    if(elRecord.hasAttribute("data-profile")){ 
+      mHTMLInner += " mbhide";
+    }
+    mHTMLInner += "'>";     
     
     // 20240105: Natalie: If there is no music link, still need the link to the node.
     mHTMLInner += Pin2Code(mJSON);
@@ -261,11 +297,11 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     // STEP: Start the Card/Inventory section
     if(true || !IsBlank(elCard)){ // 20240730: StarTree: Always use the same frame.
       mHasCard = true;
-      mHTMLInner += "<div class='mbCardMat'>";
+      mHTMLInner += "<div class='mbCardMat";      
+      mHTMLInner += "'>";
       
       
-      // 20240723: StarTree: If the INV section contains RES objects, show add a search section.
-      
+      // 20240723: StarTree: If the INV section contains RES objects, show a search section.      
       mHTMLInner += mCardList;      
       mHTMLInner += "<div class='mbCardMatText'>";
       
@@ -292,6 +328,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     // STEP: Close the Card section.
     if(!IsBlank(elCard)){
       mHTMLInner += "</div>"; // End Text
+      
       mHTMLInner += "</div>"; // End Card Mat
     }
 
@@ -300,7 +337,8 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     
     // REF SECTION
     if(!IsBlank(elRef)){
-      mHTMLInner += "<hr class='mbCB'><div class='mbRef'>";
+      mHTMLInner += "<hr class='mbCB'><div class='mbRef";
+      mHTMLInner += "'>";
       
       // STEP: Include custom reference links.
       // 20240407: Skyle: Rearranged this first because the link is green.
@@ -366,7 +404,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
 
     // STEP: Create the QSL area.
     mHTMLInner += "<div class='mbhide mbpuzzle'><button class='mbbutton mbRef' onclick='HideParent(this)'>:Close:</button>";
-    mHTMLInner += "<div control></div><div class='mbCB mbSearch' QSL BL style='display:flex;flex-direction: column;''></div></div>";
+    mHTMLInner += "<div control></div><div class='mbCB mbSearch' QSL BL style='display:flex;flex-direction: column;''></div><div class='mbCB'></div></div>";
 
     elContainer.innerHTML = mHTMLInner;
     Macro(elContainer);
@@ -1475,8 +1513,9 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20240904 Music Player Widget Fixes & Upgrade";
+  elContainer.innerHTML = "20240908 Profile Hitpoint Bar WIP";
 }
+
 function LnkCode(iID,iDesc,iIcon,bMark){
   // 20230323: Ivy: For QSL. <lnk>
   var mHTML="";
@@ -1675,6 +1714,7 @@ function MacroIcons(el,iHTMLInner){
     ["Fan","🪭"],
     ["Hatch","🐣"],
     ["Headphone","🎧"],
+    ["Heart","❤️"],
     ["HeartEmpty","🤍"],
     ["Hourglass","⏳"],
     ["Jam",":Jam:"],
@@ -2188,7 +2228,42 @@ function MacroURL(el){
     mTag.outerHTML = GetURLCode(mTag.innerHTML, mTag.getAttribute('title'),mTag.getAttribute('lang'));
   });
 }
-
+function MemberHPBar(iMember,mHPMax,mHPCur){
+  // 20240909: StarTree: Returns a mock HP bar.
+  //mHPMax = parseInt(mHPMax);
+  //mHPCur = parseInt(mHPCur);  
+  if(mHPMax==undefined){
+    mHPMax = 3;
+    switch(iMember){
+      case "James": mHPMax = 4; break;
+      case "LRRH": mHPMax = 1; break;
+      case "P4": mHPMax = 2; break;
+    }    
+    mHPCur = getRandomInt(0,mHPMax,true); // 20240909: StarTree: Temproary code.
+  }
+  
+  var mHTML = "<span HPMax=\""+mHPMax+"\" HPCur=\""+mHPCur+"\" style=\"font-size:16px\">" + "<a class=\"mbbutton\" onclick=\"MemberHPClick(this)\">❤️</a>".repeat(mHPCur) + "<a class=\"mbbutton\" onclick=\"MemberHPClick(this)\">🤍</a>".repeat(mHPMax-mHPCur) + "</span>" ;
+  return mHTML;
+}
+function MemberHPClick(el){
+  // 20240909: StarTree: This function is applied to each heart of an HP Bar.
+  // If the click is on a full heart, the current HP decreases.
+  // If the click is on an empty heart, the current HP increases.
+  var elHPBar = SearchPS(el,"HPMax");
+  var mHPMax = Number.parseInt(elHPBar.getAttribute("HPMax"));
+  var mHPCur = Number.parseInt(elHPBar.getAttribute("HPCur"));
+  if(el.innerHTML.search("❤️")!=-1){
+    mHPCur = Math.max(0,mHPCur-1);
+  }else{
+    mHPCur = Math.min(mHPMax,mHPCur+1);
+  }  
+  elHPBar.outerHTML = MacroIcons("",MemberHPBar("",mHPMax,mHPCur));
+  elHPBar.setAttribute("HPCur",mHPCur);
+}
+function MemberLevel(iMember){
+  // 20240909: StarTree
+  return Math.floor(Math.sqrt(GuildEXP(iMember)));
+}
 function GetURLCode(mURL,mDesc, mLang){
   // 20240504: Sylvia: mDesc argument is optional.
   var bIcon = false;
@@ -2806,7 +2881,12 @@ function ResCardList(elRecord){
 
   // STEP: Make the Card section
   // 20240730: StarTree: Milestone 1: Just display the first card.
-  var mHTML = "<div SidePanel class='mbCardRM'>";
+  var mHTML = "<div SidePanel class='mbCardRM";
+  // 20240908: Ledia: If the node is a profile node, don't show the res section initially.
+  if(elRecord.hasAttribute("data-profile")){
+   mHTML += " mbhide";
+  }
+  mHTML += "'>";
   mHTML += "<div>" + elCardList[0].outerHTML + "</div>";
   var mIndex=""
   if(elCardList.length>1){ // Gallery Code
@@ -5632,14 +5712,14 @@ function XP_DisplayEL(elFrame,bOrder){
           
           // 20230806: Ledia: Add link to profile if it exists
           if( mProfile!= null){
-            Content += "<span class='mbRef' title='" + mProfile + "'>";
+            Content += "<div class='mbRef' style='position:relative;z-index:1' title='" + mProfile + "'>";
             Content += "<a class='mbbuttonIn' ";
             Content += "href='" + ViewerPath() + "?id=" + mProfile + "' ";
             Content += "onclick=\"" + InterLink() + "'" + mProfile + "');return false;\">📋</a>";  
-            Content += "</span>";
+            Content += "</div>";
           }
           
-          Content += "<b>"+mNick +"</b><hr>";
+          Content += "<div style=\"white-space:nowrap;text-overflow: hidden;\"><b>"+mNick +"</b></div><hr>";
           Content += "<span style=\"float:right;margin-right:-55px;margin-bottom:-5px;letter-spacing:-2px;position:relative;z-index:1\"><small>"+ mStar.repeat(LevelStars) +"</small></span>";
           Content += "<a style='display:inline-block' class=\"mbbutton\" onclick=\"ShowNext(this)\" title=\""+ GuildEXP_Total +"\"><small>"+mArch+"&nbsp;Lv&nbsp;"+ GuildEXP_Lv +"</small></a>";
 
@@ -8232,7 +8312,8 @@ function ShowBothInline(el){
   // 20231224: StarTree: Also hide the last child of a board, which is the display area for discussion.
   ShowNextInline(el);
   var mBoard = SearchPS(el,'board');
-  ShowEl(mBoard.lastElementChild,true);
+  // 20240909: StarTree: It is not cear what the following is for. Disabled it for profile node display.
+  //ShowEl(mBoard.lastElementChild.previousElementSibling.lastElementChild,true);
 }
 function ShowPrep(el){
   // 20230226: StarTree: Created for Side Listing layout.
@@ -8501,10 +8582,13 @@ function getRandomColor1(iCurColor){
   }while(mBC == iCurColor);
   return mBC;
 }
-function getRandomInt(min, max) {
+function getRandomInt(min, max, bTop) {
   // 20230412: Evelyn: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
   min = Math.ceil(min);
   max = Math.floor(max);
+  if(bTop){ // 20240909: StarTree: Adds the option to include the max number.
+    return Math.round(Math.random() * (max - min) + min);  
+  }
   return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
 }
 function JSONCheckPP(el){
