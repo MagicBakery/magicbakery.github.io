@@ -46,7 +46,7 @@
 <url>
   <loc>https://magicbakery.github.io/?id=202312251111</loc>
   <lastmod>2024-02-04T12:31:00+00:00</lastmod>
-</url><!--Arcacian Quest-->
+</url><!--10: Arcacian Quest-->
 <url>
   <loc>https://magicbakery.github.io/?id=202402292014</loc>
   <lastmod>2024-03-12T00:00:00+00:00</lastmod>
@@ -95,5 +95,12 @@
   <loc>http://127.0.0.1:5500/?id=202207281948</loc>
   <lastmod>2024-08-18T00:00:00+00:00</lastmod>
 </url><!--22: Anime Club-->
-
+<url>
+  <loc>http://127.0.0.1:5500/?id=202209111548</loc>
+  <lastmod>2024-09-09T00:00:00+00:00</lastmod>
+</url><!--23: Housing Solutions-->
+<url>
+  <loc>http://127.0.0.1:5500/?id=202409070504</loc>
+  <lastmod>2024-09-09T00:00:00+00:00</lastmod>
+</url><!--24: Meaning of Life-->
 </urlset>

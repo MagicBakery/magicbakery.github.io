@@ -244,7 +244,10 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       mHTMLInner += "<a class='mbbutton' onclick='ShowBothInline(this)'>";      
       mHTMLInner += mJSON.author;
     }else{
-      mHTMLInner += "<lnk>" + mJSON.id + "|" + mJSON.icon +"</lnk>&nbsp;<a class='mbbutton' onclick='ShowBothInline(this)'>";
+      //mHTMLInner += "<lnk>" + mJSON.id + "|" + mJSON.icon +"</lnk>&nbsp;<a class='mbbutton' onclick='ShowBothInline(this)'>";
+      // 20240910: Evelyn: Use bigger icon.
+      //mHTMLInner += "<lnk>" + mJSON.id + "|<span style=\"transform:rotate("+5*getRandomInt(-1,1,true)+"deg)\" class=\"mbBoardIcon\" >" + mJSON.icon +"</span></lnk>&nbsp;<a class='mbbutton' onclick='ShowBothInline(this)'>";
+      mHTMLInner += "<lnk>" + mJSON.id + "|<span class=\"mbBoardIcon\" >" + mJSON.icon +"</span></lnk>&nbsp;<a class='mbbutton' onclick='ShowBothInline(this)'>";
       mHTMLInner += mJSON.title;      
     }
 
@@ -1513,7 +1516,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20240908 Profile Hitpoint Bar WIP";
+  elContainer.innerHTML = "20240909 Bigger Title Icons";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark){
@@ -2194,7 +2197,9 @@ function MacroTopic(el){
       let mFullTitle = FullTitle(mTag);
 
       mHTML = "<div class='mbbutton' onclick='ShowNext(this)'>";
-      mHTML += "<span class='mbILB30'>" + mIcon + "</span>";
+      // 20240910: Evelyn: 
+      //mHTML += "<div style=\"transform:rotate("+5*getRandomInt(-4,4,true)+"deg)\" class='mbTopicIcon'>" + mIcon + "</div>";
+      mHTML += "<div class='mbTopicIcon'>" + mIcon + "</div>";
       mHTML += mFullTitle + "</div><hide class=\"mbSearch\"><hr class='mbhr'>";
   
       mHTML += mTag.innerHTML;
