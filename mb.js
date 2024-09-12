@@ -251,6 +251,13 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       mHTMLInner += mJSON.title;      
     }
 
+    // 20240912: StarTree: If a node is a help node, show a handshake icon.
+    if(elRecord.hasAttribute('data-help')){
+      mHTMLInner += "&nbsp;<small>🤝</small>";
+    }else if(elRecord.hasAttribute('data-subject')){
+      mHTMLInner += "&nbsp;<small>🎓</small>";
+    }
+
     mHTMLInner += OfflineTag(bOffline);  
     mHTMLInner += "</a>";
     
@@ -260,6 +267,8 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       mHTMLInner += " mbhide";
     }
     mHTMLInner += "'>";     
+
+    
     
     // 20240105: Natalie: If there is no music link, still need the link to the node.
     mHTMLInner += Pin2Code(mJSON);
@@ -312,8 +321,13 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       
       // 20240721: StarTree: If there is no author, don't show the inv section.
       // This is done for the Sitemap node.
-      if(NotBlank(mJSON.author) && !elRecord.hasAttribute('data-chat')){
-        mHTMLInner += "<a class='mbbutton' onclick='AuthorButton(this)' style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></a>";
+      if((NotBlank(mJSON.author) || NotBlank(mJSON.img)) && !elRecord.hasAttribute('data-chat')){
+        // 20240912: StarTree: Use the node image for the button if it exists.        
+        if(IsBlank(mJSON.img)){
+          mHTMLInner += "<a class='mbbutton' onclick='AuthorButton(this)' style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></a>";
+        }else{          
+          mHTMLInner += "<a class='mbbutton' onclick='AuthorButton(this)' style=\"clear:right;position:relative;z-index:1;\"><div class='mbav100r' style=\"background-image:url('" + mJSON.img + "')\"></div></a>";  
+        }        
       }
     }
 
@@ -1516,7 +1530,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20240909 Bigger Title Icons";
+  elContainer.innerHTML = "20240912 Tabbed Main Menu";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark){
