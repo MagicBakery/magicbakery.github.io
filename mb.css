@@ -887,6 +887,7 @@ span.mbIcon > icon{font-size: 0px;}
 .iHatch{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Hatch.png?raw=true');}
 .iHeadphone{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Headphone.png?raw=true');}
 .iHeart{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Heart.png?raw=true');}
+.iHeartBrown{background-image:url('https://github.com/MagicBakery/Icons/blob/main/HeartBrown.png?raw=true');}
 .iHeartEmpty{background-image:url('https://github.com/MagicBakery/Icons/blob/main/HeartEmpty.png?raw=true');}
 .iHourglass{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Hourglass.png?raw=true');}
 .iJam{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Jam.png?raw=true');}
@@ -1237,7 +1238,7 @@ cursor:pointer;
   margin-bottom:-3px;  
   transform:rotate(0deg);
 }
-.mbBoardIcon:hover{
+.mbBoardIcon:active{
   transform:rotate(-20deg);
 }
 .mbTopicIcon{
@@ -1248,7 +1249,7 @@ cursor:pointer;
   margin-bottom:-15px;  
   transform:rotate(0deg);
 }
-.mbTopicIcon:hover{
+.mbTopicIcon:active{
   transform:rotate(-20deg);
 }
 

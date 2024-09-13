@@ -251,12 +251,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       mHTMLInner += mJSON.title;      
     }
 
-    // 20240912: StarTree: If a node is a help node, show a handshake icon.
-    if(elRecord.hasAttribute('data-help')){
-      mHTMLInner += "&nbsp;<small>🤝</small>";
-    }else if(elRecord.hasAttribute('data-subject')){
-      mHTMLInner += "&nbsp;<small>🎓</small>";
-    }
+    
 
     mHTMLInner += OfflineTag(bOffline);  
     mHTMLInner += "</a>";
@@ -272,7 +267,23 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     
     // 20240105: Natalie: If there is no music link, still need the link to the node.
     mHTMLInner += Pin2Code(mJSON);
+
+    // 20240912: StarTree: If a node is a help node, show a handshake icon.
+    if(elRecord.hasAttribute('data-help')){
+      mHTMLInner += "<span class='mbbutton mbRef'><lnk>202405051137|🤝</lnk>&nbsp;</span>"
+      //mHTMLInner += "<span class='mbRef' title='This is a help node.'>🤝</span>";
+    }else if(elRecord.hasAttribute('data-subject')){
+      mHTMLInner += "<span class='mbbutton mbRef'><lnk>202403231454|🎓</lnk>&nbsp;</span>"
+      //mHTMLInner += "<span class='mbRef' title='This is a subject node.'>🎓</span>";
+    }else{
+      mHTMLInner += "<span class='mbbutton mbRef'><lnk>202208172056|🥨</lnk>&nbsp;</span>"
+    }
+
     mHTMLInner += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>½</button>"
+
+
+    
+
     mHTMLInner += "<div class='mbCB'></div><hr>";
 
     // BANNER
@@ -323,7 +334,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       // This is done for the Sitemap node.
       if((NotBlank(mJSON.author) || NotBlank(mJSON.img)) && !elRecord.hasAttribute('data-chat')){
         // 20240912: StarTree: Use the node image for the button if it exists.        
-        if(IsBlank(mJSON.img)){
+        if(IsBlank(mJSON.img) || NotBlank(mCardList)){
           mHTMLInner += "<a class='mbbutton' onclick='AuthorButton(this)' style='clear:right;position:relative;z-index:1'><div class='mbav100r mb" + mJSON.author + "'></div></a>";
         }else{          
           mHTMLInner += "<a class='mbbutton' onclick='AuthorButton(this)' style=\"clear:right;position:relative;z-index:1;\"><div class='mbav100r' style=\"background-image:url('" + mJSON.img + "')\"></div></a>";  
@@ -367,7 +378,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       // 20240304: Ivy: Need to show parent link
       if(NotBlank(mJSON.parentid)){
         //mHTMLInner += "<div style='padding-left:28px;font-size:14px;line-height:16px'><lnk>"+mJSON.parentid+"|"+mJSON.parentname+"</lnk></div>";
-        mHTMLInner += "<lnk>"+mJSON.parentid+"|🤎"+mJSON.parentname+"</lnk> ";
+        mHTMLInner += "<lnk>"+mJSON.parentid+"|🤎&nbsp;"+mJSON.parentname+"</lnk> ";
       }
 
       
@@ -1732,6 +1743,7 @@ function MacroIcons(el,iHTMLInner){
     ["Hatch","🐣"],
     ["Headphone","🎧"],
     ["Heart","❤️"],
+    ["HeartBrown","🤎"],
     ["HeartEmpty","🤍"],
     ["Hourglass","⏳"],
     ["Jam",":Jam:"],
