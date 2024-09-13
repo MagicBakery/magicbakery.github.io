@@ -43,10 +43,12 @@ function AtGitHub(){
 function AuthorButton(elAuthor){
   // 20240730: StarTree: This handles the effect when the big author button is pressed.
   // Algorithm: Interpret the current state and cycle through these states:
+  // 20240913: StarTree: Changed to Card > List > None > Both.
   // 1) [2] HIDE BANNER | SHOW SIDEPANEL 
-  // 2) [0] SHOW BANNER | SHOW SIDEPANEL 
-  // 3) [1] SHOW BANNER | HIDE SIDEPANEL
-  // 4) [3] HIDE BANNER | HIDE SIDEPANEL 
+  // 2) [1] SHOW BANNER | HIDE SIDEPANEL  
+  // 3) [3] HIDE BANNER | HIDE SIDEPANEL 
+  // 4) [0] SHOW BANNER | SHOW SIDEPANEL 
+  
   var elBoard = SearchPS(elAuthor,"board");
   var elBanner = elBoard.querySelector("[Banner]");
   var elSidePanel = elBoard.querySelector("[SidePanel]");
@@ -66,10 +68,10 @@ function AuthorButton(elAuthor){
   // On Desktop:
   if(!AtMobile()){
     switch(mState){
-      case 2: ToggleHide(elBanner); return;
+      case 2: ToggleHide(elBanner); ToggleHide(elSidePanel); return;
+      case 1: ToggleHide(elBanner);return;
+      case 3: ToggleHide(elBanner); ToggleHide(elSidePanel); return;
       case 0: ToggleHide(elSidePanel); return;
-      case 1: ToggleHide(elBanner); return;
-      case 3: ToggleHide(elSidePanel); return;
     }
   }else{ // On Mobile: only the side panel or the banner should be displayed. so cycle through these: If Both are shown, the next step should hide the banner.
   // X) [0] SHOW BANNER | SHOW SIDEPANEL
@@ -1734,6 +1736,7 @@ function MacroIcons(el,iHTMLInner){
     ["Close",":Close:"],
     ["CornerRibbon",":CornerRibbon:"],
     ["Correct","✔"],
+    ["Compass","🧭"],
     ["Dice","🎲"],
     ["Done","✅"],
     ["Dove","🕊️"],
@@ -1764,6 +1767,7 @@ function MacroIcons(el,iHTMLInner){
     ["Pudding","🍮"],
     ["Question",":?:"],
     ["Rock","🪨"],
+    ["Scale","⚖️"],
     ["School","🏫"],
     ["Seeding","🌱"],
     ["ShootingStar","🌠"],
@@ -2055,6 +2059,9 @@ function MacroResItem(mTag){
     mHTML += "<center style=\"color:green\"><b>AVAILABLE</b></center>";
   }else if(mTag.hasAttribute('unavailable')){
     mHTML += "<center style=\"color:darkgoldenrod\"><b>IN USE</b></center>";
+  }else if(mTag.hasAttribute('open')){ 
+    // Open Discussion
+    mHTML += "<center style=\"color:green\"><b>OPEN</b></center>";
   }else if(bSpoiler){
     mHTML += "<center><note subtitle=\"Reveal Spoiler\">" + mTitle+ "</note></center>";
   }
@@ -2943,6 +2950,7 @@ function ResIcon(mRes){
   // RULE: If the RES has one of these status attribute, then ignore any specified icon.
   if(mRes.hasAttribute('todo')){return "📌";}
   if(mRes.hasAttribute('unanswered')){return "📌";}
+  if(mRes.hasAttribute('open')){return "💬";}
   if(mRes.hasAttribute('done')){return "✅";}
   if(mRes.hasAttribute('answered')){return "✅";}
   
