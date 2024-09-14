@@ -380,7 +380,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       // 20240304: Ivy: Need to show parent link
       if(NotBlank(mJSON.parentid)){
         //mHTMLInner += "<div style='padding-left:28px;font-size:14px;line-height:16px'><lnk>"+mJSON.parentid+"|"+mJSON.parentname+"</lnk></div>";
-        mHTMLInner += "<lnk>"+mJSON.parentid+"|🤎&nbsp;"+mJSON.parentname+"</lnk> ";
+        mHTMLInner += "<lnk>"+mJSON.parentid+"|🤎"+mJSON.parentname+"</lnk> ";
       }
 
       
@@ -421,7 +421,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
 
       // STEP: Show discussion list query button
       //mHTMLInner += "<a class='mbbutton' onclick=\"QueryAllPSL(this,'[data-" + mJSON.id + "]',false,'board')\">💬 Discussions</a>";
-      mHTMLInner += "<a class='mbbutton' onclick=\"QSLBL(this,'[id][date][time][data-" + mJSON.id + "],[id][date][time]:has([data-" + mJSON.id + "])')\">💬 Discussions</a>";
+      mHTMLInner += "<a class='mbbutton' onclick=\"QSLBL(this,'[id][date][time][data-" + mJSON.id + "],[id][date][time]:has([data-" + mJSON.id + "])')\">💬Discussions</a>";
       
       // 20240804: StarTree: Edit Mode Button @@@@
       if(NotBlank(mNodeID)){
