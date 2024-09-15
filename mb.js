@@ -1735,7 +1735,7 @@ function MacroIcons(el,iHTMLInner){
     ["Clipboard","📋"],
     ["Close",":Close:"],
     ["CornerRibbon",":CornerRibbon:"],
-    ["Correct","✔"],
+    ["Correct","✔️"],
     ["Compass","🧭"],
     ["Dice","🎲"],
     ["Done","✅"],
