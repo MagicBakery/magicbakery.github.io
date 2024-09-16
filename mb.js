@@ -1722,27 +1722,33 @@ function MacroIcons(el,iHTMLInner){
   }
   
   const mIconList = [
+    ["Apple","🍎"],
     ["Archive",":Archive:"],
     ["Archive1",":Archive1:"],
     ["Archive2",":Archive2:"],
     ["Archive3",":Archive3:"],
+    ["Backpack","🎒"],
     ["Bell","🔔"],
     ["BlankBox","□"],
     ["Bread","🍞"],
+    ["Calendar","📅"],
     ["Camp","🏕️"],
     ["Checker",":Checker:"],
     ["Chick","🐤"],
+    ["Circus","🎪"],
     ["Clipboard","📋"],
     ["Close",":Close:"],
     ["CornerRibbon",":CornerRibbon:"],
     ["Correct","✔️"],
     ["Compass","🧭"],
+    ["Crown","👑"],
     ["Dice","🎲"],
     ["Done","✅"],
     ["Dove","🕊️"],
     ["Eagle","🦅"],
     ["Egg","🥚"],
     ["Fan","🪭"],
+    ["Handshake","🤝"],
     ["Hatch","🐣"],
     ["Headphone","🎧"],
     ["Heart","❤️"],
@@ -1756,10 +1762,13 @@ function MacroIcons(el,iHTMLInner){
     ["Lyre",":Lyre:"],
     ["Magnifier","🔍"],
     ["MantleClock","🕰️"],
+    ["Mailbox","📬"],
     ["Owl","🦉"],
     ["Palette","🎨"],
     ["Pancake","🥞"],
     ["Pencil","✏️"],
+    ["Phoenix","🐦‍🔥"],
+    ["Phone","☎️"],
     ["Pie","🥧"],
     ["Pin","📌"],
     ["PostHorn","📯"],
@@ -1771,8 +1780,10 @@ function MacroIcons(el,iHTMLInner){
     ["School","🏫"],
     ["Seeding","🌱"],
     ["ShootingStar","🌠"],
+    ["ShoppingCart","🛒"],
     ["SquareCap","🎓"],
     ["Star","⭐"],
+    ["Waffle","🧇"],
     ["Wand","🪄"],
     ["WingL",":WingL:"],
     ["WingR",":WingR:"],
@@ -3763,12 +3774,12 @@ function MMInner(el,mMacro){
     elTemp.style.margintop = "4px";
     elTemp.title = mNode;
     if(NotBlank(mMacro.music)){
-      elTemp.innerHTML = "<a class='mbbutton' onclick=\"Music('"+mMacro.music+"')\" title=\"Play theme music\">🎧</a>";
+      elTemp.innerHTML = "<a class='mbbutton' onclick=\"Music('"+mMacro.music+"')\" title=\"Play theme music\">🎧</a> ";
     }
     // 20231229: Patricia: Open Youtube link to music player.
     if(NotBlank(mMacro.yt)){
       var mURL = "https://www.youtube.com/watch?v=" + mMacro.yt + "&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx";
-      elTemp.innerHTML += "<a class='mbbuttonEx' onclick=\"ExURL('"+ mURL + "');return false;\" href='" +mURL+"'>🎧</a>";
+      elTemp.innerHTML += "<a class='mbbuttonEx' onclick=\"ExURL('"+ mURL + "');return false;\" href='" +mURL+"'>🎧</a> ";
 
     }
     // 20240330: StarTree: Node visit marking
@@ -4205,7 +4216,7 @@ function SearchWrapper(elScope,iInner,bShow){
   "<a class=\"mbbutton\" style=\"float:right\" onclick=\"ToggleHeight(this)\">🦒</a>" + 
   "<a class=\"mbbutton\" onclick=\"QSLSortByName(this)\">🍎</a> " +
   "<a class=\"mbbutton\" onclick=\"QSLSortByIcon(this,'📌')\">📌</a> " +
-  "<a class=\"mbbutton\" onclick=\"QSLSortByDate(this)\" title=\"Sort by registry date\">🗓️</a> " ;
+  "<a class=\"mbbutton\" onclick=\"QSLSortByDate(this)\" title=\"Sort by registry date\">📅</a> " ;
   
 
   // 20240720: StarTree: If there is a search section, add it here.
@@ -5415,7 +5426,7 @@ function QSLContentCompose(bOffline,elRecords,elSearchList,mDate){
       + "<input type='text' onclick='TextSearchPS(this)' onkeyup='TextSearchPS(this)' placeholder='Search...' title='Input a keyword' style='width:80px'> "
       + "<a class='mbbutton' onclick='QSLSortByName(this)'>🍎</a> " 
       + "<a class=\"mbbutton\" onclick=\"QSLSortByIcon(this,'📌')\">📌</a> "
-      + "<a class='mbbutton' onclick='QSLSortBy(this,\"date\")'>🗓️</a> "
+      + "<a class='mbbutton' onclick='QSLSortBy(this,\"date\")'>📅</a> "
       + "<a class='mbbutton' onclick='QSLSortBy(this,\"size\")'>🐘</a> "
       + "<a class='mbbutton' onclick='QSLSortRandom(this)'>🎲</a>"
       + "</small></hide>";
@@ -7063,8 +7074,8 @@ function FPSepia(mZArray,mCurMax){
     if(mZArray[i][0] == 0){
       // If the FP is not shown, grey out its button
   
-      if(false && mButton.innerHTML=="🎧"){ // This icon is abnormally dark to begin with.
-        mButton.style.opacity = 0.15;
+      if(mButton.innerHTML=="🎧"){ // This icon is abnormally dark to begin with.
+        mButton.style.opacity = 1;
       }else{
         mButton.style.opacity = 0.1;
       }
