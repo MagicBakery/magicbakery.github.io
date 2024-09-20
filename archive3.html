@@ -10495,7 +10495,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240916')">16<br><div class="mbavem mbLRRH"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240917')">17<br><div class="mbavem mbLRRH"></div></td>  
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240918')">18<br><div class="mbavem mbHelen"></div></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240919')">19<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240919')">19<br><div class="mbavem mbTanya"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240920')">20<br>&nbsp;</td>  
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240921')">21<br>&nbsp;</td>
                 </tr>
@@ -10550,7 +10550,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240916')">16<br>💟</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240917')">17<br>🌳</td>  
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240918')">18<br>🌳</td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240919')">19<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240919')">19<br>👑</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240920')">20<br>&nbsp;</td>  
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20240921')">21<br>&nbsp;</td>
                 </tr>
@@ -31838,7 +31838,7 @@
     {"name":"P4","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
-<div id="P202405010908" date='20240501' time='0908' data-skill data-Herald data="guild" data-quest area="guild">
+<div id="P202405010908" date='20240501' time='0908' data-skill data-Herald data="guild" data-quest area="guild" data-guild>
   <card DTS='20240501091031' title="Magic Bakery Inbox" subtitle="AKA Red's Drawer" img='https://cdn.pixabay.com/photo/2014/10/29/05/52/mailbox-507594_640.jpg'>If you don't know where a discussion should be, start here. We will move it to the right place.</card>
 	<content>
     <topic DTS='20240502071925' Icon='🌱' subtitle='About'>
@@ -31989,8 +31989,6 @@
         </topic>
       </ul>
     </topic>
-    
-
     <topic DTS='20240501091729' Icon='📯' subtitle='@Home'>  
       
       <msg DTS='20231112112117' SPK='Casey' EXP Icon='📌'>Register bicycle?</msg>
@@ -32016,11 +32014,12 @@
         <msg DTS="20240723213244" SPK="Skyle" EXP=2 Icon="🗃️">11 remaining. There are topics in the email account to go over.</msg>
       </note>
     </topic>
-
-
-    
 	</content>
 	<inv>
+    <res item="24VKP99F" title="Quotes" tags="">
+      <msg DTS='20240918151549' SPK='Black' EXP Icon='📌'>The quote nodes should be combined. (?)</msg>
+      <msg DTS='20240918145354' SPK='P4' EXP Icon='📌'>Need a MOO also since we have BAA .</msg>
+    </res>
     <res item="24VJ39A1" title="Penny Solution" tags="">
       <msg DTS="20240918034118" SPK="Black" EXP Icon="📌">This is an engineering exercise where, given a solution, ask how the result can be achieved with one-tenth its cost.</msg>
       <msg DTS="20240918034415" SPK="Black" EXP Icon="🔍">The question is aimmed at discovering improvements cutting out wasteful efforts of a solution by drawing the engineering adage "The question is not whether it can or can't, but how."</msg>
@@ -32069,6 +32068,23 @@
     </res>
     <res item="24VHP554" title="20240917 Discussion" tags="">
       <msg DTS='20240917192117' SPK='Ledia' EXP Icon='📌'>What is the difference between the inbox and the help center?</msg>
+      <msg DTS="20240920074556" SPK="Black" EXP Icon="🧭">I think the Inbox can be more for issues about the guild, and Help Center could be for issues we want others to see. Help Center res list can be like the headlines.</msg>
+      <msg DTS="20240920074858" SPK="Ledia" EXP Icon="⚔️">But I thought the point of filters and tags is that we don't need to go to check different lists to know what is happening. We could just go to one list and toggle the filter depending on what we want to see.</msg>
+      <msg DTS="20240920075013" SPK="Black" EXP Icon="🔍">But a new visitor will not know about the filters and they would see many topics about the guild that have no relevance to them and not written in a way for others to understand.</msg>
+      <msg DTS="20240920075112" SPK="|Ledia|Black|" EXP Icon="💟">True.</msg>
+      <msg DTS="20240920075141" SPK="LRRH" EXP Icon="🧭">The guild inbox is a buffer for transferring entries from Guild Log and Google Form. It is kind of a Todo list for us to process.</msg>
+      <msg DTS="20240920075302" SPK="Evelyn" EXP Icon="💗">I like the idea that the help center res list shows nodes that we updated for solving an issue outside the guild. The content in the help center res list should help a visitor find a node with answer to their question.</msg>
+      <msg DTS="20240920075958" SPK="Black" EXP Icon="🐣">So if I have a topic to discuss from NextDoor, but I don't know where it should go or what to reply, do I would post it at the Help Center RES because the issue came from NextDoor. Is that correct? Or should I post to Inbox because the purpose of my posting is to get members to help make the response?</msg>
+      <msg DTS="20240920080322" SPK="Ledia" EXP Icon="💡">I still think it is better to have just one list, maybe the code can be updated to automatically hide imported guild topics.</msg>
+      <msg DTS="20240920080451" SPK="Tanya" EXP Icon="🔮">Imported guild topics should already have old dates so they sink to the bottom.</msg>
+      <msg DTS="20240920080618" SPK="Evelyn" EXP Icon="💗">I think Black's case should go to the Help Center because the Help Center should show what current community issues are are looking into.</msg>
+      <msg DTS="20240920081042" SPK="Evelyn" EXP Icon="🐣">I don't feel strongly either way as long as questions are answered and can be intuitively and conveniently located</msg>
+      <msg DTS="20240920081241" SPK="Ivy" EXP Icon="📌">I think the solution is a personalized query, which you could code using local node content.</msg>
+      <msg DTS="20240920081739" SPK="Ledia" EXP Icon="⚔️">New RES topics don't have tags for querying though.</msg>
+      <msg DTS="20240920081836" SPK="Ivy" EXP Icon="📌">But you could query from both Inbox and Help Center and display on the same result list.</msg>
+      <msg DTS="20240920082015" SPK="Black" EXP Icon="🌱">Let me just try posting a NextDoor topic at Help Center and see what happens.</msg>
+
+
     </res>
     <res item="24VH0876" title="Peace Ranking" tags="">
       <msg DTS='20220530070913' SPK='LRRH' EXP Icon='📌'>Naming courtesy <url>https://twitter.com/LRRHBakery/status/1519722474895642625</url></msg>
@@ -32404,6 +32420,21 @@
     </topic>
 	</content>
 	<inv>
+    <res item="24VL8553" title="Sales Tax Increase" tags="Tax, Budget, Logic" node="202309282125">
+      <msg DTS="20240920082310" SPK="Black" EXP Icon="📌">There is a NextDoor thread at about a ballot measure on sales tax increase with logical fallacies in that thread. There are more than one node we could update. What is our strategy?</msg>
+      <msg DTS="20240920082554" SPK="Tanya" EXP Icon="🔮">Identify what topics to respond to, then prioritize if needed.</msg>
+      <msg DTS="20240920082800" SPK="Evelyn" EXP Icon="⚖️">I think classifying the ballot is more important than addressing the logical fallacies. A sales tax increase seems to be a punishment for people who buy things. Why should they be punished?</msg>
+      <msg DTS="20240920083146" SPK="Tanya" EXP Icon="🔮">Evelyn's priority can go to a "Culture" section with added content in Principles. I think we can just start updating the Taxation node again.</msg>
+      <msg DTS="20240920083544" SPK="Ledia" EXP Icon="📌">I think this topic is also relatd to how to evaluate policies in general. Adding three links to this RES item.</msg>
+      <msg DTS="20240920084109" SPK="|Tanya|Ledia|" EXP Icon="💟">I agree with Ledia that Policy Evaluation should be updated first.</msg>
+      <msg DTS="20240920084250" SPK="Evelyn" EXP Icon="💗">I like how the links in the bottom make this RES entry look like our quest card design. We noticed an issue, and we are listing the ingredients we need to solve it.</msg>
+
+      <hr>
+      <lnk>202309282125|⚖️ Policy Evaluation</lnk>
+      <lnk>202209130935|👑 Taxation</lnk> 
+      <lnk>202207241111|🍂 Biases & Fallacies</lnk>
+
+    </res>
     <res item="24VH03F3" title="Homelessness" tags="">
       <msg DTS="20240917001801" SPK="LRRH" EXP Icon="📌">Homelessness may not be solved by just providing housing because being homeless could just be an effect of other problems. A home is probably just one of their needs. Is there a better word to describe the issue?</msg>
       <msg DTS='20240902082639' SPK='Black' EXP Icon='📌'>Request for solution <url>https://nextdoor.com/p/Y7BndqnMp8Pq/c/1213834965</url></msg>
@@ -43455,7 +43486,7 @@
         <msg DTS="20240914201038" SPK="Ivy" EXP Icon="🔍">The cake squad members could decide based on their own team rule that they will let the community member decide how much effort the team will help. But I don't think that step is necessarily anymore.</msg>
         <msg DTS="20240914201246" SPK="Ivy" EXP Icon="🔍">In quest society, if there are more people to help than you can help, just send a flare for more people to join as helpers. It shouldn't resort to cake squad members prioritizing among themselves.</msg>
         <msg DTS="20240914201504" SPK="Ivy" EXP Icon="🔍">The priority method Red describes might be what happens when a quest society is tiny and resources are limited. Then the society has a choice to make: Are its laws similar to cake squad where each person gets a donatable token, or would it keep helping (potentially on the same client) until its resources run out and leave nothing for the next client?</msg>
-        <msg DTS="20240914201810" SPK="Ivy" EXP Icon="🔍">For resources that are not physically limiedt, quest society would just let it happen without preventing an eager helper from earning quest credits. But there is a pacing consideration for resources like flour in a silo. Would you let the first quest of the year spend the stockpile and leave no reserve for the rest of the year? That requires at least a discussion if not a vote.</msg>
+        <msg DTS="20240914201810" SPK="Ivy" EXP Icon="🔍">For resources that are not physically limited, quest society would just let it happen without preventing an eager helper from earning quest credits. But there is a pacing consideration for resources like flour in a silo. Would you let the first quest of the year spend the stockpile and leave no reserve for the rest of the year? That requires at least a discussion if not a vote.</msg>
         <msg DTS="20240914202133" SPK="Ivy" EXP Icon="🔍">In general quest society avoids that issue by not maintaining any communal resource. When a resource doesn't have an owner, the members can bid for ownership in whole or in parts. Someone might own the silo, but not the flour inside. The flour ownership is handled just like a bank.</msg>
         <msg DTS="20240914202600" SPK="Ivy" EXP Icon="🔍">A person who owns a share of the flour can assign it to be available for all quests. The quest resource matching system will use it as appropriate and credit the owner. The resource matcher will maximize overall help by first using up designated resources, then general resources.</msg>
         <msg DTS="20240914203138" SPK="|Tanya|Ivy|" EXP Icon="📌">Pinned for the content to be organized at the quest society node.</msg>
@@ -43917,6 +43948,61 @@
   ]}</macro>
 </div><!-- STATUS -->
 <div date="20240919" time="2359" data-status="">
+  <macro>{"cmd":"daisy2","issues":"0","quests":"408","activities":[
+    {"ch":"12","rank":"A","updates":"1","last":"20240908"},
+    {"ch":"26","rank":"C","updates":"1","last":"20240908"},
+    {"ch":"33","rank":"A","updates":"2","last":"20240908"},
+    {"ch":"29","rank":"A","updates":"2","last":"20240908"},
+    {"ch":"11","rank":"C","updates":"1","last":"20240909"},
+    {"ch":"25","rank":"D","updates":"2","last":"20240911"},
+    {"ch":"22","rank":"A","updates":"2","last":"20240911"},
+    {"ch":"5","rank":"S","updates":"3","last":"20240911"},
+    {"ch":"13","rank":"B","updates":"2","last":"20240912"},
+    {"ch":"18","rank":"B","updates":"2","last":"20240912"},
+    {"ch":"16","rank":"A","updates":"2","last":"20240913"},
+    {"ch":"17","rank":"A","updates":"3","last":"20240913"},
+    {"ch":"35","rank":"B","updates":"2","last":"20240914"},
+    {"ch":"28","rank":"D","updates":"1","last":"20240914"},
+    {"ch":"15","rank":"B","updates":"3","last":"20240914"},
+    {"ch":"34","rank":"A","updates":"3","last":"20240915"},
+    {"ch":"7","rank":"C","updates":"3","last":"20240915"},
+    {"ch":"20","rank":"A","updates":"2","last":"20240915"},
+    {"ch":"32","rank":"A","updates":"4","last":"20240915"},
+    {"ch":"19","rank":"D","updates":"1","last":"20240915"},
+    {"ch":"23","rank":"D","updates":"1","last":"20240915"},
+    {"ch":"14","rank":"C","updates":"2","last":"20240915"},
+    {"ch":"27","rank":"A","updates":"2","last":"20240915"},
+    {"ch":"31","rank":"A","updates":"3","last":"20240915"},
+    {"ch":"30","rank":"B","updates":"3","last":"20240916"},
+    {"ch":"24","rank":"A","updates":"2","last":"20240917"},
+    {"ch":"21","rank":"S","updates":"4","last":"20240918"}
+    ],"players":"","merits":"","recognitions":"Kisaragi, LRRH, StarTree","kudos":"","awards":"Arcacia, Emi, Evelyn, James, Kisaragi, LRRH, P4, Skyle, StarTree, Vladanya, Zoey","top":[
+    {"name":"Tanya","score":"23"},
+    {"name":"LRRH","score":"22"},
+    {"name":"Skyle","score":"14"},
+    {"name":"StarTree","score":"14"},
+    {"name":"Kisaragi","score":"12"},
+    {"name":"Evelyn","score":"12"},
+    {"name":"Zoey","score":"11"},
+    {"name":"James","score":"10"},
+    {"name":"Vladanya","score":"8"},
+    {"name":"P4","score":"7"},
+    {"name":"Arcacia","score":"7"},
+    {"name":"Emi","score":"6"},
+    {"name":"Black","score":"6"},
+    {"name":"Ledia","score":"5"},
+    {"name":"Fina","score":"3"},
+    {"name":"Helen","score":"3"},
+    {"name":"Casey","score":"3"},
+    {"name":"Ivy","score":"3"},
+    {"name":"Vivi","score":"3"},
+    {"name":"Koyo","score":"1"},
+    {"name":"V","score":"1"},
+    {"name":"Natalie","score":"1"},
+    {"name":"Sylvia","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div date="20240920" time="2359" data-status="">
   <macro>{"cmd":"daisy2","issues":"0","quests":"395","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
