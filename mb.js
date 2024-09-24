@@ -1748,6 +1748,8 @@ function MacroIcons(el,iHTMLInner){
     ["Eagle","🦅"],
     ["Egg","🥚"],
     ["Fan","🪭"],
+    ["Folders","🗂️"],
+    ["Giraffe","🦒"],
     ["Handshake","🤝"],
     ["Hatch","🐣"],
     ["Headphone","🎧"],
