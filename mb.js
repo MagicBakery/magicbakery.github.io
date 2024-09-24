@@ -152,6 +152,8 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll,elArchives){
 
   
 
+  
+
   // STEP: Create a container within the Board after the control section for the content.
   //       ((The board itself has a close button))
   var elContainer = document.createElement("span");
@@ -280,6 +282,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     }else{
       mHTMLInner += "<span class='mbbutton mbRef'><lnk>202208172056|🥨</lnk>&nbsp;</span>"
     }
+
 
     mHTMLInner += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>½</button>"
 
@@ -486,14 +489,11 @@ function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget,elArchives){
   if(iNodeID.slice(0,1).toLowerCase()=="p"){
     iNodeID = iNodeID.slice(1);
   }
-
-
   // 20240507: Sasha: If iNodeID is a DTS number, call another function
   if(String(iNodeID).length==14){
     BoardLoadDTS(el,iNodeID,iDoNotScroll,iNoReTarget,elArchives);
     return;
   }
-
 
   // 20231006: Black: Make a board in the current column panel given the ID.
   var mBoard="";
@@ -506,7 +506,10 @@ function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget,elArchives){
     if(NotBlank(mBoard) ){
       curBoardID = mBoard.getAttribute('board');
     }
-  }catch(error){}
+  }catch(error){
+    
+  }
+  
 
   // 20240325: StarTree: Find the target panel if there is one.
   // Do not retarget if the iNoReTarget flag is set.
@@ -514,8 +517,16 @@ function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget,elArchives){
     var elPanel = PanelGetTarget();
     if(NotBlank(elPanel)){
       el = elPanel.firstElementChild;
+    }else{
+      // 20240924: Tanya: Make BoardLoad work normally when there is no panel.
+      BoardLoadPF(el,iNodeID);
+      return;
     }
   }
+
+
+
+
   try{
     // 20231030: StarTree: If there is a board, add it after the board.
     mBoard = SearchPS(el,'board');
@@ -547,6 +558,13 @@ function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget,elArchives){
     // STEP: Create a new container with a close button.
     elBoard = BoardAdd(mControl);  
   }
+  
+  // 20240924: Tanya: If the ID is Feedback, load the feedback form instead.
+  if(iNodeID=="Feedback"){
+    IFrameFeedback(elBoard);
+    return;
+  }
+
   BoardFill(elBoard,iNodeID,iDoNotScroll,elArchives);
   var elContainer = document.getElementById('MBJQSW');  
   var prevHTML = $(elContainer).html();
@@ -805,11 +823,13 @@ function IFrameFeedback(el){
   mHTML += "<a onClick='IFrameFeedback(this)' title='Feedback Form'>💌</a> <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a>";
   mHTML += "<iframe src='" + mInput + "' title='Google Form' style='border:none;width:100%;height:calc(100vh - 190px)' allow='clipboard-read; clipboard-write'></iframe>";
   
-  var elTemp = document.createElement("div");
+  el.innerHTML = mHTML;
+  el.setAttribute('Board','');
+  /*var elTemp = document.createElement("div");
   elTemp.innerHTML = mHTML;
   elTemp.classList.add('mbscroll');
   elTemp.setAttribute('Board','');
-  elTemp.style.marginBottom = "0px";
+  elTemp.style.marginBottom = "0px";*/
   
   var mPanel;
   try{
@@ -818,8 +838,8 @@ function IFrameFeedback(el){
     mPanel = null;
   }
   if(mPanel != null){
-    mPanel.firstElementChild.nextElementSibling.prepend(elTemp);  
-    elTemp.scrollIntoView(true);
+    //mPanel.firstElementChild.nextElementSibling.prepend(elTemp);  
+    el.scrollIntoView(true);
     return;
   }
 }
@@ -1543,7 +1563,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20240912 Tabbed Main Menu";
+  elContainer.innerHTML = "20240924 Feedback Widget Reload";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark){
@@ -7167,15 +7187,19 @@ function ReloadFP(el){
 
   var mDTS = elFP.getAttribute('FP');
   var mHTML="";
-
   // 20240421: Arcacia: Special handling for the Feedback Form.
-  if(mDTS=="Feedback"){
+  if(mDTS=="Feedback"){  
     var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
     mHTML = "<span class='mbRef'><a class='mbbutton' onClick='HideFP(this);FPGetTopZ()' style='float:right' title='Close'><span class=\"mbIcon iClose\"></span></a></span>";
-    mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>⅔</button>"
-    mHTML += "💌 <a class='mbbutton' onClick='HideFP(this)' title='Feedback Form'>Feedback Form</a><span><hr>";
+    // 20240924: Tanya: Widgets don't have height button and this button is not working properly.
+    //mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>⅔</button>"
+    // 20240924: Tanya: The widget needs a way to refresh because sometimes the google form can crash.
+
+    mHTML += "<a class='mbbutton' onClick=\"BoardLoadPF(this,'Feedback');return false;\" target=\"_blank\" title=\"Feedback\" href=\"https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform\">💌</a> "; 
+
+    mHTML += "<a class='mbbutton' onClick='ReloadFP(this)' title='Reload Feedback Form'>Feedback Form</a><span><hr>";
     mHTML += "<iframe src='" + mInput + "' title='Google Form' style='border:none;width:100%;height:45vh' allow='clipboard-read; clipboard-write'></iframe></span>";
-    el.innerHTML = mHTML;
+    elFP.innerHTML = mHTML;
 
     return;
   }
@@ -7215,6 +7239,7 @@ function ReloadFPEL(elWidget,elFP,mDTS,bOffline){
   mHTML += "<a class='mbbutton' title='Hide Widget' onclick='HideFP(this)'>:Close:</a>";
   mHTML += "<a class='mbbutton' title='Cycle dock position' onclick='WidgetDockCycle(this)'>▶</a>";
   mHTML += "</span>";
+
   mHTML += "<lnk>" + mNodeID + "|" + mIcon + "</lnk> ";
   mHTML += "<span class='mbbutton' title='Refresh' onclick='ReloadFP(this)'>"+mTitle+ "</span></small>";
   mHTML += OfflineTag(bOffline) + "<hr>";
