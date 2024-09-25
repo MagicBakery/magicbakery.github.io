@@ -1547,23 +1547,27 @@ function LangIcon(eCode){
 }
 function LatestDate(elScope){
   // 20240725: Patricia: Given a scope, return the largest DTS within.  
-  var mDTSmax = Default(elScope.getAttribute("dts"),0);
-  if(mDTSmax == 0 && elScope.hasAttribute("item")){
-    mDTSmax = DTC("",elScope.getAttribute("item"));
-  }
+  // 20240925: StarTree: Don't use the DTC value if there is DTS.
+  
+  var mDTSmax = Number(Default(elScope.getAttribute("dts"),0));  
   var elDTS = elScope.querySelectorAll("[dts]");
+  var mDTScur = 0;
   for(i=0;i<elDTS.length;i++){
-    let mDTScur = elDTS[i].getAttribute("dts") ;
-    if(mDTScur > mDTSmax){
-      mDTSmax = mDTScur;
-    }
+    mDTScur = Number(elDTS[i].getAttribute("dts"));
+    mDTSmax = Math.max(mDTSmax,mDTScur);
+  }  
+  //if(mDTSmax != 0 && elScope.hasAttribute("item")){
+  if(mDTSmax != 0){
+    mDTScur = Number(DTC("",elScope.getAttribute("item")));
   }
+  mDTSmax = Math.max(mDTSmax,mDTScur);
+  mDTSmax = mDTSmax.toString();
   return mDTSmax.slice(0,8);
 }
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20240924 Feedback Widget Reload";
+  elContainer.innerHTML = "20240925 RES Sort By Date Tweak";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark){
@@ -1788,6 +1792,7 @@ function MacroIcons(el,iHTMLInner){
     ["Owl","🦉"],
     ["Palette","🎨"],
     ["Pancake","🥞"],
+    ["Paw","🐾"],
     ["Pencil","✏️"],
     ["Phoenix","🐦‍🔥"],
     ["Phone","☎️"],
@@ -5113,11 +5118,13 @@ function QSLSortByIcon(el,iIcon){
   var elContainer = QSLGetContainer(el);
   var bReversed = QSLSortReverseIfSet(elContainer,iIcon);
   var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
+  let mTotalCount = 0;
   elEntries.forEach((item)=>{
     // STEP: Count the number of such icon in the item.
     // 20240802: Arcacia: First check if there is any "icon" attribute, if not, just match the icon.
     let mCount  = 0;
     let mMarkCount = 0;
+    
     mCount = item.querySelectorAll("[icon]").length;
     if(mCount>0){
       mCount = item.querySelectorAll("[icon=\""+iIcon+"\"]").length;
@@ -5129,7 +5136,7 @@ function QSLSortByIcon(el,iIcon){
       mCount = mCount -mMarkCount;
     }    
     item.firstElementChild.setAttribute("count",mCount);
-
+    mTotalCount += mCount;
     item.firstElementChild.innerHTML = iIcon + "<b>" + mCount + "</b>";
 
     
@@ -5145,6 +5152,9 @@ function QSLSortByIcon(el,iIcon){
     }
   });
   elContainer.scrollTop = -elContainer.scrollHeight;
+  var elControlText = SearchPS(el,"control").firstElementChild;
+  elControlText.innerHTML = "<small><b>Found " + mTotalCount + "</b></small><div  style='display:inline-block;font-size:12px;vertical-align:-0.25em'>" + MacroIcons(null,iIcon) + "</div>"
+
 }
 function QSLSortByName(el){
   // 20240407: Ledia: This function sort the entries recursivly in a QSL by name.
