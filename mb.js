@@ -213,9 +213,6 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   var mNodeID = "";
   //var mProfile = Default(elRecord.getAttribute("data-Profile"),"");
 
-  
-
-
   if(!IsBlank(elContent) && !IsBlank(elNode)){ 
     // 20231224: StarTree: New Format
     var mJSON = JSON.parse(elNode.innerHTML);
@@ -1557,7 +1554,7 @@ function LatestDate(elScope){
     mDTSmax = Math.max(mDTSmax,mDTScur);
   }  
   //if(mDTSmax != 0 && elScope.hasAttribute("item")){
-  if(mDTSmax != 0){
+  if(mDTSmax == 0){
     mDTScur = Number(DTC("",elScope.getAttribute("item")));
   }
   mDTSmax = Math.max(mDTSmax,mDTScur);
@@ -1567,7 +1564,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20240925 RES Sort By Date Tweak";
+  elContainer.innerHTML = "20240926 Daisy Crown Fix";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark){
@@ -3020,6 +3017,8 @@ function ResList(elRecord,bShow){
   // Sub Step: Concatenate the Res Items.
   var mResPack = "";
   elResList.forEach((item)=>{
+    // 20240925: StarTree: Don't include Calendar objects
+    if(item.getAttribute("type")=="calendar"){return;}
     mResPack += item.outerHTML;
   });
 
@@ -3633,8 +3632,10 @@ function MMInner(el,mMacro){
       mScoreList="";
       if(NotBlank(mMacro.top)){
         mHTML += "<center>";
+        mHTML += "<div style='display:inline-block'><div style='margin-bottom: -38px;position:relative;'>👑</div><br>";
         mHTML += "<div class='mbav50t mb" + mMacro.top[0].name;
-        mHTML += "'>👑<br><br><br><br><br><br><b>"+mMacro.top[0].score+"</b></div>";
+        mHTML += "'><br><div style='line-height:40px'>&nbsp;</div><b>"+mMacro.top[0].score+"</b></div>";
+        mHTML += "</div>";
         mHTML += "<div class='mbav50t mb" +  mMacro.top[1].name;
         mHTML += "'><br><br><br><br><br><br><b>"+mMacro.top[1].score+"</b></div>";
         mHTML += "<div class='mbav50t mb" +  mMacro.top[2].name;
@@ -4026,8 +4027,8 @@ function MMInner(el,mMacro){
     mScoreList="";
     if(NotBlank(mMacro.top)){
       mHTML += "<center>";
-      mHTML += "<div class='mbav50t mb" + mMacro.top[0].name;
-      mHTML += "'>👑<br><br><br><br><br><br><b>"+mMacro.top[0].score+"</b></div>";
+      mHTML += "<div class='mbav50t mbIconShift mb" + mMacro.top[0].name;
+      mHTML += "'>👑<br><br><br><br><br><b>"+mMacro.top[0].score+"</b></div>";
       mHTML += "<div class='mbav50t mb" +  mMacro.top[1].name;
       mHTML += "'><br><br><br><br><br><br><b>"+mMacro.top[1].score+"</b></div>";
       mHTML += "<div class='mbav50t mb" +  mMacro.top[2].name;
@@ -4930,6 +4931,7 @@ function DTSPadding(mDTS){
   // The DTS format number has 14 digits YYYYMMDDhhmmss
   var mStr = mDTS.toString();
   var mPow = 14 - mStr.length;
+  mPow = Math.max(0,mPow);
   mStr += "0".repeat(mPow);
   return parseInt(mStr);
 }
