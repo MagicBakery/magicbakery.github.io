@@ -271,13 +271,13 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
 
     // 20240912: StarTree: If a node is a help node, show a handshake icon.
     if(elRecord.hasAttribute('data-help')){
-      mHTMLInner += "<span class='mbbutton mbRef'><lnk>202405051137|🤝</lnk>&nbsp;</span>"
+      mHTMLInner += "<span class='mbbutton mbRef'><lnk>202409271001|🤝</lnk>&nbsp;</span>"
       //mHTMLInner += "<span class='mbRef' title='This is a help node.'>🤝</span>";
     }else if(elRecord.hasAttribute('data-subject')){
-      mHTMLInner += "<span class='mbbutton mbRef'><lnk>202403231454|🎓</lnk>&nbsp;</span>"
+      mHTMLInner += "<span class='mbbutton mbRef'><lnk>202409271001|🎓</lnk>&nbsp;</span>"
       //mHTMLInner += "<span class='mbRef' title='This is a subject node.'>🎓</span>";
     }else{
-      mHTMLInner += "<span class='mbbutton mbRef'><lnk>202208172056|🥨</lnk>&nbsp;</span>"
+      mHTMLInner += "<span class='mbbutton mbRef'><lnk>202409271001|🥨</lnk>&nbsp;</span>"
     }
 
 
@@ -1564,7 +1564,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20240926 Daisy Crown Fix";
+  elContainer.innerHTML = "20240927 Node Type Explanation Link";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark){
