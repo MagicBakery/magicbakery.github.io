@@ -1564,7 +1564,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20240927 Node Type Explanation Link";
+  elContainer.innerHTML = "20241005 Search Result Count";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark){
@@ -2994,10 +2994,10 @@ function ResIcon(mRes){
 
   // RULE: If there is no icon specified, check available flags.
   
-  if(mRes.hasAttribute('unavailable')){return "🟡";}
-  if(mRes.hasAttribute('spoiler')){return "🟤";}
-  if(mRes.hasAttribute('seeking')){return "⚪";}
-  if(mRes.hasAttribute('available')){return "🟢";}
+  if(mRes.hasAttribute('unavailable')){return "💛";}
+  if(mRes.hasAttribute('spoiler')){return "🤎";}
+  if(mRes.hasAttribute('seeking')){return "🤍";}
+  if(mRes.hasAttribute('available')){return "💚";}
 
   // RULE: If it doesn't match any situation above, use a checkmark.
   return "✅";
@@ -3027,7 +3027,7 @@ function ResList(elRecord,bShow){
 
   //DEBUG(mResPack);
   // Sub Step: Call the wrapper function
-  return SearchWrapper(elRecord,mResPack,bShow);
+  return SearchWrapper(elRecord,mResPack,bShow,elResList.length);
 }
 function ModeCSS(mMode){
   // 20240506: Sasha
@@ -4231,7 +4231,20 @@ function SearchPS(el,iAttribute){
     return "";
   }
 }
-function SearchWrapper(elScope,iInner,bShow){
+function SearchRecount(el){
+  // 20241005: StarTree: Recount and display the number of visible topics in the search result list.
+  el.innerHTML = "[###]";
+  var elListArea = SearchPS(el,"control").nextElementSibling;
+  var elTopics = elListArea.querySelectorAll("[topic]");
+  var mCount = 0;
+  elTopics.forEach((mTopic)=>{
+    if(mTopic.parentNode==elListArea && !mTopic.classList.contains("mbhide")){
+      mCount++;
+    }
+  });
+  el.innerHTML = "["+mCount+"]";
+}
+function SearchWrapper(elScope,iInner,bShow,mCount){
   // 20240722: StarTree: Wraps the Inner content with a search frame.
   var mHideClass = "";
   if(!bShow){
@@ -4241,7 +4254,7 @@ function SearchWrapper(elScope,iInner,bShow){
   "<input type=\"text\" onclick=\"TextSearchPN(this)\" onkeyup=\"TextSearchPN(this)\" placeholder=\"Search...\" title=\"Input a keyword\" style=\"width:100px\"> " + 
   "<span>" + 
   "<a class=\"mbbutton\" style=\"float:right\" onclick=\"QSLSortRandom(this)\">🎲</a>" + 
-  "<a class=\"mbbutton\" style=\"float:right\" onclick=\"ToggleHeight(this)\">🦒</a>" + 
+  "<a class=\"mbbutton\" style=\"float:right\" onclick=\"ToggleHeight(this)\" title=\"Toggle full height\">🥞</a>" + 
   "<a class=\"mbbutton\" onclick=\"QSLSortByName(this)\">🍎</a> " +
   "<a class=\"mbbutton\" onclick=\"QSLSortByIcon(this,'📌')\">📌</a> " +
   "<a class=\"mbbutton\" onclick=\"QSLSortByDate(this)\" title=\"Sort by registry date\">📅</a> " ;
@@ -4255,7 +4268,8 @@ function SearchWrapper(elScope,iInner,bShow){
   }
 
   // 20240722: StarTree: Closing the search control section.
-  mHTML +=  "</span>" +
+  mHTML +=  "<a class=\"mbbutton\" count onclick=\"SearchRecount(this)\" style=\"float:right;font-weight:bold;font-size:14px\" title=\"Count\">[" + mCount + "]</a>" +
+          "</span>" +
           "<div class=\"mbpuzzle mbhide\"></div>" + 
         "</div>";
   // Starting the container for the RES content

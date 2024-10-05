@@ -2,14 +2,14 @@
   <content dts="80000000000000" title="Site Search" node="800000000000" icon="🔍">
     <div control="">
       
-      <input type="text" onclick="TextSearchPN(this)" onkeyup="TextSearchPNEV(event,this)" placeholder="Search..." title="Input a keyword" style="width:150px">
+      <input type="text" onclick="TextSearchPN(this)" onkeyup="TextSearchPNEV(event,this)" placeholder="Search..." title="Input a keyword" style="width:125px">
       <span style="float:right">
         <button class="mbbutton" onclick="NodeMarkUseCookie(this)">🍯</button>
       </span>
       <span>
+        <a class="mbbutton" onclick="TextQSL(this)" title="Query nodes with textbox text">🔍</a>
         <a class="mbbutton" onclick="ToggleNextPN(this)" title="Special Queries">📯</a>
         <hide>
-          <small><a class="mbbutton" onclick="TextQSL(this)" title="Query textbox content as tag">🔍 Query Textbox as Text</a></small>
           <hr><!--<h4>📯 Special Queries</h4>-->
 
           <small><lnk>202403231454|:Archive3:</lnk></small>
@@ -604,7 +604,7 @@
                 </div><!--@Carrot / Arcacia-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202207131009|♟️</lnk></span>
-                  <macro>{"guildlog":"21","rank":"U","updates":"0","node":"202208141844","author":"Sasha","chapter":"@Detective","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"21","rank":"B","updates":"1","node":"202208141844","author":"Sasha","chapter":"@Detective","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">           
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"1","icon":"🌺","node":"202207112218","title":"Search Visibility","info":"Follow up with discussion. Fix Index Errors","cmd":"quest"}</macro>  
@@ -614,11 +614,12 @@
                     <macro>{"log":"","priority":"1","icon":"🥯","node":"202302032008","title":"221B Baker Street","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"1","icon":"🏰","node":"202312251111","title":"Arcacian Quest","info":"This is a board game design project.","cmd":"quest"}</macro>                
                     <span class="mbListCapNC mbRankB"></span>
+                    <macro>{"log":"1004","priority":"0","icon":"🎲","node":"202207131009","title":"Board Games","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"0","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
                     
                     <macro>{"log":"","priority":"9","icon":"🔦","node":"202309171832","title":"CSI The Board Game","cmd":"quest"}</macro>                    
                     <span class="mbListCapNC mbRankC"></span>
-                    <macro>{"log":"","priority":"0","icon":"🎲","node":"202207131009","title":"Board Games","info":"","cmd":"quest"}</macro>  
+                     
                     <span class="mbListCapNC mbRankD"></span>  
                     <macro>{"log":"","priority":"9","icon":"📯","node":"202305262224","title":"Leadership","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202208141844","title":"Guild Log Quests","info":"Clear quest at guild log. 2304:6 2305:11 2306:12 2307:9 2404:42 2406:22 2407:21 2408:20 2409:18.","cmd":"quest"}</macro> 
@@ -1011,7 +1012,7 @@
                 </div><!--@Tavern / Sylvia-->           
                 <div class="mbCB">
                   <span style="float:right"><lnk>202303121053|🍀</lnk></span>
-                  <macro>{"guildlog":"8","rank":"D","updates":"1","node":"202208212113","author":"Casey","chapter":"@Treasure","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"8","rank":"C","updates":"2","node":"202208212113","author":"Casey","chapter":"@Treasure","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"0","icon":"🌳","node":"202404042050","title":"Groundskeeping","info":"","cmd":"quest"}</macro>
@@ -1024,7 +1025,7 @@
                     <span class="mbListCapNC mbRankB"></span> 
                     <macro>{"log":"","priority":"0","icon":"🐤","node":"202309060852","title":"Safety Checklists","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"1","icon":"🏰","node":"202312251111","title":"Arcacian Quest","info":"This is a board game design project.","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"9","icon":"🧰","node":"202208212113","title":"Maint. updates","info":"","cmd":"quest"}</macro>  
+                    <macro>{"log":"1004","priority":"9","icon":"🧰","node":"202208212113","title":"Maint. updates","info":"","cmd":"quest"}</macro>  
                     <span class="mbListCapNC mbRankC"></span>
                     <macro>{"log":"","priority":"9","icon":"🧰","node":"202310151140","title":"Handy Skills","info":"","cmd":"quest"}</macro>  
                     <macro>{"log":"","priority":"9","icon":"🧭","node":"202310210023","title":"City Planning","cmd":"quest"}</macro>
@@ -11718,7 +11719,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20241001')">1<br><div class="mbavem mbVivi"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20241002')">2<br><div class="mbavem mbLRRH"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20241003')">3<br><div class="mbavem mbBlack"></div></td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20241004')">4<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20241004')">4<br><div class="mbavem mbLRRH"></div></td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20241005')">5<br>&nbsp;</td>
               </tr>
               <tr>  
@@ -11776,7 +11777,7 @@
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20241001')">1<br>🎁</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20241002')">2<br>🎪</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20241003')">3<br>🏹</td>
-                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20241004')">4<br>&nbsp;</td>
+                <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20241004')">4<br>🎁</td>
                 <td class="mbbuttonCal" onclick="QueryDayP6N(this,'20241005')">5<br>&nbsp;</td>
               </tr>
               <tr>  
@@ -33341,6 +33342,44 @@
     </topic>
 	</content>
 	<inv>
+    <res item="24X4M99D" title="Library" tags="">
+      <msg DTS='20241004131859' SPK='Sasha' EXP Icon='📌'>Need to prioritize making the library available and convenient.</msg>
+      <msg DTS='20241004132843' SPK='LRRH' EXP Icon='🍮'>Need to hide the card on the board game node.</msg>
+      
+      <msg DTS="20241004214211" SPK="Sylvia" EXP Icon="🎻">Hid the card.</msg>
+      <msg DTS="20241004214246" SPK="Sylvia" EXP Icon="📯">It is not obvious where discussion about the board game library should be, so I made a section at inbox at the moment.</msg>
+      <msg DTS="20241004215235" SPK="Sylvia" EXP Icon="📯">Should the library link at the main menu point to just the board game library or a library node that has everything?</msg>
+      <msg DTS="20241004215446" SPK="Ivy" EXP Icon="📌">I think it should have everything. But we could start with just the board game list.</msg>
+      <msg DTS="20241004220334" SPK="Sylvia" EXP Icon="📋">Updated the main menu.</msg>
+      <msg DTS="20241004220416" SPK="LRRH" EXP Icon="📌">Can we add a count of the items on the Res list?</msg>
+      <msg DTS="20241004220744" SPK="Sylvia" EXP Icon="📌">I think the node needs better explanations for how the library works.</msg>
+      <msg DTS="20241004220947" SPK="Tanya" EXP Icon="📯">@Sasha.</msg>
+      <msg DTS="20241004231305" SPK="LRRH" EXP Icon="📌">I think a waffle or a checker cake would look good for the image.</msg>
+      <msg DTS="20241004234910" SPK="|Black|Roger|" EXP Icon="📌">The green circle for availability isn't intuitive. Adding a button for it.</msg>
+      <msg DTS="20241005000739" SPK="LRRH" EXP Icon="🥐">Could we try making the available icon a green heart and the in use icon a yellow heart?</msg>
+      <msg DTS="20241005000905" SPK="StarTree" EXP Icon="⭐">Done!</msg>
+      <msg DTS="20241005002352" SPK="LRRH" EXP Icon="📌">I think we should tag games that are short or casual. And those for kids.</msg>
+      <msg DTS="20241005002504" SPK="Ivy" EXP Icon="📌">There should be an educational tag filter.</msg>
+      <msg DTS="20241005013835" SPK="Sasha" EXP Icon="📌">I think the node needs to be split so we can have another node just for discussions. Maybe we need @Library, then we can discussin the the charter.</msg>
+      <msg DTS="20241005015540" SPK="Ledia" EXP Icon="🔍">What is wrong with just using the same res list for discussions? Discussions don't have an available icon.</msg>
+      <msg DTS="20241005015757" SPK="Sasha" EXP Icon="🔍">The count won't be accurate.</msg>
+      <msg DTS="20241005015823" SPK="Ledia" EXP Icon="⚔️">Most people don't need to see the count. If you want an accurate count, just filter for games first then count.</msg>
+      <msg DTS="20241005020135" SPK="Sasha" EXP Icon="🚀">I think it is strange to show discussion topics when a viewer came to see the game list.</msg>
+      <msg DTS="20241005020551" SPK="Ledia" EXP Icon="💗">Is it? I think those topics are interesting. And I think announcements can show on the same list.</msg>
+
+
+
+
+
+
+    </res>
+    <res item="24X4M558" title="Religion" tags="">
+      <msg DTS='20241004085405' SPK='LRRH' EXP Icon='📌'>Spanish inquisition was part of government <url>https://x.com/Anonimo21147/status/1842177137765396848</url></msg>
+      <msg DTS='20241004091012' SPK='LRRH' EXP Icon='📌'>Condemnation <url>https://x.com/LRRHBakery/status/1842235403828707801</url></msg>
+      <msg DTS='20241004091123' SPK='Ledia' EXP Icon='📌'>Islam inseparable from totalitarianism? <url>https://x.com/HernanArber/status/1841908269809283278</url></msg>
+      <msg DTS='20241004091410' SPK='Ledia' EXP Icon='📌'>Islam evidence <url>https://x.com/sapphire18_/status/1841906608802300004</url></msg>
+      <msg DTS='20240929075928' SPK='LRRH' EXP Icon='📌'>Prayer <url>https://x.com/cybernetic_cat/status/1839657747177972115</url></msg>
+    </res>
     <res item="24X3N5E6" title="@Quest" tags="">
       <msg DTS='20241003204722' SPK='LRRH' EXP Icon='📌'>Should there be @Quest?</msg>
       <msg DTS="20241003223156" SPK="Zoey" EXP Icon="📯">Red's fourth charter. XD</msg>
@@ -33967,6 +34006,7 @@
       <msg DTS='20220824093402' SPK='Black' EXP Icon='📌'>Response <url>https://nextdoor.com/p/G4Xkj8JRp-KW</url></msg>
       <msg DTS='20220614074647' SPK='LRRH' EXP Icon='📌'>Charity and Chef <url>https://twitter.com/LRRHBakery/status/1507018071600295939</url></msg>
       <msg DTS='20220614074613' SPK='LRRH' EXP Icon='📌'>What is Charity? <url>https://twitter.com/LRRHBakery/status/1507021263243382785</url></msg>
+      
     </res>
     <res item="24VMC2FB" title="Rights vs Privileges" tags="">
       <msg DTS='20211230092148' SPK='LRRH' EXP Icon='📌'>Article 19 Universal Declaration of Human Rights <url>https://twitter.com/DavidAltonHL/status/1476474074843037696?t=8-RZApiIbsivZwxmBtQ_Rg&s=19</url></msg>
@@ -34018,6 +34058,7 @@
       <msg DTS="20240920083544" SPK="Ledia" EXP Icon="📌">I think this topic is also related to how to evaluate policies in general. Adding three links to this RES item.</msg>
       <msg DTS="20240920084109" SPK="|Tanya|Ledia|" EXP Icon="💟">I agree with Ledia that Policy Evaluation should be updated first.</msg>
       <msg DTS="20240920084250" SPK="Evelyn" EXP Icon="💗">I like how the links in the bottom make this RES entry look like our quest card design. We noticed an issue, and we are listing the ingredients we need to solve it.</msg>
+      <msg DTS='20241004112600' SPK='Black' EXP Icon='📌'>1% or 100% increase in sales tax and ethical alternatives. <url>https://nextdoor.com/p/XKNrX3H_MNZR/c/1232050609</url></msg>
 
       <hr>
       <lnk>202309282125|⚖️ Policy Evaluation</lnk>
@@ -46982,7 +47023,64 @@
     {"name":"Casey","score":"1"}
   ]}</macro>
 </div><!-- STATUS -->
-<div date="20241005" time="2359" data-status="">
+<div date="20241004" time="2359" data-status="">
+  <macro>{"cmd":"daisy2","issues":"0","quests":"206","activities":[
+    {"ch":"23","rank":"U","updates":"0","last":"20240925"},
+    {"ch":"11","rank":"U","updates":"0","last":"20240925"},
+    {"ch":"12","rank":"U","updates":"0","last":"20240925"},
+    {"ch":"14","rank":"U","updates":"0","last":"20240925"},
+    {"ch":"19","rank":"U","updates":"0","last":"20240925"},
+    {"ch":"5","rank":"U","updates":"0","last":"20240925"},
+    {"ch":"17","rank":"U","updates":"0","last":"20240925"},
+    {"ch":"15","rank":"U","updates":"0","last":"20240926"},
+    {"ch":"34","rank":"U","updates":"0","last":"20240927"},
+    {"ch":"7","rank":"U","updates":"0","last":"20240927"},
+    {"ch":"27","rank":"U","updates":"0","last":"20240927"},
+    {"ch":"28","rank":"U","updates":"0","last":"20240927"},
+    {"ch":"24","rank":"U","updates":"0","last":"20240928"},
+    {"ch":"26","rank":"U","updates":"0","last":"20240929"},
+    {"ch":"33","rank":"U","updates":"0","last":"20241001"},
+    {"ch":"18","rank":"C","updates":"1","last":"20241001"},
+    {"ch":"35","rank":"D","updates":"1","last":"20241001"},
+    {"ch":"30","rank":"D","updates":"1","last":"20241001"},
+    {"ch":"32","rank":"C","updates":"2","last":"20241001"},
+    {"ch":"22","rank":"D","updates":"1","last":"20241001"},
+    {"ch":"29","rank":"D","updates":"1","last":"20241002"},
+    {"ch":"16","rank":"C","updates":"1","last":"20241002"},
+    {"ch":"13","rank":"D","updates":"1","last":"20241002"},
+    {"ch":"25","rank":"A","updates":"1","last":"20241003"},
+    {"ch":"20","rank":"A","updates":"2","last":"20241004"},
+    {"ch":"21","rank":"C","updates":"2","last":"20241004"},
+    {"ch":"31","rank":"B","updates":"1","last":"20241005"}
+    ],"players":"","merits":"","recognitions":"Kisaragi, LRRH, Sylvia","kudos":"","awards":"Albatross, Arcacia, Black, Kisaragi, LRRH, Patricia, Roger, StarTree, Sylvia, Tanya, Vivi","top":[
+    {"name":"LRRH","score":"30"},
+    {"name":"Sylvia","score":"23"},
+    {"name":"StarTree","score":"12"},
+    {"name":"Kisaragi","score":"10"},
+    {"name":"Ledia","score":"10"},
+    {"name":"Black","score":"10"},
+    {"name":"Roger","score":"7"},
+    {"name":"Patricia","score":"7"},
+    {"name":"Sasha","score":"7"},
+    {"name":"Arcacia","score":"7"},
+    {"name":"Tanya","score":"7"},
+    {"name":"Albatross","score":"6"},
+    {"name":"Vivi","score":"6"},
+    {"name":"Zoey","score":"4"},
+    {"name":"Fina","score":"3"},
+    {"name":"James","score":"3"},
+    {"name":"Ivy","score":"3"},
+    {"name":"Evelyn","score":"3"},
+    {"name":"Koyo","score":"2"},
+    {"name":"Skyle","score":"2"},
+    {"name":"Vladanya","score":"1"},
+    {"name":"V","score":"1"},
+    {"name":"Casey","score":"1"},
+    {"name":"Natalie","score":"1"},
+    {"name":"P4","score":"1"}
+  ]}</macro>
+</div><!-- STATUS -->
+<div date="20241005" time="2359" data-status=""></div>
   <macro>{"cmd":"daisy2","issues":"0","quests":"213","activities":[
     
     ],"players":"","merits":"","recognitions":"","kudos":"","awards":"","top":[
