@@ -270,15 +270,8 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     mHTMLInner += Pin2Code(mJSON);
 
     // 20240912: StarTree: If a node is a help node, show a handshake icon.
-    if(elRecord.hasAttribute('data-help')){
-      mHTMLInner += "<span class='mbbutton mbRef'><lnk>202409271001|🤝</lnk>&nbsp;</span>"
-      //mHTMLInner += "<span class='mbRef' title='This is a help node.'>🤝</span>";
-    }else if(elRecord.hasAttribute('data-subject')){
-      mHTMLInner += "<span class='mbbutton mbRef'><lnk>202409271001|🎓</lnk>&nbsp;</span>"
-      //mHTMLInner += "<span class='mbRef' title='This is a subject node.'>🎓</span>";
-    }else{
-      mHTMLInner += "<span class='mbbutton mbRef'><lnk>202409271001|🥨</lnk>&nbsp;</span>"
-    }
+    mHTMLInner += NodeTypeHTML(elRecord);
+
 
 
     mHTMLInner += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>½</button>"
@@ -1567,7 +1560,7 @@ function LatestUpdate(){
   elContainer.innerHTML = "20241005 Search Result Count";
 }
 
-function LnkCode(iID,iDesc,iIcon,bMark){
+function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
   // 20230323: Ivy: For QSL. <lnk>
   var mHTML="";
 
@@ -1582,10 +1575,14 @@ function LnkCode(iID,iDesc,iIcon,bMark){
       mHTML = "<span class='mbILB30'>" + NodeMarkCode(iID,iDesc) + "</span>";
     }
   }
+
+
   // 20240415: StarTree: Highlight lnk object used as visit mark differently.
+  // 20241005: StarTree: Use custom title if specified.
   let mTitle = Default(iDesc,iID);
   mHTML += "<a class='mbbuttonIn' href='" + ViewerPath() + "?id=P"+iID+"'";
-  mHTML += " onclick=\"" + InterLink() + "'" + iID + "');return false;\" title='Show "+iID+"'>";
+  mHTML += " onclick=\"" + InterLink() + "'" + iID + "');return false;\" title='"+
+            Default(iTitle,"Show " + iID)+"'>";
   
   if(IsBlank(iIcon)){
     mHTML += iDesc + "</a>";
@@ -3295,8 +3292,9 @@ function MacroLnk(elScope){
       }catch(error){}
     }
     
-
-    var elNew = AddElement(elJQ,"span",LnkCode(cmds[0],cmds[1],"",bMarkLocal));
+    // 20241005: StarTree: Adding optional Title
+    var mTitle = elJQ.getAttribute("title");
+    var elNew = AddElement(elJQ,"span",LnkCode(cmds[0],cmds[1],"",bMarkLocal,mTitle));
     elNew.style.display="inline-block";
     /*
     mQB = "";
@@ -4138,6 +4136,28 @@ function MusicURL(eMusicID){
 }
 function MusicNext(elTest,eMusicID){
   LoadDivNext(elTest,'../p/music',eMusicID);
+}
+function NodeTypeHTML(elRecord){
+  // 20241005: StarTree: This function returns the html code.
+  // 20240912: StarTree: If a node is a help node, show a handshake icon.
+  var mIcon = "🥨";
+  var mTitle = "Guild Node";
+  if(elRecord.hasAttribute('data-festive')){
+    mIcon = "🎄";
+    mTitle = "Festive Node";
+  } else if(elRecord.hasAttribute('data-help')){
+    mIcon = "🤝";
+    mTitle = "Help Node";    
+  }else if(elRecord.hasAttribute('data-subject')){
+    mIcon = "🎓";
+    mTitle = "Academic Node";   
+  }else if(elRecord.hasAttribute('data-case')){
+    mIcon = "📂";
+    mTitle = "Case Node";
+  }
+
+  return "<span class='mbbutton mbRef'><lnk title='"+ mTitle +"'>202409271001|"+ mIcon +"</lnk>&nbsp;</span>"
+
 }
 function NotBlank(e){
   // 20230310: Fina
