@@ -65,13 +65,15 @@ function AuthorButton(elAuthor){
   if(elBanner.classList.contains("mbhide")){mState += 2;}
   if(elSidePanel.classList.contains("mbhide")){mState += 1;}
 
+  DEBUG(AtMobile());
   // On Desktop:
   if(!AtMobile()){
+    DEBUG(mState);
     switch(mState){
       case 2: ToggleHide(elBanner); ToggleHide(elSidePanel); return;
       case 1: ToggleHide(elBanner);return;
       case 3: ToggleHide(elBanner); ToggleHide(elSidePanel); return;
-      case 0: ToggleHide(elSidePanel); return;
+      case 0: ToggleHide(elBanner); return;
     }
   }else{ // On Mobile: only the side panel or the banner should be displayed. so cycle through these: If Both are shown, the next step should hide the banner.
   // X) [0] SHOW BANNER | SHOW SIDEPANEL
@@ -1751,6 +1753,7 @@ function MacroIcons(el,iHTMLInner){
     ["Bread","🍞"],
     ["Calendar","📅"],
     ["Camp","🏕️"],
+    ["ChatBubble","💬"],
     ["Checker",":Checker:"],
     ["Chick","🐤"],
     ["Circus","🎪"],
@@ -1759,6 +1762,7 @@ function MacroIcons(el,iHTMLInner){
     ["CornerRibbon",":CornerRibbon:"],
     ["Correct","✔️"],
     ["Compass","🧭"],
+    ["CopperCoin",":CopperCoin:"],
     ["Crown","👑"],
     ["Dice","🎲"],
     ["Done","✅"],
@@ -1768,12 +1772,17 @@ function MacroIcons(el,iHTMLInner){
     ["Fan","🪭"],
     ["Folders","🗂️"],
     ["Giraffe","🦒"],
+    ["GoldCoin",":GoldCoin:"],
+    ["GoldCoin","🪙"],
     ["Handshake","🤝"],
     ["Hatch","🐣"],
     ["Headphone","🎧"],
     ["Heart","❤️"],
+    ["HeartBlue","💙"],
     ["HeartBrown","🤎"],
     ["HeartEmpty","🤍"],
+    ["HeartGreen","💚"],
+    ["HeartYellow","💛"],
     ["Hourglass","⏳"],
     ["Jam",":Jam:"],
     ["Jar",":Jar:"],
@@ -1802,6 +1811,7 @@ function MacroIcons(el,iHTMLInner){
     ["Seeding","🌱"],
     ["ShootingStar","🌠"],
     ["ShoppingCart","🛒"],
+    ["SilverCoin",":SilverCoin:"],
     ["SquareCap","🎓"],
     ["Star","⭐"],
     ["Waffle","🧇"],
