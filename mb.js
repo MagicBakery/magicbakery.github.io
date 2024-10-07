@@ -68,7 +68,6 @@ function AuthorButton(elAuthor){
   DEBUG(AtMobile());
   // On Desktop:
   if(!AtMobile()){
-    DEBUG(mState);
     switch(mState){
       case 2: ToggleHide(elBanner); ToggleHide(elSidePanel); return;
       case 1: ToggleHide(elBanner);return;
@@ -457,6 +456,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       var elControl = elContainer.querySelector("[control]");
       QSLSortByDate(elControl.firstElementChild);
       QSLSortByDate(elControl.firstElementChild);
+      QSLShowTag(elControl.nextElementSibling);
       if(NotBlank(mCardList)){        
         elControl.parentNode.classList.add("mbhide");
       }
@@ -1522,6 +1522,10 @@ function HideP3(el){
 }
 function IsBlank(e){
   // 20230310: Zoey
+  // 20241006: Mikela: Upgrading this to work with checking for blank element.
+  if(e instanceof Element){return false;}
+
+
   return ((e==NaN) ||(e=== undefined) || (e==="") || (e=="") || (e=== null) || (e.length==0) || (e=="null") || (e=="undefined")) ;
 }
 function LangIcon(eCode){
@@ -1751,6 +1755,7 @@ function MacroIcons(el,iHTMLInner){
     ["Bell","🔔"],
     ["BlankBox","□"],
     ["Bread","🍞"],
+    ["Cake","🍰"],
     ["Calendar","📅"],
     ["Camp","🏕️"],
     ["ChatBubble","💬"],
@@ -2057,7 +2062,7 @@ function MacroResItem(mTag){
   //mHTML += "\" name=\"" + mTitle + "\">";
   
   // Right header for sorting info
-  mHTML = "<code label style=\"float:right;font-size:15px\"></code>";
+  mHTML = "<code label style=\"float:right;font-size:15px;letter-spacing:-0.5px;\"></code>";
 
 
    // TITLE: Local Storage Mark
@@ -2138,7 +2143,7 @@ function MacroResItem(mTag){
   // 20240827: James: Don't show tags if there is none.
   
   if(NotBlank(mTags)){ 
-    mHTML += "<hide>+" + mTags.replaceAll(" ","+") + "+</hide>";
+    mHTML += "<hide tags>+" + mTags.replaceAll(" ","+") + "+</hide>";
     mHTML += "<b>Tags:</b>&nbsp;" + mTags +"<br>";
   }
 
@@ -2185,10 +2190,8 @@ function MacroResItem(mTag){
   elNew.setAttribute('name',mTitle);
   elNew.setAttribute("date",mDate);
   elNew.setAttribute("dts",mDTS);
-
+  elNew.setAttribute("tags",mTags);
   
-
-
   if(mTag.hasAttribute("year")){
     
     elNew.setAttribute("year",mTag.getAttribute("year"))}
@@ -4153,7 +4156,7 @@ function NodeTypeHTML(elRecord){
   var mIcon = "🥨";
   var mTitle = "Guild Node";
   if(elRecord.hasAttribute('data-festive')){
-    mIcon = "🎄";
+    mIcon = "🍰";
     mTitle = "Festive Node";
   } else if(elRecord.hasAttribute('data-help')){
     mIcon = "🤝";
@@ -4263,16 +4266,28 @@ function SearchPS(el,iAttribute){
 }
 function SearchRecount(el){
   // 20241005: StarTree: Recount and display the number of visible topics in the search result list.
-  el.innerHTML = "[###]";
-  var elListArea = SearchPS(el,"control").nextElementSibling;
+  //el.innerHTML = "[###]";
+  var elControl = SearchPS(el,"control");
+  var elListArea = elControl.nextElementSibling;
+  var elCount = elControl.querySelector("[count]");
+  if(IsBlank(elCount)){return;}
+  elCount.innerHTML = "[None]";
   var elTopics = elListArea.querySelectorAll("[topic]");
   var mCount = 0;
   elTopics.forEach((mTopic)=>{
-    if(mTopic.parentNode==elListArea && !mTopic.classList.contains("mbhide")){
+    if(mTopic.parentNode==elListArea && !mTopic.classList.contains("mbhide") && mTopic.style.display!="none"){
       mCount++;
+      elCount.innerHTML = "["+mCount+"]";
     }
   });
-  el.innerHTML = "["+mCount+"]";
+  /*
+  DEBUG(mCount);
+  DEBUG(elCount.innerHTML);
+  if(NotBlank(elCount)){
+    elCount.innerHTML = "["+mCount+"]";
+  DEBUG("SDS");
+  }*/
+  
 }
 function SearchWrapper(elScope,iInner,bShow,mCount){
   // 20240722: StarTree: Wraps the Inner content with a search frame.
@@ -5129,6 +5144,27 @@ function QSL(el,iQuery,iMonthly){
 function QSLThisMonth(el,iQuery){
   // 20240507: Natalie: This version of QSL only return
 }
+function QSLShowTag(elList,iTag){
+  // 20241006: Mikela: So the tag for the end text. If iTag is not specified, show the first tag.  
+  var elItems = elList.querySelectorAll("[topic]");
+  if(NotBlank(iTag)){
+    iTag = MacroIcons(null,iTag); 
+  }
+  elItems.forEach((item)=>{
+    if(item.parentNode != elList){return;}
+    var elTags= item.querySelector("[tags]");
+    if(IsBlank(elTags)){return;}
+    var mTags = elTags.innerHTML;    
+    var mTagsPlus = "+"+iTag+"+";
+    let mFirstTag = mTags.split("+")[1];  
+    if(IsBlank(iTag)){
+      item.firstElementChild.innerHTML = mFirstTag;
+    }else if(mTagsPlus.search("+"+iTag+"+")>-1){
+      item.firstElementChild.innerHTML = iTag;
+    }
+  });
+
+}
 function QSLSortBy(el,iAttribute){
   // 20240413: StarTree: This sort function assumes that the attribute is already set.
   // 20240420: StarTree: If the sort type had just change into this type, just show the stats without sorting.
@@ -5196,6 +5232,7 @@ function QSLSortByIcon(el,iIcon){
     }else{
       item.classList.remove("mbhide");
     }
+    SearchRecount(el);
   });
   elContainer.scrollTop = -elContainer.scrollHeight;
   var elControlText = SearchPS(el,"control").firstElementChild;
@@ -8635,6 +8672,7 @@ function TextSearchPN(elSearchBox){
   var mKeyword = elSearchBox.value.toUpperCase().trim();
   var mScope = elSearchBox.parentNode.nextElementSibling;
   TextSearchEL(mScope,mKeyword);
+  SearchRecount(elSearchBox);
 }
 function TextSearchPS(elSearchBox,iKeyword){  
   // 20240609: Black: Overload: when the iKeyword is present, use it verbatim.
@@ -8645,6 +8683,8 @@ function TextSearchPS(elSearchBox,iKeyword){
   }
   var mScope = SearchPS(elSearchBox,'control').nextElementSibling;
   TextSearchEL(mScope,iKeyword);
+  QSLShowTag(mScope);
+  SearchRecount(elSearchBox);
 }
 
 function TextSearchPNEV(e,elSearchBox){
