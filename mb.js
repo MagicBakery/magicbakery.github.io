@@ -1819,6 +1819,7 @@ function MacroIcons(el,iHTMLInner){
     ["SilverCoin",":SilverCoin:"],
     ["SquareCap","🎓"],
     ["Star","⭐"],
+    ["Teddy","🧸"],
     ["Waffle","🧇"],
     ["Wand","🪄"],
     ["WingL",":WingL:"],
