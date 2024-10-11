@@ -1563,7 +1563,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20241005 Search Result Count";
+  elContainer.innerHTML = "20241011 Res Musescore Link";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2054,6 +2054,7 @@ function MacroResItem(mTag){
   let mChannel = Default(mTag.getAttribute('channel'),"");
   let mSinger = Default(mTag.getAttribute("Singer"),"");
   let mYouTube = Default(mTag.getAttribute("Youtube"),"");
+  let mMuseScore = Default(mTag.getAttribute("Musescore"),"");
 
 
   var bSpoiler = mTag.hasAttribute('spoiler');
@@ -2121,12 +2122,20 @@ function MacroResItem(mTag){
   }
 
   // DATA: Youtube Playlist Link
-  if(NotBlank(mYouTube)){
+  if(NotBlank(mYouTube) || NotBlank(mMuseScore)){
     mHTML += "<center>";
-    let mURL = "https://www.youtube.com/watch?v=" + mYouTube + "&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx";
-    mHTML += "<a class='mbbuttonEx' onclick=\"ExURL('"+ mURL + "');return false;\" href='"+mURL+"'>🎧</a>";
+    let mURL = "";
+    if(NotBlank(mYouTube)){
+      mURL = "https://www.youtube.com/watch?v=" + mYouTube + "&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx";
+      mHTML += "<a title='Youtube' class='mbbuttonEx' onclick=\"ExURL('"+ mURL + "');return false;\" href='"+mURL+"'>🎧<hide>"+mURL+"</hide></a>";
+    }
+    if(NotBlank(mMuseScore)){
+      mURL = "https://musescore.com/user/35526651/scores/" + mMuseScore;
+      mHTML += "<a title='Musescore' class='mbbuttonEx' onclick=\"ExURL('"+ mURL + "');return false;\" href='"+mURL+"'>🎼<hide>"+mURL+"</hide></a>";
+    }  
     mHTML += "</center>";
   }
+  
 
   // DATA: ID
   if(NotBlank(mItem)){
