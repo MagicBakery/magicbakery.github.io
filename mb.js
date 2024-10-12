@@ -1819,6 +1819,7 @@ function MacroIcons(el,iHTMLInner){
     ["SilverCoin",":SilverCoin:"],
     ["SquareCap","🎓"],
     ["Star","⭐"],
+    ["SwordX","⚔"],
     ["Teddy","🧸"],
     ["Waffle","🧇"],
     ["Wand","🪄"],
@@ -3021,6 +3022,7 @@ function ResIcon(mRes){
   if(mRes.hasAttribute('seeking')){return "🤍";}
   if(mRes.hasAttribute('unowned')){return "🕊️";}
   if(mRes.hasAttribute('available')){return "💚";}
+  if(mRes.hasAttribute('vocal')){return "🎤";}
 
   // RULE: If it doesn't match any situation above, use a checkmark.
   return "✅";
