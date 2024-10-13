@@ -1769,12 +1769,14 @@ function MacroIcons(el,iHTMLInner){
     ["Compass","🧭"],
     ["CopperCoin",":CopperCoin:"],
     ["Crown","👑"],
+    ["CrystalBall","🔮"],
     ["Dice","🎲"],
     ["Done","✅"],
     ["Dove","🕊️"],
     ["Eagle","🦅"],
     ["Egg","🥚"],
     ["Fan","🪭"],
+    ["FourLeaf","🍀"],
     ["Folders","🗂️"],
     ["Giraffe","🦒"],
     ["GoldCoin",":GoldCoin:"],
@@ -1821,6 +1823,7 @@ function MacroIcons(el,iHTMLInner){
     ["Star","⭐"],
     ["SwordX","⚔"],
     ["Teddy","🧸"],
+    ["TopHat","🎩"],
     ["Waffle","🧇"],
     ["Wand","🪄"],
     ["WingL",":WingL:"],
@@ -2333,6 +2336,7 @@ function MemberHPBar(iMember,mHPMax,mHPCur){
     switch(iMember){
       case "James": mHPMax = 4; break;
       case "LRRH": mHPMax = 1; break;
+      case "Neil": mHPMax = 2; break;
       case "P4": mHPMax = 2; break;
     }    
     mHPCur = getRandomInt(0,mHPMax,true); // 20240909: StarTree: Temproary code.
@@ -3022,6 +3026,7 @@ function ResIcon(mRes){
   if(mRes.hasAttribute('seeking')){return "🤍";}
   if(mRes.hasAttribute('unowned')){return "🕊️";}
   if(mRes.hasAttribute('available')){return "💚";}
+  if(mRes.hasAttribute('instrumental')){return "🥁";}
   if(mRes.hasAttribute('vocal')){return "🎤";}
 
   // RULE: If it doesn't match any situation above, use a checkmark.
@@ -5701,10 +5706,7 @@ function XP_DisplayEL(elFrame,bOrder){
     mSortOrder = -1;
     elScoreBoard.setAttribute("sortedby",mSortedBy);
     elScoreBoard.setAttribute("sortorder",mSortOrder);
-  }
-  
- 
-
+  }  
   var CountTXP = 0; elFrame.setAttribute("TXP",0); // TOTAL EXP
   var CountAXP = 0; elFrame.setAttribute("AXP",0); // Arcacian Award
   var CountBXP = 0; elFrame.setAttribute("BXP",0); // Blog / Beauty / Usability
@@ -5808,7 +5810,7 @@ function XP_DisplayEL(elFrame,bOrder){
           var mEXPTotal = 0;
           var mEXPStr = "";
           mEXPArray.forEach((pair)=>{
-            mEXPStr += pair[1] + "&nbsp;" + pair[0] + " ";
+            mEXPStr += pair[1] + pair[0] + " ";
             mEXPTotal += pair[0];
 
             // 20240415: LRRH: Fixing Detective XP

@@ -887,12 +887,14 @@ span.mbIcon > icon{font-size: 0px;}
 .iCornerRibbon{background-image:url('https://github.com/MagicBakery/Icons/blob/main/CornerRibbon.png?raw=true');}
 .iCorrect{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Correct.png?raw=true');}
 .iCrown{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Crown.png?raw=true');}
+.iCrystalBall{background-image:url('https://github.com/MagicBakery/Icons/blob/main/CrystalBall.png?raw=true');}
 .iDice{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Dice.png?raw=true');}
 .iDone{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Done.png?raw=true');}
 .iDove{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Dove.png?raw=true');}
 .iEagle{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Eagle.png?raw=true');}
 .iEgg{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Egg.png?raw=true');}
 .iFan{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Fan.png?raw=true');}
+.iFourLeaf{background-image:url('https://github.com/MagicBakery/Icons/blob/main/FourLeaf.png?raw=true');}
 .iFolders{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Folders.png?raw=true');}
 .iGiraffe{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Giraffe.png?raw=true');}
 .iGoldCoin{background-image:url('https://github.com/MagicBakery/Icons/blob/main/GoldCoin.png?raw=true');}
@@ -902,7 +904,6 @@ span.mbIcon > icon{font-size: 0px;}
 .iHeart{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Heart.png?raw=true');}
 .iHeartBlue{background-image:url('https://github.com/MagicBakery/Icons/blob/main/HeartBlue.png?raw=true');}
 .iHeartBrown{background-image:url('https://github.com/MagicBakery/Icons/blob/main/HeartBrown.png?raw=true');}
-
 .iHeartEmpty{background-image:url('https://github.com/MagicBakery/Icons/blob/main/HeartEmpty.png?raw=true');}
 .iHeartGreen{background-image:url('https://github.com/MagicBakery/Icons/blob/main/HeartGreen.png?raw=true');}
 .iHeartYellow{background-image:url('https://github.com/MagicBakery/Icons/blob/main/HeartYellow.png?raw=true');}
@@ -939,6 +940,7 @@ span.mbIcon > icon{font-size: 0px;}
 .iStar{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Star.png?raw=true');}
 .iSwordX{background-image:url('https://github.com/MagicBakery/Icons/blob/main/SwordX.png?raw=true');}
 .iTeddy{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Teddy.png?raw=true');}
+.iTopHat{background-image:url('https://github.com/MagicBakery/Icons/blob/main/TopHat.png?raw=true');}
 .iWaffle{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Waffle.png?raw=true');}
 .iWand{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Wand.png?raw=true');}
 .iWingL{background-image:url('https://github.com/MagicBakery/Icons/blob/main/WingL.png?raw=true');}
