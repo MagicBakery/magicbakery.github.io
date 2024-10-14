@@ -454,8 +454,8 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   if(mNodeID != "202301251008"){// 202301251008 is the scoreboard node
     try{
       var elControl = elContainer.querySelector("[control]");
-      QSLSortByDate(elControl.firstElementChild);
-      QSLSortByDate(elControl.firstElementChild);
+      QSLSortByUpdate(elControl.firstElementChild);
+      QSLSortByUpdate(elControl.firstElementChild);
       QSLShowTag(elControl.nextElementSibling);
       if(NotBlank(mCardList)){        
         elControl.parentNode.classList.add("mbhide");
@@ -764,13 +764,13 @@ function ChatNodeContent(elAttr,mJSON){
   if(elAttr.hasAttribute('data-chat')){
 
     if(NotBlank(mJSON.prev)){
-      mHTMLInner +="<a class=\"mbbuttonIn\" style=\"float:left\" href=\"" + ViewerPath() + "?id=P"+mJSON.prev+"\" onclick=\"BoardLoad(this,'"+ mJSON.prev+"');return false;\">◀</a>";
+      mHTMLInner +="<a class=\"mbbuttonIn\" style=\"float:left\" href=\"" + ViewerPath() + "?id=P"+mJSON.prev+"\" onclick=\"BoardLoad(this,'"+ mJSON.prev+"');return false;\"><small>◀</smalL></a>";
     }else{
       mHTMLInner +="<a class=\"mbbutton\" style=\"float:left\">◁</a>";
     }
     
     if(NotBlank(mJSON.next)){
-      mHTMLInner +="<a class=\"mbbuttonIn\" style=\"float:right\" href=\"" + ViewerPath() + "?id=P"+mJSON.next+"\" onclick=\"BoardLoad(this,'"+ mJSON.next+"');return false;\">▶</a>";
+      mHTMLInner +="<a class=\"mbbuttonIn\" style=\"float:right\" href=\"" + ViewerPath() + "?id=P"+mJSON.next+"\" onclick=\"BoardLoad(this,'"+ mJSON.next+"');return false;\"><small>▶</small></a>";
     }else{
       mHTMLInner +="<a class=\"mbbutton\" style=\"float:right\">▷</a>";
     }
@@ -1821,9 +1821,11 @@ function MacroIcons(el,iHTMLInner){
     ["SilverCoin",":SilverCoin:"],
     ["SquareCap","🎓"],
     ["Star","⭐"],
-    ["SwordX","⚔"],
-    ["Teddy","🧸"],
+    ["SwordX","⚔️"],
+    ["Teddy","🧸"], 
     ["TopHat","🎩"],
+    ["TriangleL","◀"],
+    ["TriangleR","▶"],
     ["Waffle","🧇"],
     ["Wand","🪄"],
     ["WingL",":WingL:"],
@@ -2045,10 +2047,12 @@ function MacroResItem(mTag){
   TO:
       <topic dts="20240502232826" icon="⬜" title="Catan Junior">*/
   let mDTS = DTC("",mTag.getAttribute("item"));
-  let mDate = LatestDate(mTag);
+  let mUpdate = LatestDate(mTag);
+  //let mDate = Default(mTag.getAttribute("date"),mDTS.slice(0,8));  
+  // 20241013: StarTree: Don't default the date with item ID.
+  let mDate = Default(mTag.getAttribute("date"),"0");  
   let mIcon = Default(mTag.getAttribute("icon"),"🎲");
   let mTitle = mTag.getAttribute("title");
-  let mAvail = mTag.getAttribute("avail");
   
   let mNode = mTag.getAttribute("node");
   let mSrc = mTag.getAttribute("src");
@@ -2159,8 +2163,8 @@ function MacroResItem(mTag){
   // 20240827: James: Don't show tags if there is none.
   
   if(NotBlank(mTags)){ 
-    mHTML += "<hide tags>+" + mTags.replaceAll(" ","+") + "+</hide>";
-    mHTML += "<b>Tags:</b>&nbsp;" + mTags +"<br>";
+    mHTML += "<hide tags>+" + mTags.replaceAll(" ","+").replaceAll("_"," ") + "+</hide>";
+    mHTML += "<b>Tags:</b>&nbsp;" + mTags.replaceAll("_"," ") +"<br>";
   }
 
   // Singers.
@@ -2205,6 +2209,7 @@ function MacroResItem(mTag){
   elNew.setAttribute('topic','');
   elNew.setAttribute('name',mTitle);
   elNew.setAttribute("date",mDate);
+  elNew.setAttribute("update",mUpdate);
   elNew.setAttribute("dts",mDTS);
   elNew.setAttribute("tags",mTags);
   
@@ -4221,10 +4226,10 @@ function PNDInner(el,mJSON){
   
   mHTML +="<center><small>";
   if(NotBlank(mJSON.prev)){
-    mHTML +="<a class=\"mbbutton\" style=\"float:left\" href=\"" + ViewerPath() + "?id=P"+mJSON.prev+"\" onclick=\"BoardLoad(this,'"+ mJSON.prev+"');return false;\">◀</a>";
+    mHTML +="<a class=\"mbbutton\" style=\"float:left\" href=\"" + ViewerPath() + "?id=P"+mJSON.prev+"\" onclick=\"BoardLoad(this,'"+ mJSON.prev+"');return false;\"><small>◀</small></a>";
   }
   if(NotBlank(mJSON.next)){
-    mHTML +="<a class=\"mbbutton\" style=\"float:right\" href=\"" + ViewerPath() + "?id=P"+mJSON.next+"\" onclick=\"BoardLoad(this,'"+ mJSON.next+"');return false;\">▶</a>";
+    mHTML +="<a class=\"mbbutton\" style=\"float:right\" href=\"" + ViewerPath() + "?id=P"+mJSON.next+"\" onclick=\"BoardLoad(this,'"+ mJSON.next+"');return false;\"><small>▶</small></a>";
   }
   // Read the date and time from the node id
   mHTML += DateStrFromID(mJSON.id)+ "<br>";
@@ -4322,8 +4327,9 @@ function SearchWrapper(elScope,iInner,bShow,mCount){
   "<a class=\"mbbutton\" style=\"float:right\" onclick=\"ToggleHeight(this)\" title=\"Toggle full height\">🥞</a>" + 
   "<a class=\"mbbutton\" onclick=\"QSLSortByName(this)\">🍎</a> " +
   "<a class=\"mbbutton\" onclick=\"QSLSortByIcon(this,'📌')\">📌</a> " +
-  "<a class=\"mbbutton\" onclick=\"QSLSortByDate(this)\" title=\"Sort by registry date\">📅</a> " ;
-  
+  "<a class=\"mbbutton\" onclick=\"QSLSortByUpdate(this)\" title=\"Sort by last update\">🔔</a> "  + 
+  "<a class=\"mbbutton\" onclick=\"QSLSortByDate(this)\" title=\"Sort by entry date\">🕰️</a> ";
+ 
 
   // 20240720: StarTree: If there is a search section, add it here.
   try{
@@ -5176,7 +5182,7 @@ function QSLShowTag(elList,iTag){
     if(IsBlank(elTags)){return;}
     var mTags = elTags.innerHTML;    
     var mTagsPlus = "+"+iTag+"+";
-    let mFirstTag = mTags.split("+")[1];  
+    let mFirstTag = mTags.split("+")[1].replaceAll("_"," ");  
     if(IsBlank(iTag)){
       item.firstElementChild.innerHTML = mFirstTag;
     }else if(mTagsPlus.search("+"+iTag+"+")>-1){
@@ -5200,15 +5206,29 @@ function QSLSortBy(el,iAttribute){
   elContainer.scrollTop = -elContainer.scrollHeight;
 }
 function QSLSortByDate(el){
-  // 20240407: Ledia: This function sort the entries in a QSL by date.
-  // .. To get the last updated date, it checks the attribute "updated" if it exists.
-  // .. If not, it uses the node ID as the date.
+  // 20241013: StarTree: This function sort the entries in a QSL by its event date stored as "date".
+  // .. In the Res data, this is the "date" attribute value.
   var elContainer = QSLGetContainer(el);
   if(IsBlank(elContainer)){return;}
   var bReversed = QSLSortReverseIfSet(elContainer,'date');
   var elEntries = elContainer.querySelectorAll(".mbSearch > div[date]");
   elEntries.forEach((item)=>{
     let mDate = item.getAttribute('date');
+    item.firstElementChild.innerHTML = mDate;
+    item.style.order = mDate;
+  });
+  elContainer.scrollTop = -elContainer.scrollHeight;
+}
+function QSLSortByUpdate(el){
+  // 20240407: Ledia: This function sort the entries in a QSL by date.
+  // .. To get the last updated date, it checks the attribute "updated" if it exists.
+  // .. If not, it uses the node ID as the date.
+  var elContainer = QSLGetContainer(el);
+  if(IsBlank(elContainer)){return;}
+  var bReversed = QSLSortReverseIfSet(elContainer,'update');
+  var elEntries = elContainer.querySelectorAll(".mbSearch > div[update]");
+  elEntries.forEach((item)=>{
+    let mDate = item.getAttribute('update');
     item.firstElementChild.innerHTML = mDate;
     item.style.order = mDate;
   });
@@ -7347,7 +7367,7 @@ function ReloadFPEL(elWidget,elFP,mDTS,bOffline){
   mHTML = "<small><span class='mbRef'>";
   mHTML += NodeIDClipboardButtonCode(mNodeID) +"&nbsp;";
   mHTML += "<a class='mbbutton' title='Hide Widget' onclick='HideFP(this)'>:Close:</a>";
-  mHTML += "<a class='mbbutton' title='Cycle dock position' onclick='WidgetDockCycle(this)'>▶</a>";
+  mHTML += "<a class='mbbutton' title='Cycle dock position' onclick='WidgetDockCycle(this)'><small>▶</small></a>";
   mHTML += "</span>";
 
   mHTML += "<lnk>" + mNodeID + "|" + mIcon + "</lnk> ";
