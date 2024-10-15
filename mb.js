@@ -44,10 +44,12 @@ function AuthorButton(elAuthor){
   // 20240730: StarTree: This handles the effect when the big author button is pressed.
   // Algorithm: Interpret the current state and cycle through these states:
   // 20240913: StarTree: Changed to Card > List > None > Both.
-  // 1) [2] HIDE BANNER | SHOW SIDEPANEL 
-  // 2) [1] SHOW BANNER | HIDE SIDEPANEL  
-  // 3) [3] HIDE BANNER | HIDE SIDEPANEL 
-  // 4) [0] SHOW BANNER | SHOW SIDEPANEL 
+  // 20241015: StarTree: Change to Card > None > List > Both.
+  // Bit 1=1 means no banner. Bit 0=1 means no side panel.
+  // 1) [2:Card] >> HIDE SIDEPANEL  
+  // 2) [3:None] >> SHOW BANNER
+  // 3) [1:List] >> SHOW SIDEPANEL 
+  // 4) [0:Both] >> HIDE BANNER
   
   var elBoard = SearchPS(elAuthor,"board");
   var elBanner = elBoard.querySelector("[Banner]");
@@ -69,9 +71,9 @@ function AuthorButton(elAuthor){
   // On Desktop:
   if(!AtMobile()){
     switch(mState){
-      case 2: ToggleHide(elBanner); ToggleHide(elSidePanel); return;
-      case 1: ToggleHide(elBanner);return;
-      case 3: ToggleHide(elBanner); ToggleHide(elSidePanel); return;
+      case 2: ToggleHide(elSidePanel); return;
+      case 3: ToggleHide(elBanner); return;
+      case 1: ToggleHide(elSidePanel); return;
       case 0: ToggleHide(elBanner); return;
     }
   }else{ // On Mobile: only the side panel or the banner should be displayed. so cycle through these: If Both are shown, the next step should hide the banner.
@@ -1563,7 +1565,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20241011 Res Musescore Link";
+  elContainer.innerHTML = "20241014 Res Sort By Date";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2050,7 +2052,7 @@ function MacroResItem(mTag){
   let mUpdate = LatestDate(mTag);
   //let mDate = Default(mTag.getAttribute("date"),mDTS.slice(0,8));  
   // 20241013: StarTree: Don't default the date with item ID.
-  let mDate = Default(mTag.getAttribute("date"),"0");  
+  let mDate = Default(mTag.getAttribute("date"),"99999999");  
   let mIcon = Default(mTag.getAttribute("icon"),"🎲");
   let mTitle = mTag.getAttribute("title");
   
@@ -2204,7 +2206,15 @@ function MacroResItem(mTag){
   let elNew = document.createElement('div');
   mTag.after(elNew);
   elNew.innerHTML = mHTML;
-  elNew.classList.add("mbscroll");
+
+  // 20241014: Ivy: If the grandparent is not a banner, use mbpuzzle.
+  DEBUG(elNew.parentNode.parentNode.outerHTML);
+  if(elNew.parentNode.parentNode.hasAttribute("banner")){
+    elNew.classList.add("mbscroll");
+  }else{
+    elNew.classList.add("mbpuzzle");
+  }
+  
   // tags copying
   elNew.setAttribute('topic','');
   elNew.setAttribute('name',mTitle);
@@ -5216,6 +5226,10 @@ function QSLSortByDate(el){
     let mDate = item.getAttribute('date');
     item.firstElementChild.innerHTML = mDate;
     item.style.order = mDate;
+    // 20241014: StarTree: Hide the entry if the value is 99999999.
+    if(mDate == "99999999"){
+      item.classList.add("mbhide");
+    }
   });
   elContainer.scrollTop = -elContainer.scrollHeight;
 }
