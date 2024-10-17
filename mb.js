@@ -2052,7 +2052,7 @@ function MacroResItem(mTag){
   let mUpdate = LatestDate(mTag);
   //let mDate = Default(mTag.getAttribute("date"),mDTS.slice(0,8));  
   // 20241013: StarTree: Don't default the date with item ID.
-  let mDate = Default(mTag.getAttribute("date"),"99999999");  
+  let mDate = Default(mTag.getAttribute("date"),Default(mTag.getAttribute("year"),"99999999"));  
   let mIcon = Default(mTag.getAttribute("icon"),"🎲");
   let mTitle = mTag.getAttribute("title");
   
@@ -4350,7 +4350,7 @@ function SearchWrapper(elScope,iInner,bShow,mCount){
 
   // 20240722: StarTree: Closing the search control section.
   mHTML +=  "<a class=\"mbbutton\" count onclick=\"SearchRecount(this)\" style=\"float:right;font-weight:bold;font-size:14px\" title=\"Count\">[" + mCount + "]</a>" +
-          "</span>" +
+          "</span>" + "<div class=\"mbCB\"></div>" +
           "<div class=\"mbpuzzle mbhide\"></div>" + 
         "</div>";
   // Starting the container for the RES content
@@ -7380,7 +7380,7 @@ function ReloadFPEL(elWidget,elFP,mDTS,bOffline){
   // 20240422: Add a close button
   mHTML = "<small><span class='mbRef'>";
   mHTML += NodeIDClipboardButtonCode(mNodeID) +"&nbsp;";
-  mHTML += "<a class='mbbutton' title='Hide Widget' onclick='HideFP(this)'>:Close:</a>";
+  mHTML += "<a class='mbbutton' title='Hide Widget' onclick='HideFP(this)'>:Close:</a>&nbsp;";
   mHTML += "<a class='mbbutton' title='Cycle dock position' onclick='WidgetDockCycle(this)'><small>▶</small></a>";
   mHTML += "</span>";
 
