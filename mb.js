@@ -4350,8 +4350,8 @@ function SearchWrapper(elScope,iInner,bShow,mCount){
 
   // 20240722: StarTree: Closing the search control section.
   mHTML +=  "<a class=\"mbbutton\" count onclick=\"SearchRecount(this)\" style=\"float:right;font-weight:bold;font-size:14px\" title=\"Count\">[" + mCount + "]</a>" +
-          "</span>" + "<div class=\"mbCB\"></div>" +
-          "<div class=\"mbpuzzle mbhide\"></div>" + 
+          "</span>" + 
+          "<div class=\"mbpuzzle mbhide\"></div>" + "<div class=\"mbCB\"></div>" +
         "</div>";
   // Starting the container for the RES content
   mHTML += "<div class=\"mbSearch mbStack\" style=\"resize:vertical; max-height:263px;overflow-y:auto;padding:5px 2px;display:flex;flex-direction: column;gap:10px;\">";
