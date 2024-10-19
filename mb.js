@@ -1580,7 +1580,7 @@ function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
     }else{
       var mButtonStyle = "";
       if(IsBlank(iDesc)){ mButtonStyle=" mbbutton";}
-      mHTML = "<span class='mbILB30'>" + NodeMarkCode(iID,iDesc) + "</span>";
+      mHTML = "<span class='mbILB30'>" + NodeMarkCode(iID,iDesc) + "<hide>"+ iID+"</hide></span>";
     }
   }
 
@@ -1593,7 +1593,7 @@ function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
             Default(iTitle,"Show " + iID)+"'>";
   
   if(IsBlank(iIcon)){
-    mHTML += iDesc + "</a>";
+    mHTML += iDesc + "</a><hide>" + iID +"</hide";
   }else{
     mHTML += "<span class='mbILB30'>" + iIcon + "</span></a>"+ iDesc ;
   }
@@ -5232,6 +5232,7 @@ function QSLSortByDate(el){
     }
   });
   elContainer.scrollTop = -elContainer.scrollHeight;
+  SearchRecount(el);
 }
 function QSLSortByUpdate(el){
   // 20240407: Ledia: This function sort the entries in a QSL by date.
@@ -5247,6 +5248,7 @@ function QSLSortByUpdate(el){
     item.style.order = mDate;
   });
   elContainer.scrollTop = -elContainer.scrollHeight;
+  SearchRecount(el);
 }
 function QSLSortByIcon(el,iIcon){
   // 20240608: Patricia: Counts the icons within the item and sort by that number.
