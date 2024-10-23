@@ -67,7 +67,7 @@ function AuthorButton(elAuthor){
   if(elBanner.classList.contains("mbhide")){mState += 2;}
   if(elSidePanel.classList.contains("mbhide")){mState += 1;}
 
-  DEBUG(AtMobile());
+  
   // On Desktop:
   if(!AtMobile()){
     switch(mState){
@@ -2208,7 +2208,7 @@ function MacroResItem(mTag){
   elNew.innerHTML = mHTML;
 
   // 20241014: Ivy: If the grandparent is not a banner, use mbpuzzle.
-  DEBUG(elNew.parentNode.parentNode.outerHTML);
+
   if(elNew.parentNode.parentNode.hasAttribute("banner")){
     elNew.classList.add("mbscroll");
   }else{
@@ -5491,7 +5491,7 @@ function QSLContentCompose(bOffline,elRecords,elSearchList,mDate){
         try{
           mID = elDiv.getAttribute("id");
         }catch{
-          DEBUG(elDiv.outerHTML);
+          //DEBUG(elDiv.outerHTML);
         }
         //mID = elDiv.getAttribute("id");
         if(IsBlank(mID)){mID = elDiv.getAttribute('DTS');}
