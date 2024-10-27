@@ -1565,7 +1565,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20241014 Res Sort By Date";
+  elContainer.innerHTML = "20241026 Node maker URL Upgrade";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -8040,10 +8040,25 @@ function NMRES(el){
   var mHTML = "<res item=\""+DTC(mDTS)+"\" title=\"Title\" tags=\"\">\n</res>";
   navigator.clipboard.writeText(mHTML);
 }
-function NMURL(el){
-  // 20240417: StarTree
-  var elControl = SearchPS(el,"Widget");
-  var mURL = elControl.querySelector('[NM-URL]').value;
+function NMURL(el,mCBText){
+  // 20241026: StarTree: This creates the URL html string and put it in the clipboard.
+  var mURL = "";  
+  // 20241026: StarTree: If the mCBText field is specified, use it and trim off the part with a question mark.
+  if(NotBlank(mCBText)){
+    var mSplit = mCBText.split("?");
+    mURL = mSplit[0];
+  }else{
+    var elControl = SearchPS(el,"Widget");
+    mURL = elControl.querySelector('[NM-URL]').value;
+  }
+  
+  // 20241026: StarTree: If the URL text box is blank, get the content from clipboard
+  if(IsBlank(mURL)){
+    mURL = navigator.clipboard.readText().then((mCBText)=>{
+      if(NotBlank(mCBText)){NMURL(el,mCBText)}
+    })
+    return;
+  }
   var mIcon="";//elControl.querySelector('[NM-Icon]').value;
   if(IsBlank(mIcon)){
     if(mURL.includes("&list=")){
