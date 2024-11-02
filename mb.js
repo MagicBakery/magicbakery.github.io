@@ -148,19 +148,13 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll,elArchives){
   // 20230821: StarTree: Fill the Board container with content from the node.
   //   The node ID does not have a leading P.
   //   Reference function: LoadArchivePostEl from Blogspot.
-
   // For Testing: if iNodeID is blank, use this default:
   if(iNodeID==""){iNodeID="202208172056";};
   elBoard.setAttribute("board",iNodeID);
 
-  
-
-  
-
   // STEP: Create a container within the Board after the control section for the content.
   //       ((The board itself has a close button))
   var elContainer = document.createElement("span");
-  
   var mQuery = "#P" + iNodeID;
 
   // 20240509: Skyle: For Offline Mode
@@ -1593,7 +1587,7 @@ function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
             Default(iTitle,"Show " + iID)+"'>";
   
   if(IsBlank(iIcon)){
-    mHTML += iDesc + "</a><hide>" + iID +"</hide";
+    mHTML += iDesc + "</a><hide>" + iID +"</hide>";
   }else{
     mHTML += "<span class='mbILB30'>" + iIcon + "</span></a>"+ iDesc ;
   }
@@ -2177,7 +2171,6 @@ function MacroResItem(mTag){
   
   
   // URL in the Side Bar
-  // 20240622: Zoey: Don't show this if the field is missing entirely.
   if(mTag.hasAttribute("src")){
     if(NotBlank(mSrc)){
       mHTML += GetURLCode(mSrc) +"<br>";
@@ -6124,48 +6117,48 @@ function GuildEXP(iMember){
   // 20230129: Ledia: Added for total EXP.
   // #GuildEXP
   var dict={
-"3B": 5632,
-"44": 612,
-"Albatross": 2003,
-"Amelia": 777,
-"Arcacia": 7525,
-"Black": 12104,
-"Cardinal": 2069,
-"Casey": 4285,
-"Emi": 33,
-"Evelyn": 11937,
-"Fina": 2322,
-"Gaia": 1219,
-"Helen": 2741,
-"Ivy": 4361,
-"James": 2844,
-"Jao": 22,
+"3B": 5800,
+"44": 627,
+"Albatross": 2102,
+"Amelia": 786,
+"Arcacia": 7777,
+"Black": 12587,
+"Cardinal": 2223,
+"Casey": 4400,
+"Emi": 57,
+"Evelyn": 12278,
+"Fina": 2463,
+"Gaia": 1256,
+"Helen": 2897,
+"Ivy": 4533,
+"James": 3021,
+"Jao": 38,
 "Karl": 26,
-"Ken": 730,
-"Kisaragi": 5293,
-"Koyo": 179,
-"Ledia": 7467,
-"LRRH": 8884,
-"Melody": 910,
-"Mikela": 1292,
-"Natalie": 5102,
+"Ken": 740,
+"Kisaragi": 5522,
+"Koyo": 310,
+"Ledia": 7788,
+"LRRH": 9371,
+"Melody": 977,
+"Mikela": 1377,
+"Natalie": 5226,
 "Neil": 245,
-"P4": 5572,
-"Patricia": 2936,
-"Rick": 51,
-"Robert": 133,
-"Roger": 37,
+"P4": 5741,
+"Patricia": 3072,
+"Rick": 59,
+"Robert": 176,
+"Roger": 59,
 "RS": 11,
-"Sasha": 6282,
-"Skyle": 3107,
-"StarTree": 12206,
-"Sylvia": 5322,
-"Tanya": 7648,
-"Therese": 81,
-"V": 3453,
-"Vivi": 5493,
-"Vladanya": 2626,
-"Zoey": 7570,
+"Sasha": 6509,
+"Skyle": 3306,
+"StarTree": 12527,
+"Sylvia": 5515,
+"Tanya": 7989,
+"Therese": 109,
+"V": 3529,
+"Vivi": 5598,
+"Vladanya": 2754,
+"Zoey": 7913,
   };
   return dict[iMember];
 }
