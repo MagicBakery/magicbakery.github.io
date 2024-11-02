@@ -2377,6 +2377,7 @@ function GetURLCode(mURL,mDesc, mLang){
   var bIcon = false;
   if(IsBlank(mDesc)){
     mDesc = "url";
+    if(mURL.includes(".jpeg")){mDesc="JPEG"};
     if(mURL.includes(".pdf")){mDesc="PDF"};
     if(mURL.includes("amazon.com")){mDesc="Amazon"};
     if(mURL.includes("boardgamegeek.com")){mDesc="BGG"};
