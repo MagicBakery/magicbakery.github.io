@@ -2381,6 +2381,7 @@ function GetURLCode(mURL,mDesc, mLang){
     if(mURL.includes(".pdf")){mDesc="PDF"};
     if(mURL.includes("amazon.com")){mDesc="Amazon"};
     if(mURL.includes("boardgamegeek.com")){mDesc="BGG"};
+    if(mURL.includes("deviantart.com")){mDesc="DeviantArt"};
     if(mURL.includes("jlptsensei.com")){mDesc="JLPT";};
     if(mURL.includes("wikipedia.org")){mDesc="Wiki"};
     if(mURL.includes("nextdoor.com")){mDesc="🏡";bIcon=true;};
@@ -6126,6 +6127,7 @@ function GuildEXP(iMember){
 "Black": 12587,
 "Cardinal": 2223,
 "Casey": 4400,
+"Clyde": 1,
 "Emi": 57,
 "Evelyn": 12278,
 "Fina": 2463,
@@ -6170,7 +6172,7 @@ function RandomMember(){
 function Roster(iIndex){
   // 20230125: Ledia: Preparing for roster stats display.
   //   Returns the length if the argument is negative.
-  const mRoster = ["3B", "44", "Albatross", "Amelia", "Arcacia", "Black", "Cardinal", "Casey", "Emi", "Evelyn", "Fina", "Gaia", "Helen", "Ivy", "James", "Jao", "Karl", "Ken", "Kisaragi", "Koyo", "Ledia", "LRRH", "Melody", "Mikela", "Natalie", "Neil", "P4", "Patricia", "Rick", "Robert", "Roger", "RS", "Sasha", "Skyle", "StarTree", "Sylvia", "Tanya", "Therese", "V", "Vivi", "Vladanya", "Zoey"];
+  const mRoster = ["3B", "44", "Albatross", "Amelia", "Arcacia", "Black", "Cardinal", "Casey", "Clyde", "Emi", "Evelyn", "Fina", "Gaia", "Helen", "Ivy", "James", "Jao", "Karl", "Ken", "Kisaragi", "Koyo", "Ledia", "LRRH", "Melody", "Mikela", "Natalie", "Neil", "P4", "Patricia", "Rick", "Robert", "Roger", "RS", "Sasha", "Skyle", "StarTree", "Sylvia", "Tanya", "Therese", "V", "Vivi", "Vladanya", "Zoey"];
   //const mRoster = ["3B","44", "Albatross"];
   if(iIndex>=0){
     return mRoster[iIndex];
