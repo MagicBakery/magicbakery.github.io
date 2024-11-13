@@ -1795,6 +1795,7 @@ function MacroIcons(el,iHTMLInner){
     ["Magnifier","🔍"],
     ["MantleClock","🕰️"],
     ["Mailbox","📬"],
+    ["Mushroom","🍄‍🟫"],
     ["Owl","🦉"],
     ["Palette","🎨"],
     ["Pancake","🥞"],
