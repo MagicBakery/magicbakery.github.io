@@ -1748,6 +1748,7 @@ function MacroIcons(el,iHTMLInner){
     ["Archive2",":Archive2:"],
     ["Archive3",":Archive3:"],
     ["Backpack","🎒"],
+    ["Basket","🧺"],
     ["Bell","🔔"],
     ["BlankBox","□"],
     ["Bread","🍞"],
@@ -2381,6 +2382,7 @@ function GetURLCode(mURL,mDesc, mLang){
     if(mURL.includes(".jpeg")){mDesc="JPEG"};
     if(mURL.includes(".pdf")){mDesc="PDF"};
     if(mURL.includes("amazon.com")){mDesc="Amazon"};
+    if(mURL.includes("https://a.co/")){mDesc="Amazon"};
     if(mURL.includes("boardgamegeek.com")){mDesc="BGG"};
     if(mURL.includes("deviantart.com")){mDesc="DeviantArt"};
     if(mURL.includes("jlptsensei.com")){mDesc="JLPT";};
