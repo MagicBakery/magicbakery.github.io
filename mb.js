@@ -1410,8 +1410,8 @@ function FortuneCookie(elViewer,isRandom){
   // JQUERY
   // 20230201: StarTree: The Fortune Cookies node is 202302011021!
   $(document).ready(function(){
-    $(elViewer).load(ArchiveSelect("20230201") + "#Cookies", function(){
-      var cookies = $('.mbFC');
+    $(elViewer).load(ArchiveSelect("20230201") + "#P202302011021", function(){
+      var cookies = elViewer.querySelectorAll('.mbFC');
       var cookiesNum = cookies.length;
       var idx = 0;
       if(!isRandom){
@@ -1559,7 +1559,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20241026 Node maker URL Upgrade";
+  elContainer.innerHTML = "20241208 Fortune Cookie Code Update";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
