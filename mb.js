@@ -1820,6 +1820,7 @@ function MacroIcons(el,iHTMLInner){
     ["SquareCap","🎓"],
     ["Star","⭐"],
     ["SwordX","⚔️"],
+    ["Tag","🏷️"], 
     ["Teddy","🧸"], 
     ["TopHat","🎩"],
     ["TriangleL","◀"],
