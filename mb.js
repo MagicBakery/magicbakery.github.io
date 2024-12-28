@@ -1751,6 +1751,8 @@ function MacroIcons(el,iHTMLInner){
     ["Basket","🧺"],
     ["Bell","🔔"],
     ["BlankBox","□"],
+    ["Bow","🏹"],
+    ["Box","📦"],
     ["Bread","🍞"],
     ["Cake","🍰"],
     ["Calendar","📅"],
@@ -1761,11 +1763,13 @@ function MacroIcons(el,iHTMLInner){
     ["Chick","🐤"],
     ["Circus","🎪"],
     ["Clipboard","📋"],
+    ["Clock","🕒"],
     ["Close",":Close:"],
     ["CornerRibbon",":CornerRibbon:"],
     ["Correct","✔️"],
     ["Compass","🧭"],
     ["CopperCoin",":CopperCoin:"],
+    ["Court","🏛️"],
     ["Crown","👑"],
     ["CrystalBall","🔮"],
     ["Dice","🎲"],
@@ -1776,6 +1780,7 @@ function MacroIcons(el,iHTMLInner){
     ["Fan","🪭"],
     ["FourLeaf","🍀"],
     ["Folders","🗂️"],
+    ["Gift","🎁"],
     ["Giraffe","🦒"],
     ["GoldCoin",":GoldCoin:"],
     ["GoldCoin","🪙"],
@@ -1784,12 +1789,14 @@ function MacroIcons(el,iHTMLInner){
     ["Hatch","🐣"],
     ["Headphone","🎧"],
     ["Heart","❤️"],
+    ["HeartBeat","💗"],
     ["HeartBlue","💙"],
     ["HeartBrown","🤎"],
     ["HeartEmpty","🤍"],
     ["HeartGreen","💚"],
     ["HeartYellow","💛"],
     ["Hourglass","⏳"],
+    ["ID","🪪"],
     ["Jam",":Jam:"],
     ["Jar",":Jar:"],
     ["Kudookie","💟"],
@@ -1817,6 +1824,7 @@ function MacroIcons(el,iHTMLInner){
     ["Pudding","🍮"],
     ["Question",":?:"],
     ["Radio","📻"],
+    ["Ribbon","🎀"],
     ["Rock","🪨"],
     ["Scale","⚖️"],
     ["School","🏫"],
@@ -1824,6 +1832,7 @@ function MacroIcons(el,iHTMLInner){
     ["ShootingStar","🌠"],
     ["ShoppingCart","🛒"],
     ["SilverCoin",":SilverCoin:"],
+    ["Spell","💫"],
     ["SquareCap","🎓"],
     ["Star","⭐"],
     ["SwordX","⚔️"],
@@ -1832,13 +1841,16 @@ function MacroIcons(el,iHTMLInner){
     ["TopHat","🎩"],
     ["TriangleL","◀"],
     ["TriangleR","▶"],
+    ["Violin","🎻"],
     ["Waffle","🧇"],
     ["Wand","🪄"],
     ["WingL",":WingL:"],
     ["WingR",":WingR:"],
     ["WingR","🪽"],
     ["Wood","🪵"],
-    ["Wrong","❌"]
+    ["Writing","📝"],
+    ["Wrong","❌"],
+    ["XmasTree","🎄"]
   ];
   for(i=0;i<mIconList.length;i++){
     var mSearchIcon = mIconList[i][1];
@@ -5939,7 +5951,7 @@ function XP_DisplayEL(elFrame,bOrder){
             Content += "<div class='mbRef' style='position:relative;z-index:1' title='" + mProfile + "'>";
             Content += "<a class='mbbuttonIn' ";
             Content += "href='" + ViewerPath() + "?id=" + mProfile + "' ";
-            Content += "onclick=\"" + InterLink() + "'" + mProfile + "');return false;\">📋</a>";  
+            Content += "onclick=\"" + InterLink() + "'" + mProfile + "');return false;\">🪪</a>";  
             Content += "</div>";
           }
           
