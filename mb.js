@@ -1559,7 +1559,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20241208 Fortune Cookie Code Update";
+  elContainer.innerHTML = "20250104 QS Card Randomizer";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -1838,6 +1838,7 @@ function MacroIcons(el,iHTMLInner){
     ["NestEggs","🪺"],
     ["Orange","🍊"],
     ["Owl","🦉"],
+    ["Paladin",":Paladin:"],
     ["Palette","🎨"],
     ["Pancake","🥞"],
     ["Paw","🐾"],
@@ -1872,6 +1873,7 @@ function MacroIcons(el,iHTMLInner){
     ["Spell","💫"],
     ["SquareCap","🎓"],
     ["Star","⭐"],
+    ["StarEmpty",":StarEmpty:"],
     ["SwordX","⚔️"],
     ["Tag","🏷️"], 
     ["Target","🎯"], 
@@ -5183,6 +5185,32 @@ function RND_CoinFlip(el){
     mToss = "➖" ;
   }
   elResultSpace.innerHTML = elResultSpace.innerHTML + mToss;
+}
+function RND_QSCardCode(el,bShowIcon){
+  // 20250104: Tanya: Give a random QS card code with replenish
+  var elResultSpace = SearchPS(el,"control").nextElementSibling;
+  var mArchetype = Math.ceil(Math.random()*6)-1;
+  var mCode1 = Math.ceil(Math.random()*5);
+  
+  var mCode2 = Math.ceil(Math.random()*mCode1);
+  var aArchetypes = ["P","C","H","A","O","M"];
+  var aArchetypeIcons = [":Paladin:","❤️","📯","🍀","🔮","🎩"];
+  var mResult = aArchetypes[mArchetype] + mCode1.toString() + mCode2.toString();
+  if(!bShowIcon){
+    if(NotBlank(elResultSpace.innerHTML)){elResultSpace.innerHTML += " "}
+    elResultSpace.innerHTML += mResult;
+  }else{
+    var mNumEmptyStar = mCode1 - mCode2;
+    var mNumStar = mCode1 - mNumEmptyStar;
+    var mEmptyStar = ":StarEmpty:";
+    var mStar = "⭐";
+    var mResultIcon = aArchetypeIcons[mArchetype] + mEmptyStar.repeat(mNumEmptyStar) + mStar.repeat(mNumStar);
+    mResultIcon = MacroIcons(null,mResultIcon);
+    if(NotBlank(elResultSpace.innerHTML)){elResultSpace.innerHTML += "<br>"}
+    elResultSpace.innerHTML += "<span class='mbILB40' style='text-align:left'>" + mResult + "</span>";
+    elResultSpace.innerHTML += mResultIcon;
+  }
+  
 
 }
 function RND_Reset(el){

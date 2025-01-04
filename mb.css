@@ -959,6 +959,7 @@ span.mbIcon > icon{font-size: 0px;}
 .iNestEggs{background-image:url('https://github.com/MagicBakery/Icons/blob/main/NestEggs.png?raw=true');}
 .iOrange{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Orange.png?raw=true');}
 .iOwl{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Owl.png?raw=true');}
+.iPaladin{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Paladin.png?raw=true');}
 .iPalette{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Palette.png?raw=true');}
 .iPancake{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Pancake.png?raw=true');}
 .iPaw{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Paw.png?raw=true');}
@@ -993,6 +994,7 @@ span.mbIcon > icon{font-size: 0px;}
 .iSpell{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Spell.png?raw=true');}
 .iSquareCap{background-image:url('https://github.com/MagicBakery/Icons/blob/main/SquareCap.png?raw=true');}
 .iStar{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Star.png?raw=true');}
+.iStarEmpty{background-image:url('https://github.com/MagicBakery/Icons/blob/main/StarEmpty.png?raw=true');}
 .iSwordX{background-image:url('https://github.com/MagicBakery/Icons/blob/main/SwordX.png?raw=true');}
 .iTag{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Tag.png?raw=true');}
 .iTarget{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Target.png?raw=true');}
@@ -1289,7 +1291,7 @@ cursor:pointer;
   text-align:center;
   width:30px;
 }
-.mbILB20,.mbILB25,.mbILB30,.mbILB35,.mbTitleIcon{
+.mbILB20,.mbILB25,.mbILB30,.mbILB35,.mbILB40,.mbTitleIcon{
   border-radius:2px;
   box-sizing:border-box; 
   /*color:white;*/
@@ -1356,6 +1358,7 @@ cursor:pointer;
 .mbILB25{width:25px;}
 .mbILB30{width:30px;}
 .mbILB35{width:35px;}
+.mbILB40{width:40px;}
 .mbRankNone{background-color:none}
 .mbRankQtyLL{background-color:saddlebrown;}
 .mbRankQtyL{background-color:darkgoldenrod;}
