@@ -1815,6 +1815,7 @@ function MacroIcons(el,iHTMLInner){
     ["HeartEmpty","🤍"],
     ["HeartGreen","💚"],
     ["HeartYellow","💛"],
+    ["Honey","🍯"],
     ["Hourglass","⏳"],
     ["House","🏡"],
     ["ID","🪪"],
@@ -1824,6 +1825,7 @@ function MacroIcons(el,iHTMLInner){
     ["Key","🗝️"],
     ["Kudookie","💟"],
     ["Lemon","🍋"],
+    ["Link","🔗"],
     ["LoveLetter","💌"],
     ["Lyre",":Lyre:"],
     ["Magic","✨"],
@@ -1874,6 +1876,7 @@ function MacroIcons(el,iHTMLInner){
     ["SquareCap","🎓"],
     ["Star","⭐"],
     ["StarEmpty",":StarEmpty:"],
+    ["Stopwatch","⏱️"],
     ["SwordX","⚔️"],
     ["Tag","🏷️"], 
     ["Target","🎯"], 
@@ -8391,11 +8394,11 @@ function TextAreaUseCookie(el){
   if(bCookieEnabled){
     elWidget.setAttribute("CookieEnabled","true");
     elWidget.setAttribute("NodeEditID","");
-    el.innerHTML = "🍯✅";
+    el.innerHTML = MacroIcons(null,"🍯✅");
     TextAreaLoad(elTextArea);
   }else{
     elWidget.setAttribute("CookieEnabled","false");
-    el.innerHTML = "🍯⛔";
+    el.innerHTML = MacroIcons(null,"🍯⛔");
   }
 }
 function ToggleHeight(el,iDefault){
