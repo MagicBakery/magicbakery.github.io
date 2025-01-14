@@ -1559,7 +1559,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250104 QS Card Randomizer";
+  elContainer.innerHTML = "20250113 Spawner Music Player ";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -4195,7 +4195,7 @@ function MMInner(el,mMacro){
 function MacroURLHTML(mURL,mDesc){
   return "<a class='mbbuttonEx' onclick=\"ExURL('"+ mURL + "');return false;\" href='"+mURL+"'><small>" + mDesc + "</small></a>";
 }
-function Music(eMusicID){
+function Music(eMusicID){  
   if(AtBlogSpot()){
     LoadDiv('MBBGM','https://panarcana.blogspot.com/p/music', eMusicID);
     return;
@@ -4203,7 +4203,11 @@ function Music(eMusicID){
   if(AtGitHub()){
     // 20231029: StarTree: Default to not loop.
     var mURL = MusicURL(eMusicID);
-    var mDiv = document.getElementById('MBBGM');    
+    // 20250113: StarTree: Change to get the last one.
+    var mDivs = document.querySelectorAll('#MBBGM');
+    //DEBUG(mDivs.length);
+    var mDiv = mDivs[mDivs.length-1];
+    //var mDiv = document.getElementById('MBBGM');    
     var mLoop = "";
     if(eMusicID.search("_Loop")>-1){
       mLoop = " loop";
@@ -4211,6 +4215,19 @@ function Music(eMusicID){
     mDiv.innerHTML = "<audio controls autoplay" + mLoop + "><source src='" + mURL + "' type='audio/mpeg'></audio>";
     return;
   }
+}
+function MusicEL(el,eMusicID){
+  // 20250113: StarTree: To allow multiple music players.
+  var mURL = MusicURL(eMusicID);
+  var mLoop = "";
+  if(eMusicID.search("_Loop")>-1){
+    mLoop = " loop";
+  }
+  el.innerHTML = "<audio controls autoplay" + mLoop + "><source src='" + mURL + "' type='audio/mpeg'></audio>";
+  return;
+}
+function MusicPP(el,eMusicID){
+  MusicEL(el.parentNode.previousElementSibling,eMusicID);
 }
 function MusicURL(eMusicID){
   // 20231029: StarTree: Maps MusicID to URL.
@@ -4894,24 +4911,6 @@ function PlayNextShift(elThis,iShift){
   elAudio.currentTime = iShift; // 20230119: StarTree: So it can repeat!
   elAudio.play();
 }
-function YoutubeMBBGM(iLink){
-  // 20231229: Patricia: Added for playing youtube
-  var el = document.getElementById('MBBGM');
-  YoutubeEL(el,iLink)
-}
-function YoutubePN(el,iLink){
-  // 20230305: StarTree: Added for displaying Japanese lyrics
-  YoutubeEL(el.parentNode.nextElementSibling,iLink)
-}
-function YoutubePNC(el,iLink){
-  // 20231029: For GitHub Control
-  YoutubeEL(SearchPS(el,"Control").nextElementSibling,iLink)
-}
-function YoutubePPC(el,iLink,iPlaylist){
-  // 20231029: For GitHub Control
-  YoutubeEL(SearchPS(el,"Control").previousElementSibling,iLink,iPlaylist)
-}
-
 function YoutubeEL(el,iLink,iPlaylist){
   // 20230305: StarTree: Added
   // 20231029: StarTree: Split for YouTubePNC
@@ -4927,17 +4926,31 @@ function YoutubeEL(el,iLink,iPlaylist){
       // https://youtu.be/D4OAx2ALK34?si=1eb8Mmnd-BO4Zs9T
       mCBText = TextBetween(mCBText,"https://youtu.be/","?si=")
 
+      // 20250113: StarTree: Compare the link with what is saved. If they are the same and the element is shown, just hide the element.
+      var mCBTextCur = el.getAttribute("mTestString");
+      if(mCBTextCur == mCBText && !(el.classList.contains("mbhide"))){
+        ToggleHide(el);
+        el.setAttribute('mTestString',"");
+        return;
+      }
+      // 20250113: StarTree: Save the link.
+      el.setAttribute('mTestString',mCBText);
       return YoutubeEL(el,mCBText);      
     });
   }
 
   var elTarget = el;
+
+
   if(elTarget.getAttribute("mQueryString") == iLink || elTarget.getAttribute("mQueryString") == iPlaylist){
+    // 20250113: StarTree: Just Toggle.
     //if(NotBlank(elTarget.innerHTML) && IsBlank(iPlaylist)){ // 20240905: StarTree: Playlist may not have iLink content.
     if(NotBlank(elTarget.innerHTML)){
-      elTarget.innerHTML="";
-      elTarget.setAttribute("mQueryString","");
-      elTarget.classList.add("mbhide");
+      //elTarget.innerHTML="";
+      //elTarget.setAttribute("mQueryString","");
+      //elTarget.classList.add("mbhide");
+      // 20250113: StarTree: Just toggle the visibility. 
+      ToggleHide(elTarget);
       return;
     }
   }
@@ -4974,6 +4987,49 @@ function YoutubeEL(el,iLink,iPlaylist){
   /*<center>
     <iframe width="100%" src="https://www.youtube.com/embed/FUH9S44D1BM?version=3&loop=1&autoplay=1&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   </center>*/
+}
+function YoutubeMBBGM(iLink){
+  // 20231229: Patricia: Added for playing youtube
+  var el = document.getElementById('MBBGM');
+  YoutubeEL(el,iLink)
+}
+function YoutubePN(el,iLink){
+  // 20230305: StarTree: Added for displaying Japanese lyrics
+  YoutubeEL(el.parentNode.nextElementSibling,iLink)
+}
+function YoutubePNC(el,iLink){
+  // 20231029: For GitHub Control
+  YoutubeEL(SearchPS(el,"Control").nextElementSibling,iLink)
+}
+function YoutubePPC(el,iLink,iPlaylist){
+  // 20231029: For GitHub Control
+  YoutubeEL(SearchPS(el,"Control").previousElementSibling,iLink,iPlaylist)
+}
+function YoutubePrev(el,iLink,iPlaylist){
+  // 20250113: StarTree: For separate viewers.
+  YoutubeEL(el.previousElementSibling,iLink,iPlaylist)
+}
+function YoutubeSpawnPC(el,iTitle,iLink,iPlaylist){
+  // 20250113: StarTree: Spawns a Youtube frame before the Control div.
+  var elControl = SearchPS(el,"Control");
+  var elTemp = document.createElement("span");
+  var mHTML = "<span control style='text-align:left;font-size:14px'>";
+  
+  //mHTML += "<span class='mbRef'><a class='mbbutton' onClick='Remove(this,\"viewer\")' style='float:right' title='Close'>:Close:</a></span>";
+  mHTML += "[ <a class='mbbutton' onClick='ToggleHidePN(this)'>" + iTitle + "</a> ";
+  mHTML += "<a class='mbbutton' onClick='Remove(this,\"viewer\")'  title='Close'>:Close:</a> ]";
+  mHTML += "</span><div></div>";
+  elTemp.innerHTML= MacroIcons(null,mHTML);
+  elTemp.style.textAlign = "Left";
+  elTemp.setAttribute('viewer','');
+  elControl.before(elTemp);
+  
+  YoutubeEL(elTemp.firstElementChild.nextElementSibling,iLink,iPlaylist);
+}
+function Remove(el,iScope){
+  // 20250113: StarTree
+  var mDiv = SearchPS(el,iScope);  
+  mDiv.remove();
 }
 function QueryAll(eContainerID, eQuery, iInner){
   // JQUERY
