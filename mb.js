@@ -1759,6 +1759,7 @@ function MacroIcons(el,iHTMLInner){
     ["Bow","🏹"],
     ["Box","📦"],
     ["Bread","🍞"],
+    ["Briefcase","💼"],
     ["Broom","🧹"],
     ["Bulb","💡"],
     ["Cactus","🌵"],
@@ -1780,6 +1781,7 @@ function MacroIcons(el,iHTMLInner){
     ["Compass","🧭"],
     ["CopperCoin",":CopperCoin:"],
     ["Court","🏛️"],
+    ["CrossSkull","☠️"],
     ["Crown","👑"],
     ["CrystalBall","🔮"],
     ["Dice","🎲"],
@@ -1799,6 +1801,7 @@ function MacroIcons(el,iHTMLInner){
     ["Folders","🗂️"],
     ["Fox","🦊"],
     ["Frog","🐸"],
+    ["Ghost","👻"],
     ["Gift","🎁"],
     ["Giraffe","🦒"],
     ["GoldCoin",":GoldCoin:"],
@@ -1819,9 +1822,11 @@ function MacroIcons(el,iHTMLInner){
     ["Hourglass","⏳"],
     ["House","🏡"],
     ["ID","🪪"],
+    ["JackLantern","🎃"],
     ["Jam",":Jam:"],
     ["Jar",":Jar:"],
     ["Jellyfish","🪼"],
+    ["KarateGi","🥋"],
     ["Key","🗝️"],
     ["Kudookie","💟"],
     ["Lemon","🍋"],
@@ -7495,7 +7500,7 @@ function ReloadFP(el){
 
     mHTML += "<a class='mbbutton' onClick='ReloadFP(this)' title='Reload Feedback Form'>Feedback Form</a><span><hr>";
     mHTML += "<iframe src='" + mInput + "' title='Google Form' style='border:none;width:100%;height:45vh' allow='clipboard-read; clipboard-write'></iframe></span>";
-    elFP.innerHTML = mHTML;
+    elFP.innerHTML = MacroIcons(null,mHTML);
 
     return;
   }
