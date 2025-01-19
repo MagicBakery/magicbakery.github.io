@@ -312,7 +312,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     // STEP: Start the Card/Inventory section
     if(true || !IsBlank(elCard)){ // 20240730: StarTree: Always use the same frame.
       mHasCard = true;
-      mHTMLInner += "<div cardmat class='mbCardMat";      
+      mHTMLInner += "<div class='mbCardMat";      
       mHTMLInner += "'>";
       
       
@@ -450,8 +450,8 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   if(mNodeID != "202301251008"){// 202301251008 is the scoreboard node
     try{
       var elControl = elContainer.querySelector("[control]");
-      QSLSortByUpdate(elControl.firstElementChild);   
-      QSLSortByUpdate(elControl.firstElementChild);      
+      QSLSortByUpdate(elControl.firstElementChild);
+      QSLSortByUpdate(elControl.firstElementChild);
       QSLShowTag(elControl.nextElementSibling);
       if(NotBlank(mCardList)){        
         elControl.parentNode.classList.add("mbhide");
@@ -843,11 +843,9 @@ function IFrameURLSet(el){
   var mInput = GetInputBoxValue(el);
   // 20230723: StarTree If the URL does not contain a dot, assume that it is a node ID.
   // 20230916: Just get the last 12 in order to show node ID on title
-  
   var mNodeID = mInput.substr(mInput.length - 12);  
   if(IsBlank(mNodeID)){mNodeID = "202303052122";}
   mInput = "https://panarcana.blogspot.com/p/viewer.html?id=P" + mNodeID;
-  
   
   // 20230916: Always make a new iFrame 
   // <div>
@@ -864,10 +862,6 @@ function IFrameURLSet(el){
   elTemp.style.marginBottom = "0px";
   MacroIcons(elTemp);
   mControl.nextElementSibling.prepend(elTemp);  
-}
-function IsDisplayed(el){
-  // 20250118: StarTree: Returns True if the element is in display
-  return (window.getComputedStyle(el).display !== "none");
 }
 function JQAdd(el,iNoReTarget){
   // 20230821: StarTree: Add to JQuery from GitHub Archive.
@@ -1565,7 +1559,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250118 Sort by Stars / MP Spawner Upgrades";
+  elContainer.innerHTML = "20250113 Spawner Music Player ";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2189,11 +2183,9 @@ function MacroResItem(mTag){
   mHTML += "</code>";*/
   mHTML += "<hide><hr>";
   // DATA: This is the area for basic data about the item
-  mHTML += "<div control class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:-2px 0px -3px 0px;padding:2px 5px;max-width:150px;\">";  //max-width:145px
+  mHTML += "<div class=\"mbpuzzle\" style=\"float:right;font-size:15px;margin:-2px 0px -3px 0px;padding:2px 5px;max-width:150px;\">";  //max-width:145px
   //mHTML += "<div class=\"mbpuzzle\" style=\"font-size:15px;margin:0px 0px 0px 0px;\">";  
-  
-
-  // == Avaiablity Label ==
+// == Star Pattern ==
   if(mTag.hasAttribute('available')){
     mHTML += "<center style=\"color:green\"><b>AVAILABLE</b></center>";
   }else if(mTag.hasAttribute('unavailable')){
@@ -2212,18 +2204,12 @@ function MacroResItem(mTag){
   }
 
   // DATA: Youtube Playlist Link
-  
   if(NotBlank(mYouTube) || NotBlank(mMuseScore)){
     mHTML += "<center>";
     let mURL = "";
     if(NotBlank(mYouTube)){
-      
       mURL = "https://www.youtube.com/watch?v=" + mYouTube + "&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx";
-      // 20250118: StarTree: This was the original code.
-      //mHTML += "<a title='Youtube' class='mbbuttonEx' onclick=\"ExURL('"+ mURL + "');return false;\" href='"+mURL+"'>🎧<hide>"+mURL+"</hide></a>";
-      // 20250118: StarTree: Upgrading to spawn a youtube frame.
-      mHTML += "<a class=\"mbbutton\" title=\"Play\" onclick=\"YoutubeSpawnFP(this,'"+ mTitle + "','"+mYouTube+"','');return false\" href=\""+mURL+"\">🎧</a>";
-      mHTML += "<hide>" + mYouTube + "</hide>"
+      mHTML += "<a title='Youtube' class='mbbuttonEx' onclick=\"ExURL('"+ mURL + "');return false;\" href='"+mURL+"'>🎧<hide>"+mURL+"</hide></a>";
     }
     if(NotBlank(mMuseScore)){
       mURL = "https://musescore.com/user/35526651/scores/" + mMuseScore;
@@ -2247,24 +2233,12 @@ function MacroResItem(mTag){
     mHTML += "🥚<br>"
   }
 
-  // == Star Pattern == (Show as part of tags)
-  
-  var mStarPattern = StarPattern(mStarCode);
-  /*if(NotBlank(mStarPattern)){
-    mHTML += "<center>" + mStarPattern + "</center>";
-  }*/
-
   // Tags. Need to display this for text filter
   // 20240827: James: Don't show tags if there is none.
   
-  if(NotBlank(mTags) || NotBlank(mStarPattern)){ 
-    mHTML += "<hide tags>+";
-    
-    if(NotBlank(mStarPattern)){mHTML += mStarPattern + "+";} // 20250118: Sasha: Show stars as part of tags
-    mHTML += mTags.replaceAll(" ","+").replaceAll("_"," ") + "+</hide>";
-    mHTML += "<b>Tags:</b>&nbsp;" ;
-    if(NotBlank(mStarPattern)){mHTML += mStarPattern + " ";} // 20250118: Sasha: Show stars as part of tags
-    mHTML += mTags.replaceAll("_"," ") +"<br>";
+  if(NotBlank(mTags)){ 
+    mHTML += "<hide tags>+" + mTags.replaceAll(" ","+").replaceAll("_"," ") + "+</hide>";
+    mHTML += "<b>Tags:</b>&nbsp;" + mTags.replaceAll("_"," ") +"<br>";
   }
 
   // Singers.
@@ -2480,7 +2454,6 @@ function MemberLevel(iMember){
 function GetURLCode(mURL,mDesc, mLang){
   // 20240504: Sylvia: mDesc argument is optional.
   var bIcon = false;
-  var bYouTube = false; // 20250118: StarTree: Enabling embedded frame spawning.
   if(IsBlank(mDesc)){
     mDesc = "url";
     if(mURL.includes(".jpeg")){mDesc="JPEG"};
@@ -2494,7 +2467,7 @@ function GetURLCode(mURL,mDesc, mLang){
     if(mURL.includes("nextdoor.com")){mDesc="🏡";bIcon=true;};
     if(mURL.includes("reddit.com")){mDesc="Reddit"};
     if(mURL.includes("twitter.com")){mDesc="💬";bIcon=true;};    
-    if(mURL.includes("youtube.com")){mDesc="📺";bIcon=true;bYouTube=true;};
+    if(mURL.includes("youtube.com")){mDesc="📺";bIcon=true;};
     if(mURL.includes("&list=")){mDesc="🎧";bIcon=true;};
     if(mURL.includes("podcast")){mDesc="📻";bIcon=true;};
 
@@ -2506,13 +2479,6 @@ function GetURLCode(mURL,mDesc, mLang){
   if(!bIcon){
     mDesc = "[" + mDesc + "]";
   }
-  // 20250118: StarTree: If it is a youtube link, try to spawn it at the Music Player.
-  if(bYouTube){
-    let mYouTubeCode = YouTubeDecode(mURL);
-    return "<a class=\"mbbutton\" title=\"Play\" onclick=\"YoutubeSpawnFP(this,'"+ mDesc + "','"+mYouTubeCode+"','');return false\" href=\""+mURL+"\">"+ mDesc+"</a>";
-  }
-
-
   return "<a class=\"mbbuttonEx mbURL\" onclick=\"ExURL('" + mURL + "');return false;\" href=\""+mURL+"\">" + mDesc + "</a>";
 }
 function FullTitle(el,mPrefix,mSubtitle,bNS){
@@ -4537,9 +4503,6 @@ function SPKMultiStr(el){
 function StarPattern(iCode1,iCode2){
   // 20250118: StarTree: Return the Magic Bakery HTML code for the graphics of a star code.
   
-  // If Code 1 is not provided, just return.
-  if(IsBlank(iCode1)){return "";}
-
   // If only Code 1 is provided, interpret it as the combined code and decompose it.
   var bFilledLast = true;
   if(IsBlank(iCode2)){
@@ -4981,16 +4944,6 @@ function PlayNextShift(elThis,iShift){
   elAudio.currentTime = iShift; // 20230119: StarTree: So it can repeat!
   elAudio.play();
 }
-function YouTubeDecode(iText){
-  // 20250118: StarTree: Refactored.
-  // Parse a url for the video code
-  // Example URL: https://www.youtube.com/watch?v=Xo1g5HWgaRA&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx&index=136
-  iText = TextBetween(iText,"watch?v=","&list=");
-  // 20240906: StarTree: Make it work for this also:
-  // https://youtu.be/D4OAx2ALK34?si=1eb8Mmnd-BO4Zs9T
-  iText = TextBetween(iText,"https://youtu.be/","?si=");
-  return iText
-}
 function YoutubeEL(el,iLink,iPlaylist){
   // 20230305: StarTree: Added
   // 20231029: StarTree: Split for YouTubePNC
@@ -4999,7 +4952,12 @@ function YoutubeEL(el,iLink,iPlaylist){
   if(IsBlank(iLink) && IsBlank(iPlaylist)){
     navigator.clipboard.readText().then((mCBText)=>{
       // Parse a url for the video code
-      mCBText = YouTubeDecode(mCBText);
+      // Example URL: https://www.youtube.com/watch?v=Xo1g5HWgaRA&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx&index=136
+      mCBText = TextBetween(mCBText,"watch?v=","&list=")
+      
+      // 20240906: StarTree: Make it work for this also:
+      // https://youtu.be/D4OAx2ALK34?si=1eb8Mmnd-BO4Zs9T
+      mCBText = TextBetween(mCBText,"https://youtu.be/","?si=")
 
       // 20250113: StarTree: Compare the link with what is saved. If they are the same and the element is shown, just hide the element.
       var mCBTextCur = el.getAttribute("mTestString");
@@ -5048,12 +5006,7 @@ function YoutubeEL(el,iLink,iPlaylist){
     mHTML = "src='" + mHTML + "' ";
   }
 
-  // 20250118: StarTree: Get the width of the div.
-  let mDivWidth = parseInt(window.getComputedStyle(el).width.replaceAll("px",""));
-  let mDivHeight = Math.floor(mDivWidth * 9 / 16);
-  mHTML += "width='100%' height='"+mDivHeight+"px' frameborder='0' allow='accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture' allowfullscreen";
-
-  //mHTML += "width='100%' height='200px' frameborder='0' allow='accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture' allowfullscreen";
+  mHTML += "width='100%' frameborder='0' allow='accelerometer;clipboard-write;encrypted-media;gyroscope;picture-in-picture' allowfullscreen";
   mHTML = "<iframe " + mHTML + "></iframe>";
   mHTML = "<center>" + mHTML + "</center>";
   elTarget.innerHTML = mHTML;
@@ -5089,47 +5042,22 @@ function YoutubePrev(el,iLink,iPlaylist){
   // 20250113: StarTree: For separate viewers.
   YoutubeEL(el.previousElementSibling,iLink,iPlaylist)
 }
-function YoutubeSpawnELBefore(el,iTitle,iLink,iPlaylist){
-  // 20250118: StarTree: Spawns a Youtube frame before the el (Refactored from YoutubeSpawnPC).
+function YoutubeSpawnPC(el,iTitle,iLink,iPlaylist){
+  // 20250113: StarTree: Spawns a Youtube frame before the Control div.
+  var elControl = SearchPS(el,"Control");
   var elTemp = document.createElement("span");
-  var mHTML = "<span control style='text-align:left;font-size:14px;word-wrap:break-word;'>";
+  var mHTML = "<span control style='text-align:left;font-size:14px'>";
   
-  //var mHTML = "<span control class='mbCharCardSubtitle'>";
-  
-
   //mHTML += "<span class='mbRef'><a class='mbbutton' onClick='Remove(this,\"viewer\")' style='float:right' title='Close'>:Close:</a></span>";
-  mHTML += "[ <a class='mbbutton' style='white-space: normal' onClick='ToggleHidePN(this)'>" + iTitle + "</a> ";
+  mHTML += "[ <a class='mbbutton' onClick='ToggleHidePN(this)'>" + iTitle + "</a> ";
   mHTML += "<a class='mbbutton' onClick='Remove(this,\"viewer\")'  title='Close'>:Close:</a> ]";
   mHTML += "</span><div></div>";
   elTemp.innerHTML= MacroIcons(null,mHTML);
   elTemp.style.textAlign = "Left";
   elTemp.setAttribute('viewer','');
-  el.before(elTemp);
-
+  elControl.before(elTemp);
+  
   YoutubeEL(elTemp.firstElementChild.nextElementSibling,iLink,iPlaylist);
-}
-function YoutubeSpawnFP(el,iTitle,iLink,iPlaylist){
-  // 20250118: StarTree: If the music player FP is found, spawn there. Otherwise, spawn before the control div.
-  var elFP = document.querySelector("[fp='20240904213516']");  
-  if(IsBlank(elFP) || !IsDisplayed(elFP)){ // If not found, just spawn before the control div.
-    YoutubeSpawnPC(el,iTitle,iLink,iPlaylist);
-    return;
-  }
-  // If found, index to the control frame in the FP
-  YoutubeSpawnPC(elFP.lastElementChild,iTitle,iLink,iPlaylist);
-}
-function YoutubeSpawnPC(el,iTitle,iLink,iPlaylist){
-  // 20250113: StarTree: Spawns a Youtube frame before the Control div.
-  var elControl = SearchPS(el,"Control");
-  if(NotBlank(elControl)){YoutubeSpawnELBefore(elControl,iTitle,iLink,iPlaylist);return;}
-  
-  // Next try to spawn it just before the card mat if it is in a sidepanel.
-  elControl = SearchPS(el,"sidepanel");
-  if(NotBlank(elControl)){elControl = SearchPS(el,"cardmat");}
-  if(NotBlank(elControl)){YoutubeSpawnELBefore(elControl,iTitle,iLink,iPlaylist);return;}
-  
-  // If no frame is found, just spawn before the current element.
-  YoutubeSpawnELBefore(el,iTitle,iLink,iPlaylist);  
 }
 function Remove(el,iScope){
   // 20250113: StarTree
@@ -5436,24 +5364,18 @@ function QSLThisMonth(el,iQuery){
   // 20240507: Natalie: This version of QSL only return
 }
 function QSLShowTag(elList,iTag){
-  // 20241006: Mikela: Show the tag for the end text. If iTag is not specified, show the first tag.  
+  // 20241006: Mikela: So the tag for the end text. If iTag is not specified, show the first tag.  
   var elItems = elList.querySelectorAll("[topic]");
-  
-  
   if(NotBlank(iTag)){
     iTag = MacroIcons(null,iTag); 
   }
   elItems.forEach((item)=>{
     if(item.parentNode != elList){return;}
-    let mFirstTag = "";
-
     var elTags= item.querySelector("[tags]");
     if(IsBlank(elTags)){return;}
     var mTags = elTags.innerHTML;    
     var mTagsPlus = "+"+iTag+"+";
-    mFirstTag = mTags.split("+")[1].replaceAll("_"," ");  
-
-    
+    let mFirstTag = mTags.split("+")[1].replaceAll("_"," ");  
     if(IsBlank(iTag)){
       item.firstElementChild.innerHTML = mFirstTag;
     }else if(mTagsPlus.search("+"+iTag+"+")>-1){
@@ -5469,18 +5391,9 @@ function QSLSortBy(el,iAttribute){
   var bReversed = QSLSortReverseIfSet(elContainer,iAttribute);
   var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
   elEntries.forEach((item)=>{
-    // 20250118: StarTree: Show Star Pattern if the attribute is star.
-    let mSortValue = item.getAttribute(iAttribute);
-    if(iAttribute.toLowerCase() == "star"){
-      // Don't auto link to description just yet, because different nodes might have different definition for its star ratings. 
-      //item.firstElementChild.innerHTML = LnkCode("202501020158",StarPattern(mSortValue));
-      item.firstElementChild.innerHTML = StarPattern(mSortValue);
-    }else{
-      item.firstElementChild.innerHTML = mSortValue
-    }
-    
+    item.firstElementChild.innerHTML = item.getAttribute(iAttribute);
     if(bReversed){
-       item.style.order = mSortValue;
+       item.style.order = item.firstElementChild.innerHTML;
     }    
   });
   elContainer.scrollTop = -elContainer.scrollHeight;
@@ -5601,7 +5514,6 @@ function QSLSortReverseIfSet(elContainer,iSortBy){
     }
   }else{
     elContainer.setAttribute('sortby',iSortBy);
-    //elContainer.style.flexDirection = 'column';
     return false;
   }
   return true;
@@ -8309,7 +8221,7 @@ function NMRES(el){
   // 20240802: StarTere: Don't add an icon by default.
   //var mIcon = Default(elWidget.querySelector('[NM-Icon]').value,"📌"); 
   //var mHTML = "<res icon=\""+mIcon+"\" item=\""+DTC(mDTS)+"\" title=\"Title\" tags=\"\">\n</res>";
-  var mHTML = "<res item=\""+DTC(mDTS)+"\" title=\"Title\" star=\"\" tags=\"\">\n</res>";
+  var mHTML = "<res item=\""+DTC(mDTS)+"\" title=\"Title\" tags=\"\">\n</res>";
   navigator.clipboard.writeText(mHTML);
 }
 function NMURL(el,mCBText){
