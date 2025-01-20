@@ -2317,14 +2317,14 @@ function MacroResItem(mTag){
   elNew.setAttribute('name',mTitle);
   elNew.setAttribute("date",mDate);
   elNew.setAttribute("update",mUpdate);
-  elNew.setAttribute("dts",mDTS);
-  elNew.setAttribute("star",mStarCode); // 20250118: StarTree
+  elNew.setAttribute("dts",mDTS);  
   elNew.setAttribute("tags",mTags);
   
-  if(mTag.hasAttribute("year")){
-    
-    elNew.setAttribute("year",mTag.getAttribute("year"))}
-
+  // Optional Tag Copying (Copy Attribute if Exist)
+  if(NotBlank(mStarCode)){elNew.setAttribute("star",mStarCode);} // 20250118: StarTree
+  if(mTag.hasAttribute("year")){    
+    elNew.setAttribute("year",mTag.getAttribute("year"))
+  }
   mTag.remove();
   return true;
 }
