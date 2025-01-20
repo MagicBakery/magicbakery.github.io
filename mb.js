@@ -5035,18 +5035,15 @@ function YoutubeEL(el,iLink,iPlaylist){
 
   // 20240904: StarTree: If a playlist is specified:
   if(NotBlank(iPlaylist)){
-    
     /*mHTML= "https://www.youtube.com/playlist?list=" + iPlaylist;
-    el.setAttribute("href",mHTML);*/
-    
+    el.setAttribute("href",mHTML);*/    
     //mHTML = "https://www.youtube.com/embed/videoseries?si=m0csnEsQRdzeZSQ1&amp;list=" + iPlaylist;
-    mHTML = "https://www.youtube.com/embed/videoseries?list=" + iPlaylist;
-
-    mHTML = "src='" + mHTML +"' ";
+    mHTML = "https://www.youtube.com/embed/videoseries?list=" + iPlaylist;    
   }else{
     mHTML = "https://www.youtube.com/embed/" + iLink + "?rel=0?version=3&autoplay=1&loop=1";
-    mHTML = "src='" + mHTML + "' ";
+
   }
+  mHTML = "src='" + mHTML +"' ";
 
   // 20250118: StarTree: Get the width of the div.
   let mDivWidth = parseInt(window.getComputedStyle(el).width.replaceAll("px",""));
@@ -5098,7 +5095,7 @@ function YoutubeSpawnELBefore(el,iTitle,iLink,iPlaylist){
   
 
   //mHTML += "<span class='mbRef'><a class='mbbutton' onClick='Remove(this,\"viewer\")' style='float:right' title='Close'>:Close:</a></span>";
-  mHTML += "[ <a class='mbbutton' style='white-space: normal' onClick='ToggleHidePN(this)'>" + iTitle + "</a> ";
+  mHTML += "[ <a class='mbbutton' style='white-space: normal' onClick='ToggleHidePN(this)' title='Show/Hide'>" + iTitle + "</a> ";
   mHTML += "<a class='mbbutton' onClick='Remove(this,\"viewer\")'  title='Close'>:Close:</a> ]";
   mHTML += "</span><div></div>";
   elTemp.innerHTML= MacroIcons(null,mHTML);
