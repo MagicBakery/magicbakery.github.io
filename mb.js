@@ -2480,7 +2480,7 @@ function MemberLevel(iMember){
 function GetURLCode(mURL,mDesc, mLang){
   // 20240504: Sylvia: mDesc argument is optional.
   var bIcon = false;
-  var bYouTube = false; // 20250118: StarTree: Enabling embedded frame spawning.
+  
   if(IsBlank(mDesc)){
     mDesc = "url";
     if(mURL.includes(".jpeg")){mDesc="JPEG"};
@@ -2494,11 +2494,11 @@ function GetURLCode(mURL,mDesc, mLang){
     if(mURL.includes("nextdoor.com")){mDesc="🏡";bIcon=true;};
     if(mURL.includes("reddit.com")){mDesc="Reddit"};
     if(mURL.includes("twitter.com")){mDesc="💬";bIcon=true;};    
-    if(mURL.includes("youtube.com")){mDesc="📺";bIcon=true;bYouTube=true;};
-    if(mURL.includes("&list=")){mDesc="🎧";bIcon=true;};
+    if(mURL.includes("youtube.com")){mDesc="📺";bIcon=true;};
+    if(mURL.includes("list=")){mDesc="🎧";bIcon=true;};
     if(mURL.includes("podcast")){mDesc="📻";bIcon=true;};
-
   }
+  
   if(NotBlank(mLang)){
     mDesc += "&nbsp;" + mLang;
   }
@@ -2506,10 +2506,22 @@ function GetURLCode(mURL,mDesc, mLang){
   if(!bIcon){
     mDesc = "[" + mDesc + "]";
   }
-  // 20250118: StarTree: If it is a youtube link, try to spawn it at the Music Player.
-  if(bYouTube){
-    let mYouTubeCode = YouTubeDecode(mURL);
-    return "<a class=\"mbbutton\" title=\"Play\" onclick=\"YoutubeSpawnFP(this,'"+ mDesc + "','"+mYouTubeCode+"','');return false\" href=\""+mURL+"\">"+ mDesc+"</a>";
+  // 20250118: StarTree: If it is a youtube link, try to spawn it at the Music Player.  
+  if(mURL.includes("youtube.com")){    
+    if(mURL.includes("list=")){ // 20250120: StarTree: If it is already a playlist, use playlist link.
+      // https://www.youtube.com/watch?v=lm79me_S4-E&list=PL1PNHwldi501DJOfOUGnQAo4A8cXcrbT2
+      
+      let mPlayList = TextBetween(mURL,"list=","****")
+      DEBUG(mURL);
+      DEBUG(mPlayList);
+      return "<a class=\"mbbutton\" title=\"Play\" onclick=\"YoutubeSpawnFP(this,'"+ mDesc + "','','"+ mPlayList +"');return false\" href=\""+mURL+"\">"+ mDesc+"</a>";
+    }else{
+      
+      let mYouTubeCode = YouTubeDecode(mURL);
+      return "<a class=\"mbbutton\" title=\"Play\" onclick=\"YoutubeSpawnFP(this,'"+ mDesc + "','"+mYouTubeCode+"','');return false\" href=\""+mURL+"\">"+ mDesc+"</a>";
+    }
+
+    
   }
 
 
@@ -8312,10 +8324,15 @@ function NMRES(el){
 function NMURL(el,mCBText){
   // 20241026: StarTree: This creates the URL html string and put it in the clipboard.
   var mURL = "";  
-  // 20241026: StarTree: If the mCBText field is specified, use it and trim off the part with a question mark.
-  if(NotBlank(mCBText)){
-    var mSplit = mCBText.split("?");
-    mURL = mSplit[0];
+  // 20241026: StarTree: If the mCBText field is specified, use it and trim off the part after a question mark.
+  // 20250120: StarTree: Don't do this if it is a YouTube link.
+  if(NotBlank(mCBText)){    
+    if(!(mCBText.includes("youtube.com"))){
+      var mSplit = mCBText.split("?");
+      mURL = mSplit[0];
+    }else{
+      mURL = mCBText;
+    }
   }else{
     var elControl = SearchPS(el,"Widget");
     mURL = elControl.querySelector('[NM-URL]').value;
