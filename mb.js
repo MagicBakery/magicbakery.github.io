@@ -1565,7 +1565,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250118 Sort by Stars / MP Spawner Upgrades";
+  elContainer.innerHTML = "20250123 Click on Card Image to Zoom";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -1698,7 +1698,10 @@ function MacroCard(el){
     elNew.classList.add('mbCharCard');
 
     let mHTML = "<div class='mbCharCardTitle2'>" + mTitle + "</div>";
-    mHTML += "<a href='" + mIMG + "' target='_blank' onclick='return false;' style='cursor:default'>";
+    //mHTML += "<a href='" + mIMG + "' target='_blank' onclick='return false;' style='cursor:default'>";
+    // 20250123: StarTree: Experimenting with enabling click link
+    mHTML += "<a href='" + mIMG + "' target='_blank' style='cursor:zoom-in'>";
+
     mHTML += "<div class='mbCharCardImg' style=\"background-position: 50% 50%; background-image:url('" + mIMG + "')\"></div></a>";
     mHTML += "<div class='mbCharCardSubtitle'>"+ mSubTitle + "</div>";
     mHTML += "<div class='mbCharCardDesc'><center><div class='mbCharCardDescInner'>";
@@ -1782,6 +1785,7 @@ function MacroIcons(el,iHTMLInner){
     ["Clipboard","📋"],
     ["Clock","🕒"],
     ["Close",":Close:"],
+    ["CombatHelmet","🪖"],
     ["CornerRibbon",":CornerRibbon:"],
     ["Correct","✔️"],
     ["Compass","🧭"],
@@ -2222,7 +2226,14 @@ function MacroResItem(mTag){
       // 20250118: StarTree: This was the original code.
       //mHTML += "<a title='Youtube' class='mbbuttonEx' onclick=\"ExURL('"+ mURL + "');return false;\" href='"+mURL+"'>🎧<hide>"+mURL+"</hide></a>";
       // 20250118: StarTree: Upgrading to spawn a youtube frame.
-      mHTML += "<a class=\"mbbutton\" title=\"Play\" onclick=\"YoutubeSpawnFP(this,'"+ mTitle + "','"+mYouTube+"','');return false\" href=\""+mURL+"\">🎧</a>";
+
+      // 20250122: StarTree: Use video icon when the RES is does not have a vocal or instrumental attribute.
+      let mYTIcon="📺";
+      if(mTag.hasAttribute("vocal") || mTag.hasAttribute("instrumental")){
+        mYTIcon="🎧";
+      }
+
+      mHTML += "<a class=\"mbbutton\" title=\"Play\" onclick=\"YoutubeSpawnFP(this,'"+ mTitle + "','"+mYouTube+"','');return false\" href=\""+mURL+"\">"+mYTIcon+"</a>";
       mHTML += "<hide>" + mYouTube + "</hide>"
     }
     if(NotBlank(mMuseScore)){
@@ -2512,12 +2523,11 @@ function GetURLCode(mURL,mDesc, mLang){
       // https://www.youtube.com/watch?v=lm79me_S4-E&list=PL1PNHwldi501DJOfOUGnQAo4A8cXcrbT2
       
       let mPlayList = TextBetween(mURL,"list=","****")
-      DEBUG(mURL);
-      DEBUG(mPlayList);
       return "<a class=\"mbbutton\" title=\"Play\" onclick=\"YoutubeSpawnFP(this,'"+ mDesc + "','','"+ mPlayList +"');return false\" href=\""+mURL+"\">"+ mDesc+"</a>";
     }else{
       
       let mYouTubeCode = YouTubeDecode(mURL);
+      
       return "<a class=\"mbbutton\" title=\"Play\" onclick=\"YoutubeSpawnFP(this,'"+ mDesc + "','"+mYouTubeCode+"','');return false\" href=\""+mURL+"\">"+ mDesc+"</a>";
     }
 
@@ -5000,7 +5010,11 @@ function YouTubeDecode(iText){
   iText = TextBetween(iText,"watch?v=","&list=");
   // 20240906: StarTree: Make it work for this also:
   // https://youtu.be/D4OAx2ALK34?si=1eb8Mmnd-BO4Zs9T
-  iText = TextBetween(iText,"https://youtu.be/","?si=");
+  iText = TextBetween(iText,"youtu.be/","?si=");
+
+  // 20250122: StarTree:  Make it work this also:
+  // https://www.youtube.com/shorts/nxn5La67mhI
+  iText = TextBetween(iText,"youtube.com/shorts/","****");
   return iText
 }
 function YoutubeEL(el,iLink,iPlaylist){
