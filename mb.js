@@ -1565,7 +1565,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250123 Click on Card Image to Zoom";
+  elContainer.innerHTML = "20250124 Phoenix Icon Fix";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -1751,6 +1751,9 @@ function MacroIcons(el,iHTMLInner){
   }
   
   const mIconList = [
+    ["BlackCat","🐈‍⬛"],
+    ["Mushroom","🍄‍🟫"],
+    ["Phoenix","🐦‍🔥"],
     ["Apple","🍎"],
     ["Alarm","🚨"],
     ["Archive",":Archive:"],
@@ -1760,7 +1763,6 @@ function MacroIcons(el,iHTMLInner){
     ["Backpack","🎒"],
     ["Basket","🧺"],
     ["Bell","🔔"],
-    ["BlackCat","🐈‍⬛"],
     ["BlankBox","□"],
     ["Bomb","💣"],
     ["Book","📔"],
@@ -1851,7 +1853,7 @@ function MacroIcons(el,iHTMLInner){
     ["Masks","🎭"],
     ["Medal","🏅"],
     ["Mirror","🪞"],
-    ["Mushroom","🍄‍🟫"],
+    
     ["NestEggs","🪺"],
     ["Orange","🍊"],
     ["Owl","🦉"],
@@ -1859,8 +1861,7 @@ function MacroIcons(el,iHTMLInner){
     ["Palette","🎨"],
     ["Pancake","🥞"],
     ["Paw","🐾"],
-    ["Pencil","✏️"],
-    ["Phoenix","🐦‍🔥"],
+    ["Pencil","✏️"],    
     ["Phone","☎️"],
     ["PianoKeyboard","🎹"],
     ["Pie","🥧"],
