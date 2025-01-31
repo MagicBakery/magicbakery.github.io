@@ -6462,6 +6462,7 @@ function GuildEXP(iMember){
 "V": 3714,
 "Vivi": 5893,
 "Vladanya": 2980,
+"Wonder": 0,
 "Zoey": 8415,
   };
   return dict[iMember];
@@ -6473,7 +6474,7 @@ function RandomMember(){
 function Roster(iIndex){
   // 20230125: Ledia: Preparing for roster stats display.
   //   Returns the length if the argument is negative.
-  const mRoster = ["3B", "44", "Albatross", "Amelia", "Arcacia", "Black", "Cardinal", "Casey", "Clyde", "Emi", "Evelyn", "Fina", "Gaia", "Helen", "Ivy", "James", "Jao", "Karl", "Ken", "Kisaragi", "Koyo", "Ledia", "LRRH", "Melody", "Mikela", "Natalie", "Neil", "P4", "Patricia", "Rick", "Robert", "Roger", "RS", "Sasha", "Skyle", "StarTree", "Sylvia", "Tanya", "Therese", "Unusual", "V", "Vivi", "Vladanya", "Zoey"];
+  const mRoster = ["3B", "44", "Albatross", "Amelia", "Arcacia", "Black", "Cardinal", "Casey", "Clyde", "Emi", "Evelyn", "Fina", "Gaia", "Helen", "Ivy", "James", "Jao", "Karl", "Ken", "Kisaragi", "Koyo", "Ledia", "LRRH", "Melody", "Mikela", "Natalie", "Neil", "P4", "Patricia", "Rick", "Robert", "Roger", "RS", "Sasha", "Skyle", "StarTree", "Sylvia", "Tanya", "Therese", "Unusual", "V", "Vivi", "Vladanya", "Wonder", "Zoey"];
   //const mRoster = ["3B","44", "Albatross"];
   if(iIndex>=0){
     return mRoster[iIndex];
