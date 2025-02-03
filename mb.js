@@ -2510,7 +2510,12 @@ function GetURLCode(mURL,mDesc, mLang){
     if(mURL.includes("nextdoor.com")){mDesc="🏡";bIcon=true;};
     if(mURL.includes("reddit.com")){mDesc="Reddit"};
     if(mURL.includes("twitter.com")){mDesc="💬";bIcon=true;};    
-    if(mURL.includes("youtube.com")){mDesc="📺";bIcon=true;};
+    if(mURL.includes("youtube.com")){
+      mDesc="📺";bIcon=true;
+      if(mURL.includes("&amp;lc=")){
+        mDesc="💬";
+      }
+    };
     if(mURL.includes("list=")){mDesc="🎧";bIcon=true;};
     if(mURL.includes("podcast")){mDesc="📻";bIcon=true;};
   }
@@ -2523,7 +2528,9 @@ function GetURLCode(mURL,mDesc, mLang){
     mDesc = "[" + mDesc + "]";
   }
   // 20250118: StarTree: If it is a youtube link, try to spawn it at the Music Player.  
-  if(mURL.includes("youtube.com")){    
+  // 20250203: StarTree: Adding more condition to tell if a Youtube link is to a video  
+  if(mURL.includes("youtube.com") && mURL.includes("/watch?v=") && mDesc!="💬"){    
+    
     if(mURL.includes("list=")){ // 20250120: StarTree: If it is already a playlist, use playlist link.
       // https://www.youtube.com/watch?v=lm79me_S4-E&list=PL1PNHwldi501DJOfOUGnQAo4A8cXcrbT2
       
