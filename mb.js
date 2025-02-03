@@ -1565,7 +1565,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250124 Phoenix Icon Fix";
+  elContainer.innerHTML = "20250202 Youtube Comment Link Fix";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
