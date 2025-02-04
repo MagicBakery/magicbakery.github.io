@@ -2529,21 +2529,19 @@ function GetURLCode(mURL,mDesc, mLang){
   }
   // 20250118: StarTree: If it is a youtube link, try to spawn it at the Music Player.  
   // 20250203: StarTree: Adding more condition to tell if a Youtube link is to a video  
-  if(mURL.includes("youtube.com") && mURL.includes("/watch?v=") && mDesc!="💬"){    
+  // 20250203: StarTree: Also need to work with a link like this: https://youtube.com/playlist?list=PLpsX8HIFE3xpeYz8GYJcJDaPI2AOCO5vG&si=EjZfzyIUGFtBTLL8
+  
+  if(mURL.includes("youtube.com") && mDesc!="💬"){    
     
     if(mURL.includes("list=")){ // 20250120: StarTree: If it is already a playlist, use playlist link.
       // https://www.youtube.com/watch?v=lm79me_S4-E&list=PL1PNHwldi501DJOfOUGnQAo4A8cXcrbT2
       
       let mPlayList = TextBetween(mURL,"list=","****")
       return "<a class=\"mbbutton\" title=\"Play\" onclick=\"YoutubeSpawnFP(this,'"+ mDesc + "','','"+ mPlayList +"');return false\" href=\""+mURL+"\">"+ mDesc+"</a>";
-    }else{
-      
-      let mYouTubeCode = YouTubeDecode(mURL);
-      
+    }else if (mURL.includes("/watch?v=") ){      
+      let mYouTubeCode = YouTubeDecode(mURL);      
       return "<a class=\"mbbutton\" title=\"Play\" onclick=\"YoutubeSpawnFP(this,'"+ mDesc + "','"+mYouTubeCode+"','');return false\" href=\""+mURL+"\">"+ mDesc+"</a>";
     }
-
-    
   }
 
 
