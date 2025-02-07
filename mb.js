@@ -1753,7 +1753,7 @@ function MacroIcons(el,iHTMLInner){
   const mIconList = [
     ["BlackCat","🐈‍⬛"],
     ["Mushroom","🍄‍🟫"],
-    ["Phoenix","🐦‍🔥"],
+    ["Phoenix",":Phoenix:"],
     ["Apple","🍎"],
     ["Alarm","🚨"],
     ["Archive",":Archive:"],
