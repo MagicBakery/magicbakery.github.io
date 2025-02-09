@@ -1565,7 +1565,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250202 Youtube Comment Link Fix";
+  elContainer.innerHTML = "20250208 Daily Section Update";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -3753,8 +3753,33 @@ function MMInner(el,mMacro){
     // ]}</macro>
     mToday = Number(el.parentNode.getAttribute("date"));
     mHTML  = "<hr class='mbhr'>";
-    mHTML += "<div class='mbbutton mbpc' onclick='ShowNext(this)'>";
-    mHTML += "Issues: " + mMacro.issues + " | Quests: " + mMacro.quests + "</div>";
+
+    // 20250208: Zoey: Add button action only if activities is not empty.
+    if(NotBlank(mMacro.activities)){
+      mHTML += "<div class='mbbutton mbpc' onclick='ShowNext(this)'>";
+    }else{
+      mHTML += "<div class='mbpc' style='font-weight:bold'>";
+    }
+    
+
+    // 20250208: Zoey: If the Issues field is blank, don't show it.
+    let mPipe = false;
+    if(NotBlank(mMacro.issues)){
+      if(mPipe){mHTML += " | ";} mPipe = true;
+      mHTML += "Issues: " + mMacro.issues;      
+    }
+    // 20250208: Zoey: If the Quests field exists, show it.
+    if(NotBlank(mMacro.quests)){
+      if(mPipe){mHTML += " | ";} mPipe = true;
+      mHTML += "Quests: " + mMacro.quests;
+    }
+    // 20250208: Zoey: If the Backlog field exists, show it.
+    if(NotBlank(mMacro.backlog)){
+      if(mPipe){mHTML += " | ";} mPipe = true;
+      mHTML += "Backlog: " + mMacro.backlog;
+    }
+
+    mHTML += "</div>";
     mHTML += "<div class='mbhide'>";    
     { // CHARTER SCORES (daisy)
       mActivities = mMacro.activities;
@@ -3840,12 +3865,12 @@ function MMInner(el,mMacro){
       }
       mHTML += "<div class='mbbutton mbpc' onclick='ShowNext(this)'><b>SCOREBOARD</b></div>"   ;
       mHTML += "<div class='mbhide'>";
-      mHTML += "🥨 <b>Players:</b> " + mMacro.players + "</br>";
-      mHTML += "⭐ <b>Merits:</b> " + mMacro.merits + "</br>";
-      mHTML += "🏅 <b>Recognitions:</b> " + mMacro.recognitions + "</br>";
-      mHTML += "💟 <b>Kudos:</b> " + mMacro.kudos + "</br>";
-      mHTML += "💗 <b>Awards:</b> " + mMacro.awards + "</br>";
-      mHTML += "👑 <b>Top:</b> " + mScoreList;
+      if(NotBlank(mMacro.players)){mHTML += "🥨 <b>Players:</b> " + mMacro.players + "</br>";}
+      if(NotBlank(mMacro.merits)){mHTML += "⭐ <b>Merits:</b> " + mMacro.merits + "</br>";}
+      if(NotBlank(mMacro.recognitions)){mHTML += "🏅 <b>Recognitions:</b> " + mMacro.recognitions + "</br>";}
+      if(NotBlank(mMacro.kudos)){mHTML += "💟 <b>Kudos:</b> " + mMacro.kudos + "</br>";}
+      if(NotBlank(mMacro.awards)){mHTML += "💗 <b>Awards:</b> " + mMacro.awards + "</br>";}
+      if(NotBlank(mMacro.top)){mHTML += "👑 <b>Top:</b> " + mScoreList;}      
       mHTML += "</div>";
     }    
     mHTML += "</div>";
