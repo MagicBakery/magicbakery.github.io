@@ -1565,7 +1565,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250208 Daily Section Update";
+  elContainer.innerHTML = "20250209 Name with Space";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -3266,9 +3266,9 @@ function RenderEnter(el){
   mHTML = "<div class=\"mbCL\"></div>"
   mHTML += RenderAvXP(mSPK,mEXP,mIcon,el.getAttribute('rank'),el.getAttribute('mode'));
   if(el.hasAttribute('DTS')){
-    mHTML += "<a class='mbbutton' onclick='MsgContext(this)'>" + mSPK + "</a>" + SPKMultiStr(el) +" ";
+    mHTML += "<a class='mbbutton' onclick='MsgContext(this)'>" + mSPK.replace("_"," ") + "</a>" + SPKMultiStr(el) +" ";
   }else{
-    mHTML += "<b>"+mSPK+":</b> ";
+    mHTML += "<b>"+mSPK.replace("_"," ") +":</b> ";
   }
   if(NotBlank(mTitle)){
     mHTML += "<b>" + mTitle +":</b> ";
@@ -3377,9 +3377,9 @@ function RenderMsg(el){
   mHTML += SPKPlus(el);
   mHTML += "</button><hide>";
   if(el.hasAttribute('DTS')){
-    mHTML += "<a class='mbbutton' onclick='MsgContext(this)'>" + mSPK + "</a>" + SPKMultiStr(el) +" ";
+    mHTML += "<a class='mbbutton' onclick='MsgContext(this)'>" + mSPK.replace("_"," ") + "</a>" + SPKMultiStr(el) +" ";
   }else{
-    mHTML += "<b>"+ mSPK + SPKMultiStr(el) + "</b> ";
+    mHTML += "<b>"+ mSPK.replace("_"," ") + SPKMultiStr(el) + "</b> ";
   }
   mHTML += el.innerHTML;
   mHTML += "</hide>";
@@ -6266,7 +6266,7 @@ function XP_DisplayEL(elFrame,bOrder){
             Content += "</div>";
           }
           
-          Content += "<div style=\"white-space:nowrap;text-overflow: hidden;\"><b>"+mNick +"</b></div><hr>";
+          Content += "<div style=\"white-space:nowrap;text-overflow: hidden;\"><b>"+mNick.replace("_"," ") +"</b></div><hr>";
           Content += "<span style=\"float:right;margin-right:-55px;margin-bottom:-5px;letter-spacing:-2px;position:relative;z-index:1\"><small>"+ mStar.repeat(LevelStars) +"</small></span>";
           Content += "<a style='display:inline-block' class=\"mbbutton\" onclick=\"ShowNext(this)\" title=\""+ GuildEXP_Total +"\"><small>"+mArch+"&nbsp;Lv&nbsp;"+ GuildEXP_Lv +"</small></a>";
 
@@ -6492,7 +6492,7 @@ function GuildEXP(iMember){
 "Sylvia": 5821,
 "Tanya": 8743,
 "Therese": 171,
-"Unusual": 20,
+"The_Unusual": 20,
 "V": 3832,
 "Vivi": 6103,
 "Vladanya": 3114,
@@ -6508,7 +6508,7 @@ function RandomMember(){
 function Roster(iIndex){
   // 20230125: Ledia: Preparing for roster stats display.
   //   Returns the length if the argument is negative.
-  const mRoster = ["3B", "44", "Albatross", "Amelia", "Arcacia", "Black", "Cardinal", "Casey", "Clyde", "Emi", "Evelyn", "Fina", "Gaia", "Helen", "Ivy", "James", "Jao", "Karl", "Ken", "Kisaragi", "Koyo", "Ledia", "LRRH", "Melody", "Mikela", "Natalie", "Neil", "P4", "Patricia", "Rick", "Robert", "Roger", "RS", "Sasha", "Skyle", "StarTree", "Sylvia", "Tanya", "Therese", "Unusual", "V", "Vivi", "Vladanya", "Wonder", "Zoey"];
+  const mRoster = ["3B", "44", "Albatross", "Amelia", "Arcacia", "Black", "Cardinal", "Casey", "Clyde", "Emi", "Evelyn", "Fina", "Gaia", "Helen", "Ivy", "James", "Jao", "Karl", "Ken", "Kisaragi", "Koyo", "Ledia", "LRRH", "Melody", "Mikela", "Natalie", "Neil", "P4", "Patricia", "Rick", "Robert", "Roger", "RS", "Sasha", "Skyle", "StarTree", "Sylvia", "Tanya", "The_Unusual", "Therese", "V", "Vivi", "Vladanya", "Wonder", "Zoey"];
   //const mRoster = ["3B","44", "Albatross"];
   if(iIndex>=0){
     return mRoster[iIndex];
