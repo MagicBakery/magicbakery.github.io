@@ -308,7 +308,7 @@ img {
 table{
   margin-left:auto;
   margin-right:auto;  
-  table-layout: fixed;
+  
   border-collapse: collapse;
   border-spacing: 0;
 }
