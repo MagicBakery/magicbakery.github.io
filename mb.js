@@ -1565,7 +1565,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250209 Name with Space";
+  elContainer.innerHTML = "20250211 Random Quest Card";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -5411,6 +5411,12 @@ function RND_CoinFlip(el){
 function RND_QSCardCode(el,bShowIcon){
   // 20250104: Tanya: Give a random QS card code with replenish
   var elResultSpace = SearchPS(el,"control").nextElementSibling;
+  if(NotBlank(elResultSpace.innerHTML)){elResultSpace.innerHTML += "<br>"}
+  elResultSpace.innerHTML += RND_QSCardCodeStr(bShowIcon);
+  return;
+  
+  
+  
   var mArchetype = Math.ceil(Math.random()*6)-1;
   var mCode1 = Math.ceil(Math.random()*5);
   
@@ -5435,6 +5441,38 @@ function RND_QSCardCode(el,bShowIcon){
   }
   
 
+}
+function RND_QSCardCodeStr(bShowIcon){
+  // 20250104: Tanya: Give a random QS card code with replenish
+  var mHTML = "";
+  var mArchetype = Math.ceil(Math.random()*6)-1;
+  var mCode1 = Math.ceil(Math.random()*5);
+  
+  var mCode2 = Math.ceil(Math.random()*mCode1);
+  var aArchetypes = ["P","C","H","A","O","M"];
+  var aArchetypeIcons = [":Paladin:","❤️","📯","🍀","🔮","🎩"];
+  var mResult = aArchetypes[mArchetype] + mCode1.toString() + mCode2.toString();
+  if(!bShowIcon){
+    mHTML = mResult;
+  }else{
+    //var mNumEmptyStar = mCode1 - mCode2;
+    //var mNumStar = mCode1 - mNumEmptyStar;
+    //var mEmptyStar = ":StarEmpty:";
+    //var mStar = "⭐";
+    //var mResultIcon = aArchetypeIcons[mArchetype] + mEmptyStar.repeat(mNumEmptyStar) + mStar.repeat(mNumStar);
+    var mResultIcon = aArchetypeIcons[mArchetype] + StarPattern(mCode1, mCode2);
+    mResultIcon = MacroIcons(null,mResultIcon);
+    
+    mHTML += "<span class='mbILB40' style='text-align:left'>" + mResult + "</span>";
+    mHTML += mResultIcon;
+  }
+  return mHTML;
+
+}
+function RND_QuestPrompt(el){
+  // 20250211: StarTree
+  var elResultSpace = SearchPS(el,"control").nextElementSibling;
+  elResultSpace.innerHTML=  RandomQuest() + elResultSpace.innerHTML;
 }
 function RND_Reset(el){
   // 20230716: StarTree: For gaming
@@ -7320,6 +7358,128 @@ function QueryTabPN_20240509_DELETE(elThis,eQuery){
   elTarget = elTarget.nextElementSibling;
   QueryTabEL(elTarget,eQuery);
 }
+function RandomQuest() {
+  const QUEST_VERBS = [
+    "Adventure with", "Advertize for", "Aid", "Ambush", "Arrest", "Assemble for", "Assist", "Battle", "Battle with", "Befriend", "Build for", "Capture", "Challenge", "Chart for", "Celebrate for", "Cheer Up", "Clean for", "Cater for", "Compete with", "Collect from", "Command", "Construct for", "Convince", "Cook for", "Cook with", "Create for", "Dance with", "Defeat", "Defend", "Deliver to", "Discover for", "Dive for", "Duel", "Enchant for", "Endure", "Engage", "Enlist", "Escape", "Examine", "Excavate the Treasure of", "Exorcise", "Explore with", "Feed", "Fend for", "Fend off", "Free", "Fight", "Foil the Plot of", "Forge for", "Free", "Gather Supporters for", "Gift to", "Guard", "Guide", "Harvest for", "Heal", "Help", "Hide", "Hide from", "Illuminate for", "Improve for", "Imbue", "Inspire", "Invent for", "Investigate", "Investigate for", "Journey to", "Journey with", "Learn from", "Learn with", "Liberate", "Locate", "Master the Arts of", "Meet", "Mend with", "Mobilize", "Negotiate with", "Overcome", "Participate with", "Persevere", "Persuade", "Play with", "Prepare for", "Promote", "Protect", "Purify", "Represent", "Quell", "Race", "Rebuild", "Recharge", "Recover", "Recruit", "Repair for", "Rescue", "Research", "Rescue from", "Resist", "Restore", "Retrieve for", "Retrieve from", "Return", "Review", "Revive", "Seal", "Search for", "Seek Help from", "Seize from", "Shine for", "Shop for", "Shroud", "Skill Up with", "Solve a Crime involving", "Solve a Mystery troubling", "Sneak Past",     "Strengthen", "Subdue", "Support", "Tame", "Teach", "Tend", "Track", "Train with", "Transform", "Transform into", "Travel with", "Try", "Uncover the Secret of", "Undercover as", "Unite with", "Venture with", "Weaken", "Welcome", "Withstand", "Witness for", "Zoom Past"
+  ];
+
+  const QUEST_ITEMS = ["Amulet of Light", "Arcane Tome", "Basilisk Fang", "Boots of Speed", "Bow of the Winds", "Cloak of Shadows", "Crystal Orb", "Dragon Scale Shield", "Elven Blade", "Enchanted Locket", "Fairy Dust", "Giant's Club", "Gloves of Healing", "Golden Chalice", "Gryphon Feather", "Healing Potion", "Helm of Wisdom", "Horn of the Mountain", "Ironwood Staff", "Jewel of the Sun", "Knight's Shield", "Lantern of Hope", "Leaping Boots", "Lion's Mane", "Mage's Robe", "Mana Crystal", "Map of Lost Realms", "Mermaid's Necklace", "Mystic Compass", "Phoenix Feather", "Potion of Fire Resistance", "Potion of Invisibility", "Potion of Strength", "Ring of Teleportation", "Robe of the Stars", "Rune Stone", "Sapphire Dagger", "Scroll of Knowledge", "Shield of Light", "Silver Sword", "Sorcerer's Wand", "Staff of the Ancients", "Starstone Amulet", "Sword of Valor", "Talisman of Luck", "Unicorn Horn", "Vampire's Tear", "Vial of Moonlight", "Warrior's Helmet", "Wind Chime", "Wizards' Staff", "Wolf's Claw", "Wooden Bow", "Wyrmstone", "Ancient Map", "Archer's Quiver", "Bag of Holding", "Blue Potion", "Candle of Clarity", "Crystalized Honey", "Dragon's Tooth", "Emerald Shield", "Frost Arrow", "Gold Ingots", "Griffin's Wing", "Healing Herbs", "Iron Sword", "Jade Figurine", "Lunar Crystal", "Magic Mirror", "Moonstone Pendant", "Mysterious Amulet", "Obsidian Dagger", "Phoenix Ashes", "Potion of Luck", "Runic Key", "Silver Horn", "Sorcery Stone", "Spirit's Feather", "Steel Shield", "Stone of Courage", "Thunderstrike Axe", "Unicorn Talisman", "Violet Mushroom", "Water Crystal", "Wooden Shield", "Yeti's Fur", "Zodiac Charm", "Aquatic Shell", "Blazing Arrow", "Celestial Crown", "Dragon Egg", "Emerald Leaf", "Fey Stone", "Fire Blossom", "Forest Crown", "Frostbite Gloves", "Gem of Eternity", "Golden Pendant", "Guardian's Token", "Ice Staff", "Iron Lockbox", "Luminous Pearl", "Mystic Gloves", "Obsidian Ring", "Orc's Skull", "Peacock Feather", "Radiant Gem", "Sapphire Staff", "Sunstone Amulet", "Thunderstone", "Treasure Map", "Wind Leaf", "Witch's Broom", "Wizard's Hat", "Wolf's Tooth", "Wyrmfang Sword", "Yellow Moonstone"];
+
+  const QUEST_SUBJECT_CONDITIONS = [
+    "Abandoned", "Absent", "Aggressive", "Ancient", "Arrogant", "Aspiring", "Battered", "Beautiful", "Bewitched", "Bitter", "Blessed", "Blinded", "Broken", "Capable", "Careful", "Clean", "Calm", "Cold", "Cornered", "Corrupted", "Cunning", "Cursed", "Dark", "Darkened", "Debt Ridden", "Decayed", "Deceptive", "Defeated", "Delicate", "Disorganized", "Disturbed", "Doomed", "Drained", "Dying", "Expert", "Familiar", "Fierce", "Formidable", "Fragile", "Friendly", "Gentle", "Gigantic", "Group of", "Haunted", "Heavy", "Hidden", "Hostile", "Illogical", "Injured", "Ill", "Innocent", "Inexperienced", "Insomniac", "Logical", "Lost", "Lucky", "Legendary", "Mad", "Magical", "Marked", "Marooned", "Masked", "Meek", "Mild", "Misled", "Mischievous", "Noble", "Neutral", "Obnoxious", "Old", "Overgrown", "Peaceful", "Philosophical", "Poisoned", "Pet", "Poetic", "Possessive", "Poor", "Prolific", "Protected", "Pure", "Quiet", "Reckless", "Restless", "Rough", "Ruined", "Safe", "Sacred", "Scarred", "Shy", "Silent", "Simple", "Sleepy", "Small", "Soft", "Sour", "Slow", "Sturdy", "Strange", "Strong", "Talented", "Tidy", "Tired", "Thorny", "Twin", "Tough", "Troubled", "Twisted", "Vibrant", "Warm", "Weak", "Wild", "Willing", "Winged", "Wise", "Worn", "Wounded", "Wanted", "Undefeated", "Underappreciated", "Underdog", "Underfunded", "Unlucky"
+  ];
+
+
+  const QUEST_SUBJECTS = [
+    "Aasimar", "Angel", "Basilisk", "Cat", "Centaur", "Chimera", "Cyclops", "Dog", 
+    "Djinn", "Dragon", "Dryad", "Dwarf", "Elf", "Elemental", "Fairy", "Gargoyle", 
+    "Giant", "Ghost", "Goblin", "Golem", "Griffin", "Halfling", "Harpy", "Human", 
+    "Hydra", "Kitsune", "Kraken", "Manticore", "Mermaid", "Mimic", "Minotaur", "Mummy", "Nymph", 
+    "Ogre", "Phoenix", "Satyr", "Serpent", "Shadow", "Skeleton", "Sphinx", "Spider", "Sprite", 
+    "Sylph", "Treant", "Troll", "Undead", "Unicorn", "Vampire", "Werewolf", "Will-o'-the-Wisp", "Wolf", 
+    "Wraith", "Wyvern", "Yeti", "Zombie"
+  ];
+
+  
+  
+  const QUEST_SUBJECT_ROLES = [
+    "Adventurer", "Actor", "Actress", "Alchemist", "Apprentice", "Ambassador", "Artisan", "Baker", "Bandit", "Bard", "Blacksmith", "Builder", "Captain", "Child", "Champion", "Chieftain", 
+    "Cleric", "Chef", "Courier", "Crafter", "Detective", "Druid", "Elder", "Explorer", "Farmer", "Fisherman", "Friend", "General", "Ghost", "Guard", "Guildmate", "Headmaster",
+    "Healer", "Herald", "Herbalist", "Hunter", "Innkeeper", "Inventor", "Inspector", "Jester", "King", "Knight", "Librarian", "Mage", "Magician", "Maid", "Master",
+    "Mayor", "Merchant", "Messenger", "Miner", "Monk", "Ninja", "Noble", "Oracle", "Paladin", "Party Member", "Peasant", "Pirate", "Poet", "Prince", "Princess", "Prisoner", "Puppet", "Puppet Master", "Queen",
+    "Quester", "Ranger", "Refugee", "Rogue", "Sage", "Scribe", "Scholar", "Seer", "Sailor", "Samurai", "Scout", "Senator", "Smuggler", "Sorcerer", "Spy", "Statue", "Tailor", "Tourist", "Treasure Hunter", "Witness", "Wizard", "Youth"
+  ];
+  
+  const QUEST_LOCATION_CONDITIONS = [
+    "Abandoned", "Abysmal", "Ancient", "Barren", "Bleak", "Blistering", "Chilly", "Choking", "Cavernous", "Cold", "Corroded", "Creepy", "Crystal", "Dank", "Dark", "Darkened", "Depressing", "Desolate", "Desert", "Deserted", "Destructive", "Difficult", "Dismal", "Dragon", "Dreary", "Dry", "Dull", "Damp", "Enchanted", "Fabled", "Faint", "Flying", "Foul", "Frigid", "Frozen", "Gloomy", "Golden", "Gravelly", "Grim", "Grimy", "Half-Eaten", "Harsh", "Hazy", "Humid", "Impenetrable", "Imposing", "Infested", "Intense", "Isolated", "Jagged", "Jarring", "Labyrinthine", "Legendary", "Luminous", "Lone", "Long-forgotten", "Majestic", "Misty", "Mighty", "Marred", "Mangled", "Mysterious", "Neglected", "Ominous", "Oppressive", "Overcast", "Perilous", "Primeval", "Pristine", "Quaking", "Radiant", "Remote", "Rocky", "Rugged", "Ruined", "Rusted", "Savage", "Scorched", "Screeching", "Secluded", "Sentient", "Shattered", "Shimmering", "Silent", "Sinister", "Sickly", "Smoldering", "Snow-covered", "Snowbound", "Snowy", "Stormy", "Sun-drenched", "Sunlit", "Suffocating", "Sunken", "Surreal", "Sweltering", "Thick", "Thickened",  "Thorny", "Thriving", "Torrential", "Toxic", "Tropical", "Turbulent", "Twisted", "Uncharted", "Underwater", "Unforgiving", "Uninhabited", "Unruly", "Unstable", "Vast", "Violent", "Volcanic", "Wind-blown", "Wind-swept", "Withered", "Withering", "Wild", "Wizard",  "Worn", "Wretched"
+];
+
+  const QUEST_LOCATIONS = [
+    "Academy", "Amphitheater", "Apothecary", "Arena", "Armory", "Bakery", "Ballroom", "Bank", "Barracks", "Bay", 
+    "Bridge", "Butcher", "Cabin", "Camp", "Carriage", "Casino", "Castle", "Cathedral", "Cave", "Chapel", "Circus", 
+    "Citadel", "Cliff", "Coliseum", "Courthouse", "Cove", "Dock", "Dungeon", "Fairground", 
+    "Farm", "Festival Grounds", "Forest", "Fortress", "Garden", "Grotto", "Guildhall", 
+    "Harbor", "Inn", "Island", "Keep", "Labyrinth", "Lake", "Library", "Market", "Mill", 
+    "Mine", "Monastery", "Mountain", "Music Hall", "Outpost", "Palace", "Plains", "Plaza", 
+    "Playhouse", "Port", "Resort", "River", "Road", "Ruins", "Sanctuary", "School", "Ship", "Shrine", 
+    "Smithy", "Sewage", "Swamp", "Stable", "Stage", "Stronghold", "Tavern", "Temple", "Theater", "Tomb", "Tower", "Town Gate", "Town Square", "Traveler's Camp", 
+    "Valley", "Vault", "Village", "Watchtower", "Workshop"
+  ];
+  
+  
+  const mRQV = QUEST_VERBS[Math.floor(Math.random() * QUEST_VERBS.length)];
+  const mRQSC = QUEST_SUBJECT_CONDITIONS[Math.floor(Math.random() * QUEST_SUBJECT_CONDITIONS.length)];
+  const mRQS = QUEST_SUBJECTS[Math.floor(Math.random() * QUEST_SUBJECTS.length)];
+  const mRQSR = QUEST_SUBJECT_ROLES[Math.floor(Math.random() * QUEST_SUBJECT_ROLES.length)];
+  const mRQPC = QUEST_LOCATION_CONDITIONS[Math.floor(Math.random() * QUEST_LOCATION_CONDITIONS.length)];
+  const mRQP = QUEST_LOCATIONS[Math.floor(Math.random() * QUEST_LOCATIONS.length)];
+  const mRQI = QUEST_ITEMS[Math.floor(Math.random() * QUEST_ITEMS.length)];
+
+  var mReturn = mRQV;
+  var bWithSubject = false;
+  var mDifficulty = 0;
+
+  // 20250211: StarTree: Randomly decide to add the subject adjective.
+  if(getRandomInt(0,1,true)==1){ // Add
+    mReturn += " the " + mRQSC;
+    bWithSubject = true;
+    mDifficulty = getRandomInt(-1,4,true);
+  }
+
+  if(bWithSubject==false){mReturn += " the";}
+
+  // 20250211: StarTree: Randomly decide to add the subject type.
+  switch(getRandomInt(0,3,true)){
+    case 0: // Add only the subject type
+    mReturn += " " + mRQS;   
+    mDifficulty++;
+    break;
+    case 1: // Add only the role
+    mReturn += " " + mRQSR;   
+    mDifficulty++;
+    break;
+    case 2: // Add both
+    mReturn += " " + mRQS + " " + mRQSR;   
+    mDifficulty++;
+    mDifficulty++;
+    break;
+    case 3: // Add Item
+    mReturn += " " + mRQI;
+    mDifficulty++;
+  }
+
+  // 20250211: Randomly decide to add the place condition.
+  if(getRandomInt(0,1,true)==1){ // Add
+    mReturn += " at the " + mRQPC + " " + mRQP;
+    mDifficulty++;
+    mDifficulty++;
+    
+  }else{
+    if(getRandomInt(0,1,true)==1){ // Add
+      mReturn += " at the " + mRQP;
+      mDifficulty++;
+    }
+  }
+  var mStar = "⭐";
+  mDifficulty = Math.max(mDifficulty,1);
+  
+  var mHTML = "<div viewer class='mbpuzzle' style='border:1px solid goldenrod;clear:right'><a class='mbbutton' style='float:right;' onClick='Remove(this,\"viewer\")'  title='Close'>:Close:</a> " + mStar.repeat(mDifficulty) + "<hr>" + mReturn;
+  //mHTML += "<hr><h4>Challenges</h4>";
+  mHTML += "<div class='mbbutton' onclick='ShowNext(this)'><hr></div><div class='mbhide'>";
+  
+  var mOptions = getRandomInt(1, Math.max(1,mDifficulty,true));
+  mOptions =  Math.max(1,mDifficulty) ;
+  for(let i=0;i<mOptions;i++){
+    mHTML += "<div><span style='float:right' onclick='ToggleCheckMark(this)'>□</span>"+RND_QSCardCodeStr(true)+"</div>";
+  }
+  
+  
+  mHTML += "<hr></div></div>";
+  
+  return MacroIcons(null,mHTML);
+
+  //return mRQV + " " + mRQSC.toLowerCase() + " " + mRQS.toLowerCase() + " " + randomWord4.toLowerCase() + " at " + randomWord5.toLowerCase() + " " + randomWord6.toLowerCase()+".";
+}
 function RandomToday(){
   // Returns a "random" number between 0 to 1 (inclusive) 
   var today = new Date();
@@ -8642,6 +8802,14 @@ function TextAreaUseCookie(el){
   }else{
     elWidget.setAttribute("CookieEnabled","false");
     el.innerHTML = MacroIcons(null,"🍯⛔");
+  }
+}
+function ToggleCheckMark(el){
+  // 20250211: StarTree: Toggles an unsaved check box.
+  if(el.innerHTML.search("✅")>-1){
+    el.innerHTML = MacroIcons(null,"□");    
+  }else{
+    el.innerHTML = MacroIcons(null,"✅");    
   }
 }
 function ToggleHeight(el,iDefault){
