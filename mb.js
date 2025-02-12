@@ -7360,7 +7360,7 @@ function QueryTabPN_20240509_DELETE(elThis,eQuery){
 }
 function RandomQuest() {
   const QUEST_VERBS = [
-    "Adventure with", "Advertize for", "Aid", "Ambush", "Arrest", "Assemble for", "Assist", "Battle", "Battle with", "Befriend", "Build for", "Capture", "Challenge", "Chart for", "Celebrate for", "Cheer Up", "Clean for", "Cater for", "Compete with", "Collect from", "Command", "Construct for", "Convince", "Cook for", "Cook with", "Create for", "Dance with", "Defeat", "Defend", "Deliver to", "Discover for", "Dive for", "Duel", "Enchant for", "Endure", "Engage", "Enlist", "Escape", "Examine", "Excavate the Treasure of", "Exorcise", "Explore with", "Feed", "Fend for", "Fend off", "Free", "Fight", "Foil the Plot of", "Forge for", "Free", "Gather Supporters for", "Gift to", "Guard", "Guide", "Harvest for", "Heal", "Help", "Hide", "Hide from", "Illuminate for", "Improve for", "Imbue", "Inspire", "Invent for", "Investigate", "Investigate for", "Journey to", "Journey with", "Learn from", "Learn with", "Liberate", "Locate", "Master the Arts of", "Meet", "Mend with", "Mobilize", "Negotiate with", "Overcome", "Participate with", "Persevere", "Persuade", "Play with", "Prepare for", "Promote", "Protect", "Purify", "Represent", "Quell", "Race", "Rebuild", "Recharge", "Recover", "Recruit", "Repair for", "Rescue", "Research", "Rescue from", "Resist", "Restore", "Retrieve for", "Retrieve from", "Return", "Review", "Revive", "Seal", "Search for", "Seek Help from", "Seize from", "Shine for", "Shop for", "Shroud", "Skill Up with", "Solve a Crime involving", "Solve a Mystery troubling", "Sneak Past",     "Strengthen", "Subdue", "Support", "Tame", "Teach", "Tend", "Track", "Train with", "Transform", "Transform into", "Travel with", "Try", "Uncover the Secret of", "Undercover as", "Unite with", "Venture with", "Weaken", "Welcome", "Withstand", "Witness for", "Zoom Past"
+    "Adventure with", "Advertize for", "Aid", "Ambush", "Arbitrate a Dispute involving", "Arrest", "Assemble for", "Assist", "Battle", "Battle with", "Befriend", "Build for", "Capture", "Challenge", "Chart for", "Celebrate for", "Cheer Up", "Clean for", "Cater for", "Compete with", "Collect from", "Command", "Construct for", "Convince", "Cook for", "Cook with", "Create for", "Dance with", "Defeat", "Defend", "Deliver to", "Discover for", "Dive for", "Duel", "Enchant for", "Endure", "Engage", "Enlist", "Escape", "Examine", "Excavate the Treasure of", "Exorcise", "Explore with", "Feed", "Fend for", "Fend off", "Free", "Fight", "Foil the Plot of", "Forge for", "Free", "Gather Supporters for", "Gift to", "Guard", "Guide", "Harvest for", "Heal", "Help", "Hide", "Hide from", "Illuminate for", "Improve for", "Imbue", "Inspire", "Invent for", "Investigate", "Investigate for", "Journey to", "Journey with", "Learn from", "Learn with", "Liberate", "Locate", "Master the Arts of", "Meet", "Mend with", "Mobilize", "Negotiate with", "Overcome", "Participate with", "Persevere", "Persuade", "Play with", "Prepare for", "Promote", "Protect", "Purify", "Represent", "Quell", "Race", "Rebuild", "Recharge", "Recover", "Recruit", "Repair for", "Rescue", "Research", "Rescue from", "Resist", "Restore", "Retrieve for", "Retrieve from", "Return", "Review", "Revive", "Seal", "Search for", "Seek Help from", "Seize from", "Shine for", "Shop for", "Shroud", "Skill Up with", "Solve a Crime involving", "Solve a Mystery troubling", "Sneak Past",     "Strengthen", "Subdue", "Support", "Tame", "Teach", "Tend", "Track", "Train with", "Transform", "Transform into", "Travel with", "Try", "Uncover the Secret of", "Undercover as", "Unite with", "Venture with", "Weaken", "Welcome", "Withstand", "Witness for", "Zoom Past"
   ];
 
   const QUEST_ITEMS = ["Amulet of Light", "Arcane Tome", "Basilisk Fang", "Boots of Speed", "Bow of the Winds", "Cloak of Shadows", "Crystal Orb", "Dragon Scale Shield", "Elven Blade", "Enchanted Locket", "Fairy Dust", "Giant's Club", "Gloves of Healing", "Golden Chalice", "Gryphon Feather", "Healing Potion", "Helm of Wisdom", "Horn of the Mountain", "Ironwood Staff", "Jewel of the Sun", "Knight's Shield", "Lantern of Hope", "Leaping Boots", "Lion's Mane", "Mage's Robe", "Mana Crystal", "Map of Lost Realms", "Mermaid's Necklace", "Mystic Compass", "Phoenix Feather", "Potion of Fire Resistance", "Potion of Invisibility", "Potion of Strength", "Ring of Teleportation", "Robe of the Stars", "Rune Stone", "Sapphire Dagger", "Scroll of Knowledge", "Shield of Light", "Silver Sword", "Sorcerer's Wand", "Staff of the Ancients", "Starstone Amulet", "Sword of Valor", "Talisman of Luck", "Unicorn Horn", "Vampire's Tear", "Vial of Moonlight", "Warrior's Helmet", "Wind Chime", "Wizards' Staff", "Wolf's Claw", "Wooden Bow", "Wyrmstone", "Ancient Map", "Archer's Quiver", "Bag of Holding", "Blue Potion", "Candle of Clarity", "Crystalized Honey", "Dragon's Tooth", "Emerald Shield", "Frost Arrow", "Gold Ingots", "Griffin's Wing", "Healing Herbs", "Iron Sword", "Jade Figurine", "Lunar Crystal", "Magic Mirror", "Moonstone Pendant", "Mysterious Amulet", "Obsidian Dagger", "Phoenix Ashes", "Potion of Luck", "Runic Key", "Silver Horn", "Sorcery Stone", "Spirit's Feather", "Steel Shield", "Stone of Courage", "Thunderstrike Axe", "Unicorn Talisman", "Violet Mushroom", "Water Crystal", "Wooden Shield", "Yeti's Fur", "Zodiac Charm", "Aquatic Shell", "Blazing Arrow", "Celestial Crown", "Dragon Egg", "Emerald Leaf", "Fey Stone", "Fire Blossom", "Forest Crown", "Frostbite Gloves", "Gem of Eternity", "Golden Pendant", "Guardian's Token", "Ice Staff", "Iron Lockbox", "Luminous Pearl", "Mystic Gloves", "Obsidian Ring", "Orc's Skull", "Peacock Feather", "Radiant Gem", "Sapphire Staff", "Sunstone Amulet", "Thunderstone", "Treasure Map", "Wind Leaf", "Witch's Broom", "Wizard's Hat", "Wolf's Tooth", "Wyrmfang Sword", "Yellow Moonstone"];
@@ -8365,7 +8365,7 @@ function NMSetParent(el,mParentID,mParentName,mIcon){
 }
 function NMAddSPK(el){
   // 29249423: StarTree
-  var curSPK = el.value.replaceAll(/[\W_]+/g,"");
+  var curSPK = el.value.replaceAll(/[\W]+/g,"");
   el.select();  
   if(IsBlank(curSPK)){curSPK = RandomMember();}
   if(NotBlank(el.value) && (el.value != curSPK)){el.value = curSPK;}
@@ -8527,9 +8527,14 @@ function NMRES(el){
   var elWidget = SearchPS(el,"Widget");
   var mDTS = Default(elWidget.querySelector('[NM-DTS]').value,DTSNow());
   // 20240802: StarTere: Don't add an icon by default.
-  //var mIcon = Default(elWidget.querySelector('[NM-Icon]').value,"📌"); 
-  //var mHTML = "<res icon=\""+mIcon+"\" item=\""+DTC(mDTS)+"\" title=\"Title\" tags=\"\">\n</res>";
-  var mHTML = "<res item=\""+DTC(mDTS)+"\" title=\"Title\" star=\"\" tags=\"\">\n</res>";
+  // 20250211: Patricia: Use the icon field by default per Mikela.
+  var mIcon = Default(elWidget.querySelector('[NM-Icon]').value,""); 
+  var mHTML = "";
+  if(NotBlank(mIcon)){
+    mHTML = "<res icon=\""+mIcon+"\" item=\""+DTC(mDTS)+"\" title=\"Title\" tags=\"\">\n</res>";
+  }else{
+    mHTML = "<res item=\""+DTC(mDTS)+"\" title=\"Title\" star=\"\" tags=\"\">\n</res>";
+  }  
   navigator.clipboard.writeText(mHTML);
 }
 function NMURL(el,mCBText){
