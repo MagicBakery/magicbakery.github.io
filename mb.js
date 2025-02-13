@@ -18,6 +18,168 @@ jQuery.expr[':'].contains = function(a, i, m) {
   return jQuery(a).text().toUpperCase()
       .indexOf(m[3].toUpperCase()) >= 0;
 };
+function AC_Archetype(el){
+  // 20250213: StarTree: For Adventure Call
+  var elControl = SearchPS(el, 'control');
+  var elMode = elControl.querySelector('[AC_Mode]');
+
+  // READY MODE: (This is the only mode with effects)
+  if(elMode.innerText.search("✅")>-1){
+    // Set the Mode Icon to be the same.
+    elMode.innerHTML = el.innerHTML;
+    elMode.style.fontSize="100px";
+    // Hide all other Archetype Rows
+    var mArchetypes = elControl.querySelectorAll('[AC_Archetype]');
+    mArchetypes.forEach((mTag)=>{
+      if(mTag.firstElementChild!=el){
+        mTag.classList.add("mbhide");
+      }
+    });
+    return;
+  }
+}
+function AC_ArchStar(el){
+  // 20250213: StarTree: For Adventure Call
+  var elControl = SearchPS(el, 'control');
+  var elMode = elControl.querySelector('[AC_Mode]');
+
+  // If the mode is Ready, do nothing.
+  if(elMode.innerText.search('✅')>-1){return;}
+
+  // If the mode is Setting, toggle the star.
+  if(elMode.innerText.search('□')>-1){
+    ToggleStar(el);
+    return;
+  }
+
+  // QUEST MODE    
+  // If the star is Empty, do nothing.
+  if(el.innerText.search("⭐")==-1){return;}
+  // Otherwise, make the star empty and roll for the QuestStars
+  if(elMode.innerText.search("⭐")==-1){elMode.innerHTML="";}
+  el.innerHTML = MacroIcons(null,":StarEmpty:");
+
+  // 20250213: Change the rate to be based on the total number of stars.
+  let mCount = elMode.innerHTML.split("⭐").length; 
+  let mSkillCount = el.parentNode.innerHTML.split("⭐").length;  
+
+  let mSkillLevel = el.parentNode.getAttribute("Level");
+
+  DEBUG(mSkillCount);
+  if(getRandomInt(0,mSkillCount,true)>0){    
+    elMode.innerHTML += MacroIcons(null,"⭐");
+    // Adjust the font size per number of stars    
+    switch(mCount){
+      case 1: elMode.style.fontSize = "122px";break; // 1 star
+      case 2: elMode.style.fontSize = "100px";break; // 2 stars
+      case 3: elMode.style.fontSize = "78px";break; // 3 stars
+      case 4: elMode.style.fontSize = "56px";break; // 4 stars
+      case 5: elMode.style.fontSize = "44px";break; // 5 stars
+    }
+    // LEVEL UP Logic
+    // If mCount is the same as the number of non-hidden stars, then level up.
+    
+    if(parseInt(mSkillLevel)==mCount){
+      var mArchStars = el.parentNode;
+      var mAStar = mArchStars.firstElementChild;
+      while(NotBlank(mAStar)){
+        if(mAStar.style.opacity==0){
+          mAStar.style.opacity=1;
+          mAStar.innerHTML = MacroIcons(null,"🌟");
+          return;
+        }
+        mAStar = mAStar.nextElementSibling;
+      }
+    }
+    
+
+    
+
+
+  }else{
+    if(elMode.innerHTML==""){
+      elMode.innerHTML += MacroIcons(null,":StarEmpty:");
+    }
+  }
+}
+function AC_Mode(el){
+  // 20250213: StarTree: Adventure Calls Mode button
+
+  var elControl = SearchPS(el, 'control');
+  var mStars = elControl.querySelector('[AC_QuestStars]');
+  
+  // BLANK: SETTING MODE
+  // If the Blank Check box is clicked, change from Setting to Ready mode.
+  if(el.innerText.search("□")>-1){ 
+    // Change icon to Checkmark    
+    el.innerHTML = MacroIcons(null,"✅");    
+    // Set the Quest Stars to Empty.
+    mStars.innerHTML ="";
+    // Hide all empty Archetype stars
+    let mArchetypes = elControl.querySelectorAll('[AC_ArchStars]');
+    
+    mArchetypes.forEach((mTag)=>{
+      // If there is no star for tha archetype, hide the whole row.
+      //if(mTag.innerText.search("⭐")==-1){
+//        mTag.parentNode.classList.add("mbhide");
+      //}else{
+        let mSkillLevel=0;
+        let mAStars = mTag.querySelectorAll('.mbbutton');
+        mAStars.forEach((mTag2)=>{
+          if(mTag2.innerText.search("⭐")==-1){
+            mTag2.style.opacity=0;
+          }else{
+            mTag2.style.opacity=1;
+            mSkillLevel++;
+            mTag.setAttribute("Level",mSkillLevel);
+          }
+        });
+      //}      
+    });
+    
+    
+
+
+    return;
+  }
+  
+  // CHECKMARK: READY MODE
+  // Onclick: Change back to Setting mode
+  if(el.innerText.search("✅")>-1){ 
+    // Change icon to blank
+    
+    el.innerHTML = MacroIcons(null,"□");
+    
+    // Set the Quest Stars to Empty.
+    mStars.innerHTML ="";
+    
+    // Refill all non hidden Archetype stars and show all
+    let mStarStr = MacroIcons(null,"⭐");
+    let mArchetypes = elControl.querySelectorAll('[AC_ArchStars]');
+    mArchetypes.forEach((mTag)=>{
+      let mAStars = mTag.querySelectorAll('.mbbutton');
+      mAStars.forEach((mTag2)=>{
+        if(mTag2.style.opacity==1){
+          mTag2.innerHTML = mStarStr;
+        }
+        mTag2.style.opacity=1;
+
+      });
+    });
+
+    return;
+  }
+  // ARCHETYPE: QUEST MODE
+  // Onclick: Change back to check mark
+  el.style.fontSize="36px";
+  el.innerHTML = MacroIcons(null,"✅");
+  // Show all Archetype Rows 
+  var mArchetypes = elControl.querySelectorAll('[AC_Archetype]');
+  mArchetypes.forEach((mTag)=>{
+    mTag.classList.remove("mbhide");    
+  });
+}
+
 function ACLoadAll_20240508_DELETE(bReport){
   // 20240508: Natalie: Load all archives.
   var elArchives = document.querySelector('archives');
@@ -1565,7 +1727,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250211 Random Quest Card";
+  elContainer.innerHTML = "20250212 Adventure Call Hero Stats";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -7360,7 +7522,7 @@ function QueryTabPN_20240509_DELETE(elThis,eQuery){
 }
 function RandomQuest() {
   const QUEST_VERBS = [
-    "Adventure with", "Advertize for", "Aid", "Ambush", "Arbitrate a Dispute involving", "Arrest", "Assemble for", "Assist", "Battle", "Battle with", "Befriend", "Build for", "Capture", "Challenge", "Chart for", "Celebrate for", "Cheer Up", "Clean for", "Cater for", "Compete with", "Collect from", "Command", "Construct for", "Convince", "Cook for", "Cook with", "Create for", "Dance with", "Defeat", "Defend", "Deliver to", "Discover for", "Dive for", "Duel", "Enchant for", "Endure", "Engage", "Enlist", "Escape", "Examine", "Excavate the Treasure of", "Exorcise", "Explore with", "Feed", "Fend for", "Fend off", "Free", "Fight", "Foil the Plot of", "Forge for", "Free", "Gather Supporters for", "Gift to", "Guard", "Guide", "Harvest for", "Heal", "Help", "Hide", "Hide from", "Illuminate for", "Improve for", "Imbue", "Inspire", "Invent for", "Investigate", "Investigate for", "Journey to", "Journey with", "Learn from", "Learn with", "Liberate", "Locate", "Master the Arts of", "Meet", "Mend with", "Mobilize", "Negotiate with", "Overcome", "Participate with", "Persevere", "Persuade", "Play with", "Prepare for", "Promote", "Protect", "Purify", "Represent", "Quell", "Race", "Rebuild", "Recharge", "Recover", "Recruit", "Repair for", "Rescue", "Research", "Rescue from", "Resist", "Restore", "Retrieve for", "Retrieve from", "Return", "Review", "Revive", "Seal", "Search for", "Seek Help from", "Seize from", "Shine for", "Shop for", "Shroud", "Skill Up with", "Solve a Crime involving", "Solve a Mystery troubling", "Sneak Past",     "Strengthen", "Subdue", "Support", "Tame", "Teach", "Tend", "Track", "Train with", "Transform", "Transform into", "Travel with", "Try", "Uncover the Secret of", "Undercover as", "Unite with", "Venture with", "Weaken", "Welcome", "Withstand", "Witness for", "Zoom Past"
+    "Accompany", "Adventure with", "Advertise for", "Aid", "Ambush", "Arbitrate a Dispute involving", "Arrest", "Assemble for", "Assist", "Battle", "Battle with", "Befriend", "Build for", "Capture", "Challenge", "Chart for", "Celebrate for", "Cheer Up", "Clean for", "Cater for", "Compete with", "Collect from", "Command", "Construct for", "Convince", "Cook for", "Cook with", "Create for", "Dance with", "Decorate for", "Defeat", "Defend", "Deliver to", "Discover for", "Dive for", "Duel", "Enchant for", "Endure", "Engage", "Enlist", "Escape", "Examine", "Excavate the Treasure of", "Exorcise", "Explore with", "Feed", "Fend for", "Fend off", "Free", "Fight", "Foil the Plot of", "Forge for", "Free", "Gather Supporters for", "Gift to", "Guard", "Guide", "Harvest for", "Heal", "Help", "Hide", "Hide from", "Illuminate for", "Improve for", "Imbue", "Inspire", "Invent for", "Investigate", "Journey to", "Journey with", "Learn from", "Learn with", "Liberate", "Locate", "Master the Arts of", "Meet", "Mend with", "Mobilize", "Negotiate with", "Overcome", "Participate with", "Persevere", "Persuade", "Play with", "Prepare for", "Promote", "Protect", "Purify", "Represent", "Quell", "Race", "Rebuild", "Recharge", "Recover", "Recruit", "Repair for", "Rescue", "Research", "Rescue from", "Resist", "Restore", "Retrieve for", "Retrieve from", "Return", "Review", "Revive", "Seal", "Search for", "Seek Help from", "Seize from", "Shine for", "Shop for", "Shroud", "Skill Up with", "Solve a Crime involving", "Solve a Mystery troubling", "Sneak Past",     "Strengthen", "Subdue", "Support", "Tame", "Teach", "Tend", "Track", "Train with", "Transform", "Transform into", "Travel with", "Try", "Uncover the Secret of", "Undercover as", "Unite with", "Venture with", "Weaken", "Welcome", "Withstand", "Witness for", "Zoom Past"
   ];
 
   const QUEST_ITEMS = ["Amulet of Light", "Arcane Tome", "Basilisk Fang", "Boots of Speed", "Bow of the Winds", "Cloak of Shadows", "Crystal Orb", "Dragon Scale Shield", "Elven Blade", "Enchanted Locket", "Fairy Dust", "Giant's Club", "Gloves of Healing", "Golden Chalice", "Gryphon Feather", "Healing Potion", "Helm of Wisdom", "Horn of the Mountain", "Ironwood Staff", "Jewel of the Sun", "Knight's Shield", "Lantern of Hope", "Leaping Boots", "Lion's Mane", "Mage's Robe", "Mana Crystal", "Map of Lost Realms", "Mermaid's Necklace", "Mystic Compass", "Phoenix Feather", "Potion of Fire Resistance", "Potion of Invisibility", "Potion of Strength", "Ring of Teleportation", "Robe of the Stars", "Rune Stone", "Sapphire Dagger", "Scroll of Knowledge", "Shield of Light", "Silver Sword", "Sorcerer's Wand", "Staff of the Ancients", "Starstone Amulet", "Sword of Valor", "Talisman of Luck", "Unicorn Horn", "Vampire's Tear", "Vial of Moonlight", "Warrior's Helmet", "Wind Chime", "Wizards' Staff", "Wolf's Claw", "Wooden Bow", "Wyrmstone", "Ancient Map", "Archer's Quiver", "Bag of Holding", "Blue Potion", "Candle of Clarity", "Crystalized Honey", "Dragon's Tooth", "Emerald Shield", "Frost Arrow", "Gold Ingots", "Griffin's Wing", "Healing Herbs", "Iron Sword", "Jade Figurine", "Lunar Crystal", "Magic Mirror", "Moonstone Pendant", "Mysterious Amulet", "Obsidian Dagger", "Phoenix Ashes", "Potion of Luck", "Runic Key", "Silver Horn", "Sorcery Stone", "Spirit's Feather", "Steel Shield", "Stone of Courage", "Thunderstrike Axe", "Unicorn Talisman", "Violet Mushroom", "Water Crystal", "Wooden Shield", "Yeti's Fur", "Zodiac Charm", "Aquatic Shell", "Blazing Arrow", "Celestial Crown", "Dragon Egg", "Emerald Leaf", "Fey Stone", "Fire Blossom", "Forest Crown", "Frostbite Gloves", "Gem of Eternity", "Golden Pendant", "Guardian's Token", "Ice Staff", "Iron Lockbox", "Luminous Pearl", "Mystic Gloves", "Obsidian Ring", "Orc's Skull", "Peacock Feather", "Radiant Gem", "Sapphire Staff", "Sunstone Amulet", "Thunderstone", "Treasure Map", "Wind Leaf", "Witch's Broom", "Wizard's Hat", "Wolf's Tooth", "Wyrmfang Sword", "Yellow Moonstone"];
@@ -7392,7 +7554,7 @@ function RandomQuest() {
   
   const QUEST_LOCATION_CONDITIONS = [
     "Abandoned", "Abysmal", "Ancient", "Barren", "Bleak", "Blistering", "Chilly", "Choking", "Cavernous", "Cold", "Corroded", "Creepy", "Crystal", "Dank", "Dark", "Darkened", "Depressing", "Desolate", "Desert", "Deserted", "Destructive", "Difficult", "Dismal", "Dragon", "Dreary", "Dry", "Dull", "Damp", "Enchanted", "Fabled", "Faint", "Flying", "Foul", "Frigid", "Frozen", "Gloomy", "Golden", "Gravelly", "Grim", "Grimy", "Half-Eaten", "Harsh", "Hazy", "Humid", "Impenetrable", "Imposing", "Infested", "Intense", "Isolated", "Jagged", "Jarring", "Labyrinthine", "Legendary", "Luminous", "Lone", "Long-forgotten", "Majestic", "Misty", "Mighty", "Marred", "Mangled", "Mysterious", "Neglected", "Ominous", "Oppressive", "Overcast", "Perilous", "Primeval", "Pristine", "Quaking", "Radiant", "Remote", "Rocky", "Rugged", "Ruined", "Rusted", "Savage", "Scorched", "Screeching", "Secluded", "Sentient", "Shattered", "Shimmering", "Silent", "Sinister", "Sickly", "Smoldering", "Snow-covered", "Snowbound", "Snowy", "Stormy", "Sun-drenched", "Sunlit", "Suffocating", "Sunken", "Surreal", "Sweltering", "Thick", "Thickened",  "Thorny", "Thriving", "Torrential", "Toxic", "Tropical", "Turbulent", "Twisted", "Uncharted", "Underwater", "Unforgiving", "Uninhabited", "Unruly", "Unstable", "Vast", "Violent", "Volcanic", "Wind-blown", "Wind-swept", "Withered", "Withering", "Wild", "Wizard",  "Worn", "Wretched"
-];
+  ];
 
   const QUEST_LOCATIONS = [
     "Academy", "Amphitheater", "Apothecary", "Arena", "Armory", "Bakery", "Ballroom", "Bank", "Barracks", "Bay", 
@@ -8531,7 +8693,7 @@ function NMRES(el){
   var mIcon = Default(elWidget.querySelector('[NM-Icon]').value,""); 
   var mHTML = "";
   if(NotBlank(mIcon)){
-    mHTML = "<res icon=\""+mIcon+"\" item=\""+DTC(mDTS)+"\" title=\"Title\" tags=\"\">\n</res>";
+    mHTML = "<res icon=\""+mIcon+"\" item=\""+DTC(mDTS)+"\" title=\"Title\" star=\"\" tags=\"\">\n</res>";
   }else{
     mHTML = "<res item=\""+DTC(mDTS)+"\" title=\"Title\" star=\"\" tags=\"\">\n</res>";
   }  
@@ -8815,6 +8977,14 @@ function ToggleCheckMark(el){
     el.innerHTML = MacroIcons(null,"□");    
   }else{
     el.innerHTML = MacroIcons(null,"✅");    
+  }
+}
+function ToggleStar(el){
+  // 20250213: StarTree: Toggles between a filled and empty star.
+  if(el.innerHTML.search("⭐")>-1){
+    el.innerHTML = MacroIcons(null,":StarEmpty:");    
+  }else{
+    el.innerHTML = MacroIcons(null,"⭐");    
   }
 }
 function ToggleHeight(el,iDefault){
