@@ -562,7 +562,12 @@ todo::before{content:"TODO: ";font-size: 12px;}
   /*text-shadow: 0px 0px 4px black;*/
   pointer-events: auto;
   width:1.25em;
+  transform:rotate(0deg);
 }
+.mbIcon:active{
+  transform:rotate(-20deg);
+}
+
 a.mbIconShift> span.mbIcon{vertical-align: -0.25em;}
 div.mbIcon{vertical-align: -0.25em;}
 div.mbIcon > icon{font-size: 0px;}
