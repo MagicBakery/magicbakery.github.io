@@ -200,7 +200,9 @@ margin:-5px;*/
   font-size: 1px;
   line-height: 1px;
 }
-
+.mbIB{
+  display:inline-block;
+}
 /* STYLES FOR DAY LIST */
 .mbDayHeader{
   display:none;
