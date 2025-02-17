@@ -97,11 +97,12 @@ function AC_ArchStar(el){
   var bCardinalStyle = mRollStyle.innerText.search("✅")>-1;
   var mExistingRoll = elMode.innerHTML.split("⭐").length-1; 
   var mRoll = 0;
-  var mBonusRoll = 0;
-  
+  var mBonusRoll = 0; 
+  elMode.innerHTML="";
+
   if(bCardinalStyle){
     // Checked = Cardinal Multi-roll style.
-    elMode.innerHTML="";
+    
     for(let i=0;i<mSkillLevel;i++){
       mRoll += getRandomInt(0,1,true);
     }
@@ -116,7 +117,7 @@ function AC_ArchStar(el){
     mRoll = getRandomInt(0,1,true);
   }
   //if(getRandomInt(1,2**mSkillCount,true)>1){
-    elMode.style.fontSize = "78px";
+  elMode.style.fontSize = "78px";
   var mTotalRoll = mRoll + mExistingRoll + mBonusRoll;
   if(mTotalRoll>0){
     let mRows = Math.floor(mTotalRoll/3);
@@ -1788,7 +1789,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250212 Adventure Call Hero Stats";
+  elContainer.innerHTML = "20250216 Quest Generator Affinity";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -4814,7 +4815,7 @@ function SPKMultiStr(el){
   }
   return mHTML;  
 }
-function StarPattern(iCode1,iCode2){
+function StarPattern(iCode1,iCode2,bCheckMark){
   // 20250118: StarTree: Return the Magic Bakery HTML code for the graphics of a star code.
   
   // If Code 1 is not provided, just return.
@@ -4822,7 +4823,7 @@ function StarPattern(iCode1,iCode2){
 
   // If only Code 1 is provided, interpret it as the combined code and decompose it.
   var bFilledLast = true;
-  if(IsBlank(iCode2)){
+  if(IsBlank(iCode2) && iCode2 != 0){
     bFilledLast = false;
     iCode2 = iCode1 %10;
     iCode1 = Math.floor(iCode1/10);
@@ -4830,15 +4831,20 @@ function StarPattern(iCode1,iCode2){
 
   var mNumEmptyStar = iCode1 - iCode2;
   var mNumFilledStar = iCode1 - mNumEmptyStar;
-  var mEmptyStar = ":StarEmpty:";
-  var mFilledStar = "⭐";
+  var mEmptyStar = MacroIcons(null,":StarEmpty:");
+  var mFilledStar = MacroIcons(null,"⭐");
+
+  if(bCheckMark){
+    mEmptyStar = "<div class='mbbutton mbIB' icon=':StarEmpty:' onclick=ToggleCheckMark(this)>" + mEmptyStar + "</div>";
+    mFilledStar = "<div class='mbbutton mbIB' icon='⭐' onclick=ToggleCheckMark(this)>" + mFilledStar + "</div>";
+  }
+
   var mStarPattern = mFilledStar.repeat(mNumFilledStar);
   if(bFilledLast){
     mStarPattern = mEmptyStar.repeat(mNumEmptyStar) + mStarPattern;
   }else{
     mStarPattern += mEmptyStar.repeat(mNumEmptyStar);
-  }
-  mStarPattern = MacroIcons(null,mStarPattern);
+  }  
   return mStarPattern;
 }
 function HideN3Inline(el) {
@@ -5631,6 +5637,18 @@ function RND_CoinFlip(el){
   }
   elResultSpace.innerHTML = elResultSpace.innerHTML + mToss;
 }
+function RND_One(mList){
+  // 20250216: StarTree: Pick one randomly from a list.
+  return mList[Math.floor(Math.random() * mList.length)];
+}
+function RND_OneStruct(mList,mAffinity,mHostility){
+  // 20250216: StarTree: Pick one randomly from a list.
+  var mStruct = RND_One(mList);
+  var mWord = mStruct[0];
+  mAffinity = mStruct[1] + mAffinity;
+  mHostility = Math.max(mHostility,parseInt(Default(mStruct[2],0)));
+  return [mWord,mAffinity,mHostility];
+}
 function RND_QSCardCode(el,bShowIcon){
   // 20250104: Tanya: Give a random QS card code with replenish
   var elResultSpace = SearchPS(el,"control").nextElementSibling;
@@ -5638,40 +5656,32 @@ function RND_QSCardCode(el,bShowIcon){
   elResultSpace.innerHTML += RND_QSCardCodeStr(bShowIcon);
   return;
   
-  
-  
-  var mArchetype = Math.ceil(Math.random()*6)-1;
-  var mCode1 = Math.ceil(Math.random()*5);
-  
-  var mCode2 = Math.ceil(Math.random()*mCode1);
-  var aArchetypes = ["P","C","H","A","O","M"];
-  var aArchetypeIcons = [":Paladin:","❤️","📯","🍀","🔮","🎩"];
-  var mResult = aArchetypes[mArchetype] + mCode1.toString() + mCode2.toString();
-  if(!bShowIcon){
-    if(NotBlank(elResultSpace.innerHTML)){elResultSpace.innerHTML += " "}
-    elResultSpace.innerHTML += mResult;
-  }else{
-    //var mNumEmptyStar = mCode1 - mCode2;
-    //var mNumStar = mCode1 - mNumEmptyStar;
-    //var mEmptyStar = ":StarEmpty:";
-    //var mStar = "⭐";
-    //var mResultIcon = aArchetypeIcons[mArchetype] + mEmptyStar.repeat(mNumEmptyStar) + mStar.repeat(mNumStar);
-    var mResultIcon = aArchetypeIcons[mArchetype] + StarPattern(mCode1, mCode2);
-    mResultIcon = MacroIcons(null,mResultIcon);
-    if(NotBlank(elResultSpace.innerHTML)){elResultSpace.innerHTML += "<br>"}
-    elResultSpace.innerHTML += "<span class='mbILB40' style='text-align:left'>" + mResult + "</span>";
-    elResultSpace.innerHTML += mResultIcon;
-  }
-  
 
 }
-function RND_QSCardCodeStr(bShowIcon){
+function RND_QSCardCodeStr(bShowIcon,mArchetype,mCode1,mCode2,bCheckMark){
   // 20250104: Tanya: Give a random QS card code with replenish
   var mHTML = "";
-  var mArchetype = Math.ceil(Math.random()*6)-1;
-  var mCode1 = Math.ceil(Math.random()*5);
-  
-  var mCode2 = Math.ceil(Math.random()*mCode1);
+  // 20250216: StarTree: Upgrade to allow partial initialization.
+  if(IsBlank(mArchetype)|| mArchetype=="+"){
+    mArchetype = Math.ceil(Math.random()*6)-1;
+  }else{
+    switch(mArchetype){
+      case "P": mArchetype = 0; break;
+      case "C": mArchetype = 1; break;
+      case "H": mArchetype = 2; break;
+      case "A": mArchetype = 3; break;
+      case "O": mArchetype = 4; break;
+      case "M": mArchetype = 5; break;
+      case "X": mArchetype = Math.ceil(Math.random()*5); break;
+      default: mArchetype = Math.ceil(Math.random()*5);
+    }
+  }
+  if(IsBlank(mCode1)){
+    mCode1 = Math.ceil(Math.random()*5);
+  }
+  if(IsBlank(mCode2) && mCode2!=0){
+    mCode2 = Math.ceil(Math.random()*mCode1);
+  }
   var aArchetypes = ["P","C","H","A","O","M"];
   var aArchetypeIcons = [":Paladin:","❤️","📯","🍀","🔮","🎩"];
   var mResult = aArchetypes[mArchetype] + mCode1.toString() + mCode2.toString();
@@ -5683,9 +5693,8 @@ function RND_QSCardCodeStr(bShowIcon){
     //var mEmptyStar = ":StarEmpty:";
     //var mStar = "⭐";
     //var mResultIcon = aArchetypeIcons[mArchetype] + mEmptyStar.repeat(mNumEmptyStar) + mStar.repeat(mNumStar);
-    var mResultIcon = aArchetypeIcons[mArchetype] + StarPattern(mCode1, mCode2);
-    mResultIcon = MacroIcons(null,mResultIcon);
-    
+    var mResultIcon = aArchetypeIcons[mArchetype] + StarPattern(mCode1, mCode2,bCheckMark);
+    mResultIcon = MacroIcons(null,mResultIcon);    
     mHTML += "<span class='mbILB40' style='text-align:left'>" + mResult + "</span>";
     mHTML += mResultIcon;
   }
@@ -5694,8 +5703,736 @@ function RND_QSCardCodeStr(bShowIcon){
 }
 function RND_QuestPrompt(el){
   // 20250211: StarTree
-  var elResultSpace = SearchPS(el,"control").nextElementSibling;
-  elResultSpace.innerHTML=  RandomQuest() + elResultSpace.innerHTML;
+  var elControl = SearchPS(el,"control");  
+  var elResultSpace = elControl.nextElementSibling;
+  elResultSpace.innerHTML=  RandomQuest(elControl) + elResultSpace.innerHTML;
+}
+function RND_QuestSchema(){
+  // 20250216: StarTree: To be the list of quest schemas
+}
+function RND_QuestPersonCondition(mAffinity,mHostility){
+  // 20250216: StarTree: Returns a random quest word with affinity.
+  const WORDS = [
+    ["Abandoned", "C", "0"],
+    ["Absent", "+", "4"],
+    ["Aggressive", "+", "5"],
+    ["Ancient", "O", "0"],
+    ["Arrogant", "M", "4"],
+    ["Aspiring", "+", "2"],
+    ["Battered", "+", "4"],
+    ["Beautiful", "+", "0"],
+    ["Bewitched", "M", "4"],
+    ["Bitter", "C", "4"],
+    ["Blessed", "+", "0"],
+    ["Blinded", "C", "0"],
+    ["Broken", "C", "0"],
+    ["Calm", "+", "3"],
+    ["Capable", "+", "3"],
+    ["Careful", "+", "4"],
+    ["Classified", "+", "4"],
+    ["Clean", "A", "4"],
+    ["Cold", "C", "4"],
+    ["Cornered", "+", "5"],
+    ["Corrupted", "C", "5"],
+    ["Cunning", "O", "5"],
+    ["Cursed", "C", "5"],
+    ["Dark", "+", "4"],
+    ["Darkened", "+", "4"],
+    ["Debt Ridden", "M", "4"],
+    ["Decayed", "C", "3"],
+    ["Deceptive", "O", "5"],
+    ["Defeated", "M", "4"],
+    ["Delicate", "C", "4"],
+    ["Disorganized", "H", "4"],
+    ["Disturbed", "C", "4"],
+    ["Doomed", "C", "4"],
+    ["Drained", "A", "4"],
+    ["Dying", "C", "5"],
+    ["Expert", "+", "5"],
+    ["Familiar", "+", "2"],
+    ["Fierce", "P", "5"],
+    ["Formidable", "P", "4"],
+    ["Fragile", "C", "4"],
+    ["Friendly", "+", "2"],
+    ["Gentle", "+", "2"],
+    ["Gigantic", "+++", "0"],
+    ["Group of", "+++", "0"],
+    ["Haunted", "C", "5"],
+    ["Heavy", "++", "0"],
+    ["Hidden", "O", "4"],
+    ["Hostile", "+", "5"],
+    ["Ill", "C", "3"],
+    ["Illogical", "M", "4"],
+    ["Inexperienced", "+", "4"],
+    ["Injured", "C", "3"],
+    ["Innocent", "+", "3"],
+    ["Insomniac", "C", "3"],
+    ["Legendary", "H", "5"],
+    ["Logical", "O", "3"],
+    ["Lost", "O", "4"],
+    ["Lucky", "A", "1"],
+    ["Mad", "M", "4"],
+    ["Magical", "+", "0"],
+    ["Marked", "P", "5"],
+    ["Marooned", "C", "4"],
+    ["Masked", "O", "3"],
+    ["Meek", "+", "0"],
+    ["Mild", "+", "3"],
+    ["Mischievous", "M", "4"],
+    ["Misled", "C", "4"],
+    ["Neutral", "+", "3"],
+    ["Noble", "+", "3"],
+    ["Obnoxious", "+", "4"],
+    ["Old", "+", "3"],
+    ["Overgrown", "+", "0"],
+    ["Peaceful", "+", "2"],
+    ["Pet", "+", "0"],
+    ["Philosophical", "O", "0"],
+    ["Poetic", "M", "0"],
+    ["Poisoned", "C", "2"],
+    ["Poor", "A", "2"],
+    ["Possessive", "M", "4"],
+    ["Prolific", "A+", "0"],
+    ["Protected", "P++", "0"],
+    ["Pure", "+", "2"],
+    ["Quiet", "+", "2"],
+    ["Reckless", "P+", "4"],
+    ["Restless", "C", "2"],
+    ["Rough", "C", "2"],
+    ["Ruined", "A", "0"],
+    ["Sacred", "C", "4"],
+    ["Safe", "+", "2"],
+    ["Scarred", "C", "4"],
+    ["Shy", "+", "4"],
+    ["Silent", "H", "3"],
+    ["Simple", "+", "2"],
+    ["Sleepy", "H", "4"],
+    ["Slow", "H", "4"],
+    ["Small", "+", "0"],
+    ["Soft", "+", "0"],
+    ["Sour", "+", "4"],
+    ["Sturdy", "+", "0"],
+    ["Strange", "O", "4"],
+    ["Strong", "+", "0"],
+    ["Talented", "++", "0"],
+    ["Thorny", "C", "4"],
+    ["Tidy", "+", "0"],
+    ["Tired", "A", "4"],
+    ["Tough", "++", "0"],
+    ["Troubled", "+", "4"],
+    ["Twisted", "O", "5"],
+    ["Twin", "O+", "0"],
+    ["Undefeated", "+", "5"],
+    ["Underappreciated", "C", "4"],
+    ["Underdog", "M", "5"],
+    ["Underfunded", "A", "4"],
+    ["Unlucky", "O+", "4"],
+    ["Vibrant", "N", "0"],
+    ["Warm", "+", "2"],
+    ["Weak", "+", "4"],
+    ["Wanted", "+", "5"],
+    ["Willing", "+", "2"],
+    ["Wild", "+", "4"],
+    ["Winged", "+", "0"],
+    ["Wise", "+", "2"],
+    ["Worn", "A", "4"],
+    ["Wounded", "C", "5"]
+  ];
+  return RND_OneStruct(WORDS,mAffinity,mHostility);
+}
+function RND_QuestPerson(mAffinity,mHostility){
+  const WORDS = [
+    ["Aasimar", "", ""], ["Angel", "H", "2"], 
+    ["Basilisk", "", ""], ["Cat", "", ""], 
+    ["Centaur", "", ""], ["Chimera", "+", ""], ["Cyclops", "", ""], ["Djinn", "", ""], 
+    ["Dog", "", ""], ["Dragon", "+++", ""], ["Dryad", "", ""], ["Dwarf", "", ""], 
+    ["Echidna", "", ""], ["Elemental", "A", ""], ["Elf", "", ""], ["Fairy", "", ""], 
+    ["Gargoyle", "P", ""], ["Ghost", "O", ""], ["Giant", "++", ""], ["Goblin", "", ""], 
+    ["Golem", "A", ""], ["Griffin", "", ""], ["Halfling", "", ""], ["Harpy", "H", ""], 
+    ["Human", "X", ""], ["Hydra", "++", ""], ["Kitsune", "", ""], ["Kraken", "++", ""], 
+    ["Lamia", "", ""], ["Manticore", "+", ""], ["Mermaid", "", ""], ["Mimic", "O", "4"], 
+    ["Minotaur", "P", ""], ["Mummy", "", ""], ["Naga", "", ""], ["Nymph", "", ""], 
+    ["Ogre", "P", ""], ["Phoenix", "", ""], ["Satyr", "", ""], ["Serpent", "", ""], 
+    ["Shadow", "CO", ""], ["Skeleton", "+", ""], ["Sphinx", "", ""], ["Spider", "", ""], 
+    ["Sprite", "M", ""], ["Sylph", "", ""], ["Treant", "", "3"], ["Troll", "", "4"], 
+    ["Undead", "C", ""], ["Unicorn", "", "2"], ["Vampire", "C", ""], ["Werewolf", "", ""], 
+    ["Will-o'-the-Wisp", "", ""], ["Wolf", "", ""], ["Wraith", "", ""], ["Wyvern", "", ""], 
+    ["Yeti", "+", ""], ["Zombie", "PC++", "5"]
+  ];
+
+  return RND_OneStruct(WORDS,mAffinity,mHostility);
+}
+function RND_QuestItem(mAffinity,mHostility){
+  const WORDS = [
+    ["Ancient Map", "O", ""],
+    ["Amulet of Light", "C", ""],
+    ["Aquatic Shell", "A", ""],
+    ["Arcane Tome", "OM", ""],
+    ["Archer's Quiver", "A", ""],
+    ["Bag of Holding", "A", ""],
+    ["Basilisk Fang", "P", ""],
+    ["Blazing Arrow", "A", ""],
+    ["Blue Potion", "A", ""],
+    ["Boots of Speed", "A", ""],
+    ["Bow of the Winds", "A", ""],
+    ["Candle of Clarity", "M", ""],
+    ["Celestial Crown", "H", ""],
+    ["Cloak of Shadows", "M", ""],
+    ["Crystal Orb", "O", ""],
+    ["Crystalized Honey", "A", ""],
+    ["Dragon Egg", "++", ""],
+    ["Dragon Scale Shield", "PA+", ""],
+    ["Dragon's Tooth", "PA", "5"],
+    ["Elven Blade", "A", ""],
+    ["Emerald Leaf", "M", ""],
+    ["Emerald Shield", "AM", ""],
+    ["Enchanted Locket", "OC", ""],
+    ["Fairy Dust", "M", ""],
+    ["Fey Stone", "M", ""],
+    ["Fire Blossom", "A", ""],
+    ["Forest Crown", "A", ""],
+    ["Frost Arrow", "A", ""],
+    ["Frostbite Gloves", "A", ""],
+    ["Gem of Eternity", "M", ""],
+    ["Giant's Club", "A+", ""],
+    ["Gloves of Healing", "CA", ""],
+    ["Golden Chalice", "MA", ""],
+    ["Golden Pendant", "MA", ""],
+    ["Griffin's Wing", "PA", "5"],
+    ["Gryphon Feather", "P", ""],
+    ["Healing Herbs", "A", ""],
+    ["Healing Potion", "A", ""],
+    ["Helm of Wisdom", "A", ""],
+    ["Horn of the Mountain", "A+", ""],
+    ["Ice Staff", "MA", ""],
+    ["Iron Lockbox", "A", ""],
+    ["Iron Sword", "A", ""],
+    ["Ironwood Staff", "A", ""],
+    ["Jade Figurine", "A", ""],
+    ["Jewel of the Sun", "O", ""],
+    ["Knight's Shield", "A", ""],
+    ["Lantern of Hope", "C", ""],
+    ["Leaping Boots", "A", ""],
+    ["Lion's Mane", "P", "5"],
+    ["Luminous Pearl", "A", ""],
+    ["Lunar Crystal", "O", ""],
+    ["Magic Mirror", "O", ""],
+    ["Mage's Robe", "M", ""],
+    ["Mana Crystal", "M", ""],
+    ["Map of Lost Realms", "OM+", ""],
+    ["Mermaid's Necklace", "M", ""],
+    ["Moonstone Pendant", "O", ""],
+    ["Mysterious Amulet", "XXX", ""],
+    ["Mystic Compass", "XX", ""],
+    ["Mystic Gloves", "X", ""],
+    ["Obsidian Dagger", "PA", ""],
+    ["Obsidian Ring", "M", ""],
+    ["Orc's Skull", "PPP", "5"],
+    ["Peacock Feather", "+", ""],
+    ["Phoenix Ashes", "A", ""],
+    ["Phoenix Feather", "+", ""],
+    ["Potion of Fire Resistance", "M", ""],
+    ["Potion of Invisibility", "M", ""],
+    ["Potion of Luck", "MM", ""],
+    ["Potion of Strength", "A", ""],
+    ["Radiant Gem", "M", ""],
+    ["Ring of Teleportation", "MM", ""],
+    ["Robe of the Stars", "O", ""],
+    ["Rune Stone", "M", ""],
+    ["Runic Key", "MA", ""],
+    ["Sapphire Dagger", "A", ""],
+    ["Sapphire Staff", "MA", ""],
+    ["Shield of Light", "A", ""],
+    ["Silver Horn", "A", ""],
+    ["Silver Sword", "A", ""],
+    ["Sorcerer's Wand", "M", ""],
+    ["Sorcery Stone", "O", ""],
+    ["Spirit's Feather", "H", ""],
+    ["Starstone Amulet", "O", ""],
+    ["Steel Shield", "A", ""],
+    ["Stone of Courage", "P", ""],
+    ["Sunstone Amulet", "C", ""],
+    ["Sword of Valor", "P", ""],
+    ["Talisman of Luck", "A", ""],
+    ["Thunderstone", "M", ""],
+    ["Thunderstrike Axe", "A", ""],
+    ["Treasure Map", "HH", ""],
+    ["Unicorn Horn", "C", ""],
+    ["Unicorn Talisman", "C", ""],
+    ["Vampire's Tear", "C", ""],
+    ["Violet Mushroom", "A", ""],
+    ["Vial of Moonlight", "O", ""],
+    ["Water Crystal", "A", ""],
+    ["Wind Chime", "A", ""],
+    ["Wind Leaf", "A", ""],
+    ["Witch's Broom", "M", ""],
+    ["Wizard's Hat", "A", ""],
+    ["Wizards' Staff", "M", ""],
+    ["Wolf's Claw", "P", ""],
+    ["Wolf's Tooth", "P", ""],
+    ["Wooden Bow", "A", ""],
+    ["Wooden Shield", "A", ""],
+    ["Wyrmfang Sword", "PA", ""],
+    ["Wyrmstone", "P", ""],
+    ["Yellow Moonstone", "O", ""],
+    ["Zodiac Charm", "O", ""]
+  ];  
+  return RND_OneStruct(WORDS,mAffinity,mHostility);
+}
+function RND_QuestPlace(mAffinity,mHostility){
+  const WORDS = [
+    ["Academy", "XX", ""], 
+    ["Amphitheater", "M+", ""], 
+    ["Apothecary", "AC", ""], 
+    ["Arena", "PP", ""], 
+    ["Armory", "P", ""], 
+    ["Auction House", "OX", "3"], 
+    ["Bakery", "A", "1"], 
+    ["Ballroom", "MX", ""], 
+    ["Bank", "X", ""], 
+    ["Barracks", "++", ""], 
+    ["Bay", "+", ""], 
+    ["Bridge", "X", "3"], 
+    ["Butcher", "+", ""], 
+    ["Cabin", "++", "2"], 
+    ["Camp", "++", "3"], 
+    ["Carriage", "+", ""], 
+    ["Casino", "MX", ""], 
+    ["Castle", "+++", ""], 
+    ["Cathedral", "COXX", ""], 
+    ["Cave", "AAX", ""], 
+    ["Chapel", "C", ""], 
+    ["Circus", "AMX", ""], 
+    ["Citadel", "COX", ""], 
+    ["Cliff", "AH", ""], 
+    ["Coliseum", "PP", ""], 
+    ["Courthouse", "HO", ""], 
+    ["Cove", "+", ""], 
+    ["Crossroad", "HX", ""], 
+    ["Dock", "M", ""], 
+    ["Dungeon", "PPPXXX++", ""], 
+    ["Fairground", "MX", "3"], 
+    ["Farm", "A", "1"], 
+    ["Festival Grounds", "MMX", "3"], 
+    ["Forest", "X++", "3"], 
+    ["Fortress", "PPX+", ""], 
+    ["Garden", "A", "1"], 
+    ["Grotto", "AX", ""], 
+    ["Guildhall", "X", "2"], 
+    ["Harbor", "HX", ""], 
+    ["Inn", "X", "3"], 
+    ["Island", "X", ""], 
+    ["Keep", "PX", ""], 
+    ["Labyrinth", "HXX", "1"], 
+    ["Lake", "AX", ""], 
+    ["Library", "X", ""], 
+    ["Market", "XXX", "3"], 
+    ["Mill", "X", ""], 
+    ["Mine", "AX+", ""], 
+    ["Monastery", "CO", "3"], 
+    ["Mountain", "PAX", ""], 
+    ["Music Hall", "MX", "3"], 
+    ["Outpost", "PX", ""], 
+    ["Palace", "MX", ""], 
+    ["Plains", "X", ""], 
+    ["Plaza", "HMX", "3"], 
+    ["Playhouse", "MMX", "3"], 
+    ["Port", "PHX", ""], 
+    ["Resort", "MX", "2"], 
+    ["River", "AX", ""], 
+    ["Ruins", "POX", ""], 
+    ["Sanctuary", "PC", "2"], 
+    ["School", "X", "2"], 
+    ["Ship", "HAX", ""], 
+    ["Shrine", "OX", "2"], 
+    ["Smithy", "A+", "3"], 
+    ["Sewage", "PX", "4"],
+    ["Swamp", "AX+", "4"], 
+    ["Stable", "H+", "3"], 
+    ["Stage", "MX", "3"], 
+    ["Stronghold", "PPP++", ""], 
+    ["Tavern", "XXX", "3"], 
+    ["Temple", "COX", "3"], 
+    ["Theater", "MX+", "3"], 
+    ["Tomb", "PCXX", "4"], 
+    ["Tower", "PX+", ""], 
+    ["Town Gate", "PX+", "4"], 
+    ["Town Square", "HX+", ""], 
+    ["Traveler's Camp", "X++", "3"], 
+    ["Valley", "X+", ""],
+    ["Vault", "PX", "4"],
+    ["Village", "X++", "3"],
+    ["Watchtower", "X", ""],
+    ["Well", "AX", "4"],
+    ["Workshop", "A+", "3"]
+  ];
+    
+  return RND_OneStruct(WORDS,mAffinity,mHostility);
+}
+function RND_QuestPlaceCondition(mAffinity,mHostility){
+  const WORDS = [
+    ["Abandoned", "X", ""], 
+    ["Abysmal", "XXX", "5"], 
+    ["Ancient", "OX", ""], 
+    ["Barren", "A", "4"], 
+    ["Bleak", "C", "4"], 
+    ["Blistering", "CA", "4"], 
+    ["Chilly", "A", ""], 
+    ["Choking", "CA", "4"], 
+    ["Cavernous", "OX", ""], 
+    ["Classified", "X", ""], 
+    ["Cold", "+", ""], 
+    ["Corroded", "A", ""], 
+    ["Creepy", "X", ""], 
+    ["Crystal", "X", ""], 
+    ["Dank", "+", ""], 
+    ["Dark", "+", ""], 
+    ["Darkened", "+", ""], 
+    ["Depressing", "C", "4"], 
+    ["Desolate", "X", ""], 
+    ["Desert", "A", ""], 
+    ["Deserted", "X", ""], 
+    ["Destructive", "PCAX", ""], 
+    ["Difficult", "++", ""], 
+    ["Dismal", "X+", ""], 
+    ["Dragon", "++", "8"], 
+    ["Dreary", "C", ""], 
+    ["Dry", "A", ""], 
+    ["Dull", "M", ""], 
+    ["Damp", "A", ""], 
+    ["Enchanted", "X", ""], 
+    ["Fabled", "X", ""], 
+    ["Faint", "CC", ""], 
+    ["Flying", "HA", ""], 
+    ["Foul", "COX", ""], 
+    ["Frigid", "CA", ""], 
+    ["Frozen", "CA+", ""], 
+    ["Gloomy", "CM", ""], 
+    ["Golden", "A+", ""], 
+    ["Gravelly", "A", ""],
+    ["Grim", "O", ""], 
+    ["Grimy", "A", ""], 
+    ["Half-Eaten", "PCX", ""], 
+    ["Harsh", "PA", ""], 
+    ["Hazy", "AO", ""], 
+    ["Humid", "A", ""], 
+    ["Impenetrable", "PPPX", ""], 
+    ["Imposing", "PMX", ""], 
+    ["Infested", "PPCCX+", "2"], 
+    ["Intense", "XXX", "4"], 
+    ["Isolated", "HAC", ""], 
+    ["Jagged", "AC", ""], 
+    ["Jarring", "AO", ""], 
+    ["Labyrinthine", "OXX", ""], 
+    ["Legendary", "X++", ""], 
+    ["Luminous", "+", "2"], 
+    ["Lone", "C", ""], 
+    ["Long-forgotten", "OC", ""], 
+    ["Majestic", "M++", ""], 
+    ["Misty", "A", ""], 
+    ["Mighty", "++", ""], 
+    ["Marred", "C", ""], 
+    ["Mangled", "PAC", ""], 
+    ["Mysterious", "OX", ""], 
+    ["Neglected", "CA", ""], 
+    ["Ominous", "OX", ""], 
+    ["Oppressive", "PPX", "5"], 
+    ["Overcast", "OX", ""], 
+    ["Perilous", "PCXX", ""], 
+    ["Primeval", "AO", ""], 
+    ["Pristine", "", "2"], 
+    ["Quaking", "AC", ""], 
+    ["Radiant", "M", ""], 
+    ["Rainbow", "M", ""], 
+    ["Remote", "AH", ""], 
+    ["Rocky", "A", ""], 
+    ["Rugged", "+", ""], 
+    ["Ruined", "OA+", ""], 
+    ["Rusted", "A", ""], 
+    ["Savage", "PP", ""], 
+    ["Scorched", "AC", ""], 
+    ["Screeching", "C", ""], 
+    ["Secluded", "C", ""], 
+    ["Sentient", "H", ""], 
+    ["Shattered", "AAA", ""], 
+    ["Shimmering", "", "2"], 
+    ["Silent", "H", ""], 
+    ["Sinister", "OXX", ""], 
+    ["Sickly", "CC", ""], 
+    ["Smoldering", "AO", ""], 
+    ["Snow-covered", "A", "4"], 
+    ["Snowbound", "A", ""], 
+    ["Snowy", "A", ""], 
+    ["Stormy", "OA", "4"], 
+    ["Sun-drenched", "A", ""], 
+    ["Sunlit", "+", "2"], 
+    ["Suffocating", "", "4"], 
+    ["Sunken", "AX", "4"], 
+    ["Surreal", "M", "4"], 
+    ["Sweltering", "+", "4"], 
+    ["Thick", "+", ""], 
+    ["Thickened", "X", ""], 
+    ["Thorny", "C", ""], 
+    ["Thriving", "++", "3"], 
+    ["Torrential", "A++", ""], 
+    ["Toxic", "CC+", ""], 
+    ["Tropical", "CX", ""], 
+    ["Turbulent", "OAA", ""], 
+    ["Twisted", "X", ""],
+    ["Uncharted", "OAHX", ""], 
+    ["Underwater", "AA", ""], 
+    ["Unforgiving", "ACX", ""], 
+    ["Unicorn", "+", "2"], 
+    ["Uninhabited", "X", ""], 
+    ["Unruly", "+", "4"], 
+    ["Unstable", "+", "4"], 
+    ["Vast", "++++", ""], 
+    ["Violent", "PP+", "5"], 
+    ["Volcanic", "AC+", "4"], 
+    ["Wind-blown", "+", "4"], 
+    ["Wind-swept", "+", "4"], 
+    ["Withered", "A", "4"], 
+    ["Withering", "A", "5"], 
+    ["Wild", "PP", "4"], 
+    ["Wizard", "M", ""], 
+    ["Worn", "A", "4"], 
+    ["Wretched", "X", "4"]
+  ];
+
+  return RND_OneStruct(WORDS,mAffinity,mHostility);
+}
+function RND_QuestRole(mAffinity,mHostility){
+  const WORDS = [
+    ["Actor", "M", ""], 
+    ["Actress", "M", ""], 
+    ["Adventurer", "XX", "3"], 
+    ["Alchemist", "A", ""], 
+    ["Ambassador", "H", ""], 
+    ["Artisan", "A", ""], 
+    
+    ["Baker", "A", ""], 
+    ["Bandit", "PP", "5"], 
+    ["Bard", "M", ""], 
+    ["Blacksmith", "A", ""],
+    ["Builder", "++", ""], 
+    ["Captain", "++", ""], 
+    ["Champion", "+", ""], 
+    ["Child", "X", ""], 
+    ["Chieftain", "+++", ""], 
+    ["Cleric", "CC", "2"], 
+    ["Chef", "A", ""], 
+    ["Courier", "H", ""], 
+    ["Crafter", "A", ""], 
+    ["Detective", "OO", ""], 
+    ["Druid", "CO", ""], 
+    ["Elder", "O", ""], 
+    ["Explorer", "", ""], 
+    ["Farmer", "", ""], 
+    ["Fisherman", "", ""], 
+    ["Friend", "", "2"], 
+    ["General", "++", ""], 
+    ["Ghost", "O", "4"], 
+    ["Guard", "P", ""], 
+    ["Guildmate", "", "1"], 
+    ["Headmaster", "+", ""], 
+    ["Healer", "", "2"], 
+    ["Herald", "", ""], 
+    ["Herbalist", "A", ""], 
+    ["Hunter", "", ""], 
+    ["Innkeeper", "", "3"], 
+    ["Inspector", "O", ""], 
+    ["Inventor", "A", ""], 
+    ["Jester", "M", ""], 
+    ["King", "H+", ""],
+    ["Knight", "P", ""], 
+    ["Librarian", "O", ""], 
+    ["Mage", "M", ""], 
+    ["Magician", "M", ""], 
+    ["Maid", "C", ""], 
+    ["Master", "++", ""], 
+    ["Mayor", "+", ""], 
+    ["Merchant", "X", ""], 
+    ["Messenger", "H", ""], 
+    ["Miner", "A", ""], 
+    ["Monk", "C", ""],
+    ["Ninja", "PO", ""], 
+    ["Noble", "", ""], 
+    ["Oracle", "O", ""], 
+    ["Paladin", "P", ""], 
+    ["Party Member", "", "2"], 
+    ["Peasant", "A", ""], 
+    ["Pirate", "P", "5"], 
+    ["Poet", "M", ""], 
+    ["Prince", "M+", ""], 
+    ["Princess", "M+", ""], 
+    ["Prisoner", "P+", ""], 
+    ["Puppet", "A", ""], 
+    ["Puppet Master", "A", ""], 
+    ["Queen", "", ""], 
+    ["Quester", "", "2"], 
+    ["Ranger", "", ""], 
+    ["Refugee", "PC", ""], 
+    ["Rogue", "PM", "4"], 
+    ["Sage", "+", ""], 
+    ["Scholar", "+", ""], 
+    ["Seer", "O", ""], 
+    ["Sailor", "", ""], 
+    ["Samurai", "P", ""], 
+    ["Scout", "", ""], 
+    ["Senator", "", ""], 
+    ["Smuggler", "A", ""], 
+    ["Sorcerer", "M", ""], 
+    ["Spy", "O", "4"], 
+    ["Statue", "A", ""], 
+    ["Tailor", "A", ""], 
+    ["Tourist", "H", "2"], 
+    ["Treasure Hunter", "A", ""],     
+    ["Witness", "O", ""], 
+    ["Wizard", "M", ""], 
+    ["Youth", "", "2"]
+  ];
+  return RND_OneStruct(WORDS,mAffinity,mHostility);
+}
+function RND_QuestVerb(mAffinity,mHostility){
+  // 20250216: StarTree: Returns a random quest word with affinity.
+  const WORDS = [
+    ["Accompany", "C", "0"],
+    ["Advertise for", "H", "0"],
+    ["Adventure with", "+", "0"],
+    ["Aid", "C", "5"],
+    ["Ambush", "M", "5"],
+    ["Arbitrate the Dispute involving", "C", "5"],
+    ["Arrest", "P", "5"],
+    ["Assemble for", "H", "4"],
+    ["Assist", "H", "4"],
+    ["Authenticate", "O", "4"], 
+    ["Battle", "P", "5"],
+    ["Battle with", "P", "5"],
+    ["Befriend", "C", "0"],
+    ["Build for", "A", "3"],
+    ["Capture", "P", "5"],
+    ["Cater for", "C", "0"],
+    ["Celebrate for", "M", "0"],
+    ["Challenge", "+", "3"],
+    ["Chart for", "H", "3"],
+    ["Cheer Up", "C", "0"],
+    ["Clean for", "A", "0"],
+    ["Collect from", "H", "0"],
+    ["Command", "H", "0"],
+    ["Compete with", "A", "4"],
+    ["Construct for", "A", "0"],
+    ["Convince", "H", "0"],
+    ["Cook for", "A", "0"],
+    ["Cook with", "A", "0"],
+    ["Coordinate for", "H", "0"],
+    ["Create the Quest Item for", "A", "0"],
+    ["Dance with", "M", "0"],
+    ["Decorate for", "M", "0"],
+    ["Defeat", "P", "0"],
+    ["Defend", "P", "0"],
+    ["Deliver to", "H", "0"],    
+    ["Dive for", "P", "0"],
+    ["Duel", "P", "0"],
+    ["Enchant for", "C", "0"],
+    ["Endure", "P", "0"],
+    ["Engage", "P", "0"],
+    ["Enlist", "H", "0"],
+    ["Escape from", "H", "0"],
+    ["Examine", "O", "0"],
+    ["Excavate the Treasure of", "A", "0"],
+    ["Exorcise", "C", "0"],
+    ["Explore with", "H", "0"],
+    ["Feed", "A", "0"],
+    ["Fend for", "P", "0"],
+    ["Fend off", "P", "0"],
+    ["Fight", "P", "0"],
+    ["Foil the Plot of", "O", "0"],
+    ["Forge for", "A", "0"],
+    ["Free", "A", "0"],
+    ["Free", "M", "0"],
+    ["Gather Supporters for", "H", "0"],
+    ["Gift to", "C", "0"],
+    ["Guard", "P", "0"],
+    ["Guide", "H", "0"],
+    ["Harvest for", "A", "0"],
+    ["Heal", "C", "0"],
+    ["Help", "H", "0"],
+    ["Hide", "M", "0"],
+    ["Hide from", "M", "0"],
+    ["Inspire", "H", "0"],
+    ["Invent for", "A", "0"],
+    ["Investigate", "O", "0"],
+    ["Learn from", "+", "0"],
+    ["Learn with", "+", "0"],
+    ["Liberate", "P", "5"],
+    ["Locate", "O", "0"],
+    ["Make an Improvement for", "A", "0"],
+    ["Master the Arts of", "+", "0"],
+    ["Meet", "H", "0"],
+    ["Mend", "C", "0"],
+    ["Mobilize", "P", "0"],
+    ["Negotiate with", "H", "0"],
+    ["Orchestrate for", "H", "0"],
+    ["Overcome", "P", "0"],
+    ["Participate with", "C", "0"],
+    ["Persevere", "A", "0"],
+    ["Persuade", "C", "0"],
+    ["Play with", "X", "2"],
+    ["Prepare for", "A", "0"],
+    ["Promote", "H", "0"],
+    ["Protect", "P", "0"],
+    ["Purify", "C", "0"],
+    ["Race", "H", "0"],
+    ["Rebuild", "A", "0"],
+    ["Recharge", "A", "0"],
+    ["Recover", "A", "0"],
+    ["Recruit", "H", "0"],
+    ["Repair for", "A", "0"],
+    ["Represent", "H", "0"],
+    ["Rescue", "P", "0"],
+    ["Rescue from", "P", "0"],
+    ["Research", "O", "0"],
+    ["Resist", "C", "0"],
+    ["Restore", "A", "0"],
+    ["Retrieve for", "H", "0"],
+    ["Retrieve from", "M", "0"],
+    ["Return", "H", "0"],
+    ["Review", "O", "0"],
+    ["Revive", "C", "0"],
+    ["Save", "C", "0"],
+    ["Seal", "P", "0"],
+    ["Search for", "H", "0"],
+    ["Seek Help from", "H", "0"],
+    ["Seize from", "P", "0"],
+    ["Shadow", "M", "0"],
+    ["Shine for", "M", "0"],
+    ["Shop for", "H", "0"],
+    ["Skill Up with", "C", "0"],
+    ["Solve a Crime involving", "O", "0"],
+    ["Solve a Mystery troubling", "O", "0"],
+    ["Sneak Past", "M", "0"],
+    ["Strengthen", "P", "0"],
+    ["Subdue", "M", "0"],
+    ["Support", "H", "0"],
+    ["Tame", "C", "0"],
+    ["Teach", "H", "0"],
+    ["Tend", "C", "0"],
+    ["Track", "H", "0"],
+    ["Train with", "H", "0"],
+    ["Transform", "M", "0"],
+    ["Transform into", "M", "0"],
+    ["Travel with", "H", "0"],
+    ["Try", "M", "0"],
+    ["Uncover the Secret of", "O", "0"],
+    ["Undercover as", "M", "0"],
+    ["Unite with", "H", "0"],
+    ["Venture with", "H", "0"],
+    ["Weaken", "M", "0"],
+    ["Welcome", "C", "0"],
+    ["Withstand", "P", "0"],    
+    ["Zoom Past", "H", "0"]
+  ]; 
+  return RND_OneStruct(WORDS,mAffinity,mHostility);
 }
 function RND_Reset(el){
   // 20230716: StarTree: For gaming
@@ -7581,72 +8318,29 @@ function QueryTabPN_20240509_DELETE(elThis,eQuery){
   elTarget = elTarget.nextElementSibling;
   QueryTabEL(elTarget,eQuery);
 }
-function RandomQuest() {
-  const QUEST_VERBS = [
-    "Accompany", "Adventure with", "Advertise for", "Aid", "Ambush", "Arbitrate the Dispute involving", "Arrest", "Assemble for", "Assist", "Battle", "Battle with", "Befriend", "Build for", "Capture", "Challenge", "Chart for", "Celebrate for", "Cheer Up", "Clean for", "Cater for", "Compete with", "Collect from", "Command", "Construct for", "Convince", "Cook for", "Cook with", "Create for", "Dance with", "Decorate for", "Defeat", "Defend", "Deliver to", "Discover for", "Dive for", "Duel", "Enchant for", "Endure", "Engage", "Enlist", "Escape", "Examine", "Excavate the Treasure of", "Exorcise", "Explore with", "Feed", "Fend for", "Fend off", "Free", "Fight", "Foil the Plot of", "Forge for", "Free", "Gather Supporters for", "Gift to", "Guard", "Guide", "Harvest for", "Heal", "Help", "Hide", "Hide from", "Illuminate for", "Improve for", "Imbue", "Inspire", "Invent for", "Investigate", "Journey to", "Journey with", "Learn from", "Learn with", "Liberate", "Locate", "Master the Arts of", "Meet", "Mend with", "Mobilize", "Negotiate with", "Overcome", "Participate with", "Persevere", "Persuade", "Play with", "Prepare for", "Promote", "Protect", "Purify", "Represent", "Quell", "Race", "Rebuild", "Recharge", "Recover", "Recruit", "Repair for", "Rescue", "Research", "Rescue from", "Resist", "Restore", "Retrieve for", "Retrieve from", "Return", "Review", "Revive", "Save", "Seal", "Search for", "Seek Help from", "Seize from", "Shine for", "Shop for", "Shroud", "Skill Up with", "Solve a Crime involving", "Solve a Mystery troubling", "Sneak Past",     "Strengthen", "Subdue", "Support", "Tame", "Teach", "Tend", "Track", "Train with", "Transform", "Transform into", "Travel with", "Try", "Uncover the Secret of", "Undercover as", "Unite with", "Venture with", "Weaken", "Welcome", "Withstand", "Witness for", "Zoom Past"
-  ];
-
-  const QUEST_ITEMS = ["Amulet of Light", "Arcane Tome", "Basilisk Fang", "Boots of Speed", "Bow of the Winds", "Cloak of Shadows", "Crystal Orb", "Dragon Scale Shield", "Elven Blade", "Enchanted Locket", "Fairy Dust", "Giant's Club", "Gloves of Healing", "Golden Chalice", "Gryphon Feather", "Healing Potion", "Helm of Wisdom", "Horn of the Mountain", "Ironwood Staff", "Jewel of the Sun", "Knight's Shield", "Lantern of Hope", "Leaping Boots", "Lion's Mane", "Mage's Robe", "Mana Crystal", "Map of Lost Realms", "Mermaid's Necklace", "Mystic Compass", "Phoenix Feather", "Potion of Fire Resistance", "Potion of Invisibility", "Potion of Strength", "Ring of Teleportation", "Robe of the Stars", "Rune Stone", "Sapphire Dagger", "Scroll of Knowledge", "Shield of Light", "Silver Sword", "Sorcerer's Wand", "Staff of the Ancients", "Starstone Amulet", "Sword of Valor", "Talisman of Luck", "Unicorn Horn", "Vampire's Tear", "Vial of Moonlight", "Warrior's Helmet", "Wind Chime", "Wizards' Staff", "Wolf's Claw", "Wooden Bow", "Wyrmstone", "Ancient Map", "Archer's Quiver", "Bag of Holding", "Blue Potion", "Candle of Clarity", "Crystalized Honey", "Dragon's Tooth", "Emerald Shield", "Frost Arrow", "Gold Ingots", "Griffin's Wing", "Healing Herbs", "Iron Sword", "Jade Figurine", "Lunar Crystal", "Magic Mirror", "Moonstone Pendant", "Mysterious Amulet", "Obsidian Dagger", "Phoenix Ashes", "Potion of Luck", "Runic Key", "Silver Horn", "Sorcery Stone", "Spirit's Feather", "Steel Shield", "Stone of Courage", "Thunderstrike Axe", "Unicorn Talisman", "Violet Mushroom", "Water Crystal", "Wooden Shield", "Yeti's Fur", "Zodiac Charm", "Aquatic Shell", "Blazing Arrow", "Celestial Crown", "Dragon Egg", "Emerald Leaf", "Fey Stone", "Fire Blossom", "Forest Crown", "Frostbite Gloves", "Gem of Eternity", "Golden Pendant", "Guardian's Token", "Ice Staff", "Iron Lockbox", "Luminous Pearl", "Mystic Gloves", "Obsidian Ring", "Orc's Skull", "Peacock Feather", "Radiant Gem", "Sapphire Staff", "Sunstone Amulet", "Thunderstone", "Treasure Map", "Wind Leaf", "Witch's Broom", "Wizard's Hat", "Wolf's Tooth", "Wyrmfang Sword", "Yellow Moonstone"];
-
-  const QUEST_SUBJECT_CONDITIONS = [
-    "Abandoned", "Absent", "Aggressive", "Ancient", "Arrogant", "Aspiring", "Battered", "Beautiful", "Bewitched", "Bitter", "Blessed", "Blinded", "Broken", "Capable", "Careful", "Clean", "Calm", "Cold", "Cornered", "Corrupted", "Cunning", "Cursed", "Dark", "Darkened", "Debt Ridden", "Decayed", "Deceptive", "Defeated", "Delicate", "Disorganized", "Disturbed", "Doomed", "Drained", "Dying", "Expert", "Familiar", "Fierce", "Formidable", "Fragile", "Friendly", "Gentle", "Gigantic", "Group of", "Haunted", "Heavy", "Hidden", "Hostile", "Illogical", "Injured", "Ill", "Innocent", "Inexperienced", "Insomniac", "Logical", "Lost", "Lucky", "Legendary", "Mad", "Magical", "Marked", "Marooned", "Masked", "Meek", "Mild", "Misled", "Mischievous", "Noble", "Neutral", "Obnoxious", "Old", "Overgrown", "Peaceful", "Philosophical", "Poisoned", "Pet", "Poetic", "Possessive", "Poor", "Prolific", "Protected", "Pure", "Quiet", "Reckless", "Restless", "Rough", "Ruined", "Safe", "Sacred", "Scarred", "Shy", "Silent", "Simple", "Sleepy", "Small", "Soft", "Sour", "Slow", "Sturdy", "Strange", "Strong", "Talented", "Tidy", "Tired", "Thorny", "Twin", "Tough", "Troubled", "Twisted", "Vibrant", "Warm", "Weak", "Wild", "Willing", "Winged", "Wise", "Worn", "Wounded", "Wanted", "Undefeated", "Underappreciated", "Underdog", "Underfunded", "Unlucky"
-  ];
 
 
-  const QUEST_SUBJECTS = [
-    "Aasimar", "Angel", "Basilisk", "Cat", "Centaur", "Chimera", "Cyclops", "Dog", 
-    "Djinn", "Dragon", "Dryad", "Dwarf", "Elf", "Elemental", "Fairy", "Gargoyle", 
-    "Giant", "Ghost", "Goblin", "Golem", "Griffin", "Halfling", "Harpy", "Human", 
-    "Hydra", "Kitsune", "Kraken", "Manticore", "Mermaid", "Mimic", "Minotaur", "Mummy", "Nymph", 
-    "Ogre", "Phoenix", "Satyr", "Serpent", "Shadow", "Skeleton", "Sphinx", "Spider", "Sprite", 
-    "Sylph", "Treant", "Troll", "Undead", "Unicorn", "Vampire", "Werewolf", "Will-o'-the-Wisp", "Wolf", 
-    "Wraith", "Wyvern", "Yeti", "Zombie"
-  ];
-
+function RandomQuest(elControl) {  
+ 
+  // Initialize the Affinity Lists
+  var mAffinity = ""; // Archetype Affinity
+  var mHostility = 0;
+  var mRQV, mRQSC, mRQP, mRQPC, mRQS, mRQSR, mRQI;
   
-  
-  const QUEST_SUBJECT_ROLES = [
-    "Adventurer", "Actor", "Actress", "Alchemist", "Apprentice", "Ambassador", "Artisan", "Baker", "Bandit", "Bard", "Blacksmith", "Builder", "Captain", "Child", "Champion", "Chieftain", 
-    "Cleric", "Chef", "Courier", "Crafter", "Detective", "Druid", "Elder", "Explorer", "Farmer", "Fisherman", "Friend", "General", "Ghost", "Guard", "Guildmate", "Headmaster",
-    "Healer", "Herald", "Herbalist", "Hunter", "Innkeeper", "Inventor", "Inspector", "Jester", "King", "Knight", "Librarian", "Mage", "Magician", "Maid", "Master",
-    "Mayor", "Merchant", "Messenger", "Miner", "Monk", "Ninja", "Noble", "Oracle", "Paladin", "Party Member", "Peasant", "Pirate", "Poet", "Prince", "Princess", "Prisoner", "Puppet", "Puppet Master", "Queen",
-    "Quester", "Ranger", "Refugee", "Rogue", "Sage", "Scribe", "Scholar", "Seer", "Sailor", "Samurai", "Scout", "Senator", "Smuggler", "Sorcerer", "Spy", "Statue", "Tailor", "Tourist", "Treasure Hunter", "Witness", "Wizard", "Youth"
-  ];
-  
-  const QUEST_LOCATION_CONDITIONS = [
-    "Abandoned", "Abysmal", "Ancient", "Barren", "Bleak", "Blistering", "Chilly", "Choking", "Cavernous", "Cold", "Corroded", "Creepy", "Crystal", "Dank", "Dark", "Darkened", "Depressing", "Desolate", "Desert", "Deserted", "Destructive", "Difficult", "Dismal", "Dragon", "Dreary", "Dry", "Dull", "Damp", "Enchanted", "Fabled", "Faint", "Flying", "Foul", "Frigid", "Frozen", "Gloomy", "Golden", "Gravelly", "Grim", "Grimy", "Half-Eaten", "Harsh", "Hazy", "Humid", "Impenetrable", "Imposing", "Infested", "Intense", "Isolated", "Jagged", "Jarring", "Labyrinthine", "Legendary", "Luminous", "Lone", "Long-forgotten", "Majestic", "Misty", "Mighty", "Marred", "Mangled", "Mysterious", "Neglected", "Ominous", "Oppressive", "Overcast", "Perilous", "Primeval", "Pristine", "Quaking", "Radiant", "Remote", "Rocky", "Rugged", "Ruined", "Rusted", "Savage", "Scorched", "Screeching", "Secluded", "Sentient", "Shattered", "Shimmering", "Silent", "Sinister", "Sickly", "Smoldering", "Snow-covered", "Snowbound", "Snowy", "Stormy", "Sun-drenched", "Sunlit", "Suffocating", "Sunken", "Surreal", "Sweltering", "Thick", "Thickened",  "Thorny", "Thriving", "Torrential", "Toxic", "Tropical", "Turbulent", "Twisted", "Uncharted", "Underwater", "Unforgiving", "Uninhabited", "Unruly", "Unstable", "Vast", "Violent", "Volcanic", "Wind-blown", "Wind-swept", "Withered", "Withering", "Wild", "Wizard",  "Worn", "Wretched"
-  ];
+  [mRQV,mAffinity,mHostility] = RND_QuestVerb(mAffinity,mHostility);      
 
-  const QUEST_LOCATIONS = [
-    "Academy", "Amphitheater", "Apothecary", "Arena", "Armory", "Bakery", "Ballroom", "Bank", "Barracks", "Bay", 
-    "Bridge", "Butcher", "Cabin", "Camp", "Carriage", "Casino", "Castle", "Cathedral", "Cave", "Chapel", "Circus", 
-    "Citadel", "Cliff", "Coliseum", "Courthouse", "Cove", "Dock", "Dungeon", "Fairground", 
-    "Farm", "Festival Grounds", "Forest", "Fortress", "Garden", "Grotto", "Guildhall", 
-    "Harbor", "Inn", "Island", "Keep", "Labyrinth", "Lake", "Library", "Market", "Mill", 
-    "Mine", "Monastery", "Mountain", "Music Hall", "Outpost", "Palace", "Plains", "Plaza", 
-    "Playhouse", "Port", "Resort", "River", "Road", "Ruins", "Sanctuary", "School", "Ship", "Shrine", 
-    "Smithy", "Sewage", "Swamp", "Stable", "Stage", "Stronghold", "Tavern", "Temple", "Theater", "Tomb", "Tower", "Town Gate", "Town Square", "Traveler's Camp", 
-    "Valley", "Vault", "Village", "Watchtower", "Workshop"
-  ];
+  if(mAffinity==""){mAffinity = "+"}
+  if(mHostility<=0){mHostility = 3;}
   
-  
-  const mRQV = QUEST_VERBS[Math.floor(Math.random() * QUEST_VERBS.length)];
-  const mRQSC = QUEST_SUBJECT_CONDITIONS[Math.floor(Math.random() * QUEST_SUBJECT_CONDITIONS.length)];
-  const mRQS = QUEST_SUBJECTS[Math.floor(Math.random() * QUEST_SUBJECTS.length)];
-  const mRQSR = QUEST_SUBJECT_ROLES[Math.floor(Math.random() * QUEST_SUBJECT_ROLES.length)];
-  const mRQPC = QUEST_LOCATION_CONDITIONS[Math.floor(Math.random() * QUEST_LOCATION_CONDITIONS.length)];
-  const mRQP = QUEST_LOCATIONS[Math.floor(Math.random() * QUEST_LOCATIONS.length)];
-  const mRQI = QUEST_ITEMS[Math.floor(Math.random() * QUEST_ITEMS.length)];
-
   var mReturn = mRQV;
   var bWithSubject = false;
   var mDifficulty = 0;
 
   // 20250211: StarTree: Randomly decide to add the subject adjective.
   if(getRandomInt(0,1,true)==1){ // Add
+    [mRQSC,mAffinity,mHostility] = RND_QuestPersonCondition(mAffinity,mHostility);  
     mReturn += " the " + mRQSC;
-    bWithSubject = true;
-    mDifficulty = getRandomInt(-1,4,true);
+    bWithSubject = true;    
   }
 
   if(bWithSubject==false){mReturn += " the";}
@@ -7654,46 +8348,93 @@ function RandomQuest() {
   // 20250211: StarTree: Randomly decide to add the subject type.
   switch(getRandomInt(0,3,true)){
     case 0: // Add only the subject type
+    [mRQS,mAffinity,mHostility] = RND_QuestPerson(mAffinity,mHostility);  
     mReturn += " " + mRQS;   
-    mDifficulty++;
     break;
     case 1: // Add only the role
+    [mRQSR,mAffinity,mHostility] = RND_QuestRole(mAffinity,mHostility);  
     mReturn += " " + mRQSR;   
-    mDifficulty++;
     break;
     case 2: // Add both
+    [mRQS,mAffinity,mHostility] = RND_QuestPerson(mAffinity,mHostility);  
+    [mRQSR,mAffinity,mHostility] = RND_QuestRole(mAffinity,mHostility);  
     mReturn += " " + mRQS + " " + mRQSR;   
-    mDifficulty++;
-    mDifficulty++;
     break;
     case 3: // Add Item
+    [mRQI,mAffinity,mHostility] = RND_QuestItem(mAffinity,mHostility);  
     mReturn += " " + mRQI;
-    mDifficulty++;
   }
 
   // 20250211: Randomly decide to add the place condition.
-  if(getRandomInt(0,1,true)==1){ // Add
+  if(getRandomInt(0,1,true)==1){ // Add    
+    [mRQP,mAffinity,mHostility] = RND_QuestPlace("|"+mAffinity,mHostility);    
+    [mRQPC,mAffinity,mHostility] = RND_QuestPlaceCondition(mAffinity,mHostility);  
     mReturn += " at the " + mRQPC + " " + mRQP;
-    mDifficulty++;
-    mDifficulty++;
-    
   }else{
     if(getRandomInt(0,1,true)==1){ // Add
+      [mRQP,mAffinity,mHostility] = RND_QuestPlace("|"+mAffinity,mHostility);    
       mReturn += " at the " + mRQP;
-      mDifficulty++;
     }
   }
-  var mStar = "⭐";
-  mDifficulty = Math.max(mDifficulty,1);
+  var mStar = MacroIcons(null,"<div class='mbbutton mbIB' icon='⭐' onclick='ToggleCheckMark(this)'>⭐</div>");
   
-  var mHTML = "<div viewer class='mbpuzzle' style='border:1px solid goldenrod;clear:right'><a class='mbbutton' style='float:right;' onClick='Remove(this,\"viewer\")'  title='Close'>:Close:</a> " + mStar.repeat(mDifficulty) + "<hr>" + mReturn;
-  //mHTML += "<hr><h4>Challenges</h4>";
+
+  // NEW:
+  var mNumStars = Math.max(mHostility,mAffinity.replaceAll("|","").length);
+  mDifficulty = mAffinity.length;
+  var mChaArchRND = (mAffinity.replaceAll("+","")).replaceAll("|","");
+  if(mChaArchRND.length==0){mChaArchRND = RND_One(["P","C","H","A","O","M"])}
+  
+  var mHTML = "<div viewer class='mbpuzzle' style='border:1px solid goldenrod;clear:right'><a class='mbbutton' style='float:right;' onClick='Remove(this,\"viewer\")'  title='Close'>:Close:</a> " + mStar.repeat(mNumStars);
+  mHTML += GUI_Notepad("Quest Details...","200px",);
+  mHTML += "<hr>";
+  //mHTML += "<textarea class='mbTextBox' style='height:44px' spellcheck='false' onkeyup='TextAreaRemember(this)' spellcheck='false'>"+mReturn+"</textarea>";
+  mHTML += mReturn;
+  //mHTML += GUI_CheckBoxRight();
+  
+  mHTML += "<div class='mbCB'></div>"
+
+  // For DEBUG
+  var elShowDebug = elControl.querySelector("[QG_DEBUG]");
+  if(elShowDebug.innerText.search("✅")>-1){
+    mHTML += " <small><b>[" + mAffinity + mHostility ;
+    mHTML += "](" + mChaArchRND +")";
+    mHTML += "</b></small>";
+  }
+  
+
   mHTML += "<div class='mbbutton' onclick='ShowNext(this)'><hr></div><div class='mbhide'>";
+
+  let mChaArch = "";  
+  let mChaCode1 = 0;
+  let mChaCode2 = 0;
+  let bHardest = false;
+  for(let i=0;i<mDifficulty;i++){
+    mChaArch = mAffinity[i];
+    if(mChaArch=="+"){
+      mChaArch = mChaArchRND[getRandomInt(0,mChaArchRND.length,false)];
+    }
+    //if(i==mDifficulty-1 && !bHardest){ 
+    if(i==mDifficulty-1){  // Last encounter
+      mChaCode1 = mHostility;  
+    }else{
+      mChaCode1 = getRandomInt(1,mHostility,true);
+      if(mChaCode1 == mHostility){bHardest = true}
+    }    
+    mChaCode2 = getRandomInt(0,Math.min(mChaCode1,3),true);    
+    if(mChaArch=="|"){
+      mHTML += "<hr>";
+    }else{
+      //mHTML += "<div>";
+      mHTML += "<div><span style='float:right' onclick='ToggleCheckMark(this)'>□</span>";      
+      mHTML += RND_QSCardCodeStr(true,mChaArch,mChaCode1,mChaCode2,true);
+      mHTML += GUI_Notepad("Encounter Details...");
+      
   
-  var mOptions = getRandomInt(1, Math.max(1,mDifficulty,true));
-  mOptions =  Math.max(1,mDifficulty) ;
-  for(let i=0;i<mOptions;i++){
-    mHTML += "<div><span style='float:right' onclick='ToggleCheckMark(this)'>□</span>"+RND_QSCardCodeStr(true)+"</div>";
+      // Add a notepad
+      
+      mHTML += "</div>";
+    }
   }
   
   
@@ -7702,6 +8443,13 @@ function RandomQuest() {
   return MacroIcons(null,mHTML);
 
   //return mRQV + " " + mRQSC.toLowerCase() + " " + mRQS.toLowerCase() + " " + randomWord4.toLowerCase() + " at " + randomWord5.toLowerCase() + " " + randomWord6.toLowerCase()+".";
+}
+function GUI_CheckBoxRight(){
+  return "<span class='mbIB' style='float:right' onclick='ToggleCheckMark(this)'>□</span>";
+}
+function GUI_Notepad(aPlaceHolder,mHeight){
+  mHeight = Default(mHeight,"44px")
+  return "<span style='float:right' onclick='ShowNext(this)'>✏️</span><div class='mbCB mbhide'><textarea class='mbTextBox' style='height:"+mHeight+"' spellcheck='false' onkeyup='TextAreaRemember(this)' placeholder='"+ aPlaceHolder +"'></textarea></div>";
 }
 function RandomToday(){
   // Returns a "random" number between 0 to 1 (inclusive) 
@@ -8387,6 +9135,10 @@ function TextAreaLoad(elTextArea){
     elTextArea.value = mText;
   }
 }
+function TextAreaRemember(el){
+  // 20250217: StarTree: For Quest Generator
+  el.innerHTML = el.value;
+}
 function TextAreaSave(elTextArea){
   // 20240330: StarTree: Saves the TextArea text to Local Storage.
   
@@ -9034,8 +9786,9 @@ function TextAreaUseCookie(el){
 }
 function ToggleCheckMark(el){
   // 20250211: StarTree: Toggles an unsaved check box.
+  var mIcon = Default(el.getAttribute("icon"),"□")
   if(el.innerHTML.search("✅")>-1){
-    el.innerHTML = MacroIcons(null,"□");    
+    el.innerHTML = MacroIcons(null,mIcon);    
   }else{
     el.innerHTML = MacroIcons(null,"✅");    
   }
@@ -9569,7 +10322,7 @@ function getRandomInt(min, max, bTop) {
   min = Math.ceil(min);
   max = Math.floor(max);
   if(bTop){ // 20240909: StarTree: Adds the option to include the max number.
-    return Math.round(Math.random() * (max - min) + min);  
+    return Math.floor(Math.random() * (max+1+ - min)+ min);  
   }
   return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
 }

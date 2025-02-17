@@ -603,6 +603,13 @@ span.mbIcon > icon{font-size: 0px;}
   
   
 }
+.mbTextBox{
+  tab-size:2;
+  width:100%;
+  font-size:16px;
+  background-color:#fcf8ee;
+  color:saddlebrown;
+}
 .mbContext {
   background-color: #ffe689; 
   border: 2px solid goldenrod;
