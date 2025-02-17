@@ -6332,7 +6332,7 @@ function RND_QuestVerb(mAffinity,mHostility){
     ["Defend", "P", "0"],
     ["Deliver to", "H", "0"],    
     ["Dive for", "P", "0"],
-    ["Duel", "P", "0"],
+    ["Duel", "P", "5"],
     ["Enchant for", "C", "0"],
     ["Endure", "P", "0"],
     ["Engage", "P", "0"],
