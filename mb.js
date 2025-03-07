@@ -1789,7 +1789,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250216 Quest Generator Affinity";
+  elContainer.innerHTML = "20250307 Auto Replace YouTube Shorts Links";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2755,7 +2755,10 @@ function GetURLCode(mURL,mDesc, mLang){
   // 20250203: StarTree: Adding more condition to tell if a Youtube link is to a video  
   // 20250203: StarTree: Also need to work with a link like this: https://youtube.com/playlist?list=PLpsX8HIFE3xpeYz8GYJcJDaPI2AOCO5vG&si=EjZfzyIUGFtBTLL8
   
-  if(mURL.includes("youtube.com") && mDesc!="💬"){    
+  if(mURL.includes("youtube.com") && mDesc!="💬"){  
+    
+    // 20250307: StarTree: Auto replace shorts with watch.  
+    mURL = mURL.replace("/shorts/","/watch?v=");
     
     if(mURL.includes("list=")){ // 20250120: StarTree: If it is already a playlist, use playlist link.
       // https://www.youtube.com/watch?v=lm79me_S4-E&list=PL1PNHwldi501DJOfOUGnQAo4A8cXcrbT2
@@ -9620,6 +9623,10 @@ function NMURL(el,mCBText){
     if(mURL.includes("&list=")){
       mIcon = "🎧";
     }else if(mURL.includes("youtube.com")){
+      // 20250307: StarTree: Replace short links to watch:
+      // from: https://www.youtube.com/shorts/hMnGzsz3gfo
+      // to:   https://www.youtube.com/watch?v=hMnGzsz3gfo
+      mURL = mURL.replace("/shorts/","/watch?v=");
       mIcon = "📺";
     }else if(mURL.includes("podcast")){
       mIcon = "📻";
