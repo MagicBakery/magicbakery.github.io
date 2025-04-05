@@ -1157,7 +1157,7 @@ span.mbIcon > icon{font-size: 0px;}
   text-shadow: 0px 0px 4px #ffffff;
   width:100px; 
 }
-  
+
 .mbNB{
   border: 2px solid rgba(139,69,19,0); /*saddlebrown*/
   border-radius:0px;
@@ -1463,6 +1463,7 @@ box-shadow: 0px 0px 8px #808080;
 }
 .mbCalendar{
 background-color: rgba(255,229,153,0.35);
+
 }
 .mbCalendar th{
 background-color: saddlebrown;
@@ -1478,6 +1479,14 @@ width:43px;
 .mbCalendarb{
 background-color: rgba(255,229,153,0.35);
 }
+
+table.mbCalendarb{
+  margin-top:5px;
+  margin-bottom:5px;
+  border-radius: 5px;
+}
+
+
 .mbCalendarb th{
 background-color: saddlebrown;
 border: 1px solid saddlebrown;
@@ -1855,6 +1864,7 @@ padding-right:4px;
   padding:10px 10px; 
   text-align:left; 
 }
+
 .mbpuzzle{
   background-color:#ffffff80;
   border-radius: 0.6em;
@@ -1910,4 +1920,6 @@ padding-right:4px;
 mbAH{
   height:auto;
 }
-
+.mbNoBorder{
+  border:0px;
+}

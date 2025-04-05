@@ -1789,7 +1789,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250307 Auto Replace YouTube Shorts Links";
+  elContainer.innerHTML = "20250405 Matrix Cell Details Display";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -8703,11 +8703,20 @@ function ShowPP(el){
   // 20230413: Evelyn
   ShowEl(el.parentNode.previousElementSibling);
 }
+function ShowLCPSN(elThis){
+  // 20250405: StarTree: Upgrade for showing matrix legends.
+  var elTarget = SearchPS(elThis, 'control').nextElementSibling;
+  var elNext = elThis.lastElementChild;  
+  elTarget.innerHTML = elNext.innerHTML;
+  elTarget.style.display= "block";
+  elTarget.setAttribute("mQueryString", "");
+}
 function ShowNext(el) {
   //20230220: Fina: Fixed the double click bug with getComputedStyle
   var eTar = el.nextElementSibling;
   ShowEl(eTar);
 }
+
 function ShowWidgets(){
   //20240421: Arcacia Show all button class objects that are immediate children
   var elButtons = document.querySelectorAll('[BB]');
