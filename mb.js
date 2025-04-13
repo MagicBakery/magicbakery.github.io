@@ -1789,7 +1789,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250405 Matrix Cell Details Display";
+  elContainer.innerHTML = "20250412 6x4 Card CSS";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -1949,12 +1949,20 @@ function MacroCard2(elCard){
         </a>
       </div>
     */
-   if(!elCard.classList.contains('mbCharCardAQ')){return false;}
+  let mCardClass = "";
+  if(elCard.classList.contains('mbCardManga')){
+  // 20250412: StarTree: Adding for Card style manga page display.  
+  mCardClass = "mbCardManga";
+  }
+  if(elCard.classList.contains('mbCharCardAQ')){
+  mCardClass = "mbCharCardAQ";    
+  }
+  if(IsBlank(mCardClass)){return false;}
    let mDTS = elCard.getAttribute('dts');
    let mImg = elCard.getAttribute('img');
    let elNew = document.createElement('div');
    let mHTML = "<a style='cursor:default' onclick='return false;' href='" + mImg + "' target='_blank'>";
-   mHTML += "<div class='mbCharCardAQ' style=\"background-image:url('" + mImg + "')\">"
+   mHTML += "<div class='" + mCardClass + "' style=\"background-image:url('" + mImg + "')\">"
    mHTML += "</div></a>";
    elNew.innerHTML = mHTML;
    elNew.setAttribute('dts',mDTS);
