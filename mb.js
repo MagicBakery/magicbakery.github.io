@@ -1789,7 +1789,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250412 6x4 Card CSS";
+  elContainer.innerHTML = "20250413 Donated Item Icon";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2439,6 +2439,8 @@ function MacroResItem(mTag){
     mHTML += "<center style=\"color:green\"><b>AVAILABLE</b></center>";
   }else if(mTag.hasAttribute('unavailable')){
     mHTML += "<center style=\"color:darkgoldenrod\"><b>IN USE</b></center>";
+  }else if(mTag.hasAttribute('donated')){
+    mHTML += "<center style=\"color:saddlebrown\"><b>DONATED</b></center>";
   }else if(mTag.hasAttribute('unowned')){
     mHTML += "<center style=\"color:saddlebrown\"><b>UNOWNED</b></center>";
   }else if(mTag.hasAttribute('open')){ 
@@ -3415,7 +3417,8 @@ function ResIcon(mRes){
   if(mRes.hasAttribute('unavailable')){return "💛";}
   if(mRes.hasAttribute('spoiler')){return "🤎";}
   if(mRes.hasAttribute('seeking')){return "🤍";}
-  if(mRes.hasAttribute('unowned')){return "🕊️";}
+  if(mRes.hasAttribute('donated')){return "🪽";}
+  if(mRes.hasAttribute('unowned')){return "🕊️";}  
   if(mRes.hasAttribute('available')){return "💚";}
   if(mRes.hasAttribute('instrumental')){return "🥁";}
   if(mRes.hasAttribute('vocal')){return "🎤";}
