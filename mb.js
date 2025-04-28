@@ -1523,9 +1523,19 @@ function ChName(iChID){
 function DEBUG(iStr){
   console.log(iStr);
 }
-function Default(e,mDefault){
+function Default(e,mDefault,mBlank){
   // 20230319: Kisaragi
+  
   return NotBlank(e)? e:mDefault;  
+}
+function DefaultEL(el,mAttribute,mMissing,mBlank){
+  // 20250427: StarTree: Returns the value of the attribute.
+  // But if it is not found, return mMissing.
+  // If it is found but blank, return mBlank.
+  if(!el.hasAttribute(mAttribute)){
+    return mMissing;
+  }
+  return Default(el.getAttribute(mAttribute),mBlank);
 }
 function DefaultView_15(){
   const queryString = window.location.search;
@@ -1789,7 +1799,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250413 Donated Item Icon";
+  elContainer.innerHTML = "20250427 Item Sort by Age";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2010,6 +2020,7 @@ function MacroIcons(el,iHTMLInner){
     ["CallBell","🛎️"],
     ["Calendar","📅"],
     ["Camp","🏕️"],
+    ["Candle","🕯️"],
     ["Castle","🏰"],
     ["CatHead","🐱"],
     ["CD","📀"],
@@ -2077,6 +2088,7 @@ function MacroIcons(el,iHTMLInner){
     ["Kudookie","💟"],
     ["Lemon","🍋"],
     ["Link","🔗"],
+    ["Lotus","🪷"],
     ["LoveLetter","💌"],
     ["Lyre",":Lyre:"],
     ["Magic","✨"],
@@ -2087,13 +2099,13 @@ function MacroIcons(el,iHTMLInner){
     ["Masks","🎭"],
     ["Medal","🏅"],
     ["Mirror","🪞"],
-    
     ["NestEggs","🪺"],
     ["Orange","🍊"],
     ["Owl","🦉"],
     ["Paladin",":Paladin:"],
     ["Palette","🎨"],
     ["Pancake","🥞"],
+    ["PaperCrane",":PaperCrane:"],
     ["Paw","🐾"],
     ["Pencil","✏️"],    
     ["Phone","☎️"],
@@ -2152,6 +2164,7 @@ function MacroIcons(el,iHTMLInner){
     ["Vote","🗳️"],
     ["Waffle","🧇"],
     ["Wand","🪄"],
+    ["Wheel","🛞"],
     ["WingL",":WingL:"],
     ["WingR",":WingR:"],
     ["WingR","🪽"],
@@ -2383,10 +2396,11 @@ function MacroResItem(mTag){
   
   let mNode = mTag.getAttribute("node");
   let mSrc = mTag.getAttribute("src");
-  let mTags = Default(mTag.getAttribute("tags"),"");
-  let mOwner = Default(mTag.getAttribute("owner"),"???");
-  let mItem = mTag.getAttribute("item");
+  let mTags = Default(mTag.getAttribute("tags"),""); 
+  let mAge = DefaultEL(mTag,"age","","-1");
   let mChannel = Default(mTag.getAttribute('channel'),"");
+  let mItem = mTag.getAttribute("item");
+  let mOwner = Default(mTag.getAttribute("owner"),"???");
   let mSinger = Default(mTag.getAttribute("Singer"),"");
   let mStarCode = Default(mTag.getAttribute("star"),""); // 20250118: StarTree
   let mYouTube = Default(mTag.getAttribute("Youtube"),"");
@@ -2516,12 +2530,20 @@ function MacroResItem(mTag){
   // 20240827: James: Don't show tags if there is none.
   
   if(NotBlank(mTags) || NotBlank(mStarPattern)){ 
-    mHTML += "<hide tags>+";
-    
+    mHTML += "<hide tags>+";    
     if(NotBlank(mStarPattern)){mHTML += mStarPattern + "+";} // 20250118: Sasha: Show stars as part of tags
+    if(NotBlank(mAge)){mHTML += "Age:" + mAge + "+";} // 20250427: StarTree: Add Age to tags.
     mHTML += mTags.replaceAll(" ","+").replaceAll("_"," ") + "+</hide>";
+    // Tag Display
     mHTML += "<b>Tags:</b>&nbsp;" ;
     if(NotBlank(mStarPattern)){mHTML += mStarPattern + " ";} // 20250118: Sasha: Show stars as part of tags
+    if(NotBlank(mAge)){
+      if(mAge >= 0) {
+        mHTML += "Age:" + mAge + "+ ";
+      }else{
+        mHTML += "Age:?+ ";
+      }      
+    } // 20250427: StarTree: Show Age.
     mHTML += mTags.replaceAll("_"," ") +"<br>";
   }
 
@@ -2580,6 +2602,7 @@ function MacroResItem(mTag){
   
   // Optional Tag Copying (Copy Attribute if Exist)
   if(NotBlank(mStarCode)){elNew.setAttribute("star",mStarCode);} // 20250118: StarTree
+  if(NotBlank(mAge)){elNew.setAttribute("age",mAge);} // 20250427: StarTree
   if(mTag.hasAttribute("year")){    
     elNew.setAttribute("year",mTag.getAttribute("year"))
   }
@@ -6633,7 +6656,11 @@ function QSLSortBy(el,iAttribute){
       //item.firstElementChild.innerHTML = LnkCode("202501020158",StarPattern(mSortValue));
       item.firstElementChild.innerHTML = StarPattern(mSortValue);
     }else{
-      item.firstElementChild.innerHTML = mSortValue
+      item.firstElementChild.innerHTML = mSortValue;
+      if(iAttribute.toLowerCase() == "age" && NotBlank(mSortValue)){
+        // 20250427: StarTree: Add the + side if the attribute is age.
+        item.firstElementChild.innerHTML += "+"
+      }
     }
     
     if(bReversed){
