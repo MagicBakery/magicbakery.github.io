@@ -1068,7 +1068,9 @@ span.mbIcon > icon{font-size: 0px;}
 */
 /* Avatars */
 
-.mb3B {background-image:url('https://github.com/MagicBakery/Images/blob/main/3B%20(2).png?raw=true');}
+.mb3B {background-image:url('https://lh3.googleusercontent.com/pw/AP1GczPhI6hQ-VV_UMjoGegTkvtYD7D2T3g6-jQBV1gC-6DTh1f2BkP5nV-dgsxY8lGN3veUBoI2YbUcjRpuFQqit7SXJtpP8WmxjGqmrMfU68-JGrLHYsb1A7ypo__4uz0eoSEh9_h9UaXAoZ5oR8qkt9qd=w450-h450-s-no-gm');}
+
+/*.mb3B {background-image:url('https://github.com/MagicBakery/Images/blob/main/3B%20(2).png?raw=true');}
 .mb44 {background-image:url('https://github.com/MagicBakery/Images/blob/main/44.png?raw=true');}
 .mbAlbatross {background-image:url('https://github.com/MagicBakery/Images/blob/main/Albatross%20Spite.png?raw=true')}
 /*.mbAlice {background-image:url('https://github.com/MagicBakery/Images/blob/main/Alice.png?raw=true');}*/
@@ -1095,12 +1097,14 @@ span.mbIcon > icon{font-size: 0px;}
 .mbKisaragi {background-image:url('https://github.com/MagicBakery/Images/blob/main/Kisaragi.png?raw=true');}
 .mbKoyo {background-image:url('https://github.com/MagicBakery/Images/blob/main/Koyo.png?raw=true');}
 .mbLedia {background-image:url('https://github.com/MagicBakery/Images/blob/main/Ledia.png?raw=true');}*/
+.mbLRRH {background-image:url('https://lh3.googleusercontent.com/pw/AP1GczPHbVUTtEmEB9YW2UPGjY_b3PcqszCLiYZ0dhI-bO31c1IRukdDr10Q_g-QyVNQdTOvucg6fRG4t-ey1lPE9hlleianlXH678lUDonE_T8u5jSzZKizTL25EjtlnqyY3Fu0OdyX0g9QMZFFnCcuxZYU=w225-h225-s-no-gm');}
+/*
 .mbLRRH {background-image:url('https://github.com/MagicBakery/Images/blob/main/LRRH.png?raw=true');}
-/*.mbMelody {background-image:url('https://github.com/MagicBakery/Images/blob/main/Melody%20BW.png?raw=true');}
+.mbMelody {background-image:url('https://github.com/MagicBakery/Images/blob/main/Melody%20BW.png?raw=true');}
 .mbMikela {background-image:url('https://github.com/MagicBakery/Images/blob/main/Mikela.png?raw=true');}
 .mbNaomi { background-image:url('https://github.com/MagicBakery/Images/blob/main/Naomi%202.png?raw=true')}
 .mbNatalie {background-image:url('https://github.com/MagicBakery/Images/blob/main/Natalie%20(2).png?raw=true');}
-.mbNatasha {background-image:url('https://github.com/MagicBakery/Images/blob/main/Natasha.png?raw=true');}
+.mbNatasha {background-image:url('https://lh3.googleusercontent.com/pw/AP1GczOkwO2Cft6jYZdQXL-CmBcR4Xa2gyWndnR9egnvA4IeLg2cWRcZ0oban9IP1PusvqAfaK7YuMLINo7zohyI2iefN2yF7q0jWJI2kJGGh3PHe4PVKu9FpW_1xcszxi7c8uZzMj3v_x2VcLytrYa4N8yH=w225-h225-s-no-gm');}
 .mbNeil {background-image:url('https://github.com/MagicBakery/Images/blob/main/Neil.png?raw=true');}
 .mbP4 {background-image:url('https://github.com/MagicBakery/Images/blob/main/P4.png?raw=true');}
 .mbPatricia {background-image:url('https://github.com/MagicBakery/Images/blob/main/Patricia.png?raw=true');}
