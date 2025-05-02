@@ -1799,7 +1799,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250427 Item Sort by Age";
+  elContainer.innerHTML = "20250502 Images loading issue";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -1991,7 +1991,15 @@ function MacroIcons(el,iHTMLInner){
   } else{
     mHTMLInner = iHTMLInner;
   }
-  
+  //*
+  const mIconList = [
+    ["Archive",":Archive:"],
+    ["Archive1",":Archive1:"],
+    ["Archive2",":Archive2:"],
+    ["Archive3",":Archive3:"],
+    ["Close",":Close:"],
+  ];
+  /*/
   const mIconList = [
     ["BlackCat","🐈‍⬛"],
     ["Mushroom","🍄‍🟫"],
@@ -2175,6 +2183,7 @@ function MacroIcons(el,iHTMLInner){
     ["XmasTree","🎄"],
     ["Yarn","🧶"]
   ];
+  //*/
   for(i=0;i<mIconList.length;i++){
     var mSearchIcon = mIconList[i][1];
     var mImgCode = mIconList[i][0];

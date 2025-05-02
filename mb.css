@@ -885,13 +885,14 @@ span.mbIcon > icon{font-size: 0px;}
 }
 
 /* ICONS (20x20 px) / 450 px square*/
+/*
 .iApple{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Apple.png?raw=true');}
 .iAlarm{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Alarm.png?raw=true');}
-.iArchive{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Archive.png?raw=true');}
+*/.iArchive{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Archive.png?raw=true');}
 .iArchive1{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Archive1.png?raw=true');}
 .iArchive2{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Archive2.png?raw=true');}
 .iArchive3{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Archive3.png?raw=true');}
-.iBackpack{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Backpack.png?raw=true');}
+/*.iBackpack{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Backpack.png?raw=true');}
 .iBasket{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Basket.png?raw=true');}
 .iBell{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Bell.png?raw=true');}
 .iBlackCat{background-image:url('https://github.com/MagicBakery/Icons/blob/main/BlackCat.png?raw=true');}
@@ -920,8 +921,8 @@ span.mbIcon > icon{font-size: 0px;}
 .iCircus{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Circus.png?raw=true');}
 .iClipboard{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Clipboard.png?raw=true');}
 .iClock{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Clock.png?raw=true');}
-.iClose{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Close.png?raw=true');}
-.iCombatHelmet {background-image:url('https://github.com/MagicBakery/Icons/blob/main/CombatHelmet.png?raw=true');}
+*/.iClose{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Close.png?raw=true');}
+/*.iCombatHelmet {background-image:url('https://github.com/MagicBakery/Icons/blob/main/CombatHelmet.png?raw=true');}
 .iCompass{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Compass.png?raw=true');}
 .iCopperCoin{background-image:url('https://github.com/MagicBakery/Icons/blob/main/CopperCoin.png?raw=true');}
 .iCornerRibbon{background-image:url('https://github.com/MagicBakery/Icons/blob/main/CornerRibbon.png?raw=true');}
@@ -1005,8 +1006,8 @@ span.mbIcon > icon{font-size: 0px;}
 .iPie{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Pie.png?raw=true');}
 .iPin{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Pin.png?raw=true');}
 .iPostHorn{background-image:url('https://github.com/MagicBakery/Icons/blob/main/PostHorn.png?raw=true');}
-.iPretzel{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Pretzel.png?raw=true');}
-.iPudding{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Pudding.png?raw=true');}
+*/.iPretzel{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Pretzel.png?raw=true');}
+/*.iPudding{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Pudding.png?raw=true');}
 .iPuzzle{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Puzzle.png?raw=true');}
 .iQuestion{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Question.png?raw=true');}
 .iQuillPen{background-image:url('https://github.com/MagicBakery/Icons/blob/main/QuillPen.png?raw=true');}
@@ -1057,27 +1058,27 @@ span.mbIcon > icon{font-size: 0px;}
 .iWaffle{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Waffle.png?raw=true');}
 .iWand{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Wand.png?raw=true');}
 .iWheel{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Wheel.png?raw=true');}
-.iWingL{background-image:url('https://github.com/MagicBakery/Icons/blob/main/WingL.png?raw=true');}
+*/.iWingL{background-image:url('https://github.com/MagicBakery/Icons/blob/main/WingL.png?raw=true');}
 .iWingR{background-image:url('https://github.com/MagicBakery/Icons/blob/main/WingR.png?raw=true');}
-.iWood{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Wood.png?raw=true');}
+/*.iWood{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Wood.png?raw=true');}
 .iWriting{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Writing.png?raw=true');}
 .iWrong{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Wrong.png?raw=true');}
 .iXmasTree{background-image:url('https://github.com/MagicBakery/Icons/blob/main/XmasTree.png?raw=true');}
 .iYarn{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Yarn.png?raw=true');}
-
+*/
 /* Avatars */
+
 .mb3B {background-image:url('https://github.com/MagicBakery/Images/blob/main/3B%20(2).png?raw=true');}
 .mb44 {background-image:url('https://github.com/MagicBakery/Images/blob/main/44.png?raw=true');}
 .mbAlbatross {background-image:url('https://github.com/MagicBakery/Images/blob/main/Albatross%20Spite.png?raw=true')}
-.mbAlice {background-image:url('https://github.com/MagicBakery/Images/blob/main/Alice.png?raw=true');}
+/*.mbAlice {background-image:url('https://github.com/MagicBakery/Images/blob/main/Alice.png?raw=true');}*/
 .mbAmelia {background-image:url('https://github.com/MagicBakery/Images/blob/main/Amelia.png?raw=true');}
 .mbArcacia {background-image:url('https://github.com/MagicBakery/Images/blob/main/Arcacia.png?raw=true');}
 .mbBlack {background-image:url('https://github.com/MagicBakery/Images/blob/main/Black%20(3).png?raw=true');}
-.mbCardinal {background-image:url('https://github.com/MagicBakery/Images/blob/main/Cardinal%20-%20Left.png?raw=true');} 
+/*.mbCardinal {background-image:url('https://github.com/MagicBakery/Images/blob/main/Cardinal%20-%20Left.png?raw=true');} 
 .mbCasey {background-image:url('https://github.com/MagicBakery/Images/blob/main/Casey.png?raw=true');}
 .mbChatGPT {background-image:url('https://github.com/MagicBakery/Images/blob/main/ChatGPT4.png?raw=true');}
 .mbClyde {background-image:url('https://github.com/MagicBakery/Images/blob/main/Clyde.png?raw=true');}
-
 .mbEmi {background-image:url('https://github.com/MagicBakery/Images/blob/main/Emi.png?raw=true');}
 .mbEvelyn {background-image:url('https://github.com/MagicBakery/Images/blob/main/Evelyn3.png?raw=true');}
 .mbFina {background-image:url('https://github.com/MagicBakery/Images/blob/main/Fina3.png?raw=true');}
@@ -1090,12 +1091,12 @@ span.mbIcon > icon{font-size: 0px;}
 .mbJohn {background-image:url('https://github.com/MagicBakery/Images/blob/main/John.png?raw=true');}
 .mbKarl {background-image:url('https://cdn.pixabay.com/photo/2017/05/01/18/18/guitar-2276181_640.jpg');}
 .mbKen {background-image:url('https://github.com/MagicBakery/Images/blob/main/Ken.png?raw=true');}
-.mbKing {background-image:url('https://github.com/MagicBakery/Images/blob/main/King.png?raw=true');}
+/*.mbKing {background-image:url('https://github.com/MagicBakery/Images/blob/main/King.png?raw=true');}
 .mbKisaragi {background-image:url('https://github.com/MagicBakery/Images/blob/main/Kisaragi.png?raw=true');}
 .mbKoyo {background-image:url('https://github.com/MagicBakery/Images/blob/main/Koyo.png?raw=true');}
-.mbLedia {background-image:url('https://github.com/MagicBakery/Images/blob/main/Ledia.png?raw=true');}
+.mbLedia {background-image:url('https://github.com/MagicBakery/Images/blob/main/Ledia.png?raw=true');}*/
 .mbLRRH {background-image:url('https://github.com/MagicBakery/Images/blob/main/LRRH.png?raw=true');}
-.mbMelody {background-image:url('https://github.com/MagicBakery/Images/blob/main/Melody%20BW.png?raw=true');}
+/*.mbMelody {background-image:url('https://github.com/MagicBakery/Images/blob/main/Melody%20BW.png?raw=true');}
 .mbMikela {background-image:url('https://github.com/MagicBakery/Images/blob/main/Mikela.png?raw=true');}
 .mbNaomi { background-image:url('https://github.com/MagicBakery/Images/blob/main/Naomi%202.png?raw=true')}
 .mbNatalie {background-image:url('https://github.com/MagicBakery/Images/blob/main/Natalie%20(2).png?raw=true');}
@@ -1123,7 +1124,7 @@ span.mbIcon > icon{font-size: 0px;}
 .mbVladanya {background-image:url('https://github.com/MagicBakery/Images/blob/main/Vladanya.png?raw=true');}
 .mbWonder {background-image:url('https://github.com/MagicBakery/Images/blob/main/Wonder.png?raw=true');}
 .mbZoey {background-image:url('https://github.com/MagicBakery/Images/blob/main/Zoey2.png?raw=true');}
-
+*/
 .mbav50pl {
   background-position: 50% 50%; 
   background-size:cover; 
