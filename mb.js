@@ -1799,7 +1799,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250502 Images loading issue";
+  elContainer.innerHTML = "20250502 Icons Load on View";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
