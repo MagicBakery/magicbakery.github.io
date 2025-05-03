@@ -1991,7 +1991,7 @@ function MacroIcons(el,iHTMLInner){
   } else{
     mHTMLInner = iHTMLInner;
   }
-  //*
+  /*
   const mIconList = [
     ["Archive",":Archive:"],
     ["Archive1",":Archive1:"],
@@ -2202,7 +2202,11 @@ function MacroIcons(el,iHTMLInner){
       mLookAround = mHTMLInner.slice(mPos-6,mPos+mSearchIcon.length+7);
       if( (mLookAround != "<icon>"+ mSearchIcon + "</icon>") && (mLookAround1 != "'"+mSearchIcon +"'") && (mLookAround1 != "\""+mSearchIcon +"\"")){
         // The match is valid. Compose the substitute string:
-        mSubstitute = "<span class='mbIcon i"+ mImgCode +"'><icon>"+mSearchIcon+"</icon></span>";
+        // 2025-05-02: StarTree: Load on View implementation
+        //mSubstitute = "<span class='mbIcon i"+ mImgCode +"'><icon>"+mSearchIcon+"</icon></span>";
+        //.iQuestion{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Question.png?raw=true');}
+        
+        mSubstitute = "<span class='mbIcon' style=\"background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/"+ mImgCode +".png')\"><icon>"+mSearchIcon+"</icon></span>";
         mHTMLInner = mHTMLInner.slice(0,mPos) + mSubstitute + mHTMLInner.slice(mPos+mSearchIcon.length);
         mStart = mPos + mSubstitute.length;
       }else{
