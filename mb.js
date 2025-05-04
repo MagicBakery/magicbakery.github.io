@@ -1799,7 +1799,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250502 Icons Load on View";
+  elContainer.innerHTML = "20250503 NTE with Icon";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2091,6 +2091,7 @@ function MacroIcons(el,iHTMLInner){
     ["JackLantern","🎃"],
     ["Jam",":Jam:"],
     ["Jar",":Jar:"],
+    ["JarStars",":JarStars:"],
     ["Jellyfish","🪼"],
     ["KarateGi","🥋"],
     ["Key","🗝️"],
@@ -8952,7 +8953,7 @@ function ReloadFP(el){
   // 20240421: Arcacia: Special handling for the Feedback Form.
   if(mDTS=="Feedback"){  
     var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
-    mHTML = "<span class='mbRef'><a class='mbbutton' onClick='HideFP(this);FPGetTopZ()' style='float:right' title='Close'><span class=\"mbIcon iClose\"></span></a></span>";
+    mHTML = "<span class='mbRef'><a class='mbbutton' onClick='HideFP(this);FPGetTopZ()' style='float:right' title='Close'><span class=\"mbIcon\" style=\"background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Close.png')\"></span></a></span>";
     // 20240924: Tanya: Widgets don't have height button and this button is not working properly.
     //mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>⅔</button>"
     // 20240924: Tanya: The widget needs a way to refresh because sometimes the google form can crash.
@@ -9385,7 +9386,12 @@ function NMNote(el){
   var elWidget = SearchPS(el,"Widget");
   var mDTS = DTSNow(); // Use new DTS by default.
   var mSubTitle = Default(elWidget.querySelector('[NM-Title]').value,"Log");
-  var mHTML = "<note dts=\""+mDTS+"\" subtitle=\""+mSubTitle+"\">\n\n</note>";
+  var mIcon = elWidget.querySelector('[NM-Icon]').value;
+  var mHTML = "<note dts=\""+mDTS+"\" ";
+  if(NotBlank(mIcon)){
+    mHTML += "icon=\"" + mIcon + "\" ";
+  }
+  mHTML += "subtitle=\""+mSubTitle+"\">\n\n</note>";
   navigator.clipboard.writeText(mHTML);
   return mHTML;
 }
