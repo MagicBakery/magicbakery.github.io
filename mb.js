@@ -1799,7 +1799,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250503 NTE with Icon";
+  elContainer.innerHTML = "20250505 Scanner Nested Quot Fix";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2206,8 +2206,8 @@ function MacroIcons(el,iHTMLInner){
         // 2025-05-02: StarTree: Load on View implementation
         //mSubstitute = "<span class='mbIcon i"+ mImgCode +"'><icon>"+mSearchIcon+"</icon></span>";
         //.iQuestion{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Question.png?raw=true');}
-        
-        mSubstitute = "<span class='mbIcon' style=\"background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/"+ mImgCode +".png')\"><icon>"+mSearchIcon+"</icon></span>";
+        // 20250505: StarTree: Need to use &quot; for correct formatting in scanner result.
+        mSubstitute = "<span class='mbIcon' style='background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/"+ mImgCode +".png&quot;)'><icon>"+mSearchIcon+"</icon></span>";
         mHTMLInner = mHTMLInner.slice(0,mPos) + mSubstitute + mHTMLInner.slice(mPos+mSearchIcon.length);
         mStart = mPos + mSubstitute.length;
       }else{
