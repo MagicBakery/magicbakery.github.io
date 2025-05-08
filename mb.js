@@ -1799,7 +1799,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250505 Scanner Nested Quot Fix";
+  elContainer.innerHTML = "20250505 Scanner Nested Quote Fix";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
