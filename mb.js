@@ -1029,7 +1029,7 @@ function GetInputBoxValue(el){
 function IFrameFeedback(el){
   // 20231029: Black: Spawn a feedback form
   var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
-  var mHTML = "<span class='mbRef'><a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'><span class=\"mbIcon iClose\"></span></a></span>";
+  var mHTML = "<span class='mbRef'><a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'><span class=\"mbIcon\" style=\"background-image:url('https://github.com/MagicBakery/Icons/blob/main/Close.png?raw=true')\"></span></a></span>";
 
   //mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>⅔</button>";
   mHTML += "<a onClick='IFrameFeedback(this)' title='Feedback Form'>💌</a> <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a>";
