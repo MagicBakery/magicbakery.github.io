@@ -1070,8 +1070,11 @@ function IFrameURLSet(el){
   
   var mNodeID = mInput.substr(mInput.length - 12);  
   if(IsBlank(mNodeID)){mNodeID = "202303052122";}
-  mInput = "https://panarcana.blogspot.com/p/viewer.html?id=P" + mNodeID;
-  
+
+  // 20250515: StarTree: Reenable Full URL to test Drupal frame. >> Can't embed.
+  if(!mInput.includes(".")){
+    mInput = "https://panarcana.blogspot.com/p/viewer.html?id=P" + mNodeID;
+  }
   
   // 20230916: Always make a new iFrame 
   // <div>
