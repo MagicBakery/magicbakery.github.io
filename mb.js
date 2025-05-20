@@ -7605,53 +7605,54 @@ function GuildEXP(iMember){
   // 20230129: Ledia: Added for total EXP.
   // #GuildEXP
   var dict={
-"3B": 6701,
-"44": 925,
-"Albatross": 2459,
-"Amelia": 1026,
-"Arcacia": 8942,
+"3B": 6808,
+"44": 931,
+"Albatross": 2508,
+"Amelia": 1031,
+"Arcacia": 9047,
 "Black": 15237,
-"Cardinal": 3135,
-"Casey": 4910,
-"Clyde": 50,
+"Cardinal": 3282,
+"Casey": 4940,
+"Clyde": 95,
 "Emi": 66,
-"Evelyn": 14138,
-"Fina": 2845,
-"Gaia": 1641,
-"Helen": 3554,
-"Ivy": 5313,
-"James": 3605,
-"Jao": 136,
-"John": 87,
-"Karl": 26,
-"Ken": 896,
-"King": 5,
-"Kisaragi": 6510,
-"Koyo": 829,
-"Ledia": 9092,
-"LRRH": 11927,
-"Melody": 1511,
-"Mikela": 1641,
-"Natalie": 5944,
-"Neil": 296,
-"P4": 6434,
-"Patricia": 4011,
-"Rick": 138,
-"Robert": 360,
+"Evelyn": 14295,
+"Fina": 2892,
+"Gaia": 1660,
+"Helen": 3672,
+"Ivy": 5384,
+"James": 3664,
+"Jao": 144,
+"John": 213,
+"Kisaragi": 6657,
+"Koyo": 914,
+"Ledia": 9171,
+"LRRH": 12201,
+"Mark": 62,
+"Melody": 1556,
+"Mikela": 1672,
+"Natalie": 6056,
+"P4": 6515,
+"Patricia": 4114,
+"Robert": 385,
 "Roger": 146,
+"Sasha": 7905,
+"Skyle": 3996,
+"StarTree": 14674,
+"Sylvia": 6141,
+"Tanya": 9460,
+"Therese": 281,
+"V": 4087,
+"Vivi": 6596,
+"Vladanya": 3538,
+"Zoey": 9377,
+"Karl": 26,
+"Ken": 910,
+"King": 25,
+"Neil": 300,
+"Rick": 150,
 "RS": 11,
-"Sasha": 7836,
-"Skyle": 3959,
-"StarTree": 14489,
-"Sylvia": 6074,
-"Tanya": 9317,
-"The_Unusual": 414,
-"Therese": 261,
-"V": 4049,
-"Vivi": 6504,
-"Vladanya": 3450,
+"The_Unusual": 443,
 "Wonder": 18,
-"Zoey": 9307,
   };
   return dict[iMember];
 }
@@ -7662,7 +7663,7 @@ function RandomMember(){
 function Roster(iIndex){
   // 20230125: Ledia: Preparing for roster stats display.
   //   Returns the length if the argument is negative.
-  const mRoster = ["3B", "44", "Albatross", "Amelia", "Arcacia", "Black", "Cardinal", "Casey", "Clyde", "Emi", "Evelyn", "Fina", "Gaia", "Helen", "Ivy", "James", "Jao", "John", "Karl", "Ken", "King", "Kisaragi", "Koyo", "Ledia", "LRRH", "Melody", "Mikela", "Natalie", "Neil", "P4", "Patricia", "Rick", "Robert", "Roger", "RS", "Sasha", "Skyle", "StarTree", "Sylvia", "Tanya", "The_Unusual", "Therese", "V", "Vivi", "Vladanya", "Wonder", "Zoey"];
+  const mRoster = ["3B", "44", "Albatross", "Amelia", "Arcacia", "Black", "Cardinal", "Casey", "Clyde", "Emi", "Evelyn", "Fina", "Gaia", "Helen", "Ivy", "James", "Jao", "John", "Karl", "Ken", "King", "Kisaragi", "Koyo", "Ledia", "LRRH", "Mark", "Melody", "Mikela", "Natalie", "Neil", "P4", "Patricia", "Rick", "Robert", "Roger", "RS", "Sasha", "Skyle", "StarTree", "Sylvia", "Tanya", "The_Unusual", "Therese", "V", "Vivi", "Vladanya", "Wonder", "Zoey"];
   //const mRoster = ["3B","44", "Albatross"];
   if(iIndex>=0){
     return mRoster[iIndex];
@@ -9842,10 +9843,18 @@ function TACount(el,mInc){
     TAReplace(elTA, String(mCurValue));
   }
 }
+function TAFetchJSON(el){
+  // 20250519: StarTree: Fetch JSON data and display at the text area.  
+  var elTA = TAGet(el);
+  fetch('https://jsonplaceholder.typicode.com/todos/1')
+      .then(response => response.json())
+      .then(json => TAInsert(elTA,JSON.stringify(json)))
+}
 function TAGet(el){
   // 20240423: LRRH
   return SearchPS(el,"Widget").querySelector('[textarea]')
 }
+
 function TAGetSelText(el){
   // 20240423: LRRH: el here is the textarea.
   return el.value.slice(el.selectionStart,el.selectionEnd);;
