@@ -1802,7 +1802,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250505 Scanner Nested Quote Fix";
+  elContainer.innerHTML = "20250526 Stacking Filter";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -10363,10 +10363,11 @@ function ShowAnswerMB24(elSourceID,elThis) {
 	elThis.innerHTML = "🌠" 
   }
 }
-function TextFilter(iScope,iKeyword,iDOMType){
+function TextFilter(iScope,iKeyword,iDOMType,bKeepHidden){
   // 20230219: Natalie: Created based on MainFilter of Master.HTML for TSN HTML.
   // Created for the Criminal Law node.
   // 20230307: StarTree: made the search only collapse div where its parent has the class mbSearch.
+  // 20250526: Patricia: Added bKeepHidden to not show an entry that is already hidden.
   var els = iScope.getElementsByTagName(iDOMType);
   for (i=0;i<els.length;i++){
     var el = els[i];
@@ -10377,7 +10378,7 @@ function TextFilter(iScope,iKeyword,iDOMType){
         if (el.textContent.toUpperCase().indexOf(iKeyword) == -1) {
           el.style.display= "none";
           el.classList.add("mbhide");
-        } else {      
+        } else if(bKeepHidden===false) {
           el.style.display= "";
           el.classList.remove("mbhide");
         }
@@ -10416,10 +10417,15 @@ function TextQSLTag(elButton){
 function TextSearchPN(elSearchBox){  
   var mKeyword = elSearchBox.value.toUpperCase().trim();
   var mScope = elSearchBox.parentNode.nextElementSibling;
-  TextSearchEL(mScope,mKeyword);
+  if(mKeyword==""){
+    TextSearchEL(mScope,mKeyword,false);
+  }else{
+    TextSearchEL(mScope,mKeyword);
+  }
+  
   SearchRecount(elSearchBox);
 }
-function TextSearchPS(elSearchBox,iKeyword){  
+function TextSearchPS(elSearchBox,iKeyword,bKeepHidden){  
   // 20240609: Black: Overload: when the iKeyword is present, use it verbatim.
   if(IsBlank(iKeyword)){
     iKeyword = elSearchBox.value.toUpperCase().trim();
@@ -10427,7 +10433,7 @@ function TextSearchPS(elSearchBox,iKeyword){
     iKeyword = iKeyword.toUpperCase();
   }
   var mScope = SearchPS(elSearchBox,'control').nextElementSibling;
-  TextSearchEL(mScope,iKeyword);
+  TextSearchEL(mScope,iKeyword,bKeepHidden);
   QSLShowTag(mScope);
   SearchRecount(elSearchBox);
 }
@@ -10444,12 +10450,11 @@ function TextSearchPNEV(e,elSearchBox){
   TextFilter(mScope,mKeyword,"mbNote");
   TextFilter(mScope,mKeyword,"li");
 }
-function TextSearchEL(mScope,mKeyword){
-  // 20240608: Sasha
-  
-  TextFilter(mScope,mKeyword,"div");
-  TextFilter(mScope,mKeyword,"mbNote");
-  TextFilter(mScope,mKeyword,"li");
+function TextSearchEL(mScope,mKeyword,bKeepHidden){
+  // 20240608: Sasha  
+  TextFilter(mScope,mKeyword,"div",bKeepHidden);
+  TextFilter(mScope,mKeyword,"mbNote",bKeepHidden);
+  TextFilter(mScope,mKeyword,"li",bKeepHidden);
 }
 function ToggleNext(el) {
   var eNext = el.nextElementSibling;
