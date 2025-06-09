@@ -1802,7 +1802,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250526 Stacking Filter";
+  elContainer.innerHTML = "20250607 Dragon Dice";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2032,6 +2032,7 @@ function MacroIcons(el,iHTMLInner){
     ["Calendar","📅"],
     ["Camp","🏕️"],
     ["Candle","🕯️"],
+    ["Cardinal",":Cardinal:"],
     ["Castle","🏰"],
     ["CatHead","🐱"],
     ["CD","📀"],
@@ -2051,6 +2052,12 @@ function MacroIcons(el,iHTMLInner){
     ["CrossSkull","☠️"],
     ["Crown","👑"],
     ["CrystalBall","🔮"],
+    ["D6Dragon",":D6Dragon:"],
+    ["D6Key",":D6Key:"],
+    ["D6Treasure",":D6Treasure:"],
+    ["D6StarB",":D6StarB:"],
+    ["D6StarW",":D6StarW:"],
+    ["D6StarY",":D6StarY:"],
     ["Dice","🎲"],
     ["Done","✅"],
     ["Dove","🕊️"],
@@ -2152,6 +2159,7 @@ function MacroIcons(el,iHTMLInner){
     ["Seeding","🌱"],
     ["SherlockHat",":Detective:"],
     ["Shield","🛡️"],
+    ["ShieldW",":ShieldW:"],
     ["ShiningStar","🌟"],
     ["ShootingStar","🌠"],
     ["ShoppingCart","🛒"],
@@ -5708,6 +5716,30 @@ function RND_CoinFlip(el){
   }
   elResultSpace.innerHTML = elResultSpace.innerHTML + mToss;
 }
+function RND_Copy(el){
+  // 20250607: StarTree: Copy the text content to clipboard.
+  var elResultSpace = SearchPS(el,"control").nextElementSibling;
+  navigator.clipboard.writeText(elResultSpace.innerText);
+}
+function RND_DragonDice(el){
+  // 20250607: StarTree: For Gaming.
+  var elResultSpace = SearchPS(el,"control").nextElementSibling;
+
+  // 20250607: StarTree: If the target is blank, change its font size to 36px.
+  if(IsBlank(elResultSpace.innerHTML)){
+    elResultSpace.style.fontSize = "36px";
+  }
+  var mRoll="";
+  switch(getRandomInt(1,6,true)){
+    case 1: mRoll = ":D6Dragon:";break;
+    case 2: mRoll = ":D6Key:";break;
+    case 3: mRoll = ":D6Treasure:";break;
+    case 4: mRoll = ":D6StarB:";break;
+    case 5: mRoll = ":D6StarW:";break;
+    case 6: mRoll = ":D6StarY:";break;
+  }
+  elResultSpace.innerHTML = elResultSpace.innerHTML + MacroIcons(null,mRoll);
+}
 function RND_One(mList){
   // 20250216: StarTree: Pick one randomly from a list.
   return mList[Math.floor(Math.random() * mList.length)];
@@ -6587,7 +6619,10 @@ function RND_QuestVerb(mAffinity,mHostility){
 function RND_Reset(el){
   // 20230716: StarTree: For gaming
   var elResultSpace = SearchPS(el,"control").nextElementSibling;
+  // 20250607: StarTree: Reset the font size to 18px because Dragon Dice could set it to 36px.
+  elResultSpace.style.fontSize = "18px";
   elResultSpace.innerHTML = "";
+  
 }
 function ScrollIntoView(el){
   // 20231118: StarTree: Trying to fix the scrolling issue on phones
