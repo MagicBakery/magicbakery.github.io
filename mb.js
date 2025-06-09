@@ -1802,7 +1802,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250607 Dragon Dice";
+  elContainer.innerHTML = "20250609 1-Star Filter";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2566,6 +2566,7 @@ function MacroResItem(mTag){
   if(NotBlank(mTags) || NotBlank(mStarPattern)){ 
     mHTML += "<hide tags>+";    
     if(NotBlank(mStarPattern)){mHTML += mStarPattern + "+";} // 20250118: Sasha: Show stars as part of tags
+    if(NotBlank(mStarCode)){mHTML += mStarCode%10 + "-Star+";} // 20250609: StarTree: Show "1-Star" per Ledia.
     if(NotBlank(mAge)){mHTML += "Age:" + mAge + "+";} // 20250427: StarTree: Add Age to tags.
     mHTML += mTags.replaceAll(" ","+").replaceAll("_"," ") + "+</hide>";
     // Tag Display
