@@ -1967,6 +1967,10 @@ function MacroCard2(elCard){
   // 20250412: StarTree: Adding for Card style manga page display.  
   mCardClass = "mbCardManga";
   }
+  if(elCard.classList.contains('mbCardBanner')){
+    // 20250702: 3B: Adding for Card style manga page display.  
+    mCardClass = "mbCardBanner";
+  }
   if(elCard.classList.contains('mbCharCardAQ')){
   mCardClass = "mbCharCardAQ";    
   }
