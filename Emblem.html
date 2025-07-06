@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -688,3 +689,695 @@
     </script>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quest Society Emblem Initial Evaluation & Design Review</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Color Palette: Black, Cerulean, Rose, and Gold */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F8F8; /* Very light grey/off-white background */
+            color: #333333; /* Dark grey text for contrast */
+        }
+        .card {
+            background-color: #ffffff; /* White card background */
+            border-radius: 0.75rem; /* rounded-lg */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+            padding: 1.5rem; /* p-6 */
+            margin-bottom: 1.5rem; /* mb-6 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px; /* Max width for charts */
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Base height for charts */
+            max-height: 400px; /* Max height for charts */
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        /* Custom color classes based on the new palette */
+        .color-primary { color: #000000; } /* Black */
+        .color-secondary { color: #007BA7; } /* Cerulean */
+        .color-accent-1 { color: #FFD700; } /* Gold */
+        .color-accent-2 { color: #FF007F; } /* Rose */
+        .color-accent-3 { color: #696969; } /* Dim Grey (for general text if needed) */
+        .color-accent-4 { color: #D3D3D3; } /* Light Grey (for general text if needed) */
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-5xl font-extrabold color-primary mb-4">Quest Society Emblem Initial Evaluation & Design Review</h1>
+            <p class="text-xl text-gray-700">An Evaluation by Gemini to Inform Emblem Design</p>
+        </header>
+
+        <section id="introduction" class="mb-12">
+            <div class="card">
+                <h2 class="text-3xl font-bold color-secondary mb-4">Informing Emblem Design for Quest Society</h2>
+                <p class="text-gray-800 leading-relaxed">
+                    The selection of an emblem that truly represents Quest Society's values and resonates with its diverse community is a critical design phase. This infographic presents an initial evaluation of three potential emblems: the original <span class="font-semibold">QuestSociety_0.png</span>, its slightly modified counterpart <span class="font-semibold">QuestSociety_00_R.png</span>, and the proposed <span class="font-semibold">Harmonious Bloom</span>. We've analyzed each across key criteria including archetype acceptance, demographic appeal, application versatility, and customization potential, using a rigorous 5-star rubric. The insights gathered here will guide the ongoing design process to develop the most effective and resonant emblem.
+                </p>
+            </div>
+        </section>
+
+        <section id="emblem-overview" class="mb-12">
+            <h2 class="text-3xl font-bold color-secondary mb-6 text-center">The Emblem Concepts Under Review</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="card flex flex-col items-center text-center">
+                    <h3 class="text-2xl font-semibold color-primary mb-3">QuestSociety_0.png</h3>
+                    <div class="w-48 h-48 flex items-center justify-center mb-4">
+                        <a href="https://github.com/MagicBakery/Images/blob/main/QuestSociety_00.png?raw=true" target="_blank">
+                            <img src="https://github.com/MagicBakery/Images/blob/main/QuestSociety_00.png?raw=true" alt="Quest Society Emblem 0" class="w-full h-full object-contain rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/192x192/E0E0E0/616161?text=QS0+Error';">
+                        </a>
+                    </div>
+                    <p class="text-gray-700">The original, sharp, and aspirational design concept.</p>
+                </div>
+                <div class="card flex flex-col items-center text-center">
+                    <h3 class="text-2xl font-semibold color-primary mb-3">QuestSociety_00_R.png</h3>
+                    <div class="w-48 h-48 flex items-center justify-center mb-4">
+                        <a href="https://github.com/MagicBakery/Images/blob/main/QuestSociety_00_R.png?raw=true" target="_blank">
+                            <img src="https://github.com/MagicBakery/Images/blob/main/QuestSociety_00_R.png?raw=true" alt="Quest Society Emblem 00 R" class="w-full h-full object-contain rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/192x192/E0E0E0/616161?text=QS00R+Error';">
+                        </a>
+                    </div>
+                    <p class="text-gray-700">A slightly refined version of the original concept, maintaining its core aesthetic.</p>
+                </div>
+                <div class="card flex flex-col items-center text-center">
+                    <h3 class="text-2xl font-semibold color-primary mb-3">Harmonious Bloom</h3>
+                    <div class="w-48 h-48 flex items-center justify-center mb-4">
+                        <a href="https://github.com/MagicBakery/Images/blob/main/QuestSociety_000_Gemini.png?raw=true" target="_blank">
+                            <img src="https://github.com/MagicBakery/Images/blob/main/QuestSociety_000_Gemini.png?raw=true" alt="Harmonious Bloom Emblem" class="w-full h-full object-contain rounded-full" onerror="this.onerror=null;this.src='https://placehold.co/192x192/E0E0E0/616161?text=HB+Error';">
+                        </a>
+                    </div>
+                    <p class="text-gray-700">A proposed organic and unifying design direction.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="overall-performance" class="mb-12">
+            <h2 class="text-3xl font-bold color-secondary mb-6 text-center">Initial Emblem Performance Overview</h2>
+            <p class="text-gray-800 leading-relaxed mb-8 text-center">
+                This chart provides an initial high-level comparison of the three emblem concepts based on their average scores across all evaluation categories. These early insights help us understand their potential effectiveness in aligning with Quest Society's diverse needs.
+            </p>
+            <div class="card">
+                <div class="chart-container">
+                    <canvas id="overallScoreChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="archetype-acceptance" class="mb-12">
+            <h2 class="text-3xl font-bold color-secondary mb-6 text-center">Archetype Acceptance: Aligning with Our Peacemakers</h2>
+            <p class="text-gray-800 leading-relaxed mb-8 text-center">
+                An emblem's design should connect with the core identities of Quest Society's six Peacemaker Archetypes and the general viewer. This radar chart illustrates how each emblem concept initially aligns with the specific values and roles of Paladins, Clerics, Heralds, Alchemists, Oracles, and Magicians, as well as its general appeal.
+            </p>
+            <div class="card">
+                <div class="chart-container">
+                    <canvas id="archetypeChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="demographic-acceptance" class="mb-12">
+            <h2 class="text-3xl font-bold color-secondary mb-6 text-center">Demographic Appeal: Connecting Across Generations</h2>
+            <p class="text-gray-800 leading-relaxed mb-8 text-center">
+                For a truly inclusive society, an emblem concept should resonate across all age groups and genders. This grouped bar chart compares how each emblem is initially perceived by Male, Female, Children, Teenagers, Adults, and Elders, highlighting its potential for universal appeal.
+            </p>
+            <div class="card">
+                <div class="chart-container">
+                    <canvas id="demographicChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="application-versatility" class="mb-12">
+            <h2 class="text-3xl font-bold color-secondary mb-6 text-center">Application Versatility: Emblems in Potential Use</h2>
+            <p class="text-gray-800 leading-relaxed mb-8 text-center">
+                An effective emblem concept must translate well across a wide range of applications, from apparel to digital icons. This chart evaluates each emblem's initial suitability for various physical and digital uses, indicating its practical adaptability in different contexts.
+            </p>
+            <div class="card">
+                <div class="chart-container">
+                    <canvas id="applicationChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="customization-potential" class="mb-12">
+            <h2 class="text-3xl font-bold color-secondary mb-6 text-center">Customization Potential: Identity Within Unity</h2>
+            <p class="text-gray-800 leading-relaxed mb-8 text-center">
+                The ability to customize an emblem for specific Guilds or subgroups while maintaining the overarching Quest Society identity is a key design consideration. This chart compares how easily each emblem concept could be altered through colors, sharpness, or added graphics, allowing for both individual expression and alliance cohesion.
+            </p>
+            <div class="card">
+                <div class="chart-container">
+                    <canvas id="customizationChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="conclusion" class="mb-12">
+            <div class="card">
+                <h2 class="text-3xl font-bold color-secondary mb-4">Initial Findings: Guiding the Emblem Design</h2>
+                <p class="text-gray-800 leading-relaxed">
+                    Based on this initial comprehensive evaluation, the **Harmonious Bloom** concept shows strong potential, consistently outperforming the other emblems across most key metrics. Its organic design appears to foster broad appeal, deep archetype resonance, and exceptional versatility for both diverse applications and future customization. These findings suggest that the Harmonious Bloom, or a design incorporating its core principles, could be a highly effective direction for the final Quest Society emblem, embodying the spirit of unity, growth, and joyful cooperation. Further design iterations and feedback will build upon these insights.
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Color Palette: Black, Cerulean, Rose, and Gold
+        const colors = {
+            primary: '#000000', // Black
+            secondary: '#007BA7', // Cerulean
+            accent1: '#FFD700', // Gold
+            accent2: '#FF007F', // Rose
+            accent3: '#696969', // Dim Grey (for general text if needed)
+            accent4: '#D3D3D3', // Light Grey (for general text if needed)
+            background: '#F8F8F8', // Very light grey/off-white
+            text: '#333333', // Dark Gray
+            cardBg: '#ffffff' // White
+        };
+
+        const emblemData = {
+            'QuestSociety_0.png': {
+                archetype: {
+                    'General Viewer': 4, 'Paladins': 4.5, 'Clerics': 3.5, 'Heralds': 4, 'Alchemists': 4, 'Oracles': 4.5, 'Magicians': 3
+                },
+                archetypeCustomization: {
+                    'General Use': 4, 'Paladins': 4, 'Clerics': 3, 'Heralds': 4, 'Alchemists': 4, 'Oracles': 4, 'Magicians': 3
+                },
+                demographic: {
+                    'Male': 4, 'Female': 3.5, 'Children': 3, 'Teenage': 4, 'Adult': 4, 'Elder': 3.5
+                },
+                demographicCustomization: {
+                    'Male': 4, 'Female': 3.5, 'Children': 3, 'Teenage': 4, 'Adult': 4, 'Elder': 3.5
+                },
+                application: {
+                    'Apparels': 4, 'Armor': 4.5, 'Stationery': 4, 'Car/Vehicle Branding': 4, 'Spaceship': 5, 'Door/Entryway': 3.5,
+                    'Computer Icon': 4.5, 'Letter Head': 4, 'Flag': 4, 'Mobile App Icon': 4.5, 'Website Favicon': 4.5,
+                    'Social Media Profile': 4, 'Digital Banner/Header': 4, 'Official Documents/Certificates': 4,
+                    'Stamps/Seals': 4, 'Merchandise': 4, 'Public Transport Vehicles': 4, 'Signage (Indoor/Outdoor)': 4,
+                    'Building Exterior': 4, 'Large Banners/Displays': 4
+                },
+                applicationCustomization: {
+                    'Apparels': 4, 'Armor': 4.5, 'Stationery': 4, 'Car/Vehicle Branding': 4, 'Spaceship': 5, 'Door/Entryway': 3.5,
+                    'Computer Icon': 4.5, 'Letter Head': 4, 'Flag': 4, 'Mobile App Icon': 4.5, 'Website Favicon': 4.5,
+                    'Social Media Profile': 4, 'Digital Banner/Header': 4, 'Official Documents/Certificates': 4,
+                    'Stamps/Seals': 4, 'Merchandise': 4, 'Public Transport Vehicles': 4, 'Signage (Indoor/Outdoor)': 4,
+                    'Building Exterior': 4, 'Large Banners/Displays': 4
+                }
+            },
+            'QuestSociety_00_R.png': { // Assuming identical data for this variant as per previous instructions
+                archetype: {
+                    'General Viewer': 4, 'Paladins': 4.5, 'Clerics': 3.5, 'Heralds': 4, 'Alchemists': 4, 'Oracles': 4.5, 'Magicians': 3
+                },
+                 archetypeCustomization: {
+                    'General Use': 4, 'Paladins': 4, 'Clerics': 3, 'Heralds': 4, 'Alchemists': 4, 'Oracles': 4, 'Magicians': 3
+                },
+                demographic: {
+                    'Male': 4, 'Female': 3.5, 'Children': 3, 'Teenage': 4, 'Adult': 4, 'Elder': 3.5
+                },
+                demographicCustomization: {
+                    'Male': 4, 'Female': 3.5, 'Children': 3, 'Teenage': 4, 'Adult': 4, 'Elder': 3.5
+                },
+                application: {
+                    'Apparels': 4, 'Armor': 4.5, 'Stationery': 4, 'Car/Vehicle Branding': 4, 'Spaceship': 5, 'Door/Entryway': 3.5,
+                    'Computer Icon': 4.5, 'Letter Head': 4, 'Flag': 4, 'Mobile App Icon': 4.5, 'Website Favicon': 4.5,
+                    'Social Media Profile': 4, 'Digital Banner/Header': 4, 'Official Documents/Certificates': 4,
+                    'Stamps/Seals': 4, 'Merchandise': 4, 'Public Transport Vehicles': 4, 'Signage (Indoor/Outdoor)': 4,
+                    'Building Exterior': 4, 'Large Banners/Displays': 4
+                },
+                applicationCustomization: {
+                    'Apparels': 4, 'Armor': 4.5, 'Stationery': 4, 'Car/Vehicle Branding': 4, 'Spaceship': 5, 'Door/Entryway': 3.5,
+                    'Computer Icon': 4.5, 'Letter Head': 4, 'Flag': 4, 'Mobile App Icon': 4.5, 'Website Favicon': 4.5,
+                    'Social Media Profile': 4, 'Digital Banner/Header': 4, 'Official Documents/Certificates': 4,
+                    'Stamps/Seals': 4, 'Merchandise': 4, 'Public Transport Vehicles': 4, 'Signage (Indoor/Outdoor)': 4,
+                    'Building Exterior': 4, 'Large Banners/Displays': 4
+                }
+            },
+            'Harmonious Bloom': {
+                archetype: {
+                    'General Viewer': 5, 'Paladins': 4.5, 'Clerics': 5, 'Heralds': 4.5, 'Alchemists': 4.5, 'Oracles': 4.5, 'Magicians': 5
+                },
+                archetypeCustomization: {
+                    'General Use': 4.5, 'Paladins': 4, 'Clerics': 5, 'Heralds': 4.5, 'Alchemists': 4.5, 'Oracles': 4.5, 'Magicians': 5
+                },
+                demographic: {
+                    'Male': 4.5, 'Female': 5, 'Children': 5, 'Teenage': 4.5, 'Adult': 5, 'Elder': 5
+                },
+                demographicCustomization: {
+                    'Male': 4.5, 'Female': 5, 'Children': 5, 'Teenage': 4.5, 'Adult': 5, 'Elder': 5
+                },
+                application: {
+                    'Apparels': 5, 'Armor': 4, 'Stationery': 5, 'Car/Vehicle Branding': 4.5, 'Spaceship': 4.5, 'Door/Entryway': 5,
+                    'Computer Icon': 5, 'Letter Head': 5, 'Flag': 4.5, 'Mobile App Icon': 5, 'Website Favicon': 5,
+                    'Social Media Profile': 5, 'Digital Banner/Header': 5, 'Official Documents/Certificates': 5,
+                    'Stamps/Seals': 5, 'Merchandise': 5, 'Public Transport Vehicles': 4.5, 'Signage (Indoor/Outdoor)': 5,
+                    'Building Exterior': 5, 'Large Banners/Displays': 5
+                },
+                applicationCustomization: {
+                    'Apparels': 5, 'Armor': 4, 'Stationery': 5, 'Car/Vehicle Branding': 4.5, 'Spaceship': 4.5, 'Door/Entryway': 5,
+                    'Computer Icon': 5, 'Letter Head': 5, 'Flag': 4.5, 'Mobile App Icon': 5, 'Website Favicon': 5,
+                    'Social Media Profile': 5, 'Digital Banner/Header': 5, 'Official Documents/Certificates': 5,
+                    'Stamps/Seals': 5, 'Merchandise': 5, 'Public Transport Vehicles': 4.5, 'Signage (Indoor/Outdoor)': 5,
+                    'Building Exterior': 5, 'Large Banners/Displays': 5
+                }
+            }
+        };
+
+        // Helper function for label wrapping
+        function wrapLabel(label) {
+            if (typeof label !== 'string' || label.length <= 16) {
+                return label;
+            }
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + word).length > 16 && currentLine !== '') {
+                    lines.push(currentLine.trim());
+                    currentLine = word + ' ';
+                } else {
+                    currentLine += word + ' ';
+                }
+            });
+            lines.push(currentLine.trim());
+            return lines;
+        }
+
+        // Tooltip configuration for Chart.js
+        const tooltipConfig = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                                return label.join(' ');
+                            } else {
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        // Overall Score Chart
+        function createOverallScoreChart() {
+            const ctx = document.getElementById('overallScoreChart').getContext('2d');
+            const labels = ['QuestSociety_0.png', 'QuestSociety_00_R.png', 'Harmonious Bloom'];
+            const data = {
+                'QuestSociety_0.png': 3.95,
+                'QuestSociety_00_R.png': 3.95,
+                'Harmonious Bloom': 4.74
+            };
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels.map(wrapLabel),
+                    datasets: [{
+                        label: 'Overall Average Score',
+                        data: labels.map(label => data[label]),
+                        backgroundColor: [colors.accent3, colors.accent4, colors.accent1], // Dim Grey, Light Grey, Gold
+                        borderColor: [colors.accent3, colors.accent4, colors.accent1],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 5,
+                            title: {
+                                display: true,
+                                text: 'Average Score (1-5 Stars)',
+                                color: colors.text
+                            },
+                            ticks: {
+                                color: colors.text
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: colors.text
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        }
+                    },
+                    ...tooltipConfig
+                }
+            });
+        }
+
+        // Archetype Acceptance Chart (Radar Chart)
+        function createArchetypeChart() {
+            const ctx = document.getElementById('archetypeChart').getContext('2d');
+            const archetypes = Object.keys(emblemData['Harmonious Bloom'].archetype);
+
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: archetypes.map(wrapLabel),
+                    datasets: [
+                        {
+                            label: 'QuestSociety_0.png',
+                            data: archetypes.map(a => emblemData['QuestSociety_0.png'].archetype[a]),
+                            backgroundColor: 'rgba(0, 0, 0, 0.4)', // Black with alpha
+                            borderColor: colors.primary,
+                            borderWidth: 2,
+                            pointBackgroundColor: colors.primary,
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: colors.primary
+                        },
+                        {
+                            label: 'QuestSociety_00_R.png',
+                            data: archetypes.map(a => emblemData['QuestSociety_00_R.png'].archetype[a]),
+                            backgroundColor: 'rgba(0, 123, 167, 0.4)', // Cerulean with alpha (using adjusted value for visibility)
+                            borderColor: colors.secondary,
+                            borderWidth: 2,
+                            pointBackgroundColor: colors.secondary,
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: colors.secondary
+                        },
+                        {
+                            label: 'Harmonious Bloom',
+                            data: archetypes.map(a => emblemData['Harmonious Bloom'].archetype[a]),
+                            backgroundColor: 'rgba(255, 215, 0, 0.4)', // Gold with alpha
+                            borderColor: colors.accent1,
+                            borderWidth: 2,
+                            pointBackgroundColor: colors.accent1,
+                            pointBorderColor: '#fff',
+                            pointHoverBackgroundColor: '#fff',
+                            pointHoverBorderColor: colors.accent1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(0, 0, 0, 0.2)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.2)'
+                            },
+                            pointLabels: {
+                                color: colors.text,
+                                font: {
+                                    size: 12
+                                }
+                            },
+                            min: 0,
+                            ticks: {
+                                beginAtZero: true,
+                                
+                                max: 5,
+                                stepSize: 1,
+                                color: colors.text,
+                                backdropColor: colors.cardBg // Match card background for ticks
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: colors.text
+                            }
+                        },
+                        ...tooltipConfig.plugins
+                    }
+                }
+            });
+        }
+
+        // Demographic Acceptance Chart (Grouped Bar Chart)
+        function createDemographicChart() {
+            const ctx = document.getElementById('demographicChart').getContext('2d');
+            const demographics = Object.keys(emblemData['Harmonious Bloom'].demographic);
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: demographics.map(wrapLabel),
+                    datasets: [
+                        {
+                            label: 'QuestSociety_0.png',
+                            data: demographics.map(d => emblemData['QuestSociety_0.png'].demographic[d]),
+                            backgroundColor: colors.primary,
+                            borderColor: colors.primary,
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'QuestSociety_00_R.png',
+                            data: demographics.map(d => emblemData['QuestSociety_00_R.png'].demographic[d]),
+                            backgroundColor: colors.secondary,
+                            borderColor: colors.secondary,
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Harmonious Bloom',
+                            data: demographics.map(d => emblemData['Harmonious Bloom'].demographic[d]),
+                            backgroundColor: colors.accent1,
+                            borderColor: colors.accent1,
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 5,
+                            title: {
+                                display: true,
+                                text: 'Rating (1-5 Stars)',
+                                color: colors.text
+                            },
+                            ticks: {
+                                color: colors.text
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: colors.text
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: colors.text
+                            }
+                        },
+                        ...tooltipConfig.plugins
+                    }
+                }
+            });
+        }
+
+        // Application Versatility Chart (Horizontal Bar Chart)
+        function createApplicationChart() {
+            const ctx = document.getElementById('applicationChart').getContext('2d');
+            const applications = Object.keys(emblemData['Harmonious Bloom'].application);
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: applications.map(wrapLabel),
+                    datasets: [
+                        {
+                            label: 'QuestSociety_0.png',
+                            data: applications.map(a => emblemData['QuestSociety_0.png'].application[a]),
+                            backgroundColor: colors.primary,
+                            borderColor: colors.primary,
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'QuestSociety_00_R.png',
+                            data: applications.map(a => emblemData['QuestSociety_00_R.png'].application[a]),
+                            backgroundColor: colors.secondary,
+                            borderColor: colors.secondary,
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Harmonious Bloom',
+                            data: applications.map(a => emblemData['Harmonious Bloom'].application[a]),
+                            backgroundColor: colors.accent1,
+                            borderColor: colors.accent1,
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    indexAxis: 'y', // Make it a horizontal bar chart
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 5,
+                            title: {
+                                display: true,
+                                text: 'Rating (1-5 Stars)',
+                                color: colors.text
+                            },
+                            ticks: {
+                                color: colors.text
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: colors.text
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: colors.text
+                            }
+                        },
+                        ...tooltipConfig.plugins
+                    }
+                }
+            });
+        }
+
+        // Customization Potential Chart (Bar Chart for average customization scores)
+        function createCustomizationChart() {
+            const ctx = document.getElementById('customizationChart').getContext('2d');
+            const labels = ['Archetype Customization', 'Demographic Customization', 'Application Customization'];
+            const dataQS0 = [
+                Object.values(emblemData['QuestSociety_0.png'].archetypeCustomization).reduce((a, b) => a + b, 0) / Object.keys(emblemData['QuestSociety_0.png'].archetypeCustomization).length,
+                Object.values(emblemData['QuestSociety_0.png'].demographicCustomization).reduce((a, b) => a + b, 0) / Object.keys(emblemData['QuestSociety_0.png'].demographicCustomization).length,
+                Object.values(emblemData['QuestSociety_0.png'].applicationCustomization).reduce((a, b) => a + b, 0) / Object.keys(emblemData['QuestSociety_0.png'].applicationCustomization).length
+            ];
+             const dataQS00R = [
+                Object.values(emblemData['QuestSociety_00_R.png'].archetypeCustomization).reduce((a, b) => a + b, 0) / Object.keys(emblemData['QuestSociety_00_R.png'].archetypeCustomization).length,
+                Object.values(emblemData['QuestSociety_00_R.png'].demographicCustomization).reduce((a, b) => a + b, 0) / Object.keys(emblemData['QuestSociety_00_R.png'].demographicCustomization).length,
+                Object.values(emblemData['QuestSociety_00_R.png'].applicationCustomization).reduce((a, b) => a + b, 0) / Object.keys(emblemData['QuestSociety_00_R.png'].applicationCustomization).length
+            ];
+            const dataHB = [
+                Object.values(emblemData['Harmonious Bloom'].archetypeCustomization).reduce((a, b) => a + b, 0) / Object.keys(emblemData['Harmonious Bloom'].archetypeCustomization).length,
+                Object.values(emblemData['Harmonious Bloom'].demographicCustomization).reduce((a, b) => a + b, 0) / Object.keys(emblemData['Harmonious Bloom'].demographicCustomization).length,
+                Object.values(emblemData['Harmonious Bloom'].applicationCustomization).reduce((a, b) => a + b, 0) / Object.keys(emblemData['Harmonious Bloom'].applicationCustomization).length
+            ];
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels.map(wrapLabel),
+                    datasets: [
+                        {
+                            label: 'QuestSociety_0.png',
+                            data: dataQS0,
+                            backgroundColor: colors.primary,
+                            borderColor: colors.primary,
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'QuestSociety_00_R.png',
+                            data: dataQS00R,
+                            backgroundColor: colors.secondary,
+                            borderColor: colors.secondary,
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Harmonious Bloom',
+                            data: dataHB,
+                            backgroundColor: colors.accent1,
+                            borderColor: colors.accent1,
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 5,
+                            title: {
+                                display: true,
+                                text: 'Average Customization Score (1-5 Stars)',
+                                color: colors.text
+                            },
+                            ticks: {
+                                color: colors.text
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                color: colors.text
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: colors.text
+                            }
+                        },
+                        ...tooltipConfig.plugins
+                    }
+                }
+            });
+        }
+
+        // Initialize charts on window load
+        window.onload = function() {
+            createOverallScoreChart();
+            createArchetypeChart();
+            createDemographicChart();
+            createApplicationChart();
+            createCustomizationChart();
+        };
+    </script>
+</body>
+</html>
+>>>>>>> 3c6dd400b3b45d90b515d75eff5543d9e7dc0684
