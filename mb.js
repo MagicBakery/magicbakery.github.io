@@ -648,7 +648,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
 
     // STEP: Create the QSL area.
     mHTMLInner += "<div class='mbhide mbpuzzle'><button class='mbbutton mbRef' onclick='HideParent(this)'>:Close:</button>";
-    mHTMLInner += "<div control></div><div class='mbCB mbSearch' QSL BL style='display:flex;flex-direction: column;''></div><div class='mbCB'></div></div>";
+    mHTMLInner += "<div control></div><div class='mbCB mbSearch' QSL BL style='display:flex;flex-direction: column;'></div><div class='mbCB'></div></div>";
 
     elContainer.innerHTML = mHTMLInner;
     Macro(elContainer);
