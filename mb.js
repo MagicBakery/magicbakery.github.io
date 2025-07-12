@@ -1802,7 +1802,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250609 1-Star Filter";
+  elContainer.innerHTML = "20250711 ShowNextFP Fix";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -7654,6 +7654,7 @@ function GuildEXP(iMember){
 "Black": 15857,
 "Cardinal": 3980,
 "Casey": 5063,
+"Chris": 2,
 "Clyde": 151,
 "Emi": 66,
 "Evelyn": 14776,
@@ -7706,7 +7707,7 @@ function RandomMember(){
 function Roster(iIndex){
   // 20230125: Ledia: Preparing for roster stats display.
   //   Returns the length if the argument is negative.
-  const mRoster = ["3B", "44", "Albatross", "Amelia", "Arcacia", "Black", "Cardinal", "Casey", "Clyde", "Emi", "Evelyn", "Fina", "Gaia", "Helen", "Ivy", "James", "Jao", "John", "Karl", "Ken", "King", "Kisaragi", "Koyo", "Ledia", "Leo", "LRRH", "Mark", "Melody", "Mikela", "Miller", "Natalie", "Neil", "P4", "Patricia", "Rick", "Robert", "Roger", "RS", "Sasha", "Skyle", "StarTree", "Sylvia", "Tanya", "The_Unusual", "Therese", "V", "Vivi", "Vladanya", "Wonder", "Zoey"];
+  const mRoster = ["3B", "44", "Albatross", "Amelia", "Arcacia", "Black", "Cardinal", "Casey", "Chris", "Clyde", "Emi", "Evelyn", "Fina", "Gaia", "Helen", "Ivy", "James", "Jao", "John", "Karl", "Ken", "King", "Kisaragi", "Koyo", "Ledia", "Leo", "LRRH", "Mark", "Melody", "Mikela", "Miller", "Natalie", "Neil", "P4", "Patricia", "Rick", "Robert", "Roger", "RS", "Sasha", "Skyle", "StarTree", "Sylvia", "Tanya", "The_Unusual", "Therese", "V", "Vivi", "Vladanya", "Wonder", "Zoey"];
   //const mRoster = ["3B","44", "Albatross"];
   if(iIndex>=0){
     return mRoster[iIndex];
@@ -8968,7 +8969,7 @@ function ShowNextFP(el,mDTS,bRefresh){
   // STEP: If mDTS is blank, skip loading.
   // 2024904: StarTree: Don't reload automatically. There is a a reload button.
   //if(NotBlank(mDTS) && (bRefresh || (elFP.classList.contains('mbhide') && elFP.innerHTML==""))){
-  if(bRefresh || (elFP.classList.contains('mbhide') && elFP.innerHTML=="")){
+  if(bRefresh || (elFP.classList.contains('mbhide') && elFP.innerHTML.trim()=="")){
     elFP.setAttribute('FP',mDTS);
     ReloadFP(elFP);
   }
