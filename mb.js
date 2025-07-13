@@ -2738,7 +2738,7 @@ function MacroTopic(el){
       mHTML += "<div class='mbTopicIcon'>" + mIcon + "</div>";
       mHTML += mFullTitle + "</div><hide class=\"mbSearch\"><hr class='mbhr'>";
   
-      mHTML += "<p>";
+      
       if(NotBlank(mSection)){      
         let mSectionLevel = 2+ mSection.length - mSection.replaceAll(".","").length;
         if(mSectionLevel<3){mSection+=".";}
@@ -2746,7 +2746,7 @@ function MacroTopic(el){
         mHTML += "<p class='mbhide'>" + mSection + " " + mTitle + "</p>";
       } // 20250712: StarTree: Note that the implementation is different from MacroNote.
       mHTML += "<hr class='mbhide'>";
-      mHTML += mTag.innerHTML + "</p>";
+      mHTML += mTag.innerHTML;
       
       mHTML += "<div class='mbCB'></div></hide>";
       // 20240711: Natalie: to improve formatting.
