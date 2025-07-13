@@ -249,7 +249,10 @@ padding-right:10px;
 }
 
 /* OTHER STYLES */
-
+p {
+  margin-block-start:0.5em;
+  margin-block-end:0.5em;
+}
 p a{font-family: inherit;color:inherit; margin:2px 0px;text-decoration:underline;transition: all 0.25s ease; }
 p a:visited{font-family: inherit;color:inherit; }
 p a:hover{font-family: inherit;color:#00ff00;cursor:pointer }
@@ -281,10 +284,11 @@ padding:0px;
 }
 h3{
   color: saddlebrown;
-font-size:22px;
+font-size:18px;
 line-height:1.1em;
 margin:0px 0px;
 padding:0px;
+font-weight:bold;
 }
 h3c{
   color: saddlebrown;
