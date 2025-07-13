@@ -2261,6 +2261,7 @@ function MacroNote(el){
     let mTitle = Default(mTag.getAttribute("title"),"");
     let mSubtitle = Default(mTag.getAttribute("Subtitle"),"");
     let mNode = Default(mTag.getAttribute("node"),"");
+    let mSection = Default(mTag.getAttribute("section"),"");
     let mHTML = "";
     let mLabel = "";
     mHTML = "<mbnote dts=\"" + mDTS +"\">";
@@ -2293,8 +2294,17 @@ function MacroNote(el){
       mHTML += " " + LnkCode(mNode,"",":CornerRibbon:");
       mHTML += "</div><hr class=\"mbhide\">";
     }
-
-    mHTML += mTag.innerHTML;
+    // 20250712: StarTree: For AI to read.
+    mHTML += "<p>";
+    if(NotBlank(mSection)){      
+      let mSectionLevel = 2+ mSection.length - mSection.replaceAll(".","").length;
+      if(mSectionLevel<3){mSection+=".";}
+      mHTML += "<h" + mSectionLevel + ">" + mSection + " " + mSubtitle + "</h" + mSectionLevel + ">";
+      mHTML += "<p class='mbhide'>" + mSection + " " + mSubtitle + "</p><hr>";
+    }else{
+      mHTML += "<hr class='mbhide'>";
+    }
+    mHTML += mTag.innerHTML + "</p>";
 
 
     mHTML += "<div class=\"mbCB\"></div></div>";
@@ -2694,6 +2704,7 @@ function MacroTopic(el){
     let mTitle = Default(mTag.getAttribute("title"),"");
     let mPrefix = Default(mTag.getAttribute("prefix"),"");
     let mSubtitle = Default(mTag.getAttribute("Subtitle"),""); 
+    let mSection = Default(mTag.getAttribute("section"),"");
     let mHTML = "";
 
     // STEP: If a topic is inside OL or UL, turn it into a bullet.
@@ -2730,7 +2741,15 @@ function MacroTopic(el){
       mHTML += "<div class='mbTopicIcon'>" + mIcon + "</div>";
       mHTML += mFullTitle + "</div><hide class=\"mbSearch\"><hr class='mbhr'>";
   
-      mHTML += mTag.innerHTML;
+      mHTML += "<p>";
+      if(NotBlank(mSection)){      
+        let mSectionLevel = 2+ mSection.length - mSection.replaceAll(".","").length;
+        if(mSectionLevel<3){mSection+=".";}
+        mHTML += "<h" + mSectionLevel + " class='mbhide'>" + mSection + " " + mTitle + "</h" + mSectionLevel + ">";
+        mHTML += "<p class='mbhide'>" + mSection + " " + mTitle + "</p>";
+      } // 20250712: StarTree: Note that the implementation is different from MacroNote.
+      mHTML += "<hr class='mbhide'>";
+      mHTML += mTag.innerHTML + "</p>";
       
       mHTML += "<div class='mbCB'></div></hide>";
       // 20240711: Natalie: to improve formatting.
