@@ -1802,7 +1802,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250711 ShowNextFP Fix";
+  elContainer.innerHTML = "20250712 Topic and Note Section Code";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
