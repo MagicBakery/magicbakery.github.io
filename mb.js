@@ -2275,7 +2275,9 @@ function MacroNote(el){
     }else{
       if(NotBlank(mIcon)){
         
-        mLabel = "[" + mIcon + " " + mTitle + " " + mSubtitle + "]";
+        mLabel = "[" + mIcon + " ";
+        if(NotBlank(mSection)){mLabel += mSection + ". ";}
+        mLabel += mTitle + " " + mSubtitle + "]";
       }      
     }
     mHTML += mLabel;
@@ -2736,6 +2738,8 @@ function MacroTopic(el){
       // 20240910: Evelyn: 
       //mHTML += "<div style=\"transform:rotate("+5*getRandomInt(-4,4,true)+"deg)\" class='mbTopicIcon'>" + mIcon + "</div>";
       mHTML += "<div class='mbTopicIcon'>" + mIcon + "</div>";
+      // 20250713: Tanya: Include the section number if it exists.
+      if(NotBlank(mSection)){mHTML += mSection + ". ";}
       mHTML += mFullTitle + "</div><hide class=\"mbSearch\"><hr class='mbhr'>";
   
       
