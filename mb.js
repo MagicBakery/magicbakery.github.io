@@ -2295,17 +2295,14 @@ function MacroNote(el){
       mHTML += "</div><hr class=\"mbhide\">";
     }
     // 20250712: StarTree: For AI to read.
-    mHTML += "<p>";
     if(NotBlank(mSection)){      
       let mSectionLevel = 2+ mSection.length - mSection.replaceAll(".","").length;
       if(mSectionLevel<3){mSection+=".";}
       mHTML += "<h" + mSectionLevel + ">" + mSection + " " + mSubtitle + "</h" + mSectionLevel + ">";
       mHTML += "<p class='mbhide'>" + mSection + " " + mSubtitle + "</p><hr>";
-    }else{
-      mHTML += "<hr class='mbhide'>";
+      ;
     }
-    mHTML += mTag.innerHTML + "</p>";
-
+    mHTML += mTag.innerHTML
 
     mHTML += "<div class=\"mbCB\"></div></div>";
     mHTML += "</hide></a></mbnote>";
@@ -3444,7 +3441,7 @@ function RenderStart(el){
   //  mHTML += RenderAvXP(mSPK,mEXP,mIcon,el.getAttribute('rank'),el.getAttribute('mode'));
   //}
 
-  mHTML += "<div class='mbpdc'>" + el.innerHTML;
+  mHTML += "<div class='mbpdc'><p style='display:inline'>" + el.innerHTML + "</p>";
   // 20240726: Evelyn: I think the start format doesn't need this chicken.
   /*if(el.hasAttribute('DTS')){
     mHTML += " <a class='mbbutton' onclick='MsgContext(this)'><small>...</small></a>";
@@ -3601,7 +3598,7 @@ function RenderEnter(el){
   if(NotBlank(mTitle)){
     mHTML += "<b>" + mTitle +":</b> ";
   }
-  mHTML += el.innerHTML;
+  mHTML += "<p style='display:inline'>"+el.innerHTML+"</p>";
   //mHTML += "<hr class='mbCB'>";
   return mHTML;
 }
@@ -3709,7 +3706,7 @@ function RenderMsg(el){
   }else{
     mHTML += "<b>"+ mSPK.replace("_"," ") + SPKMultiStr(el) + "</b> ";
   }
-  mHTML += el.innerHTML;
+  mHTML += "<p style='display:inline'>"+el.innerHTML+"</p>";
   mHTML += "</hide>";
   return mHTML;
 }
