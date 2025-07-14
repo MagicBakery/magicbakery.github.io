@@ -260,7 +260,7 @@ p {
   margin-block-start:0em;
   margin-block-end:0em;
 }
-p a{font-family: inherit;color:inherit; margin:2px 0px;text-decoration:underline;transition: all 0.25s ease; }
+p a{font-family: inherit;color:inherit; margin:2px 0px;text-decoration:none;transition: all 0.25s ease; }
 p a:visited{font-family: inherit;color:inherit; }
 p a:hover{font-family: inherit;color:#00ff00;cursor:pointer }
 p a:active{font-family: inherit;}
