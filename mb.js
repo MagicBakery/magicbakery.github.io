@@ -2275,8 +2275,9 @@ function MacroNote(el){
     }else{
       if(NotBlank(mIcon)){
         
-        mLabel = "[" + mIcon + " ";
-        if(NotBlank(mSection)){mLabel += mSection + ". ";}
+        mLabel = "[ ";        
+        mLabel += mIcon + " ";
+        if(NotBlank(mSection)){mLabel += mSection + ". ";}        
         mLabel += mTitle + " " + mSubtitle + "]";
       }      
     }
@@ -2300,7 +2301,7 @@ function MacroNote(el){
     if(NotBlank(mSection)){      
       let mSectionLevel = 2+ mSection.length - mSection.replaceAll(".","").length;
       if(mSectionLevel<3){mSection+=".";}
-      mHTML += "<h" + mSectionLevel + ">" + mSection + " " + mSubtitle + "</h" + mSectionLevel + ">";
+      mHTML += "<h" + mSectionLevel + ">" + mIcon +" " + mSection + ". " + mSubtitle + "</h" + mSectionLevel + ">";
       mHTML += "<p class='mbhide'>" + mSection + " " + mSubtitle + "</p><hr>";
       ;
     }
