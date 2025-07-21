@@ -2298,7 +2298,7 @@ function MacroNote(el){
       mHTML += "</div><hr class=\"mbhide\">";
     }
     // 20250712: StarTree: For AI to read.
-    if(NotBlank(mSection)){      
+    if(NotBlank(mSection)){  
       let mSectionLevel = 2+ mSection.length - mSection.replaceAll(".","").length;
       if(mSectionLevel<3){mSection+=".";}
       mHTML += "<h" + mSectionLevel + ">" + mIcon +" " + mSection + ". " + mSubtitle + "</h" + mSectionLevel + ">";
@@ -3603,7 +3603,8 @@ function RenderEnter(el){
   if(NotBlank(mTitle)){
     mHTML += "<b>" + mTitle +":</b> ";
   }
-  mHTML += "<p style='display:inline'>"+el.innerHTML+"</p>";
+  //mHTML += "<p style='display:inline'>"+el.innerHTML+"</p>";
+  mHTML += el.innerHTML;
   //mHTML += "<hr class='mbCB'>";
   return mHTML;
 }
@@ -3711,7 +3712,8 @@ function RenderMsg(el){
   }else{
     mHTML += "<b>"+ mSPK.replace("_"," ") + SPKMultiStr(el) + "</b> ";
   }
-  mHTML += "<p style='display:inline'>"+el.innerHTML+"</p>";
+  //mHTML += "<p style='display:inline'>"+el.innerHTML+"</p>";
+  mHTML += el.innerHTML;
   mHTML += "</hide>";
   return mHTML;
 }
