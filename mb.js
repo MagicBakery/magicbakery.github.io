@@ -3603,7 +3603,7 @@ function RenderEnter(el){
   if(NotBlank(mTitle)){
     mHTML += "<b>" + mTitle +":</b> ";
   }
-  //mHTML += "<p style='display:inline'>"+el.innerHTML+"</p>";
+  //mHTML += "<p style='display:inline'>"+el.innerHTML+"</p>"; // 20250720: StarTree: Enabling this would make note not working properly when embedded in MSG.
   mHTML += el.innerHTML;
   //mHTML += "<hr class='mbCB'>";
   return mHTML;
@@ -3712,7 +3712,7 @@ function RenderMsg(el){
   }else{
     mHTML += "<b>"+ mSPK.replace("_"," ") + SPKMultiStr(el) + "</b> ";
   }
-  //mHTML += "<p style='display:inline'>"+el.innerHTML+"</p>";
+  //mHTML += "<p style='display:inline'>"+el.innerHTML+"</p>"; // 20250720: StarTree: Enabling this would make note not working properly when embedded in MSG.
   mHTML += el.innerHTML;
   mHTML += "</hide>";
   return mHTML;
