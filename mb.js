@@ -1802,7 +1802,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250712 Topic and Note Section Code";
+  elContainer.innerHTML = "20250907 AI Readable URL";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2823,6 +2823,7 @@ function MemberLevel(iMember){
 function GetURLCode(mURL,mDesc, mLang){
   // 20240504: Sylvia: mDesc argument is optional.
   var bIcon = false;
+  let mAIURL = "" ;
   
   if(IsBlank(mDesc)){
     mDesc = "url";
@@ -2863,19 +2864,21 @@ function GetURLCode(mURL,mDesc, mLang){
     // 20250307: StarTree: Auto replace shorts with watch.  
     mURL = mURL.replace("/shorts/","/watch?v=");
     
+     mAIURL = "<hide>" + mURL + "</hide>"; // 20250907: StarTree: For AI to read the URL.
+
     if(mURL.includes("list=")){ // 20250120: StarTree: If it is already a playlist, use playlist link.
       // https://www.youtube.com/watch?v=lm79me_S4-E&list=PL1PNHwldi501DJOfOUGnQAo4A8cXcrbT2
       
       let mPlayList = TextBetween(mURL,"list=","****")
-      return "<a class=\"mbbutton\" title=\"Play\" onclick=\"YoutubeSpawnFP(this,'"+ mDesc + "','','"+ mPlayList +"');return false\" href=\""+mURL+"\">"+ mDesc+"</a>";
+      return mAIURL+"<a class=\"mbbutton\" title=\"Play\" onclick=\"YoutubeSpawnFP(this,'"+ mDesc + "','','"+ mPlayList +"');return false\" href=\""+mURL+"\">"+ mDesc+"</a>";
     }else if (mURL.includes("/watch?v=") ){      
       let mYouTubeCode = YouTubeDecode(mURL);      
-      return "<a class=\"mbbutton\" title=\"Play\" onclick=\"YoutubeSpawnFP(this,'"+ mDesc + "','"+mYouTubeCode+"','');return false\" href=\""+mURL+"\">"+ mDesc+"</a>";
+      return mAIURL+"<a class=\"mbbutton\" title=\"Play\" onclick=\"YoutubeSpawnFP(this,'"+ mDesc + "','"+mYouTubeCode+"','');return false\" href=\""+mURL+"\">"+ mDesc+"</a>";
     }
   }
 
 
-  return "<a class=\"mbbuttonEx mbURL\" onclick=\"ExURL('" + mURL + "');return false;\" href=\""+mURL+"\">" + mDesc + "</a>";
+  return mAIURL+"<a class=\"mbbuttonEx mbURL\" onclick=\"ExURL('" + mURL + "');return false;\" href=\""+mURL+"\">" + mDesc + "</a>";
 }
 function FullTitle(el,mPrefix,mSubtitle,bNS){
   // 20240429: Cardinal
