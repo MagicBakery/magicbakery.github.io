@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter">
+  <link rel="stylesheet" href="mb.css">
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="mb.js"> </script>
+  <title>Magic Bakery</title>
+  <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+</head>
+<body id="MBJQSW">
+  <div class="header">
+    <div style="text-align: center;line-height:2px;margin-top:-5px">
+      <h4>
+        <!---->
+        <div class="mbIcon mbIconShift"
+          style="background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/WingL.png')">
+        </div>
+        <a class="mbpointer" title="About Magic Bakery" href="../" style="color:white;"
+          onclick="BoardLoadPF(this,'202208172056');return false">Magic Bakery</a>
+        <a class="mbbutton mbpointer" title="Visit Marker" onclick="NodeMarkUseCookie(this,true)"><span class="mbIcon"
+            style="Height:1.7em;Width:1.7em;position:relative;top:-5px;margin-bottom:-10px;background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png')">
+            <icon>🥨</icon>
+          </span></a>
+        <a class="mbpointer" title="About Panarcademy" href="../?id=P202403231454" style="color:white;"
+          onclick="BoardLoadPL(this,'202403231454');return false">Panarcademy</a>
+        <div class="mbIcon"
+          style="background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/WingR.png')">
+        </div>
+
+
+
+
+      </h4>
+
+      <small style="font-size: 10px;">
+        <a class="mbpointer" title="Website Updates" href="../?id=P202303052122" style="color:white;"
+          onclick="BoardLoadPF(this,'202303052122');return false">
+          <latestupdate>20250711</latestupdate>
+        </a>
+        <a class="mbpointer" title="Turn off Offline mode" d-offline onclick="Offline(null,true)"
+          style="color:gold"></a>
+      </small>
+    </div>
+    <hide>Arcacianism | Arcacian Principle | Let people help each other and reward those who do. | Peacemaker | Peace
+      Paradigm Ranking</hide>
+
+  </div>
+  <!--IMPORT POST-RENDER MAINAREA BELOW-->
+<div id="MainArea" main="" class="flex" style="padding-bottom:27px;padding-top:35px;justify-content:center;"><div class="mbPanel" panel="" serve="" style="flex: 1 1 50%;">
+      
+      <div control="" style="padding:0px 3px 2px 2px;">
+        <a class="mbbutton" onclick="IFrameURLSet(this)" title="Jquery Blogspot (Legacy)" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/MantleClock.png&quot;)"><icon>🕰️</icon></span></a>
+        <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;" inputmode="search"> 
+        
+        <a class="mbbutton" onclick="JQAdd(this,true)" title="Jquery GitHub" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span></a>
+        <!--<a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board"><span class='mbIcon' style='background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png&quot;)'><icon>🥨</icon></span></a>-->
+        
+        <a class="mbbutton" onclick="ShowNext(this)" style="float: right; cursor: text;" title="Panel Control"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pancake.png&quot;)"><icon>🥞</icon></span></a>
+        <div class="mbscroll mbhide" control="" style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">          
+          
+          <div control="" style="text-align: center;min-width:125px;font-size: 22px;">
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span></button>
+            <hide>              
+              <hr>    
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'800000000000',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P800000000000" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span> Search</a><br>    
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202405051137',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202405051137" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Phone.png&quot;)"><icon>☎️</icon></span> Help Center</a><br>    
+                       
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'Feedback');HC(this);return false;" target="_blank" title="Feedback" href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span> Feedback</a><br>  
+
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202207131009',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202207131009" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Teddy.png&quot;)"><icon>🧸</icon></span> Board Games</a><br>   
+                
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202208172056',false, true);HC(this);return false;" title="Calendar" href="./?id=P202208172056" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Question.png&quot;)"><icon>:?:</icon></span> About</a><br>   
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202403231454',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202403231454" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/SquareCap.png&quot;)"><icon>🎓</icon></span> Academy</a><br>  
+                                                              
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Chick.png&quot;)"><icon>🐤</icon></span></button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'900000000000',false, true);HC(this);return false;" title="Quest Board" href="./?id=P900000000000" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Circus.png&quot;)"><icon>🎪</icon></span> Quest Board</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202310072314',false, true);HC(this);return false;" title="Calendar" href="./?id=P202310072314" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Calendar.png&quot;)"><icon>📅</icon></span> Calendar</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202207242047',false, true);HC(this);return false;" title="Roll Call" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/PostHorn.png&quot;)"><icon>📯</icon></span> Roll Call</a><br> 
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202404260005',false, true);HC(this);return false" title="Message Scanner" href="./?id=P202404260005" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Bell.png&quot;)"><icon>🔔</icon></span> Messages</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202301251008',false, true);HC(this);return false;" title="Scoreboard" href="./?id=P202301251008" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Crown.png&quot;)"><icon>👑</icon></span> Scoreboard</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202405010908',false, true);HC(this);return false;" title="Guild Inbox" href="./?id=P202405010908" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Mailbox.png&quot;)"><icon>📬</icon></span> Guild Inbox</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202307161350',false, true);HC(this);return false;" title="Dice Roller" href="./?id=P202307161350" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Dice.png&quot;)"><icon>🎲</icon></span> Dice Roller</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202303191144',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202303191144" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ShoppingCart.png&quot;)"><icon>🛒</icon></span> Supplies List</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="Offline(null,true);" title="Offline Mode" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Backpack.png&quot;)"><icon>🎒</icon></span> Offline Mode</a>
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span></button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onclick="PanelAddBefore(this);HC(this);" title="Add a panel before" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span> Add Before</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelAddAfter(this);HC(this);" title="Add a panel after" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span> Add After</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelToggleServe(this);HC(this);" title="Serve nodes to this panel" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pancake.png&quot;)"><icon>🥞</icon></span> Serve Here</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelToggleWidth(this);HC(this);" title="Toggle the width of this panel" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Waffle.png&quot;)"><icon>🧇</icon></span> Toggle Width</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelRemove(this);" title="Close" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Close.png&quot;)"><icon>:Close:</icon></span> Close Panel</a><br>
+              <div class="mbCB"></div>
+              <hr>
+            </hide>
+            
+          </div>
+          <div></div><!--DISPLAY AREA-->
+        </div>
+      </div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px"><div class="mbscroll" board="202209222118" style="margin-bottom: 0px;"><div control=""><span class="mbRef"><a class="mbbutton" onclick="BoardRemove(this)" style="float: right; cursor: text;" title="Close"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Close.png&quot;)"><icon>:Close:</icon></span></a></span></div><span><span class="mbDayHeader"></span><span style="display: inline-block;"><a class="mbbuttonIn" href="./?id=P202209222118" onclick="BoardLoad(this,'202209222118');return false;" title="Show 202209222118"><span class="mbBoardIcon">🥕</span></a><hide>202209222118</hide></span>&nbsp;<a class="mbbutton" onclick="ShowBothInline(this)">Carrot Cake of Peace</a><span class="mbDayContent"><span class="mbRef" title="202209222118"><a class="mbbutton" onclick="Music('CookingWithArcacia')" title="Play theme music"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Headphone.png&quot;)"><icon>🎧</icon></span></a> <a class="mbbutton" onclick="ClipboardAlert('202209222118')" title="202209222118 [1]"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Archive1.png&quot;)"><icon>:Archive1:</icon></span></a>&nbsp;</span><span class="mbbutton mbRef"><span style="display: inline-block;"><a class="mbbuttonIn" href="./?id=P202409271001" onclick="BoardLoad(this,'202409271001');return false;" title="Guild Node"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png&quot;)"><icon>🥨</icon></span></a><hide>202409271001</hide></span>&nbsp;</span><button class="mbbutton mbRef" style="opacity:0.2" title="Toggle Size" onclick="BoardToggleHeight(this)">½</button><div class="mbCB"></div><hr><div cardmat="" class="mbCardMat"><div class="mbCardMatText">
+    <div class="mbscroll"><div style="max-width: 100%;"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEggBLv9yHrxJFZAexM17f8vFT7FpYceXn2e34mKFG84ejanx7Vb8epQ1IORERjOxHTkLfd-u9TmZkInwtpLB5duQ_hk68IAqM4mc-xrDeUy6qSxCwZtloVUNUdU4IQxN3k-Cc-w05G-c0e19T_Q3imCM0aPYVCQKcp5JuyySF2XfmYwo8E000IXQHy3gA/s1600/KT_19%20%2820210704%29%20Banner%204x1%20Carrot%20CCP2.png" style="border:0px;border-radius:10px"></div></div><!-- BANNER IMAGE -->
+
+    <div class="mbscroll">
+      <div class="mbpc mbbutton" onclick="ShowNext(this)">A Recipe of Peace</div>
+      <hide>
+        <hr class="mbhr">
+        <div class="mbav100r mbCB mbArcacia"></div>
+        <div class="mbpdc"><b>Welcome to Cooking with Arcacia!</b> I'm your host, Arcacia. Today we are making a Carrot Cake of Peace! This recipe lets people help each other and reward those who do. By making this cake, you could contribute to a more peaceful world by recognizing, reimbursing, and rewarding those who help others. Let's get started!        
+        </div>
+        <div class="mbpuzzle">
+          <div class="mbbutton" onclick="QueryAllNext(this,'[data-carrot-0]')"><b>Who do you want to help today?</b> <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ChatBubble.png&quot;)"><icon>💬</icon></span></div>
+          <hide>
+          </hide>
+        </div>
+  
+      </hide>
+    </div><!-- WELCOME -->
+    <div class="mbscroll">
+      <div class="mbpc mbbutton" onclick="ShowNext(this)">Step 1: Team up with your better self</div>
+      <hide>
+        <hr class="mbhr">
+        <div class="mbav100r mbCB mbArcacia"></div>
+        <div class="mbpdc"><b>Have</b> you ever wondered what if you were wiser, such that you were the go-to person when disputes arise? That wiser persona, whatever form it takes, is your <i>Better Self</i>. Finding and making peace with your better self is the first step of this recipe. Don't worry if your imagination is not clear right now. As long you decide that it exists, it will become clearer over time.</div>
+        
+        <div class="mbpuzzle">
+          <div class="mbbutton" onclick="ShowNext(this)"><b>How is your better self better?</b> <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Crown.png&quot;)"><icon>👑</icon></span></div>
+          <hide>Is it more collected and cautious? More fun and adventurous? More wise and decisive? More kind and caring? The goal of the better self is to help you become what you really want to be. You can be wiser, more adventurous, plus any other qualities that you can imagine. Imagine a kinder, wiser, more loving persona with any qualities that you want. Make a list, make a sketch. Let your better self take shape from your imagination!</hide>
+        </div>
+        <div class="mbpuzzle">
+          <div class="mbbutton" onclick="ShowNext(this)"><b>Are you starting to see its form for the first time?</b> <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/SmileyHappy.png&quot;)"><icon>😀</icon></span></div>
+          <hide>
+            If so, congratulations! You've found your better self! 
+            <button class="mbbutton" onclick="QueryAllNext(this,'[data-carrot-1]')"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ChatBubble.png&quot;)"><icon>💬</icon></span></button><hide></hide>
+          </hide>
+        </div> 
+        <div class="mbpuzzle">
+          <div class="mbbutton" onclick="ShowNext(this)"><b>Ingredient unlocked!</b> 🔑</div>
+          <hide>
+            By letting your better self help you, you unlock the most important thing for this recipe:
+            <div class="mbpuzzle"><big><center><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span> <b><i>The Oven of Endless Love!</i></b> <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span></center></big></div>
+          <center><div style="max-width: 100%;"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjwBLcMUTovK2dvoKzcaJdJWsc9RxJZ718tahNeOGkd8LFchyGkPH9b4PcbSJwvInB1GdVf6bbzRhr5LnkM0_5oo18Ys9mOnUDEj9yi8VmmMBcoH-biQ6FWSuWFGjfKogID4U5Pr2YxNzB0UFzy5h0dlykwEaiK1-eYvxDVlK_EVVrWsOaOS6rcK0Lg_g/s1600/KT_19%20%2820210704%29%20OVEN%20KRA2.png" style="border:0px;border-radius:10px"></div></center>
+          </hide>
+        </div>
+  
+  
+          <button class="mbbutton" onclick="QueryAllNext(this,'[data-carrot-infinite-love]')">Discussion <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ChatBubble.png&quot;)"><icon>💬</icon></span></button><hide></hide>
+      </hide>
+    </div><!-- STEP 1 -->
+    <div class="mbscroll">
+      <div class="mbpc mbbutton" onclick="ShowNext(this)">Step 2: Make helping a choice</div>
+       <hide><hr class="mbhr">
+         <div class="mbav100r mbCB mbArcacia"></div>
+         <div class="mbpdc"><b>That</b> was a good start wasn't it? But this is where most people give up 😱 (!)</div>
+         The imagination of a better self often comes with the disappointment of not meeting expectations, which results in people blocking their better selves. To keep the love flowing, you'll need to know how to deal with disappointment.
+         
+         <div class="mbpuzzle">
+           <div class="mbbutton" onclick="ShowNext(this)">How do you deal with disappointment? <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span></div>
+           <hide>
+             <div class="mbscroll"><b>a)</b> I set my goals lower than my expectation. <div class="mbavem mbIvy"></div></div>
+             <div class="mbscroll"><b>b)</b> I learn from them to do better next time. <div class="mbavem mbSasha"> </div><div class="mbavem mbNatalie"></div></div>
+             <div class="mbscroll"><b>c)</b> I tell myself at least I am not the worst.</div>
+             <div class="mbscroll"><b>d)</b> I move on by doing something else. <div class="mbavem mbCasey"></div></div>
+             <div class="mbscroll"><b>e)</b> I improve until I am satisfied. <div class="mbavem mbEvelyn"></div></div>
+             <div class="mbscroll"><b>f)</b> I correct my error and re-do. <div class="mbavem mbTanya"></div> <div class="mbavem mbZoey"></div></div>
+             <div class="mbscroll"><b>g)</b> I don't get disappointed. <div class="mbavem mbLedia"></div> <div class="mbavem mbP4"></div></div>
+             <div class="mbscroll"><b>h)</b> I improve the situation so I succeed. <div class="mbavem mbSylvia"></div></div>
+             <div class="mbscroll"><b>i)</b> I make the situation funny and rewarding. <div class="mbavem mbLRRH"></div></div>
+             <div class="mbscroll"><b>j)</b> (Other)</div>
+             <button class="mbbutton" onclick="QueryAllNext(this,'[data-carrot-2-disappointment]')">Discussion <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ChatBubble.png&quot;)"><icon>💬</icon></span></button><hide></hide>
+           </hide>
+         </div>
+         <div class="mbpuzzle">
+           <div class="mbbutton" onclick="ShowNext(this)">The fuel that keeps giving <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Rocket.png&quot;)"><icon>🚀</icon></span></div>
+           <hide>
+             While there is no single method that works best for everyone, for this recipe I recommend the Cheerful Extra Credits Oil of Easy Champions!
+             <div class="separator" style="clear: both;"><div style="max-width: 100%;"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhxUlEubYHGrpIt5Bid-O47HggTll-pb3DrjHoiBcxLXNrGFBJ8ymaiBZPsWg163SRmJN2d3QVWHI9Dam1lSvM88eh6227bqkZXyhnB4cxdENYwD240WdegqV2qiG9jux5KVSPETiHk_cf6M3wwSb-chxJcIStHCdrn0uEcSU45n9nuEEHibgzgK-_xVQ/s1600/KT_19%20%2820210704%29%20STAR%20OIL.png" style="border:0px;border-radius:10px"></div></div>
+             
+             This oil sets the goal lower than what a person thinks they can achieve, and gives Extra Credits if they achieve more. 
+             <span dts="null" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)"><span class=""></span><div class="mbavem mbArcacia"></div></button><hide><b>Arcacia:</b> Often times, this ends up being realistic because people often don't plan for rests and surprises. When you complete a goal that you've intentionally set lower than your expectations, you would keep going anyway because you know you could do more.</hide></span>
+             <span dts="null" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)"><span class=""></span><div class="mbavem mbArcacia"></div></button><hide><b>Arcacia:</b> Then if surprises prevent you from doing more, you would feel wise for having anticipated them. You would tackle them without the stress from not having met your goal.</hide></span>
+             <span dts="null" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)"><span class=""></span><div class="mbavem mbArcacia"></div></button><hide><b>Arcacia:</b> Therefore, this oil keeps your expectations super high and let you be flexible to deal with surprises. It lets you take detours and get bonus experiences that you would otherwise be too stressed to get.</hide></span>
+             So for this cake, I set the goal to:
+             
+             <div class="mbpuzzle"><center><big><b>Helping is a choice, not a duty.</b></big></center></div>
+             
+             This means that you don't have to help anyone. But if you choose to help, you are getting Extra Credits. By being at peace with yourself and being peaceful with others, you are already part of what keeps the world peaceful. If you choose to do more and help others become peaceful, then you get Extra Credits!
+           </hide>
+         </div>
+       <div class="mbpuzzle">
+           <div class="mbbutton" onclick="ShowNext(this)">How many extra credits do you want to get today? <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span></div>
+           <hide>
+             <div class="mbscroll">
+               <button class="mbbutton" onclick="ShowNextInline(this)">&nbsp;</button>
+               <hide>
+                <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbZoey"></div></button> <hide><b>Zoey:</b> There are days when I'd do nothing! XD</hide>
+                 <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbTanya"></div></button> <hide><b>Tanya:</b> I prefer to save my energy for emergencies.</hide>
+               </hide>
+             </div>
+             <div class="mbscroll">
+               <button class="mbbutton" onclick="ShowNextInline(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span></button>
+               <hide>
+                <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbCasey"></div></button> <hide><b>Casey:</b> One is enough, easy does it.</hide>
+               </hide>
+             </div>
+             <div class="mbscroll">
+               <button class="mbbutton" onclick="ShowNextInline(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span></button><hide></hide>
+             </div>
+             <div class="mbscroll">
+               <button class="mbbutton" onclick="ShowNextInline(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span></button><hide></hide>
+             </div>
+             <div class="mbscroll">
+               <button class="mbbutton" onclick="ShowNextInline(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span></button>
+               <hide>
+                <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbEvelyn"></div></button> <hide><b>Evelyn:</b> In our guild singing soulfully is worth 4 points, I want to sing every day. 😊
+               </hide>
+           </hide>
+             </div>
+             <div class="mbscroll">
+               <button class="mbbutton" onclick="ShowNextInline(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span></button><hide></hide>
+             </div>
+             <button class="mbbutton" onclick="QueryAllNext(this,'[data-carrot-2-extra_credits]')">Discussion <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ChatBubble.png&quot;)"><icon>💬</icon></span></button><hide></hide>
+           </hide>
+         </div>
+       </hide>
+    </div><!-- STEP 2 -->
+    <div class="mbscroll">
+      <div class="mbpc mbbutton" onclick="ShowNext(this)">Step 3: Reward yourself</div>
+       <hide>
+         <hr class="mbhr">
+         <div class="mbav100r mbCB mbArcacia"></div>
+         <div class="mbpdc"><b>Have</b> you been helping others or your better self today? If so, congratulations! You've earned Extra Credits! You should reward yourself! 
+         <button class="mbbutton" onclick="ShowNext(this)">🥕</button>
+         <div class="mbpuzzle mbhide"><b>The carrot of our Carrot Cake of Peace is the reward that makes peace flowing!</b> 
+             <button class="mbbutton" onclick="ShowNext(this)"><div class="mbavem mbArcacia"></div></button>
+             <hide>
+               What we are aiming for is not the taste of someone demanding a reward for having helped someone, but the taste of rewarding someone who has helped others. The difference may seem subtle, but it is very important. I recommend this kind of sugar to help you see the difference...
+         <button class="mbbutton" onclick="ShowNext(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span></button>
+             <hide>
+           <br><div style="max-width: 100%;"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgbBrWBhNwHhYDphPQw1aCYF646UTZZBdXj9QjIJTR0JyWoWMWcOaVtYv83Tw_6j5RYTdzN1vG8HXJzdeabA1m0nhW7TXSJTgf_aX4N4cC-st2DEKKDvJ_o12s2CqZ2TGurNIYDKIZtOap-E6tnnI1BR9-VKN2l0YxAmQ9klRHu55zXrIuLhidqB2pu8A/s1600/KT_19%20%2820210704%29%20Sugar.png" style="border:0px;border-radius:10px"></div>
+             </hide>
+             </hide>
+         </div>
+         A good baker should know the taste of their recipe, so let's have a taste test!  
+           
+         </div>  
+         
+         <div class="mbpuzzle">
+           <div class="mbbutton" onclick="ShowNext(this)">What does your better self want? <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Bell.png&quot;)"><icon>🔔</icon></span></div>
+           <hide>
+             If your better self has helped you, be nice to it and reward it! What does your better self want? Let's see if any of these ring a bell...
+             
+             <div class="mbscroll"><b>a)</b> Learn something new, or work on a neglected project. <div class="mbavem mbSasha"></div></div>
+             <div class="mbscroll"><b>b)</b> Try a new food, go to a new place, or have new fun. <div class="mbavem mbEvelyn"></div></div>
+             <div class="mbscroll"><b>c)</b> Rest, sleep earlier, or do something for your health. <div class="mbavem mbZoey"></div></div>
+             <div class="mbscroll"><b>d)</b> Help someone who you have been neglecting. <div class="mbavem mbLRRH"></div></div>
+             <div class="mbscroll"><b>e)</b> Be free from over stimulations.</div>
+             <div class="mbscroll"><b>f)</b> (Other)</div>
+             <button class="mbbutton" onclick="QueryAllNext(this,'[data-carrot-3]')">Discussion <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ChatBubble.png&quot;)"><icon>💬</icon></span></button><hide></hide>
+           </hide>
+         </div>
+         <div class="mbpuzzle">
+           <div class="mbbutton" onclick="ShowNext(this)">So... how are your self-rewards doing? <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span></div>
+           <hide>
+             <div class="mbscroll"><b>a)</b> I regularly reward myself. I am happy. Let's keep going! <div class="mbavem mbBlack"></div><div class="mbavem mbEvelyn"></div><div class="mbavem mbSasha"></div><div class="mbavem mbZoey"></div></div>
+             <div class="mbscroll"><b>b)</b> I've been putting off something I always wanted to do. Let me do that first. I'll be right back.</div>
+             <div class="mbscroll"><b>c)</b> I think I should reward myself, but I don't know what to do.</div>
+             <button class="mbbutton" onclick="QueryAllNext(this,'[data-carrot-3-selfreward]')">Discussion <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ChatBubble.png&quot;)"><icon>💬</icon></span></button><hide></hide>
+           </hide>
+         </div>
+         <div class="mbpuzzle">
+           <div class="mbbutton" onclick="ShowNext(this)">If you feel you should reward yourself but have no idea how, try this: <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span></div>
+           <hide>
+  <div style="max-width: 100%;"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiRV-T35NWw_soFuP2rKmemQ9WcOL2I3MFIObNT6BPaSWgMToG5X0SG9qWMCno2DyVPTqgq6zo7QZCMzBnMDQE97L9w0MwgFhsnlexmeKzmQ7PW7nzXssKgAe2YPJbPnuXgtAsGwxln9rv4whoPfj-A_OHucwxy3QyoN9NC2KgaTQ58lxQc_Mc0waEw1Q/s1600/KT_19%20%2820210704%29%20Flour%2024.png" style="border:0px;border-radius:10px"></div>
+           <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbArcacia"></div></button><hide>
+           <b>Arcacia:</b> From the perspective of a child, wanting to have fun make them see everything as a toy and everywhere a playground. So, look around the things that you have. Are they fun? Do they make you happy? Let yourself make the changes that will make life more joyful for you!</hide>
+           <button class="mbbutton" onclick="ShowNext(this)"><div class="mbavem mbArcacia"></div></button><hide>
+             <div class="mbscroll">
+              //Let your mind play every day.<br>
+        Try all that's fun under the sun.<br>
+        Solve new puzzles, see what tickles.<br>
+        Shop for new toys, share what sparks joy.<br>
+        Sing a song or skip along.<br>
+        Playing makes a wonderful day.//
+           </div>
+           </hide>
+       <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbArcacia"></div></button><hide>
+             <b>Arcacia:</b> Now try singing that in the tunes of Twinkle Twinkle Little Star!
+           </hide>
+             <div></div>
+             <button class="mbbutton" onclick="QueryAllNext(this,'[data-carrot-3-playful]')">Discussion <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ChatBubble.png&quot;)"><icon>💬</icon></span></button><hide></hide>
+             
+           </hide>
+         </div>       
+         <span style="display: inline-block;"><a class="mbbuttonIn" href="./?id=P202208122252" onclick="BoardLoad(this,'202208122252');return false;" title="Show 202208122252"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/SmileyHappy.png&quot;)"><icon>😀</icon></span> Happiness scale</a><hide>202208122252</hide></span>
+         
+         
+         <!--<div class="mbpuzzle">
+           <div class="mbbutton" onclick="HappyScaleNext(this)">How happy are you today? <span class='mbIcon' style='background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)'><icon>💟</icon></span></div><hide></hide>
+         </div>-->
+         
+         
+         
+      </hide>
+       
+      <div class="mbCB"></div>
+    </div><!-- STEP 3 -->
+    <div class="mbscroll">
+      <div class="mbpc mbbutton" onclick="ShowNext(this)">Step 4: Reward helpers</div>
+       <hide>
+         <hr class="mbhr">
+         <div class="mbav100r mbCB mbArcacia"></div>
+         <div class="mbpdc"><b>By</b> rewarding yourself, you know what works for you. To reward others, you need to know what they want instead. To know what they want, you could let them tell you what they want or let them choose from the rewards that you can offer. It is a match-making game!</div>
+         
+         <div class="mbpuzzle">
+           <div class="mbbutton" onclick="ShowNext(this)">A match-making game 🤗</div>
+           <hide>
+            <hr>
+            What reward do you want for helping? What rewards can you give to helpers?
+           <div class="mbscroll">
+             <b>a)</b> Necessities such as food, clothing and shelter
+             <div class="mbavem mbLRRH"></div>
+           </div>
+           <div class="mbscroll">
+             <b>b)</b> Healthcare or Protection
+           </div>
+           <div class="mbscroll">
+             <b>c)</b> Being Needed, Belonging, Friends, Love, Purpose
+           </div>
+           <div class="mbscroll">
+             <b>d)</b> Entertainment, Guidance, Knowledge, Skill
+           </div>
+           <div class="mbscroll">
+             <b>e)</b> Autonomy, Freedom, Fame, Honor, Justice, Recognition
+           </div>
+           <div class="mbscroll">
+             <b>f)</b> Creative powers to make dreams come true
+           </div>
+             
+           <button class="mbbutton" onclick="QueryAllNext(this,'#P202208292226')">Discussion <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ChatBubble.png&quot;)"><icon>💬</icon></span></button><hide></hide>  
+           </hide>
+         </div>
+         <div class="mbpuzzle">
+           <div class="mbbutton" onclick="ShowNext(this)">Prioritizing rewards to helpers 🥇</div>
+           <hide>
+            <hr>
+             Rewarding helpers means reimbursing them and rewarding them for choosing to help. As a reward giver, you would need to know who has been helping so that you may prioritize who receives your offering. 
+             <span dts="null" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mbArcacia"></div><b>Arcacia:</b> When a person helps someone without pay, they earn Extra Credits. How much Extra Credits they earn is up to you (the reward giver) to decide. When you give a reward to a helper, you also earn Extra Credits in the eye of others seeing your good deeds. This creates a network of people caring about who to reward. You can be in that network to keep the help flowing. </span>
+             <span dts="null" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)"><span class=""></span><div class="mbavem mbArcacia"></div></button><hide><b>Arcacia:</b> Doing so is not too difficult among people you know. Here are some examples:</hide></span>
+             
+             <div class="flex">
+               <div class="mbscroll">
+                 <div class="mbpointer" onclick="FlexShow(this)">
+                   <h4>Example</h4>
+                   <b>Favorite Food 🍱</b>
+                 </div>
+                 <div class="mbpuzzle mbhide">
+                     You cook for your household and each member has a different favorite. You could cook a helper's favorite dish whenever they earn Extra Credits. 
+                 </div>
+               </div>
+               <div class="mbscroll">
+                 <div class="mbpointer" onclick="FlexShow(this)">
+                   <h4>Example</h4>
+                   <b>Decision Power <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Crown.png&quot;)"><icon>👑</icon></span></b>
+                 </div>
+                 <div class="mbpuzzle mbhide">
+                   Your household disagrees on the vacation destination. Instead of deciding it by majority rule, you let helpers use their Extra Credits to bid for their preferences.
+                 </div>
+               </div>
+               <div class="mbscroll">
+                 <div class="mbpointer" onclick="FlexShow(this)">
+                   <h4>Example</h4>
+                   <b>Inheritance <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/House.png&quot;)"><icon>🏡</icon></span></b>
+                 </div>
+                 <div class="mbpuzzle mbhide">
+                   You are leaving this world. You put in your will to distribute your inheritance according to your heirs' Extra Credits.
+                 </div>
+               </div>
+             </div>
+             <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbArcacia"></div></button>
+         <hide> <b>Arcacia:</b>
+         In the examples above, rewarding helpers poses almost no cost to you. The reward comes from your deciding to treat helpers better than non-helpers. By making help matters in your decision, you create the main ingredient for this recipe:
+         
+         <button class="mbbutton" onclick="ShowNext(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span></button>
+             <hide>
+           <div style="max-width: 100%;"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh68PNGodbInpdC3_biOR_9EzNGqy1bfDR1fbfvhpR6an8DpsNcUbfnew8Mn_8GwwUiX9DNE9l6LB4RBzvlvi78rRxzQWRNO_0rNzuLVZYyXUCHspMXBpJ3PXWYOpOBMDLWXCIYoXjqfCB5VNn5igLtnyUVt93aEMCS-4-VPV1-sBk4fGXbwYR-O_XJSw/s1600/KT_19%20%2820210704%29%20Carrot.png" style="border:0px;border-radius:10px"></div>
+             </hide>
+  
+         </hide>     
+             
+             
+             
+             
+           </hide>
+         </div>
+         <div class="mbpuzzle">
+           <div class="mbbutton" onclick="ShowNext(this)">What if you can't give helpers what they want? <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Bulb.png&quot;)"><icon>💡</icon></span></div>
+           <hide>
+            <hr>
+           Here are some ideas on how you may still help even if you can't directly give the helpers what they want:
+           <div class="mbscroll">
+             <b>a)</b> Collect wishes from helpers and fulfill them specifically
+           </div>
+           <div class="mbscroll">
+             <b>b)</b> Make donations to or fund scholarships for helpers
+           </div>
+           <div class="mbscroll">
+             <b>c)</b> Choose friends and social circles who are helpers
+           </div>
+           <div class="mbscroll">
+             <b>d)</b> Offer discounts to helpers on what you sell
+           </div>
+           <div class="mbscroll">
+             <b>e)</b> Help people know the helpers in their area
+           </div>
+           <div class="mbscroll">
+             <b>f)</b> Promote policies that reward helpers
+           </div>
+           <div class="mbscroll">
+             <b>g)</b> Offer special rewards to helpers
+           </div>
+           <div class="mbscroll">
+             <b>h)</b> Other
+           </div>
+           </hide>
+         </div>
+         
+      </hide>
+      
+      
+      <div clas="mbCB"></div>
+    </div><!-- STEP 4 -->
+    <div class="mbscroll">
+      <div class="mbpc mbbutton" onclick="ShowNext(this)">Step 5: Circle of Peace</div>
+      <hide>
+        <hr>
+        <div class="mbav100r mbCB mbArcacia"></div>
+        <div class="mbpdc">
+          <b>How</b> far you could go in Step 4 depends on your circle of influence. If you have influence in a household, you could quite readily use that influence to apply carrot policies for your household. The same goes for a company, a city, or a whole country. 
+          <span dts="null" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)"><span class=""></span><div class="mbavem mbArcacia"></div></button><hide><b>Arcacia:</b> The more prominent you are, the farther your voice could reach and the more people could become aware of this option. Even if you have little influence, you outreach could still get someone with more influence to create more peace around them.</hide></span> 
+          <span dts="null" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)"><span class=""></span><div class="mbavem mbArcacia"></div></button><hide><b>Arcacia:</b> Therefore, for this recipe to work, you could just be persistent without being influential. But being influential certainly helps!</hide></span> 
+        </div><!-- INTRO -->
+        <div class="mbpuzzle">
+          <div class="mbbutton" onclick="ShowNext(this)"><b>How do you grow your circle of influence?</b> 💐</div>
+          <hide>
+            <div class="mbscroll">
+              <b>a)</b> Get into positions that make important decisions
+            </div>
+            <div class="mbscroll">
+              <b>b)</b> Be creative and get interest for your products
+            </div>
+            <div class="mbscroll">
+              <b>c)</b> Be entertaining and popular
+              <span dts="null" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)"><span class=""></span><div class="mbavem mb3B"></div></button><hide><b>3B:</b> Be creative and attract attentions to peace making.</hide></span>
+              <span dts="null" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)"><span class=""></span><div class="mbavem mbEvelyn"></div></button><hide><b>Evelyn:</b> I want to make songs about peace.</hide></span>
+              <span dts="null" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)"><span class=""></span><div class="mbavem mbSasha"></div></button><hide><b>Sasha:</b> I want to make games about peacemaking.</hide></span>
+              <span dts="null" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)"><span class=""></span><div class="mbavem mbZoey"></div></button><hide><b>Zoey:</b> Create peacemaking quests to draw attention to peacemaking.</hide></span>
+            </div>
+            <div class="mbscroll">
+              <b>d)</b> Be helpful and help people
+              <span dts="null" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)"><span class=""></span><div class="mbavem mbIvy"></div></button><hide><b>Ivy:</b> Sharing peacemaker skills freely to empower people to make peace wherever they are.</hide></span>
+              <span dts="null" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)"><span class=""></span><div class="mbavem mbLRRH"></div></button><hide><b>LRRH:</b> Sharing peace concepts on the blog and at twitter.</hide></span>
+              <span dts="null" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)"><span class=""></span><div class="mbavem mbTanya"></div></button><hide><b>Tanya:</b> Become skillful and prioritze helping those who help.</hide></span>
+              <span dts="null" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)"><span class=""></span><div class="mbavem mbFina"></div></button><hide><b>Fina:</b> Maintain and inform people on how different philosophies are ranked in terms of peacemaking.</hide></span>
+              <span dts="null" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)"><span class=""></span><div class="mbavem mbStarTree"></div></button><hide><b>StarTree:</b> StarTree just wants to help people and doesn't care about influence!</hide></span>
+            </div>
+            <div class="mbscroll">
+              <b>e)</b> Become a big employer
+            </div>
+            <div class="mbscroll">
+              <b>f)</b> Be kind and hospitable
+            </div>
+            <button class="mbbutton" onclick="QueryAllNext(this,'#P202210012056')">Discussion <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ChatBubble.png&quot;)"><icon>💬</icon></span></button><hide></hide> 
+          </hide>
+        </div><!-- How do you grow... -->
+        <div class="mbpuzzle">
+          <div class="mbbutton" onclick="ShowNext(this)"><b>Carrot cake vs carrot cake for peace</b> 🥕</div>
+          <hide>
+            <b>Arcacia:</b> Regardless how much influence you have, let's remember that not all carrot cakes are for peace. Carrots can motivate people to do evil also. Carrot Cake of World Domination is also a carrot cake! <button class="mbbutton" onclick="ShowNextInline(this)"><div class="mbavem mbArcacia"></div></button>
+            <hide> 
+              <b>Arcacia:</b> What makes this a recipe for peace is that it rewards helpers, which implies consent and without creating a conflict. To use this recipe, aim to reward everyone who has Extra Credits. Helpers shouldn't need to compete or bid against each other for a reward unless there is a genuine scarcity in the reward. 
+              <button class="mbbutton" onclick="ShowNext(this)">🤗</button>
+              <hide>
+                <div style="max-width: 100%;"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh75GMmAYdZgnubsVt8acOsII69FKi3muZPkaYNUW9bSklqyMg54cB4s0Z0iZR_pNnF9Jnpu-UDtVkY81s2P5UgqMmNgVE3umQ-nsZpVzEMq2y4sc2HEkAbF3_Rm_scamwAeS3V12dj9vgtwXwQprse1zX50NYtqR1RM-2xT80pJBN8lZE6kZCXK4ObVg/s1600/KT_19%20%2820210704%29%20Vanilla.png" style="border:0px;border-radius:10px"></div>
+              </hide>
+            </hide> 
+          </hide>
+         </div><!-- Different carrot cakes -->
+         <div class="mbpuzzle">
+           <div class="mbbutton" onclick="ShowNext(this)"><b>Rewards vs necessities</b> <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Bread.png&quot;)"><icon>🍞</icon></span></div>
+           <hide>
+             <div class="mbav50r mbArcacia"></div>
+             <b>Arcacia:</b> Similarly and more importantly, you don't want to turn a living necessity into a reward. If you do so, helping stops being a choice but an obligation. In contrast, if the reward itself naturally has different rarity, you may let those with more Extra Credits pick first, so they may pick the rare rewards if they want to do so.
+             <div class="mbscroll">
+               <b>Example: Guildhall room selection</b> <button class="mbbutton" onclick="ShowNext(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/House.png&quot;)"><icon>🏡</icon></span></button>
+               <hide><div></div>
+                 A guild uses Extra Credits to let members bid on the room they want in the guild house. There is enough rooms for everyone, but those with more Extra Credits may choose first. 
+               </hide>
+             </div>
+             <div class="mbscroll">
+               <b>Example: Asteroid Strike</b> <button class="mbbutton" onclick="ShowNext(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Rocket.png&quot;)"><icon>🚀</icon></span></button>
+               <hide><div></div>
+                 An asteroid is going to hit Earth but there is only one spaceship for evacuation. Other than the crew and staff necessary to keep people onboard alive thereafter, the limited seats on the spaceship are prioritized based on how much each person had helped others. 
+               </hide>
+             </div>
+                    <div class="mbpuzzle">
+           <b>Start being fair sooner</b> <button class="mbbutton" onclick="ShowNext(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Scale.png&quot;)"><icon>⚖️</icon></span></button>
+           <hide>
+             <b>Arcacia:</b> By starting carrot policies early, people would know who has been helping others and how they got their Extra Credits before a scarcity happens. Then when it happen, they could deal with it fairly and peacefully. With less fighting, the helpers could focus on solving scarcity. Then when the Asteroid comes there won't be just one spaceship. There might even be a wrap gate or other means. Humanity will have the best chances by helping each other.
+             <button class="mbbutton" onclick="ShowNext(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span></button>
+             <hide>
+               <div style="max-width: 100%;"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg8R-NCFoAq2uWknIhoLfGBqZc5_iueMQw6hxEQVJB6w0AKpPkDdv0ZXzXk677v5vvgpXedofQzha5u8VjjzHfffpg4R_i1SWRrpVhvho7ItU6QejgOoS-5xjRWfTosne1yxBlcasy2zdNH996hv27iWzNtA3YJZJeWa8Ctn8566SjcarO0k2XZMizfYw/s1600/KT_19%20%2820210704%29%20Eggs.png" style="border:0px;border-radius:10px"></div>
+             </hide>
+           </hide>
+         </div><!-- Start being fair Early -->
+             
+           </hide>
+         </div><!-- Reward vs Necessity -->
+  
+      </hide>    
+    </div><!-- STEP 5 -->
+    <div class="mbscroll">
+      <div class="mbpc mbbutton" onclick="ShowNext(this)">Step 6: Make it yours</div>
+      <hide>
+        <hr class="mbhr">
+        <div class="mbav100r mbCB mbArcacia"></div>
+        <div class="mbpdc"><b>By</b> now you have the main ingredients and tools for making the Carrot Cake of Peace. You could use local specialty ingredients to give your cakes more characters. </div>
+        
+        <div class="mbpuzzle">
+          <div id="Step6a" class="mbbutton" onclick="ShowNextHT(this)">
+            <b>Let people help each other and reward those who do.</b>
+          </div>
+          <hide id="Step6b">
+            <div></div><b>Arcacia:</b> These are all examples of the Carrot Cake of Peace recipe:
+            <div class="mbscroll">
+              
+              <div class="mbbutton" onclick="ShowNext(this)"><b>Example: People powered affordable housing</b> <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/House.png&quot;)"><icon>🏡</icon></span></div>
+              <div class="mbpuzzle mbhide">
+                A city has a voucher program that pays any homeowner providing housing for people who could not afford the market price. By doing so the city avoids the more expensive option of building affordable housing. (Local Specialty: Gingerbread Fairy Houses)
+              </div>
+            </div>
+            <div class="mbscroll">
+              <div class="mbbutton" onclick="ShowNext(this)"><b>Example: Historical storefront</b> <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Castle.png&quot;)"><icon>🏰</icon></span></div>
+              <div class="mbpuzzle mbhide">
+                At a historical tourist attraction, the town prioritize the publicly owned store fronts to the local businesses voted among the top ten hospitable and representative of the town each year. (Local Specialty: Heirloom Frosting of the Ice Castle)
+              </div>
+            </div>
+            <div class="mbscroll">
+              <div class="mbbutton" onclick="ShowNext(this)"><b>Example: Community powered local businesses</b> <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Apple.png&quot;)"><icon>🍎</icon></span></div>
+              <div class="mbpuzzle mbhide">
+                A town allows people to give a ranking on the social goodness of the local businesses (including non-profit organizations). Those with good enough ranking are eligible to apply for community-funded workers paid my grants and local scholarships. Doing this helps good businesses staffed without the burden of finding a way to pay the staff a living wage and benefits. (Local Specialty: Homestyle Apple Sauce)
+              </div>
+            </div>
+            <div class="mbpuzzle mbbutton" onclick="ShowAHideB('Step6a','Step6b','block')">
+              <center><big><b>"Let people help each other and reward those who do."</b></big></center>
+            </div>
+          </hide>
+        </div>
+        <div class="mbpuzzle">
+          <div id="Step6c" class="mbbutton" onclick="ShowNext(this)">
+            <b>Do you feel that there is something you can do?</b> 🧐
+          </div>
+          <hide>
+            <div class="mbscroll">
+              <b>Yes, I understand what I can do!</b> <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/SmileyHappy.png&quot;)"><icon>😀</icon></span>
+            </div>
+            <div class="mbscroll">
+              <b>I want examples for a specific issue.</b> 🤨
+            </div>
+            <div class="mbscroll">
+              <b>I want to know how to make it happen.</b> 🤔
+            </div>
+            
+  
+          </hide>
+        </div>
+      </hide>
+      <div class="mbCB"></div>
+    </div><!-- STEP 6 -->  
+    <div class="mbscroll">
+      <div class="mbpc mbbutton" onclick="ShowNext(this)">Congratulations!</div>
+      <hide>
+        <hr class="mbhr">
+        <div class="mbav100r mbCB mbArcacia"></div>
+        <div class="mbpdc"><b>Congratulations!</b> You've reached the end of the recipe! Thank you for sticking to the end. The world is in good hands--Your hands! 🤗</div>
+        
+        <!--<div class="mbpuzzle"><center>You've reached the end of the recipe!<br>
+          Thank you for sticking to the end. <br>
+          The world is in good hands. <br>
+          Your hands.<br>
+          🤗
+          </center></div>-->
+        
+        <div class="mbpuzzle">
+          <div class="mbbutton" onclick="ShowNext(this)">Our token of gratitude <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span></div> 
+          <div class="mbpuzzle mbhide">
+            <div class="mbCB"></div>
+            <center>Thank you for your help and keep up the good work<br><br></center>
+              <center><big><b>Oven Mittens of Gratitude</b></big><br><br></center>
+            <div style="max-width: 100%;"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhwE5Th4EV1WIB9LRDnHqUvpslEykfXAVRTexQOQP8fReNpMkuOBfCVpE4RttRU83Wn8J6TqgvrNpAy2W39TWe1kKA_ejGruj13wGx-diazLu008rjwIhXL7nSdUbT7SEAupb39GIewi61g9MUBLY6YMBTbtvF8gqjFu4pIJubNMWSVP18q-PrjNTA4tQ/s1600/KT_19%20%2820210704%29%20Mittens.png" style="border:0px;border-radius:10px"></div>
+  
+            <div class="mbpuzzle">
+              <center><i>May your passion keep us safe and warm,<br>
+              And your cakes stand proud and wishful!</i></center>
+              <center>
+              <div style="max-width: 100%;"><img src="https://raw.githubusercontent.com/MagicBakery/Images/refs/heads/main/KT_19%20(20230813)%20Large.png" style="border:0px;border-radius:10px"></div>
+              </center>
+            </div> 
+          </div>
+        </div>
+      </hide>  
+      <div class="mbCB"></div>
+    </div><!-- CONGRATULATION -->    
+  <hr class="mbCB"><div class="mbRef">
+    <span style="display: inline-block;"><a class="mbbuttonIn" href="./?id=P202208201022" onclick="BoardLoad(this,'202208201022');return false;" title="Show 202208201022"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBeat.png&quot;)"><icon>💗</icon></span> Arcacianism</a><hide>202208201022</hide></span>
+   <span style="display: inline-block;"><a class="mbbuttonIn" href="./?id=P202208181042" onclick="BoardLoad(this,'202208181042');return false;" title="Show 202208181042"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span>Cooking with Arcacia</a><hide>202208181042</hide></span> <a class="mbbutton" onclick="ShowNextInline(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Tag.png&quot;)"><icon>🏷️</icon></span>Tags</a><hide>: <a class="mbbutton" onclick="QSLBL(this,'[data-ch11]')">Ch11</a>, <a class="mbbutton" onclick="QSLBL(this,'[data-cleric]')">Cleric</a>, <a class="mbbutton" onclick="QSLBL(this,'[data-guide]')">Guide</a>, <a class="mbbutton" onclick="QSLBL(this,'[data-magician]')">Magician</a>, <a class="mbbutton" onclick="QSLBL(this,'[data-recipe]')">Recipe</a>, <a class="mbbutton" onclick="QSLBL(this,'[data-skill]')">Skill</a></hide> <a class="mbbutton" onclick="QSLBL(this,'[id][date][time][data-202209222118],[id][date][time]:has([data-202209222118])')"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ChatBubble.png&quot;)"><icon>💬</icon></span>Discussions</a> <a class="mbbutton" onclick="NodeEdit(this,'202209222118')"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pencil.png&quot;)"><icon>✏️</icon></span></a></div><div class="mbCB"></div><div class="mbhide mbpuzzle"><button class="mbbutton mbRef" onclick="HideParent(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Close.png&quot;)"><icon>:Close:</icon></span></button><div control=""></div><div class="mbCB mbSearch" qsl="" bl="" style="display:flex;flex-direction: column;"></div><div class="mbCB"></div></div></div></div></span></span><div class="mbCB"></div></div></div>
+    </div></div>
+  <!--IMPORT ABOVE-->
+  <div class="footer" onclick="ShowWidgets()">
+
+
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'90000000000000')" title="Quest Board">🔔</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;  overflow-y:auto;width:100%;max-width: 350px;">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240421014400')" title="Roll Call">📯</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 90vh; overflow-y:auto; max-width: 350px;">
+        </div>
+      </div>
+    </span>
+
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'80000000000000')" title="Search">🔍</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:350px;width:100%">
+        </div>
+      </div>
+    </span>
+
+    <button BB class="mbbutton" onClick="ShowNextFP(this,'20240904213516')" title="Music Player">🎧</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:350px;width:100%"></div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240330201200')" title="Notepad">📋</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:700px;width:100%">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'Feedback')" title="Feedback">💌</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP board reserved
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; ;max-width: 700px;width:100%">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240416213800')" title="Node Maker">🍞</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:right;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;max-width:350px; overflow-y:auto">
+        </div>
+      </div>
+    </span>
+
+
+
+  </div>
+  <hide><!--New Panel Template-->
+    <div id="NewPanelTemplate">
+
+      <div control style="padding:0px 3px 2px 2px;">
+        <a class="mbbutton" onClick="IFrameURLSet(this)" title="Jquery Blogspot (Legacy)">🕰️</a>
+        <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;" inputmode="search">
+
+        <a class="mbbutton" onClick="JQAdd(this,true)" title="Jquery GitHub">🐣</a>
+        <!--<a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board">🥨</a>-->
+
+        <a class="mbbutton" onclick="ShowNext(this)" style="float:right;" title="Panel Control">🍞</a>
+        <div class="mbscroll mbhide" control
+          style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">
+
+          <div control style="text-align: center;min-width:125px;font-size: 22px;">
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🔍</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'800000000000',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P800000000000">🔍 Search</a><br>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202405051137',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202405051137">☎️ Help Center</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'Feedback');HC(this);return false;"
+                target="_blank" title="Feedback"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">💟
+                Feedback</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202207131009',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202207131009">🧸 Board Games</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202208172056',false, true);HC(this);return false;" title="Calendar"
+                href="./?id=P202208172056">:?: About</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202403231454',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202403231454">🎓 Academy</a><br>
+
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🐤</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'900000000000',false, true);HC(this);return false;" title="Quest Board"
+                href="./?id=P900000000000">🎪 Quest Board</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202310072314',false, true);HC(this);return false;" title="Calendar"
+                href="./?id=P202310072314">📅 Calendar</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202207242047',false, true);HC(this);return false;" title="Roll Call">📯 Roll
+                Call</a><br>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202404260005',false, true);HC(this);return false"
+                title="Message Scanner" href="./?id=P202404260005">🔔 Messages</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202301251008',false, true);HC(this);return false;" title="Scoreboard"
+                href="./?id=P202301251008">👑 Scoreboard</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202405010908',false, true);HC(this);return false;" title="Guild Inbox"
+                href="./?id=P202405010908">📬 Guild Inbox</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202307161350',false, true);HC(this);return false;" title="Dice Roller"
+                href="./?id=P202307161350">🎲 Dice Roller</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202303191144',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202303191144">🛒 Supplies List</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="Offline(null,true);" title="Offline Mode">🎒
+                Offline Mode</a>
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🤎</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onClick="PanelAddBefore(this);HC(this);" title="Add a panel before">🤎 Add
+                Before</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelAddAfter(this);HC(this);" title="Add a panel after">🤎 Add
+                After</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelToggleServe(this);HC(this);"
+                title="Serve nodes to this panel">🥞 Serve Here</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelToggleWidth(this);HC(this);"
+                title="Toggle the width of this panel">🧇 Toggle Width</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelRemove(this);" title="Close">:Close: Close
+                Panel</a><br>
+              <div class="mbCB"></div>
+              <hr>
+            </hide>
+
+          </div>
+          <div></div><!--DISPLAY AREA-->
+        </div>
+      </div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px"></div>
+    </div>
+  </hide>
+</body>
+<script>
+  function URLViewer() {
+    // 20250711: StarTree: This is a minimum version of URLViewer that does not check the URL parameters.    
+    MacroIcons(document.body);
+    LatestUpdate();
+  };
+  window.onload = URLViewer;
+</script>
+</html>

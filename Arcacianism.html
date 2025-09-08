@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter">
+  <link rel="stylesheet" href="mb.css">
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="mb.js"> </script>
+  <title>Magic Bakery</title>
+  <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+</head>
+<body id="MBJQSW">
+  <div class="header">
+    <div style="text-align: center;line-height:2px;margin-top:-5px">
+      <h4>
+        <!---->
+        <div class="mbIcon mbIconShift"
+          style="background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/WingL.png')">
+        </div>
+        <a class="mbpointer" title="About Magic Bakery" href="../" style="color:white;"
+          onclick="BoardLoadPF(this,'202208172056');return false">Magic Bakery</a>
+        <a class="mbbutton mbpointer" title="Visit Marker" onclick="NodeMarkUseCookie(this,true)"><span class="mbIcon"
+            style="Height:1.7em;Width:1.7em;position:relative;top:-5px;margin-bottom:-10px;background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png')">
+            <icon>🥨</icon>
+          </span></a>
+        <a class="mbpointer" title="About Panarcademy" href="../?id=P202403231454" style="color:white;"
+          onclick="BoardLoadPL(this,'202403231454');return false">Panarcademy</a>
+        <div class="mbIcon"
+          style="background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/WingR.png')">
+        </div>
+
+
+
+
+      </h4>
+
+      <small style="font-size: 10px;">
+        <a class="mbpointer" title="Website Updates" href="../?id=P202303052122" style="color:white;"
+          onclick="BoardLoadPF(this,'202303052122');return false">
+          <latestupdate>20250711</latestupdate>
+        </a>
+        <a class="mbpointer" title="Turn off Offline mode" d-offline onclick="Offline(null,true)"
+          style="color:gold"></a>
+      </small>
+    </div>
+    <hide>Arcacianism | Arcacian Principle | Let people help each other and reward those who do. | Peacemaker | Peace
+      Paradigm Ranking</hide>
+
+  </div>
+  <!--IMPORT POST-RENDER MAINAREA BELOW-->
+<div id="MainArea" main="" class="flex" style="padding-bottom:27px;padding-top:35px;justify-content:center;"><div class="mbPanel" panel="" serve="" style="flex: 1 1 50%;">
+      
+      <div control="" style="padding:0px 3px 2px 2px;">
+        <a class="mbbutton" onclick="IFrameURLSet(this)" title="Jquery Blogspot (Legacy)" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/MantleClock.png&quot;)"><icon>🕰️</icon></span></a>
+        <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;" inputmode="search"> 
+        
+        <a class="mbbutton" onclick="JQAdd(this,true)" title="Jquery GitHub" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span></a>
+        <!--<a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board"><span class='mbIcon' style='background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png&quot;)'><icon>🥨</icon></span></a>-->
+        
+        <a class="mbbutton" onclick="ShowNext(this)" style="float: right; cursor: text;" title="Panel Control"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pancake.png&quot;)"><icon>🥞</icon></span></a>
+        <div class="mbscroll mbhide" control="" style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">          
+          
+          <div control="" style="text-align: center;min-width:125px;font-size: 22px;">
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span></button>
+            <hide>              
+              <hr>    
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'800000000000',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P800000000000" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span> Search</a><br>    
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202405051137',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202405051137" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Phone.png&quot;)"><icon>☎️</icon></span> Help Center</a><br>    
+                       
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'Feedback');HC(this);return false;" target="_blank" title="Feedback" href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span> Feedback</a><br>  
+
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202207131009',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202207131009" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Teddy.png&quot;)"><icon>🧸</icon></span> Board Games</a><br>   
+                
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202208172056',false, true);HC(this);return false;" title="Calendar" href="./?id=P202208172056" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Question.png&quot;)"><icon>:?:</icon></span> About</a><br>   
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202403231454',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202403231454" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/SquareCap.png&quot;)"><icon>🎓</icon></span> Academy</a><br>  
+                                                              
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Chick.png&quot;)"><icon>🐤</icon></span></button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'900000000000',false, true);HC(this);return false;" title="Quest Board" href="./?id=P900000000000" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Circus.png&quot;)"><icon>🎪</icon></span> Quest Board</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202310072314',false, true);HC(this);return false;" title="Calendar" href="./?id=P202310072314" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Calendar.png&quot;)"><icon>📅</icon></span> Calendar</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202207242047',false, true);HC(this);return false;" title="Roll Call" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/PostHorn.png&quot;)"><icon>📯</icon></span> Roll Call</a><br> 
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202404260005',false, true);HC(this);return false" title="Message Scanner" href="./?id=P202404260005" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Bell.png&quot;)"><icon>🔔</icon></span> Messages</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202301251008',false, true);HC(this);return false;" title="Scoreboard" href="./?id=P202301251008" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Crown.png&quot;)"><icon>👑</icon></span> Scoreboard</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202405010908',false, true);HC(this);return false;" title="Guild Inbox" href="./?id=P202405010908" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Mailbox.png&quot;)"><icon>📬</icon></span> Guild Inbox</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202307161350',false, true);HC(this);return false;" title="Dice Roller" href="./?id=P202307161350" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Dice.png&quot;)"><icon>🎲</icon></span> Dice Roller</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202303191144',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202303191144" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ShoppingCart.png&quot;)"><icon>🛒</icon></span> Supplies List</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="Offline(null,true);" title="Offline Mode" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Backpack.png&quot;)"><icon>🎒</icon></span> Offline Mode</a>
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span></button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onclick="PanelAddBefore(this);HC(this);" title="Add a panel before" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span> Add Before</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelAddAfter(this);HC(this);" title="Add a panel after" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span> Add After</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelToggleServe(this);HC(this);" title="Serve nodes to this panel" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pancake.png&quot;)"><icon>🥞</icon></span> Serve Here</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelToggleWidth(this);HC(this);" title="Toggle the width of this panel" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Waffle.png&quot;)"><icon>🧇</icon></span> Toggle Width</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelRemove(this);" title="Close" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Close.png&quot;)"><icon>:Close:</icon></span> Close Panel</a><br>
+              <div class="mbCB"></div>
+              <hr>
+            </hide>
+            
+          </div>
+          <div></div><!--DISPLAY AREA-->
+        </div>
+      </div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px"><div class="mbscroll" board="202208201022" style="margin-bottom: 0px;"><div control=""><span class="mbRef"><a class="mbbutton" onclick="BoardRemove(this)" style="float:right" title="Close"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Close.png&quot;)"><icon>:Close:</icon></span></a></span></div><span><span class="mbDayHeader"></span><span style="display: inline-block;"><a class="mbbuttonIn" href="./?id=P202208201022" onclick="BoardLoad(this,'202208201022');return false;" title="Show 202208201022"><span class="mbBoardIcon"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBeat.png&quot;)"><icon>💗</icon></span></span></a><hide>202208201022</hide></span>&nbsp;<a class="mbbutton" onclick="ShowBothInline(this)">Arcacianism</a><span class="mbDayContent"><span class="mbRef" title="202208201022"><a class="mbbutton" onclick="Music('SoraArcacia_Loop')" title="Play theme music"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Headphone.png&quot;)"><icon>🎧</icon></span></a> <a class="mbbutton" onclick="ClipboardAlert('202208201022')" title="202208201022 [1]"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Archive1.png&quot;)"><icon>:Archive1:</icon></span></a>&nbsp;</span><span class="mbbutton mbRef"><span style="display: inline-block;"><a class="mbbuttonIn" href="./?id=P202409271001" onclick="BoardLoad(this,'202409271001');return false;" title="Guild Node"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png&quot;)"><icon>🥨</icon></span></a><hide>202409271001</hide></span>&nbsp;</span><button class="mbbutton mbRef" style="opacity:0.2" title="Toggle Size" onclick="BoardToggleHeight(this)">½</button><div class="mbCB"></div><hr><div>
+    <div style="max-width: 100%;"><img src="https://raw.githubusercontent.com/MagicBakery/Images/refs/heads/main/Arcacian%20Principle%2020221015-2.png" style="border:0px;border-radius:10px"></div>
+  </div><div class="mbCB"></div><div banner=""></div><div cardmat="" class="mbCardMat"><div class="mbCardMatText"><a class="mbbutton" onclick="AuthorButton(this)" style="clear:right;position:relative;z-index:1"><div class="mbav100r mbArcacia"></div></a>
+    <div class="mbpdc"><b>Arcacianism</b> is a moral view defined by its main principle of "letting people help each other and reward those who do". Arcacian values let people help voluntarily without using laws or social pressures to force them to help. Its values are compatible with autonomy, volunteerism, and freedom of association. How far can this go?</div>
+    <div class="mbscroll mbCL" dts="20250702223030" topic=""><div class="mbbutton" onclick="ShowNext(this)"><div class="mbTopicIcon"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Chick.png&quot;)"><icon>🐤</icon></span></div>Everyday Uses</div><hide class="mbSearch"><hr class="mbhr"><hr class="mbhide">
+      <mbnote dts="20250702223827"><a class="mbbutton" onclick="ShowNextInline(this)">[ <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span>  About]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+        <span dts="20250702223914" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mb3B"><div class="mbavXP" d-xpicon="" icon="🐣"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">3B</a>: How do you use the Arcacian Principle? How does it help?</span>
+      <div class="mbCB"></div></div></hide></mbnote>
+      <mbnote dts="20250702230539"><a class="mbbutton" onclick="ShowNextInline(this)">[<span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span>]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+        <span dts="20250702230648" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mbLRRH"><div class="mbavXP" d-xpicon="" icon="🐤"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Chick.png&quot;)"><icon>🐤</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">LRRH</a>: Using this at 1-star could mean letting people help you, and letting people help each other in ways that they want even if you wouldn't want it in the same situation.</span>
+        <span dts="20250702232056" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="🗝️"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Key.png&quot;)"><icon>🗝️</icon></span></small><span class=""></span><div class="mbavem mbLRRH"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">LRRH</a>: Lower your defense to criticisms and be able to see that people who bother to give feedback, even if unsolicited, are likely trying to help you.</hide></span>
+        <mbnote dts="20250702232425"><a class="mbbutton" onclick="ShowNextInline(this)">[ <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span>  Aim to Help]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+          <span dts="20250702232440" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mbCasey"><div class="mbavXP" d-xpicon="" icon="🧭"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Compass.png&quot;)"><icon>🧭</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">Casey</a>: When you try to do something, make sure that you are trying to help everyone involved.</span>
+        <div class="mbCB"></div></div></hide></mbnote>
+      <div class="mbCB"></div></div></hide></mbnote>
+      <mbnote dts="20250702224052"><a class="mbbutton" onclick="ShowNextInline(this)">[<span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span>]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+        <span dts="20250702224120" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mbBlack"><div class="mbavXP" d-xpicon="" icon="🗝️"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Key.png&quot;)"><icon>🗝️</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">Black</a>: I don't know if this counts as everyday use, but disputes often have a pattern where someone is trying to help but is kept from being allowed to help.</span>
+        <span dts="20250702224617" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="🔍"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span></small><span class=""></span><div class="mbavem mbSkyle"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Skyle</a>: A mother is stressing out because they have too much to do for the kids, instead of shifting toward letting the kids take care of themselves.</hide></span>
+      <div class="mbCB"></div></div></hide></mbnote>
+      <mbnote dts="20250702224958"><a class="mbbutton" onclick="ShowNextInline(this)">[<span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span>]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+        <span dts="20250702225020" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mbLRRH"><div class="mbavXP" d-xpicon="" icon="🌟"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ShiningStar.png&quot;)"><icon>🌟</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">LRRH</a>: If you find something worth doing, you make the quest for people to join and participate, instead of trying to do it all by yourself or keep people from taking part.</span>
+        <hr>
+        <mbnote dts="20250702232808"><a class="mbbutton" onclick="ShowNextInline(this)">[ <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span>  Act with Love]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+          <span dts="20250702232818" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mbSasha"><div class="mbavXP" d-xpicon="" icon="💗"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBeat.png&quot;)"><icon>💗</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">Sasha</a>: See the better selves of others and let your better self help their better selves.</span>
+        <div class="mbCB"></div></div></hide></mbnote>
+        <mbnote dts="20250702232843"><a class="mbbutton" onclick="ShowNextInline(this)">[ <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span>  Act with Humbleness]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+          <span dts="20250702232901" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mbEvelyn"><div class="mbavXP" d-xpicon="" icon="🐣"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">Evelyn</a>: If immediate agreement is not reached, but you believe that your deed is necessary, aim for eventual understanding and apologize, and be humble for the possibility of your error in judgement.</span>
+        <div class="mbCB"></div></div></hide></mbnote>
+      <div class="mbCB"></div></div></hide></mbnote>
+      <mbnote dts="20250702225352"><a class="mbbutton" onclick="ShowNextInline(this)">[<span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span>]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+        <span dts="20250702225409" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mbEvelyn"><div class="mbavXP" d-xpicon="" icon="🔍"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">Evelyn</a>: This principle can normally be 4-star because the reward helps convince those who would be reluctant to act.</span>
+      <div class="mbCB"></div></div></hide></mbnote>
+      <mbnote dts="20250702225549"><a class="mbbutton" onclick="ShowNextInline(this)">[<span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png&quot;)"><icon>⭐</icon></span>]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+        <span dts="20250702225709" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mbEvelyn"><div class="mbavXP" d-xpicon="" icon="💗"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBeat.png&quot;)"><icon>💗</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">Evelyn</a>: Using Arcacian Principle at 5-star could mean first identifying what the hostile person is trying to help, then help them on that without harming anyone else.</span>
+        <span dts="20250702225840" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="🚪"><small d-xpicon="">🚪</small><span class=""></span><div class="mbavem mbEvelyn"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Evelyn</a>: This applies to situations where their intention is not to do harm, but someone is an obstacle so they try to destroy the obstacle.</hide></span>
+        <span dts="20250702230039" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="🗝️"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Key.png&quot;)"><icon>🗝️</icon></span></small><span class=""></span><div class="mbavem mbEvelyn"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Evelyn</a>: If you can help them complete the task from the other side then they don't need to destroy the obstacle.</hide></span>
+        <span dts="20250702230121" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="💗"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBeat.png&quot;)"><icon>💗</icon></span></small><span class=""></span><div class="mbavem mbEvelyn"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Evelyn</a>: The skill needed is to look beyond what they are doing to the obstacle, and see what they are trying to do after the obstacle is removed.</hide></span>
+        <hr>
+        <mbnote dts="20250702231314"><a class="mbbutton" onclick="ShowNextInline(this)">[ <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/PostHorn.png&quot;)"><icon>📯</icon></span>  Recruiting]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+          <span dts="20250702231333" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mbBlack"><div class="mbavXP" d-xpicon="" icon="🦉"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Owl.png&quot;)"><icon>🦉</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">Black</a>: Arcacian Principle has a 5-star use in recruiting helpers to counter a bad actor.</span>
+          <span dts="20250702231631" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="⚡"><small d-xpicon="">⚡</small><span class=""></span><div class="mbavem mbBlack"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Black</a>: It is an indirect 5-star use because it recruits people who would be reluctant to help without a reward, but the result affects the bad actor, and could prevent them from trying.</hide></span>
+        <div class="mbCB"></div></div></hide></mbnote>
+      <div class="mbCB"></div></div></hide></mbnote>
+      <hr>
+    <div class="mbCB"></div></hide></div>
+    <div class="mbscroll mbCL" dts="20250702232015" topic=""><div class="mbbutton" onclick="ShowNext(this)"><div class="mbTopicIcon"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Compass.png&quot;)"><icon>🧭</icon></span></div>Principle</div><hide class="mbSearch"><hr class="mbhr"><hr class="mbhide">
+      <mbnote dts="20250702232335"><a class="mbbutton" onclick="ShowNextInline(this)">[ <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Compass.png&quot;)"><icon>🧭</icon></span>  About]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+        <span dts="20250702232247" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mb3B"><div class="mbavXP" d-xpicon="" icon="🧭"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Compass.png&quot;)"><icon>🧭</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">3B</a>: This section is for people who wants to examine the meaning of the principle deeper.</span>
+      <div class="mbCB"></div></div></hide></mbnote>      
+      <mbnote dts="20250702232951"><a class="mbbutton" onclick="ShowNextInline(this)">[ <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Key.png&quot;)"><icon>🗝️</icon></span>  Key Views]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+        <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span> Helping others is not a duty but an honorable virtue<br>
+        <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span> Being allowed to help one's self or to accept help is a basic human right<br>
+        <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span> Preventing people from helping each others is a crime against humanity<br>
+      <div class="mbCB"></div></div></hide></mbnote>
+      <mbnote dts="20250702233358"><a class="mbbutton" onclick="ShowNextInline(this)">[ <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Chick.png&quot;)"><icon>🐤</icon></span>  Intro]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+        <span style="display: inline-block;"><a class="mbbuttonIn" href="./?id=P202209222118 " onclick="BoardLoad(this,'202209222118 ');return false;" title="Show 202209222118 ">🥕 Carrot Cake of Peace</a><hide>202209222118 </hide></span><br>
+        <span style="display: inline-block;"><a class="mbbuttonIn" href="./?id=P202210102204 " onclick="BoardLoad(this,'202210102204 ');return false;" title="Show 202210102204 ">🧪 Principle of Trial</a><hide>202210102204 </hide></span><br>
+      <div class="mbCB"></div></div></hide></mbnote>
+      <mbnote dts="20250702235942"><a class="mbbutton" onclick="ShowNextInline(this)">[ <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Gift.png&quot;)"><icon>🎁</icon></span>  Infrastructure]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+        <span dts="20250702235959" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mbArcacia"><div class="mbavXP" d-xpicon="" icon="💗"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBeat.png&quot;)"><icon>💗</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">Arcacia</a>: This principle doesn't mean you need any system to implement. Each person may do it separately in their own way.</span>
+        <span dts="20250703000332" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="🎁"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Gift.png&quot;)"><icon>🎁</icon></span></small><span class=""></span><div class="mbavem mbArcacia"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Arcacia</a>: But having a system could help people share kudos and coordinate the rewards.</hide></span>
+
+      <div class="mbCB"></div></div></hide></mbnote>
+      <mbnote dts="20250703000641"><a class="mbbutton" onclick="ShowNextInline(this)">[ <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Wood.png&quot;)"><icon>🪵</icon></span>  Challenges]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+        <span dts="20250703000714" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mb3B"><div class="mbavXP" d-xpicon="" icon="🪵"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Wood.png&quot;)"><icon>🪵</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">3B</a>: I think most people don't have an issue with the first half, but many would object the second half thinking that helping shouldn't be for a reward. Is there an explanation?</span>
+        <hr>
+        <mbnote dts="20250703000957"><a class="mbbutton" onclick="ShowNextInline(this)">[ <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBeat.png&quot;)"><icon>💗</icon></span>  Choice]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+          <span dts="20250703001011" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mbArcacia"><div class="mbavXP" d-xpicon="" icon="💗"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBeat.png&quot;)"><icon>💗</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">Arcacia</a>: There are different ways and principles to live by. This principle is not something that people should agree on.</span>
+          <span dts="20250703001102" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="🌱"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Seeding.png&quot;)"><icon>🌱</icon></span></small><span class=""></span><div class="mbavem mbArcacia"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Arcacia</a>: It is just a choice. It is phrased this way because without the second part, people tend to take helpers for granted and burn them out.</hide></span>
+          <span dts="20250703001447" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="🐣"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span></small><span class=""></span><div class="mbavem mbArcacia"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Arcacia</a>: It is not uncommon for a herlper to think that they have to prove that they are alturistic and must give up everything to help others.</hide></span>
+          <span dts="20250703001558" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="💗"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBeat.png&quot;)"><icon>💗</icon></span></small><span class=""></span><div class="mbavem mbArcacia"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Arcacia</a>: In a kind world, the purpose is not for anyone to prove their worth. The world itself is the gift, the intention is for people to be happy. No one needs to burn themself out to help other people.</hide></span>
+          <span dts="20250703001753" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="🐣"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span></small><span class=""></span><div class="mbavem mbArcacia"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Arcacia</a>: If someone things that people who help others should not be rewarded, there could be a concern whether they are going to hard on themselves.</hide></span>
+        <div class="mbCB"></div></div></hide></mbnote>
+        //
+        <mbnote dts="20250703002304"><a class="mbbutton" onclick="ShowNextInline(this)">[ <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Wood.png&quot;)"><icon>🪵</icon></span>  Unwilling]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+          <span dts="20250703002320" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mb3B"><div class="mbavXP" d-xpicon="" icon="🪵"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Wood.png&quot;)"><icon>🪵</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">3B</a>: What about people who are unwilling to adopt the principle because it tells them to reward helpers? Is there an approach of persuasion?</span>
+          <hr>
+          <mbnote dts="20250703002521"><a class="mbbutton" onclick="ShowNextInline(this)">[ <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span>  Who else?]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+            <span dts="20250703002611" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mbArcacia"><div class="mbavXP" d-xpicon="" icon="🐣"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">Arcacia</a>: If your vocabulary has the word "reward", who do you want to reward instead?</span>
+            <span dts="20250703002717" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="🐣"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span></small><span class=""></span><div class="mbavem mbArcacia"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Arcacia</a>: Do you want to reward no one, or reward people who don't help others?</hide></span>
+            <span dts="20250703003244" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="🐣"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span></small><span class=""></span><div class="mbavem mbArcacia"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Arcacia</a>: What principle do you follow?</hide></span>
+          <div class="mbCB"></div></div></hide></mbnote>
+          <mbnote dts="20250703003439"><a class="mbbutton" onclick="ShowNextInline(this)">[ <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/JarStars.png&quot;)"><icon>:JarStars:</icon></span>  Honor]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+            <span dts="20250703003448" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mbEvelyn"><div class="mbavXP" d-xpicon="" icon=":JarStars:"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/JarStars.png&quot;)"><icon>:JarStars:</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">Evelyn</a>: The explanation that works for me is that the "reward" in Quest Society could be just quest credits. If you don't spend it, you are not taking anything away from anyone, and you could also just help anonymously and report when it is done.</span>
+            <span dts="20250703003724" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="🐣"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span></small><span class=""></span><div class="mbavem mbLRRH"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">LRRH</a>: But if someone helped you, by default would you feel that you need to reward them?</hide></span>
+            <span dts="20250703003817" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="💟"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span></small><span class=""></span><div class="mbavem mbEvelyn"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Evelyn</a>: I think gratitude doesn't count as reward and by default I don't feel that I should "reward" them.</hide></span>
+            <span dts="20250703003928" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="🔍"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span></small><span class=""></span><div class="mbavem mbEvelyn"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Evelyn</a>: I think if you try to reward people who help you, it creates distance as if you want to forget that they have helped you.</hide></span>
+            <span dts="20250703004054" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="💟"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span></small><span class=""></span><div class="mbavem mbEvelyn"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Evelyn</a>: But the way Quest Society implements it, it is feels like the opposite because the credit becomes a permanent kudo. Instead of ending the connection, it saves the connection forever.</hide></span>
+            <span dts="20250703004332" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="💟"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span></small><span class=""></span><div class="mbavem mbArcacia"></div> <small><b>2</b></small> </button><hide><a class="mbbutton" onclick="MsgContext(this)">Arcacia</a><b> thanks Evelyn:</b> I didn't phrase it as honor because if I just put honor, people would misinterpret it to mean it is wrong for the helpers to be reimbursed or be rewarded. And they get taken for granted.</hide></span>
+            <span dts="20250703004512" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="🥚"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Egg.png&quot;)"><icon>🥚</icon></span></small><span class=""></span><div class="mbavem mbArcacia"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Arcacia</a>: There could be a better way to express all of these concisely, but if I have to choose I would priorities making sure that the system compensate and reward the helpers.</hide></span>
+            <span dts="20250703004804" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="🎯"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Target.png&quot;)"><icon>🎯</icon></span></small><span class=""></span><div class="mbavem mbZoey"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Zoey</a>: The principle makes a lot more sense when the target audience is a system/rules designer. It sounds really unfair if you try to make it into law that "helpers should not be rewarded."... It would turn into a black company. <a class="mbbuttonEx mbURL" onclick="ExURL('https://en.wikipedia.org/wiki/Black_company_(Japan)');return false;" href="https://en.wikipedia.org/wiki/Black_company_(Japan)">[Wiki]</a> XD</hide></span>
+            <span dts="20250703005250" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="💟"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span></small><span class=""></span><div class="mbavem mbEvelyn"></div> <small><b>3</b></small> </button><hide><a class="mbbutton" onclick="MsgContext(this)">Evelyn</a><b> thanks Arcacia, Zoey:</b> I think I agree from that perspective.</hide></span>
+            <span dts="20250703005338" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="🐾"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Paw.png&quot;)"><icon>🐾</icon></span></small><span class=""></span><div class="mbavem mbLRRH"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">LRRH</a>: There is something strange about this discrepency. Why exactly does it feel fine when it is addressed as an advice to an organization, but not when it is address to an individual?</hide></span>
+            <span dts="20250703005618" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="⚖️"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Scale.png&quot;)"><icon>⚖️</icon></span></small><span class=""></span><div class="mbavem mbEvelyn"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Evelyn</a>: I think it is because an organization that is inclusive should not assume that no one wants/needs a reward. So to be inclusive and fair, the organization should offer and make it okay for people to work for a reward. But people are allowed to turn down the offer.</hide></span>
+            <span dts="20250703010212" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="💟"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span></small><span class=""></span><div class="mbavem mbLRRH"></div> <small><b>2</b></small> </button><hide><a class="mbbutton" onclick="MsgContext(this)">LRRH</a><b> thanks Evelyn:</b> Ok.</hide></span>
+          <div class="mbCB"></div></div></hide></mbnote>
+        <div class="mbCB"></div></div></hide></mbnote>
+
+      <div class="mbCB"></div></div></hide></mbnote>
+      <mbnote dts="20250702233421"><a class="mbbutton" onclick="ShowNextInline(this)">[ <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBeat.png&quot;)"><icon>💗</icon></span>  Sister Concepts]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+        <span style="display: inline-block;"><a class="mbbuttonIn" href="./?id=P202208162055" onclick="BoardLoad(this,'202208162055');return false;" title="Show 202208162055"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Camp.png&quot;)"><icon>🏕️</icon></span> Stewardism</a><hide>202208162055</hide></span> | 
+        <span style="display: inline-block;"><a class="mbbuttonIn" href="./?id=P202208170830" onclick="BoardLoad(this,'202208170830');return false;" title="Show 202208170830">🍵 Hospitalianism</a><hide>202208170830</hide></span> | 
+        <span style="display: inline-block;"><a class="mbbuttonIn" href="./?id=P202208181056" onclick="BoardLoad(this,'202208181056');return false;" title="Show 202208181056"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Circus.png&quot;)"><icon>🎪</icon></span> Quest Society</a><hide>202208181056</hide></span>        
+      <div class="mbCB"></div></div></hide></mbnote>
+    <div class="mbCB"></div></hide></div>
+    <mbnote dts="20240508205141"><a class="mbbutton" onclick="ShowNextInline(this)">[ <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Mailbox.png&quot;)"><icon>📬</icon></span>  Inbox]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+      <span dts="20210924000000" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mbArcacia"><div class="mbavXP" d-xpicon="" icon="📌"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pin.png&quot;)"><icon>📌</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">Arcacia</a>: Helping oneself vs helping others <a class="mbbuttonEx mbURL" onclick="ExURL('https://twitter.com/LRRHBakery/status/1441583462910087173');return false;" href="https://twitter.com/LRRHBakery/status/1441583462910087173"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ChatBubble.png&quot;)"><icon>💬</icon></span></a></span>
+      <span dts="20231107124212" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="📌"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pin.png&quot;)"><icon>📌</icon></span></small><span class=""></span><div class="mbavem mbArcacia"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">Arcacia</a>: Contributions <a class="mbbuttonEx mbURL" onclick="ExURL('https://twitter.com/michaelevknight/status/1668794762441158656?t=cIThQyDnfUyV2Hr3fUWkYA&amp;s=19');return false;" href="https://twitter.com/michaelevknight/status/1668794762441158656?t=cIThQyDnfUyV2Hr3fUWkYA&amp;s=19"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ChatBubble.png&quot;)"><icon>💬</icon></span></a></hide></span>
+    <div class="mbCB"></div></div></hide></mbnote>   
+    <mbnote dts="20250702222946"><a class="mbbutton" onclick="ShowNextInline(this)">[ <span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/MantleClock.png&quot;)"><icon>🕰️</icon></span>  Log]</a><hide><small>↴</small><div class="mbNotes"><hr class="mbhide">
+      <span dts="20250702221155" bubble="" parent="null" parentname="null"><div class="mbCL"></div><div class="mbav50e mb3B"><div class="mbavXP" d-xpicon="" icon="🕰️"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/MantleClock.png&quot;)"><icon>🕰️</icon></span></div></div><a class="mbbutton" onclick="MsgContext(this)">3B</a>: Updated the node format. Trying to add a card type that spans the whole width. But it is not working.</span>
+      <span dts="20250702234308" bubble="" parent="null" parentname="null"><button class="mbbutton" onclick="ShowNextInline(this)" exp="1" icon="🧭"><small d-xpicon=""><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Compass.png&quot;)"><icon>🧭</icon></span></small><span class=""></span><div class="mbavem mb3B"></div></button><hide><a class="mbbutton" onclick="MsgContext(this)">3B</a>: Should there be a progress bar to list what to do about Arcacianism / Arcacian Principle as a quest? What are the quest goals?</hide></span>
+    <div class="mbCB"></div></div></hide></mbnote>
+  <hr class="mbCB"><div class="mbRef">
+    <span style="display: inline-block;"><a class="mbbuttonIn" href="./?id=P202208162144" onclick="BoardLoad(this,'202208162144');return false;" title="Show 202208162144"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Scale.png&quot;)"><icon>⚖️</icon></span>Comparisons</a><hide>202208162144</hide></span> 
+    <span style="display: inline-block;"><a class="mbbuttonIn" href="./?id=P202208062355" onclick="BoardLoad(this,'202208062355');return false;" title="Show 202208062355"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Drum.png&quot;)"><icon>🥁</icon></span>Theme Music</a><hide>202208062355</hide></span> 
+    <span style="display: inline-block;"><a class="mbbuttonIn" href="./?id=P202209111200" onclick="BoardLoad(this,'202209111200');return false;" title="Show 202209111200"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBeat.png&quot;)"><icon>💗</icon></span>Arcacian Quest</a><hide>202209111200</hide></span>
+   <span style="display: inline-block;"><a class="mbbuttonIn" href="./?id=P202207161423" onclick="BoardLoad(this,'202207161423');return false;" title="Show 202207161423"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span>Philosophies</a><hide>202207161423</hide></span> <a class="mbbutton" onclick="ShowNextInline(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Tag.png&quot;)"><icon>🏷️</icon></span>Tags</a><hide>: <a class="mbbutton" onclick="QSLBL(this,'[data-ch11]')">Ch11</a>, <a class="mbbutton" onclick="QSLBL(this,'[data-philosophy]')">Philosophy</a></hide> <a class="mbbutton" onclick="QSLBL(this,'[id][date][time][data-202208201022],[id][date][time]:has([data-202208201022])')"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ChatBubble.png&quot;)"><icon>💬</icon></span>Discussions</a> <a class="mbbutton" onclick="NodeEdit(this,'202208201022')"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pencil.png&quot;)"><icon>✏️</icon></span></a></div><div class="mbCB"></div><div class="mbhide mbpuzzle"><button class="mbbutton mbRef" onclick="HideParent(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Close.png&quot;)"><icon>:Close:</icon></span></button><div control=""></div><div class="mbCB mbSearch" qsl="" bl="" style="display:flex;flex-direction: column;"></div><div class="mbCB"></div></div></div></div></span></span><div class="mbCB"></div></div></div>
+    </div></div>
+  <!--IMPORT ABOVE-->
+  <div class="footer" onclick="ShowWidgets()">
+
+
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'90000000000000')" title="Quest Board">🔔</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;  overflow-y:auto;width:100%;max-width: 350px;">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240421014400')" title="Roll Call">📯</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 90vh; overflow-y:auto; max-width: 350px;">
+        </div>
+      </div>
+    </span>
+
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'80000000000000')" title="Search">🔍</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:350px;width:100%">
+        </div>
+      </div>
+    </span>
+
+    <button BB class="mbbutton" onClick="ShowNextFP(this,'20240904213516')" title="Music Player">🎧</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:350px;width:100%"></div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240330201200')" title="Notepad">📋</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:700px;width:100%">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'Feedback')" title="Feedback">💌</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP board reserved
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; ;max-width: 700px;width:100%">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240416213800')" title="Node Maker">🍞</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:right;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;max-width:350px; overflow-y:auto">
+        </div>
+      </div>
+    </span>
+
+
+
+  </div>
+  <hide><!--New Panel Template-->
+    <div id="NewPanelTemplate">
+
+      <div control style="padding:0px 3px 2px 2px;">
+        <a class="mbbutton" onClick="IFrameURLSet(this)" title="Jquery Blogspot (Legacy)">🕰️</a>
+        <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;" inputmode="search">
+
+        <a class="mbbutton" onClick="JQAdd(this,true)" title="Jquery GitHub">🐣</a>
+        <!--<a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board">🥨</a>-->
+
+        <a class="mbbutton" onclick="ShowNext(this)" style="float:right;" title="Panel Control">🍞</a>
+        <div class="mbscroll mbhide" control
+          style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">
+
+          <div control style="text-align: center;min-width:125px;font-size: 22px;">
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🔍</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'800000000000',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P800000000000">🔍 Search</a><br>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202405051137',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202405051137">☎️ Help Center</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'Feedback');HC(this);return false;"
+                target="_blank" title="Feedback"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">💟
+                Feedback</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202207131009',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202207131009">🧸 Board Games</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202208172056',false, true);HC(this);return false;" title="Calendar"
+                href="./?id=P202208172056">:?: About</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202403231454',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202403231454">🎓 Academy</a><br>
+
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🐤</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'900000000000',false, true);HC(this);return false;" title="Quest Board"
+                href="./?id=P900000000000">🎪 Quest Board</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202310072314',false, true);HC(this);return false;" title="Calendar"
+                href="./?id=P202310072314">📅 Calendar</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202207242047',false, true);HC(this);return false;" title="Roll Call">📯 Roll
+                Call</a><br>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202404260005',false, true);HC(this);return false"
+                title="Message Scanner" href="./?id=P202404260005">🔔 Messages</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202301251008',false, true);HC(this);return false;" title="Scoreboard"
+                href="./?id=P202301251008">👑 Scoreboard</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202405010908',false, true);HC(this);return false;" title="Guild Inbox"
+                href="./?id=P202405010908">📬 Guild Inbox</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202307161350',false, true);HC(this);return false;" title="Dice Roller"
+                href="./?id=P202307161350">🎲 Dice Roller</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202303191144',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202303191144">🛒 Supplies List</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="Offline(null,true);" title="Offline Mode">🎒
+                Offline Mode</a>
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🤎</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onClick="PanelAddBefore(this);HC(this);" title="Add a panel before">🤎 Add
+                Before</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelAddAfter(this);HC(this);" title="Add a panel after">🤎 Add
+                After</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelToggleServe(this);HC(this);"
+                title="Serve nodes to this panel">🥞 Serve Here</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelToggleWidth(this);HC(this);"
+                title="Toggle the width of this panel">🧇 Toggle Width</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelRemove(this);" title="Close">:Close: Close
+                Panel</a><br>
+              <div class="mbCB"></div>
+              <hr>
+            </hide>
+
+          </div>
+          <div></div><!--DISPLAY AREA-->
+        </div>
+      </div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px"></div>
+    </div>
+  </hide>
+</body>
+<script>
+  function URLViewer() {
+    // 20250711: StarTree: This is a minimum version of URLViewer that does not check the URL parameters.    
+    MacroIcons(document.body);
+    LatestUpdate();
+  };
+  window.onload = URLViewer;
+</script>
+</html>
