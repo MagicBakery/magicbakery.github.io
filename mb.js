@@ -455,8 +455,6 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     // 20240909: StarTree: If the node is a profile, Show the avatar. 
     if(elRecord.hasAttribute("data-profile")){
       //mHTMLInner += RenderAvXP(mJSON.author,"","","","");
-
-
       mHTMLInner += "<div style=\"float:left;margin-right:5px;margin-bottom:-5px;\"><div class=\"mbav50tp mb"+mJSON.author+"\" >";
       //mHTMLInner += "<lnk>" + mJSON.id + "|" + mJSON.icon +"</lnk>";
       mHTMLInner += "</div></lnk></div>";
@@ -484,8 +482,6 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       mHTMLInner += " mbhide";
     }
     mHTMLInner += "'>";     
-
-    
     
     // 20240105: Natalie: If there is no music link, still need the link to the node.
     mHTMLInner += Pin2Code(mJSON);
@@ -506,6 +502,8 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     if(NotBlank(elBanner)){
       mHTMLInner += "<div>" + elBanner.innerHTML + "</div><div class='mbCB'></div>";
     }
+    // 20250907: StarTree: Add a hidden Title for AI.
+    mHTMLInner += "<hide><title>"+mJSON.title+"</title></hide>";
 
     // CARD / Gallery Section
     var mCardList = ResCardList(elRecord);
