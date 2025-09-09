@@ -429,7 +429,6 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   var elBanner; try{elBanner = elRecord.querySelector('banner');}catch(error){}        
   var elContent = elRecord.querySelector('content');
 
-
   var elNode = elRecord.querySelector('node');
   var mNodeID = "";
   //var mProfile = Default(elRecord.getAttribute("data-Profile"),"");
@@ -489,12 +488,10 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     // 20240912: StarTree: If a node is a help node, show a handshake icon.
     mHTMLInner += NodeTypeHTML(elRecord);
 
+    // 20250909: StarTree: Adding a save button to help export content for static HTML pages.
+    mHTMLInner += "<button class='mbbutton mbRef' title='Copy Text for AI' onclick='CopyTextForAI(this)'>💾</button>";
 
-
-    mHTMLInner += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>½</button>"
-
-
-    
+    mHTMLInner += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>½</button>";
 
     mHTMLInner += "<div class='mbCB'></div><hr>";
 
@@ -579,7 +576,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     
     // REF SECTION
     if(!IsBlank(elRef)){
-      mHTMLInner += "<hr class='mbCB'><div class='mbRef";
+      mHTMLInner += "<hr class='mbCB'><div Footer class='mbRef";
       mHTMLInner += "'>";
       
       // STEP: Include custom reference links.
@@ -1001,6 +998,105 @@ function ChatNodeContent(elAttr,mJSON){
 
   
   return mHTMLInner;
+}
+function CopyTextForAI(elThis){
+  // 20250909: Sasha: Copy the text of a node for AI.
+  var elBoard = SearchPS(elThis,"board").cloneNode(true);
+
+  // Get the Title
+  var mTitle = elBoard.querySelector('title');
+  var mHTML = "<title>" + mTitle.innerText + "</title>";
+  
+  // Skip to the part that is needed:
+  var elCopy = elBoard.querySelector('.mbCardMatText');
+  elCopy.firstElementChild.remove();
+
+  // REMOVE all HR
+  elements = elCopy.querySelectorAll('hr');
+  elements.forEach(el => el.remove());
+  
+  // REMOVE all onclick
+  elements = elCopy.querySelectorAll('[onclick]');
+  elements.forEach(el => el.removeAttribute('onclick'));
+  // REMOVE ALL d-xpicon
+  elements = elCopy.querySelectorAll('[d-xpicon]');
+  elements.forEach(el => el.remove());
+  // REMOVE any remaining class
+  elements = elCopy.querySelectorAll('[class]');
+  elements.forEach(el => el.removeAttribute('class'));
+
+  // REMOVE ALL UNREADABLE Links
+  elements = elCopy.querySelectorAll('a[href^="./?id=P"]');
+  elements.forEach(el => el.remove());
+
+  
+  // REMOVE all <SPAN><HIDE>
+  elements = elCopy.querySelectorAll('span');
+  elements.forEach(span => {if (span.querySelector('hide')) {span.remove();}});
+  // REMOVE <SPAN><ICON>
+  elements.forEach(span => {
+    // Check if the first child is an <icon> element
+    const firstChild = span.firstElementChild;
+    if (firstChild && firstChild.tagName.toLowerCase() === 'icon') {
+      // Replace the entire span with the text inside the <icon>
+      const text = firstChild.textContent || '';
+      const textNode = document.createTextNode(text);
+      span.replaceWith(textNode);
+    }
+  });
+  // REMOVE ALL Blank Div
+  elements = elCopy.querySelectorAll('div');
+  elements.forEach(div => {
+    // Check if div has no child elements and trimmed textContent is empty
+    if (!div.hasChildNodes() || div.textContent.trim() === '') {
+      div.remove();
+    }
+  });
+  // REPLACE all bubbles with p
+  elements = elCopy.querySelectorAll('span[bubble]');
+  elements.forEach(span => {
+    const p = document.createElement('p');    
+    p.innerHTML = span.innerHTML;
+    span.replaceWith(p);
+  });
+
+
+  // REMOVE all remaining attributes
+  function removeAttributesFromElements(elements, attributes) {
+    elements.forEach(el => {
+      attributes.forEach(attr => el.removeAttribute(attr));
+    });
+  };
+  elements = elCopy.querySelectorAll('div');
+  removeAttributesFromElements(elements, ['class', 'dts', 'style', 'title']);
+  elements = elCopy.querySelectorAll('span');
+  removeAttributesFromElements(elements, ['class', 'dts', 'style', 'title']);
+  
+  // 
+  function removeLinesContainingChar(text, char) {
+    return text
+      .split('\n')
+      .filter(line => !line.includes(char))
+      .join('\n');
+  }
+
+  // OUTPUT
+  mHTML += elCopy.innerHTML
+  mHTML = mHTML.replace(/^\s*[\r\n]/gm, '');// Remove all blank lines
+  mHTML = mHTML.replace(/<\/?hide>/g, ''); // Remove all <hide> tags
+  mHTML = mHTML.replace(/<a>(.*?)<\/a>/g, '<b>$1</b>');
+  mHTML = removeLinesContainingChar(mHTML,'↴')
+  navigator.clipboard.writeText(mHTML);
+
+  return;
+  var mHTML = elBoard.textContent
+              .split('\n')
+              .filter(line => line.trim() !== '')  // ignore empty lines
+              .map(line => `<p>${line.trim()}</p>`)
+              .join('');
+
+  
+  navigator.clipboard.writeText(mHTML);
 }
 function Pin2Code(mJSON){
   // 20240405: StarTree: Creates the HTML for the node pin.
