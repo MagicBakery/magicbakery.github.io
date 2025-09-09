@@ -500,7 +500,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       mHTMLInner += "<div>" + elBanner.innerHTML + "</div><div class='mbCB'></div>";
     }
     // 20250907: StarTree: Add a hidden Title for AI.
-    mHTMLInner += "<hide><title>"+mJSON.title+"</title></hide>";
+    mHTMLInner += "<hide><h1>"+mJSON.title+"</h1></hide>";
 
     // CARD / Gallery Section
     var mCardList = ResCardList(elRecord);
@@ -1003,14 +1003,13 @@ function CopyTextForAI(elThis){
   // 20250909: Sasha: Copy the text of a node for AI.
   var elBoard = SearchPS(elThis,"board").cloneNode(true);
 
-  // Get the Title
-  var mTitle = elBoard.querySelector('title');
-  var mHTML = "<title>" + mTitle.innerText + "</title>";
+  
   
   // Skip to the part that is needed:
   var elCopy = elBoard.querySelector('.mbCardMatText');
   elCopy.firstElementChild.remove();
 
+  
   // REMOVE all HR
   elements = elCopy.querySelectorAll('hr');
   elements.forEach(el => el.remove());
@@ -1028,6 +1027,11 @@ function CopyTextForAI(elThis){
   // REMOVE ALL UNREADABLE Links
   elements = elCopy.querySelectorAll('a[href^="./?id=P"]');
   elements.forEach(el => el.remove());
+
+  // REMOVE ALL first child of mbNode
+  elements = elCopy.querySelectorAll('mbnote');
+  elements.forEach(el => el.firstChild.remove());
+  
 
   
   // REMOVE all <SPAN><HIDE>
@@ -1071,21 +1075,25 @@ function CopyTextForAI(elThis){
   removeAttributesFromElements(elements, ['class', 'dts', 'style', 'title']);
   elements = elCopy.querySelectorAll('span');
   removeAttributesFromElements(elements, ['class', 'dts', 'style', 'title']);
+  elements = elCopy.querySelectorAll('mbnote');
+  removeAttributesFromElements(elements, ['class', 'dts', 'style', 'title']);
   
   // 
-  function removeLinesContainingChar(text, char) {
-    return text
-      .split('\n')
-      .filter(line => !line.includes(char))
-      .join('\n');
-  }
+  
 
   // OUTPUT
+  // Get the Title
+  var mTitle = elBoard.querySelector('h1');
+  var mHTML = "<div class='mbscroll'><h1>" + mTitle.innerText + "</h1><hr>";
   mHTML += elCopy.innerHTML
   mHTML = mHTML.replace(/^\s*[\r\n]/gm, '');// Remove all blank lines
   mHTML = mHTML.replace(/<\/?hide>/g, ''); // Remove all <hide> tags
-  mHTML = mHTML.replace(/<a>(.*?)<\/a>/g, '<b>$1</b>');
-  mHTML = removeLinesContainingChar(mHTML,'↴')
+  //mHTML = mHTML.replace(/<a>(.*?)<\/a>/g, '<b>$1</b>');
+  mHTML = mHTML.replace(/<a>(.*?)<\/a>: /g, '');
+  mHTML = mHTML.replace(/<small>↴<\/small>/g, '');
+  mHTML = mHTML.replace(/<mbnote>\s*<div>/g, '');
+  mHTML = mHTML.replace(/<\/div>\s*<\/mbnote>/g, '');
+  mHTML+= "</div>";
   navigator.clipboard.writeText(mHTML);
 
   return;
