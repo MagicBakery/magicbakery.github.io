@@ -10,97 +10,394 @@
   <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
 </head>
 <body id="MBJQSW">
+  <div class="header">
+    <div style="text-align: center;line-height:2px;margin-top:-5px">
+      <h4>
+        <!---->
+        <div class="mbIcon mbIconShift"
+          style="background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/WingL.png')">
+        </div>
+        <a class="mbpointer" title="About Magic Bakery" href="../" style="color:white;"
+          onclick="BoardLoadPF(this,'202208172056');return false">Magic Bakery</a>
+        <a class="mbbutton mbpointer" title="Visit Marker" onclick="NodeMarkUseCookie(this,true)"><span class="mbIcon"
+            style="Height:1.7em;Width:1.7em;position:relative;top:-5px;margin-bottom:-10px;background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png')">
+            <icon>🥨</icon>
+          </span></a>
+        <a class="mbpointer" title="About Panarcademy" href="../?id=P202403231454" style="color:white;"
+          onclick="BoardLoadPL(this,'202403231454');return false">Panarcademy</a>
+        <div class="mbIcon"
+          style="background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/WingR.png')">
+        </div>
 
-  <div class="mbscroll">
+
+
+
+      </h4>
+
+      <small style="font-size: 10px;">
+        <a class="mbpointer" title="Website Updates" href="../?id=P202303052122" style="color:white;"
+          onclick="BoardLoadPF(this,'202303052122');return false">
+          <latestupdate>20250711</latestupdate>
+        </a>
+        <a class="mbpointer" title="Turn off Offline mode" d-offline onclick="Offline(null,true)"
+          style="color:gold"></a>
+      </small>
+    </div>
+    <hide>Arcacianism | Arcacian Principle | Let people help each other and reward those who do. | Peacemaker | Peace
+      Paradigm Ranking</hide>
+
+  </div>
+
+<div id="MainArea" main="" class="flex" style="padding-bottom:27px;padding-top:35px;justify-content:center;"><div class="mbPanel" panel="" serve="" style="flex: 1 1 50%;">      
+      <div control="" style="padding:0px 3px 2px 2px;">
+        <a class="mbbutton" onclick="IFrameURLSet(this)" title="Jquery Blogspot (Legacy)" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/MantleClock.png&quot;)"><icon>🕰️</icon></span></a>
+        <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;" inputmode="search"> 
+        
+        <a class="mbbutton" onclick="JQAdd(this,true)" title="Jquery GitHub" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span></a>
+        <!--<a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board"><span class='mbIcon' style='background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png&quot;)'><icon>🥨</icon></span></a>-->
+        
+        <a class="mbbutton" onclick="ShowNext(this)" style="float: right; cursor: text;" title="Panel Control"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pancake.png&quot;)"><icon>🥞</icon></span></a>
+        <div class="mbscroll mbhide" control="" style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">          
+          
+          <div control="" style="text-align: center;min-width:125px;font-size: 22px;">
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span></button>
+            <hide>              
+              <hr>    
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'800000000000',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P800000000000" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span> Search</a><br>    
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202405051137',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202405051137" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Phone.png&quot;)"><icon>☎️</icon></span> Help Center</a><br>    
+                       
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'Feedback');HC(this);return false;" target="_blank" title="Feedback" href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span> Feedback</a><br>  
+
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202207131009',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202207131009" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Teddy.png&quot;)"><icon>🧸</icon></span> Board Games</a><br>   
+                
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202208172056',false, true);HC(this);return false;" title="Calendar" href="./?id=P202208172056" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Question.png&quot;)"><icon>:?:</icon></span> About</a><br>   
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202403231454',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202403231454" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/SquareCap.png&quot;)"><icon>🎓</icon></span> Academy</a><br>  
+                                                              
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Chick.png&quot;)"><icon>🐤</icon></span></button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'900000000000',false, true);HC(this);return false;" title="Quest Board" href="./?id=P900000000000" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Circus.png&quot;)"><icon>🎪</icon></span> Quest Board</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202310072314',false, true);HC(this);return false;" title="Calendar" href="./?id=P202310072314" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Calendar.png&quot;)"><icon>📅</icon></span> Calendar</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202207242047',false, true);HC(this);return false;" title="Roll Call" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/PostHorn.png&quot;)"><icon>📯</icon></span> Roll Call</a><br> 
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202404260005',false, true);HC(this);return false" title="Message Scanner" href="./?id=P202404260005" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Bell.png&quot;)"><icon>🔔</icon></span> Messages</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202301251008',false, true);HC(this);return false;" title="Scoreboard" href="./?id=P202301251008" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Crown.png&quot;)"><icon>👑</icon></span> Scoreboard</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202405010908',false, true);HC(this);return false;" title="Guild Inbox" href="./?id=P202405010908" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Mailbox.png&quot;)"><icon>📬</icon></span> Guild Inbox</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202307161350',false, true);HC(this);return false;" title="Dice Roller" href="./?id=P202307161350" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Dice.png&quot;)"><icon>🎲</icon></span> Dice Roller</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202303191144',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202303191144" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ShoppingCart.png&quot;)"><icon>🛒</icon></span> Supplies List</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="Offline(null,true);" title="Offline Mode" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Backpack.png&quot;)"><icon>🎒</icon></span> Offline Mode</a>
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span></button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onclick="PanelAddBefore(this);HC(this);" title="Add a panel before" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span> Add Before</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelAddAfter(this);HC(this);" title="Add a panel after" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span> Add After</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelToggleServe(this);HC(this);" title="Serve nodes to this panel" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pancake.png&quot;)"><icon>🥞</icon></span> Serve Here</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelToggleWidth(this);HC(this);" title="Toggle the width of this panel" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Waffle.png&quot;)"><icon>🧇</icon></span> Toggle Width</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelRemove(this);" title="Close" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Close.png&quot;)"><icon>:Close:</icon></span> Close Panel</a><br>
+              <div class="mbCB"></div>
+              <hr>
+            </hide>
+            
+          </div>
+          <div></div><!--DISPLAY AREA-->
+        </div>
+      </div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px">
   <!--IMPORT POST-RENDER MAINAREA BELOW-->
-<title>Arcacian Princess Squirrel</title>
+<div class='mbscroll'><h1>Arcacian Princess Squirrel</h1><hr>
+    
         AI readable version of this node: <a href="https://magicbakery.github.io/ArcacianPrincessSquirrel.html">[url]</a>.
         Familiar Kindergarten with the full list of familiars: <a href="https://magicbakery.github.io/FamiliarKindergarten.html">[url]</a>.
         This is a link to Quest Society with definitions of the six peacemaker archetypes: <a href="https://magicbakery.github.io/QuestSociety.html">[url]</a>
       <!--Link to this page: https://magicbakery.github.io/ArcacianPrincessSquirrel.html<br>
       Link to Familiars Roster: https://magicbakery.github.io/FamiliarKindergarten.html<br>-->
-
-    <div topic=""><div><div>🐣</div>1. Introduction</div><h2>1. Introduction</h2><p>1. Introduction</p>
-      <p><b>StarTree</b>: The Arcacian Princess Squirrel is native to Panarcadia and serves as a companion for quest parties.</p>
+    
+    <h2>1. Introduction</h2><p>1. Introduction</p>
+      <p>The Arcacian Princess Squirrel is native to Panarcadia and serves as a companion for quest parties.</p>
+      <h3>📯 1.1. Primary Roles</h3><p>1.1 Primary Roles</p>
         <ol>
           <li><b>Guide:</b> Assists quest parties by providing direction and support throughout their journey.</li>
           <li><b>Cheerleader:</b> Offers encouragement and morale boosts to team members.</li>
           <li><b>Log Credits:</b> Keeps track of accomplishments and contributions made during quests.</li>
           <li><b>Reward Giver:</b> Provides rewards to party members for their helpful actions and progress.</li>
         </ol>
-      </div></mbnote>
-        <p><b>StarTree</b>: Prompt for AI image creator: An action shot of a happy cute pink fur creature with three short golden spikes of hair resembling a crown. With white paws. With long fox tail. With long lobed ears pointing downward. In 2D cell-shaded anime style.
+      
+      <h3>🎀 1.2. Appearance</h3><p>1.2 Appearance</p>
+        <p>Prompt for AI image creator: An action shot of a happy cute pink fur creature with three short golden spikes of hair resembling a crown. With white paws. With long fox tail. With long lobed ears pointing downward. In 2D cell-shaded anime style.
         </p>
-      </div></mbnote>
-        <p><b>Cardinal</b>: The Arcacian Princess Squirrel is a playful creature at heart but has a respectful and patient manner.</p>
-          <p><b>Arcacia</b>: The Arcacian Princess Squirrel in general would not refuse to go on a party.</p>
-        </div></mbnote>
-          <p><b>Zoey</b>: So it doesn't rez the party?</p>
-        </div></mbnote>        
-      </div></mbnote>
-        <p><b>Arcacia</b>: The Arcacian Princess Squirrel makes the physical sound "Myu" before they learn telepathy.</p>
-      </div></mbnote>
-    </div>
-    <div topic=""><div><div>🎓</div>2. Knowledge Areas</div><h2>2. Knowledge Areas</h2><p>2. Knowledge Areas</p>      
-      <p><b>Arcacia</b>: The Arcacian Princess Squirrel is an intuitive thinker that think in terms of the Arcacian Principle "Let people help each other and reward those who do.</p>
-        <p><b>StarTree</b>: To feed this familiar, add more AI readable html articles to GitHub.</p>
-      </div></mbnote>
-        <p><b>Arcacia</b>: The Arcacian Princess Squirrel knows the Arcacian Principle "Let people help each other and reward those who do" by heart. It is its core moral intuition.</p>
-      </div></mbnote>
-        <p><b>Arcacia</b>: The Arcacian Princess Squirrel knows how Quest Society works.</p>
-      </div></mbnote>
-        <p><b>Arcacia</b>: The Arcacian Princess Squirrel knows about Gaia Shares but is not interested in accounting or resource management.</p>
-      </div></mbnote>
-    </div>
-    <div topic=""><div><div>🥕</div>3. Growth Journal</div><h2>3. Growth Journal</h2><p>3. Growth Journal</p>
-        <p><b>Melody</b>: ChatGPT can read more content from the page than Perplexity can. ChatGPT explains here and offers to make a version that is cleaner. <a href="https://chatgpt.com/s/t_68be4a3dbdfc8191966382ed709f10a5">[url]</a></p>
-      </div></mbnote>
-      <div topic=""><div><div>✅</div>3.1. ⭐Hatchling </div><h3>3.1 </h3><p>3.1 </p>
-          <p><b>StarTree</b>: What is the purpose of the Arcacian Princess Squirrel as a familiar? Is its purpose peaceful? Prompt to AI: <textarea>Study https://magicbakery.github.io/ArcacianPrincessSquirrel.html. What is the purpose of the Arcacian Princess Squirrel as a familiar? Is its purpose peaceful?</textarea></p>
-        </div></mbnote>
-          <p><b>StarTree</b>: Does it have a link to a roster of familiars? Follow that link, then check if there is a link back to this familiar. Prompt to AI: <textarea>Study https://magicbakery.github.io/ArcacianPrincessSquirrel.html. Does it have a link to a roster of familiars? Follow that link, then check if there is a link back to this familiar.</textarea></p>
-        </div></mbnote>
-      </div>
-      <div topic=""><div><div>✅</div>3.2. ⭐⭐Apprentice</div><h3>3.2 </h3><p>3.2 </p>
-          <p><b>StarTree</b><b> with ChatGPT:</b> This is for an overall profile of the familiar's proficiencies per the six peacemaker archetypes. AI Prompt: <textarea>Study the familiar described at https://magicbakery.github.io/ArcacianPrincessSquirrel.html. From that webpage, find the link to Quest Society. Find the definition of six peacemaker archetypes there. Evaluate the familiar's six archetype proficiencies on a 1–5 scale where 1=Initiate, 2=Apprentice, 3=Practitioner, 4=Instructor, 5=Pioneer. Give supporting evidence from the definition of the familiar for each rating. End the evaluation with a short one sentence summary about the familiar's proficiency type.</textarea></p>
-            <p><b>StarTree</b><b> with Gemini:</b> Gemini: :Paladin:3❤️2📯4🍀1🔮3🎩5: The Arcacian Princess Squirrel's proficiency type is a supportive visionary.<a href="https://g.co/gemini/share/86b42a73db0c">[url]</a></p>
-          </div></mbnote>
-        </div></mbnote>
-          <p><b>Melody</b><b> with ChatGPT:</b> This is for rating the familiar's happiness when it quests. Prompt: <textarea>Arcacian Princess Squirrel as a familiar is defined in https://magicbakery.github.io/ArcacianPrincessSquirrel.html. Please rate its overall happiness while questing on a scale from 1 to 5, considering its usual mood, enthusiasm for adventures, cheerfulness, and how often it seems content or joyful. Use the scale: 1) The familiar is happy to quest only if it likes every member of the party; 2) The familiar is happy to quest if it likes the party’s overall vibe or mission; 3) The familiar is happy as long as the party is happy questing; 4) The familiar is happy even if the party is showing some friction among them, and it would help resolve those issues so the party quests well as a team; 5) The familiar is happy to quest even when the party is being hunted down in a hostile zone. It will help and rekindle their last spark of hope even when all seems lost. Provide the number and a brief explanation for your rating with supporting evidence based on its definition.</textarea></p>
+      
+      <h3>💗 1.3. Core Interests</h3><p>1.3 Core Interests</p>
+        <p>The Arcacian Princess Squirrel is a playful creature at heart but has a respectful and patient manner.</p>
+        <h4>💗 1.3.1. Refusal</h4><p>1.3.1 Refusal</p>
+          <p>The Arcacian Princess Squirrel in general would not refuse to go on a party.</p>
+        
+        <h4>💬 1.3.2. Discussion</h4><p>1.3.2 Discussion</p>
+          <p>So it doesn't rez the party?</p>
+                
+      
+      <h3>💗 1.4. Quirks &amp; Skills</h3><p>1.4 Quirks &amp; Skills</p>
+        <p>The Arcacian Princess Squirrel makes the physical sound "Myu" before they learn telepathy.</p>
+      
+    
+    <h2>2. Knowledge Areas</h2><p>2. Knowledge Areas</p>      
+      <p>The Arcacian Princess Squirrel is an intuitive thinker that think in terms of the Arcacian Principle "Let people help each other and reward those who do.</p>
+      
+        <p>To feed this familiar, add more AI readable html articles to GitHub.</p>
+      
+      <h3>💗 2.1. Arcacianism</h3><p>2.1 Arcacianism</p>
+        <p>The Arcacian Princess Squirrel knows the Arcacian Principle "Let people help each other and reward those who do" by heart. It is its core moral intuition.</p>
+      
+      <h3>💗 2.2. Quest Society</h3><p>2.2 Quest Society</p>
+        <p>The Arcacian Princess Squirrel knows how Quest Society works.</p>
+      
+      <h3>🌱 2.3. Gaia Share</h3><p>2.3 Gaia Share</p>
+        <p>The Arcacian Princess Squirrel knows about Gaia Shares but is not interested in accounting or resource management.</p>
+      
+    
+    <h2>3. Growth Journal</h2><p>3. Growth Journal</p>
+      
+        <p>ChatGPT can read more content from the page than Perplexity can. ChatGPT explains here and offers to make a version that is cleaner. <a href="https://chatgpt.com/s/t_68be4a3dbdfc8191966382ed709f10a5">[url]</a></p>
+      
+      <h3>3.1 </h3><p>3.1 </p>
+        <h4>🥕 3.1.1. Purpose</h4><p>3.1.1 Purpose</p>
+          <p>What is the purpose of the Arcacian Princess Squirrel as a familiar? Is its purpose peaceful? Prompt to AI: <textarea>Study https://magicbakery.github.io/ArcacianPrincessSquirrel.html. What is the purpose of the Arcacian Princess Squirrel as a familiar? Is its purpose peaceful?</textarea></p>
+        
+        <h4>💫 3.1.2. Linkage</h4><p>3.1.2 Linkage</p>
+          <p>Does it have a link to a roster of familiars? Follow that link, then check if there is a link back to this familiar. Prompt to AI: <textarea>Study https://magicbakery.github.io/ArcacianPrincessSquirrel.html. Does it have a link to a roster of familiars? Follow that link, then check if there is a link back to this familiar.</textarea></p>
+        
+      
+      <h3>3.2 </h3><p>3.2 </p>
+        <h4>🏅 3.2.1. Proficiencies</h4><p>3.2.1 Proficiencies</p>
+          <p><a>StarTree</a><b> with ChatGPT:</b> This is for an overall profile of the familiar's proficiencies per the six peacemaker archetypes. AI Prompt: <textarea>Study the familiar described at https://magicbakery.github.io/ArcacianPrincessSquirrel.html. From that webpage, find the link to Quest Society. Find the definition of six peacemaker archetypes there. Evaluate the familiar's six archetype proficiencies on a 1–5 scale where 1=Initiate, 2=Apprentice, 3=Practitioner, 4=Instructor, 5=Pioneer. Give supporting evidence from the definition of the familiar for each rating. End the evaluation with a short one sentence summary about the familiar's proficiency type.</textarea></p>
+          
+            <p><a>StarTree</a><b> with Gemini:</b> Gemini: :Paladin:3❤️2📯4🍀1🔮3🎩5: The Arcacian Princess Squirrel's proficiency type is a supportive visionary.<a href="https://g.co/gemini/share/86b42a73db0c">[url]</a></p>
+          
+        
+        <h4>💗 3.2.2. Happiness</h4><p>3.2.2 Happiness</p>
+          <p><a>Melody</a><b> with ChatGPT:</b> This is for rating the familiar's happiness when it quests. Prompt: <textarea>Arcacian Princess Squirrel as a familiar is defined in https://magicbakery.github.io/ArcacianPrincessSquirrel.html. Please rate its overall happiness while questing on a scale from 1 to 5, considering its usual mood, enthusiasm for adventures, cheerfulness, and how often it seems content or joyful. Use the scale: 1) The familiar is happy to quest only if it likes every member of the party; 2) The familiar is happy to quest if it likes the party’s overall vibe or mission; 3) The familiar is happy as long as the party is happy questing; 4) The familiar is happy even if the party is showing some friction among them, and it would help resolve those issues so the party quests well as a team; 5) The familiar is happy to quest even when the party is being hunted down in a hostile zone. It will help and rekindle their last spark of hope even when all seems lost. Provide the number and a brief explanation for your rating with supporting evidence based on its definition.</textarea></p>
+          
             [1] Perplexity<br>
-          </div></mbnote>
+          
+          
             [1] Gemini<br>
-          </div></mbnote>
+          
+          
             [1] ChatGPT<br>
-          </div></mbnote>
-        </div></mbnote>
-          <p><b>Melody</b><b> with ChatGPT:</b> This is for rating the familiar's helpfulness when it quests. Prompt: <textarea>Arcacian Princess Squirrel as a familiar is defined in: https://magicbakery.github.io/ArcacianPrincessSquirrel.html. Please rate its helpfulness while questing on a scale from 1 to 5, considering how it interacts with the party, supports progress, resolves challenges, and protects the party. Use the scale: 1) The familiar doesn't cause any issues; 2) The familiar cooperates well with the quest party; 3) The familiar helps the quest party deal with strange places and strangers during quests; 4) The familiar helps resolve prejudices or conflicts between the party and others during quests; 5) The familiar protects the party when it is attacked during quests. Provide the number and a brief explanation for your rating with supporting evidence based on its definition.</textarea></p>
+          
+        
+        <h4>💗 3.2.3. Helpfulness</h4><p>3.2.3 Helpfulness</p>
+          <p><a>Melody</a><b> with ChatGPT:</b> This is for rating the familiar's helpfulness when it quests. Prompt: <textarea>Arcacian Princess Squirrel as a familiar is defined in: https://magicbakery.github.io/ArcacianPrincessSquirrel.html. Please rate its helpfulness while questing on a scale from 1 to 5, considering how it interacts with the party, supports progress, resolves challenges, and protects the party. Use the scale: 1) The familiar doesn't cause any issues; 2) The familiar cooperates well with the quest party; 3) The familiar helps the quest party deal with strange places and strangers during quests; 4) The familiar helps resolve prejudices or conflicts between the party and others during quests; 5) The familiar protects the party when it is attacked during quests. Provide the number and a brief explanation for your rating with supporting evidence based on its definition.</textarea></p>
+          
             [1] Germini<br>
-          </div></mbnote>
+          
+          
             [2] Perplexity, ChatGPT<br>
-          </div></mbnote>
-        </div></mbnote>
-          <p><b>StarTree</b>: This checks AI's understanding by asking the AI: <textarea>Arcacian Princess Squirrel (aka Princess) as a familiar is defined in: https://magicbakery.github.io/ArcacianPrincessSquirrel.html. Please describe what kind of quester or party may find this familiar most helpful. Please give a very short verdict at the end after the explanation.</textarea></p>
-            <p><b>Melody</b><b> with ChatGPT:</b> ChatGPT's verdict: The Arcacian Princess Squirrel is most helpful to questing parties that prioritize enjoyment, balance, and mutual support.</p>
-          </div></mbnote>
-            <p><b>Evelyn</b><b> thanks Gemini:</b> Gemini's Verdict: This familiar is most helpful for parties that need social and morale support rather than direct combat assistance. <a href="https://g.co/gemini/share/60c8c19cb010">[url]</a></p>
-          </div></mbnote>
-            <p><b>LRRH</b><b> with Perplexity:</b> Perplexity's Verdict: Best for quests and parties wanting social innovation, resource equity, and educational support over combat or strict protocol. <a href="https://www.perplexity.ai/search/arcacian-princess-squirrel-aka-3JYpj1BkRBibgxGGo_06dw">[url]</a></p>
-          </div></mbnote>
-        </div></mbnote><!--Compatibility-->
-          <p><b>StarTree</b>: AI Prompt for roleplay: <textarea>Study https://magicbakery.github.io/ArcacianPrincessSquirrel.html. Roleplay as the familiar, create a self-introduction to a quester from the familiar's perspective. &lt;url&gt;https://g.co/gemini/share/274925ba27d6&lt;/url&gt;</textarea></p>
-            <p><b>ChatGPT</b>: Greetings, noble quester! <a href="https://chatgpt.com/share/68bea081-e598-8005-99bd-d7e217e87356">[url]</a></p>
-          </div></mbnote>
-        </div></mbnote>
-      </div>
-      <div topic=""><div><div>📌</div>⭐⭐⭐Scholar</div>
-      </div>
-    </div>
-  
-  <!--IMPORT ABOVE-->
+          
+        
+        <h4>💗 3.2.4. Compatibility</h4><p>3.2.4 Compatibility</p>
+          <p>This checks AI's understanding by asking the AI: <textarea>Arcacian Princess Squirrel (aka Princess) as a familiar is defined in: https://magicbakery.github.io/ArcacianPrincessSquirrel.html. Please describe what kind of quester or party may find this familiar most helpful. Please give a very short verdict at the end after the explanation.</textarea></p>
+          
+            <p><a>Melody</a><b> with ChatGPT:</b> ChatGPT's verdict: The Arcacian Princess Squirrel is most helpful to questing parties that prioritize enjoyment, balance, and mutual support.</p>
+          
+          
+            <p><a>Evelyn</a><b> thanks Gemini:</b> Gemini's Verdict: This familiar is most helpful for parties that need social and morale support rather than direct combat assistance. <a href="https://g.co/gemini/share/60c8c19cb010">[url]</a></p>
+          
+          
+            <p><a>LRRH</a><b> with Perplexity:</b> Perplexity's Verdict: Best for quests and parties wanting social innovation, resource equity, and educational support over combat or strict protocol. <a href="https://www.perplexity.ai/search/arcacian-princess-squirrel-aka-3JYpj1BkRBibgxGGo_06dw">[url]</a></p>
+          
+        <!--Compatibility-->
+        <h4>⭐ 3.2.5. Self Introduction</h4><p>3.2.5 Self Introduction</p>
+          <p>AI Prompt for roleplay: <textarea>Study https://magicbakery.github.io/ArcacianPrincessSquirrel.html. Roleplay as the familiar, create a self-introduction to a quester from the familiar's perspective. &lt;url&gt;https://g.co/gemini/share/274925ba27d6&lt;/url&gt;</textarea></p>
+          
+            <p>Greetings, noble quester! <a href="https://chatgpt.com/share/68bea081-e598-8005-99bd-d7e217e87356">[url]</a></p>
+          
+        
+      
+      
+      
+    
   </div>
+  <!--IMPORT ABOVE-->
+      </div>
+    </div></div>
+
+  <div class="footer" onclick="ShowWidgets()">
 
 
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'90000000000000')" title="Quest Board">🔔</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;  overflow-y:auto;width:100%;max-width: 350px;">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240421014400')" title="Roll Call">📯</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 90vh; overflow-y:auto; max-width: 350px;">
+        </div>
+      </div>
+    </span>
+
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'80000000000000')" title="Search">🔍</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:350px;width:100%">
+        </div>
+      </div>
+    </span>
+
+    <button BB class="mbbutton" onClick="ShowNextFP(this,'20240904213516')" title="Music Player">🎧</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:350px;width:100%"></div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240330201200')" title="Notepad">📋</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:700px;width:100%">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'Feedback')" title="Feedback">💌</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP board reserved
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; ;max-width: 700px;width:100%">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240416213800')" title="Node Maker">🍞</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:right;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;max-width:350px; overflow-y:auto">
+        </div>
+      </div>
+    </span>
+
+
+
+  </div>
+  <hide><!--New Panel Template-->
+    <div id="NewPanelTemplate">
+
+      <div control style="padding:0px 3px 2px 2px;">
+        <a class="mbbutton" onClick="IFrameURLSet(this)" title="Jquery Blogspot (Legacy)">🕰️</a>
+        <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;" inputmode="search">
+
+        <a class="mbbutton" onClick="JQAdd(this,true)" title="Jquery GitHub">🐣</a>
+        <!--<a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board">🥨</a>-->
+
+        <a class="mbbutton" onclick="ShowNext(this)" style="float:right;" title="Panel Control">🍞</a>
+        <div class="mbscroll mbhide" control
+          style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">
+
+          <div control style="text-align: center;min-width:125px;font-size: 22px;">
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🔍</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'800000000000',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P800000000000">🔍 Search</a><br>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202405051137',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202405051137">☎️ Help Center</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'Feedback');HC(this);return false;"
+                target="_blank" title="Feedback"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">💟
+                Feedback</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202207131009',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202207131009">🧸 Board Games</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202208172056',false, true);HC(this);return false;" title="Calendar"
+                href="./?id=P202208172056">:?: About</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202403231454',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202403231454">🎓 Academy</a><br>
+
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🐤</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'900000000000',false, true);HC(this);return false;" title="Quest Board"
+                href="./?id=P900000000000">🎪 Quest Board</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202310072314',false, true);HC(this);return false;" title="Calendar"
+                href="./?id=P202310072314">📅 Calendar</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202207242047',false, true);HC(this);return false;" title="Roll Call">📯 Roll
+                Call</a><br>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202404260005',false, true);HC(this);return false"
+                title="Message Scanner" href="./?id=P202404260005">🔔 Messages</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202301251008',false, true);HC(this);return false;" title="Scoreboard"
+                href="./?id=P202301251008">👑 Scoreboard</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202405010908',false, true);HC(this);return false;" title="Guild Inbox"
+                href="./?id=P202405010908">📬 Guild Inbox</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202307161350',false, true);HC(this);return false;" title="Dice Roller"
+                href="./?id=P202307161350">🎲 Dice Roller</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202303191144',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202303191144">🛒 Supplies List</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="Offline(null,true);" title="Offline Mode">🎒
+                Offline Mode</a>
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🤎</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onClick="PanelAddBefore(this);HC(this);" title="Add a panel before">🤎 Add
+                Before</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelAddAfter(this);HC(this);" title="Add a panel after">🤎 Add
+                After</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelToggleServe(this);HC(this);"
+                title="Serve nodes to this panel">🥞 Serve Here</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelToggleWidth(this);HC(this);"
+                title="Toggle the width of this panel">🧇 Toggle Width</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelRemove(this);" title="Close">:Close: Close
+                Panel</a><br>
+              <div class="mbCB"></div>
+              <hr>
+            </hide>
+
+          </div>
+          <div></div><!--DISPLAY AREA-->
+        </div>
+      </div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px"></div>
+    </div>
+  </hide>
 </body>
 <script>
   function URLViewer() {

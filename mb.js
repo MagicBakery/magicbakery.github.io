@@ -1079,6 +1079,14 @@ function CopyTextForAI(elThis){
   removeAttributesFromElements(elements, ['class', 'dts', 'style', 'title']);
   
   // 
+  elCopy.querySelectorAll('div[topic]').forEach(div => {
+    const parent = div.parentNode;
+    while (div.firstChild) {
+      parent.insertBefore(div.firstChild, div);
+    }
+    parent.removeChild(div);
+  });
+
   
 
   // OUTPUT
@@ -1093,6 +1101,7 @@ function CopyTextForAI(elThis){
   mHTML = mHTML.replace(/<small>↴<\/small>/g, '');
   mHTML = mHTML.replace(/<mbnote>\s*<div>/g, '');
   mHTML = mHTML.replace(/<\/div>\s*<\/mbnote>/g, '');
+  mHTML = mHTML.replace(/<div>\s*<div>[\s\S]*?<\/div>[\s\S]*?<\/div>/g, '');
   mHTML+= "</div>";
   navigator.clipboard.writeText(mHTML);
 
@@ -1904,7 +1913,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250907 AI Readable URL";
+  elContainer.innerHTML = "20250908 CopyTextForAI";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
