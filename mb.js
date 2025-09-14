@@ -489,7 +489,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     mHTMLInner += NodeTypeHTML(elRecord);
 
     // 20250909: StarTree: Adding a save button to help export content for static HTML pages.
-    mHTMLInner += "<button class='mbbutton mbRef' title='Copy Text for AI' onclick='CopyTextForAI(this)'>💾</button>";
+    mHTMLInner += "<button class='mbbutton mbRef' title='Copy Text for AI' onclick='CopyTextForAI(this)'>📜</button>";
 
     mHTMLInner += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>½</button>";
 
@@ -1107,17 +1107,9 @@ function CopyTextForAI(elThis){
   mHTML = mHTML.replace(/<\/div>\s*<\/mbnote>/g, '');
   mHTML = mHTML.replace(/<div>\s*<div>[\s\S]*?<\/div>[\s\S]*?<\/div>/g, '');
   mHTML = mHTML.replace(/<a>.*?<\/a><b>.*?<\/b> /g, '');  // REMOVE the pattern for multi speakers of a bubble
+  mHTML = mHTML.replace(/^[ \t]+/gm, ''); // REMOVE all indentation spaces.
+  mHTML = mHTML.replace(/^\s*[\r\n]/gm, ''); // REMOVE all blank lines.
   mHTML+= "</div>";
-  navigator.clipboard.writeText(mHTML);
-
-  return;
-  var mHTML = elBoard.textContent
-              .split('\n')
-              .filter(line => line.trim() !== '')  // ignore empty lines
-              .map(line => `<p>${line.trim()}</p>`)
-              .join('');
-
-  
   navigator.clipboard.writeText(mHTML);
 }
 function Pin2Code(mJSON){
@@ -2420,7 +2412,8 @@ function MacroNote(el){
       let mSectionLevel = 2+ mSection.length - mSection.replaceAll(".","").length;
       if(mSectionLevel<3){mSection+=".";}
       mHTML += "<h" + mSectionLevel + ">" + mIcon +" " + mSection + ". " + mSubtitle + "</h" + mSectionLevel + ">";
-      mHTML += "<p class='mbhide'>" + mSection + " " + mSubtitle + "</p><hr>";
+      //mHTML += "<p class='mbhide'>" + mSection + " " + mSubtitle + "</p><hr>";
+      mHTML += "<hr>";
       ;
     }
     mHTML += mTag.innerHTML
@@ -2866,7 +2859,7 @@ function MacroTopic(el){
         let mSectionLevel = 2+ mSection.length - mSection.replaceAll(".","").length;
         if(mSectionLevel<3){mSection+=".";}
         mHTML += "<h" + mSectionLevel + " class='mbhide'>" + mSection + " " + mTitle + "</h" + mSectionLevel + ">";
-        mHTML += "<p class='mbhide'>" + mSection + " " + mTitle + "</p>";
+        //mHTML += "<p class='mbhide'>" + mSection + " " + mTitle + "</p>";
       } // 20250712: StarTree: Note that the implementation is different from MacroNote.
       mHTML += "<hr class='mbhide'>";
       mHTML += mTag.innerHTML;
