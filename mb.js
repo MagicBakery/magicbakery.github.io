@@ -1919,7 +1919,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250913 Image in Author Circle";
+  elContainer.innerHTML = "20250914 Export Format Upgrade";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
