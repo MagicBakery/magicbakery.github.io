@@ -1033,6 +1033,8 @@ function CopyTextForAI(elThis){
   // REMOVE ALL first child of mbNode
   elements = elCopy.querySelectorAll('mbnote');
   elements.forEach(el => el.firstChild.remove());
+
+  
   
 
   
@@ -1104,6 +1106,7 @@ function CopyTextForAI(elThis){
   mHTML = mHTML.replace(/<mbnote>\s*<div>/g, '');
   mHTML = mHTML.replace(/<\/div>\s*<\/mbnote>/g, '');
   mHTML = mHTML.replace(/<div>\s*<div>[\s\S]*?<\/div>[\s\S]*?<\/div>/g, '');
+  mHTML = mHTML.replace(/<a>.*?<\/a><b>.*?<\/b> /g, '');  // REMOVE the pattern for multi speakers of a bubble
   mHTML+= "</div>";
   navigator.clipboard.writeText(mHTML);
 
