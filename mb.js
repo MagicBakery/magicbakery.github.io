@@ -1011,86 +1011,92 @@ function CopyTextForAI(elThis){
   var elCopy = elBoard.querySelector('.mbCardMatText');
   elCopy.firstElementChild.remove();
 
-  
-  // REMOVE all HR
-  elements = elCopy.querySelectorAll('hr');
-  elements.forEach(el => el.remove());
-  
-  // REMOVE all onclick
-  elements = elCopy.querySelectorAll('[onclick]');
-  elements.forEach(el => el.removeAttribute('onclick'));
-  // REMOVE ALL d-xpicon
-  elements = elCopy.querySelectorAll('[d-xpicon]');
-  elements.forEach(el => el.remove());
-  // REMOVE any remaining class
-  elements = elCopy.querySelectorAll('[class]');
-  elements.forEach(el => el.removeAttribute('class'));
+  if(true){
+    // REMOVE all HR
+    elements = elCopy.querySelectorAll('hr');
+    elements.forEach(el => el.remove());
+    
+    // REMOVE all onclick
+    elements = elCopy.querySelectorAll('[onclick]');
+    elements.forEach(el => el.removeAttribute('onclick'));
+    // REMOVE ALL d-xpicon
+    elements = elCopy.querySelectorAll('[d-xpicon]');
+    elements.forEach(el => el.remove());
+    // REMOVE any remaining class
+    elements = elCopy.querySelectorAll('[class]');
+    elements.forEach(el => el.removeAttribute('class'));
 
-  // REMOVE ALL UNREADABLE Links
-  elements = elCopy.querySelectorAll('a[href^="./?id=P"]');
-  elements.forEach(el => el.remove());
+    // REMOVE ALL UNREADABLE Links
+    elements = elCopy.querySelectorAll('a[href^="./?id=P"]');
+    elements.forEach(el => el.remove());
 
-  // REMOVE ALL first child of mbNode
-  elements = elCopy.querySelectorAll('mbnote');
-  elements.forEach(el => el.firstChild.remove());
-
-  
-  
-
-  
-  // REMOVE all <SPAN><HIDE>
-  elements = elCopy.querySelectorAll('span');
-  elements.forEach(span => {if (span.querySelector('hide')) {span.remove();}});
-  // REMOVE <SPAN><ICON>
-  elements.forEach(span => {
-    // Check if the first child is an <icon> element
-    const firstChild = span.firstElementChild;
-    if (firstChild && firstChild.tagName.toLowerCase() === 'icon') {
-      // Replace the entire span with the text inside the <icon>
-      const text = firstChild.textContent || '';
-      const textNode = document.createTextNode(text);
-      span.replaceWith(textNode);
-    }
-  });
-  // REMOVE ALL Blank Div
-  elements = elCopy.querySelectorAll('div');
-  elements.forEach(div => {
-    // Check if div has no child elements and trimmed textContent is empty
-    if (!div.hasChildNodes() || div.textContent.trim() === '') {
-      div.remove();
-    }
-  });
-  // REPLACE all bubbles with p
-  elements = elCopy.querySelectorAll('span[bubble]');
-  elements.forEach(span => {
-    const p = document.createElement('p');    
-    p.innerHTML = span.innerHTML;
-    span.replaceWith(p);
-  });
-
-
-  // REMOVE all remaining attributes
-  function removeAttributesFromElements(elements, attributes) {
-    elements.forEach(el => {
-      attributes.forEach(attr => el.removeAttribute(attr));
+    // REPLACE All links with just its HREF URL
+    elements = elCopy.querySelectorAll('a').forEach(function(a) {
+      var url = a.href;
+      var urlNode = document.createTextNode(url);
+      a.parentNode.replaceChild(urlNode, a);
     });
-  };
-  elements = elCopy.querySelectorAll('div');
-  removeAttributesFromElements(elements, ['class', 'dts', 'style', 'title']);
-  elements = elCopy.querySelectorAll('span');
-  removeAttributesFromElements(elements, ['class', 'dts', 'style', 'title']);
-  elements = elCopy.querySelectorAll('mbnote');
-  removeAttributesFromElements(elements, ['class', 'dts', 'style', 'title']);
-  
-  // 
-  elCopy.querySelectorAll('div[topic]').forEach(div => {
-    const parent = div.parentNode;
-    while (div.firstChild) {
-      parent.insertBefore(div.firstChild, div);
-    }
-    parent.removeChild(div);
-  });
 
+    // REMOVE ALL first child of mbNode
+    elements = elCopy.querySelectorAll('mbnote');
+    elements.forEach(el => el.firstChild.remove());
+  }
+    
+  
+  if(true){ // POST PROCESSING SECTION 2  
+    // REMOVE <SPAN><ICON>
+    elements = elCopy.querySelectorAll('span');
+    elements.forEach(span => {
+      // Check if the first child is an <icon> element
+      const firstChild = span.firstElementChild;
+      if (firstChild && firstChild.tagName.toLowerCase() === 'icon') {
+        // Replace the entire span with the text inside the <icon>
+        const text = firstChild.textContent || '';
+        const textNode = document.createTextNode(text);
+        span.replaceWith(textNode);
+      }
+    });//*/
+    /// REMOVE ALL Blank Div
+    elements = elCopy.querySelectorAll('div');
+    elements.forEach(div => {
+      // Check if div has no child elements and trimmed textContent is empty
+      if (!div.hasChildNodes() || div.textContent.trim() === '') {
+        div.remove();
+      }
+    });//*/
+    
+    // REPLACE all bubbles with p    
+    elements = elCopy.querySelectorAll('span[bubble]');
+    elements.forEach(span => {
+      const p = document.createElement('p');    
+      p.innerHTML = span.innerHTML;
+      span.replaceWith(p);
+    });//*/
+
+  }
+  if(true){ // POST PROCESSING SECTION 3
+    // REMOVE all remaining attributes
+    function removeAttributesFromElements(elements, attributes) {
+      elements.forEach(el => {
+        attributes.forEach(attr => el.removeAttribute(attr));
+      });
+    };
+    elements = elCopy.querySelectorAll('div');
+    removeAttributesFromElements(elements, ['class', 'dts', 'style', 'title']);
+    elements = elCopy.querySelectorAll('span');
+    removeAttributesFromElements(elements, ['class', 'dts', 'style', 'title']);
+    elements = elCopy.querySelectorAll('mbnote');
+    removeAttributesFromElements(elements, ['class', 'dts', 'style', 'title']);
+    
+    // 
+    elCopy.querySelectorAll('div[topic]').forEach(div => {
+      const parent = div.parentNode;
+      while (div.firstChild) {
+        parent.insertBefore(div.firstChild, div);
+      }
+      parent.removeChild(div);
+    });
+  }
   
 
   // OUTPUT
@@ -1100,13 +1106,16 @@ function CopyTextForAI(elThis){
   mHTML += elCopy.innerHTML
   mHTML = mHTML.replace(/^\s*[\r\n]/gm, '');// Remove all blank lines
   mHTML = mHTML.replace(/<\/?hide>/g, ''); // Remove all <hide> tags
-  //mHTML = mHTML.replace(/<a>(.*?)<\/a>/g, '<b>$1</b>');
-  mHTML = mHTML.replace(/<a>(.*?)<\/a>: /g, '');
+  mHTML = mHTML.replace(/<button(.*?)<\/button>/g, ''); // REMOVE all buttons
+  mHTML = mHTML.replace(/\s<span(.*?)<\/span>\s/g, ''); // REMOVE all span
+  mHTML = mHTML.replace(/<!--[\s\S]*?-->/g, ''); // REMOVE all HTML Comments
+  mHTML = mHTML.replace(/<a>(.*?)<\/a>/g, '');
   mHTML = mHTML.replace(/<small>↴<\/small>/g, '');
   mHTML = mHTML.replace(/<mbnote>\s*<div>/g, '');
   mHTML = mHTML.replace(/<\/div>\s*<\/mbnote>/g, '');
   mHTML = mHTML.replace(/<div>\s*<div>[\s\S]*?<\/div>[\s\S]*?<\/div>/g, '');
   mHTML = mHTML.replace(/<a>.*?<\/a><b>.*?<\/b> /g, '');  // REMOVE the pattern for multi speakers of a bubble
+  mHTML = mHTML.replace(/<p>:\s/g, '<p>'); // REMOVE all colon after <p>
   mHTML = mHTML.replace(/^[ \t]+/gm, ''); // REMOVE all indentation spaces.
   mHTML = mHTML.replace(/^\s*[\r\n]/gm, ''); // REMOVE all blank lines.
   mHTML+= "</div>";
