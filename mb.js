@@ -2230,6 +2230,7 @@ function MacroIcons(el,iHTMLInner){
     ["Key","🗝️"],
     ["Kudookie","💟"],
     ["Lemon","🍋"],
+    ["Lightning","⚡"],
     ["Link","🔗"],
     ["Lotus","🪷"],
     ["LoveLetter","💌"],
