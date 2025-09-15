@@ -2820,11 +2820,12 @@ function MacroTopic(el){
   for(let i=mTags.length-1;i>-1;i--){
     let mTag = mTags[i];
     let mDTS = mTag.getAttribute("dts");
-    let mIcon = Default(mTag.getAttribute("icon"),"");
-    let mTitle = Default(mTag.getAttribute("title"),"");
+    let mIcon = Default(mTag.getAttribute("icon"),"");    
+    let mNode = Default(mTag.getAttribute("node"),"");
     let mPrefix = Default(mTag.getAttribute("prefix"),"");
     let mSubtitle = Default(mTag.getAttribute("Subtitle"),""); 
     let mSection = Default(mTag.getAttribute("section"),"");
+    let mTitle = Default(mTag.getAttribute("title"),"");
     let mHTML = "";
 
     // STEP: If a topic is inside OL or UL, turn it into a bullet.
@@ -2861,8 +2862,16 @@ function MacroTopic(el){
       mHTML += "<div class='mbTopicIcon'>" + mIcon + "</div>";
       // 20250713: Tanya: Include the section number if it exists.
       if(NotBlank(mSection)){mHTML += mSection + ". ";}
-      mHTML += mFullTitle + "</div><hide class=\"mbSearch\"><hr class='mbhr'>";
-  
+      mHTML += mFullTitle + "</div><hide class=\"mbSearch\">";
+      
+      // 20250914: StarTree: 
+      if(NotBlank(mNode)){
+        mHTML += "<div style=\"float:right;margin:-2.2em -0.9em\">";
+        mHTML += " " + LnkCode(mNode,"",":CornerRibbon:");
+        mHTML += "</div><hr class=\"mbhide\">";
+      }
+      mHTML += "<hr class='mbhr'>";
+      
       
       if(NotBlank(mSection)){      
         let mSectionLevel = 2+ mSection.length - mSection.replaceAll(".","").length;
