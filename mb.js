@@ -1919,7 +1919,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250914 Export Format Upgrade";
+  elContainer.innerHTML = "20250922 Auto Month Grid";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2462,20 +2462,31 @@ function MacroResCalendar(mTag){
   // Type = Calendar: Required attribute
   // Icons = A | separated list.
   // Month = Indicates which month to use for rolling diary
-  // .. Plan: If the length is 2, interpret it as MM for a rolling calendar.
-  // .. Plan: Otherwise, interpret as YYYYMMM for a regular calendar
+  // Year = Indicate which year. Only used for a regular calendar. // 20250922: Evelyn  
   let mType = Default(mTag.getAttribute("type"),"");
   if(mType.toLowerCase() != "calendar"){return false;}
-  let mIcons = mTag.getAttribute("icons");
+  let mIcons = Default(mTag.getAttribute("icons"),"|");
+  let mNames = mTag.getAttribute("names");
   let mMonth = mTag.getAttribute("month");
-  let bRolling = (mMonth.length==2);
+  let mYear = mTag.getAttribute("year");
+  let bRolling = IsBlank(mYear);
 
   // STEP: Interpret the number of days in the calendar
   let mIconArr = mIcons.split("|");
   let mNumberOfDays = mIconArr.length;
+  let mNameArr ="";
+  if(NotBlank(mNames)){
+    mNameArr = mNames.split("|");
+    mNumberOfDays = mNameArr.length;
+  }
+
   // STEP: Starting Offset: Default is to have no offset.
-  
-  
+  // 20250922: Evelyn: Get the offset based on the day of the week of the first day
+  let i = 0; // Also keeps track of the column position.
+  if(NotBlank(mYear)){
+    const mFirstDay = new Date(mYear + "-" + mMonth + "-01T00:00:00Z");
+    i = mFirstDay.getUTCDay();    
+  }
   let mHTML = "<table control class=\"mbCalendarb\" style=\"margin-bottom:10px\">";
   // STEP: Add Header Row only if it is not a rolling diary
   if(!bRolling){
@@ -2483,7 +2494,7 @@ function MacroResCalendar(mTag){
   }
   // STEP: Compose the body
   mHTML += "</tbody>";
-  let i = 0; // Also keeps track of the column position.
+  
   let mDay = 1; 
 
   while(mDay <= mNumberOfDays){
@@ -2492,23 +2503,40 @@ function MacroResCalendar(mTag){
     if(i%7==0){
       if(i==0){mHTML += "<tr>";}else{mHTML += "</tr><tr>";}
     }
+    // 20250922: Evelyn: STEP: If this is the first day and there are leading blank days, add the leading blank days.
+    if(mDay == 1 && i > 0){
+      let mBlankDayHTML = "<td></td>";
+      mHTML += mBlankDayHTML.repeat(i);
+    } 
+
     // STEP: Fill the day content
     mHTML += "<td class=\"mbbuttonCal\" ";
 
     // STEP: Add the OnClick function call
+    let mMMDD = mMonth + mDay.toString().padStart(2,'0');
     if(bRolling && mDay > 0){ // Assumes that Rolling calendar is a happy/kudo calendar
-      let mMMDD = mMonth + mDay.toString().padStart(2,'0');
-      //mHTML += " onclick=\"QSL(this,&quot;[date$='"+mMMDD+"'][data-happy],[id][date][time]:has([date$='"+mMMDD+"'][icon='💟'],[date$='"+mMMDD+"'][icon='💗'],mbkudo[date$='"+mMMDD+"'])&quot;)\"";
-      //mHTML += " onclick=\"QSL(this,&quot;[date$='"+mMMDD+"'][data-happy],[id][date][time]:has([date$='"+mMMDD+"'][icon='💟'],[date$='"+mMMDD+"'][icon='💗'],mbkudo[date$='"+mMMDD+"'])&quot;)\"";
       mHTML += " onclick=\"QSLRollingKudo(this,&quot;"+mMMDD+"&quot;)\"";
+    }else{
+      mHTML += " onclick=\"QueryDayP7N(this,&quot;"+mYear+mMMDD+"&quot;)\"";
     }
 
     mHTML += ">";
     if(mDay >0){
       mHTML += mDay + "<br>";
-      let mDayIcon = Default(mIconArr[mDay-1],"&nbsp;");
-      if(!isNaN(mDayIcon)){mDayIcon = "&nbsp;"} // If the content is just a number, assume that it is just a position marker and don't display it.
-      mHTML += mDayIcon;
+      // 20250922: Evelyn: Show the avatar icon if there is a name.
+      if(NotBlank(mNames)){
+        let mName = mNameArr[mDay-1];
+        if(NotBlank(mName)){
+          mHTML += "<div class='mbavem mb" + mNameArr[mDay-1] + "'></div>";
+        }else{
+          mHTML += "&nbsp;";
+        }
+        
+      }else{
+        let mDayIcon = Default(mIconArr[mDay-1],"&nbsp;");
+        if(!isNaN(mDayIcon)){mDayIcon = "&nbsp;"} // If the content is just a number, assume that it is just a position marker and don't display it.
+        mHTML += mDayIcon;
+      }
       mHTML += "</td>";
     }
     mDay ++;i++;
@@ -8422,6 +8450,18 @@ function QueryDayP5N(elThis, eDate){
 // 20221206: StarTree: For Node Calendar
 function QueryDayP6N(elThis, eDate){
   var elTarget = elThis.parentNode;
+  elTarget = elTarget.parentNode;
+  elTarget = elTarget.parentNode;
+  elTarget = elTarget.parentNode;
+  elTarget = elTarget.parentNode;
+  elTarget = elTarget.parentNode;
+  elTarget = elTarget.nextElementSibling;
+  QueryDayEl(elTarget,eDate);
+}
+// 20250922: Evelyn: For Auto Monthly Calendar
+function QueryDayP7N(elThis, eDate){
+  var elTarget = elThis.parentNode;
+  elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
