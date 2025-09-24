@@ -1109,6 +1109,7 @@ function CopyTextForAI(elThis){
   mHTML = mHTML.replace(/<button(.*?)<\/button>/g, ''); // REMOVE all buttons
   mHTML = mHTML.replace(/\s<span(.*?)<\/span>\s/g, ''); // REMOVE all span
   mHTML = mHTML.replace(/<!--[\s\S]*?-->/g, ''); // REMOVE all HTML Comments
+  mHTML = mHTML.replace(/<p><b>\swith(.*?):<\/b>\s/g, ''); // REMOVE multi authors. 20250924: StarTree
   mHTML = mHTML.replace(/<a>(.*?)<\/a>/g, '');
   mHTML = mHTML.replace(/<small>↴<\/small>/g, '');
   mHTML = mHTML.replace(/<mbnote>\s*<div>/g, '');
@@ -1919,7 +1920,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250922 Auto Month Grid";
+  elContainer.innerHTML = "20250924 CopyTextForAI Fix";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
