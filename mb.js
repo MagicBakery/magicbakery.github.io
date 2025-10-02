@@ -489,7 +489,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     mHTMLInner += NodeTypeHTML(elRecord);
 
     // 20250909: StarTree: Adding a save button to help export content for static HTML pages.
-    mHTMLInner += "<button class='mbbutton mbRef' title='Copy Text for AI' onclick='CopyTextForAI(this)'>📜</button>";
+    mHTMLInner += "<button class='mbbutton mbRef' title='Export for AI' onclick='ExportForAI(this)'>📜</button>";
 
     mHTMLInner += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>½</button>";
 
@@ -1001,15 +1001,21 @@ function ChatNodeContent(elAttr,mJSON){
   
   return mHTMLInner;
 }
-function CopyTextForAI(elThis){
+function ExportForAI(elThis){
   // 20250909: Sasha: Copy the text of a node for AI.
   var elBoard = SearchPS(elThis,"board").cloneNode(true);
 
-  
-  
   // Skip to the part that is needed:
   var elCopy = elBoard.querySelector('.mbCardMatText');
   elCopy.firstElementChild.remove();
+
+
+  if(true){ // 20251001: StarTree: Remove all Topic and Note sections that do not have a section attribute.
+    elements = elCopy.querySelectorAll('div[topic]:not([section])');
+    elements.forEach(el => el.remove());
+    elements = elCopy.querySelectorAll('mbnote:not([section])');
+    elements.forEach(el => el.remove());
+  }
 
   if(true){
     // REMOVE all HR
@@ -1113,6 +1119,7 @@ function CopyTextForAI(elThis){
   mHTML = mHTML.replace(/<a>(.*?)<\/a>/g, '');
   mHTML = mHTML.replace(/<small>↴<\/small>/g, '');
   mHTML = mHTML.replace(/<mbnote>\s*<div>/g, '');
+  mHTML = mHTML.replace(/<mbnote[\s\S]*?<div>/g, ''); // 20251002: StarTree: Remove for note sections
   mHTML = mHTML.replace(/<\/div>\s*<\/mbnote>/g, '');
   mHTML = mHTML.replace(/<div>\s*<div>[\s\S]*?<\/div>[\s\S]*?<\/div>/g, '');
   mHTML = mHTML.replace(/<a>.*?<\/a><b>.*?<\/b> /g, '');  // REMOVE the pattern for multi speakers of a bubble
@@ -1122,22 +1129,6 @@ function CopyTextForAI(elThis){
   mHTML+= "</div>";
   navigator.clipboard.writeText(mHTML);
 }
-function Pin2Code(mJSON){
-  // 20240405: StarTree: Creates the HTML for the node pin.
-  var mHTML="";
-  mHTML += "<macro>{\"cmd\":\"PIN2\",\"node\":\"" +mJSON.id +"\"";
-  if(NotBlank(mJSON.music) || NotBlank(mJSON.yt)){
-    if(NotBlank(mJSON.music)){
-      mHTML += ",\"music\":\""+mJSON.music+"\"";
-    }
-    if(NotBlank(mJSON.yt)){
-      mHTML += ",\"yt\":\""+mJSON.yt+ "\"";
-    }
-  }
-  mHTML += "}</macro>";
-  return mHTML;
-}
-
 function GetInputBoxValue(el){
   // 20230821: StarTree: This gets the first input box within the control section.
   var mControl = SearchPS(el,'control');
@@ -1459,6 +1450,21 @@ function PanelToggleWidth(el){
     mPanel.style.flex= "";
   }
   
+}
+function Pin2Code(mJSON){
+  // 20240405: StarTree: Creates the HTML for the node pin.
+  var mHTML="";
+  mHTML += "<macro>{\"cmd\":\"PIN2\",\"node\":\"" +mJSON.id +"\"";
+  if(NotBlank(mJSON.music) || NotBlank(mJSON.yt)){
+    if(NotBlank(mJSON.music)){
+      mHTML += ",\"music\":\""+mJSON.music+"\"";
+    }
+    if(NotBlank(mJSON.yt)){
+      mHTML += ",\"yt\":\""+mJSON.yt+ "\"";
+    }
+  }
+  mHTML += "}</macro>";
+  return mHTML;
 }
 function RemoveParent(el){
   // 20230916: StarTree: For hiding iframe.
@@ -1920,7 +1926,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20250924 CopyTextForAI Fix";
+  elContainer.innerHTML = "20251001 Export for AI Upgrade";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2381,10 +2387,13 @@ function MacroNote(el){
     let mTitle = Default(mTag.getAttribute("title"),"");
     let mSubtitle = Default(mTag.getAttribute("Subtitle"),"");
     let mNode = Default(mTag.getAttribute("node"),"");
+    let bSection = mTag.hasAttribute("section"); // 20251001: StarTree: Keep for auto assginment.
     let mSection = Default(mTag.getAttribute("section"),"");
     let mHTML = "";
     let mLabel = "";
-    mHTML = "<mbnote dts=\"" + mDTS +"\">";
+    mHTML = "<mbnote dts=\"" + mDTS +"\"";
+    if(bSection){mHTML += " section=\""+ mSection+"\"";}
+    mHTML += ">";
     mHTML += "<a class='mbbutton' onclick='ShowNextInline(this)'>";
     
     // 20240822: StarTree: If only Title exists, don't use the brackets. 
@@ -2853,6 +2862,7 @@ function MacroTopic(el){
     let mNode = Default(mTag.getAttribute("node"),"");
     let mPrefix = Default(mTag.getAttribute("prefix"),"");
     let mSubtitle = Default(mTag.getAttribute("Subtitle"),""); 
+    let bSection = mTag.hasAttribute("section"); // 20251001: StarTree: Keep for auto assginment.
     let mSection = Default(mTag.getAttribute("section"),"");
     let mTitle = Default(mTag.getAttribute("title"),"");
     let mHTML = "";
@@ -2912,17 +2922,14 @@ function MacroTopic(el){
       mHTML += mTag.innerHTML;
       
       mHTML += "<div class='mbCB'></div></hide>";
+      // Retain some of the attributes
       // 20240711: Natalie: to improve formatting.
       let elNew = document.createElement('div');
-      /*
-      elNew.classList.add("mbCL");      
-      mTag.before(elNew);
-
-      elNew = document.createElement('div');//*/
       elNew.classList.add(mClass);   
       elNew.classList.add("mbCL"); // 20240801: Arcacia
       elNew.setAttribute('DTS',mDTS);
       elNew.setAttribute('topic',"");
+      if(bSection){elNew.setAttribute('section',mSection);}
       elNew.innerHTML = mHTML;
       mTag.before(elNew);
     }
@@ -7830,57 +7837,57 @@ function GuildEXP(iMember){
   // 20230129: Ledia: Added for total EXP.
   // #GuildEXP
   var dict={
-"3B": 7253,
-"44": 1042,
-"Albatross": 2790,
-"Amelia": 1144,
-"Arcacia": 9583,
-"Black": 16285,
-"Cardinal": 4323,
-"Casey": 5251,
-"Chris": 31,
-"Clyde": 235,
+"3B": 7338,
+"44": 1050,
+"Albatross": 2856,
+"Amelia": 1202,
+"Arcacia": 9759,
+"Black": 16513,
+"Cardinal": 4491,
+"Casey": 5317,
+"Chris": 38,
+"Clyde": 273,
 "Emi": 66,
-"Evelyn": 15315,
-"Fina": 3311,
-"Gaia": 1820,
-"Helen": 3910,
-"Ivy": 5760,
-"James": 3818,
-"Jao": 263,
-"John": 469,
-"Karl": 38,
-"Ken": 1035,
-"King": 110,
-"Kisaragi": 6962,
-"Koyo": 1095,
-"Ledia": 9721,
-"Leo": 28,
-"LRRH": 13398,
-"Mark": 170,
-"Melody": 1925,
-"Mikela": 1676,
-"Miller": 65,
-"Natalie": 6523,
+"Evelyn": 15607,
+"Fina": 3452,
+"Gaia": 1884,
+"Helen": 3986,
+"Ivy": 5847,
+"James": 3872,
+"Jao": 310,
+"John": 511,
+"Karl": 69,
+"Ken": 1073,
+"King": 131,
+"Kisaragi": 7047,
+"Koyo": 1117,
+"Ledia": 9821,
+"Leo": 32,
+"LRRH": 13822,
+"Mark": 185,
+"Melody": 2072,
+"Mikela": 1731,
+"Miller": 71,
+"Natalie": 6607,
 "Neil": 316,
-"P4": 6753,
-"Patricia": 4639,
+"P4": 6905,
+"Patricia": 4748,
 "Rick": 190,
-"Robert": 592,
+"Robert": 623,
 "Roger": 150,
-"RS": 11,
-"Sasha": 8309,
-"Skyle": 4325,
-"StarTree": 15823,
-"Sylvia": 6482,
-"Tanya": 10040,
-"The_Unusual": 840,
-"Therese": 422,
-"V": 4295,
-"Vivi": 6880,
-"Vladanya": 3798,
-"Wonder": 51,
-"Zoey": 10019,
+"RS": 23,
+"Sasha": 8466,
+"Skyle": 4390,
+"StarTree": 16503,
+"Sylvia": 6554,
+"Tanya": 10142,
+"The_Unusual": 965,
+"Therese": 466,
+"V": 4325,
+"Vivi": 6938,
+"Vladanya": 3865,
+"Wonder": 55,
+"Zoey": 10229,
   };
   return dict[iMember];
 }
