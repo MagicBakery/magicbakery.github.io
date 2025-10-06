@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter">
+  <link rel="stylesheet" href="mb.css">
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="mb.js"> </script>
+  <title>Magic Bakery</title>
+  <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+</head>
+<body id="MBJQSW">
+  <div class="header">
+    <div style="text-align: center;line-height:2px;margin-top:-5px">
+      <h4>
+        <!---->
+        <div class="mbIcon mbIconShift"
+          style="background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/WingL.png')">
+        </div>
+        <a class="mbpointer" title="About Magic Bakery" href="../" style="color:white;"
+          onclick="BoardLoadPF(this,'202208172056');return false">Magic Bakery</a>
+        <a class="mbbutton mbpointer" title="Visit Marker" onclick="NodeMarkUseCookie(this,true)"><span class="mbIcon"
+            style="Height:1.7em;Width:1.7em;position:relative;top:-5px;margin-bottom:-10px;background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png')">
+            <icon>🥨</icon>
+          </span></a>
+        <a class="mbpointer" title="About Panarcademy" href="../?id=P202403231454" style="color:white;"
+          onclick="BoardLoadPL(this,'202403231454');return false">Panarcademy</a>
+        <div class="mbIcon"
+          style="background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/WingR.png')">
+        </div>
+
+
+
+
+      </h4>
+
+      <small style="font-size: 10px;">
+        <a class="mbpointer" title="Website Updates" href="../?id=P202303052122" style="color:white;"
+          onclick="BoardLoadPF(this,'202303052122');return false">
+          <latestupdate></latestupdate>
+        </a>
+        <a class="mbpointer" title="Turn off Offline mode" d-offline onclick="Offline(null,true)"
+          style="color:gold"></a>
+      </small>
+    </div>
+    <hide>Arcacianism | Arcacian Principle | Let people help each other and reward those who do. | Peacemaker | Peace
+      Paradigm Ranking</hide>
+
+  </div>
+
+<div id="MainArea" main="" class="flex" style="padding-bottom:27px;padding-top:35px;justify-content:center;"><div class="mbPanel" panel="" serve="" style="flex: 1 1 50%;">      
+      <div control="" style="padding:0px 3px 2px 2px;">
+        <a class="mbbutton" onclick="IFrameURLSet(this)" title="Jquery Blogspot (Legacy)" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/MantleClock.png&quot;)"><icon>🕰️</icon></span></a>
+        <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;" inputmode="search"> 
+        
+        <a class="mbbutton" onclick="JQAdd(this,true)" title="Jquery GitHub" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span></a>
+        <!--<a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board"><span class='mbIcon' style='background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png&quot;)'><icon>🥨</icon></span></a>-->
+        
+        <a class="mbbutton" onclick="ShowNext(this)" style="float: right; cursor: text;" title="Panel Control"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pancake.png&quot;)"><icon>🥞</icon></span></a>
+        <div class="mbscroll mbhide" control="" style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">          
+          
+          <div control="" style="text-align: center;min-width:125px;font-size: 22px;">
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span></button>
+            <hide>              
+              <hr>    
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'800000000000',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P800000000000" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span> Search</a><br>    
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202405051137',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202405051137" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Phone.png&quot;)"><icon>☎️</icon></span> Help Center</a><br>    
+                       
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'Feedback');HC(this);return false;" target="_blank" title="Feedback" href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span> Feedback</a><br>  
+
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202207131009',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202207131009" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Teddy.png&quot;)"><icon>🧸</icon></span> Board Games</a><br>   
+                
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202208172056',false, true);HC(this);return false;" title="Calendar" href="./?id=P202208172056" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Question.png&quot;)"><icon>:?:</icon></span> About</a><br>   
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202403231454',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202403231454" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/SquareCap.png&quot;)"><icon>🎓</icon></span> Academy</a><br>  
+                                                              
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Chick.png&quot;)"><icon>🐤</icon></span></button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'900000000000',false, true);HC(this);return false;" title="Quest Board" href="./?id=P900000000000" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Circus.png&quot;)"><icon>🎪</icon></span> Quest Board</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202310072314',false, true);HC(this);return false;" title="Calendar" href="./?id=P202310072314" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Calendar.png&quot;)"><icon>📅</icon></span> Calendar</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202207242047',false, true);HC(this);return false;" title="Roll Call" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/PostHorn.png&quot;)"><icon>📯</icon></span> Roll Call</a><br> 
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202404260005',false, true);HC(this);return false" title="Message Scanner" href="./?id=P202404260005" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Bell.png&quot;)"><icon>🔔</icon></span> Messages</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202301251008',false, true);HC(this);return false;" title="Scoreboard" href="./?id=P202301251008" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Crown.png&quot;)"><icon>👑</icon></span> Scoreboard</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202405010908',false, true);HC(this);return false;" title="Guild Inbox" href="./?id=P202405010908" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Mailbox.png&quot;)"><icon>📬</icon></span> Guild Inbox</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202307161350',false, true);HC(this);return false;" title="Dice Roller" href="./?id=P202307161350" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Dice.png&quot;)"><icon>🎲</icon></span> Dice Roller</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202303191144',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202303191144" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ShoppingCart.png&quot;)"><icon>🛒</icon></span> Supplies List</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="Offline(null,true);" title="Offline Mode" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Backpack.png&quot;)"><icon>🎒</icon></span> Offline Mode</a>
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span></button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onclick="PanelAddBefore(this);HC(this);" title="Add a panel before" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span> Add Before</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelAddAfter(this);HC(this);" title="Add a panel after" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span> Add After</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelToggleServe(this);HC(this);" title="Serve nodes to this panel" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pancake.png&quot;)"><icon>🥞</icon></span> Serve Here</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelToggleWidth(this);HC(this);" title="Toggle the width of this panel" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Waffle.png&quot;)"><icon>🧇</icon></span> Toggle Width</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelRemove(this);" title="Close" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Close.png&quot;)"><icon>:Close:</icon></span> Close Panel</a><br>
+              <div class="mbCB"></div>
+              <hr>
+            </hide>
+            
+          </div>
+          <div></div><!--DISPLAY AREA-->
+        </div>
+      </div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px">
+ <!--IMPORT POST-RENDER MAINAREA BELOW-->
+<div class='mbscroll'><h1>Skill Tree</h1><hr>
+<h2>1. Introduction</h2>
+<p>The Skill Tree is a key infrastructure of Quest Society that enables resilience by training people how to help for free.</p>
+<p>The Skill Tree can be considered an upgrade to the status quo public education system that is not mandatory or funded by taxation.</p>
+<p>In Quest Society, trainig is free to the learners because the teachers and creators of training materials get quest credits that already accounts for the impacts on society.</p>
+<p>For more information Quest Society Ethics, please see: https://magicbakery.github.io/Ethics.html</p>
+<h3>:Phoenix: 1.1. Resilience</h3>
+<p>To support resilience of humanity (especially when technology is down), the Skill Tree identifies the skill paths for humanity to rebuild and promote the learning of skills along that path with emergency preparation credits. </p>
+<p>Phoenix Quest Credits are awarded for practicing skills that are critical to resilience in case of technology failure where civilization is sent back to the stone age with not a single hand tool.</p>
+<p>A skill gets on the Phoenix list when it is vital for humanity to climb the tech tree, but there aren't enough humans who have attained instructor level to teach other humans to do.</p>
+<p>If humans normally practice a vital skill because the skill itself is fun that many people already do that as a hobby, the skill would not become a Phoenix skill.</p>
+<p>For long term sustainability and resilience, all critical skills should be hobbies so there is no need to have Phoenix credits as incentives for humans to take up the hobby.</p>
+<p>This is done by having designer zones at different technological stages (e.g. medieval city, steampunk city, etc...) where people could normally go for the immersive experience, as a skill challenge, or as their prefered permanent residence.</p>
+<p>The tech tree’s critical path often differs from history because advanced knowledge can skip past earlier, less efficient developments.</p>
+<h2>2. Archetypes</h2>
+<p>The Skill Tree helps newcomer see what kind of peacemaker they have a natural inclination toward, akin to a personality test for peacemaking.</p>
+<p>To help people quickly express what type of peacemaker they are, the Skill Tree uses just six major archetypes: Paladins, Clerics, Heralds, Alchemists, Oracles, and Magicians.</p>
+<p>For each archetype, a person's skill level is roughly denoted by 0 to 5 stars.</p>
+<p>This allows a gamified visual display of what kind of peacemaker a person is.</p>
+<h3>🌈 2.1. Archetypes</h3>
+<p>The six archetypes help different kinds of people see themself as a peacemaker, and to concisely communicate what kind of skill a quest needs.</p>
+The Principle of Identity Evolution: Quest Society understands and leverages that ethical behavior is a dynamic process of self-formation.</p>
+<p>By letting people to take on the role and help, regardless of their initial motivation, they can adopt the identities as peacemakers.</p>        
+<p>The Peacemaker Archetypes is Quest Society's means to emphasize the diversity in peacemaking to help each person see who they can be a peacemaker.</p>
+<p>This definition helps peacemakers see those in different disciplines as peacemakers of different skills, to promoting forming teams with all the skills needed to resolve a situation.</p>
+<p>The names of the archetypes are gamified to promote creativity and happiness while peacemaking.</p>
+<p>In Quest Society, it is not necessary to play games for fun. Peacemaking is the fun.</p> 
+<h4>:Paladin: 2.1.1. Paladin</h4>
+<p>The Paladin archetype has skills related to physical defense and rescues especially from hostile zones.</p>
+<p>Paladins enforce justice and protect against hostile regimes.</p>
+<h4>❤️ 2.1.2. Cleric</h4>
+<p>Clerics are mediators who restore goodwill and happiness by resolving personal and interpersonal conflicts.</p>
+The Cleric peacemaker archetype is a concrete and widespread skill set empowering individuals to mediate and heal conflicts interpersonally, complementing ethical laws and diplomatic principles.</p>
+<p>Clerics persuade, educate, or mediate for communities affected by decisions.</p>
+<h4>📯 2.1.3. Herald</h4>
+<p>Heralds make peacemaking efficient by sharing information, coordinating quests, resources, and training.</p>
+<p>Heralds also enforce transparency of quest activities.</p>
+<h4>🍀 2.1.4. Alchemist</h4>
+<p>Alchemists make peace by creating abundance through studying and production.</p>
+<p>They handle infrastructure, upgrades, and logistical support.</p>
+<h4>🔮 2.1.5. Oracle</h4>
+<p>Oracles help people make informed choices by telling the truth and foreseeing dangers. Their skills are used to simulate and evaluate policies.</p>
+<p>Oracles draft advisory plans, including emergency responses and Paladin interventions.</p>
+<h4>🎩 2.1.6. Magician</h4>
+<p>Magicians make life fun and inspire people's desires and imaginations for a wonderful world.</p>
+Magician is the fun-maker archetype that ensures that quests are not just about necessity or ethics, but also joy.</p>          
+Magicians boost motivation, creativity, and group cohesion, which translates into higher resilience (people bounce back better when the journey itself is fun).</p>
+<p>Even though Quest Credits are awarded for completed quests, Magicians make the path intrinsically rewarding.</p>
+<p>This means external motivation (credits) and intrinsic motivation (joy) are aligned, which prevents burnout.</p>
+<h3>⭐ 2.2. Skill Ratings</h3>
+<h2>3. Skill Placement</h2>
+<p>The peacemaker skill rating is an anti-fragile rubric that promotes learning and using higher potency peacemaking skill by highlighting when they are needed.</p>
+<p>This rating helps people to be aware when they lack the skill to resolve a situation and should seek help.</p>
+<h3>⭐ 3.1. 1-Star / Initiate</h3>
+<p>1-star level skills or proficiency are good as personal reminders to stay good.</p>
+<p>They in general do not work on anyone else unless they know you very well.</p>
+<p>As a proficiency rating, 1-star means the peacemaker knows about this skill, so that even if they cannot perform it, they could find someone who can.</p>
+<h3>⭐⭐ 3.2. 2-Star / Apprentice</h3>
+<p>2-star skills can resolve conflicts among people who already recognize themselves as peacemakers.</p>
+<p>As a proficiency rating, 2-star means the peacemaker can perform the skill unaided following their notes.</p>
+<h3>⭐⭐⭐ 3.3. 3-Star / Practitioner</h3>
+<p>3-star skills can work on unbiased strangers, including them as helpers to resolve a conflict even when from their perspective, they do not see themselves as helpers.</p>
+<p>As a proficiency rating, Practitioners can perform a skill from memory without referring to notes.</p>
+<h3>⭐⭐⭐⭐ 3.4. 4-Star / Instructor</h3>
+<p>4-star skills can work on biased strangers, motivating them to get out of reluctance to help, or at lesat stop causing harm.</p>
+<p>As a prociency rating, Instructors are those who knows enough about a skill to teach them.</p>
+<h3>⭐⭐⭐⭐⭐ 3.5. 5-Star / Pioneer</h3>
+<p>5-star skills can work on hostile people who are trying to cause harm.</p>
+<p>When used as a proficiency rating, Pioneer is the level for those who invent and refine a skill.</p>
+<p>By viewing peacemaker skills this way, a society could gain anti-fragile resilience where hostility is perceived as an opportunity to use and invent new peacemaking skills toward a win-win outcome.</p>
+<p>Knowing that hostility gives people more credits to resolve a situation, an instigator has incentive to de-escalate preemptively so that others don't benefit from resolving their bad behavior.</p>
+<h2>4. Learn &amp; Teach</h2>
+<p>The Skill Tree provides free training by awarding quest credits to the teachers and maintenance staff.</p>
+<p>While a learner does not get quest credits for learning, they get a skill badge for their profile, and what they learn should empower them to do more quests, which would inturn award them quest credits.</p>
+<p>The platform itself connects learners and teachers, where a learner helping another learner learn could also get quest credits for helping.</p>
+<p>Since the Skill Tree is aware of what skills are used in what quests, it can generate a learning curriculum toward the kind of quests that the learner wants to do.</p>
+<p>Submitted learning materials can be used freely by the learners. When a learner gives kudo to a teacher or teaching content, the learner would get some credit for giving the kudo, and the teacher or author would get Impact credit based on kind of quests that the learner will end up doing using the skill.</p>
+<p>The balance of the credits makes it always more worthwhile to teach someone who will do the quest than to do it yourself.</p>
+<h2>5. Register a New Skill</h2>
+<p>The Skill Tree lets users register new skills and consolidates similar skills so that a learner aiming for one quest can benefit from skills discovered by people doing a different quest. </p>
+<p>By collecting and analyzing in realtime what skills people actually use to do a quest, the Skill Tree can derive the current best practice and compute the standard training time and standard quest time needed to do a quest.</p>
+<p>That time is a type of moving average that sets the amount of Gold Credits for doing the quest.</p>
+<p>By staying efficient, you would get more Gold Credits than the actual time you spent doing the quest.</p>
+<p>If you efficiency is based on a skill that you discovered, and you choose not to share your discover, someone else who discovers later than you but shares the skill first would be the first registered pioneer and get the impact credit for sharing, even though you discovered it first.</p>
+<p>This system rewards those who share, not those who hide the discovery for themselves.</p>
+<h3>⚖️ 5.1. Comparison to Patents</h3>
+<p>The Impact credit system rewards sharing of discovery, like patent registry would, but does it in a philosophically opposite method.</p>
+<p>In status quo societies, registering a patent grants a person exclusive rights to make money with the discovery.</p>
+<p>For the Skill Tree, registering a skill grants the sharer unlimited impact credits when others learn and quest with that skill.</p>
+<p>To the inventor, it is an easy choice to always choose to share instead of attempting to file a patent for two reasons: 1) There are more credits to gain from sharing; 2) Quest Society does not observe patent rights because they violate autonomy and is considered unethical to enforce. (You cannot ethically stop someone from using a skill that they learned how to do.)</p>
+<p>The system of Skill Tree can be described as automatic royalty. By simply sharing your skill, you art, or your design, when people adopt it, you automatically get impact credits. There is no hassle for you to negotiate deals or to sue anyone for infringement. You are already getting paid.</p>
+<p>You impact will also likely be higher than if you tried to negotiate, because the learner does not need to pay anyone to adopt your contribution, so they would freely give you the kudo (and for their credit).</p>
+<p>By posting a good design, if someone uses it to make a physical object that people want, you automatically get at least community impact credits.</p>
+<h2>6. Peacemaking Roleplay</h2>
+<p>The Roleplay Mode tests your skill not based on your knowledge, but on your performance.</p>
+<p>In this mode you roleplay the exact words or actions you would do, and the AI simulates a realistic response.</p>
+</div>
+ <!--IMPORT ABOVE-->
+      </div>
+    </div></div>
+
+  <div class="footer" onclick="ShowWidgets()">
+
+
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'90000000000000')" title="Quest Board">🔔</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;  overflow-y:auto;width:100%;max-width: 350px;">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240421014400')" title="Roll Call">📯</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 90vh; overflow-y:auto; max-width: 350px;">
+        </div>
+      </div>
+    </span>
+
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'80000000000000')" title="Search">🔍</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:350px;width:100%">
+        </div>
+      </div>
+    </span>
+
+    <button BB class="mbbutton" onClick="ShowNextFP(this,'20240904213516')" title="Music Player">🎧</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:350px;width:100%"></div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240330201200')" title="Notepad">📋</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:700px;width:100%">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'Feedback')" title="Feedback">💌</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP board reserved
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; ;max-width: 700px;width:100%">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240416213800')" title="Node Maker">🍞</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:right;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;max-width:350px; overflow-y:auto">
+        </div>
+      </div>
+    </span>
+
+
+
+  </div>
+  <hide><!--New Panel Template-->
+    <div id="NewPanelTemplate">
+
+      <div control style="padding:0px 3px 2px 2px;">
+        <a class="mbbutton" onClick="IFrameURLSet(this)" title="Jquery Blogspot (Legacy)">🕰️</a>
+        <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;" inputmode="search">
+
+        <a class="mbbutton" onClick="JQAdd(this,true)" title="Jquery GitHub">🐣</a>
+        <!--<a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board">🥨</a>-->
+
+        <a class="mbbutton" onclick="ShowNext(this)" style="float:right;" title="Panel Control">🍞</a>
+        <div class="mbscroll mbhide" control
+          style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">
+
+          <div control style="text-align: center;min-width:125px;font-size: 22px;">
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🔍</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'800000000000',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P800000000000">🔍 Search</a><br>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202405051137',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202405051137">☎️ Help Center</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'Feedback');HC(this);return false;"
+                target="_blank" title="Feedback"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">💟
+                Feedback</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202207131009',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202207131009">🧸 Board Games</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202208172056',false, true);HC(this);return false;" title="Calendar"
+                href="./?id=P202208172056">:?: About</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202403231454',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202403231454">🎓 Academy</a><br>
+
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🐤</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'900000000000',false, true);HC(this);return false;" title="Quest Board"
+                href="./?id=P900000000000">🎪 Quest Board</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202310072314',false, true);HC(this);return false;" title="Calendar"
+                href="./?id=P202310072314">📅 Calendar</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202207242047',false, true);HC(this);return false;" title="Roll Call">📯 Roll
+                Call</a><br>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202404260005',false, true);HC(this);return false"
+                title="Message Scanner" href="./?id=P202404260005">🔔 Messages</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202301251008',false, true);HC(this);return false;" title="Scoreboard"
+                href="./?id=P202301251008">👑 Scoreboard</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202405010908',false, true);HC(this);return false;" title="Guild Inbox"
+                href="./?id=P202405010908">📬 Guild Inbox</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202307161350',false, true);HC(this);return false;" title="Dice Roller"
+                href="./?id=P202307161350">🎲 Dice Roller</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202303191144',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202303191144">🛒 Supplies List</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="Offline(null,true);" title="Offline Mode">🎒
+                Offline Mode</a>
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🤎</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onClick="PanelAddBefore(this);HC(this);" title="Add a panel before">🤎 Add
+                Before</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelAddAfter(this);HC(this);" title="Add a panel after">🤎 Add
+                After</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelToggleServe(this);HC(this);"
+                title="Serve nodes to this panel">🥞 Serve Here</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelToggleWidth(this);HC(this);"
+                title="Toggle the width of this panel">🧇 Toggle Width</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelRemove(this);" title="Close">:Close: Close
+                Panel</a><br>
+              <div class="mbCB"></div>
+              <hr>
+            </hide>
+
+          </div>
+          <div></div><!--DISPLAY AREA-->
+        </div>
+      </div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px"></div>
+    </div>
+  </hide>
+</body>
+<script>
+  function URLViewer() {
+    MacroIcons(document.body);
+    LatestUpdate();
+  };
+  window.onload = URLViewer;
+</script>
+</html>
