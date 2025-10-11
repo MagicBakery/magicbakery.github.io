@@ -1141,7 +1141,7 @@ function IFrameFeedback(el){
   var mHTML = "<span class='mbRef'><a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'><span class=\"mbIcon\" style=\"background-image:url('https://github.com/MagicBakery/Icons/blob/main/Close.png?raw=true')\"></span></a></span>";
 
   //mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>⅔</button>";
-  mHTML += "<a onClick='IFrameFeedback(this)' title='Feedback Form'>💌</a> <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a>";
+  mHTML += "<a onClick='IFrameFeedback(this.parentNode)' title='Feedback Form'>💌</a> <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a>";
   mHTML += "<iframe src='" + mInput + "' title='Google Form' style='border:none;width:100%;height:calc(100vh - 190px)' allow='clipboard-read; clipboard-write'></iframe>";
   
   el.innerHTML = mHTML;
