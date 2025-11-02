@@ -1926,7 +1926,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20251001 Export for AI Upgrade";
+  elContainer.innerHTML = "20251101 Auto Daisy";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -3614,7 +3614,12 @@ function RenderStart(el){
   //  mHTML += RenderAvXP(mSPK,mEXP,mIcon,el.getAttribute('rank'),el.getAttribute('mode'));
   //}
 
-  mHTML += "<div class='mbpdc'><p style='display:inline'>" + el.innerHTML + "</p>";
+  mHTML += "<div class='mbpdc'";
+  // 20251101: StarTree: Retain the SPK and EXP info
+  if(el.hasAttribute('spk')){mHTML += " SPK=\"" + el.getAttribute('spk') + "\"";}
+  if(el.hasAttribute('exp')){mHTML += " EXP=\"" + el.getAttribute('exp') + "\"";}
+  mHTML += "><p style='display:inline'>" + el.innerHTML + "</p>";
+
   // 20240726: Evelyn: I think the start format doesn't need this chicken.
   /*if(el.hasAttribute('DTS')){
     mHTML += " <a class='mbbutton' onclick='MsgContext(this)'><small>...</small></a>";
@@ -3734,10 +3739,16 @@ function ModeCSS(mMode){
 function RenderAvXP(mSPK,mEXP,mIcon,mRank,mMode){
   // 20240426: Skyle: Function called by other render functions
   var mHTML="";
-  mHTML = "<div class=\"mbav50e mb" + mSPK;
+  
+  var mSPKFirst = Default(SPKAvatar(null,mSPK),"???");
+  mHTML = "<div class=\"mbav50e mb" + mSPKFirst;
   let mModeCSS = ModeCSS(mMode);
   if(NotBlank(mModeCSS)){mHTML += " mb" + mModeCSS;}
-  mHTML += "\">";
+  mHTML += "\"";
+  // 20251101: StarTree: Retain the SPK and EXP info
+  if(NotBlank(mSPK)){mHTML += " SPK=\"" + mSPK + "\" HELLO";}
+  if(NotBlank(mEXP)){mHTML += " EXP=\"" + mEXP + "\"";}
+  mHTML += ">";
   if(mEXP || NotBlank(mRank)){
     mHTML += "<div class='mbavXP' d-xpicon icon=\""+mIcon+"\">";
     mHTML += mIcon;
@@ -3757,16 +3768,17 @@ function RenderEnter(el){
   // 20240420: StarTree: Renders a bubble in the a traditional ENTER format.
   var mHTML="";
   // STEP: Show the Avatar with optional EXP icon.
-  var mSPK = Default(SPKAvatar(el),"???");
+  var mSPK = el.getAttribute("SPK");
+  var mSPKFirst = Default(SPKAvatar(el),"???");
   var mEXP = RenderExp(el);
   var mTitle = el.getAttribute("Title");
   var mIcon = Default(el.getAttribute("Icon"),"⭐");
   mHTML = "<div class=\"mbCL\"></div>"
   mHTML += RenderAvXP(mSPK,mEXP,mIcon,el.getAttribute('rank'),el.getAttribute('mode'));
   if(el.hasAttribute('DTS')){
-    mHTML += "<a class='mbbutton' onclick='MsgContext(this)'>" + mSPK.replace("_"," ") + "</a>" + SPKMultiStr(el) +" ";
+    mHTML += "<a class='mbbutton' onclick='MsgContext(this)'>" + mSPKFirst.replace("_"," ") + "</a>" + SPKMultiStr(el) +" ";
   }else{
-    mHTML += "<b>"+mSPK.replace("_"," ") +":</b> ";
+    mHTML += "<b>"+mSPKFirst.replace("_"," ") +":</b> ";
   }
   if(NotBlank(mTitle)){
     mHTML += "<b>" + mTitle +":</b> ";
@@ -3868,7 +3880,11 @@ function RenderMsg(el){
     mHTML += "mbRank" + mRank
     if(!el.hasAttribute('EXP')){mEXP=0} // 20240505: P4: Show a 0 if there is rank but no EXP.
   }
-  mHTML += "\">";
+  mHTML += "\"";
+  // 20251101: StarTree: Retain the SPK and EXP info
+  if(el.hasAttribute('spk')){mHTML += " SPK=\"" + el.getAttribute('spk') + "\"";}
+  if(el.hasAttribute('exp')){mHTML += " EXP=\"" + el.getAttribute('exp') + "\"";}
+  mHTML += ">";
   if(NotBlank(mRank) || (NotBlank(mEXP) && mEXP > 1)){mHTML += "<small d-XP>" + mEXP + " </small>";}
   mHTML += "</span>";
   
@@ -5052,13 +5068,14 @@ function ShowSkip(el) {
       eNext.style.display = "none";
   }
 }
-function SPKAvatar(el){
+function SPKAvatar(el,iSPK){
   // 20240803: StarTree: Returns the first person in SPK as the avatar speaker.
   // .. Needs to handle two formats of SPK:
   // .. 1) SPK="StarTree"
   // .. 2) SPK="|StarTree|Tanya|"
-  
-  var mSPK = el.getAttribute("SPK");
+  // 20251101: StarTree: if iSPK is specified, just use it.
+  var mSPK = iSPK;
+  if(IsBlank(mSPK)){mSPK = el.getAttribute("SPK"); }  
   if(IsBlank(mSPK)){return "";}
   var mSPKs = mSPK.split("|");
   if(mSPKs.length==1){return mSPK;} // Case 1
@@ -7837,57 +7854,57 @@ function GuildEXP(iMember){
   // 20230129: Ledia: Added for total EXP.
   // #GuildEXP
   var dict={
-"3B": 7338,
-"44": 1050,
-"Albatross": 2856,
-"Amelia": 1202,
-"Arcacia": 9759,
-"Black": 16513,
-"Cardinal": 4491,
-"Casey": 5317,
-"Chris": 38,
-"Clyde": 273,
+"3B": 7364,
+"44": 1062,
+"Albatross": 2920,
+"Amelia": 1260,
+"Arcacia": 9906,
+"Black": 16733,
+"Cardinal": 4644,
+"Casey": 5467,
+"Chris": 35,
+"Clyde": 318,
 "Emi": 66,
-"Evelyn": 15607,
-"Fina": 3452,
-"Gaia": 1884,
-"Helen": 3986,
-"Ivy": 5847,
-"James": 3872,
-"Jao": 310,
-"John": 511,
-"Karl": 69,
-"Ken": 1073,
-"King": 131,
-"Kisaragi": 7047,
-"Koyo": 1117,
-"Ledia": 9821,
+"Evelyn": 15930,
+"Fina": 3609,
+"Gaia": 1933,
+"Helen": 4044,
+"Ivy": 5946,
+"James": 3919,
+"Jao": 378,
+"John": 586,
+"Karl": 66,
+"Ken": 1129,
+"King": 167,
+"Kisaragi": 7166,
+"Koyo": 1158,
+"Ledia": 9944,
 "Leo": 32,
-"LRRH": 13822,
-"Mark": 185,
-"Melody": 2072,
+"LRRH": 14208,
+"Mark": 220,
+"Melody": 2259,
 "Mikela": 1731,
-"Miller": 71,
-"Natalie": 6607,
+"Miller": 77,
+"Natalie": 6681,
 "Neil": 316,
-"P4": 6905,
-"Patricia": 4748,
-"Rick": 190,
-"Robert": 623,
+"P4": 7204,
+"Patricia": 4914,
+"Rick": 194,
+"Robert": 696,
 "Roger": 150,
-"RS": 23,
-"Sasha": 8466,
-"Skyle": 4390,
-"StarTree": 16503,
-"Sylvia": 6554,
-"Tanya": 10142,
-"The_Unusual": 965,
-"Therese": 466,
-"V": 4325,
-"Vivi": 6938,
-"Vladanya": 3865,
+"RS": 11,
+"Sasha": 8622,
+"Skyle": 4470,
+"StarTree": 17013,
+"Sylvia": 6636,
+"Tanya": 10273,
+"The_Unusual": 1077,
+"Therese": 503,
+"V": 4352,
+"Vivi": 7021,
+"Vladanya": 3926,
 "Wonder": 55,
-"Zoey": 10229,
+"Zoey": 10334,
   };
   return dict[iMember];
 }
@@ -8480,36 +8497,40 @@ function QueryDayP7N(elThis, eDate){
 }
 // 20221206: StarTree: For Node Calendar
 function QueryDayEl(elContainer,eDate){
+  // 20251101: StarTree: This is the part that composes the date string to show what date is in display.
+  var sDate = new Date(eDate.substring(0,4) + "/" + eDate.substring(4,6) + "/" + eDate.substring(6,8));
+  var sDateString = GetMonthText(sDate).toUpperCase() + " " + sDate.getDate() + " " + GetDayText(sDate).toUpperCase();
+  
   try{
     var elWidget = SearchPS(elContainer,'widget');
     var elDisplay = elWidget.querySelector('[display]');
-    MSScanFor(elDisplay,DTSPadding(eDate),DTSPadding(Number(eDate)+1),"",true);
+    elDisplay.innerHTML = "<div control class='mbpc'><hr><a class='mbbutton' onclick='TallyPSN(this)' title='Tally Scores'>" + sDateString + "</a><div></div></div><div class=\"mbStack\"></div>";
+    var elDisplayScanArea = elDisplay.firstChild.nextElementSibling;
+    MSScanFor(elDisplayScanArea,DTSPadding(eDate),DTSPadding(Number(eDate)+1),"",true);    
   }catch(e){}
   var qArchive = ArchiveSelect(eDate);
   var qDate = "[date='" + eDate + "'][id],[date='" + eDate + "'][time],[date='" + eDate + "'][data-happy]";
-  var sDate = new Date(eDate.substring(0,4) + "/" + eDate.substring(4,6) + "/" + eDate.substring(6,8));
-  var sDateString = GetMonthText(sDate).toUpperCase() + " " + sDate.getDate() + " " + GetDayText(sDate).toUpperCase();
+  
   
   $(document).ready(function(){
     var backup = $(elContainer).html();
 	  $(elContainer).load(qArchive + qDate, function(){	
-
+      // 20251101: StarTree: If the loaded content is blank, just hide the container.
+      if(IsBlank( $(elContainer).html())){
+        $(elContainer).hide();
+        return;
+      }
       
-
       NodeFormatter(elContainer);  
       var sHeader = "<div class='mbpc'><b>" + sDateString + "</b></div><div class='mbbanner'>";
       var sFooter = "</div>";
-      $(elContainer).html(  sHeader +   $(elContainer).html() + sFooter) 
-      
+      $(elContainer).html(  sHeader +   $(elContainer).html() + sFooter)       
       var backup2 = $(elContainer).html();
       if(backup == backup2 && $(elContainer).is(':visible') ){
         $(elContainer).hide();
       }else{
-          //var eNode = document.getElementById(eContainer);
-          //var eNodes = do
         Macro(elContainer);
-        $(elContainer).show();
-          
+        $(elContainer).show();          
       }	
     });
   });
@@ -10186,6 +10207,91 @@ function TAReplace(el,mStr){
   el.selectionStart = mStart;
   el.selectionEnd = mStart + mStr.length;
   el.focus();
+}
+
+function TallyEL(elSource,elDisplay){
+  // 20251101: StarTree: If the display area is not blank, just make it blank.
+  if(NotBlank(elDisplay.innerHTML)){
+    elDisplay.innerHTML = "";
+    return;
+  }
+  
+  // 20251101: StarTree: Tally the scores in the source div, and display the result in the display div.
+  
+  // 20251101: Gemini: Map to store total EXP for each unique name
+  const nameExpMap = new Map();
+  // 20251101: StarTree: Select all direct children of the container
+  const records = elSource.querySelectorAll('[spk]');
+  for (const record of records) {
+    const rawSpk = record.getAttribute('spk');
+    // 20251101: Gemini: rawSpk is already ensured to exist by the querySelectorAll('[spk]') call,
+    // but this check is kept for robustness if the query ever changes.
+    if (!rawSpk) continue; 
+
+    // 1. Determine EXP value (default to 1 if the value is omitted)
+    let expValue = 0;
+    if(record.hasAttribute('EXP')){
+      expValue = Default(record.getAttribute("EXP"),1,1);
+    }    
+    // 20251101: Gemini: 2. Determine list of names
+    let names = [];
+    if (rawSpk.startsWith('|') && rawSpk.endsWith('|')) {
+        // Pipe-delimited list: e.g., |Name1|Name2|
+        // Split, and filter out the empty strings resulting from the leading/trailing pipes
+        names = rawSpk.split('|').filter(name => name.length > 0);
+    } else {
+        // Single name
+        names = [rawSpk];
+    }
+    //DEBUG(rawSpk);
+    //DEBUG(names);
+    // 20251101: Gemini: 3. Tally EXP for each name
+    for (const name of names) {
+      const currentExp = nameExpMap.get(name) || 0;
+      nameExpMap.set(name, Number(currentExp) + Number(expValue));
+      //DEBUG(nameExpMap);
+    }
+  }
+  // 20251101: Perplexity: Sort the resulting exp map:
+  const sortedExp = new Map( [...nameExpMap.entries()].sort((a, b) => b[1] - a[1]) );
+  elDisplay.innerHTML = "";
+  // 20251101: StarTree: Showing the top three with avatar.
+  let mTopThree = 3;
+  let mTopThreeHTML = "";
+  let mEXPString = "";
+  let mCurEXP = "";
+  let mTotalEXP = 0;
+  
+  for(const [name,totalEXP] of sortedExp.entries()){
+    if(mCurEXP != totalEXP){
+      mCurEXP = totalEXP;
+      mEXPString += "<b>" + mCurEXP + ":</b>&nbsp;";
+    }
+    mEXPString += name + " ";    
+    mTotalEXP += totalEXP;
+    if(mTopThree > 0){
+      if(mTopThree ==3){
+        mTopThreeHTML += "<div style='display:inline-block'><div style='margin-bottom: -38px;position:relative;'>👑</div><br>";
+        mTopThreeHTML += "<div class='mbav50t mb" + name;
+        mTopThreeHTML += "'><br><div style='line-height:40px'>&nbsp;</div><b>"+totalEXP+"</b></div></div>";
+      }else{
+        mTopThreeHTML += "<div class='mbav50t mb" +  name;
+        mTopThreeHTML += "'><br><br><br><br><br><br><b>"+totalEXP+"</b></div>";
+      }
+      mTopThree --;      
+    }
+
+  }
+  elDisplay.innerHTML = "<center>" + mTopThreeHTML + "</center>";
+  elDisplay.innerHTML += "<center><b>Total EXP: " + mTotalEXP + "</b></center>";
+  elDisplay.innerHTML += mEXPString;
+}
+function TallyPSN(el){
+  // 20251101: StarTree: Assume the display div is the next div, and the source to tally is the last div of control.
+  var elControl = SearchPS(el,'control')  
+  var elSource = elControl.nextElementSibling;
+  var elDisplay = elControl.lastElementChild;
+  TallyEL(elSource,elDisplay);
 }
 function TextAreaUseCookie(el){
   // 20240330: StarTree: Cookie TextArea
