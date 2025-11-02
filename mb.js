@@ -508,7 +508,11 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     //var mResList = ResList(elRecord, IsBlank(mCardList)); 
     var mResList = ResList(elRecord,true); 
     
-    mHTMLInner += mResList;
+    // 20251102: StarTree: Do not add a ResList when there is no author or image for the big button.
+    if(NotBlank(mJSON.author) || NotBlank(mJSON.img)){
+      mHTMLInner += mResList;
+    }
+    
 
     
     // 20240731: StarTree: If there is no RES or Card, but there is INV, show the content of INV.
@@ -516,9 +520,6 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     if(IsBlank(mResList) && IsBlank(mCardList) && NotBlank(mInv)){
       mHTMLInner += "<div Banner>" + mInv.innerHTML + "</div>";
     }
-
-
-    
     // 20240329: StarTree: if there is no card at all, don't show the author badge.
     mHasCard = false;
     var elCard;
@@ -527,6 +528,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     }catch(error){
       mHasCard = true; // 20240427: Skyle: Has inventory.
     }
+    
     
     // STEP: Start the Card/Inventory section
     if(true || !IsBlank(elCard)){ // 20240730: StarTree: Always use the same frame.
@@ -544,6 +546,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       // 20240721: StarTree: If there is no author, don't show the inv section.
       // This is done for the Sitemap node.
       if((NotBlank(mJSON.author) || NotBlank(mJSON.img)) && !elRecord.hasAttribute('data-chat')){
+        
         // 20240912: StarTree: Use the node image for the button if it exists.
         // 20250913: StarTree: If img is defined, use it for the button regardless of whether there is a card list.                
         //if(IsBlank(mJSON.img) || NotBlank(mCardList)){ // 20250913: StarTree: Remove
@@ -569,7 +572,6 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     // STEP: Close the Card section.
     if(!IsBlank(elCard)){
       mHTMLInner += "</div>"; // End Text
-      
       mHTMLInner += "</div>"; // End Card Mat
     }
 
@@ -1926,7 +1928,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20251101 Auto Daisy";
+  elContainer.innerHTML = "20251102 Quest Calendar";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2527,7 +2529,7 @@ function MacroResCalendar(mTag){
     if(bRolling && mDay > 0){ // Assumes that Rolling calendar is a happy/kudo calendar
       mHTML += " onclick=\"QSLRollingKudo(this,&quot;"+mMMDD+"&quot;)\"";
     }else{
-      mHTML += " onclick=\"QueryDayP7N(this,&quot;"+mYear+mMMDD+"&quot;)\"";
+      mHTML += " onclick=\"QueryDayWLC(this,&quot;"+mYear+mMMDD+"&quot;)\"";
     }
 
     mHTML += ">";
@@ -8495,6 +8497,12 @@ function QueryDayP7N(elThis, eDate){
   elTarget = elTarget.nextElementSibling;
   QueryDayEl(elTarget,eDate);
 }
+// 20251102: StarTree: Preparing the code to merge the calendar to Quest Board.
+function QueryDayWLC(elThis, eDate){
+  // Target the last child of the widget
+  var elTarget = SearchPS(elThis,'widget').lastElementChild;    
+  QueryDayEl(elTarget,eDate);
+}
 // 20221206: StarTree: For Node Calendar
 function QueryDayEl(elContainer,eDate){
   // 20251101: StarTree: This is the part that composes the date string to show what date is in display.
@@ -8504,7 +8512,7 @@ function QueryDayEl(elContainer,eDate){
   try{
     var elWidget = SearchPS(elContainer,'widget');
     var elDisplay = elWidget.querySelector('[display]');
-    elDisplay.innerHTML = "<div control class='mbpc'><hr><a class='mbbutton' onclick='TallyPSN(this)' title='Tally Scores'>" + sDateString + "</a><div></div></div><div class=\"mbStack\"></div>";
+    elDisplay.innerHTML = "<div control class='mbpc'><hr><div class='mbbuttonc' onclick='TallyPSN(this)' title='Tally Scores'>" + sDateString + "</div><div></div></div><div class=\"mbStack\"></div>";
     var elDisplayScanArea = elDisplay.firstChild.nextElementSibling;
     MSScanFor(elDisplayScanArea,DTSPadding(eDate),DTSPadding(Number(eDate)+1),"",true);    
   }catch(e){}
@@ -10243,13 +10251,10 @@ function TallyEL(elSource,elDisplay){
         // Single name
         names = [rawSpk];
     }
-    //DEBUG(rawSpk);
-    //DEBUG(names);
     // 20251101: Gemini: 3. Tally EXP for each name
     for (const name of names) {
       const currentExp = nameExpMap.get(name) || 0;
       nameExpMap.set(name, Number(currentExp) + Number(expValue));
-      //DEBUG(nameExpMap);
     }
   }
   // 20251101: Perplexity: Sort the resulting exp map:
@@ -10283,8 +10288,8 @@ function TallyEL(elSource,elDisplay){
 
   }
   elDisplay.innerHTML = "<center>" + mTopThreeHTML + "</center>";
-  elDisplay.innerHTML += "<center><b>Total EXP: " + mTotalEXP + "</b></center>";
-  elDisplay.innerHTML += mEXPString;
+  elDisplay.innerHTML += "<div class=\"mbbuttonc\" onclick=\"ShowNext(this)\" title=\"Show Details\">Total EXP: " + mTotalEXP + "</div>";
+  elDisplay.innerHTML += "<div class=\"mbhide mbpuzzle\">"+ mEXPString +"</div>";
 }
 function TallyPSN(el){
   // 20251101: StarTree: Assume the display div is the next div, and the source to tally is the last div of control.
