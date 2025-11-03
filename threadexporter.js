@@ -191,7 +191,7 @@
           let body = box.querySelector('[data-testid="comment-detail-body"]');
           if (body) commentText = body.textContent.trim();
           let id = (box.id || "").split("_").pop();
-          url = `${baseUrl}/?comment=${id}`; // Link to the specific comment
+          url = `${baseUrl}/c/${id}`; // Link to the specific comment
         }
       }
       
