@@ -1928,7 +1928,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20251102 Quest Calendar";
+  elContainer.innerHTML = "20251104 Scanner Show All Msg";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -3168,6 +3168,7 @@ function MacroMsg(el){
     mTag.remove();
   });
 }
+
 function MSIconToggle(elButton){
   // 20240505: StarTree: Show or hide XP icons.
   let elWidget = SearchPS(elButton,"widget");
@@ -3199,6 +3200,23 @@ function MSModeToggle(elButton){
     elButton.setAttribute('mode','show');
     elModes.forEach((mTag)=>{mTag.classList.remove("mbhide");});
   }
+}
+function MSShowAllMsg(elButton){
+  // 20251104: StarTree: Show all messages to allow browser spell checker or copy and paste for grammar check.
+  let elWidget = SearchPS(elButton,"widget");
+  let elDisplay = elWidget.querySelector("[display]");
+  // STEP 1: Expand all collapsed topics
+  // >> For each first span in a div with attribute topic, set the last child display style to block
+  let mTopics = elDisplay.querySelectorAll('div[topic]');
+  mTopics.forEach(mTopic => {
+    mTopic.lastElementChild.style.display = "block";
+  });
+  // STEP 2: Expand all bubbles
+  // >> For each hide object that is the last child of a span with the attribute bubble, set its style to display: inline.
+  let mBubbles = elDisplay.querySelectorAll('span[bubble]');
+  mBubbles.forEach(mBubble=>{
+    mBubble.lastElementChild.style.display = "inline";
+  });
 }
 function MSTopic(elTopic){
   // 20240426: Patricia: Check if this topic should replace its content with scanned content. If so, get the start and end time and commission a scan.
