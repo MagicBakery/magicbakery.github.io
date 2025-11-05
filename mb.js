@@ -539,7 +539,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       
       // 20240723: StarTree: If the INV section contains RES objects, show a search section.      
       mHTMLInner += mCardList;      
-      mHTMLInner += "<div class='mbCardMatText'>";
+      mHTMLInner += "<div contentarea class='mbCardMatText'>";
       
       
       
@@ -1008,18 +1008,34 @@ function ExportForAI(elThis){
   var elBoard = SearchPS(elThis,"board").cloneNode(true);
 
   // Skip to the part that is needed:
-  var elCopy = elBoard.querySelector('.mbCardMatText');
+  var elCopy = elBoard.querySelector('[contentarea]');
   elCopy.firstElementChild.remove();
 
 
-  if(true){ // 20251001: StarTree: Remove all Topic and Note sections that do not have a section attribute.
+  if(true){ 
+    // REMOVE all code
+    elements = elCopy.querySelectorAll('code');
+    elements.forEach(el => el.remove());
+    elements = elCopy.querySelectorAll('div[control]');
+    elements.forEach(el => el.remove());
+    // 20251001: StarTree: Remove all Topic and Note sections that do not have a section attribute.    
     elements = elCopy.querySelectorAll('div[topic]:not([section])');
     elements.forEach(el => el.remove());
     elements = elCopy.querySelectorAll('mbnote:not([section])');
     elements.forEach(el => el.remove());
+    // 20251104: Patricia: Remove decorative SPAN
+    elements = elCopy.querySelectorAll('span.mbILB30');
+    elements.forEach(el => el.remove());
+    elements = elCopy.querySelectorAll('span[label]');
+    elements.forEach(el => el.remove());
+    // 20251104: Patricia: Remova all hide immediate after <a>
+    elements = elCopy.querySelectorAll('a[href] + hide');
+    elements.forEach(el => el.remove());
   }
 
   if(true){
+    
+    
     // REMOVE all HR
     elements = elCopy.querySelectorAll('hr');
     elements.forEach(el => el.remove());
@@ -1090,11 +1106,17 @@ function ExportForAI(elThis){
       });
     };
     elements = elCopy.querySelectorAll('div');
+    removeAttributesFromElements(elements, ['style']);
+    elements = elCopy.querySelectorAll('div');
     removeAttributesFromElements(elements, ['class', 'dts', 'style', 'title']);
     elements = elCopy.querySelectorAll('span');
     removeAttributesFromElements(elements, ['class', 'dts', 'style', 'title']);
     elements = elCopy.querySelectorAll('mbnote');
     removeAttributesFromElements(elements, ['class', 'dts', 'style', 'title']);
+
+    // 20251104: Patricia: Remove all empty span
+    elements = elCopy.querySelectorAll('span:empty');
+    elements.forEach(el => el.remove());
     
     // 
     elCopy.querySelectorAll('div[topic]').forEach(div => {
@@ -1127,7 +1149,9 @@ function ExportForAI(elThis){
   mHTML = mHTML.replace(/<a>.*?<\/a><b>.*?<\/b> /g, '');  // REMOVE the pattern for multi speakers of a bubble
   mHTML = mHTML.replace(/<p>:\s/g, '<p>'); // REMOVE all colon after <p>
   mHTML = mHTML.replace(/^[ \t]+/gm, ''); // REMOVE all indentation spaces.
+  mHTML = mHTML.replace(/[ \t]+(\r?\n)/g,'$1'); // REMOVE all blanks before newline.
   mHTML = mHTML.replace(/^\s*[\r\n]/gm, ''); // REMOVE all blank lines.
+  
   mHTML+= "</div>";
   navigator.clipboard.writeText(mHTML);
 }
@@ -1928,7 +1952,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20251104 Scanner Show All Msg";
+  elContainer.innerHTML = "20251104 Auto Section";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -1976,7 +2000,12 @@ function Macro(elScope){
   // 20230220: Ivy: Added MacroLL for languages
   // 20240414: StarTree: Added Bubble.
   ProcessNodeData(elScope);
-  MacroRes(elScope); // RES might expand into Topic objects.
+  //20251104: StarTree: Auto Section Assignment.
+  let mMain = elScope.querySelector('[contentarea]');
+  if(NotBlank(mMain)){
+    SectionAssign(mMain); // Automatically enumerate elements with the section attribute.
+  }
+  MacroRes(elScope); // RES might expand into Topic objects.    
   MacroTopic(elScope); // TOPIC might expand into Bullets.
   MacroNote(elScope);
   MacroMacro(elScope);
@@ -2614,6 +2643,18 @@ function MacroResItem(mTag){
   let mStarCode = Default(mTag.getAttribute("star"),""); // 20250118: StarTree
   let mYouTube = Default(mTag.getAttribute("Youtube"),"");
   let mMuseScore = Default(mTag.getAttribute("Musescore"),"");
+  
+  
+  
+  let bSection = mTag.hasAttribute("section") && IsBlank(SearchPS(mTag,'banner'));
+  let mSection = mTag.getAttribute('section');
+  // 20251104: Patricia: Add section header if it is a section outside a banner.
+  let mSectionLevel = 1;
+  if(bSection){  
+    mSectionLevel = 2+ mSection.length - mSection.replaceAll(".","").length;
+    if(mSectionLevel<3){mSection+=".";}
+    mTitle = mSection + " " + mTitle;
+  }
 
 
   var bSpoiler = mTag.hasAttribute('spoiler');
@@ -2785,7 +2826,14 @@ function MacroResItem(mTag){
   mHTML += "</div>"
 
   // Custom Content about this item.
-  mHTML += "<hr class=\"mbhide\">"; // Trick to use Enter bubble.
+  mHTML += "<hr class=\"mbhide\">"; // Trick to use Enter bubble.  
+
+  
+  // 20251104: Patricia: Add the header for AI
+  if(bSection){  
+    mHTML += "<h" + mSectionLevel + " class='mbhide'>" + mTitle + "</h" + mSectionLevel + ">";
+    mHTML += "<hr class='mbhide'>";
+  }
   mHTML += mTag.innerHTML;
   mHTML += "<div class=\"mbCB\"></div><hr>";
   mHTML += "</hide>";
@@ -2813,7 +2861,8 @@ function MacroResItem(mTag){
   // Optional Tag Copying (Copy Attribute if Exist)
   if(NotBlank(mStarCode)){elNew.setAttribute("star",mStarCode);} // 20250118: StarTree
   if(NotBlank(mAge)){elNew.setAttribute("age",mAge);} // 20250427: StarTree
-  if(mTag.hasAttribute("year")){    
+  if(bSection){elNew.setAttribute('section',mSection);}
+  if(mTag.hasAttribute("year")){
     elNew.setAttribute("year",mTag.getAttribute("year"))
   }
   mTag.remove();
@@ -3142,7 +3191,7 @@ function MacroMsg(el){
     let elPrev = mTag.previousElementSibling;
     if(bFirst && (mTag.parentNode.classList.contains("mbDayContent")) ){
       mHTML = RenderStart(mTag);
-    }else if(bFirst && (mTag.parentNode.classList.contains("mbCardMatText"))){
+    }else if(bFirst && (mTag.parentNode.hasAttribute('contentarea'))){
       mHTML = RenderStart(mTag);
     //}else if(bFirst && mTag.parentNode.hasAttribute('topic')){
       // The situation of a bullet.
@@ -5078,6 +5127,40 @@ function SearchWrapper(elScope,iInner,bShow,mCount){
   mHTML += iInner;
   mHTML += "</div></div>";
   return mHTML;
+}
+function SectionAssign(elContainer, aPrefix='',aIndex=1){
+  // 20251104: StarTree, Gemini: Automatically assign section value when it is blank, but allow override when it is not blank.
+  // StarTree: The default section format is in the style of 1, 1.1, 1.1.1, etc. based on the DOM tree structure.
+  // StarTree: But if a section number is specified, skip to that number instead.
+  // Gemini: Parameters for recursion: prefix and index
+  // STEP 1: Get the direct children thas has a 'section' attribute itself or at its descendant
+  const mChildren = Array.from(elContainer.children).filter(child => {
+    return child.hasAttribute('section') || child.querySelector('[section]') !== null;
+  });
+  // STEP 2: Loop through the children and assign or skip to the override section number.
+  
+  for(const child of mChildren){
+    let mChildSection = Default(child.getAttribute('section'),'');
+    if(IsBlank(mChildSection)){
+      child.setAttribute('section',aPrefix + aIndex);
+      SectionAssign(child, aPrefix + aIndex + ".");
+      aIndex ++;
+    }else{
+      // Extract the Prefix and Index
+      let mSectionCode = mChildSection.split(".");
+      let mIndex = mSectionCode[mSectionCode.length-1];
+      let mPrefix = '';
+      if(mSectionCode.length>1){
+        mSectionCode.pop();
+        mPrefix = mSectionCode.join(".") + ".";        
+      }
+      SectionAssign(child, mPrefix + mIndex + ".");
+      // Increment aIndex only if mPrefix is the same.
+      if(aPrefix == mPrefix){
+        aIndex = Number(mIndex) + 1;
+      }
+    }
+  }
 }
 function ShowSkip(el) {
   var eNext = el.nextElementSibling.nextElementSibling;
