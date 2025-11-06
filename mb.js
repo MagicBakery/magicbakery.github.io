@@ -2651,9 +2651,9 @@ function MacroResItem(mTag){
   // 20251104: Patricia: Add section header if it is a section outside a banner.
   let mSectionLevel = 1;
   if(bSection){  
-    mSectionLevel = 2+ mSection.length - mSection.replaceAll(".","").length;
-    if(mSectionLevel<3){mSection+=".";}
-    mTitle = mSection + " " + mTitle;
+    //mSectionLevel = 2+ mSection.length - mSection.replaceAll(".","").length;
+    //if(mSectionLevel<3){mSection+=".";}
+    mTitle = mSection + ". " + mTitle;
   }
 
 

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter">
+  <link rel="stylesheet" href="mb.css">
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="mb.js"> </script>
+  <title>Magic Bakery</title>
+  <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+</head>
+<body id="MBJQSW">
+  <div class="header">
+    <div style="text-align: center;line-height:2px;margin-top:-5px">
+      <h4>
+        <!---->
+        <div class="mbIcon mbIconShift"
+          style="background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/WingL.png')">
+        </div>
+        <a class="mbpointer" title="About Magic Bakery" href="../" style="color:white;"
+          onclick="BoardLoadPF(this,'202208172056');return false">Magic Bakery</a>
+        <a class="mbbutton mbpointer" title="Visit Marker" onclick="NodeMarkUseCookie(this,true)"><span class="mbIcon"
+            style="Height:1.7em;Width:1.7em;position:relative;top:-5px;margin-bottom:-10px;background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png')">
+            <icon>🥨</icon>
+          </span></a>
+        <a class="mbpointer" title="About Panarcademy" href="../?id=P202403231454" style="color:white;"
+          onclick="BoardLoadPL(this,'202403231454');return false">Panarcademy</a>
+        <div class="mbIcon"
+          style="background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/WingR.png')">
+        </div>
+
+
+
+
+      </h4>
+
+      <small style="font-size: 10px;">
+        <a class="mbpointer" title="Website Updates" href="../?id=P202303052122" style="color:white;"
+          onclick="BoardLoadPF(this,'202303052122');return false">
+          <latestupdate></latestupdate>
+        </a>
+        <a class="mbpointer" title="Turn off Offline mode" d-offline onclick="Offline(null,true)"
+          style="color:gold"></a>
+      </small>
+    </div>
+    <hide>Arcacianism | Arcacian Principle | Let people help each other and reward those who do. | Peacemaker | Peace
+      Paradigm Ranking</hide>
+
+  </div>
+
+<div id="MainArea" main="" class="flex" style="padding-bottom:27px;padding-top:35px;justify-content:center;"><div class="mbPanel" panel="" serve="" style="flex: 1 1 50%;">      
+      <div control="" style="padding:0px 3px 2px 2px;">
+        <a class="mbbutton" onclick="IFrameURLSet(this)" title="Jquery Blogspot (Legacy)" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/MantleClock.png&quot;)"><icon>🕰️</icon></span></a>
+        <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;" inputmode="search"> 
+        
+        <a class="mbbutton" onclick="JQAdd(this,true)" title="Jquery GitHub" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span></a>
+        <!--<a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board"><span class='mbIcon' style='background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png&quot;)'><icon>🥨</icon></span></a>-->
+        
+        <a class="mbbutton" onclick="ShowNext(this)" style="float: right; cursor: text;" title="Panel Control"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pancake.png&quot;)"><icon>🥞</icon></span></a>
+        <div class="mbscroll mbhide" control="" style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">          
+          
+          <div control="" style="text-align: center;min-width:125px;font-size: 22px;">
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span></button>
+            <hide>              
+              <hr>    
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'800000000000',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P800000000000" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span> Search</a><br>    
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202405051137',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202405051137" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Phone.png&quot;)"><icon>☎️</icon></span> Help Center</a><br>    
+                       
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'Feedback');HC(this);return false;" target="_blank" title="Feedback" href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span> Feedback</a><br>  
+
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202207131009',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202207131009" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Teddy.png&quot;)"><icon>🧸</icon></span> Board Games</a><br>   
+                
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202208172056',false, true);HC(this);return false;" title="Calendar" href="./?id=P202208172056" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Question.png&quot;)"><icon>:?:</icon></span> About</a><br>   
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202403231454',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202403231454" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/SquareCap.png&quot;)"><icon>🎓</icon></span> Academy</a><br>  
+                                                              
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Chick.png&quot;)"><icon>🐤</icon></span></button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'900000000000',false, true);HC(this);return false;" title="Quest Board" href="./?id=P900000000000" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Circus.png&quot;)"><icon>🎪</icon></span> Quest Board</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202310072314',false, true);HC(this);return false;" title="Calendar" href="./?id=P202310072314" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Calendar.png&quot;)"><icon>📅</icon></span> Calendar</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202207242047',false, true);HC(this);return false;" title="Roll Call" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/PostHorn.png&quot;)"><icon>📯</icon></span> Roll Call</a><br> 
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202404260005',false, true);HC(this);return false" title="Message Scanner" href="./?id=P202404260005" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Bell.png&quot;)"><icon>🔔</icon></span> Messages</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202301251008',false, true);HC(this);return false;" title="Scoreboard" href="./?id=P202301251008" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Crown.png&quot;)"><icon>👑</icon></span> Scoreboard</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202405010908',false, true);HC(this);return false;" title="Guild Inbox" href="./?id=P202405010908" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Mailbox.png&quot;)"><icon>📬</icon></span> Guild Inbox</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202307161350',false, true);HC(this);return false;" title="Dice Roller" href="./?id=P202307161350" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Dice.png&quot;)"><icon>🎲</icon></span> Dice Roller</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202303191144',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202303191144" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ShoppingCart.png&quot;)"><icon>🛒</icon></span> Supplies List</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="Offline(null,true);" title="Offline Mode" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Backpack.png&quot;)"><icon>🎒</icon></span> Offline Mode</a>
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span></button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onclick="PanelAddBefore(this);HC(this);" title="Add a panel before" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span> Add Before</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelAddAfter(this);HC(this);" title="Add a panel after" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span> Add After</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelToggleServe(this);HC(this);" title="Serve nodes to this panel" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pancake.png&quot;)"><icon>🥞</icon></span> Serve Here</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelToggleWidth(this);HC(this);" title="Toggle the width of this panel" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Waffle.png&quot;)"><icon>🧇</icon></span> Toggle Width</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelRemove(this);" title="Close" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Close.png&quot;)"><icon>:Close:</icon></span> Close Panel</a><br>
+              <div class="mbCB"></div>
+              <hr>
+            </hide>
+            
+          </div>
+          <div></div><!--DISPLAY AREA-->
+        </div>
+      </div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px">
+ <!--IMPORT POST-RENDER MAINAREA BELOW-->
+<div class='mbscroll'><h1>Gaia Council</h1><hr>
+<h2>1. Ethical Quests</h2>
+<p>In Quest Society, the Gaia Council is a group of questers who discuss and advise on how to be fair and sustainable for the world's resources.</p>
+<p>Quests that seem to help advance or maintain those values are referred to as Gaia Quests. This section introduces them so you may help.</p>
+<p>This is the link for the AI-readable version of this node: https://magicbakery.github.io/gaia.html.</p>
+<h1>1.1. AI Training</h1>
+<p>This is the quest of making articles readable by AI so that AI can help teach Gaia Concepts and do other quests.</p>
+<p>In roleplay terms this is the AI Familiar quest.</p>
+<h4>🌱 1.1.1. Neutral Term</h4>
+<p>What would be a culturally neutral term of "Gaia Share"?</p>
+<h4>📋 1.1.2. Rubric</h4>
+<p>The rubrics are used to rate how well each familiar is doing and the completeness of the quest.</p>
+<p>When would you consider a familiar "grown"?</p>
+<h5>⭐ 1.1.2.1. Home</h5>
+<p>The familiar can introduce itself and let the AI find the "home" where it can read about rest of the familiars.</p>
+https://magicbakery.substack.com/p/familiar-kindergarten
+<h5>⭐⭐ 1.1.2.2. Ease</h5>
+<p>The familiar is easy to maintain and can answer a lot of questions correctly.</p>
+<h5>⭐⭐⭐ 1.1.2.3. Fame</h5>
+<p>The familiar can be seen by search or AI even when only its name is mentioned without specifying its address.</p>
+<h5>⭐⭐⭐⭐ 1.1.2.4. Help</h5>
+<p>The familiar is cited by AI in discussions even when its name is not mentioned.</p>
+<h5>⭐⭐⭐⭐⭐ 1.1.2.5. Live</h5>
+<p>The familiar is also a helper that people would choose for their Gaia Credits interface.</p>
+<h1>1.2. Open Ledger</h1>
+<p>Let people know how much of the earth they could have if their political system would allow it. With such statistics, people can derive policies to return control to the people!</p>
+<h1>1.3. Visualization</h1>
+<p>This quest aims to make infographics and other visualization to help promote the concepts.</p>
+<h1>1.4. Interface</h1>
+<p>This is the quest of creating the interactive interface for people to manage there Gaia Shares.</p>
+<h1>1.5. Guild Quests</h1>
+<p>These quests are mainly for the guild because they involve updating the website here.</p>
+<p>These are the main sources to gather information about Gaia to be added here: 1) Google Doc https://magicbakery.github.io/questsociety.html, 2) Gaia Concepts node , 3) Ethics node https://magicbakery.github.io/ethics.html , 4) Quest Society node </p>
+<p>Arcacian Quest / Gaia Credit game/ simulator: Earn credits, bid</p>
+<p>Need a section to collect links to similar concepts.</p>
+<p>Need an index to that homelessness chat thread.</p>
+<h2>2. Principles</h2>
+<h3>🧭 2.1. About</h3>
+<p>This section defines terms and explain what Gaia Credit is designed for. This section should replace the Design Goals section and Library Analogy section.</p>
+<h1>2.2. Enable Autonomy</h1>
+<p>For any philosophy ranked Coexistence or above, if it has a concept of territory, it must have some way to calculate how much resource a person can take with them if they opt-out to be independent.</p>
+<h4>🍀 2.2.1. Equity</h4>
+<p>An equity based solution does not suffer from enclosure pressure. https://x.com/LRRHBakery/status/1950248593794949552</p>
+<h1>2.3. Lose Access for Violations</h1>
+<p>A person who harms a space or violate other people's rights in that space would have their Gaia Credits locked up until they make amend.</p>
+<h3>2.4 Gaia Credits</h3>
+<p>Gaia Credit is a numerical representation of a person's share of the world. </p>
+<p>Gaia Credit would support choice democracy by letting people spend their credit to claim the resource they want. If they used up their credit then they can't claim more. Hoarding is when a person claim more resources than their credits.</p>
+<h4> 2.4.1. Gaia Credit Operations</h4>
+<p>This section lists what a person can do with their Gaia Credits.</p>
+<h5> 2.4.1.1. Bid</h5>
+<p>Use additional Gaia Credits to bid for a space when those who want the same space could not come to an agreement to share it by join banking with the normal amount of Gaia Credits.</p>
+<p>The bidding operation allows people to outbid others to gain custody of contested space above the minimum Gaia Credit price. This means it is possible for the world to have unclaimed spaces where no one would have credits left to bid for.</p>
+<p>In Quest Society, bidding "with Gaia Credit" is the same as donating resource rights to get silver credits, then bid with silver credits.</p>
+<p>Since doing so does not give you gold credits, it is better to use your resource to help people to get gold credits to bid with, than just bidding with the resource itself.</p>
+<h6>🐣 2.4.1.1.1. Question 1</h6>
+<p>Wouldn't this encourage people not to donate resource when they know that they only get silver, but the person who uses their resources to quest would get gold? </p>
+<h7>⚖️ 2.4.1.1.1.1. Answers</h7>
+<p>When a quester quests with their own resources, they get both gold and silver credits. When you donate resource for a quest, the silver credits that they would get goes to you instead.</p>
+<p>A person's desire to prevent others from being able to quest is counteracted by a person's desire to quests for credits to get ahead.</p>
+<p>In such situation, anyone who does not conform with the "embargo" to not help would immediately get ahead. So the rules of quest society automatically reward the non-conformers ('cheaters' in the eye of those who want to prevent help) who decide to help using their own resources, and no one can stop them.</p>
+<p>As a result, it drives toward the only viable method of getting ahead is to help.</p>
+<h5> 2.4.1.2. Bank</h5>
+<p>Bank Gaia Credits to another person to manage.</p>
+<p>Usually done in exchange of goods or servive. This is how large farms would normally work. The farmer is able to get the area of farm land not by using their personal Gaia Credits, but by using the credits from the subscribers. The subscription contract should specify the allowed use of the subscriber credits.</p>
+<h5> 2.4.1.3. Yield</h5>
+<p>Let go of a space and get your Gaia Credits back.</p>
+<p>This is what you do when you no longer need the space.</p>
+<p>Yielding implies that someone is willing to take the space. The Gaia Council can be considered the general buffer/manager that will take your unwanted space in good condition so you can get your credits back.</p>
+<p>If the equivalent of a Gaia Council is missing, you wuold need to somehow find someone who wants your space.</p>
+<h5> 2.4.1.4. Lock/Unlock</h5>
+<p>This happens when you hurt a space or violates someone's right in a space. Part of your Gaia Credit will be "locked" until you make amend.</p>
+<p>When you "hurt" a space, your share becomes "locked" when no one wants your space for you toget back your Gaia Credits.</p>
+<p>You can unlock it as long as you can convince someone else to take it. The person who takes it doesn't need to be someone from the Gaia Council, but the Gaia Council keeps track of who might want each condition of space to help keep exchanges easy.</p>
+<p>If you violate someone else's rights, the victim has the right to use your shares to make amend.</p>
+<p>If you damaged someone, it is implied that you are willing to make amend with your resources to heal them back better, or that they have the right to stop you from being able to do any harm unless you could convince them that you would stop otherwise.</p>
+<p>From the Gaia Council's perspective, choosing to pay back with Gaia Shares would be considered reasonable enough to conclude that victim is not justified to use your violation as a trigger to demand more or to harm you.</p>
+<p>The Gaia Council itself does not get involved in using force to stop revenge against a violator. It only uses force (allow the use of force) to seize resource confisgated by violators.</p>
+<p>So if someone attacks you, the option that Gaia Council offers is "We can help you secure this amount of resource from your attacker so you may use that share to rebuild. Do you choose this option?"</p>
+<p>If the victim does not choose that option, the Gaia Council simply does not get involved. If the victim picks "revenge" by counter attack, that is a different quest unrelated to the Gaia Council.</p>
+<h1>2.5. Diagnostic Formula</h1>
+<p>This is for the equation that describes and estimate whether an organization controls too much space.</p>
+<p>Gaia Index = Space Endorsed  - Space Claimed.</p>
+<h4>🥞 2.5.1. Superposition</h4>
+<p>The terms of Gaia Index are added together for more accuracy.</p>
+<h4>🗳️ 2.5.2. Space Endorsed</h4>
+<p>This is the amount of space that an entity has enough endorsement to claim.</p>
+<h5>🔍 2.5.2.1. Gaia Registry</h5>
+<p>If a society has a Gaia Registry, this amount can be verified publicly on a ledger.</p>
+<h5>🔮 2.5.2.2. Estimation</h5>
+<p>If a society does not have a Gaia Registry, the amount of endorsed space can be estimated, then the Gaia Index would show how likely the entity is claiming more space than it should.</p>
+<h4>🔍 2.5.3. Space Claimed</h4>
+<p>This is the amount of space that an entity claims control.</p>
+<h4>🍀 2.5.4. Per Types</h4>
+<p>Gaia Credit accounting should be per resource type https://x.com/LRRHBakery/status/1952439548233077021</p>
+<h5>🔍 2.5.4.1. Main Resource Types</h5>
+<p>This system classifies land by the natural conditions it would return to without human influence, reflecting its underlying ecological character.</p>
+<p>https://www.perplexity.ai/search/what-are-the-top-categories-of-XbYj4mcWRk2LttjjvJD8Jw#17</p>
+<h6>🌳 2.5.4.1.1. Forest 40%</h6>
+<p>Forest and woodland support tree cover, provide timber, and harbor biodiversity</p>
+<p>This category includes woodland that is used for agriculture, but would revert to become a forest if people stop farming there.</p>
+<h6>🌱 2.5.4.1.2. Grass 30%</h6>
+<p>Grassland and shrubland include open landscapes rich in non-forest vegetation such as savannas and prairies.</p>
+<p>This category includes farmland that would become grassland if people stop farming.</p>
+<h6>🌑 2.5.4.1.3. Barren 24%</h6>
+<p>Barren land consists of deserts, bare rock, glaciers, and other areas with minimal biological productivity.</p>
+<p>This category includes developed area such as urban area, mining sites, and wasteland that will likely remain barren for a long time after human activity stops. https://www.perplexity.ai/search/what-are-the-top-categories-of-XbYj4mcWRk2LttjjvJD8Jw#21</p>
+<h6>💧 2.5.4.1.4. Freshwater</h6>
+The earth has 2e17 L freshwater, that makes 2.5e7 L for each person. A person needs only about 3.5e4 L per year.</p>
+<h6>🪨 2.5.4.1.5. Mineral</h6>
+<p>Mineral extraction land is utilized for mining and quarrying the earth’s geological resources.</p>
+<p>The mining site itself is not the resource type. The resource type is the underlying minerals regardless of what land it is mined from.</p>
+A breakdown of the reserves: https://www.perplexity.ai/search/what-are-the-top-categories-of-XbYj4mcWRk2LttjjvJD8Jw#27</p>
+<h6>🔥 2.5.4.1.6. Fossil Fuel</h6>
+Breaking down the per person shares of fossil fuels. https://www.perplexity.ai/search/what-are-the-top-categories-of-XbYj4mcWRk2LttjjvJD8Jw#30</p>
+<h6>❌ 2.5.4.1.7. Non Types</h6>
+<p>The followings are not resources types because they reflect the result of human activities.</p>
+<p>For example, just because people turned a grassland into a farm, it doesn't mean that everyone has a share of the farm.</p>
+<h7>🌾 2.5.4.1.7.1. Farm</h7>
+<p>Agricultural land encompasses areas dedicated to crops and grazing for food and fiber production.</p>
+<p>Agricultural land doesn't seem like a natural type. Someone has to turn a land into a farm land. Gaia Share shouldn't distribute the result of that use, but the land type before the human activity. So shouldn't agricultural land be split into Forest or Grassland (for the type of land it would be naturally)?</p>
+<p>Got it — you’re essentially saying that in the Gaia Share concept, we should classify land as it would exist in its natural state before human use rather than according to its current land use.</p>
+<h7>🏰 2.5.4.1.7.2. Urban</h7>
+<p>Urban and built environments cover cities, towns, and infrastructure developed for human settlement and activity.</p>
+<h1>2.6. Accounting</h1>
+<p>How does Gaia Share deal with people making fake accounts or not report when the owner of a share they manage is dead?</p>
+<h4>🍰 2.6.1. Cake Squad</h4>
+<p>That is a cake squad task, checking people's activities and to check if someone who lives alone has passed away.</p>
+<h4>🍇 2.6.2. Summon</h4>
+<p>If someone wants your property, you don't respond, or they suspect that you are not the person on file, they could file a quest for confirmation.</p>
+<h4>⏳ 2.6.3. Expiration</h4>
+<p>What about having an expiration date on the share also? If there is no renewal (which requires verification) or other verifiable activity, the share can expire after some notices.</p>
+<p>That is basically cake squad, but without a responsibility that the owner needs to renew.</p>
+<p>Cake squad (or anyone) can do a wellness check on someone who has not been seen.</p>
+<h4>⚖️ 2.6.4. Tax</h4>
+<p>Just for comparison, in a society with tax, the land owner needs to pay something. Maybe Quest Society could do the same for Gaia Shares?</p>
+<p>Every year it could issue Gaia Credits to people who wants it. But to get the credits you need to show that you are alive.</p>
+<p>You spend the credits to bank on things but they all expire in a year.</p>
+<p>The auditor auditing a manager doesn't need to know whether the token's original owner is dead or alive, it just an audit of how many of those tokens are still "live". (Although the record will also show the original owner of each token.)</p>
+<p>So you only need to check when you distribute the credits.</p>
+<p>In Quest Society, if you log quest credits your tokens/your Gaia Profile should automatically extend the expiration date.</p>
+<p>So this question is mainly about people who don't quest. To not require them to do anything, the solution is to reward helpers (such as cake squad) who check.</p>
+<p>Okay. So if I don't normally do quests, I would periodically get a knock on my door?</p>
+<p>If you are tally shut in with no observable activity or sign of life, then yes. But you get a cake for opening the door though. That's Cake Squad. Do you want a free cake?</p>
+<p>What if they say they don't want to be bothered?</p>
+<p><b> thanks Sasha:</b> Then you knock with an apology, and explain that society needs a way to tell if someone has passed away so the land can be reused. If a place seems unoccupied on record, it is not wrong for other people to move in. So you ask for their cooperation.</p>
+<h2>3. Infographics (Old: Illustrative Scenarios)</h2>
+<h1>3.1. Captain StarTree</h1>
+<p>Imagine a group of space explorers find another habitable planet, each explorer has a different idea on what to do. One way to let each explorer have their experiment is to divide the planet so each can experiment in their section.</p>
+<h1>3.2. Library Analogy</h1>
+<p>Imagine the world is a library and each volume of space is a book. Each creature occupies a volume of space and needs resources generated from some space to survive.</p>
+<p>A creature that is sustainable is like a visitor who borrows a book and returns it in good condition for others to borrow. Then if there are physically enough books for everyone, and no one is checking out too many, everyone can get enough book to enjoy!</p>
+<h4>💳 3.2.1. Library Account</h4>
+<p>A person has an account to the library and can see which books they have checked out and whether any book is due to be returned. There may be an allowance of how many books they could check out at once. If someone else wants a book they borrowed, a hold can be placed for them to return it.</p>
+<h4>🏛️ 3.2.2. Multiple Libraries</h4>
+<p>The entire collection of books could be kept separately at different libraries, and each library may have their own rules on how many books a person may check out at a time.</p>
+<h4>⚖️ 3.2.3. Fairness</h4>
+<p>What happens if a library is not fair, such as awarding special privileges to some but not others? With the goal of keeping books sharable, it would be fair for a library award access based on a borrower's ability to keep the book in good condition. The more delicate a book is, the more carefully the borrower would need to be. Differences in access of this type could be considered fair. Unfair differences would be those based on other kinds of favoritism.</p>
+<h4>🎓 3.2.4. Merit</h4>
+<p>Is there a problem if smart people get to borrow more books? Details like this can be decided by each library. People can be allowed to choose which library they go to. When a library has too few visitors, it cannot justify the size of its collection. In reality, the library would be closed down and its books would be transferred to other libraries.</p>
+<h2>4. Comparisons</h2>
+<h1>4.1. Not Charity</h1>
+<p>Gaia distribution is not the same as charity.</p>
+<p>In a society that uses Gaia distribution, a person can choose to be charitable to others, but the system itself is not an exercise of charity.</p>
+<p>A person who cannot make what they need from their share could bank their share at someone who would make them.</p>
+<p>When that happens, the maker is not doing that "for free". The maker gains the harvesting rights until the owner withdraws their share. https://nextdoor.com/p/xmpwGthCS_3L/c/1271152195</p>
+<h1>4.2. UBI vs UBE</h1>
+<p>This is about Universal Basic Income vs Universal Basic Equity.</p>
+<p>Fair trade with UBE https://x.com/LRRHBakery/status/1925572093485436963</p>
+<p>What do you think about UBI https://x.com/Wilson84KS/status/1923429537737531661</p>
+<p>Need UBE  https://x.com/LRRHBakery/status/1923413375482020215</p>
+<p>Gaia share vs money https://x.com/LRRHBakery/status/1947168166884610113</p>
+<h1>4.3. Vs Voting</h1>
+<p>Uncle Sam argument as against an argument against Gaia https://x.com/LRRHBakery/status/1947163363055931688</p>
+</div>
+ <!--IMPORT ABOVE-->
+      </div>
+    </div></div>
+
+  <div class="footer" onclick="ShowWidgets()">
+
+
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'90000000000000')" title="Quest Board">🔔</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;  overflow-y:auto;width:100%;max-width: 350px;">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240421014400')" title="Roll Call">📯</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 90vh; overflow-y:auto; max-width: 350px;">
+        </div>
+      </div>
+    </span>
+
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'80000000000000')" title="Search">🔍</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:350px;width:100%">
+        </div>
+      </div>
+    </span>
+
+    <button BB class="mbbutton" onClick="ShowNextFP(this,'20240904213516')" title="Music Player">🎧</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:350px;width:100%"></div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240330201200')" title="Notepad">📋</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:700px;width:100%">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'Feedback')" title="Feedback">💌</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP board reserved
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; ;max-width: 700px;width:100%">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240416213800')" title="Node Maker">🍞</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:right;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;max-width:350px; overflow-y:auto">
+        </div>
+      </div>
+    </span>
+
+
+
+  </div>
+  <hide><!--New Panel Template-->
+    <div id="NewPanelTemplate">
+
+      <div control style="padding:0px 3px 2px 2px;">
+        <a class="mbbutton" onClick="IFrameURLSet(this)" title="Jquery Blogspot (Legacy)">🕰️</a>
+        <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;" inputmode="search">
+
+        <a class="mbbutton" onClick="JQAdd(this,true)" title="Jquery GitHub">🐣</a>
+        <!--<a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board">🥨</a>-->
+
+        <a class="mbbutton" onclick="ShowNext(this)" style="float:right;" title="Panel Control">🍞</a>
+        <div class="mbscroll mbhide" control
+          style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">
+
+          <div control style="text-align: center;min-width:125px;font-size: 22px;">
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🔍</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'800000000000',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P800000000000">🔍 Search</a><br>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202405051137',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202405051137">☎️ Help Center</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'Feedback');HC(this);return false;"
+                target="_blank" title="Feedback"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">💟
+                Feedback</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202207131009',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202207131009">🧸 Board Games</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202208172056',false, true);HC(this);return false;" title="Calendar"
+                href="./?id=P202208172056">:?: About</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202403231454',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202403231454">🎓 Academy</a><br>
+
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🐤</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'900000000000',false, true);HC(this);return false;" title="Quest Board"
+                href="./?id=P900000000000">🎪 Quest Board</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202310072314',false, true);HC(this);return false;" title="Calendar"
+                href="./?id=P202310072314">📅 Calendar</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202207242047',false, true);HC(this);return false;" title="Roll Call">📯 Roll
+                Call</a><br>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202404260005',false, true);HC(this);return false"
+                title="Message Scanner" href="./?id=P202404260005">🔔 Messages</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202301251008',false, true);HC(this);return false;" title="Scoreboard"
+                href="./?id=P202301251008">👑 Scoreboard</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202405010908',false, true);HC(this);return false;" title="Guild Inbox"
+                href="./?id=P202405010908">📬 Guild Inbox</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202307161350',false, true);HC(this);return false;" title="Dice Roller"
+                href="./?id=P202307161350">🎲 Dice Roller</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202303191144',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202303191144">🛒 Supplies List</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="Offline(null,true);" title="Offline Mode">🎒
+                Offline Mode</a>
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🤎</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onClick="PanelAddBefore(this);HC(this);" title="Add a panel before">🤎 Add
+                Before</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelAddAfter(this);HC(this);" title="Add a panel after">🤎 Add
+                After</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelToggleServe(this);HC(this);"
+                title="Serve nodes to this panel">🥞 Serve Here</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelToggleWidth(this);HC(this);"
+                title="Toggle the width of this panel">🧇 Toggle Width</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelRemove(this);" title="Close">:Close: Close
+                Panel</a><br>
+              <div class="mbCB"></div>
+              <hr>
+            </hide>
+
+          </div>
+          <div></div><!--DISPLAY AREA-->
+        </div>
+      </div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px"></div>
+    </div>
+  </hide>
+</body>
+<script>
+  function URLViewer() {
+    MacroIcons(document.body);
+    LatestUpdate();
+  };
+  window.onload = URLViewer;
+</script>
+</html>
