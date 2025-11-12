@@ -425,6 +425,10 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   // 20240720: StarTree: This function fills a board with content.
   // 20240509: Skyle: Added to handle Offline Archive.
 
+  
+  
+
+
   // 20231224: StarTree: If the node has a <content> section, then assume that this is the new node style that has <node>, <content>, and <ref> sections.
   var elBanner; try{elBanner = elRecord.querySelector('banner');}catch(error){}        
   var elContent = elRecord.querySelector('content');
@@ -580,7 +584,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     
     // REF SECTION
     if(!IsBlank(elRef)){
-      mHTMLInner += "<hr class='mbCB'><div Footer class='mbRef";
+      mHTMLInner += "<hr class='mbCB'><div tallyboard></div><div Footer class='mbRef";
       mHTMLInner += "'>";
       
       // STEP: Include custom reference links.
@@ -588,7 +592,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       mHTMLInner += elRef.innerHTML + " ";
 
       
-
+      
 
       // 20240304: Ivy: Need to show parent link
       if(NotBlank(mJSON.parentid)){
@@ -634,8 +638,11 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
 
       // STEP: Show discussion list query button
       //mHTMLInner += "<a class='mbbutton' onclick=\"QueryAllPSL(this,'[data-" + mJSON.id + "]',false,'board')\">💬 Discussions</a>";
-      mHTMLInner += "<a class='mbbutton' onclick=\"QSLBL(this,'[id][date][time][data-" + mJSON.id + "],[id][date][time]:has([data-" + mJSON.id + "])')\">💬Discussions</a>";
+      mHTMLInner += "<a class='mbbutton' onclick=\"QSLBL(this,'[id][date][time][data-" + mJSON.id + "],[id][date][time]:has([data-" + mJSON.id + "])')\">💬Discussions</a> ";
       
+      // 20251111: StarTree: Adding a Tally Button
+      mHTMLInner += "<a class='mbbutton' onclick='TallyBoard(this)' title='Tally XP'>👑Tally</a> ";
+
       // 20240804: StarTree: Edit Mode Button @@@@
       if(NotBlank(mNodeID)){
         mHTMLInner += " <a class=\"mbbutton\" onclick=\"NodeEdit(this,'"+mNodeID+"')\">✏️</a>";
@@ -1006,6 +1013,7 @@ function ChatNodeContent(elAttr,mJSON){
 function ExportForAI(elThis){
   // 20250909: Sasha: Copy the text of a node for AI.
   var elBoard = SearchPS(elThis,"board").cloneNode(true);
+  //SectionAssign(elBoard);
 
   // Skip to the part that is needed:
   var elCopy = elBoard.querySelector('[contentarea]');
@@ -1126,6 +1134,13 @@ function ExportForAI(elThis){
       }
       parent.removeChild(div);
     });
+    elCopy.querySelectorAll('div[mquerystring]').forEach(div => {
+      const parent = div.parentNode;
+      while (div.firstChild) {
+        parent.insertBefore(div.firstChild, div);
+      }
+      parent.removeChild(div);
+    });
   }
   
 
@@ -1135,11 +1150,13 @@ function ExportForAI(elThis){
   var mHTML = "<div class='mbscroll'><h1>" + mTitle.innerText + "</h1><hr>";
   mHTML += elCopy.innerHTML
   mHTML = mHTML.replace(/^\s*[\r\n]/gm, '');// Remove all blank lines
+  mHTML = mHTML.replace(/<hide.+?">/g, ''); // Remove all <hide> tags
   mHTML = mHTML.replace(/<\/?hide>/g, ''); // Remove all <hide> tags
   mHTML = mHTML.replace(/<button(.*?)<\/button>/g, ''); // REMOVE all buttons
   mHTML = mHTML.replace(/\s<span(.*?)<\/span>\s/g, ''); // REMOVE all span
   mHTML = mHTML.replace(/<!--[\s\S]*?-->/g, ''); // REMOVE all HTML Comments
   mHTML = mHTML.replace(/<p><b>\swith(.*?):<\/b>\s/g, ''); // REMOVE multi authors. 20250924: StarTree
+  //mHTML = mHTML.replace(/<h(\d)\s+>/g, '<h$1>'); // Remove extra spaces
   mHTML = mHTML.replace(/<a>(.*?)<\/a>/g, '');
   mHTML = mHTML.replace(/<small>↴<\/small>/g, '');
   mHTML = mHTML.replace(/<mbnote>\s*<div>/g, '');
@@ -1952,7 +1969,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20251104 Auto Section";
+  elContainer.innerHTML = "20251112 Section Import";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2001,10 +2018,22 @@ function Macro(elScope){
   // 20240414: StarTree: Added Bubble.
   ProcessNodeData(elScope);
   //20251104: StarTree: Auto Section Assignment.
-  let mMain = elScope.querySelector('[contentarea]');
+  /*let mMain = elScope.querySelector('[contentarea]');*/
+  let mMain = SearchPS(elScope,'contentarea');
   if(NotBlank(mMain)){
-    SectionAssign(mMain); // Automatically enumerate elements with the section attribute.
+    let mParentSec = SearchPS(elScope,"section");
+    if(NotBlank(mParentSec)){
+      SectionAssign(elScope,mParentSec.getAttribute('section')+"."); // Automatically enumerate elements with the section attribute.
+    }else{
+      SectionAssign(elScope);
+    }
+  }else{
+    mMain = elScope.querySelector('[contentarea]');
+    if(NotBlank(mMain)){
+      SectionAssign(mMain); 
+    }
   }
+  
   MacroRes(elScope); // RES might expand into Topic objects.    
   MacroTopic(elScope); // TOPIC might expand into Bullets.
   MacroNote(elScope);
@@ -2016,6 +2045,7 @@ function Macro(elScope){
   MacroLnk(elScope);
   MacroURL(elScope);
   MacroIcons(elScope);
+  MacroImport(elScope);
 }
 function MacroBullet(el){
   // 20240420: StarTree: Changes:
@@ -2401,6 +2431,42 @@ function MacroIcons(el,iHTMLInner){
   }
   return mHTMLInner;
 }
+function MacroImport(el){
+  // 20251111: StarTree: Scan the content for any import attribute
+  // 20251111: StarTree: If there is something to import, query then call Macro.
+  let mImports = el.querySelectorAll('[import]');
+  mImports.forEach((item)=>{
+    let mDTS = item.getAttribute('import');
+     
+    
+    if(item.hasAttribute('tags')){ // This is a RES object
+      let elNew = document.createElement('div');   
+      elNew.style.display="inline";
+      item.lastElementChild.lastChild.previousElementSibling.before(elNew);
+      QueryAllEL(elNew,"[dts='"+mDTS+"']",true);
+    }else if(item.hasAttribute('topic')){ // Topic object
+      let elNew = document.createElement('div');   
+      item.lastElementChild.lastElementChild.before(elNew);
+      QueryAllEL(elNew,"[dts='"+mDTS+"']",true);
+    }else if(item.tagName=="MBNOTE"){ // Note Object
+      let elNew = document.createElement('div');  
+      elNew.style.display="inline"; 
+      item.lastElementChild.lastElementChild.lastElementChild.before(elNew);
+      QueryAllEL(elNew,"[dts='"+mDTS+"']",true);
+    }
+    
+  });
+  return;
+  
+  
+  
+  $(document).ready(function(){
+    el.setAttribute('import',iImport);
+  DEBUG(el.outerHTML);
+  
+    Macro(el);
+  });
+}
 function MacroNote(el){
   // 20240501: Cardinal: A note defines an inline collapsible section.
   /* CHANGES:
@@ -2417,6 +2483,7 @@ function MacroNote(el){
     let mIcon = Default(mTag.getAttribute("icon"),"");
     let mTitle = Default(mTag.getAttribute("title"),"");
     let mSubtitle = Default(mTag.getAttribute("Subtitle"),"");
+    let mImport = Default(mTag.getAttribute("import"),"");
     let mNode = Default(mTag.getAttribute("node"),"");
     let bSection = mTag.hasAttribute("section"); // 20251001: StarTree: Keep for auto assginment.
     let mSection = Default(mTag.getAttribute("section"),"");
@@ -2424,6 +2491,7 @@ function MacroNote(el){
     let mLabel = "";
     mHTML = "<mbnote dts=\"" + mDTS +"\"";
     if(bSection){mHTML += " section=\""+ mSection+"\"";}
+    if(NotBlank(mImport)){mHTML += " import=\""+ mImport+"\"";}
     mHTML += ">";
     mHTML += "<a class='mbbutton' onclick='ShowNextInline(this)'>";
     
@@ -2461,8 +2529,9 @@ function MacroNote(el){
     if(NotBlank(mSection)){  
       let mSectionLevel = 2+ mSection.length - mSection.replaceAll(".","").length;
       if(mSectionLevel<3){mSection+=".";}
-      mHTML += "<h" + mSectionLevel + ">" + mIcon +" " + mSection + ". " + mSubtitle + "</h" + mSectionLevel + ">";
-      //mHTML += "<p class='mbhide'>" + mSection + " " + mSubtitle + "</p><hr>";
+      mHTML += "<h" + mSectionLevel + ">";
+      if(NotBlank(mIcon)){ mHTML += mIcon +" "; }
+      mHTML += mSection + ". " + mSubtitle + "</h" + mSectionLevel + ">";
       mHTML += "<hr>";
       ;
     }
@@ -2862,6 +2931,9 @@ function MacroResItem(mTag){
   if(NotBlank(mStarCode)){elNew.setAttribute("star",mStarCode);} // 20250118: StarTree
   if(NotBlank(mAge)){elNew.setAttribute("age",mAge);} // 20250427: StarTree
   if(bSection){elNew.setAttribute('section',mSection);}
+  if(mTag.hasAttribute("import")){
+    elNew.setAttribute("import",mTag.getAttribute("import"))
+  }
   if(mTag.hasAttribute("year")){
     elNew.setAttribute("year",mTag.getAttribute("year"))
   }
@@ -2910,13 +2982,15 @@ function MacroTopic(el){
     let mTag = mTags[i];
     let mDTS = mTag.getAttribute("dts");
     let mIcon = Default(mTag.getAttribute("icon"),"");    
+    let mImport = Default(mTag.getAttribute("import"),""); 
     let mNode = Default(mTag.getAttribute("node"),"");
     let mPrefix = Default(mTag.getAttribute("prefix"),"");
     let mSubtitle = Default(mTag.getAttribute("Subtitle"),""); 
-    let bSection = mTag.hasAttribute("section"); // 20251001: StarTree: Keep for auto assginment.
+    let bSection = mTag.hasAttribute("section"); // 20251001: StarTree: Keep for auto assginment.    
     let mSection = Default(mTag.getAttribute("section"),"");
     let mTitle = Default(mTag.getAttribute("title"),"");
     let mHTML = "";
+
 
     // STEP: If a topic is inside OL or UL, turn it into a bullet.
     if(mTag.parentNode.tagName=="OL" || mTag.parentNode.tagName=="UL"){
@@ -2965,7 +3039,7 @@ function MacroTopic(el){
       
       if(NotBlank(mSection)){      
         let mSectionLevel = 2+ mSection.length - mSection.replaceAll(".","").length;
-        if(mSectionLevel<3){mSection+=".";}
+        //if(mSectionLevel<3){mSection+=".";}
         mHTML += "<h" + mSectionLevel + " class='mbhide'>" + mSection + " " + mTitle + "</h" + mSectionLevel + ">";
         //mHTML += "<p class='mbhide'>" + mSection + " " + mTitle + "</p>";
       } // 20250712: StarTree: Note that the implementation is different from MacroNote.
@@ -2978,6 +3052,7 @@ function MacroTopic(el){
       let elNew = document.createElement('div');
       elNew.classList.add(mClass);   
       elNew.classList.add("mbCL"); // 20240801: Arcacia
+      if(mTag.hasAttribute('import')){elNew.setAttribute("import",mImport);}
       elNew.setAttribute('DTS',mDTS);
       elNew.setAttribute('topic',"");
       if(bSection){elNew.setAttribute('section',mSection);}
@@ -3685,6 +3760,8 @@ function RenderStart(el){
 
   mHTML += "<div class='mbpdc'";
   // 20251101: StarTree: Retain the SPK and EXP info
+  // 20251111: StarTree: Retain the DTS also
+  if(el.hasAttribute('dts')){mHTML += " DTS=\"" + el.getAttribute('dts') + "\"";}
   if(el.hasAttribute('spk')){mHTML += " SPK=\"" + el.getAttribute('spk') + "\"";}
   if(el.hasAttribute('exp')){mHTML += " EXP=\"" + el.getAttribute('exp') + "\"";}
   mHTML += "><p style='display:inline'>" + el.innerHTML + "</p>";
@@ -3805,7 +3882,7 @@ function ModeCSS(mMode){
   }
   return "";
 }
-function RenderAvXP(mSPK,mEXP,mIcon,mRank,mMode){
+function RenderAvXP(mSPK,mEXP,mIcon,mRank,mMode,mDTS){
   // 20240426: Skyle: Function called by other render functions
   var mHTML="";
   
@@ -3815,7 +3892,9 @@ function RenderAvXP(mSPK,mEXP,mIcon,mRank,mMode){
   if(NotBlank(mModeCSS)){mHTML += " mb" + mModeCSS;}
   mHTML += "\"";
   // 20251101: StarTree: Retain the SPK and EXP info
-  if(NotBlank(mSPK)){mHTML += " SPK=\"" + mSPK + "\" HELLO";}
+  // 20251111: StarTree: Retain the DTS also
+  if(NotBlank(mDTS)){mHTML += " DTS=\"" + mDTS + "\"";}
+  if(NotBlank(mSPK)){mHTML += " SPK=\"" + mSPK + "\"";}
   if(NotBlank(mEXP)){mHTML += " EXP=\"" + mEXP + "\"";}
   mHTML += ">";
   if(mEXP || NotBlank(mRank)){
@@ -3843,7 +3922,7 @@ function RenderEnter(el){
   var mTitle = el.getAttribute("Title");
   var mIcon = Default(el.getAttribute("Icon"),"⭐");
   mHTML = "<div class=\"mbCL\"></div>"
-  mHTML += RenderAvXP(mSPK,mEXP,mIcon,el.getAttribute('rank'),el.getAttribute('mode'));
+  mHTML += RenderAvXP(mSPK,mEXP,mIcon,el.getAttribute('rank'),el.getAttribute('mode'),el.getAttribute('dts'));
   if(el.hasAttribute('DTS')){
     mHTML += "<a class='mbbutton' onclick='MsgContext(this)'>" + mSPKFirst.replace("_"," ") + "</a>" + SPKMultiStr(el) +" ";
   }else{
@@ -3951,6 +4030,7 @@ function RenderMsg(el){
   }
   mHTML += "\"";
   // 20251101: StarTree: Retain the SPK and EXP info
+  if(el.hasAttribute('dts')){mHTML += " DTS=\"" + el.getAttribute('dts') + "\"";}
   if(el.hasAttribute('spk')){mHTML += " SPK=\"" + el.getAttribute('spk') + "\"";}
   if(el.hasAttribute('exp')){mHTML += " EXP=\"" + el.getAttribute('exp') + "\"";}
   mHTML += ">";
@@ -5137,12 +5217,11 @@ function SectionAssign(elContainer, aPrefix='',aIndex=1){
   const mChildren = Array.from(elContainer.children).filter(child => {
     return child.hasAttribute('section') || child.querySelector('[section]') !== null;
   });
-  // STEP 2: Loop through the children and assign or skip to the override section number.
-  
+  // STEP 2: Loop through the children and assign or skip to the override section number.  
   for(const child of mChildren){
     let mChildSection = Default(child.getAttribute('section'),'');
     if(IsBlank(mChildSection)){
-      child.setAttribute('section',aPrefix + aIndex);
+      child.setAttribute('section',aPrefix + aIndex);    
       SectionAssign(child, aPrefix + aIndex + ".");
       aIndex ++;
     }else{
@@ -7465,9 +7544,12 @@ function QueryAllEL(elContainer, eQuery,iInner){
   // 20230225: StarTree: saves the query string. if the query string is the same as before, hide if it is shown.
   const InnerCache = [];
   var Hit = 0;
-  var bFlex = (window.getComputedStyle(elContainer).display ==="flex");
+  //var bFlex = (window.getComputedStyle(elContainer).display ==="flex");
   var mFlex = "";
-  var mQuery = elContainer.getAttribute("mQueryString");
+  var mQuery;
+  if(elContainer.hasAttribute('mQueryString')){
+    mQuery = elContainer.getAttribute("mQueryString");
+  }
   var mDisplay = window.getComputedStyle(elContainer).display;
   if(mQuery==eQuery && mDisplay!="none"){
     elContainer.setAttribute("mDefaultDisplay",elContainer.style.display);
@@ -10329,13 +10411,22 @@ function TallyEL(elSource,elDisplay){
   
   // 20251101: Gemini: Map to store total EXP for each unique name
   const nameExpMap = new Map();
+  const mDTSMap = new Map(); // 20251111: StarTree: Used to avoid duplicate.
   // 20251101: StarTree: Select all direct children of the container
   const records = elSource.querySelectorAll('[spk]');
+
+
   for (const record of records) {
-    const rawSpk = record.getAttribute('spk');
+    let rawSpk = record.getAttribute('spk');
     // 20251101: Gemini: rawSpk is already ensured to exist by the querySelectorAll('[spk]') call,
     // but this check is kept for robustness if the query ever changes.
     if (!rawSpk) continue; 
+
+    let mDTS = record.getAttribute('dts');
+    
+    if(IsBlank(mDTS)){continue;} // 20251111: StarTree: Don't tally entries without DTS    
+    if(mDTSMap.has(mDTS + "-" + rawSpk)){continue;}
+    mDTSMap.set(mDTS + "-" + rawSpk,1);
 
     // 1. Determine EXP value (default to 1 if the value is omitted)
     let expValue = 0;
@@ -10358,6 +10449,7 @@ function TallyEL(elSource,elDisplay){
       nameExpMap.set(name, Number(currentExp) + Number(expValue));
     }
   }
+
   // 20251101: Perplexity: Sort the resulting exp map:
   const sortedExp = new Map( [...nameExpMap.entries()].sort((a, b) => b[1] - a[1]) );
   elDisplay.innerHTML = "";
@@ -10391,6 +10483,19 @@ function TallyEL(elSource,elDisplay){
   elDisplay.innerHTML = "<center>" + mTopThreeHTML + "</center>";
   elDisplay.innerHTML += "<div class=\"mbbuttonc\" onclick=\"ShowNext(this)\" title=\"Show Details\">Total EXP: " + mTotalEXP + "</div>";
   elDisplay.innerHTML += "<div class=\"mbhide mbpuzzle\">"+ mEXPString +"</div>";
+}
+function TallyBoard(elButton){
+  // 20251111: StarTree: Tallies the scores of the current node and display it in a div with attribute "tallyboard"
+  var elBoard = SearchPS(elButton,'board');
+
+  var elDisplay = elBoard.querySelector('[tallyboard]');
+  TallyEL(elBoard,elDisplay);
+  if(NotBlank(elDisplay.innerHTML)){
+    elDisplay.classList.add('mbNotes');    
+    elDisplay.classList.remove('mbhide');
+  }else{
+    elDisplay.classList.add('mbhide');
+  }
 }
 function TallyPSN(el){
   // 20251101: StarTree: Assume the display div is the next div, and the source to tally is the last div of control.
