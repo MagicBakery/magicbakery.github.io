@@ -1969,7 +1969,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20251112 Section Import";
+  elContainer.innerHTML = "20251113 Section Import Duplication Fix";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2437,8 +2437,8 @@ function MacroImport(el){
   let mImports = el.querySelectorAll('[import]');
   mImports.forEach((item)=>{
     let mDTS = item.getAttribute('import');
-     
-    
+    item.removeAttribute('import'); // 20251113: Tanya: To avoid duplicated import.
+         
     if(item.hasAttribute('tags')){ // This is a RES object
       let elNew = document.createElement('div');   
       elNew.style.display="inline";
