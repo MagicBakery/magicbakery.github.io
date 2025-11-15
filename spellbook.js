@@ -1,5 +1,6 @@
 (function () {
   const mVersion = "20251115011723";
+  const mMBLink ="https://magicbakery.github.io/?id=P202511132257";
   const PANEL_ID = 'mb-spellbook-injection-div'; // This is the ID of the added section.
   
   // State to track if codename mode is active (SET TO TRUE FOR DEFAULT ON)
@@ -8,54 +9,33 @@
   // STEP 0: If the panel already exists, remove it.
   let mPanel =  document.getElementById(PANEL_ID);
   if (mPanel) mPanel.remove();
+  let mContent;
 
   // STEP 1: Determine what website the bookmarklet is running for
-  const baseUrl = location.href.split("?")[0];
+  const baseUrl = location.href.split("?")[0];  
+  const bNextDoor = baseUrl.includes("https://nextdoor.com");
+  const bTwitter = baseUrl.includes("https://x.com");
 
-  if(baseUrl.includes("nextdoor.com")){
-
-
-  }
-
-
-  const FEED_SEL = '[data-testid="feed-container"]'; // Specific to NextDoor Thread Extractor  
   const BASE_COLOR = '#f0f8ff'; // Light blue background
 
-  
-
-
-  
-
-  function escapeHtml(str) {
-    return str
-      ? str
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, ">") // Keep > for formatting purposes in the output text
-          .replace(/"/g, '"')
-          .replace(/'/g, "'")
-      : "";
+  if(bTwitter){
+    // For Twitter, create a thread exporter panel.
+    // Look for a DOM object "article". Then add the new panel above that.
+    let mFirstArticle = document.querySelector('article');
+    if(!mFirstArticle){
+      console.error(`Thread Exporter: Thread is not found.`);
+      return;
+    }
+    // Create a panel
+    CreatePanel();
+    mFirstArticle.before(mPanel);
+    return;
+  }  
+  if(!bNextDoor){ 
+    
+    return; 
   }
-  
-  // Custom escape function for AI export (simpler, preserves common characters)
-  function escapeForAiExport(str) {
-      if (!str) return "";
-      // Strip leading/trailing whitespace
-      let cleaned = str.trim();
-      // Replace common newlines with spaces for a single-line block quote, 
-      // or just keep them if they are meaningful paragraphs. Let's keep newlines 
-      // for better multi-paragraph analysis, but clean up HTML entities.
-      return cleaned
-          .replace(/&amp;/g, '&')
-          .replace(/&lt;/g, '<')
-          .replace(/&gt;/g, '>')
-          .replace(/&quot;/g, '"')
-          .replace(/&#39;/g, "'");
-  }
-
-
-  
-
+  const FEED_SEL = '[data-testid="feed-container"]'; // Specific to NextDoor Thread Exporter  
   const feed = document.querySelector(FEED_SEL);
   if (!feed) {
     console.error(`Thread Exporter: Target feed container not found: ${FEED_SEL}`);
@@ -63,53 +43,12 @@
   }
 
   // --- Panel Creation ---
-  const panel = document.createElement("div");
-  panel.id = PANEL_ID;
-  // Set overflow to hidden on the panel so only the inner content scrolls
-  panel.style.cssText =
-    `position:relative;max-height:80vh;overflow-y:hidden;padding:10px;padding-top:50px;margin-bottom:1rem;background:${BASE_COLOR};border:1px solid #1e90ff;border-radius:8px;box-shadow:0 4px 6px rgba(0,0,0,0.1);font-family:Inter,sans-serif;transition:background-color 0.5s;`;
+  const panel = CreatePanel();
 
-  const header = document.createElement("div");
-  header.style.cssText =
-    "position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:rgba(255,255,255,.95);border-bottom:1px solid #1e90ff;border-radius:8px 8px 0 0;z-index:10;";
-
-  const title = document.createElement("span");
-  title.textContent = "Thread Exporter " + mVersion;
-  title.style.cssText = "font-weight:bold;color:black;padding:4px;cursor:pointer;";
-  title.title = "Click to show/hide content";
-
-  const controls = document.createElement("div");
-  controls.style.cssText = "display:flex;gap:6px;align-items:center;";
-
-  // Refresh Button (Icon)
-  const btnAnalyze = document.createElement("button");
-  btnAnalyze.style.cssText =
-    "background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;border-radius:4px;transition:background-color 0.2s;color:#1e90ff;transform:scale(1);";
-  btnAnalyze.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.5 9a9 9 0 0 1 14.5-5.5L23 10M1 14l4.5 5.5A9 9 0 0 0 20.5 15"></path></svg>';
-  btnAnalyze.title = 'Analyze/Refresh Content';
-
-  // Close Button (Icon)
-  const btnClose = document.createElement("button");
-  btnClose.style.cssText =
-    "background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;border-radius:4px;transition:background-color 0.2s;color:#f44336;transform:scale(1);";
-  btnClose.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
-  btnClose.title = 'Close Panel';
-
-  const content = document.createElement("div");
-  content.style.cssText = "padding-bottom: 5px; display: block;";
-
-  controls.appendChild(btnAnalyze);
-  controls.appendChild(btnClose);
-  header.appendChild(title);
-  header.appendChild(controls);
-  panel.appendChild(header);
-  panel.appendChild(content);
+  
   feed.parentNode.insertBefore(panel, feed);
 
-  // Toggle content visibility when title is clicked
-  title.addEventListener('click', () => {
-    content.style.display = content.style.display === 'none' ? 'block' : 'none';
-  });
+  
   
   // Storage for comment data, used for export
   let threadData = [];
@@ -273,8 +212,6 @@
         </div>
     `;
 
-    // Footer
-    const footerHtml = `<p style="font-size: 0.8em; border-top: 1px dashed #ccc; padding-top: 5px; margin-top: 10px;">Please visit <a href="https://magicbakery.github.io/?id=P`+ mVersion + `" target="_blank" style="color: #007bff; text-decoration: none;">Magic Bakery</a> for updates of this bookmarklet.</p>`;
 
 
     // --- 6. Assemble Final Output ---
@@ -283,7 +220,7 @@
         errorHtml = '<p style="margin: 1rem 0 0.5rem 0; font-size: 1em; color: #f44336; font-weight: bold;">Error: First thread container (div[id^="feedItem"]) not found.</p>';
     }
 
-    content.innerHTML = `
+    mContent.innerHTML = `
       ${errorHtml}
       ${analyzedAndButtonHtml} 
       ${statusLineHtml}       
@@ -291,8 +228,6 @@
       <div style="max-height: 40vh; overflow-y: auto; padding-right: 5px; border-top: 1px solid #ddd; margin-top: 5px; padding-top: 5px;">
           ${authorListHtml}
       </div>
-      
-      ${footerHtml}
     `;
 
     // --- 7. Implement Toggle Logic ---
@@ -387,10 +322,89 @@
     }, 500);
   }
 
-  btnAnalyze.onclick = analyze;
-  btnClose.onclick = () => panel.remove();
-
   // Initial run
   analyze();
 
+  // HELPER FUNCTIONS
+  function CreatePanel(){
+    mPanel = document.createElement("div");
+    mPanel.id = PANEL_ID;
+    // Set overflow to hidden on the panel so only the inner content scrolls
+    mPanel.style.cssText =
+      `position:relative;max-height:80vh;overflow-y:hidden;padding:10px;padding-top:50px;margin-bottom:1rem;background:${BASE_COLOR};border:1px solid #1e90ff;border-radius:8px;box-shadow:0 4px 6px rgba(0,0,0,0.1);font-family:Inter,sans-serif;transition:background-color 0.5s;`;    
+
+    const mHeader = document.createElement("div");
+    mHeader.style.cssText =
+      "position:absolute;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:rgba(255,255,255,.95);border-bottom:1px solid #1e90ff;border-radius:8px 8px 0 0;z-index:10;";
+
+    const mFooter = document.createElement("div");
+    mFooter.style.cssText = "font-size: 0.8em; border-top: 1px dashed #ccc; padding-top: 5px; margin-top: 10px;";
+    mFooter.innerHTML = 'Please visit <a href="`+mMBLink+`" target="_blank" style="color: #010202ff; text-decoration: none;">Magic Bakery</a> for updates of this bookmarklet.';
+
+    const mTitle = document.createElement("span");
+    mTitle.textContent = "Thread Exporter " + mVersion;
+    mTitle.style.cssText = "font-weight:bold;color:black;padding:4px;cursor:pointer;";
+    mTitle.title = "Click to show/hide content";
+
+    const mControls = document.createElement("div");
+    mControls.style.cssText = "display:flex;gap:6px;align-items:center;";
+
+    // Refresh Button (Icon)
+    const btnAnalyze = document.createElement("button");
+    btnAnalyze.style.cssText =
+      "background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;border-radius:4px;transition:background-color 0.2s;color:#1e90ff;transform:scale(1);";
+    btnAnalyze.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.5 9a9 9 0 0 1 14.5-5.5L23 10M1 14l4.5 5.5A9 9 0 0 0 20.5 15"></path></svg>';
+    btnAnalyze.title = 'Analyze/Refresh Content';
+    btnAnalyze.onclick = analyze;
+
+    // Close Button (Icon)
+    const btnClose = document.createElement("button");
+    btnClose.style.cssText =
+      "background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;border-radius:4px;transition:background-color 0.2s;color:#f44336;transform:scale(1);";
+    btnClose.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+    btnClose.title = 'Close Panel';
+    btnClose.onclick = () => mPanel.remove();
+
+    // Content Frame
+    mContent = document.createElement("div");
+    mContent.style.cssText = "padding-bottom: 5px; display: block;"
+    mControls.appendChild(btnAnalyze);
+    mControls.appendChild(btnClose);
+    mHeader.appendChild(mTitle);
+    mHeader.appendChild(mControls);
+    mPanel.appendChild(mHeader);
+    mPanel.appendChild(mContent);
+    mPanel.appendChild(mFooter);
+
+    // Toggle content visibility when title is clicked
+    mTitle.addEventListener('click', () => {
+      mContent.style.display = mContent.style.display === 'none' ? 'block' : 'none';
+    });
+    return mPanel;
+  }
+  function escapeHtml(str) {
+    return str
+      ? str
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, ">") // Keep > for formatting purposes in the output text
+          .replace(/"/g, '"')
+          .replace(/'/g, "'")
+      : "";
+  }
+  // Custom escape function for AI export (simpler, preserves common characters)
+  function escapeForAiExport(str) {
+      if (!str) return "";
+      // Strip leading/trailing whitespace
+      let cleaned = str.trim();
+      // Replace common newlines with spaces for a single-line block quote, 
+      // or just keep them if they are meaningful paragraphs. Let's keep newlines 
+      // for better multi-paragraph analysis, but clean up HTML entities.
+      return cleaned
+          .replace(/&amp;/g, '&')
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&quot;/g, '"')
+          .replace(/&#39;/g, "'");
+  }
 })();
