@@ -7,9 +7,17 @@
   let isCodenameMode = true;
 
   // STEP 0: If the panel already exists, remove it.
-  let mPanel =  document.getElementById(PANEL_ID);
-  if (mPanel) mPanel.remove();
+  let mPanel;
   let mContent;
+  let btnCapture;
+  let btnExport;
+  let mSource;  
+  let threadData = [];  // Storage for comment data, used for export
+  let allParticipantLinks = [];
+  let mOP = "";
+  const mParticipantMap = new Map();
+  let mPostMap = new Map();
+  let mPostCount = 0;
 
   // STEP 1: Determine what website the bookmarklet is running for
   const baseUrl = location.href.split("?")[0];  
@@ -17,48 +25,36 @@
   const bTwitter = baseUrl.includes("https://x.com");
 
   const BASE_COLOR = '#f0f8ff'; // Light blue background
-
   if(bTwitter){
     // For Twitter, create a thread exporter panel.
     // Look for a DOM object "article". Then add the new panel above that.
-    let mFirstArticle = document.querySelector('article');
-    if(!mFirstArticle){
-      console.error(`Thread Exporter: Thread is not found.`);
-      return;
-    }
-    // Create a panel
-    CreatePanel();
-    mFirstArticle.before(mPanel);
+    if(!CreatePanel('[aria-label="Timeline: Trending now"]')){return;}  
+    mPanel.style.marginTop = "20px";
+    //if(!CreatePanel('[data-testid="SearchBox_Search_Input_label"]')){return;}
+    Analyze();
     return;
   }  
-  if(!bNextDoor){ 
-    
-    return; 
-  }
-  const FEED_SEL = '[data-testid="feed-container"]'; // Specific to NextDoor Thread Exporter  
-  const feed = document.querySelector(FEED_SEL);
-  if (!feed) {
-    console.error(`Thread Exporter: Target feed container not found: ${FEED_SEL}`);
+  if(bNextDoor){    
+    if(!CreatePanel('[data-testid="feed-container"]')){return;}
+    // Initial run
+    Analyze();
     return;
   }
-
-  // --- Panel Creation ---
-  const panel = CreatePanel();
-
   
-  feed.parentNode.insertBefore(panel, feed);
 
-  
-  
-  // Storage for comment data, used for export
-  let threadData = [];
 
-  function analyze() {
-    panel.style.backgroundColor = '#f0fff0'; // Light green flash on refresh
+  // HELPER FUNCTIONS
+   function Analyze(){
+    mPanel.style.backgroundColor = '#f0fff0'; // Light green flash on refresh
     isCodenameMode = true; // Reset codename view state to ON on refresh
     threadData = []; // Clear previous data
-
-    const threadRoot = document.querySelector('div[id^="feedItem"]');
+    if(bNextDoor){AnalyzeNextDoor();}
+    if(bTwitter){AnalyzeTwitter();}
+  }
+  function AnalyzeNextDoor() {
+    mSource = document.querySelector('div[id^="feedItem"]');
+    mContent.innerHTML = "";
+    allParticipantLinks = [];
 
     // --- 1. Get Total Comment Count ---
     const replyBtn = document.querySelector('[data-testid="post-reply-button"]');
@@ -70,10 +66,9 @@
       }
     }
 
-    // --- 2. Get Participants (OP + Commenters) ---
-    let allParticipantLinks = [];
-    if (threadRoot) {
-      threadRoot
+    // --- 2. Get Participants (OP + Commenters) ---    
+    if (mSource) {
+      mSource
         .querySelectorAll('a[href$="feed_author"],a[href$="feed_commenter"]')
         .forEach(a => {
           if (a.children.length === 0) allParticipantLinks.push(a);
@@ -137,7 +132,7 @@
       let url = "#";
 
       if (isOp) {
-        let opContainer = threadRoot || document;
+        let opContainer = mSource || document;
         let el = opContainer.querySelector('[data-testid="post-body"]');
         if (el) commentText = el.textContent.trim();
         url = baseUrl; // Link to the current page
@@ -216,7 +211,7 @@
 
     // --- 6. Assemble Final Output ---
     let errorHtml = '';
-    if(!threadRoot){
+    if(!mSource){
         errorHtml = '<p style="margin: 1rem 0 0.5rem 0; font-size: 1em; color: #f44336; font-weight: bold;">Error: First thread container (div[id^="feedItem"]) not found.</p>';
     }
 
@@ -318,15 +313,159 @@
     });
 
     setTimeout(() => {
-      panel.style.backgroundColor = BASE_COLOR;
+      mPanel.style.backgroundColor = BASE_COLOR;
     }, 500);
   }
+  function AnalyzeTwitter(){
+    btnCapture.style.backgroundColor='#f44336'; // Red
+    btnCapture.innerHTML = "Capturing...";
 
-  // Initial run
-  analyze();
 
-  // HELPER FUNCTIONS
-  function CreatePanel(){
+    // STEP 1: Get comment count
+    let xReplyButton = document.querySelector("button[data-testid='reply']");
+    let xTotalCount = parseInt(xReplyButton.getAttribute('aria-label').split(' ')[0]) + 1;
+    
+    // STEP 2: Get Participants (OP + Commenters)
+    mSource = document.querySelector('section');
+    if (mSource) {
+      // Remove Ads
+      mSource.querySelectorAll("span").forEach(a=>{
+        if(a.innerHTML=="Ad"){
+          a.closest('article').remove();
+        }
+      });
+      // Remove all Unavailable Posts
+      mSource.querySelectorAll("article").forEach(a=>{
+        if(!a.querySelector(["[data-testid='User-Name']"])){
+          a.remove();
+        }
+      });
+      
+      let aCommenterCount = 0;      
+      mSource
+        .querySelectorAll("[data-testid='User-Name']")
+        .forEach(a => {
+          let aPost = a.closest('article');
+          let aLinks = aPost.querySelectorAll("a");
+          let aPostLink = aLinks[3].href;
+          let aAuthorName = "@" + aPostLink.split("/")[3];
+          // If the post link is new, add the post to the map.
+          
+          if(!mPostMap.has(aPostLink)){
+            
+            let aInner = aPost.querySelector("[data-testid='tweetText'] span");
+            let aContent = "(No content text.)";
+            if(aInner){aContent = escapeHtml(aInner.textContent);}
+            mPostMap.set(aPostLink,{
+              id: mPostMap.size+1,
+              author: aAuthorName,
+              time: aPost.querySelector("time").getAttribute('datetime'),
+              link: aPostLink,
+              content: aContent
+            });                
+          }
+
+          
+          if(!mOP){mOP = aAuthorName};
+          
+          let bIsOP = (mOP == aAuthorName);
+          if(!mParticipantMap.has(aAuthorName)){
+            let aCodeName = "";
+            if(bIsOP){
+              aCodeName = "OP";
+            }else{
+              aCodeName = `C${String(++aCommenterCount).padStart(3, '0')}`;
+            }
+            mParticipantMap.set(aAuthorName, {
+              codename: aCodeName,
+              realName: aAuthorName,
+              uniqueId: aAuthorName || 'N/A' // Store the profile ID if available
+            });
+            
+          }
+          //allParticipantLinks.push(a.closest('article'));
+        });      
+    }
+
+    // STEP 5: Build List and Content Boxes (Second pass: populate HTML)
+    let authorListHtml = '';    
+    let displayIndex = 0;
+
+    // STEP Last: Display / Export the data
+    // Status Line Container (Moved below the aligned row)
+
+    
+    mPostMap.forEach(a =>{
+      mContent.innerHTML += "<div >";
+      mContent.innerHTML += "<a style='font-family:consolas' href='"+ a.link+"' target='_blank'>[" + a.id + "]</a> ";
+      mContent.innerHTML += "<a toggleNext style='font-family:consolas'>" + formatIsoToCustom(a.time) + " " + a.author + "</a>";
+      mContent.innerHTML += "<div style='display:none;padding:0 5px;font-size:12px;background-color: rgba(255, 255, 255, 0.7);border:1px solid teal;'>"+a.content+"</div>";
+      mContent.innerHTML += "</div>";
+    });
+    let aToggles = mContent.querySelectorAll('[toggleNext]');
+    aToggles.forEach(a=>{
+      a.addEventListener('click',function(event){
+        event.preventDefault();
+        const elTarget = this.nextElementSibling;
+        if(elTarget.style.display ==='none'){
+          elTarget.style.display = 'block';
+        }else{
+          elTarget.style.display = 'none';
+        }
+      });
+    });
+    btnCapture.innerHTML = "Captured " + mPostMap.size;   
+    btnCapture.style.backgroundColor = '#4CAF50'; // Green
+    setTimeout(() => { 
+        btnCapture.style.backgroundColor = '#2196F3'; // Blue
+    }, 1500);
+
+    
+
+  }
+  function ResetTwitter(){
+    mPostMap = new Map();
+    mContent.innerHTML = "";
+    btnCapture.innerHTML = "Capture";
+
+
+  }
+  function ExportForAI(){
+  
+    let mExportStr = "--- Thread Analysis Data ---\n";
+    mPostMap.forEach(a =>{
+      mExportStr += "[" + a.id + "] " + a.author + " " + a.time + " " + a.link + "\n";
+      mExportStr += escapeForAiExport(a.content) + "\n\n";
+    });
+    navigator.clipboard.writeText(mExportStr).then(() => {
+      btnExport.textContent = 'Copied!';
+      btnExport.style.backgroundColor = '#4CAF50'; // Green
+      setTimeout(() => { 
+          btnExport.textContent = 'Export';
+          btnExport.style.backgroundColor = '#2196F3'; // Blue
+      }, 1500);
+    }).catch(err => {
+      console.error('Could not copy text: ', err);
+      btnExport.textContent = 'Failed!';
+      btnExport.style.backgroundColor = '#f44336'; // Red
+      setTimeout(() => { 
+          btnExport.textContent = 'Export'; 
+          btnExport.style.backgroundColor = '#2196F3';
+      }, 1500);
+    });
+  
+  }
+  function CreatePanel(iSelector,bAfter){
+    // First check if the panel already exists. If so, remove it.
+    mPanel = document.getElementById(PANEL_ID);
+    if (mPanel) mPanel.remove();
+
+    mSource = document.querySelector(iSelector);
+    if(!mSource){
+      console.error("Panel Create: Cannot find " + iSelector + ".");
+      return false;
+    }
+
     mPanel = document.createElement("div");
     mPanel.id = PANEL_ID;
     // Set overflow to hidden on the panel so only the inner content scrolls
@@ -339,7 +478,7 @@
 
     const mFooter = document.createElement("div");
     mFooter.style.cssText = "font-size: 0.8em; border-top: 1px dashed #ccc; padding-top: 5px; margin-top: 10px;";
-    mFooter.innerHTML = 'Please visit <a href="`+mMBLink+`" target="_blank" style="color: #010202ff; text-decoration: none;">Magic Bakery</a> for updates of this bookmarklet.';
+    mFooter.innerHTML = 'Please visit <a href="'+mMBLink+'" target="_blank" style="color: #010202ff; text-decoration: none;">Magic Bakery</a> for updates of this bookmarklet.';
 
     const mTitle = document.createElement("span");
     mTitle.textContent = "Thread Exporter " + mVersion;
@@ -355,7 +494,7 @@
       "background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;border-radius:4px;transition:background-color 0.2s;color:#1e90ff;transform:scale(1);";
     btnAnalyze.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.5 9a9 9 0 0 1 14.5-5.5L23 10M1 14l4.5 5.5A9 9 0 0 0 20.5 15"></path></svg>';
     btnAnalyze.title = 'Analyze/Refresh Content';
-    btnAnalyze.onclick = analyze;
+    btnAnalyze.onclick = Analyze;
 
     // Close Button (Icon)
     const btnClose = document.createElement("button");
@@ -365,21 +504,62 @@
     btnClose.title = 'Close Panel';
     btnClose.onclick = () => mPanel.remove();
 
+    // Export Button
+    btnExport = document.createElement("button");
+    btnExport.style.cssText = "padding: 5px 10px;background: #2196F3;color: white;border: none;border-radius: 4px;cursor: pointer;font-size: 0.8em;transition: background 0.3s;white-space: nowrap;";
+     btnExport.innerHTML = "Export";
+     btnExport.title = "Export";
+     btnExport.onclick = ExportForAI;
+
+    // Capture Button
+    btnCapture = document.createElement("button");
+    btnCapture.style.cssText = "padding: 5px 10px;background: #2196F3;color: white;border: none;border-radius: 4px;cursor: pointer;font-size: 0.8em;transition: background 0.3s;white-space: nowrap;margin-right:10px";
+     btnCapture.innerHTML = "Capture";
+     btnCapture.title = "Capture";
+     btnCapture.onclick = AnalyzeTwitter;
+
     // Content Frame
+    mYFrame  = document.createElement("div");
+    mYFrame.style.cssText = "padding-bottom: 5px; display: block;";
     mContent = document.createElement("div");
-    mContent.style.cssText = "padding-bottom: 5px; display: block;"
-    mControls.appendChild(btnAnalyze);
-    mControls.appendChild(btnClose);
-    mHeader.appendChild(mTitle);
-    mHeader.appendChild(mControls);
-    mPanel.appendChild(mHeader);
-    mPanel.appendChild(mContent);
-    mPanel.appendChild(mFooter);
+    mContent.style.cssText = "padding-bottom: 5px; display: block; max-height:200px;overflow-y: auto;";
+    
+    // Assembly
+    if(bNextDoor){
+      mControls.appendChild(btnAnalyze);
+      mControls.appendChild(btnClose);
+      mHeader.appendChild(mTitle);
+      mHeader.appendChild(mControls);
+      mPanel.appendChild(mHeader);
+      mPanel.appendChild(mYFrame);
+      mYFrame.appendChild(mContent);
+      mYFrame.appendChild(mFooter);
+    }
+    if(bTwitter){
+      btnAnalyze.onclick = ResetTwitter;
+      btnAnalyze.title = "Reset";
+      mControls.appendChild(btnAnalyze);      
+      mControls.appendChild(btnClose);
+      mHeader.appendChild(mTitle);
+      mHeader.appendChild(mControls);
+      mPanel.appendChild(mHeader);
+      mPanel.appendChild(mYFrame);
+      mYFrame.appendChild(mContent);
+      mYFrame.appendChild(mFooter);
+      mPanel.appendChild(btnCapture);
+      mPanel.appendChild(btnExport);
+    }
 
     // Toggle content visibility when title is clicked
     mTitle.addEventListener('click', () => {
-      mContent.style.display = mContent.style.display === 'none' ? 'block' : 'none';
+      mYFrame.style.display = mYFrame.style.display === 'none' ? 'block' : 'none';
     });
+    if(bAfter){
+      mSource.after(mPanel);
+    }else{
+      mSource.before(mPanel);
+    }
+    
     return mPanel;
   }
   function escapeHtml(str) {
@@ -406,5 +586,33 @@
           .replace(/&gt;/g, '>')
           .replace(/&quot;/g, '"')
           .replace(/&#39;/g, "'");
+  }
+  function formatIsoToCustom(isoString) {
+    const date = new Date(isoString);
+
+    // Helper function to pad single digits with a leading zero
+    const pad = (num) => String(num).padStart(2, '0');
+
+    // --- Date Components (UTC) ---
+    const YYYY = date.getUTCFullYear();
+    // Months are 0-indexed (0 = Jan, 11 = Dec), so add 1
+    const MM = pad(date.getUTCMonth() + 1); 
+    const DD = pad(date.getUTCDate());
+
+    // --- Time Components (UTC) ---
+    const hh = pad(date.getUTCHours());
+    const mm = pad(date.getUTCMinutes());
+    const ss = pad(date.getUTCSeconds());
+
+    // Combine components into the desired format: YYYYMMDD-hhmmss
+    return `${YYYY}${MM}${DD}-${hh}${mm}${ss}`;
+  }
+  function ShowNext(el){
+    const elTarget = el.nextElementSibling;
+    if(elTarget.style.display ==='none'){
+      elTarget.style.display = 'block';
+    }else{
+      elTarget.style.display = 'none';
+    }
   }
 })();
