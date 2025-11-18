@@ -264,6 +264,16 @@ function AtGitHub(){
   // 20230916: StarTree: Return true if this code is at GitHub
   return _At("GitHub");
 }
+function AttributeCopy(elTarget,elSource,iAttribute){
+  // 20251118: StarTree: Copies an attribute if it exists in the source.
+  // Return the value of the attribute.
+  var mValue = null;
+  if(elSource.hasAttribute(iAttribute)){
+    mValue = elSource.getAttribute(iAttribute);
+    elTarget.setAttribute(iAttribute,mValue);
+  }
+  return mValue;
+}
 function AuthorButton(elAuthor){
   // 20240730: StarTree: This handles the effect when the big author button is pressed.
   // Algorithm: Interpret the current state and cycle through these states:
@@ -375,6 +385,8 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll,elArchives){
   // For Testing: if iNodeID is blank, use this default:
   if(iNodeID==""){iNodeID="202208172056";};
   elBoard.setAttribute("board",iNodeID);
+  
+  
 
   // STEP: Create a container within the Board after the control section for the content.
   //       ((The board itself has a close button))
@@ -424,11 +436,6 @@ function OfflineTag(bOffline){
 function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   // 20240720: StarTree: This function fills a board with content.
   // 20240509: Skyle: Added to handle Offline Archive.
-
-  
-  
-
-
   // 20231224: StarTree: If the node has a <content> section, then assume that this is the new node style that has <node>, <content>, and <ref> sections.
   var elBanner; try{elBanner = elRecord.querySelector('banner');}catch(error){}        
   var elContent = elRecord.querySelector('content');
@@ -436,7 +443,9 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   var elNode = elRecord.querySelector('node');
   var mNodeID = "";
   //var mProfile = Default(elRecord.getAttribute("data-Profile"),"");
-
+  // 20251118: StarTree: Retain the data-page attribute
+  var mPage = AttributeCopy(elBoard,elRecord,'data-page');
+  
   if(!IsBlank(elContent) && !IsBlank(elNode)){ 
     // 20231224: StarTree: New Format
     var mJSON = JSON.parse(elNode.innerHTML);
@@ -493,7 +502,36 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     mHTMLInner += NodeTypeHTML(elRecord);
 
     // 20250909: StarTree: Adding a save button to help export content for static HTML pages.
-    mHTMLInner += "<button class='mbbutton mbRef' title='Export for AI' onclick='ExportForAI(this)'>📜</button>";
+    // 20251118: StarTree: If the node as data-page, display differently.
+    if(NotBlank(mPage)){
+      let mPageURL = mPage + ".html";
+      
+      mHTMLInner += "<a btnExport class='mbbutton mbRef' title='Export for AI as "+ mPageURL +"' onclick='ExportForAI(this)' href='./"+mPageURL+"' style='padding:0 5px'>📜</a>";
+      let elVersionDTS = document.createElement("div");
+      $(elVersionDTS).load(mPageURL + " [dts]", function(){
+        let elFirstChild = elVersionDTS.firstElementChild;
+        if(elFirstChild){
+          let mVersionDTS = Number(elFirstChild.getAttribute('dts'));
+          if(!mVersionDTS){return;}
+          let mDTSList = elBoard.querySelectorAll('[dts]');
+          let mCurLatestDTS = 0;
+          mDTSList.forEach(el => {
+            let mCurDTS = Number(el.getAttribute('dts'));
+            if(mCurDTS > mCurLatestDTS){mCurLatestDTS = mCurDTS;}
+          });
+          if(mVersionDTS > mCurLatestDTS){return;}        
+        }
+        
+        let btnExport = elBoard.querySelector('[btnExport]');
+        if(btnExport){
+          btnExport.innerHTML = MacroIcons(null,"🔔");
+        }        
+        elVersionDTS.remove();
+      });
+    }else{
+      mHTMLInner += "<button class='mbbutton mbRef' title='Export for AI' onclick='ExportForAI(this)'>📜</button>";
+    }
+    
 
     mHTMLInner += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>½</button>";
 
@@ -1019,7 +1057,6 @@ function ExportForAI(elThis){
   var elCopy = elBoard.querySelector('[contentarea]');
   elCopy.firstElementChild.remove();
 
-
   if(true){ 
     // REMOVE all code
     elements = elCopy.querySelectorAll('code');
@@ -1040,7 +1077,6 @@ function ExportForAI(elThis){
     elements = elCopy.querySelectorAll('a[href] + hide');
     elements.forEach(el => el.remove());
   }
-
   if(true){
     
     
@@ -1073,8 +1109,6 @@ function ExportForAI(elThis){
     elements = elCopy.querySelectorAll('mbnote');
     elements.forEach(el => el.firstChild.remove());
   }
-    
-  
   if(true){ // POST PROCESSING SECTION 2  
     // REMOVE <SPAN><ICON>
     elements = elCopy.querySelectorAll('span');
@@ -1142,35 +1176,42 @@ function ExportForAI(elThis){
       parent.removeChild(div);
     });
   }
-  
+  var mHTML = elCopy.innerHTML;
+  if(true){ // POST PROCESSING SECTION 4
+    mHTML = mHTML.replace(/^\s*[\r\n]/gm, '');// Remove all blank lines
+    mHTML = mHTML.replace(/<hide.+?">/g, ''); // Remove all <hide> tags
+    mHTML = mHTML.replace(/<\/?hide>/g, ''); // Remove all <hide> tags
+    mHTML = mHTML.replace(/<button(.*?)<\/button>/g, ''); // REMOVE all buttons
+    mHTML = mHTML.replace(/\s<span(.*?)<\/span>\s/g, ''); // REMOVE all span
+    mHTML = mHTML.replace(/<!--[\s\S]*?-->/g, ''); // REMOVE all HTML Comments
+    mHTML = mHTML.replace(/<p><b>\swith(.*?):<\/b>\s/g, ''); // REMOVE multi authors. 20250924: StarTree
+    //mHTML = mHTML.replace(/<h(\d)\s+>/g, '<h$1>'); // Remove extra spaces
+    mHTML = mHTML.replace(/<a>(.*?)<\/a>/g, '');
+    mHTML = mHTML.replace(/<small>↴<\/small>/g, '');
+    mHTML = mHTML.replace(/<mbnote>\s*<div>/g, '');
+    mHTML = mHTML.replace(/<mbnote[\s\S]*?<div>/g, ''); // 20251002: StarTree: Remove for note sections
+    mHTML = mHTML.replace(/<\/div>\s*<\/mbnote>/g, '');
+    mHTML = mHTML.replace(/<div>\s*<div>[\s\S]*?<\/div>[\s\S]*?<\/div>/g, '');
+    mHTML = mHTML.replace(/<a>.*?<\/a><b>.*?<\/b> /g, '');  // REMOVE the pattern for multi speakers of a bubble
+    mHTML = mHTML.replace(/<p>:\s/g, '<p>'); // REMOVE all colon after <p>
+    mHTML = mHTML.replace(/^[ \t]+/gm, ''); // REMOVE all indentation spaces.
+    mHTML = mHTML.replace(/[ \t]+(\r?\n)/g,'$1'); // REMOVE all blanks before newline.
+    mHTML = mHTML.replace(/^\s*[\r\n]/gm, ''); // REMOVE all blank lines.
+  }
 
   // OUTPUT
   // Get the Title
   var mTitle = elBoard.querySelector('h1');
-  var mHTML = "<div class='mbscroll'><h1>" + mTitle.innerText + "</h1><hr>";
-  mHTML += elCopy.innerHTML
-  mHTML = mHTML.replace(/^\s*[\r\n]/gm, '');// Remove all blank lines
-  mHTML = mHTML.replace(/<hide.+?">/g, ''); // Remove all <hide> tags
-  mHTML = mHTML.replace(/<\/?hide>/g, ''); // Remove all <hide> tags
-  mHTML = mHTML.replace(/<button(.*?)<\/button>/g, ''); // REMOVE all buttons
-  mHTML = mHTML.replace(/\s<span(.*?)<\/span>\s/g, ''); // REMOVE all span
-  mHTML = mHTML.replace(/<!--[\s\S]*?-->/g, ''); // REMOVE all HTML Comments
-  mHTML = mHTML.replace(/<p><b>\swith(.*?):<\/b>\s/g, ''); // REMOVE multi authors. 20250924: StarTree
-  //mHTML = mHTML.replace(/<h(\d)\s+>/g, '<h$1>'); // Remove extra spaces
-  mHTML = mHTML.replace(/<a>(.*?)<\/a>/g, '');
-  mHTML = mHTML.replace(/<small>↴<\/small>/g, '');
-  mHTML = mHTML.replace(/<mbnote>\s*<div>/g, '');
-  mHTML = mHTML.replace(/<mbnote[\s\S]*?<div>/g, ''); // 20251002: StarTree: Remove for note sections
-  mHTML = mHTML.replace(/<\/div>\s*<\/mbnote>/g, '');
-  mHTML = mHTML.replace(/<div>\s*<div>[\s\S]*?<\/div>[\s\S]*?<\/div>/g, '');
-  mHTML = mHTML.replace(/<a>.*?<\/a><b>.*?<\/b> /g, '');  // REMOVE the pattern for multi speakers of a bubble
-  mHTML = mHTML.replace(/<p>:\s/g, '<p>'); // REMOVE all colon after <p>
-  mHTML = mHTML.replace(/^[ \t]+/gm, ''); // REMOVE all indentation spaces.
-  mHTML = mHTML.replace(/[ \t]+(\r?\n)/g,'$1'); // REMOVE all blanks before newline.
-  mHTML = mHTML.replace(/^\s*[\r\n]/gm, ''); // REMOVE all blank lines.
-  
-  mHTML+= "</div>";
-  navigator.clipboard.writeText(mHTML);
+  var mHTMLOuter = "<div class='mbscroll'";
+  var mVersion = DTSNow();
+  mHTMLOuter += " dts='" + mVersion + "'";
+  mHTMLOuter += "><h1>" + mTitle.innerText + "</h1><hr>";
+  mHTMLOuter += mHTML;
+  mHTMLOuter+= "</div>";
+  // 20251118: StarTree: Update the version code at the exported content.
+  mHTMLOuter = mHTMLOuter.replace(/<versioncode(.*?)<\/versioncode>/g, '<versioncode>QSE' + mVersion + "</versioncode>"); // REMOVE all buttons
+
+  navigator.clipboard.writeText(mHTMLOuter);
 }
 function GetInputBoxValue(el){
   // 20230821: StarTree: This gets the first input box within the control section.
@@ -1969,7 +2010,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20251113 Section Import Duplication Fix";
+  elContainer.innerHTML = "20251118 Auto Export Reminder";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2718,9 +2759,9 @@ function MacroResItem(mTag){
   let bSection = mTag.hasAttribute("section") && IsBlank(SearchPS(mTag,'banner'));
   let mSection = mTag.getAttribute('section');
   // 20251104: Patricia: Add section header if it is a section outside a banner.
-  let mSectionLevel = 1;
+  let mSectionLevel = 1
   if(bSection){  
-    //mSectionLevel = 2+ mSection.length - mSection.replaceAll(".","").length;
+    mSectionLevel = 2+ mSection.length - mSection.replaceAll(".","").length;
     //if(mSectionLevel<3){mSection+=".";}
     mTitle = mSection + ". " + mTitle;
   }
@@ -3039,7 +3080,7 @@ function MacroTopic(el){
       
       if(NotBlank(mSection)){      
         let mSectionLevel = 2+ mSection.length - mSection.replaceAll(".","").length;
-        //if(mSectionLevel<3){mSection+=".";}
+        if(mSectionLevel<3){mSection+=".";}
         mHTML += "<h" + mSectionLevel + " class='mbhide'>" + mSection + " " + mTitle + "</h" + mSectionLevel + ">";
         //mHTML += "<p class='mbhide'>" + mSection + " " + mTitle + "</p>";
       } // 20250712: StarTree: Note that the implementation is different from MacroNote.
