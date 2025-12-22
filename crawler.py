@@ -5,12 +5,13 @@ import re
 from pathlib import Path
 from datetime import datetime
 
-# VERSION: 20251221232000
+# VERSION: 20251222014400
 
 EXTENSIONS = ('.jpg', '.jpeg', '.png', '.webp', '.gif', '.url')
+# Initialize with just the name; we will build the full path inside main
+CFG_FILE = os.path.splitext(os.path.basename(__file__))[0] + ".cfg"
 
 def get_url_from_file(file_path):
-    """Parses a Windows .url file to extract the remote link."""
     try:
         with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
             for line in f:
@@ -31,396 +32,39 @@ def get_image_source(full_path, is_mobile):
         except Exception: return None
     else: 
         return Path(full_path).as_uri()
+
 def process_string_into_tags(input_str, is_filename=False):
-    # Rule 5: If filename has no underscore, no tags.
     if is_filename and "_" not in input_str: return []
-    # Rule 4 & 6: Delimit by underscores (and slashes for paths)
     segments = re.split(r'[_\\/]', input_str)
     tags = []
-    
     for s in segments:
         s = s.strip()
-        if not s: continue
-        
-        # Rule 2: Ignore segments starting and ending with parentheses
-        if s.startswith('(') and s.endswith(')'):
-            continue
-            
-        # Rule 1: Case insensitive (Upper), space between letters allowed, stripped.
+        if not s or (s.startswith('(') and s.endswith(')')): continue
         tags.append(s.upper())
-        
     return tags
 
-def generate_html(data, tags, mode, version_id):
-    title = f"Gallery {version_id}"
-    
-    html_template = r"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>""" + title + r"""</title>
-        <style>
-            :root { 
-                --bg: #000; --panel: rgba(15, 15, 15, 0.5);
-                --border: rgba(255,255,255,0.1); --accent: #fff; --text: #fff; --text-dim: #CCC; 
-                --grid-cols: 3; --sidebar-w: 300px; --gold: #ffd700; --h-dir: row-reverse;
-            }
-            
-            * { box-sizing: border-box; }
-            #sidebar *, #tag-cloud, .file-list, #main { -ms-overflow-style: none; scrollbar-width: none; }
-            #sidebar *::-webkit-scrollbar, #main::-webkit-scrollbar { display: none; }
+def load_cfg():
+    if not os.path.exists(CFG_FILE): 
+        return []
+    try:
+        with open(CFG_FILE, "r", encoding="utf-8-sig") as f:
+            return [line.strip() for line in f if line.strip()]
+    except Exception as e:
+        print(f"Warning: Could not read config: {e}")
+        return []
 
-            body { 
-                background: var(--bg); color: var(--text); font-family: monospace; margin: 0; display: flex; height: 100vh; width: 100vw; overflow: hidden;
-                background-size: cover; background-position: center; background-attachment: fixed; transition: background-image 0.5s ease-in-out;
-            }
-            
-            body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); z-index: -1; pointer-events: none; }
+def save_cfg(paths):
+    try:
+        with open(CFG_FILE, "w", encoding="utf-8") as f:
+            for p in sorted(list(set(paths))):
+                f.write(p + "\n")
+    except Exception as e:
+        print(f"\nError: Could not save config file: {e}")
 
-            #sidebar { 
-                width: var(--sidebar-w); background: var(--panel); backdrop-filter: blur(12px);
-                border-left: 1px solid var(--border); display: flex; flex-direction: column; 
-                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); flex-shrink: 0; z-index: 1000;
-                order: 2; 
-            }
-            body.dock-left #sidebar { order: 0; border-left: none; border-right: 1px solid var(--border); }
-            body.collapsed #sidebar { position: absolute; right: 0; transform: translateX(100%); }
-            body.dock-left.collapsed #sidebar { left: 0; transform: translateX(-100%); }
-
-            #ghost-restore {
-                position: fixed; top: 15px; width: 40px; height: 40px;
-                background: rgba(255,255,255,0.1); backdrop-filter: blur(5px);
-                border: 1px solid var(--border); border-radius: 8px; color: #fff;
-                display: none; align-items: center; justify-content: center; cursor: pointer; z-index: 999;
-                right: 15px;
-            }
-            body.dock-left #ghost-restore { right: auto; left: 15px; }
-            body.collapsed #ghost-restore { display: flex; }
-
-            #main { 
-                flex: 1; padding: 10px; display: flex; gap: 20px; transition: width 0.3s ease;
-                height: 100vh; order: 1; flex-direction: var(--h-dir); align-items: flex-start; 
-                overflow-x: auto; overflow-y: hidden; flex-wrap: nowrap;
-            }
-
-            body.max-width #main { flex-direction: column; align-items: center; overflow-y: auto; overflow-x: hidden; }
-
-            @keyframes fadeInCard { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-            
-            /* ADDED SOFT SHADOW EFFECT */
-            .card { 
-                position: relative; 
-                border: 3px solid rgba(255, 255, 255, 0.4); 
-                border-radius: 14px; 
-                flex-shrink: 0; 
-                height: 98vh; 
-                overflow: hidden; 
-                background: transparent; /* Allows the page background to show through */
-                transition: opacity 0.3s ease, box-shadow 0.3s ease;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-            }
-
-            body.max-width .card { width: 98%; height: auto; margin-bottom: 20px; }
-            .card img { height: 100%; width: auto; object-fit: contain; display: block; }
-            body.max-width .card img { width: 100%; height: auto; }
-
-            .card.pinned { border-color: var(--gold); box-shadow: 0 0 25px rgba(255, 215, 0, 0.4); }
-            .card-tools { position: absolute; top: 15px; right: 15px; display: flex; gap: 8px; z-index: 100; }
-            .tool-btn { background: rgba(0,0,0,0.6); color: #fff; border: 1px solid rgba(255,255,255,0.2); width: 36px; height: 36px; cursor: pointer; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; backdrop-filter: blur(5px); text-decoration: none; }
-            
-            /* CSS GRID ICON */
-            .css-grid { width: 18px; height: 18px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 2px; }
-            .css-grid div { border: 2px solid currentColor; border-radius: 1px; }
-
-            .css-mag { width: 14px; height: 14px; border: 2px solid currentColor; border-radius: 50%; position: relative; }
-            .css-mag::after { content: ""; position: absolute; top: 11px; left: 11px; width: 6px; height: 2px; background: currentColor; transform: rotate(45deg); transform-origin: top left; }
-            .css-wall { width: 12px; height: 12px; border: 2px solid currentColor; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); position: relative; top: -2px; }
-
-            .header-bar { padding: 15px; display: flex; flex-direction: column; width: 100%; }
-            .btn-group { display: flex; gap: 5px; margin-bottom: 10px; }
-            .sq-btn { background: var(--accent); border: none; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #000 !important; border-radius: 8px; flex-shrink: 0; transition: all 0.2s; text-decoration: none; }
-            .sq-btn.active { background: var(--gold); }
-            #add-btn { font-size: 28px; font-weight: bold; }
-            #settings-btn { font-size: 24px; transition: transform 0.4s; }
-            #settings-btn.active { transform: rotate(45deg); }
-            #settings-panel { 
-                background: rgba(0,0,0,0.9); border: 1px solid var(--border); padding: 15px; 
-                display: none; flex-direction: column; gap: 12px; font-size: 10px; border-radius: 8px; 
-                margin-bottom: 10px; position: relative; 
-            }
-            .help-icon {
-                position: absolute; top: 10px; right: 10px; width: 20px; height: 20px;
-                border: 1px solid var(--text-dim); border-radius: 50%; display: flex;
-                align-items: center; justify-content: center; text-decoration: none;
-                color: var(--text-dim); font-size: 12px; transition: all 0.2s;
-            }
-            .help-icon:hover { border-color: var(--accent); color: var(--accent); }
-            .unified-width { width: 100%; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border); font-family: monospace; outline: none; border-radius: 6px; padding: 8px; }
-            
-            #tag-cloud { display: flex; flex-wrap: wrap; gap: 4px; padding: 0px 15px; border-bottom: 1px solid var(--border); max-height: 25vh; overflow-y: auto; }
-            .tag-pill { background: rgba(0,0,0,0.5); color: var(--text-dim); padding: 4px 8px; border: 1px solid var(--border); font-size: 10px; cursor: pointer; border-radius: 4px; }
-            .tag-pill.active { background: var(--accent); color: #000 !important; }
-
-            .file-list { flex: 1; overflow-y: auto; }
-            .grid-view { display: grid !important; grid-template-columns: repeat(var(--grid-cols), 1fr) !important; grid-auto-rows: min-content; gap: 6px; padding: 8px; }
-            .grid-view .file-item { padding: 0; border: 1px solid var(--border); aspect-ratio: 1/1; border-radius: 6px; position: relative; overflow: hidden; display: block; }
-            .grid-view .file-item img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
-            .grid-view .active-item { border: 3px solid var(--gold) !important; z-index: 10; transform: scale(1.02); }
-            .file-item { padding: 10px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 11px; cursor: pointer; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-            .active-item { color: var(--gold) !important; border-color: var(--gold) !important; font-weight: bold; }
-            
-            .stats-line { padding: 10px 15px; font-size: 10px; color: var(--text-dim); border-top: 1px solid var(--border); cursor: pointer; text-align: center; }
-            .card-tag-overlay { display: none; position: absolute; bottom: 10px; left: 10px; right: 10px; flex-wrap: wrap; gap: 5px; padding: 15px; background: rgba(0,0,0,0.5); border-radius: 12px; z-index: 50; max-height: 60%; overflow-y: auto; border: 1px solid var(--border); }
-        </style>
-    </head>
-    <body id="body-wrap">
-        <div id="ghost-restore" onclick="toggleSidebar(true)">☰</div>
-        
-        <div id="sidebar">
-            <div class="header-bar">
-                <div class="btn-group">
-                    <button class="sq-btn" onclick="toggleSidebar(false)">☰</button>
-                    <a id="add-btn" href="#" target="_blank" class="sq-btn" onclick="handleLinkAction(event)">+</a>
-                    <button class="sq-btn" id="grid-toggle-btn" onclick="toggleSidebarView()"><div class="css-grid"><div></div><div></div><div></div><div></div></div></button>
-                    <button class="sq-btn" id="mode-toggle" onclick="cycleViewMode()">↔</button>
-                    <button class="sq-btn" id="settings-btn" onclick="toggleSettings()">⚙</button>
-                    <button class="sq-btn" id="clear-workspace-btn" onclick="clearWorkspace(false)">✕</button>
-                </div>
-                
-                <div id="settings-panel">
-                    <a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" class="help-icon" title="Project Info">?</a>
-                    <div style="display:flex; gap:10px;">
-                        <label><input type="radio" name="dock" value="left" id="dock-left-radio" onchange="updateDock('left')"> DOCK LEFT</label>
-                        <label><input type="radio" name="dock" value="right" id="dock-right-radio" onchange="updateDock('right')"> DOCK RIGHT</label>
-                    </div>
-                    <label><input type="checkbox" id="auto-flush-check" onchange="updateAutoFlush(this.checked)"> AUTO-FLUSH</label>
-                    <div></div>
-                    <label>ADD BUTTON URL:</label>
-                    <input type="text" id="add-url-input" class="unified-width" style="margin-bottom:10px;" placeholder="URL for + button..." oninput="updateAddUrl(this.value)">
-                    <div></div>
-                    <label>GRID COLUMNS: <span id="col-val">3</span></label>
-                    <input type="range" id="col-slider" min="1" max="5" value="3" oninput="updateGridCols(this.value)">
-                </div>
-
-                <div id="collapsible-header">
-                    <textarea id="user-note" class="unified-width" style="height:60px; font-size:11px; margin-bottom:10px;" placeholder="NOTES..." oninput="saveNotes(this.value)"></textarea>
-                    <input type="text" id="master-search" class="unified-width" style="margin-bottom:10px;" placeholder="SEARCH TAGS..." oninput="refreshAllUI()">
-                </div>
-                <div style="text-align:center" onclick="toggleHeader()"><span id="tag-count">0</span> Tags | <span id="img-count">0</span> Images</div>
-            </div>
-            <div id="tag-cloud"></div>
-            <div id="file-list" class="file-list"></div>
-        </div>
-        <div id="main"></div>
-
-        <script>
-            let DATA = """ + json.dumps(data) + r""";
-            const ALL_TAGS = """ + json.dumps(list(tags)) + r""";
-            let activeTags = new Set(), sidebarIsGrid = false, currentDock = 'right', lastSelectedId = null, autoFlush = false;
-
-            window.onload = () => {
-                const n = localStorage.getItem('gallery_notes');
-                if (n) document.getElementById('user-note').value = n;
-                
-                // Restore Persistent URL
-                const url = localStorage.getItem('gallery_add_url') || "";
-                document.getElementById('add-url-input').value = url;
-                updateAddUrl(url);
-                const dock = localStorage.getItem('gallery_dock') || 'right';
-                updateDock(dock);
-                document.getElementById(`dock-${dock}-radio`).checked = true;
-                const flush = localStorage.getItem('gallery_flush') === 'true';
-                updateAutoFlush(flush);
-                document.getElementById('auto-flush-check').checked = flush;
-                const savedCols = localStorage.getItem('gallery_cols') || 3;
-                updateGridCols(savedCols);
-                document.getElementById('col-slider').value = savedCols;
-                refreshAllUI();
-            };
-
-            function updateAddUrl(v) { 
-                localStorage.setItem('gallery_add_url', v); 
-                document.getElementById('add-btn').href = v || "#";
-            }
-
-            function toggleSidebar(show) {
-                document.getElementById('body-wrap').classList.toggle('collapsed', !show);
-            }
-
-            function handleLinkAction(e) {
-                // Intercept left click to copy text
-                e.preventDefault();
-
-                // Filter out tags that are inside brackets [ ]
-                const filteredTags = Array.from(activeTags).filter(t => !t.match(/^\[.*\]$/));
-                const txt = (document.getElementById('user-note').value + " " + filteredTags.join(' ')).trim();
-                navigator.clipboard.writeText(txt);
-                
-                // Visual feedback
-                const btn = document.getElementById('add-btn');
-                const old = btn.innerText;
-                btn.innerText = '✓';
-                setTimeout(() => btn.innerText = old, 1000);
-            }
-
-            function updateAutoFlush(v) { autoFlush = v; localStorage.setItem('gallery_flush', v); document.getElementById('clear-workspace-btn').innerText = v ? '↻' : '✕'; }
-            function updateDock(side) { 
-                currentDock = side; 
-                document.body.classList.toggle('dock-left', side === 'left'); 
-                document.documentElement.style.setProperty('--h-dir', side === 'left' ? 'row' : 'row-reverse');
-                localStorage.setItem('gallery_dock', side); 
-            }
-
-            function setWallpaper(url, e) { 
-                if (e) e.preventDefault();
-                const b = document.body; b.style.backgroundImage = b.style.backgroundImage.includes(url) ? 'none' : `url("${url}")`; 
-            }
-
-            function toggleFocus(card) {
-                cycleViewMode();
-                setTimeout(() => { card.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' }); }, 150);
-            }
-
-            function handleMissingImage(imgElement, path) {
-                const card = imgElement.closest('.card');
-                DATA = DATA.filter(item => item.p !== path);
-                card.style.opacity = '0';
-                setTimeout(() => { card.remove(); refreshAllUI(); }, 300);
-            }
-
-            function createCard(item, elementId) {
-                const m = document.getElementById('main');
-                if(autoFlush) clearWorkspace(true);
-                lastSelectedId = elementId;
-                document.querySelectorAll('.file-item').forEach(el => el.classList.remove('active-item'));
-                const activeEl = document.getElementById(elementId);
-                if(activeEl) activeEl.classList.add('active-item');
-
-                const c = document.createElement('div'); c.className = 'card';
-                c.innerHTML = `
-                <div class="card-tools">
-                    <button class="tool-btn pin-btn" title="Star">★</button>
-                    <button class="tool-btn" onclick="toggleOverlay(this)">#</button>
-                    <button class="tool-btn" onclick="toggleFocus(this.closest('.card'))" title="Magnifier"><div class="css-mag"></div></button>
-                    <a class="tool-btn" href="${item.f || item.p}" onclick="setWallpaper('${item.p}', event)" title="Wallpaper/Copy Folder Link"><div class="css-wall"></div></a>
-                    <button class="tool-btn" onclick="this.closest('.card').remove()" title="Close">✕</button>
-                </div>
-                <div class="card-tag-overlay"></div>
-                <img src="${item.p}" onerror="handleMissingImage(this, '${item.p}')">`;
-
-                const overlay = c.querySelector('.card-tag-overlay');
-                // Re-sort tag overlay with bracket priority
-                const sortedCardTags = [...item.t].sort((a, b) => {
-                    const aBrack = a.startsWith('[');
-                    const bBrack = b.startsWith('[');
-                    if (aBrack && !bBrack) return -1;
-                    if (!aBrack && bBrack) return 1;
-                    return a.localeCompare(b);
-                });
-
-                sortedCardTags.forEach(t => {
-                    const p = document.createElement('div'); p.className = 'tag-pill';
-                    if(activeTags.has(t)) p.classList.add('active');
-                    p.innerText = t; p.onclick = (e) => { e.stopPropagation(); toggleTag(t); };
-                    overlay.appendChild(p);
-                });
-
-                c.querySelector('.pin-btn').onclick = function() { 
-                    const p = c.classList.toggle('pinned'); 
-                    this.style.color = p ? 'var(--gold)' : 'white'; 
-                };
-                
-                m.prepend(c); 
-                if (currentDock === 'left') m.scrollLeft = 0; else m.scrollLeft = m.scrollWidth;
-            }
-
-            function clearWorkspace(total) {
-                const m = document.getElementById('main'), cards = Array.from(m.querySelectorAll('.card')), pinned = cards.filter(c=>c.classList.contains('pinned'));
-                let toRemove = total ? cards : (pinned.length > 0 ? cards.filter(c => !c.classList.contains('pinned')) : cards.slice(1));
-                toRemove.forEach(c => c.remove());
-            }
-
-            function toggleTag(t) { 
-                if (activeTags.has(t)) activeTags.delete(t); else activeTags.add(t); 
-                refreshAllUI(); syncOverlayPills(); 
-            }
-            function syncOverlayPills() { document.querySelectorAll('.card-tag-overlay .tag-pill').forEach(pill => { pill.classList.toggle('active', activeTags.has(pill.innerText)); }); }
-
-            function refreshAllUI() {
-                const q = document.getElementById('master-search').value.toLowerCase(), list = document.getElementById('file-list');
-                list.innerHTML = ""; list.className = "file-list" + (sidebarIsGrid ? " grid-view" : "");
-                
-                const visibleTags = ALL_TAGS.filter(t => t.toLowerCase().includes(q));
-                const filtered = DATA.filter(i => {
-                    const matchesActive = Array.from(activeTags).every(at => i.t.includes(at));
-                    const matchesSearch = q === "" || i.t.some(it => it.toLowerCase().includes(q));
-                    return matchesActive && matchesSearch;
-                });
-                const cloud = document.getElementById('tag-cloud'); cloud.innerHTML = "";
-                const curAvailableTags = new Set(); filtered.forEach(i => i.t.forEach(t => curAvailableTags.add(t)));
-                
-                // Sort visible tags with bracket priority
-                visibleTags.sort((a, b) => {
-                    const aBrack = a.startsWith('[');
-                    const bBrack = b.startsWith('[');
-                    if (aBrack && !bBrack) return -1;
-                    if (!aBrack && bBrack) return 1;
-                    return a.localeCompare(b);
-                });
-                visibleTags.forEach(t => { 
-                    if (curAvailableTags.has(t) || activeTags.has(t)) {
-                        const p = document.createElement('div'); p.className = 'tag-pill' + (activeTags.has(t) ? ' active' : '');
-                        p.innerText = t; p.onclick = () => toggleTag(t); cloud.appendChild(p);
-                    }
-                });
-                document.getElementById('tag-count').innerText = cloud.children.length;
-                document.getElementById('img-count').innerText = filtered.length;
-                filtered.forEach((item, idx) => {
-                    const id = 'f-' + idx;
-                    const d = document.createElement('div'); d.className = 'file-item' + (id === lastSelectedId ? ' active-item' : '');
-                    d.id = id; d.innerHTML = sidebarIsGrid ? `<img src="${item.p}" loading="lazy">` : item.n;
-                    d.onclick = () => createCard(item, id); list.appendChild(d);
-                });
-            }
-
-            function saveNotes(v) { localStorage.setItem('gallery_notes', v); }
-            function toggleHeader() { const h = document.getElementById('collapsible-header'); h.style.display = (h.style.display === 'none') ? 'block' : 'none'; }
-            function cycleViewMode() { 
-                const bw = document.getElementById('body-wrap');
-                const isMax = bw.classList.toggle('max-width');
-                document.getElementById('mode-toggle').innerText = isMax ? '↕' : '↔';
-            }
-            function toggleSidebarView() { sidebarIsGrid = !sidebarIsGrid; document.getElementById('grid-toggle-btn').classList.toggle('active', sidebarIsGrid); refreshAllUI(); }
-            function updateGridCols(v) { document.documentElement.style.setProperty('--grid-cols', v); document.getElementById('col-val').innerText = v; localStorage.setItem('gallery_cols', v); }
-            function toggleSettings() { const s = document.getElementById('settings-panel'); s.style.display = s.style.display==='flex'?'none':'flex'; }
-            function toggleOverlay(btn) { const o = btn.closest('.card').querySelector('.card-tag-overlay'); o.style.display = o.style.display === 'flex' ? 'none' : 'flex'; }
-            
-            document.getElementById('main').addEventListener('wheel', (e) => { 
-                if (!document.getElementById('body-wrap').classList.contains('max-width')) { 
-                    e.preventDefault(); 
-                    const factor = currentDock === 'right' ? -1 : 1;
-                    document.getElementById('main').scrollLeft += (e.deltaY * factor); 
-                } 
-            });
-        </script>
-    </body>
-    </html>
-    """
-    return html_template
-
-def main():
-    version_id = datetime.now().strftime("%Y%m%d%H%M%S")
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    raw_path = input(f"Scan Directory ('.' for current): ").strip()
-    scan_dir = script_dir if raw_path == "." else os.path.abspath(os.path.expanduser(raw_path))
-    if not os.path.exists(scan_dir): return print("Path not found.")
-    is_mobile = (input("1. Local | 2. Mobile: ") == '2')
-    all_data, unique_tags = [], set()
+def scan_directory(scan_dir, is_mobile):
+    results = []
     for root, dirs, files in os.walk(scan_dir):
-        # Rule 3: Skip underscore folders and their subfolders
         dirs[:] = [d for d in dirs if not d.startswith('_')]
-        
         rel_path = os.path.relpath(root, scan_dir)
         folder_tags = ["ROOT"] if rel_path == "." else process_string_into_tags(rel_path)
         for file in files:
@@ -429,15 +73,78 @@ def main():
                 name_base = os.path.splitext(file)[0]
                 file_tags = process_string_into_tags(name_base, is_filename=True)
                 combined = list(set(folder_tags + file_tags))
-                for t in combined: unique_tags.add(t)
                 src = get_image_source(full_path, is_mobile)
-                folder_uri = Path(root).as_uri() if not is_mobile else ""
-                if src: 
-                    all_data.append({"n": file.upper(), "t": combined, "p": src, "f": folder_uri})
-    out_file = os.path.join(script_dir, "gallery.html")
-    with open(out_file, "w", encoding="utf-8") as f:
-        f.write(generate_html(all_data, unique_tags, 'mobile' if is_mobile else 'windows', version_id))
-    print(f"Success! Version {version_id} generated: {out_file}")
+                if src:
+                    results.append({
+                        "n": file.upper(),
+                        "t": combined,
+                        "p": src,
+                        "f": Path(root).as_uri() if not is_mobile else ""
+                    })
+    return results
+
+def main():
+    global CFG_FILE  # MUST declare global before any assignments
+    try:
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        CFG_FILE = os.path.join(script_dir, CFG_FILE)
+
+        paths = load_cfg()
+        
+        print("\n--- DIRECTORY SELECTION ---")
+        if not paths:
+            print("(No saved paths found in config)")
+        else:
+            for i, p in enumerate(paths):
+                print(f"{i+1}) {p}")
+        
+        user_input = input(f"\nSelect #, enter path, '.' (current), or '*' (all): ").strip()
+        
+        to_scan = []
+        if user_input == "*":
+            to_scan = paths
+        elif user_input == ".":
+            to_scan = [script_dir]
+        elif user_input.isdigit() and 0 < int(user_input) <= len(paths):
+            to_scan = [paths[int(user_input)-1]]
+        else:
+            new_path = os.path.abspath(os.path.expanduser(user_input.replace('"', '')))
+            if os.path.exists(new_path):
+                to_scan = [new_path]
+                if new_path not in paths:
+                    paths.append(new_path)
+                    save_cfg(paths)
+            else:
+                print(f"Error: Path not found -> {new_path}")
+                input("Press Enter to exit...")
+                return
+
+        print("\n--- OUTPUT MODE ---")
+        print("1) JSON (File Paths)")
+        print("2) JSON (Embedded Base64)")
+        mode = input("Choice: ").strip()
+        is_mobile = (mode == '2')
+
+        final_data = []
+        seen_sources = set()
+        for d in to_scan:
+            print(f"Scanning: {d}...")
+            found = scan_directory(d, is_mobile)
+            for item in found:
+                if item['p'] not in seen_sources:
+                    final_data.append(item)
+                    seen_sources.add(item['p'])
+
+        out_name = os.path.join(script_dir, f"data_{datetime.now().strftime('%Y%m%d%H%M%S')}.json")
+        with open(out_name, "w", encoding="utf-8") as f:
+            json.dump(final_data, f, indent=2)
+        
+        print(f"\nSuccess! Generated {out_name} with {len(final_data)} entries.")
+        input("\nPress Enter to exit...")
+
+    except Exception as e:
+        print(f"\nCRITICAL ERROR: {e}")
+        input("\nPress Enter to close and see error...")
 
 if __name__ == "__main__":
     main()
