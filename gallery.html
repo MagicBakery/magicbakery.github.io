@@ -3,7 +3,8 @@
     <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Gallery 20251222000933</title>
+        <title>Magic Gallery</title>
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
         <style>
             :root { 
                 --bg: #000; --panel: rgba(15, 15, 15, 0.5);
@@ -159,6 +160,8 @@
                     <input type="file" id="json-input" accept=".json" onchange="importJSON(this)">
                     <button class="import-btn" onclick="document.getElementById('json-input').click()">IMPORT JSON FILE</button>
                     <div></div>
+                    <button class="import-btn" style="background: #4CAF50; color: white;" onclick="exportGallery()">DOWNLOAD SELF-CONTAINED HTML</button>
+                    <div></div>
                     <label>GRID COLUMNS: <span id="col-val">3</span></label>
                     <input type="range" id="col-slider" min="1" max="5" value="3" oninput="updateGridCols(this.value)">
                 </div>
@@ -223,6 +226,31 @@
                 btn.innerText = '✓';
                 setTimeout(() => btn.innerText = old, 1000);
             }
+    function exportGallery() {
+        // 1. Get the current full source of the page
+        let htmlContent = document.documentElement.outerHTML;
+
+        // 2. Prepare the current DATA and ALL_TAGS as strings
+        const dataString = JSON.stringify(DATA);
+        const tagsString = JSON.stringify(ALL_TAGS);
+
+        // 3. Use Regex to find the initial variable declarations and replace them with current state
+        // This ensures that when the new file opens, it has the current data pre-loaded
+        htmlContent = htmlContent.replace(/let DATA = \[.*?\];/, `let DATA = ${dataString};`);
+        htmlContent = htmlContent.replace(/let ALL_TAGS = \[.*?\];/, `let ALL_TAGS = ${tagsString};`);
+
+        // 4. Create a Blob and trigger download
+        const blob = new Blob(['<!DOCTYPE html>\n' + htmlContent], { type: 'text/html' });
+        const a = document.createElement('a');
+        const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+        
+        a.href = URL.createObjectURL(blob);
+        a.download = `Gallery_Export_${timestamp}.html`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(a.href);
+    }
             function importJSON(input) {
                 const file = input.files[0];
                 if (!file) return;
