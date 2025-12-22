@@ -9,8 +9,8 @@
       --bg: #000; --panel: rgba(15, 15, 15, 0.5);
       --border: rgba(255,255,255,0.1); --accent: #fff; --text: #fff; --text-dim: #CCC; 
       --grid-cols: 3; --sidebar-w: 300px; --gold: #ffd700; --h-dir: row-reverse;
+      --green: #4CAF50;
     }
-    
     * { box-sizing: border-box; }
     #sidebar *, #tag-cloud, .file-list, #main { -ms-overflow-style: none; scrollbar-width: none; }
     #sidebar *::-webkit-scrollbar, #main::-webkit-scrollbar { display: none; }
@@ -74,7 +74,7 @@
     .card-tools { position: absolute; top: 15px; right: 15px; display: flex; gap: 8px; z-index: 100; }
     .tool-btn { background: rgba(0,0,0,0.6); color: #fff; border: 1px solid rgba(255,255,255,0.2); width: 36px; height: 36px; cursor: pointer; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; backdrop-filter: blur(5px); text-decoration: none; }
     
-    .import-btn { background: var(--gold); color: #000; border: none; padding: 8px; border-radius: 4px; cursor: pointer; font-family: monospace; font-weight: bold; width: 100%; margin-top: 5px; }
+    .import-btn { background: var(--gold); color: #000; border: none; padding: 8px; border-radius: 4px; cursor: pointer; font-family: monospace; font-weight: bold; width: 100%; }
     
     .css-grid { width: 14px; height: 14px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 2px; }
     .css-grid div { border: 1.5px solid currentColor; border-radius: 1px; }
@@ -89,6 +89,7 @@
     .sq-btn { background: var(--accent); border: none; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #000 !important; border-radius: 8px; flex-shrink: 0; transition: all 0.2s; text-decoration: none; }
     .sq-btn.dim { background: rgba(255,255,255,0.1); color: var(--text-dim) !important; }
     .sq-btn.active-gold { background: var(--gold); color: #000 !important; }
+    
     #settings-panel { 
       background: rgba(0,0,0,0.9); border: 1px solid var(--border); padding: 15px; 
       display: none; flex-direction: column; gap: 12px; font-size: 10px; border-radius: 8px; 
@@ -113,7 +114,20 @@
     .tags-bar-center { display: flex; align-items: center; justify-content: center; flex-grow: 1; gap: 8px; overflow: hidden; }
     .inline-toggle { background: transparent; border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; border-radius: 4px; padding: 4px 6px; display: flex; align-items: center; transition: all 0.2s; font-size: 10px; min-width: 32px; justify-content: center; }
     .inline-toggle:hover { border-color: var(--accent); color: #fff; }
-    #stage-tools { display: flex; padding: 10px 15px; gap: 10px; border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.2); }
+    #stage-tools, #collapsible-collections { display: none; padding: 10px 15px; gap: 8px; flex-direction: column; border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.2); }
+    /* Collection Path List Styles */
+    #path-list-container { display: flex; flex-direction: column; gap: 4px; margin-top: 5px; max-height: 150px; overflow-y: auto; padding-right: 4px; }
+    .path-entry { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.05); padding: 4px; border-radius: 4px; }
+    .path-entry input[type="text"] { flex: 1; background: transparent; border: none; color: var(--text-dim); font-size: 9px; pointer-events: none; }
+    .path-entry input[type="checkbox"] { cursor: pointer; width: 16px; height: 16px; accent-color: var(--gold); }
+    .path-entry.stale input[type="checkbox"] { accent-color: var(--gold); outline: 1px solid var(--gold); }
+    .path-entry.loaded input[type="checkbox"] { accent-color: var(--green); outline: 1px solid var(--green); }
+    
+    .path-text { flex: 1; background: transparent; border: none; color: var(--text-dim); font-size: 10px; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .path-text:hover { color: #fff; text-decoration: underline; }
+    
+    .trash-btn { background: transparent; border: none; color: #ff4444; cursor: pointer; font-size: 12px; padding: 2px 6px; opacity: 0.7; }
+    .trash-btn:hover { opacity: 1; }
     .file-list { flex: 1; overflow-y: auto; }
     .grid-view { display: grid !important; grid-template-columns: repeat(var(--grid-cols), 1fr) !important; grid-auto-rows: min-content; gap: 6px; padding: 8px; }
     .grid-view .file-item { padding: 0; border: 1px solid var(--border); aspect-ratio: 1/1; border-radius: 6px; position: relative; overflow: hidden; display: block; }
@@ -147,17 +161,22 @@
           <label><input type="radio" name="dock" value="right" id="dock-right-radio" onchange="updateDock('right')"> DOCK RIGHT</label>
         </div>
         <input type="text" id="add-url-input" class="unified-width" placeholder="URL for + button..." oninput="updateAddUrl(this.value)">
-        <input type="file" id="json-input" style="display:none" accept=".json" onchange="importJSON(this)">
-        <div style="display: flex; flex-direction: column; gap: 5px;">
-        <button class="import-btn" onclick="document.getElementById('json-input').click()">IMPORT JSON FILE</button>
-          <button class="import-btn" style="background: #2196F3; color: white;" onclick="exportFilteredData()">EXPORT FILTERED JSON</button>
-          <button class="import-btn" style="background: #4CAF50; color: white;" onclick="exportGallery()">DOWNLOAD HTML</button>
-        </div>
       </div>
       <textarea id="user-note" class="unified-width" style="height:60px; font-size:11px; margin-bottom:10px;" placeholder="NOTES..." oninput="saveNotes(this.value)"></textarea>
     </div>
     <div class="stats-bar">
-      <div class="stats-clickable">Collections (<span id="collection-count">0</span>)</div>
+      <div class="stats-clickable" onclick="toggleCollections()">Collections (<span id="collection-count">0</span>)</div>
+    </div>
+    <div id="collapsible-collections">
+      <input type="file" id="json-input" style="display:none" accept=".json" onchange="importJSON(this)">
+      
+<div style="display:flex; gap:4px;">
+    <button class="import-btn" style="width: 32px;" onclick="document.getElementById('json-input').click()">+</button>
+    <button class="import-btn" style="width: 32px;" onclick="importFromURL()">URL</button>    
+    <button class="import-btn" style="background: #2196F3; color: white; flex: 1;" onclick="exportFilteredData()">EXPORT JSON</button>
+    <button class="import-btn" style="background: #4CAF50; color: white; flex: 1;" onclick="exportGallery()">EXPORT HTML</button>
+</div>
+      <div id="path-list-container"></div>
     </div>
     <div class="stats-bar">
       <div class="stats-clickable" onclick="toggleStageTools()">Stage Controls (<span id="stage-count">0</span>)</div>
@@ -170,8 +189,8 @@
       </div>
     </div>
     <div class="stats-bar tags-bar" style="justify-content: space-between; gap: 10px;">
-        <span class="stats-clickable" style="font-size:11px; cursor:pointer; flex-grow: 0;" onclick="toggleTagCloud()">Tags (<span id="tag-count">0</span>)</span>
-        <input type="text" id="master-search" class="unified-width" style="margin:0; width:100px; padding:4px; text-align:center; font-size:10px;" placeholder="SEARCH..." oninput="refreshAllUI()">
+      <span class="stats-clickable" style="font-size:11px; cursor:pointer; flex-grow: 0;" onclick="toggleTagCloud()">Tags (<span id="tag-count">0</span>)</span>
+      <input type="text" id="master-search" class="unified-width" style="margin:0; width:100px; padding:4px; text-align:center; font-size:10px;" placeholder="SEARCH..." oninput="refreshAllUI()">
       <button class="inline-toggle" id="tag-sort-btn" onclick="toggleTagSort()" title="Sort">A-Z</button>
     </div>
     <div id="collapsible-tags">
@@ -196,28 +215,196 @@
     let DATA = [];
     let ALL_TAGS = [];
     let activeTags = new Set(), sidebarIsGrid = false, currentDock = 'right', autoFlush = false;
-    let tagSortMode = 'alpha'; // 'alpha' or 'freq'
+    let tagSortMode = 'alpha', savedPaths = [];
 
     window.onload = () => {
-      const n = localStorage.getItem('gallery_notes');
-      if (n) document.getElementById('user-note').value = n;
-      const url = localStorage.getItem('gallery_add_url') || "";
-      document.getElementById('add-url-input').value = url;
-      updateAddUrl(url);
-      const dock = localStorage.getItem('gallery_dock') || 'right';
-      updateDock(dock);
-      document.getElementById(`dock-${dock}-radio`).checked = true;
-      autoFlush = localStorage.getItem('gallery_flush') === 'true';
-      updateAutoFlushUI();
+  const n = localStorage.getItem('gallery_notes');
+  if (n) document.getElementById('user-note').value = n;
 
-      const savedCols = localStorage.getItem('gallery_cols') || 3;
-      updateGridCols(savedCols);
-      document.getElementById('col-slider').value = savedCols;
-      tagSortMode = localStorage.getItem('gallery_tag_sort') || 'alpha';
-      updateTagSortUI();
-      refreshAllUI();
-      updateStageCount();
-    };
+  // 1. Get the saved dock setting
+  const dock = localStorage.getItem('gallery_dock') || 'right';
+  
+  // 2. Apply the visual layout (This part you likely have)
+  updateDock(dock);
+
+  // 3. ADD THIS: Update the radio button UI to show the correct selection
+  const dockRadio = document.getElementById(`dock-${dock}-radio`);
+  if (dockRadio) dockRadio.checked = true;
+
+  autoFlush = localStorage.getItem('gallery_flush') === 'true';
+  updateAutoFlushUI();
+
+  // Restore the + button URL
+  const savedAddUrl = localStorage.getItem('gallery_add_url');
+  if (savedAddUrl) {
+      document.getElementById('add-url-input').value = savedAddUrl;
+      document.getElementById('add-btn').href = savedAddUrl;
+  }
+
+  const rawPaths = localStorage.getItem('gallery_paths');
+  if (rawPaths) {
+      savedPaths = JSON.parse(rawPaths).map(p => ({...p, data: null}));
+      renderPathList();
+  }
+};
+
+async function importFromURL(passedUrl = null) {
+    let url = passedUrl;
+
+    // If no URL was passed (e.g., the user clicked the purple button)
+    if (!url) {
+        try {
+            // Attempt to read directly from user clipboard
+            url = await navigator.clipboard.readText();
+            url = url ? url.trim() : "";
+            
+            // Validation: Ensure it's a URL and not just random text
+            if (!url.startsWith('http')) {
+                url = prompt("Clipboard didn't have a valid URL. Please paste it here:");
+            }
+        } catch (err) {
+            // Fallback if browser security blocks clipboard access
+            url = prompt("Please paste the JSON URL:");
+        }
+    }
+
+    if (!url || !url.startsWith('http')) return;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`Fetch failed: ${response.status}`);
+        
+        const importedData = await response.json();
+        
+        // Sync with our savedPaths list
+        const existingIndex = savedPaths.findIndex(p => p.path === url);
+        if (existingIndex === -1) {
+            savedPaths.push({ path: url, checked: true, data: importedData });
+        } else {
+            savedPaths[existingIndex].data = importedData;
+            savedPaths[existingIndex].checked = true;
+        }
+
+        renderPathList();        // Turn checkmark Green
+        loadActiveCollections(); // Rebuild DATA and Tag Cloud
+        showToast(`Loaded: ${url.split('/').pop()}`);
+    } catch (err) {
+        showToast("Web Import Error: " + err.message);
+        console.error(err);
+    }
+}
+
+    function togglePathCheck(index) {
+        savedPaths[index].checked = !savedPaths[index].checked;
+        renderPathList();
+        loadActiveCollections();
+    }
+    function removePath(index) {
+        savedPaths.splice(index, 1);
+        renderPathList();
+        loadActiveCollections();
+    }
+function loadActiveCollections() {
+    let combined = [];
+    savedPaths.forEach(item => { 
+        if (item.checked && item.data) {
+            combined = combined.concat(Array.isArray(item.data) ? item.data : [item.data]);
+        }
+    });
+    
+    // Fast duplicate removal using a Map
+    const uniqueMap = new Map();
+    combined.forEach(item => uniqueMap.set(item.p, item));
+    DATA = Array.from(uniqueMap.values());
+    
+    // ADD THIS SECTION: Update the global tag list
+    const tags = new Set();
+    DATA.forEach(item => {
+        if (item.t && Array.isArray(item.t)) {
+            item.t.forEach(tag => tags.add(tag));
+        }
+    });
+    ALL_TAGS = Array.from(tags).sort(); // Update the cloud source
+    
+    refreshAllUI();
+}
+
+
+function importJSON(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const importedData = JSON.parse(e.target.result);
+      
+      // Use webkitRelativePath if available, otherwise fallback to name
+      const pathName = file.webkitRelativePath || file.name;
+      
+      const existingIndex = savedPaths.findIndex(p => p.path === pathName);
+      if (existingIndex === -1) {
+          savedPaths.push({ path: pathName, checked: true, data: importedData });
+      } else {
+          savedPaths[existingIndex].data = importedData;
+          savedPaths[existingIndex].checked = true;
+      }
+      
+      renderPathList();
+      loadActiveCollections();
+      showToast(`Imported: ${pathName}`);
+    } catch (err) { 
+        showToast("Error: Invalid JSON"); 
+    }
+    input.value = ""; 
+  };
+  reader.readAsText(file);
+}
+
+
+function renderPathList() {
+    const container = document.getElementById('path-list-container');
+    if (!container) return;
+    container.innerHTML = '';
+        let checkedLoadedCount = 0;
+
+
+    savedPaths.forEach((item, index) => {
+            const isLoaded = item.data !== null;
+            if (item.checked && isLoaded) checkedLoadedCount++;
+        const div = document.createElement('div');
+            // stale = Yellow check (checked but no data), loaded = Green check
+            div.className = `path-entry ${isLoaded ? 'loaded' : (item.checked ? 'stale' : '')}`;
+            
+        div.innerHTML = `
+                <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="togglePathCheck(${index})">
+                <div class="path-text" onclick="handlePathClick(${index})">${item.path}</div>
+                <button class="trash-btn" onclick="removePath(${index})">❌</button>
+        `;
+        container.appendChild(div);
+    });
+        document.getElementById('collection-count').innerText = checkedLoadedCount;
+        // Save metadata (path + check state) only
+        const metadata = savedPaths.map(p => ({ path: p.path, checked: p.checked }));
+        localStorage.setItem('gallery_paths', JSON.stringify(metadata));
+    }
+async function handlePathClick(index) {
+    const path = savedPaths[index].path;
+    const isURL = path.startsWith('http://') || path.startsWith('https://');
+
+    if (isURL) {
+        showToast("Fetching data from URL...");
+        await importFromURL(path); 
+    } else {
+        try {
+            await navigator.clipboard.writeText(path);
+            showToast("Path copied. Paste into file picker.");
+            document.getElementById('json-input').click();
+        } catch (err) {
+            showToast("Clipboard failed. Opening picker...");
+            document.getElementById('json-input').click();
+        }
+    }
+}
 
     function showToast(msg) {
       const t = document.getElementById('toast');
@@ -283,6 +470,7 @@
       updateAllCardOverlays();
       syncSidebarHighlights();
     }
+
     function updateAllCardOverlays() {
       document.querySelectorAll('.card').forEach(card => {
         const path = card.dataset.path;
@@ -301,17 +489,20 @@
         });
       });
     }
+
     function toggleAutoFlush() {
       autoFlush = !autoFlush;
       localStorage.setItem('gallery_flush', autoFlush);
       updateAutoFlushUI();
       showToast(autoFlush ? "Auto-Flush Enabled" : "Auto-Flush Disabled");
     }
+
     function updateAutoFlushUI() {
       const btn = document.getElementById('auto-flush-btn');
       btn.classList.toggle('active-gold', autoFlush);
       btn.classList.toggle('dim', !autoFlush);
     }
+
     function toggleTagSort() {
         tagSortMode = (tagSortMode === 'alpha') ? 'freq' : 'alpha';
         localStorage.setItem('gallery_tag_sort', tagSortMode);
@@ -338,36 +529,12 @@
       filtered.forEach(i => i.t.forEach(t => tagFreq[t] = (tagFreq[t] || 0) + 1));
       const cloud = document.getElementById('tag-cloud'); cloud.innerHTML = "";
       
-      // Filter ALL_TAGS based on search query
-      let tagsToDisplay = ALL_TAGS.filter(t => t.toLowerCase().includes(q));
-      // Sorting Logic
-      tagsToDisplay.sort((a, b) => {
-          // 1. Active tags always first
-          const aActive = activeTags.has(a) ? 1 : 0;
-          const bActive = activeTags.has(b) ? 1 : 0;
-          if (aActive !== bActive) return bActive - aActive;
-          if (tagSortMode === 'freq') {
-              // 2. Frequency Sort
-              const aCount = tagFreq[a] || 0;
-              const bCount = tagFreq[b] || 0;
-              if (aCount !== bCount) return bCount - aCount;
-              return a.localeCompare(b);
-          } else {
-              // 3. Alphabetical Sort with [Brackets] priority
-              const aBracket = a.startsWith('[') ? 1 : 0;
-              const bBracket = b.startsWith('[') ? 1 : 0;
-              if (aBracket !== bBracket) return bBracket - aBracket;
-              return a.localeCompare(b);
-          }
-      });
-      tagsToDisplay.forEach(t => { 
-        if (tagFreq[t] || activeTags.has(t)) {
-          const p = document.createElement('div'); p.className = 'tag-pill' + (activeTags.has(t) ? ' active' : '');
-          const count = tagFreq[t] || 0;
-          p.innerHTML = `${t} <span class="tag-count-small">${count}</span>`; 
-          p.onclick = () => toggleTag(t); 
+      ALL_TAGS.filter(t => t.toLowerCase().includes(q)).sort().forEach(t => { 
+          const p = document.createElement('div'); 
+          p.className = 'tag-pill' + (activeTags.has(t) ? ' active' : '');
+          p.innerText = t; 
+          p.onclick = () => { if(activeTags.has(t)) activeTags.delete(t); else activeTags.add(t); refreshAllUI(); };
           cloud.appendChild(p);
-        }
       });
 
       document.getElementById('tag-count').innerText = cloud.children.length;
@@ -384,25 +551,7 @@
       });
       updateAllCardOverlays(); // Sync existing card tags with active set
       syncSidebarHighlights();
-    }
-
-    function importJSON(input) {
-      const file = input.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          DATA = JSON.parse(e.target.result);
-          const tags = new Set();
-          DATA.forEach(i => i.t.forEach(t => tags.add(t)));
-          ALL_TAGS = Array.from(tags);
-          activeTags.clear();
-          refreshAllUI();
-          showToast(`Imported ${DATA.length} items.`);
-        } catch (err) { showToast("Error: Invalid JSON"); }
-        input.value = ""; 
-      };
-      reader.readAsText(file);
+      updateStageCount();
     }
 
     function clearWorkspace() {
@@ -431,6 +580,7 @@
       const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Gallery_Export.html'; a.click();
     }
 
+    function updateStageCount() { document.getElementById('stage-count').innerText = document.querySelectorAll('.card').length; }
     function updateAddUrl(v) { localStorage.setItem('gallery_add_url', v); document.getElementById('add-btn').href = v || "#"; }
     function toggleSidebar(show) { document.getElementById('body-wrap').classList.toggle('collapsed', !show); }
     function handleLinkAction(e) { e.preventDefault(); const filtered = Array.from(activeTags).filter(t => !t.match(/^\[.*\]$/)); navigator.clipboard.writeText((document.getElementById('user-note').value + " " + filtered.join(' ')).trim()); const btn = document.getElementById('add-btn'); btn.innerText = '✓'; setTimeout(() => btn.innerText = '+', 1000); }
@@ -444,6 +594,10 @@
     function toggleStageTools() { 
       const s = document.getElementById('stage-tools'); 
       s.style.display = (s.style.display === 'none') ? 'flex' : 'none'; 
+    }
+    function toggleCollections() { 
+      const c = document.getElementById('collapsible-collections'); 
+      c.style.display = (c.style.display === 'none' || c.style.display === '') ? 'flex' : 'none'; 
     }
     function toggleTagCloud() { 
       const h = document.getElementById('collapsible-tags'); 
