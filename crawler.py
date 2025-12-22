@@ -5,11 +5,23 @@ import re
 from pathlib import Path
 from datetime import datetime
 
-# VERSION: 20251221024000
+# VERSION: 20251221232000
 
-EXTENSIONS = ('.jpg', '.jpeg', '.png', '.webp', '.gif')
+EXTENSIONS = ('.jpg', '.jpeg', '.png', '.webp', '.gif', '.url')
+
+def get_url_from_file(file_path):
+    """Parses a Windows .url file to extract the remote link."""
+    try:
+        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+            for line in f:
+                if line.strip().upper().startswith("URL="):
+                    return line.strip()[4:]
+    except Exception: return None
+    return None
 
 def get_image_source(full_path, is_mobile):
+    if full_path.lower().endswith('.url'):
+        return get_url_from_file(full_path)
     if is_mobile:
         try:
             with open(full_path, "rb") as f:
@@ -19,12 +31,9 @@ def get_image_source(full_path, is_mobile):
         except Exception: return None
     else: 
         return Path(full_path).as_uri()
-
 def process_string_into_tags(input_str, is_filename=False):
     # Rule 5: If filename has no underscore, no tags.
-    if is_filename and "_" not in input_str:
-        return []
-
+    if is_filename and "_" not in input_str: return []
     # Rule 4 & 6: Delimit by underscores (and slashes for paths)
     segments = re.split(r'[_\\/]', input_str)
     tags = []
@@ -53,7 +62,8 @@ def generate_html(data, tags, mode, version_id):
         <title>""" + title + r"""</title>
         <style>
             :root { 
-                --bg: #000; --panel: rgba(15, 15, 15, 0.85); --border: rgba(255,255,255,0.1); --accent: #fff; --text: #fff; --text-dim: #888; 
+                --bg: #000; --panel: rgba(15, 15, 15, 0.5);
+                --border: rgba(255,255,255,0.1); --accent: #fff; --text: #fff; --text-dim: #CCC; 
                 --grid-cols: 3; --sidebar-w: 300px; --gold: #ffd700; --h-dir: row-reverse;
             }
             
@@ -106,10 +116,9 @@ def generate_html(data, tags, mode, version_id):
                 flex-shrink: 0; 
                 height: 98vh; 
                 overflow: hidden; 
-                background: #000; 
-                animation: fadeInCard 0.4s ease forwards;
+                background: transparent; /* Allows the page background to show through */
                 transition: opacity 0.3s ease, box-shadow 0.3s ease;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 15px rgba(255, 255, 255, 0.05);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
             }
 
             body.max-width .card { width: 98%; height: auto; margin-bottom: 20px; }
@@ -120,6 +129,10 @@ def generate_html(data, tags, mode, version_id):
             .card-tools { position: absolute; top: 15px; right: 15px; display: flex; gap: 8px; z-index: 100; }
             .tool-btn { background: rgba(0,0,0,0.6); color: #fff; border: 1px solid rgba(255,255,255,0.2); width: 36px; height: 36px; cursor: pointer; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; backdrop-filter: blur(5px); text-decoration: none; }
             
+            /* CSS GRID ICON */
+            .css-grid { width: 18px; height: 18px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 2px; }
+            .css-grid div { border: 2px solid currentColor; border-radius: 1px; }
+
             .css-mag { width: 14px; height: 14px; border: 2px solid currentColor; border-radius: 50%; position: relative; }
             .css-mag::after { content: ""; position: absolute; top: 11px; left: 11px; width: 6px; height: 2px; background: currentColor; transform: rotate(45deg); transform-origin: top left; }
             .css-wall { width: 12px; height: 12px; border: 2px solid currentColor; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); position: relative; top: -2px; }
@@ -128,7 +141,9 @@ def generate_html(data, tags, mode, version_id):
             .btn-group { display: flex; gap: 5px; margin-bottom: 10px; }
             .sq-btn { background: var(--accent); border: none; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #000 !important; border-radius: 8px; flex-shrink: 0; transition: all 0.2s; text-decoration: none; }
             .sq-btn.active { background: var(--gold); }
-
+            #add-btn { font-size: 28px; font-weight: bold; }
+            #settings-btn { font-size: 24px; transition: transform 0.4s; }
+            #settings-btn.active { transform: rotate(45deg); }
             #settings-panel { 
                 background: rgba(0,0,0,0.9); border: 1px solid var(--border); padding: 15px; 
                 display: none; flex-direction: column; gap: 12px; font-size: 10px; border-radius: 8px; 
@@ -143,7 +158,7 @@ def generate_html(data, tags, mode, version_id):
             .help-icon:hover { border-color: var(--accent); color: var(--accent); }
             .unified-width { width: 100%; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border); font-family: monospace; outline: none; border-radius: 6px; padding: 8px; }
             
-            #tag-cloud { display: flex; flex-wrap: wrap; gap: 4px; padding: 10px 15px; border-bottom: 1px solid var(--border); max-height: 25vh; overflow-y: auto; }
+            #tag-cloud { display: flex; flex-wrap: wrap; gap: 4px; padding: 0px 15px; border-bottom: 1px solid var(--border); max-height: 25vh; overflow-y: auto; }
             .tag-pill { background: rgba(0,0,0,0.5); color: var(--text-dim); padding: 4px 8px; border: 1px solid var(--border); font-size: 10px; cursor: pointer; border-radius: 4px; }
             .tag-pill.active { background: var(--accent); color: #000 !important; }
 
@@ -151,12 +166,12 @@ def generate_html(data, tags, mode, version_id):
             .grid-view { display: grid !important; grid-template-columns: repeat(var(--grid-cols), 1fr) !important; grid-auto-rows: min-content; gap: 6px; padding: 8px; }
             .grid-view .file-item { padding: 0; border: 1px solid var(--border); aspect-ratio: 1/1; border-radius: 6px; position: relative; overflow: hidden; display: block; }
             .grid-view .file-item img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
-            
+            .grid-view .active-item { border: 3px solid var(--gold) !important; z-index: 10; transform: scale(1.02); }
             .file-item { padding: 10px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 11px; cursor: pointer; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
             .active-item { color: var(--gold) !important; border-color: var(--gold) !important; font-weight: bold; }
             
             .stats-line { padding: 10px 15px; font-size: 10px; color: var(--text-dim); border-top: 1px solid var(--border); cursor: pointer; text-align: center; }
-            .card-tag-overlay { display: none; position: absolute; bottom: 10px; left: 10px; right: 10px; flex-wrap: wrap; gap: 5px; padding: 15px; background: rgba(0,0,0,0.9); border-radius: 12px; z-index: 50; max-height: 60%; overflow-y: auto; border: 1px solid var(--border); }
+            .card-tag-overlay { display: none; position: absolute; bottom: 10px; left: 10px; right: 10px; flex-wrap: wrap; gap: 5px; padding: 15px; background: rgba(0,0,0,0.5); border-radius: 12px; z-index: 50; max-height: 60%; overflow-y: auto; border: 1px solid var(--border); }
         </style>
     </head>
     <body id="body-wrap">
@@ -167,9 +182,9 @@ def generate_html(data, tags, mode, version_id):
                 <div class="btn-group">
                     <button class="sq-btn" onclick="toggleSidebar(false)">☰</button>
                     <a id="add-btn" href="#" target="_blank" class="sq-btn" onclick="handleLinkAction(event)">+</a>
-                    <button class="sq-btn" id="grid-toggle-btn" onclick="toggleSidebarView()">田</button>
+                    <button class="sq-btn" id="grid-toggle-btn" onclick="toggleSidebarView()"><div class="css-grid"><div></div><div></div><div></div><div></div></div></button>
                     <button class="sq-btn" id="mode-toggle" onclick="cycleViewMode()">↔</button>
-                    <button class="sq-btn" onclick="toggleSettings()">⚙</button>
+                    <button class="sq-btn" id="settings-btn" onclick="toggleSettings()">⚙</button>
                     <button class="sq-btn" id="clear-workspace-btn" onclick="clearWorkspace(false)">✕</button>
                 </div>
                 
@@ -192,7 +207,7 @@ def generate_html(data, tags, mode, version_id):
                     <textarea id="user-note" class="unified-width" style="height:60px; font-size:11px; margin-bottom:10px;" placeholder="NOTES..." oninput="saveNotes(this.value)"></textarea>
                     <input type="text" id="master-search" class="unified-width" style="margin-bottom:10px;" placeholder="SEARCH TAGS..." oninput="refreshAllUI()">
                 </div>
-                <div class="stats-line" onclick="toggleHeader()"><span id="tag-count">0</span> Tags | <span id="img-count">0</span> Images</div>
+                <div style="text-align:center" onclick="toggleHeader()"><span id="tag-count">0</span> Tags | <span id="img-count">0</span> Images</div>
             </div>
             <div id="tag-cloud"></div>
             <div id="file-list" class="file-list"></div>
