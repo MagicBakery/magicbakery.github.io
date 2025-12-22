@@ -1,0 +1,20 @@
+[
+  {
+    "n": "LOCAL_BASE64_SAMPLE.PNG",
+    "t": ["LOCAL", "EMBEDDED", "RED", "DOT"],
+    "p": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==",
+    "f": ""
+  },
+  {
+    "n": "ONLINE_NASA_STARS.JPG",
+    "t": ["ONLINE", "SPACE", "NASA", "GALAXY"],
+    "p": "https://www.nasa.gov/wp-content/uploads/2023/03/main_image_deep_field_smacs0723-5mb.jpg",
+    "f": "https://www.nasa.gov/gallery/"
+  },
+  {
+    "n": "ONLINE_GITHUB_LOGO.PNG",
+    "t": ["ONLINE", "CODE", "GITHUB", "BRAND"],
+    "p": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+    "f": "https://github.com/logos"
+  }
+]
