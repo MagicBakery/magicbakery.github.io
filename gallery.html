@@ -1,465 +1,1052 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Magic Theater</title>
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png">
-  <style>
-    :root { 
-      --bg: #000; --panel: rgba(15, 15, 15, 0.5);
-      --border: rgba(255,255,255,0.1); --accent: #fff; --text: #fff; --text-dim: #CCC; 
-      --grid-cols: 3; --sidebar-w: 300px; --gold: #ffd700; --h-dir: row-reverse;
-      --green: #4CAF50;
-    }
-    * { box-sizing: border-box; }
-    #sidebar *, #tag-cloud, .file-list, #main { -ms-overflow-style: none; scrollbar-width: none; }
-    #sidebar *::-webkit-scrollbar, #main::-webkit-scrollbar { display: none; }
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Magic Theater</title>
+	<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png">
+	<style>
+		:root {
+			--bg: #000;
+			--panel: rgba(15, 15, 15, 0.5);
+			--border: rgba(255, 255, 255, 0.1);
+			--accent: #fff;
+			--text: #fff;
+			--text-dim: #CCC;
+			--grid-cols: 3;
+			--sidebar-w: 300px;
+			--gold: #ffd700;
+			--h-dir: row-reverse;
+			--green: #4CAF50;
+		}
 
-    body { 
-      background: var(--bg); color: var(--text); font-family: monospace; margin: 0; display: flex; height: 100vh; width: 100vw; overflow: hidden;
-      background-size: cover; background-position: center; background-attachment: fixed; transition: background-image 0.5s ease-in-out;
-    }
-    
-    body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.2); z-index: -1; pointer-events: none; }
+		* {
+			box-sizing: border-box;
+		}
 
-    #sidebar { 
-      width: var(--sidebar-w); background: var(--panel); backdrop-filter: blur(12px);
-      border-left: 1px solid var(--border); display: flex; flex-direction: column; 
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); flex-shrink: 0; z-index: 1000;
-      order: 2; 
-    }
-    body.dock-left #sidebar { order: 0; border-left: none; border-right: 1px solid var(--border); }
-    body.collapsed #sidebar { position: absolute; right: 0; transform: translateX(100%); }
-    body.dock-left.collapsed #sidebar { left: 0; transform: translateX(-100%); }
+		#sidebar *,
+		#tag-cloud,
+		.file-list,
+		#main {
+			-ms-overflow-style: none;
+			scrollbar-width: none;
+		}
 
-    #toast {
-      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-      background: rgba(255, 215, 0, 0.6); backdrop-filter: blur(8px);
-      color: #000; padding: 10px 20px; border-radius: 8px; font-weight: bold;
-      font-size: 14px; z-index: 9999; opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-    #toast.show { opacity: 1; }
+		#sidebar *::-webkit-scrollbar,
+		#main::-webkit-scrollbar {
+			display: none;
+		}
 
-    #ghost-restore {
-      position: fixed; top: 15px; width: 40px; height: 40px;
-      background: rgba(255,255,255,0.1); backdrop-filter: blur(5px);
-      border: 1px solid var(--border); border-radius: 8px; color: #fff;
-      display: none; align-items: center; justify-content: center; cursor: pointer; z-index: 999;
-      right: 15px;
-    }
-    body.dock-left #ghost-restore { right: auto; left: 15px; }
-    body.collapsed #ghost-restore { display: flex; }
+		body {
+			background: var(--bg);
+			color: var(--text);
+			font-family: monospace;
+			margin: 0;
+			display: flex;
+			height: 100vh;
+			width: 100vw;
+			overflow: hidden;
+			background-size: cover;
+			background-position: center;
+			background-attachment: fixed;
+			transition: background-image 0.5s ease-in-out;
+		}
 
-    #main { 
-      flex: 1; padding: 10px; display: flex; gap: 20px; transition: width 0.3s ease;
-      height: 100vh; order: 1; flex-direction: var(--h-dir); align-items: flex-start; 
-      overflow-x: auto; overflow-y: hidden; flex-wrap: nowrap;
-    }
+		body::before {
+			content: "";
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.2);
+			z-index: -1;
+			pointer-events: none;
+		}
 
-    body.max-width #main { flex-direction: column; align-items: center; overflow-y: auto; overflow-x: hidden; }
+		#sidebar {
+			width: var(--sidebar-w);
+			background: var(--panel);
+			backdrop-filter: blur(12px);
+			display: flex;
+			flex-direction: column;
+			/* Use a transform-only transition for maximum smoothness */
+			transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			z-index: 10000;
+			position: relative;
+			/* Default state */
+		}
 
-    .card { 
-      position: relative; border: 3px solid rgba(255, 255, 255, 0.4); 
-      border-radius: 14px; flex-shrink: 0; height: 98vh; overflow: hidden; 
-      background: transparent; transition: opacity 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-    }
+		/* Default Right Docked */
+		body:not(.dock-left) #sidebar {
+			order: 2;
+			border-left: 1px solid var(--border);
+		}
 
-    body.max-width .card { width: 98%; height: auto; margin-bottom: 20px; }
-    .card img { height: 100%; width: auto; object-fit: contain; display: block; }
-    body.max-width .card img { width: 100%; height: auto; }
+		/* Left Docked */
+		body.dock-left #sidebar {
+			order: 0;
+			border-right: 1px solid var(--border);
+		}
 
-    .card.pinned { border-color: var(--gold); box-shadow: 0 0 25px rgba(255, 215, 0, 0.4); }
-    .card-tools { position: absolute; top: 15px; right: 15px; display: flex; gap: 8px; z-index: 100; }
-    .tool-btn { background: rgba(0,0,0,0.6); color: #fff; border: 1px solid rgba(255,255,255,0.2); width: 36px; height: 36px; cursor: pointer; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; backdrop-filter: blur(5px); text-decoration: none; }
-    
-    .import-btn { background: var(--gold); color: #000; border: none; padding: 8px; border-radius: 4px; cursor: pointer; font-family: monospace; font-weight: bold; width: 100%; }
-    
-    .css-grid { width: 14px; height: 14px; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 2px; }
-    .css-grid div { border: 1.5px solid currentColor; border-radius: 1px; }
-    .css-list { width: 14px; height: 14px; display: flex; flex-direction: column; justify-content: space-between; padding: 1px 0; }
-    .css-list div { height: 2px; background: currentColor; width: 100%; border-radius: 1px; }
-    .css-mag { width: 14px; height: 14px; border: 2px solid currentColor; border-radius: 50%; position: relative; }
-    .css-mag::after { content: ""; position: absolute; top: 11px; left: 11px; width: 6px; height: 2px; background: currentColor; transform: rotate(45deg); transform-origin: top left; }
-    .css-wall { width: 12px; height: 12px; border: 2px solid currentColor; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); position: relative; top: -2px; }
+		/* Hidden States: Force the sidebar to the literal edges */
+		body.collapsed:not(.dock-left) #sidebar {
+			position: fixed;
+			right: 0;
+			top: 0;
+			height: 100%;
+			transform: translateX(100%);
+		}
 
-    .header-bar { padding: 5px 15px; display: flex; flex-direction: column; width: 100%; }
-    .btn-group { display: flex; gap: 5px; margin-bottom: 10px; }
-    .sq-btn { background: var(--accent); border: none; width: 40px; height: 40px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #000 !important; border-radius: 8px; flex-shrink: 0; transition: all 0.2s; text-decoration: none; }
-    .sq-btn.dim { background: rgba(255,255,255,0.1); color: var(--text-dim) !important; }
-    .sq-btn.active-gold { background: var(--gold); color: #000 !important; }
-    
-    #settings-panel { 
-      background: rgba(0,0,0,0.9); border: 1px solid var(--border); padding: 15px; 
-      display: none; flex-direction: column; gap: 12px; font-size: 10px; border-radius: 8px; 
-      margin-bottom: 10px; position: relative; 
-    }
-    .help-icon { position: absolute; top: 10px; right: 10px; color: var(--text-dim); text-decoration: none; font-size: 16px; }
-    .help-icon:hover { color: var(--gold); }
-    .unified-width { width: 100%; background: rgba(255,255,255,0.0); color: #fff; border: 1px solid var(--border); font-family: monospace; outline: none; border-radius: 6px; padding: 8px; }
-    
-    #tag-cloud { display: flex; flex-wrap: wrap; gap: 4px; padding: 5px 15px; border-bottom: 1px solid var(--border); max-height: 25vh; overflow-y: auto; }
-    .tag-pill { background: rgba(0,0,0,0.5); color: var(--text-dim); padding: 4px 8px; border: 1px solid var(--border); font-size: 10px; cursor: pointer; border-radius: 4px; }
-    .tag-pill.active { background: var(--accent); color: #000 !important; }
-    .tag-count-small { opacity: 0.5; font-size: 9px; }
+		body.collapsed.dock-left #sidebar {
+			position: fixed;
+			left: 0;
+			top: 0;
+			height: 100%;
+			transform: translateX(-100%);
+			/* Slides completely off-screen to the left */
+		}
 
-    /* New Middle Bar */
-    .stats-bar { display: flex; align-items: center; justify-content: space-between; padding: 8px 15px; background: rgba(255,255,255,0.03); border-bottom: 1px solid var(--border); font-size: 10px; }
-    .stats-clickable { cursor: pointer; flex-grow: 1; color: var(--text-dim); }
-    .stats-clickable:hover { color: #fff; }
-    /* Centering logic for Tags Bar */
-    .stats-bar.tags-bar { justify-content: space-between; gap: 10px; }
-    .stats-bar-spacer { width: 32px; flex-shrink: 0; } /* Matches Sort button width */
-    .tags-bar-center { display: flex; align-items: center; justify-content: center; flex-grow: 1; gap: 8px; overflow: hidden; }
-    .inline-toggle { background: transparent; border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; border-radius: 4px; padding: 4px 6px; display: flex; align-items: center; transition: all 0.2s; font-size: 10px; min-width: 32px; justify-content: center; }
-    .inline-toggle:hover { border-color: var(--accent); color: #fff; }
-    #stage-tools, #collapsible-collections { display: none; padding: 10px 15px; gap: 8px; flex-direction: column; border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.2); }
-    /* Collection Path List Styles */
-    #path-list-container { display: flex; flex-direction: column; gap: 4px; margin-top: 5px; max-height: 150px; overflow-y: auto; padding-right: 4px; }
-    .path-entry { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.05); padding: 4px; border-radius: 4px; }
-    .path-entry input[type="text"] { flex: 1; background: transparent; border: none; color: var(--text-dim); font-size: 9px; pointer-events: none; }
-    .path-entry input[type="checkbox"] { cursor: pointer; width: 16px; height: 16px; accent-color: var(--gold); }
-    .path-entry.stale input[type="checkbox"] { accent-color: var(--gold); }
-    .path-entry.loaded input[type="checkbox"] { accent-color: var(--green); }
-    
-    .path-text { flex: 1; background: transparent; border: none; color: var(--text-dim); font-size: 10px; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .path-text:hover { color: #fff; text-decoration: underline; }
-    
-    .trash-btn { background: transparent; border: none; color: #ff4444; cursor: pointer; font-size: 12px; padding: 2px 6px; opacity: 0.7; }
-    .trash-btn:hover { opacity: 1; }
-    .file-list { flex: 1; overflow-y: auto; }
-    .grid-view { display: grid !important; grid-template-columns: repeat(var(--grid-cols), 1fr) !important; grid-auto-rows: min-content; gap: 6px; padding: 8px; }
-    .grid-view .file-item { padding: 0; border: 1px solid var(--border); aspect-ratio: 1/1; border-radius: 6px; position: relative; overflow: hidden; display: block; }
-    .grid-view .file-item img { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
-    .grid-view .active-item { border: 5px solid var(--gold) !important; z-index: 10; transform: scale(1.02); }
-    
-    .file-item { padding: 10px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 11px; cursor: pointer; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .active-item { color: var(--gold) !important; font-weight: bold; background: rgba(255, 215, 0, 0.1); }
-    
-    .card-tag-overlay { display: none; position: absolute; bottom: 10px; left: 10px; right: 10px; flex-wrap: wrap; gap: 5px; padding: 15px; background: rgba(0,0,0,0.5); border-radius: 12px; z-index: 50; max-height: 60%; overflow-y: auto; border: 1px solid var(--border); }
-    #grid-slider-container { display: none; align-items: center; gap: 8px; flex-grow: 1; justify-content: center; padding: 0 10px; }
-    #col-slider { height: 4px; cursor: pointer; accent-color: var(--accent); width: 60px; }
-  </style>
+		/* Visible States: Return to standard layout flow */
+		body:not(.collapsed) #sidebar {
+			transform: translateX(0);
+		}
+
+		#toast {
+			position: fixed;
+			bottom: 20px;
+			left: 50%;
+			transform: translateX(-50%);
+			background: rgba(255, 215, 0, 0.6);
+			backdrop-filter: blur(8px);
+			color: #000;
+			padding: 10px 20px;
+			border-radius: 8px;
+			font-weight: bold;
+			font-size: 14px;
+			z-index: 9999;
+			opacity: 0;
+			transition: opacity 0.3s ease;
+			pointer-events: none;
+			border: 1px solid rgba(255, 255, 255, 0.2);
+		}
+
+		#toast.show {
+			opacity: 1;
+		}
+
+		/* Hide the old ghost restore button */
+		#ghost-restore {
+			display: none !important;
+		}
+
+		/* New Hover-to-Show zones: Always on top */
+		.hover-trigger {
+			position: fixed;
+			top: 0;
+			width: 60px;
+			height: 60px;
+			z-index: 10001;
+			/* Higher than sidebar (10000) */
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: rgba(255, 255, 255, 0.05);
+			backdrop-filter: blur(5px);
+			cursor: pointer;
+			font-size: 20px;
+			color: #fff;
+			opacity: 0;
+			transition: opacity 0.3s ease, background 0.2s;
+			border: 1px solid var(--border);
+		}
+
+		.hover-trigger:hover {
+			opacity: 1;
+			background: rgba(255, 255, 255, 0.15);
+		}
+
+		#trigger-left {
+			left: 0;
+			border-radius: 0 0 15px 0;
+		}
+
+		#trigger-right {
+			right: 0;
+			border-radius: 0 0 0 15px;
+		}
+
+		/* Ensure triggers only appear when collapsed */
+		body.collapsed .hover-trigger {
+			display: flex;
+		}
+
+		body.dock-left #ghost-restore {
+			right: auto;
+			left: 15px;
+		}
+
+		body.collapsed #ghost-restore {
+			display: flex;
+		}
+
+		#main {
+			flex: 1;
+			padding: 10px;
+			display: flex;
+			gap: 20px;
+			transition: width 0.3s ease;
+			height: 100vh;
+			order: 1;
+			flex-direction: var(--h-dir);
+			align-items: flex-start;
+			overflow-x: auto;
+			overflow-y: hidden;
+			flex-wrap: nowrap;
+		}
+
+		body.max-width #main {
+			flex-direction: column;
+			align-items: center;
+			overflow-y: auto;
+			overflow-x: hidden;
+		}
+
+		.card {
+			position: relative;
+			border: 3px solid rgba(255, 255, 255, 0.4);
+			border-radius: 14px;
+			flex-shrink: 0;
+			height: 98vh;
+			overflow: hidden;
+			background: transparent;
+			transition: opacity 0.3s ease, box-shadow 0.3s ease;
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+		}
+
+		body.max-width .card {
+			width: 98%;
+			height: auto;
+			margin-bottom: 20px;
+		}
+
+		.card img {
+			height: 100%;
+			width: auto;
+			object-fit: contain;
+			display: block;
+		}
+
+		body.max-width .card img {
+			width: 100%;
+			height: auto;
+		}
+
+		.card.pinned {
+			border-color: var(--gold);
+			box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+		}
+
+		.card-tools {
+			position: absolute;
+			top: 15px;
+			right: 15px;
+			display: flex;
+			gap: 8px;
+			z-index: 100;
+		}
+
+		.tool-btn {
+			background: rgba(0, 0, 0, 0.6);
+			color: #fff;
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			width: 36px;
+			height: 36px;
+			cursor: pointer;
+			border-radius: 8px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 16px;
+			backdrop-filter: blur(5px);
+			text-decoration: none;
+		}
+
+		.import-btn {
+			background: var(--gold);
+			color: #000;
+			border: none;
+			padding: 8px;
+			border-radius: 4px;
+			cursor: pointer;
+			font-family: monospace;
+			font-weight: bold;
+			width: 100%;
+		}
+
+		.css-grid {
+			width: 14px;
+			height: 14px;
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr 1fr;
+			gap: 2px;
+		}
+
+		.css-grid div {
+			border: 1.5px solid currentColor;
+			border-radius: 1px;
+		}
+
+		.css-list {
+			width: 14px;
+			height: 14px;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			padding: 1px 0;
+		}
+
+		.css-list div {
+			height: 2px;
+			background: currentColor;
+			width: 100%;
+			border-radius: 1px;
+		}
+
+		.css-mag {
+			width: 14px;
+			height: 14px;
+			border: 2px solid currentColor;
+			border-radius: 50%;
+			position: relative;
+		}
+
+		.css-mag::after {
+			content: "";
+			position: absolute;
+			top: 11px;
+			left: 11px;
+			width: 6px;
+			height: 2px;
+			background: currentColor;
+			transform: rotate(45deg);
+			transform-origin: top left;
+		}
+
+		.css-wall {
+			width: 12px;
+			height: 12px;
+			border: 2px solid currentColor;
+			border-radius: 50% 50% 50% 0;
+			transform: rotate(-45deg);
+			position: relative;
+			top: -2px;
+		}
+
+		.header-bar {
+			padding: 5px 15px;
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+		}
+
+		.btn-group {
+			display: flex;
+			gap: 5px;
+			margin-bottom: 10px;
+			justify-content: center;
+			/* This centers the buttons horizontally */
+		}
+
+		.sq-btn {
+			background: var(--accent);
+			border: none;
+			width: 40px;
+			height: 40px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 18px;
+			color: #000 !important;
+			border-radius: 8px;
+			flex-shrink: 0;
+			transition: all 0.2s;
+			text-decoration: none;
+		}
+
+		.sq-btn.dim {
+			background: rgba(255, 255, 255, 0.1);
+			color: var(--text-dim) !important;
+		}
+
+		.sq-btn.active-gold {
+			background: var(--gold);
+			color: #000 !important;
+		}
+
+		#settings-panel {
+			background: rgba(0, 0, 0, 0.9);
+			border: 1px solid var(--border);
+			padding: 15px;
+			display: none;
+			flex-direction: column;
+			gap: 12px;
+			font-size: 10px;
+			border-radius: 8px;
+			margin-bottom: 10px;
+			position: relative;
+		}
+
+		.help-icon {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			color: var(--text-dim);
+			text-decoration: none;
+			font-size: 16px;
+		}
+
+		.help-icon:hover {
+			color: var(--gold);
+		}
+
+		.unified-width {
+			width: 100%;
+			background: rgba(255, 255, 255, 0.0);
+			color: #fff;
+			border: 1px solid var(--border);
+			font-family: monospace;
+			outline: none;
+			border-radius: 6px;
+			padding: 8px;
+		}
+
+		#tag-cloud {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 4px;
+			padding: 5px 15px;
+			border-bottom: 1px solid var(--border);
+			max-height: 25vh;
+			overflow-y: auto;
+		}
+
+		.tag-pill {
+			background: rgba(0, 0, 0, 0.5);
+			color: var(--text-dim);
+			padding: 4px 8px;
+			border: 1px solid var(--border);
+			font-size: 10px;
+			cursor: pointer;
+			border-radius: 4px;
+		}
+
+		.tag-pill.active {
+			background: var(--accent);
+			color: #000 !important;
+		}
+
+		.tag-count-small {
+			opacity: 0.5;
+			font-size: 9px;
+		}
+
+		.action-btn {
+			background: rgba(255, 255, 255, 0.1) !important;
+			color: var(--text-dim) !important;
+			border: 1px solid var(--border) !important;
+			opacity: 0.7;
+		}
+
+		.action-btn:hover {
+			background: rgba(255, 255, 255, 0.2) !important;
+			color: #fff !important;
+			opacity: 1;
+		}
+
+		/* Current State: Solid/Bright */
+		.state-active {
+			background: var(--accent) !important;
+			color: #000 !important;
+			opacity: 1 !important;
+		}
+
+		/* New Middle Bar */
+		.stats-bar {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 8px 15px;
+			background: rgba(255, 255, 255, 0.03);
+			border-bottom: 1px solid var(--border);
+			font-size: 10px;
+		}
+
+		.stats-clickable {
+			cursor: pointer;
+			flex-grow: 1;
+			color: var(--text-dim);
+		}
+
+		.stats-clickable:hover {
+			color: #fff;
+		}
+
+		/* Centering logic for Tags Bar */
+		.stats-bar.tags-bar {
+			justify-content: space-between;
+			gap: 10px;
+		}
+
+		.stats-bar-spacer {
+			width: 32px;
+			flex-shrink: 0;
+		}
+
+		/* Matches Sort button width */
+		.tags-bar-center {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-grow: 1;
+			gap: 8px;
+			overflow: hidden;
+		}
+
+		.inline-toggle {
+			background: transparent;
+			border: 1px solid var(--border);
+			color: var(--text-dim);
+			cursor: pointer;
+			border-radius: 4px;
+			padding: 4px 6px;
+			display: flex;
+			align-items: center;
+			transition: all 0.2s;
+			font-size: 10px;
+			min-width: 32px;
+			justify-content: center;
+		}
+
+		.inline-toggle:hover {
+			border-color: var(--accent);
+			color: #fff;
+		}
+
+		#stage-tools,
+		#collapsible-collections {
+			display: none;
+			padding: 10px 15px;
+			gap: 8px;
+			flex-direction: column;
+			border-bottom: 1px solid var(--border);
+			background: rgba(0, 0, 0, 0.2);
+		}
+
+		/* Collection Path List Styles */
+		#path-list-container {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+			margin-top: 5px;
+			max-height: 150px;
+			overflow-y: auto;
+			padding-right: 4px;
+		}
+
+		.path-entry {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			background: rgba(255, 255, 255, 0.05);
+			padding: 4px;
+			border-radius: 4px;
+		}
+
+		.path-entry input[type="text"] {
+			flex: 1;
+			background: transparent;
+			border: none;
+			color: var(--text-dim);
+			font-size: 9px;
+			pointer-events: none;
+		}
+
+		.path-entry input[type="checkbox"] {
+			cursor: pointer;
+			width: 16px;
+			height: 16px;
+			accent-color: var(--gold);
+		}
+
+		.path-entry.stale input[type="checkbox"] {
+			accent-color: var(--gold);
+		}
+
+		.path-entry.loaded input[type="checkbox"] {
+			accent-color: var(--green);
+		}
+
+		.path-text {
+			flex: 1;
+			background: transparent;
+			border: none;
+			color: var(--text-dim);
+			font-size: 10px;
+			cursor: pointer;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		.path-text:hover {
+			color: #fff;
+			text-decoration: underline;
+		}
+
+		.trash-btn {
+			background: transparent;
+			border: none;
+			color: #ff4444;
+			cursor: pointer;
+			font-size: 12px;
+			padding: 2px 6px;
+			opacity: 0.7;
+		}
+
+		.trash-btn:hover {
+			opacity: 1;
+		}
+
+		.file-list {
+			flex: 1;
+			overflow-y: auto;
+		}
+
+		.grid-view {
+			display: grid !important;
+			grid-template-columns: repeat(var(--grid-cols), 1fr) !important;
+			grid-auto-rows: min-content;
+			gap: 6px;
+			padding: 8px;
+		}
+
+		.grid-view .file-item {
+			padding: 0;
+			border: 1px solid var(--border);
+			aspect-ratio: 1/1;
+			border-radius: 6px;
+			position: relative;
+			overflow: hidden;
+			display: block;
+		}
+
+		.grid-view .file-item img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+		.grid-view .active-item {
+			border: 5px solid var(--gold) !important;
+			z-index: 10;
+			transform: scale(1.02);
+		}
+
+		.file-item {
+			padding: 10px 15px;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+			font-size: 11px;
+			cursor: pointer;
+			color: var(--text-dim);
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.active-item {
+			color: var(--gold) !important;
+			font-weight: bold;
+			background: rgba(255, 215, 0, 0.1);
+		}
+
+		.card-tag-overlay {
+			display: none;
+			position: absolute;
+			bottom: 10px;
+			left: 10px;
+			right: 10px;
+			flex-wrap: wrap;
+			gap: 5px;
+			padding: 15px;
+			background: rgba(0, 0, 0, 0.5);
+			border-radius: 12px;
+			z-index: 50;
+			max-height: 60%;
+			overflow-y: auto;
+			border: 1px solid var(--border);
+		}
+
+		#grid-slider-container {
+			display: none;
+			align-items: center;
+			gap: 8px;
+			flex-grow: 1;
+			justify-content: center;
+			padding: 0 10px;
+		}
+
+		#col-slider {
+			height: 4px;
+			cursor: pointer;
+			accent-color: var(--accent);
+			width: 60px;
+		}
+	</style>
 </head>
-<body id="body-wrap" contenteditable="false" data-new-gr-c-s-check-loaded="14.1267.0" data-gr-ext-installed="" class="" style="background-image: url(&quot;https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg&quot;);">
-  <div id="toast"></div> 
-  <div id="ghost-restore" onclick="toggleSidebar(true)">☰</div>
-  
-  <div id="sidebar">
-    <div class="header-bar">
-      <div class="btn-group">
-        <button class="sq-btn" onclick="toggleSidebar(false)">☰</button>
-        <a id="add-btn" href="#" target="_blank" class="sq-btn" onclick="handleLinkAction(event)">+</a>
-        <button class="sq-btn" id="settings-btn" onclick="toggleSettings()">⚙</button>
-      </div>
-      
-      <div id="settings-panel">
-        <a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" class="help-icon" title="Documentation">ⓘ</a>
-        <div style="display:flex; gap:10px;">
-          <label><input type="radio" name="dock" value="left" id="dock-left-radio" onchange="updateDock('left')"> DOCK LEFT</label>
-          <label><input type="radio" name="dock" value="right" id="dock-right-radio" onchange="updateDock('right')"> DOCK RIGHT</label>
-        </div>
-        <input type="text" id="add-url-input" class="unified-width" placeholder="URL for + button..." oninput="updateAddUrl(this.value)">
-      </div>
-      <textarea id="user-note" class="unified-width" style="height:60px; font-size:11px; margin-bottom:10px;" placeholder="NOTES..." oninput="saveNotes(this.value)"></textarea>
-    </div>
-    <div class="stats-bar">
-      <div class="stats-clickable" onclick="toggleCollections()">Collections (<span id="collection-count">0</span>)</div>
-    </div>
-    <div id="collapsible-collections">
-      <input type="file" id="json-input" style="display:none" accept=".json" onchange="importJSON(this)">
-      
-<div style="display:flex; gap:4px;">
-    <button class="import-btn" style="width: 32px;" onclick="smartImport()" title="Import from URL in clipboard or browser for a JSON file.">+</button>
 
-    <button class="import-btn" style="background: #2196F3; color: white; flex: 1;" onclick="exportFilteredData()">EXPORT JSON</button>
-    <button class="import-btn" style="background: #4CAF50; color: white; flex: 1;" onclick="exportGallery()">EXPORT HTML</button>
-</div>
-      <div id="path-list-container"></div>
-    </div>
-    <div class="stats-bar">
-      <div class="stats-clickable" onclick="toggleStageTools()">Stage Controls (<span id="stage-count">0</span>)</div>
-      <button class="inline-toggle" onclick="clearWorkspace()" title="Clear Stage">✕</button>
-    </div>
-    <div id="stage-tools">
-      <div style="display:flex; gap:10px; align-items:center;">
-        <button id="auto-flush-btn" class="sq-btn dim" onclick="toggleAutoFlush()" title="Toggle Auto-Flush">↻</button>
-        <button class="sq-btn" id="mode-toggle" onclick="cycleViewMode()">↔</button>
-      </div>
-    </div>
-    <div class="stats-bar tags-bar" style="justify-content: space-between; gap: 10px;">
-      <span class="stats-clickable" style="font-size:11px; cursor:pointer; flex-grow: 0;" onclick="toggleTagCloud()">Tags (<span id="tag-count">0</span>)</span>
-      <input type="text" id="master-search" class="unified-width" style="margin:0; width:100px; padding:4px; text-align:center; font-size:10px;" placeholder="SEARCH..." oninput="refreshAllUI()">
-      <button class="inline-toggle" id="tag-sort-btn" onclick="toggleTagSort()" title="Sort">A-Z</button>
-    </div>
-    <div id="collapsible-tags">
-        <div id="tag-cloud"></div>
-    </div>
-    <div class="stats-bar">
-      <div class="stats-clickable">Images (<span id="img-count">0</span>)</div>
-      <div id="grid-slider-container">
-        <input type="range" id="col-slider" min="1" max="5" value="3" oninput="updateGridCols(this.value)">
-        <span id="col-val" style="min-width: 10px;">3</span>
-      </div>
-      <button class="inline-toggle" id="grid-toggle-btn" onclick="toggleSidebarView()">
-        <div class="css-grid" id="toggle-icon"><div></div><div></div><div></div><div></div></div>
-      </button>
-    </div>
+<body id="body-wrap" contenteditable="false" data-new-gr-c-s-check-loaded="14.1267.0" data-gr-ext-installed="" class=""
+	style="background-image: url(&quot;https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg&quot;);">
+	<div id="trigger-left" class="hover-trigger" onclick="handleCornerClick('left')">☰</div>
+	<div id="trigger-right" class="hover-trigger" onclick="handleCornerClick('right')">☰</div>
+	<div id="toast"></div>
+	<div id="ghost-restore" onclick="toggleSidebar(true)">☰</div>
 
-    <div id="file-list" class="file-list"></div>
-  </div>
-  <div id="main"></div>
-
-  <script>
-    let DATA = [];
-    let ALL_TAGS = [];
-    let activeTags = new Set(), sidebarIsGrid = false, currentDock = 'right', autoFlush = false;
-    let tagSortMode = 'alpha', savedPaths = [];
-
-    window.onload = () => {
-      // Restore UI Settings
-  const n = localStorage.getItem('gallery_notes');
-  if (n) document.getElementById('user-note').value = n;
-
-  const dock = localStorage.getItem('gallery_dock') || 'right';
-  
-  updateDock(dock);
-      autoFlush = localStorage.getItem('gallery_flush') === 'true';
-      updateAutoFlushUI();
-
-      // Restore Docking Radio Selection
-  const dockRadio = document.getElementById(`dock-${dock}-radio`);
-  if (dockRadio) dockRadio.checked = true;
-
-  autoFlush = localStorage.getItem('gallery_flush') === 'true';
-  updateAutoFlushUI();
-
-  // Restore the + button URL
-  const savedAddUrl = localStorage.getItem('gallery_add_url');
-  if (savedAddUrl) {
-      document.getElementById('add-url-input').value = savedAddUrl;
-      document.getElementById('add-btn').href = savedAddUrl;
-  }
-
-  const rawPaths = localStorage.getItem('gallery_paths');
-  if (rawPaths) {
-      savedPaths = JSON.parse(rawPaths).map(p => ({...p, data: null}));
-      renderPathList();
-          // 2. Automatic URL Loading
-          savedPaths.forEach((item, index) => {
-              const isURL = item.path.startsWith('http://') || item.path.startsWith('https://');
-              if (item.checked && isURL) {
-                  // Silently fetch web collections without opening prompts
-                  importFromURL(item.path);
-              }
-          });
-      }
-};
-
-async function smartImport() {
-    let clipboardText = "";
-    try {
-        // 1. Try to read the clipboard
-        clipboardText = await navigator.clipboard.readText();
-        clipboardText = clipboardText ? clipboardText.trim() : "";
-    } catch (err) {
-        console.warn("Clipboard access denied, defaulting to file picker.");
-    }
-
-    // 2. Decision: Is it a Web URL?
-    if (clipboardText.startsWith('http://') || clipboardText.startsWith('https://')) {
-        showToast("URL detected in clipboard. Importing...");
-        importFromURL(clipboardText);
-    } else {
-        // 3. Fallback: Open the local file dialog
-        document.getElementById('json-input').click();
-    }
-}
-
-async function importFromURL(url) {
-    try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const importedData = await response.json();
-        
-        const pathName = url;
-        const existingIndex = savedPaths.findIndex(p => p.path === pathName);
-        
-        if (existingIndex === -1) {
-            savedPaths.push({ path: pathName, checked: true, data: importedData });
-        } else {
-            savedPaths[existingIndex].data = importedData;
-            savedPaths[existingIndex].checked = true;
-        }
-        
-        renderPathList();
-        loadActiveCollections();
-        showToast(`Loaded: ${pathName.split('/').pop()}`);
-    } catch (err) {
-        showToast("Web Import Failed: " + err.message);
-        // If web import fails, maybe the user actually wanted the file picker
-        document.getElementById('json-input').click();
-    }
-}
+	<div id="sidebar">
+		<div class="header-bar">
 
 
-    function togglePathCheck(index) {
-        savedPaths[index].checked = !savedPaths[index].checked;
-        renderPathList();
-        loadActiveCollections();
-    }
-    function removePath(index) {
-        savedPaths.splice(index, 1);
-        renderPathList();
-        loadActiveCollections();
-    }
-function loadActiveCollections() {
-    let combined = [];
-    savedPaths.forEach(item => { 
-        if (item.checked && item.data) {
-            combined = combined.concat(Array.isArray(item.data) ? item.data : [item.data]);
-        }
-    });
-    
-    // Fast duplicate removal using a Map
-    const uniqueMap = new Map();
-    combined.forEach(item => uniqueMap.set(item.p, item));
-    DATA = Array.from(uniqueMap.values());
-    
-    // ADD THIS SECTION: Update the global tag list
-    const tags = new Set();
-    DATA.forEach(item => {
-        if (item.t && Array.isArray(item.t)) {
-            item.t.forEach(tag => tags.add(tag));
-        }
-    });
-    ALL_TAGS = Array.from(tags).sort(); // Update the cloud source
-    
-    refreshAllUI();
-}
+			<div class="btn-group">
+				<a id="add-btn" href="#" target="_blank" class="sq-btn action-btn" onclick="handleLinkAction(event)">+</a>
+				<button class="sq-btn action-btn" id="settings-btn" onclick="toggleSettings()">⚙</button>
+			</div>
+
+			<div id="settings-panel">
+				<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" class="help-icon"
+					title="Documentation">ⓘ</a>
+				<input type="text" id="add-url-input" class="unified-width" placeholder="URL for + button..."
+					oninput="updateAddUrl(this.value)">
+			</div>
+			<textarea id="user-note" class="unified-width" style="height:60px; font-size:11px; margin-bottom:10px;"
+				placeholder="NOTES..." oninput="saveNotes(this.value)"></textarea>
+		</div>
+		<div class="stats-bar">
+			<div class="stats-clickable" onclick="toggleCollections()">Collections (<span id="collection-count">0</span>)
+			</div>
+		</div>
+		<div id="collapsible-collections">
+			<input type="file" id="json-input" style="display:none" accept=".json" onchange="importJSON(this)">
+
+			<div style="display:flex; gap:4px;">
+				<button class="import-btn action-btn" style="width: 32px;" onclick="smartImport()"
+					title="Smart Import">+</button>
+
+				<button class="import-btn action-btn" style="flex: 1;" onclick="exportFilteredData()">EXPORT JSON</button>
+				<button class="import-btn action-btn" style="flex: 1;" onclick="exportGallery()">EXPORT HTML</button>
+			</div>
+			<div id="path-list-container"></div>
+		</div>
+		<div class="stats-bar">
+			<div class="stats-clickable" onclick="toggleStageTools()">Stage Controls (<span id="stage-count">0</span>)</div>
+			<button class="inline-toggle" onclick="clearWorkspace()" title="Clear Stage">✕</button>
+		</div>
+		<div id="stage-tools">
+			<div style="display:flex; gap:10px; align-items:center;">
+				<button id="auto-flush-btn" class="sq-btn action-btn" onclick="toggleAutoFlush()">↻</button>
+				<button class="sq-btn state-active" id="mode-toggle" onclick="cycleViewMode()">↔</button>
+			</div>
+		</div>
+		<div class="stats-bar tags-bar" style="justify-content: space-between; gap: 10px;">
+			<span class="stats-clickable" style="font-size:11px; cursor:pointer; flex-grow: 0;"
+				onclick="toggleTagCloud()">Tags (<span id="tag-count">0</span>)</span>
+			<input type="text" id="master-search" class="unified-width"
+				style="margin:0; width:100px; padding:4px; text-align:center; font-size:10px;" placeholder="SEARCH..."
+				oninput="refreshAllUI()">
+			<button class="inline-toggle" id="tag-sort-btn" onclick="toggleTagSort()" title="Sort">A-Z</button>
+		</div>
+		<div id="collapsible-tags">
+			<div id="tag-cloud"></div>
+		</div>
+		<div class="stats-bar">
+			<div class="stats-clickable">Images (<span id="img-count">0</span>)</div>
+			<div id="grid-slider-container">
+				<input type="range" id="col-slider" min="1" max="5" value="3" oninput="updateGridCols(this.value)">
+				<span id="col-val" style="min-width: 10px;">3</span>
+			</div>
+			<button class="inline-toggle" id="grid-toggle-btn" onclick="toggleSidebarView()">
+				<div class="css-grid" id="toggle-icon">
+					<div></div>
+					<div></div>
+					<div></div>
+					<div></div>
+				</div>
+			</button>
+		</div>
+
+		<div id="file-list" class="file-list"></div>
+	</div>
+	<div id="main"></div>
+
+	<script>
+		let DATA = [];
+		let ALL_TAGS = [];
+		let activeTags = new Set(), sidebarIsGrid = false, currentDock = 'right', autoFlush = false;
+		let tagSortMode = 'alpha', savedPaths = [];
+
+		window.onload = () => {
+			// 1. Tag Sort Initialization (Future State)
+			tagSortMode = localStorage.getItem('gallery_tag_sort') || 'alpha';
+			const tagBtn = document.getElementById('tag-sort-btn');
+			tagBtn.innerText = (tagSortMode === 'alpha') ? '1-9' : 'A-Z';
+			tagBtn.className = 'inline-toggle action-btn';
+
+			// 2. View Mode Initialization (Future State / Reversed)
+			const isMax = document.getElementById('body-wrap').classList.contains('max-width');
+			const modeBtn = document.getElementById('mode-toggle');
+			modeBtn.innerText = isMax ? '↔' : '↕';
+			modeBtn.className = 'sq-btn action-btn';
+
+			// 3. Restore Sidebar Docking
+			currentDock = localStorage.getItem('gallery_dock') || 'right';
+			updateDock(currentDock);
+
+			// 4. Restore Settings & Notes
+			const n = localStorage.getItem('gallery_notes');
+			if (n) document.getElementById('user-note').value = n;
+
+			autoFlush = localStorage.getItem('gallery_flush') === 'true';
+			updateAutoFlushUI();
+
+			const savedAddUrl = localStorage.getItem('gallery_add_url');
+			if (savedAddUrl) {
+				document.getElementById('add-url-input').value = savedAddUrl;
+				document.getElementById('add-btn').href = savedAddUrl;
+			}
+
+			// 5. Restore Collections
+			const rawPaths = localStorage.getItem('gallery_paths');
+			if (rawPaths) {
+				savedPaths = JSON.parse(rawPaths).map(p => ({ ...p, data: null }));
+				renderPathList();
+				savedPaths.forEach((item, index) => {
+					if (item.checked && (item.path.startsWith('http') || item.path.startsWith('https'))) {
+						importFromURL(item.path);
+					}
+				});
+			}
+		};
+		async function smartImport() {
+			let clipboardText = "";
+			try {
+				// 1. Try to read the clipboard
+				clipboardText = await navigator.clipboard.readText();
+				clipboardText = clipboardText ? clipboardText.trim() : "";
+			} catch (err) {
+				console.warn("Clipboard access denied, defaulting to file picker.");
+			}
+
+			// 2. Decision: Is it a Web URL?
+			if (clipboardText.startsWith('http://') || clipboardText.startsWith('https://')) {
+				showToast("URL detected in clipboard. Importing...");
+				importFromURL(clipboardText);
+			} else {
+				// 3. Fallback: Open the local file dialog
+				document.getElementById('json-input').click();
+			}
+		}
+
+		async function importFromURL(url) {
+			try {
+				const response = await fetch(url);
+				if (!response.ok) throw new Error(`HTTP ${response.status}`);
+				const importedData = await response.json();
+
+				const pathName = url;
+				const existingIndex = savedPaths.findIndex(p => p.path === pathName);
+
+				if (existingIndex === -1) {
+					savedPaths.push({ path: pathName, checked: true, data: importedData });
+				} else {
+					savedPaths[existingIndex].data = importedData;
+					savedPaths[existingIndex].checked = true;
+				}
+
+				renderPathList();
+				loadActiveCollections();
+				showToast(`Loaded: ${pathName.split('/').pop()}`);
+			} catch (err) {
+				showToast("Web Import Failed: " + err.message);
+				// If web import fails, maybe the user actually wanted the file picker
+				document.getElementById('json-input').click();
+			}
+		}
 
 
-function importJSON(input) {
-  const file = input.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try {
-      const importedData = JSON.parse(e.target.result);
-      
-      // Use webkitRelativePath if available, otherwise fallback to name
-      const pathName = file.webkitRelativePath || file.name;
-      
-      const existingIndex = savedPaths.findIndex(p => p.path === pathName);
-      if (existingIndex === -1) {
-          savedPaths.push({ path: pathName, checked: true, data: importedData });
-      } else {
-          savedPaths[existingIndex].data = importedData;
-          savedPaths[existingIndex].checked = true;
-      }
-      
-      renderPathList();
-      loadActiveCollections();
-      showToast(`Imported: ${pathName}`);
-    } catch (err) { 
-        showToast("Error: Invalid JSON"); 
-    }
-    input.value = ""; 
-  };
-  reader.readAsText(file);
-}
+		function togglePathCheck(index) {
+			savedPaths[index].checked = !savedPaths[index].checked;
+			renderPathList();
+			loadActiveCollections();
+		}
+		function removePath(index) {
+			savedPaths.splice(index, 1);
+			renderPathList();
+			loadActiveCollections();
+		}
+		function loadActiveCollections() {
+			let combined = [];
+			savedPaths.forEach(item => {
+				if (item.checked && item.data) {
+					combined = combined.concat(Array.isArray(item.data) ? item.data : [item.data]);
+				}
+			});
+
+			// Fast duplicate removal using a Map
+			const uniqueMap = new Map();
+			combined.forEach(item => uniqueMap.set(item.p, item));
+			DATA = Array.from(uniqueMap.values());
+
+			// ADD THIS SECTION: Update the global tag list
+			const tags = new Set();
+			DATA.forEach(item => {
+				if (item.t && Array.isArray(item.t)) {
+					item.t.forEach(tag => tags.add(tag));
+				}
+			});
+			ALL_TAGS = Array.from(tags).sort(); // Update the cloud source
+
+			refreshAllUI();
+		}
 
 
-function renderPathList() {
-    const container = document.getElementById('path-list-container');
-    if (!container) return;
-    container.innerHTML = '';
-        let checkedLoadedCount = 0;
+		function importJSON(input) {
+			const file = input.files[0];
+			if (!file) return;
+			const reader = new FileReader();
+			reader.onload = (e) => {
+				try {
+					const importedData = JSON.parse(e.target.result);
 
+					// Use webkitRelativePath if available, otherwise fallback to name
+					const pathName = file.webkitRelativePath || file.name;
 
-    savedPaths.forEach((item, index) => {
-            const isLoaded = item.data !== null;
-            if (item.checked && isLoaded) checkedLoadedCount++;
-        const div = document.createElement('div');
-            // stale = Yellow check (checked but no data), loaded = Green check
-            div.className = `path-entry ${isLoaded ? 'loaded' : (item.checked ? 'stale' : '')}`;
-            
-        div.innerHTML = `
-                <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="togglePathCheck(${index})">
-                <div class="path-text" onclick="handlePathClick(${index})">${item.path}</div>
-                <button class="trash-btn" onclick="removePath(${index})">❌</button>
+					const existingIndex = savedPaths.findIndex(p => p.path === pathName);
+					if (existingIndex === -1) {
+						savedPaths.push({ path: pathName, checked: true, data: importedData });
+					} else {
+						savedPaths[existingIndex].data = importedData;
+						savedPaths[existingIndex].checked = true;
+					}
+
+					renderPathList();
+					loadActiveCollections();
+					showToast(`Imported: ${pathName}`);
+				} catch (err) {
+					showToast("Error: Invalid JSON");
+				}
+				input.value = "";
+			};
+			reader.readAsText(file);
+		}
+
+		function renderPathList() {
+			const container = document.getElementById('path-list-container');
+			if (!container) return;
+			container.innerHTML = '';
+
+			// Calculate the counts for the header display
+			const greenCount = savedPaths.filter(p => p.data !== null).length;
+			const totalCount = savedPaths.length;
+
+			// Update the UI with the "Green / Total" format
+			document.getElementById('collection-count').innerText = `${greenCount}/${totalCount}`;
+
+			savedPaths.forEach((item, index) => {
+				const isLoaded = item.data !== null;
+				const div = document.createElement('div');
+				// Apply 'loaded' class if data exists (green), 'stale' if checked but no data (yellow)
+				div.className = `path-entry ${isLoaded ? 'loaded' : (item.checked ? 'stale' : '')}`;
+
+				div.innerHTML = `
+            <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="togglePathCheck(${index})">
+            <div class="path-text" onclick="handlePathClick(${index})">${item.path}</div>
+            <button class="inline-toggle action-btn" onclick="removePath(${index})">✕</button>
         `;
-        container.appendChild(div);
-    });
-        document.getElementById('collection-count').innerText = checkedLoadedCount;
-        // Save metadata (path + check state) only
-        const metadata = savedPaths.map(p => ({ path: p.path, checked: p.checked }));
-        localStorage.setItem('gallery_paths', JSON.stringify(metadata));
-    }
-async function handlePathClick(index) {
-    const path = savedPaths[index].path;
-    const isURL = path.startsWith('http://') || path.startsWith('https://');
+				container.appendChild(div);
+			});
 
-    if (isURL) {
-        showToast("Fetching data from URL...");
-        await importFromURL(path); 
-    } else {
-        try {
-            await navigator.clipboard.writeText(path);
-            showToast("Path copied. Paste into file picker.");
-            document.getElementById('json-input').click();
-        } catch (err) {
-            showToast("Clipboard failed. Opening picker...");
-            document.getElementById('json-input').click();
-        }
-    }
-}
+			// Save metadata to local storage
+			const metadata = savedPaths.map(p => ({ path: p.path, checked: p.checked }));
+			localStorage.setItem('gallery_paths', JSON.stringify(metadata));
+		}
 
-    function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.innerText = msg;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2500);
-    }
+		async function handlePathClick(index) {
+			const path = savedPaths[index].path;
+			const isURL = path.startsWith('http://') || path.startsWith('https://');
 
-    function updateStageCount() {
-      const count = document.querySelectorAll('.card').length;
-      document.getElementById('stage-count').innerText = count;
-    }
-    function syncSidebarHighlights() {
-      const activePaths = Array.from(document.querySelectorAll('.card')).map(c => c.dataset.path);
-      document.querySelectorAll('.file-item').forEach(item => {
-        const itemPath = item.dataset.path;
-        item.classList.toggle('active-item', activePaths.includes(itemPath));
-      });
-      updateStageCount();
-    }
+			if (isURL) {
+				showToast("Fetching data from URL...");
+				await importFromURL(path);
+			} else {
+				try {
+					await navigator.clipboard.writeText(path);
+					showToast("Path copied. Paste into file picker.");
+					document.getElementById('json-input').click();
+				} catch (err) {
+					showToast("Clipboard failed. Opening picker...");
+					document.getElementById('json-input').click();
+				}
+			}
+		}
 
-    function createCard(item) {
-      const m = document.getElementById('main');
-      
-      const existing = Array.from(document.querySelectorAll('.card')).find(c => c.dataset.path === item.p);
-      if (existing) {
-        if (existing.classList.contains('pinned')) {
-          existing.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
-        } else {
-          existing.remove();
-          syncSidebarHighlights();
-        }
-        return;
-      }
-      if (autoFlush) {
-        document.querySelectorAll('.card').forEach(c => {
-          if (!c.classList.contains('pinned')) c.remove();
-        });
-      }
+		function showToast(msg) {
+			const t = document.getElementById('toast');
+			t.innerText = msg;
+			t.classList.add('show');
+			setTimeout(() => t.classList.remove('show'), 2500);
+		}
 
-      const c = document.createElement('div'); 
-      c.className = 'card';
-      c.dataset.path = item.p;
+		function updateStageCount() {
+			const count = document.querySelectorAll('.card').length;
+			document.getElementById('stage-count').innerText = count;
+		}
+		function syncSidebarHighlights() {
+			const activePaths = Array.from(document.querySelectorAll('.card')).map(c => c.dataset.path);
+			document.querySelectorAll('.file-item').forEach(item => {
+				const itemPath = item.dataset.path;
+				item.classList.toggle('active-item', activePaths.includes(itemPath));
+			});
+			updateStageCount();
+		}
 
-      c.innerHTML = `
+		function createCard(item) {
+			const m = document.getElementById('main');
+
+			const existing = Array.from(document.querySelectorAll('.card')).find(c => c.dataset.path === item.p);
+			if (existing) {
+				if (existing.classList.contains('pinned')) {
+					existing.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+				} else {
+					existing.remove();
+					syncSidebarHighlights();
+				}
+				return;
+			}
+			if (autoFlush) {
+				document.querySelectorAll('.card').forEach(c => {
+					if (!c.classList.contains('pinned')) c.remove();
+				});
+			}
+
+			const c = document.createElement('div');
+			c.className = 'card';
+			c.dataset.path = item.p;
+
+			c.innerHTML = `
         <div class="card-tools">
           <button class="tool-btn pin-btn" title="Star">★</button>
           <button class="tool-btn" onclick="toggleOverlay(this)">#</button>
@@ -471,173 +1058,259 @@ async function handlePathClick(index) {
         <img src="${item.p}" onerror="handleMissingImage(this, '${item.p}')">`;
 
 
-      c.querySelector('.pin-btn').onclick = function() { 
-        this.style.color = c.classList.toggle('pinned') ? 'var(--gold)' : 'white'; 
-      };
+			c.querySelector('.pin-btn').onclick = function () {
+				this.style.color = c.classList.toggle('pinned') ? 'var(--gold)' : 'white';
+			};
 
-      m.prepend(c); 
-      if (currentDock === 'left') m.scrollLeft = 0; else m.scrollLeft = m.scrollWidth;
-      updateAllCardOverlays();
-      syncSidebarHighlights();
-    }
+			m.prepend(c);
+			if (currentDock === 'left') m.scrollLeft = 0; else m.scrollLeft = m.scrollWidth;
+			updateAllCardOverlays();
+			syncSidebarHighlights();
+		}
 
-    function updateAllCardOverlays() {
-      document.querySelectorAll('.card').forEach(card => {
-        const path = card.dataset.path;
-        const item = DATA.find(i => i.p === path);
-        if (!item) return;
+		function updateAllCardOverlays() {
+			document.querySelectorAll('.card').forEach(card => {
+				const path = card.dataset.path;
+				const item = DATA.find(i => i.p === path);
+				if (!item) return;
 
-        const overlay = card.querySelector('.card-tag-overlay');
-        overlay.innerHTML = "";
-        [...item.t].sort().forEach(t => {
-          const p = document.createElement('div'); 
-          p.className = 'tag-pill';
-          if(activeTags.has(t)) p.classList.add('active');
-          p.innerText = t; 
-          p.onclick = (e) => { e.stopPropagation(); toggleTag(t); };
-          overlay.appendChild(p);
-        });
-      });
-    }
+				const overlay = card.querySelector('.card-tag-overlay');
+				overlay.innerHTML = "";
+				[...item.t].sort().forEach(t => {
+					const p = document.createElement('div');
+					p.className = 'tag-pill';
+					if (activeTags.has(t)) p.classList.add('active');
+					p.innerText = t;
+					p.onclick = (e) => { e.stopPropagation(); toggleTag(t); };
+					overlay.appendChild(p);
+				});
+			});
+		}
 
-    function toggleAutoFlush() {
-      autoFlush = !autoFlush;
-      localStorage.setItem('gallery_flush', autoFlush);
-      updateAutoFlushUI();
-      showToast(autoFlush ? "Auto-Flush Enabled" : "Auto-Flush Disabled");
-    }
+		function toggleAutoFlush() {
+			autoFlush = !autoFlush;
+			localStorage.setItem('gallery_flush', autoFlush);
+			updateAutoFlushUI();
+			showToast(autoFlush ? "Auto-Flush Enabled" : "Auto-Flush Disabled");
+		}
 
-    function updateAutoFlushUI() {
-      const btn = document.getElementById('auto-flush-btn');
-      btn.classList.toggle('active-gold', autoFlush);
-      btn.classList.toggle('dim', !autoFlush);
-    }
+		function updateAutoFlushUI() {
+			const btn = document.getElementById('auto-flush-btn');
+			btn.classList.toggle('active-gold', autoFlush); // Solid yellow when active
+			btn.classList.toggle('action-btn', !autoFlush); // Semi-transparent when inactive
+		}
 
-    function toggleTagSort() {
-        tagSortMode = (tagSortMode === 'alpha') ? 'freq' : 'alpha';
-        localStorage.setItem('gallery_tag_sort', tagSortMode);
-        updateTagSortUI();
-        refreshAllUI();
-    }
-    function updateTagSortUI() {
-        document.getElementById('tag-sort-btn').innerText = tagSortMode === 'alpha' ? 'A-Z' : '1-9';
-    }
+		function toggleTagSort() {
+			// 1. Switch the underlying mode
+			tagSortMode = (tagSortMode === 'alpha') ? 'freq' : 'alpha';
+			localStorage.setItem('gallery_tag_sort', tagSortMode);
 
-    function refreshAllUI() {
-      const q = document.getElementById('master-search').value.toLowerCase();
-      const list = document.getElementById('file-list');
-      list.innerHTML = ""; list.className = "file-list" + (sidebarIsGrid ? " grid-view" : "");
-      
-      const filtered = DATA.filter(i => {
-        const matchesActive = Array.from(activeTags).every(at => i.t.includes(at));
-        const matchesSearch = q === "" || i.t.some(it => it.toLowerCase().includes(q));
-        return matchesActive && matchesSearch;
-      });
+			const btn = document.getElementById('tag-sort-btn');
 
-      // Calculate tag frequencies in current filtered set
-      const tagFreq = {};
-      filtered.forEach(i => i.t.forEach(t => tagFreq[t] = (tagFreq[t] || 0) + 1));
-      const cloud = document.getElementById('tag-cloud'); cloud.innerHTML = "";
-      
-      ALL_TAGS.filter(t => t.toLowerCase().includes(q)).sort().forEach(t => { 
-          const p = document.createElement('div'); 
-          p.className = 'tag-pill' + (activeTags.has(t) ? ' active' : '');
-          p.innerText = t; 
-          p.onclick = () => { if(activeTags.has(t)) activeTags.delete(t); else activeTags.add(t); refreshAllUI(); };
-          cloud.appendChild(p);
-      });
+			// 2. Show the FUTURE state (the opposite of current mode)
+			// If current is alpha, show '1-9' (the frequency option)
+			// If current is freq, show 'A-Z' (the alphabetical option)
+			btn.innerText = (tagSortMode === 'alpha') ? '1-9' : 'A-Z';
 
-      document.getElementById('tag-count').innerText = cloud.children.length;
-      document.getElementById('img-count').innerText = filtered.length;
+			// 3. Keep it semi-transparent by ensuring only 'action-btn' is used
+			btn.className = 'inline-toggle action-btn';
 
-      filtered.forEach((item, idx) => {
-        const d = document.createElement('div');
-        d.className = 'file-item';
-        d.dataset.path = item.p;
-        d.id = 'f-' + idx;
-        d.innerHTML = sidebarIsGrid ? `<img src="${item.p}" loading="lazy">` : item.n;
-        d.onclick = () => createCard(item);
-        list.appendChild(d);
-      });
-      updateAllCardOverlays(); // Sync existing card tags with active set
-      syncSidebarHighlights();
-      updateStageCount();
-    }
+			refreshAllUI();
+		}
+		function updateTagSortUI() {
+			document.getElementById('tag-sort-btn').innerText = tagSortMode === 'alpha' ? 'A-Z' : '1-9';
+		}
 
-    function clearWorkspace() {
-      document.querySelectorAll('.card').forEach(c => {
-        if (!c.classList.contains('pinned')) c.remove();
-      });
-      syncSidebarHighlights();
-    }
+		function refreshAllUI() {
+			const q = document.getElementById('master-search').value.toLowerCase();
+			const list = document.getElementById('file-list');
+			list.innerHTML = "";
+			list.className = "file-list" + (sidebarIsGrid ? " grid-view" : "");
 
-    function exportFilteredData() {
-      const q = document.getElementById('master-search').value.toLowerCase();
-      const filtered = DATA.filter(i => {
-        const matchesActive = Array.from(activeTags).every(at => i.t.includes(at));
-        return matchesActive && (q === "" || i.t.some(it => it.toLowerCase().includes(q)));
-      });
-      const blob = new Blob([JSON.stringify(filtered, null, 2)], { type: 'application/json' });
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-      a.download = `Filtered_Data_${new Date().toISOString().slice(0,10)}.json`; a.click();
-      showToast(`Exported ${filtered.length} items.`);
-    }
-    function exportGallery() {
-      let html = document.documentElement.outerHTML;
-      html = html.replace(/let DATA = \[.*?\];/, `let DATA = ${JSON.stringify(DATA)};`);
-      html = html.replace(/let ALL_TAGS = \[.*?\];/, `let ALL_TAGS = ${JSON.stringify(ALL_TAGS)};`);
-      const blob = new Blob(['<!DOCTYPE html>\n' + html], { type: 'text/html' });
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Gallery_Export.html'; a.click();
-    }
+			const filtered = DATA.filter(i => {
+				const matchesActive = Array.from(activeTags).every(at => i.t.includes(at));
+				const matchesSearch = q === "" || i.t.some(it => it.toLowerCase().includes(q));
+				return matchesActive && matchesSearch;
+			});
 
-    function updateStageCount() { document.getElementById('stage-count').innerText = document.querySelectorAll('.card').length; }
-    function updateAddUrl(v) { localStorage.setItem('gallery_add_url', v); document.getElementById('add-btn').href = v || "#"; }
-    function toggleSidebar(show) { document.getElementById('body-wrap').classList.toggle('collapsed', !show); }
-    function handleLinkAction(e) { e.preventDefault(); const filtered = Array.from(activeTags).filter(t => !t.match(/^\[.*\]$/)); navigator.clipboard.writeText((document.getElementById('user-note').value + " " + filtered.join(' ')).trim()); const btn = document.getElementById('add-btn'); btn.innerText = '✓'; setTimeout(() => btn.innerText = '+', 1000); }
-    function updateDock(side) { currentDock = side; document.body.classList.toggle('dock-left', side === 'left'); document.documentElement.style.setProperty('--h-dir', side === 'left' ? 'row' : 'row-reverse'); localStorage.setItem('gallery_dock', side); }
-    function setWallpaper(url, e) { if (e) e.preventDefault(); const b = document.body; b.style.backgroundImage = b.style.backgroundImage.includes(url) ? 'none' : `url("${url}")`; }
-    function toggleFocus(card) { cycleViewMode(); setTimeout(() => { card.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' }); }, 150); }
-    function handleMissingImage(img, path) { const card = img.closest('.card'); DATA = DATA.filter(i => i.p !== path); card.remove(); refreshAllUI(); }
-    function toggleTag(t) { if (activeTags.has(t)) activeTags.delete(t); else activeTags.add(t); refreshAllUI(); }
-    function saveNotes(v) { localStorage.setItem('gallery_notes', v); }
-    
-    function toggleStageTools() { 
-      const s = document.getElementById('stage-tools'); 
-      s.style.display = (s.style.display === 'none') ? 'flex' : 'none'; 
-    }
-    function toggleCollections() { 
-      const c = document.getElementById('collapsible-collections'); 
-      c.style.display = (c.style.display === 'none' || c.style.display === '') ? 'flex' : 'none'; 
-    }
-    function toggleTagCloud() { 
-      const h = document.getElementById('collapsible-tags'); 
-      h.style.display = (h.style.display === 'none') ? 'block' : 'none'; 
-    }
-    function cycleViewMode() { document.getElementById('mode-toggle').innerText = document.getElementById('body-wrap').classList.toggle('max-width') ? '↕' : '↔'; }
-    
-    function toggleSidebarView() { 
-      sidebarIsGrid = !sidebarIsGrid; 
-      const icon = document.getElementById('toggle-icon');
-      const container = document.getElementById('grid-slider-container');
-      if (sidebarIsGrid) {
-        icon.className = 'css-list'; icon.innerHTML = '<div></div><div></div><div></div>';
-        container.style.display = 'flex';
-      } else {
-        icon.className = 'css-grid'; icon.innerHTML = '<div></div><div></div><div></div><div></div>';
-        container.style.display = 'none';
-      }
-      refreshAllUI(); 
-    }
-    function updateGridCols(v) { document.documentElement.style.setProperty('--grid-cols', v); document.getElementById('col-val').innerText = v; localStorage.setItem('gallery_cols', v); }
-    function toggleSettings() { const s = document.getElementById('settings-panel'); s.style.display = s.style.display==='flex'?'none':'flex'; }
-    function toggleOverlay(btn) { const o = btn.closest('.card').querySelector('.card-tag-overlay'); o.style.display = o.style.display === 'flex' ? 'none' : 'flex'; }
+			// 1. Calculate tag frequencies in the current filtered set
+			const tagFreq = {};
+			filtered.forEach(i => i.t.forEach(t => tagFreq[t] = (tagFreq[t] || 0) + 1));
 
-    document.getElementById('main').addEventListener('wheel', (e) => { 
-      if (!document.getElementById('body-wrap').classList.contains('max-width')) { 
-        e.preventDefault(); 
-        document.getElementById('main').scrollLeft += (e.deltaY * (currentDock === 'right' ? -1 : 1)); 
-      } 
-    });
-  </script>
+			// 2. Sort the cloud based on the active mode (Alpha vs Frequency)
+			let sortedTags = ALL_TAGS.filter(t => t.toLowerCase().includes(q));
+
+			if (tagSortMode === 'freq') {
+				sortedTags.sort((a, b) => (tagFreq[b] || 0) - (tagFreq[a] || 0) || a.localeCompare(b));
+			} else {
+				sortedTags.sort((a, b) => a.localeCompare(b));
+			}
+
+			const cloud = document.getElementById('tag-cloud');
+			cloud.innerHTML = "";
+
+			sortedTags.forEach(t => {
+				const count = tagFreq[t] || 0;
+				if (count === 0 && activeTags.size > 0 && !activeTags.has(t)) return; // Hide empty tags if filtering
+
+				const p = document.createElement('div');
+				p.className = 'tag-pill' + (activeTags.has(t) ? ' active' : '');
+				// Optional: Add a small count indicator next to the tag name
+				p.innerHTML = `${t} <span class="tag-count-small">${count}</span>`;
+				p.onclick = () => {
+					if (activeTags.has(t)) activeTags.delete(t);
+					else activeTags.add(t);
+					refreshAllUI();
+				};
+				cloud.appendChild(p);
+			});
+
+			document.getElementById('tag-count').innerText = cloud.children.length;
+			document.getElementById('img-count').innerText = filtered.length;
+
+			// ... rest of function (file-item generation) remains same
+			filtered.forEach((item, idx) => {
+				const d = document.createElement('div');
+				d.className = 'file-item';
+				d.dataset.path = item.p;
+				d.id = 'f-' + idx;
+				d.innerHTML = sidebarIsGrid ? `<img src="${item.p}" loading="lazy">` : item.n;
+				d.onclick = () => createCard(item);
+				list.appendChild(d);
+			});
+			updateAllCardOverlays();
+			syncSidebarHighlights();
+			updateStageCount();
+		}
+
+		function clearWorkspace() {
+			document.querySelectorAll('.card').forEach(c => {
+				if (!c.classList.contains('pinned')) c.remove();
+			});
+			syncSidebarHighlights();
+		}
+
+		function exportFilteredData() {
+			const q = document.getElementById('master-search').value.toLowerCase();
+			const filtered = DATA.filter(i => {
+				const matchesActive = Array.from(activeTags).every(at => i.t.includes(at));
+				return matchesActive && (q === "" || i.t.some(it => it.toLowerCase().includes(q)));
+			});
+			const blob = new Blob([JSON.stringify(filtered, null, 2)], { type: 'application/json' });
+			const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+			a.download = `Filtered_Data_${new Date().toISOString().slice(0, 10)}.json`; a.click();
+			showToast(`Exported ${filtered.length} items.`);
+		}
+		function exportGallery() {
+			let html = document.documentElement.outerHTML;
+			html = html.replace(/let DATA = \[.*?\];/, `let DATA = ${JSON.stringify(DATA)};`);
+			html = html.replace(/let ALL_TAGS = \[.*?\];/, `let ALL_TAGS = ${JSON.stringify(ALL_TAGS)};`);
+			const blob = new Blob(['<!DOCTYPE html>\n' + html], { type: 'text/html' });
+			const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Gallery_Export.html'; a.click();
+		}
+
+		function updateStageCount() { document.getElementById('stage-count').innerText = document.querySelectorAll('.card').length; }
+		// New function to handle the side-specific click
+		function restoreAndDock(side) {
+			updateDock(side);      // Move the sidebar to clicked side
+			toggleSidebar(true);   // Show the sidebar
+		}
+		function handleCornerClick(clickedSide) {
+			const bodyWrap = document.getElementById('body-wrap');
+			const isCollapsed = bodyWrap.classList.contains('collapsed');
+
+			// CASE 1: Sidebar is on the other side -> Fly and Summon
+			if (currentDock !== clickedSide) {
+				// If it was open, hide it instantly to avoid the "middle fly-by"
+				if (!isCollapsed) {
+					bodyWrap.classList.add('collapsed');
+				}
+
+				// Delay the reveal until the sidebar has moved to the new edge
+				setTimeout(() => {
+					updateDock(clickedSide);
+					toggleSidebar(true);
+				}, isCollapsed ? 10 : 60);
+			}
+			// CASE 2: Sidebar is already on this side -> Simple Toggle
+			else {
+				toggleSidebar(isCollapsed);
+			}
+		}
+		function toggleSidebar(show) {
+			const bodyWrap = document.getElementById('body-wrap');
+			bodyWrap.classList.toggle('collapsed', !show);
+		}
+
+		function updateDock(side) {
+			currentDock = side;
+			// Add/Remove class to handle the layout direction
+			document.body.classList.toggle('dock-left', side === 'left');
+
+			// Update the horizontal flex direction for the stage
+			document.documentElement.style.setProperty('--h-dir', side === 'left' ? 'row' : 'row-reverse');
+
+			// Save preference
+			localStorage.setItem('gallery_dock', side);
+		}
+		function handleLinkAction(e) { e.preventDefault(); const filtered = Array.from(activeTags).filter(t => !t.match(/^\[.*\]$/)); navigator.clipboard.writeText((document.getElementById('user-note').value + " " + filtered.join(' ')).trim()); const btn = document.getElementById('add-btn'); btn.innerText = '✓'; setTimeout(() => btn.innerText = '+', 1000); }
+
+		function setWallpaper(url, e) { if (e) e.preventDefault(); const b = document.body; b.style.backgroundImage = b.style.backgroundImage.includes(url) ? 'none' : `url("${url}")`; }
+		function toggleFocus(card) { cycleViewMode(); setTimeout(() => { card.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' }); }, 150); }
+		function handleMissingImage(img, path) { const card = img.closest('.card'); DATA = DATA.filter(i => i.p !== path); card.remove(); refreshAllUI(); }
+		function toggleTag(t) { if (activeTags.has(t)) activeTags.delete(t); else activeTags.add(t); refreshAllUI(); }
+		function saveNotes(v) { localStorage.setItem('gallery_notes', v); }
+
+		function toggleStageTools() {
+			const s = document.getElementById('stage-tools');
+			// Check for empty string (initial state)
+			s.style.display = (s.style.display === 'none' || s.style.display === '') ? 'flex' : 'none';
+		}
+		function toggleCollections() {
+			const c = document.getElementById('collapsible-collections');
+			c.style.display = (c.style.display === 'none' || c.style.display === '') ? 'flex' : 'none';
+		}
+		function toggleTagCloud() {
+			const h = document.getElementById('collapsible-tags');
+			h.style.display = (h.style.display === 'none') ? 'block' : 'none';
+		}
+		function cycleViewMode() {
+			const isMax = document.getElementById('body-wrap').classList.toggle('max-width');
+			const btn = document.getElementById('mode-toggle');
+
+			// Reversed Graphics: 
+			// Now shows '↕' when in Vertical/Max-Width mode
+			// Now shows '↔' when in Horizontal mode
+			btn.innerText = isMax ? '↕' : '↔';
+
+			// Force the button to stay semi-transparent (action-btn)
+			btn.className = 'sq-btn action-btn';
+		}
+
+		function toggleSidebarView() {
+			sidebarIsGrid = !sidebarIsGrid;
+			const icon = document.getElementById('toggle-icon');
+			const container = document.getElementById('grid-slider-container');
+			if (sidebarIsGrid) {
+				icon.className = 'css-list'; icon.innerHTML = '<div></div><div></div><div></div>';
+				container.style.display = 'flex';
+			} else {
+				icon.className = 'css-grid'; icon.innerHTML = '<div></div><div></div><div></div><div></div>';
+				container.style.display = 'none';
+			}
+			refreshAllUI();
+		}
+		function updateGridCols(v) { document.documentElement.style.setProperty('--grid-cols', v); document.getElementById('col-val').innerText = v; localStorage.setItem('gallery_cols', v); }
+		function toggleSettings() { const s = document.getElementById('settings-panel'); s.style.display = s.style.display === 'flex' ? 'none' : 'flex'; }
+		function toggleOverlay(btn) { const o = btn.closest('.card').querySelector('.card-tag-overlay'); o.style.display = o.style.display === 'flex' ? 'none' : 'flex'; }
+
+		document.getElementById('main').addEventListener('wheel', (e) => {
+			if (!document.getElementById('body-wrap').classList.contains('max-width')) {
+				e.preventDefault();
+				document.getElementById('main').scrollLeft += (e.deltaY * (currentDock === 'right' ? -1 : 1));
+			}
+		});
+	</script>
 </body>
+
 </html>
