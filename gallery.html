@@ -120,8 +120,8 @@
     .path-entry { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.05); padding: 4px; border-radius: 4px; }
     .path-entry input[type="text"] { flex: 1; background: transparent; border: none; color: var(--text-dim); font-size: 9px; pointer-events: none; }
     .path-entry input[type="checkbox"] { cursor: pointer; width: 16px; height: 16px; accent-color: var(--gold); }
-    .path-entry.stale input[type="checkbox"] { accent-color: var(--gold); outline: 1px solid var(--gold); }
-    .path-entry.loaded input[type="checkbox"] { accent-color: var(--green); outline: 1px solid var(--green); }
+    .path-entry.stale input[type="checkbox"] { accent-color: var(--gold); }
+    .path-entry.loaded input[type="checkbox"] { accent-color: var(--green); }
     
     .path-text { flex: 1; background: transparent; border: none; color: var(--text-dim); font-size: 10px; cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .path-text:hover { color: #fff; text-decoration: underline; }
@@ -171,8 +171,8 @@
       <input type="file" id="json-input" style="display:none" accept=".json" onchange="importJSON(this)">
       
 <div style="display:flex; gap:4px;">
-    <button class="import-btn" style="width: 32px;" onclick="document.getElementById('json-input').click()">+</button>
-    <button class="import-btn" style="width: 32px;" onclick="importFromURL()">URL</button>    
+    <button class="import-btn" style="width: 32px;" onclick="smartImport()" title="Import from URL in clipboard or browser for a JSON file.">+</button>
+
     <button class="import-btn" style="background: #2196F3; color: white; flex: 1;" onclick="exportFilteredData()">EXPORT JSON</button>
     <button class="import-btn" style="background: #4CAF50; color: white; flex: 1;" onclick="exportGallery()">EXPORT HTML</button>
 </div>
@@ -218,16 +218,17 @@
     let tagSortMode = 'alpha', savedPaths = [];
 
     window.onload = () => {
+      // Restore UI Settings
   const n = localStorage.getItem('gallery_notes');
   if (n) document.getElementById('user-note').value = n;
 
-  // 1. Get the saved dock setting
   const dock = localStorage.getItem('gallery_dock') || 'right';
   
-  // 2. Apply the visual layout (This part you likely have)
   updateDock(dock);
+      autoFlush = localStorage.getItem('gallery_flush') === 'true';
+      updateAutoFlushUI();
 
-  // 3. ADD THIS: Update the radio button UI to show the correct selection
+      // Restore Docking Radio Selection
   const dockRadio = document.getElementById(`dock-${dock}-radio`);
   if (dockRadio) dockRadio.checked = true;
 
@@ -245,54 +246,63 @@
   if (rawPaths) {
       savedPaths = JSON.parse(rawPaths).map(p => ({...p, data: null}));
       renderPathList();
-  }
+          // 2. Automatic URL Loading
+          savedPaths.forEach((item, index) => {
+              const isURL = item.path.startsWith('http://') || item.path.startsWith('https://');
+              if (item.checked && isURL) {
+                  // Silently fetch web collections without opening prompts
+                  importFromURL(item.path);
+              }
+          });
+      }
 };
 
-async function importFromURL(passedUrl = null) {
-    let url = passedUrl;
-
-    // If no URL was passed (e.g., the user clicked the purple button)
-    if (!url) {
-        try {
-            // Attempt to read directly from user clipboard
-            url = await navigator.clipboard.readText();
-            url = url ? url.trim() : "";
-            
-            // Validation: Ensure it's a URL and not just random text
-            if (!url.startsWith('http')) {
-                url = prompt("Clipboard didn't have a valid URL. Please paste it here:");
-            }
-        } catch (err) {
-            // Fallback if browser security blocks clipboard access
-            url = prompt("Please paste the JSON URL:");
-        }
+async function smartImport() {
+    let clipboardText = "";
+    try {
+        // 1. Try to read the clipboard
+        clipboardText = await navigator.clipboard.readText();
+        clipboardText = clipboardText ? clipboardText.trim() : "";
+    } catch (err) {
+        console.warn("Clipboard access denied, defaulting to file picker.");
     }
 
-    if (!url || !url.startsWith('http')) return;
+    // 2. Decision: Is it a Web URL?
+    if (clipboardText.startsWith('http://') || clipboardText.startsWith('https://')) {
+        showToast("URL detected in clipboard. Importing...");
+        importFromURL(clipboardText);
+    } else {
+        // 3. Fallback: Open the local file dialog
+        document.getElementById('json-input').click();
+    }
+}
 
+async function importFromURL(url) {
     try {
         const response = await fetch(url);
-        if (!response.ok) throw new Error(`Fetch failed: ${response.status}`);
-        
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const importedData = await response.json();
         
-        // Sync with our savedPaths list
-        const existingIndex = savedPaths.findIndex(p => p.path === url);
+        const pathName = url;
+        const existingIndex = savedPaths.findIndex(p => p.path === pathName);
+        
         if (existingIndex === -1) {
-            savedPaths.push({ path: url, checked: true, data: importedData });
+            savedPaths.push({ path: pathName, checked: true, data: importedData });
         } else {
             savedPaths[existingIndex].data = importedData;
             savedPaths[existingIndex].checked = true;
         }
-
-        renderPathList();        // Turn checkmark Green
-        loadActiveCollections(); // Rebuild DATA and Tag Cloud
-        showToast(`Loaded: ${url.split('/').pop()}`);
+        
+        renderPathList();
+        loadActiveCollections();
+        showToast(`Loaded: ${pathName.split('/').pop()}`);
     } catch (err) {
-        showToast("Web Import Error: " + err.message);
-        console.error(err);
+        showToast("Web Import Failed: " + err.message);
+        // If web import fails, maybe the user actually wanted the file picker
+        document.getElementById('json-input').click();
     }
 }
+
 
     function togglePathCheck(index) {
         savedPaths[index].checked = !savedPaths[index].checked;
