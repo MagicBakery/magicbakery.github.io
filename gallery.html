@@ -70,11 +70,10 @@
 			backdrop-filter: blur(12px);
 			display: flex;
 			flex-direction: column;
-			/* Use a transform-only transition for maximum smoothness */
-			transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			/* Transition opacity instead of transform */
+			transition: opacity 0.3s ease, visibility 0.3s ease;
 			z-index: 10000;
 			position: relative;
-			/* Default state */
 		}
 
 		/* Default Right Docked */
@@ -107,9 +106,28 @@
 			/* Slides completely off-screen to the left */
 		}
 
-		/* Visible States: Return to standard layout flow */
+		/* Hidden States: No sliding, just fade out */
+		body.collapsed #sidebar {
+			opacity: 0;
+			visibility: hidden;
+			pointer-events: none;
+			position: absolute;
+			/* Take out of flow so #main expands instantly */
+		}
+
+		/* Visible States: Fade in */
 		body:not(.collapsed) #sidebar {
-			transform: translateX(0);
+			opacity: 1;
+			visibility: visible;
+			pointer-events: auto;
+			position: relative;
+		}
+
+		/* Adjust for Left Docking */
+		body.dock-left #settings-panel {
+			right: auto;
+			left: calc(var(--sidebar-w) + 10px);
+			/* Appear to the right of the sidebar */
 		}
 
 		#toast {
@@ -143,11 +161,11 @@
 		/* New Hover-to-Show zones: Always on top */
 		.hover-trigger {
 			position: fixed;
-			top: 0;
+			bottom: 0;
+			/* Changed from top: 0 */
 			width: 60px;
 			height: 60px;
 			z-index: 10001;
-			/* Higher than sidebar (10000) */
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -168,12 +186,14 @@
 
 		#trigger-left {
 			left: 0;
-			border-radius: 0 0 15px 0;
+			border-radius: 0 15px 0 0;
+			/* Adjusted for bottom left */
 		}
 
 		#trigger-right {
 			right: 0;
-			border-radius: 0 0 0 15px;
+			border-radius: 15px 0 0 0;
+			/* Adjusted for bottom right */
 		}
 
 		/* Ensure triggers only appear when collapsed */
@@ -386,17 +406,30 @@
 			color: #000 !important;
 		}
 
+		/* Position settings panel to appear "on the side" */
+		/* Position settings panel to float above the bottom buttons */
 		#settings-panel {
-			background: rgba(0, 0, 0, 0.9);
+			background: rgba(10, 10, 10, 0.75);
 			border: 1px solid var(--border);
 			padding: 15px;
 			display: none;
+			/* Controlled by toggleSettings */
 			flex-direction: column;
 			gap: 12px;
 			font-size: 10px;
-			border-radius: 8px;
-			margin-bottom: 10px;
-			position: relative;
+			border-radius: 12px 12px 0 0;
+			/* Rounded top corners for "popup" look */
+
+			/* Floating positioning */
+			position: absolute;
+			bottom: 70px;
+			/* Sits above the note area and buttons */
+			left: 10px;
+			right: 10px;
+			width: calc(100% - 20px);
+			z-index: 10002;
+			backdrop-filter: blur(15px);
+			box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.5);
 		}
 
 		.help-icon {
@@ -479,7 +512,7 @@
 			align-items: center;
 			justify-content: space-between;
 			padding: 8px 15px;
-			background: rgba(255, 255, 255, 0.03);
+			background: rgba(0, 0, 0, 0.3);
 			border-bottom: 1px solid var(--border);
 			font-size: 10px;
 		}
@@ -533,6 +566,24 @@
 		.inline-toggle:hover {
 			border-color: var(--accent);
 			color: #fff;
+		}
+
+		/* Ensure the image container grows to fill all vertical space */
+		#collapsible-images {
+			flex: 1;
+			display: flex;
+			/* Default to flex so it fills space */
+			flex-direction: column;
+			overflow: hidden;
+			min-height: 0;
+			background: rgba(0, 0, 0, 0.2);
+			/* Matching the stage-tools/collections background */
+		}
+
+		#file-list {
+			flex: 1;
+			overflow-y: auto;
+			width: 100%;
 		}
 
 		#stage-tools,
@@ -596,9 +647,24 @@
 			color: var(--text-dim);
 			font-size: 10px;
 			cursor: pointer;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
+			/* Updated for full path visibility */
+			word-break: break-all;
+			/* Breaks long strings like URLs */
+			white-space: normal;
+			/* Allows wrapping to new lines */
+			line-height: 1.2;
+			padding: 2px 0;
+		}
+
+		.path-entry {
+			display: flex;
+			align-items: flex-start;
+			/* Align checkbox/trash to the top of wrapped text */
+			gap: 6px;
+			background: rgba(255, 255, 255, 0.05);
+			padding: 6px;
+			border-radius: 4px;
+			margin-bottom: 2px;
 		}
 
 		.path-text:hover {
@@ -707,6 +773,116 @@
 			accent-color: var(--accent);
 			width: 60px;
 		}
+
+		/* Thinner Pencil pointing Lower-Left */
+		.icon-pencil {
+			width: 6px;
+			/* Thinner body */
+			height: 14px;
+			border: 1.5px solid currentColor;
+			/* Thinner lines */
+			position: relative;
+			/* Rotated 135deg to point lower-left */
+			transform: rotate(135deg) translateY(2px);
+			border-radius: 1px;
+		}
+
+		/* The Tip */
+		.icon-pencil::before {
+			content: "";
+			position: absolute;
+			bottom: 100%;
+			left: -1.5px;
+			width: 0;
+			height: 0;
+			border-left: 3px solid transparent;
+			border-right: 3px solid transparent;
+			border-bottom: 5px solid currentColor;
+		}
+
+		/* The Eraser */
+		.icon-pencil::after {
+			content: "";
+			position: absolute;
+			top: 100%;
+			left: -1.5px;
+			width: 6px;
+			height: 3px;
+			background: currentColor;
+			border-radius: 0 0 1px 1px;
+		}
+
+		/* CSS Star Icon */
+		/* Perfect 5-Point Star using Clip-Path */
+		.icon-star {
+			width: 18px;
+			height: 18px;
+			background: currentColor;
+			clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+		}
+
+		.icon-star::after {
+			content: "";
+			position: absolute;
+			top: 6px;
+			left: -10px;
+			border-left: 10px solid transparent;
+			border-right: 10px solid transparent;
+			border-top: 18px solid currentColor;
+		}
+
+		/* CSS Arrows (Horizontal/Vertical) */
+		.icon-arrows {
+			width: 16px;
+			height: 16px;
+			border: 2px solid currentColor;
+			position: relative;
+		}
+
+		.icon-arrows::before,
+		.icon-arrows::after {
+			content: "";
+			position: absolute;
+			background: currentColor;
+		}
+
+		/* Horizontal Arrows ↔ */
+		.icon-h::before {
+			width: 12px;
+			height: 2px;
+			top: 5px;
+			left: 0;
+		}
+
+		.icon-h::after {
+			width: 4px;
+			height: 4px;
+			border-top: 2px solid;
+			border-left: 2px solid;
+			transform: rotate(-45deg);
+			top: 3px;
+			left: -2px;
+			box-shadow: 12px 12px 0 -2px;
+		}
+
+		/* Vertical Arrows ↕ */
+		.icon-v::before {
+			width: 2px;
+			height: 12px;
+			left: 5px;
+			top: 0;
+		}
+
+		.icon-v::after {
+			width: 4px;
+			height: 4px;
+			border-top: 2px solid;
+			border-left: 2px solid;
+			transform: rotate(45deg);
+			top: -2px;
+			left: 3px;
+			box-shadow: 12px 12px 0 -2px;
+		}
 	</style>
 </head>
 
@@ -718,66 +894,45 @@
 	<div id="ghost-restore" onclick="toggleSidebar(true)">☰</div>
 
 	<div id="sidebar">
-		<div class="header-bar">
-
-
-			<div class="btn-group">
-				<a id="add-btn" href="#" target="_blank" class="sq-btn action-btn" onclick="handleLinkAction(event)">+</a>
-				<button class="sq-btn action-btn" id="settings-btn" onclick="toggleSettings()">⚙</button>
-			</div>
-
-			<div id="settings-panel">
-				<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" class="help-icon"
-					title="Documentation">ⓘ</a>
-				<input type="text" id="add-url-input" class="unified-width" placeholder="URL for + button..."
-					oninput="updateAddUrl(this.value)">
-			</div>
-			<textarea id="user-note" class="unified-width" style="height:60px; font-size:11px; margin-bottom:10px;"
-				placeholder="NOTES..." oninput="saveNotes(this.value)"></textarea>
-		</div>
 		<div class="stats-bar">
 			<div class="stats-clickable" onclick="toggleCollections()">Collections (<span id="collection-count">0</span>)
 			</div>
 		</div>
 		<div id="collapsible-collections">
 			<input type="file" id="json-input" style="display:none" accept=".json" onchange="importJSON(this)">
-
 			<div style="display:flex; gap:4px;">
-				<button class="import-btn action-btn" style="width: 32px;" onclick="smartImport()"
-					title="Smart Import">+</button>
-
+				<button class="import-btn action-btn" style="width: 32px;" onclick="smartImport()">+</button>
 				<button class="import-btn action-btn" style="flex: 1;" onclick="exportFilteredData()">EXPORT JSON</button>
 				<button class="import-btn action-btn" style="flex: 1;" onclick="exportGallery()">EXPORT HTML</button>
 			</div>
 			<div id="path-list-container"></div>
 		</div>
+
 		<div class="stats-bar">
 			<div class="stats-clickable" onclick="toggleStageTools()">Stage Controls (<span id="stage-count">0</span>)</div>
-			<button class="inline-toggle" onclick="clearWorkspace()" title="Clear Stage">✕</button>
+			<button class="inline-toggle" onclick="clearWorkspace()">✕</button>
 		</div>
 		<div id="stage-tools">
 			<div style="display:flex; gap:10px; align-items:center;">
 				<button id="auto-flush-btn" class="sq-btn action-btn" onclick="toggleAutoFlush()">↻</button>
-				<button class="sq-btn state-active" id="mode-toggle" onclick="cycleViewMode()">↔</button>
+				<button class="sq-btn state-active" id="mode-toggle" onclick="cycleViewMode()">
+					<div class="icon-h"></div>
+				</button>
 			</div>
 		</div>
-		<div class="stats-bar tags-bar" style="justify-content: space-between; gap: 10px;">
-			<span class="stats-clickable" style="font-size:11px; cursor:pointer; flex-grow: 0;"
-				onclick="toggleTagCloud()">Tags (<span id="tag-count">0</span>)</span>
-			<input type="text" id="master-search" class="unified-width"
-				style="margin:0; width:100px; padding:4px; text-align:center; font-size:10px;" placeholder="SEARCH..."
+
+		<div class="stats-bar tags-bar">
+			<span class="stats-clickable" onclick="toggleTagCloud()">Tags (<span id="tag-count">0</span>)</span>
+			<input type="text" id="master-search" class="unified-width" style="width:100px;" placeholder="SEARCH..."
 				oninput="refreshAllUI()">
-			<button class="inline-toggle" id="tag-sort-btn" onclick="toggleTagSort()" title="Sort">A-Z</button>
+			<button class="inline-toggle" id="tag-sort-btn" onclick="toggleTagSort()">A-Z</button>
 		</div>
 		<div id="collapsible-tags">
 			<div id="tag-cloud"></div>
 		</div>
+
 		<div class="stats-bar">
-			<div class="stats-clickable">Images (<span id="img-count">0</span>)</div>
-			<div id="grid-slider-container">
-				<input type="range" id="col-slider" min="1" max="5" value="3" oninput="updateGridCols(this.value)">
-				<span id="col-val" style="min-width: 10px;">3</span>
-			</div>
+			<div class="stats-clickable" onclick="toggleImages()">Images (<span id="img-count">0</span>)</div>
 			<button class="inline-toggle" id="grid-toggle-btn" onclick="toggleSidebarView()">
 				<div class="css-grid" id="toggle-icon">
 					<div></div>
@@ -787,8 +942,31 @@
 				</div>
 			</button>
 		</div>
+		<div id="collapsible-images"
+			style="flex: 1; display: flex; flex-direction: column; overflow: hidden; background: rgba(0,0,0,0.2);">
+			<div id="file-list" class="file-list"></div>
+		</div>
+		<div id="settings-panel">
+			<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" class="help-icon">ⓘ</a>
+			<div style="display:flex; gap:5px; align-items:center;">
+				<a id="add-btn" href="#" target="_blank" class="sq-btn action-btn" onclick="handleLinkAction(event)">+</a>
+				<input type="text" id="add-url-input" class="unified-width" placeholder="URL for + button..."
+					oninput="updateAddUrl(this.value)">
+			</div>
+			<textarea id="user-note" class="unified-width" style="height:80px; margin-bottom:10px;" placeholder="NOTES..."
+				oninput="saveNotes(this.value)"></textarea>
+		</div>
+		<div class="header-bar" style="border-top: 1px solid var(--border); padding-top: 10px;">
 
-		<div id="file-list" class="file-list"></div>
+
+			<div class="btn-group">
+				<button class="sq-btn action-btn" id="settings-btn" onclick="toggleSettings()">
+					O
+				</button>
+			</div>
+		</div>
+
+
 	</div>
 	<div id="main"></div>
 
@@ -828,17 +1006,26 @@
 				document.getElementById('add-btn').href = savedAddUrl;
 			}
 
-			// 5. Restore Collections
+			// Restore or initialize Collections
 			const rawPaths = localStorage.getItem('gallery_paths');
 			if (rawPaths) {
 				savedPaths = JSON.parse(rawPaths).map(p => ({ ...p, data: null }));
-				renderPathList();
-				savedPaths.forEach((item, index) => {
-					if (item.checked && (item.path.startsWith('http') || item.path.startsWith('https'))) {
-						importFromURL(item.path);
-					}
-				});
+			} else {
+				// DEFAULT PATH: Starter Pack
+				savedPaths = [{
+					path: "https://magicbakery.github.io/starterpack.json",
+					checked: true,
+					data: null
+				}];
 			}
+
+			renderPathList();
+			// Load data for all checked paths
+			savedPaths.forEach((item, index) => {
+				if (item.checked && (item.path.startsWith('http'))) {
+					importFromURL(item.path);
+				}
+			});
 		};
 		async function smartImport() {
 			let clipboardText = "";
@@ -885,7 +1072,12 @@
 				document.getElementById('json-input').click();
 			}
 		}
-
+		function toggleImages() {
+			const i = document.getElementById('collapsible-images');
+			// Toggle between none and flex so it maintains its space-filling behavior
+			i.style.display = (i.style.display === 'none') ? 'flex' : 'none';
+			refreshAllUI();
+		}
 
 		function togglePathCheck(index) {
 			savedPaths[index].checked = !savedPaths[index].checked;
@@ -1048,7 +1240,7 @@
 
 			c.innerHTML = `
         <div class="card-tools">
-          <button class="tool-btn pin-btn" title="Star">★</button>
+          <button class="tool-btn pin-btn" title="Star"><div class="icon-star" style="transform: scale(0.6);"></div></button>
           <button class="tool-btn" onclick="toggleOverlay(this)">#</button>
           <button class="tool-btn" onclick="toggleFocus(this.closest('.card'))" title="Magnifier"><div class="css-mag"></div></button>
           <a class="tool-btn" href="${item.f || item.p}" onclick="setWallpaper('${item.p}', event)" title="Wallpaper"><div class="css-wall"></div></a>
@@ -1202,11 +1394,29 @@
 			showToast(`Exported ${filtered.length} items.`);
 		}
 		function exportGallery() {
-			let html = document.documentElement.outerHTML;
+			let docClone = document.documentElement.cloneNode(true);
+			let bodyWrap = docClone.querySelector('#body-wrap');
+			if (bodyWrap) bodyWrap.classList.add('collapsed');
+
+			// Ensure Meta Charset is present
+			let head = docClone.querySelector('head');
+			if (!head.querySelector('meta[charset]')) {
+				let meta = document.createElement('meta');
+				meta.setAttribute('charset', 'UTF-8');
+				head.prepend(meta);
+			}
+
+			let html = docClone.outerHTML;
+
+			// 3. Inject current data and tags
 			html = html.replace(/let DATA = \[.*?\];/, `let DATA = ${JSON.stringify(DATA)};`);
 			html = html.replace(/let ALL_TAGS = \[.*?\];/, `let ALL_TAGS = ${JSON.stringify(ALL_TAGS)};`);
+
 			const blob = new Blob(['<!DOCTYPE html>\n' + html], { type: 'text/html' });
-			const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Gallery_Export.html'; a.click();
+			const a = document.createElement('a');
+			a.href = URL.createObjectURL(blob);
+			a.download = 'Gallery_Export.html';
+			a.click();
 		}
 
 		function updateStageCount() { document.getElementById('stage-count').innerText = document.querySelectorAll('.card').length; }
@@ -1219,21 +1429,12 @@
 			const bodyWrap = document.getElementById('body-wrap');
 			const isCollapsed = bodyWrap.classList.contains('collapsed');
 
-			// CASE 1: Sidebar is on the other side -> Fly and Summon
 			if (currentDock !== clickedSide) {
-				// If it was open, hide it instantly to avoid the "middle fly-by"
-				if (!isCollapsed) {
-					bodyWrap.classList.add('collapsed');
-				}
-
-				// Delay the reveal until the sidebar has moved to the new edge
-				setTimeout(() => {
-					updateDock(clickedSide);
-					toggleSidebar(true);
-				}, isCollapsed ? 10 : 60);
-			}
-			// CASE 2: Sidebar is already on this side -> Simple Toggle
-			else {
+				// Instant side swap and show
+				updateDock(clickedSide);
+				toggleSidebar(true);
+			} else {
+				// Toggle fade in/out
 				toggleSidebar(isCollapsed);
 			}
 		}
@@ -1241,7 +1442,6 @@
 			const bodyWrap = document.getElementById('body-wrap');
 			bodyWrap.classList.toggle('collapsed', !show);
 		}
-
 		function updateDock(side) {
 			currentDock = side;
 			// Add/Remove class to handle the layout direction
@@ -1275,39 +1475,59 @@
 			h.style.display = (h.style.display === 'none') ? 'block' : 'none';
 		}
 		function cycleViewMode() {
-			const isMax = document.getElementById('body-wrap').classList.toggle('max-width');
+			const bodyWrap = document.getElementById('body-wrap');
+			const isMax = bodyWrap.classList.toggle('max-width');
 			const btn = document.getElementById('mode-toggle');
 
-			// Reversed Graphics: 
-			// Now shows '↕' when in Vertical/Max-Width mode
-			// Now shows '↔' when in Horizontal mode
-			btn.innerText = isMax ? '↕' : '↔';
-
-			// Force the button to stay semi-transparent (action-btn)
+			// Change the icon class instead of innerText
+			btn.innerHTML = isMax ? '<div class="icon-v"></div>' : '<div class="icon-h"></div>';
 			btn.className = 'sq-btn action-btn';
 		}
 
 		function toggleSidebarView() {
 			sidebarIsGrid = !sidebarIsGrid;
 			const icon = document.getElementById('toggle-icon');
-			const container = document.getElementById('grid-slider-container');
+
 			if (sidebarIsGrid) {
-				icon.className = 'css-list'; icon.innerHTML = '<div></div><div></div><div></div>';
-				container.style.display = 'flex';
+				// Change icon to List mode
+				icon.className = 'css-list';
+				icon.innerHTML = '<div></div><div></div><div></div>';
 			} else {
-				icon.className = 'css-grid'; icon.innerHTML = '<div></div><div></div><div></div><div></div>';
-				container.style.display = 'none';
+				// Change icon to Grid mode
+				icon.className = 'css-grid';
+				icon.innerHTML = '<div></div><div></div><div></div><div></div>';
 			}
+
+			// Crucial: Refresh the UI immediately to apply .grid-view class to #file-list
 			refreshAllUI();
 		}
 		function updateGridCols(v) { document.documentElement.style.setProperty('--grid-cols', v); document.getElementById('col-val').innerText = v; localStorage.setItem('gallery_cols', v); }
-		function toggleSettings() { const s = document.getElementById('settings-panel'); s.style.display = s.style.display === 'flex' ? 'none' : 'flex'; }
-		function toggleOverlay(btn) { const o = btn.closest('.card').querySelector('.card-tag-overlay'); o.style.display = o.style.display === 'flex' ? 'none' : 'flex'; }
+		function toggleSettings() {
+			const s = document.getElementById('settings-panel');
+			// Toggle between none and flex for the absolute positioned panel
+			s.style.display = (s.style.display === 'flex') ? 'none' : 'flex';
+		}
 
 		document.getElementById('main').addEventListener('wheel', (e) => {
 			if (!document.getElementById('body-wrap').classList.contains('max-width')) {
 				e.preventDefault();
 				document.getElementById('main').scrollLeft += (e.deltaY * (currentDock === 'right' ? -1 : 1));
+			}
+		});
+		// Click outside to hide sidebar
+		document.addEventListener('mousedown', (e) => {
+			const sidebar = document.getElementById('sidebar');
+			const bodyWrap = document.getElementById('body-wrap');
+
+			// Check if the sidebar is currently visible (not collapsed)
+			const isSidebarOpen = !bodyWrap.classList.contains('collapsed');
+
+			// If the click is OUTSIDE the sidebar and the sidebar is open, hide it
+			if (isSidebarOpen && !sidebar.contains(e.target)) {
+				// Ensure we aren't clicking the triggers that are supposed to open it
+				if (!e.target.classList.contains('hover-trigger') && e.target.id !== 'ghost-restore') {
+					toggleSidebar(false);
+				}
 			}
 		});
 	</script>
