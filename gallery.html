@@ -39,6 +39,7 @@
 
 		body {
 			background: var(--bg);
+			/* This is #000, so it fades from black */
 			color: var(--text);
 			font-family: monospace;
 			margin: 0;
@@ -514,13 +515,17 @@
 			padding: 8px 15px;
 			background: rgba(0, 0, 0, 0.3);
 			border-bottom: 1px solid var(--border);
-			font-size: 10px;
+			font-size: 14px;
 		}
 
 		.stats-clickable {
 			cursor: pointer;
-			flex-grow: 1;
-			color: var(--text-dim);
+			white-space: nowrap;
+			/* Prevents text from wrapping */
+			flex-shrink: 0;
+			/* Prevents the label from being squashed */
+			width: fit-content;
+			/* Only takes the space of the words */
 		}
 
 		.stats-clickable:hover {
@@ -743,80 +748,139 @@
 
 		.card-tag-overlay {
 			display: none;
+			/* Controlled by toggleOverlay */
 			position: absolute;
-			bottom: 10px;
-			left: 10px;
-			right: 10px;
+			top: 55px;
+			/* Positions it just below the card-tools buttons */
+			right: 15px;
+			width: 200px;
+			/* Constrains the width to a small side frame */
+			max-height: 70%;
 			flex-wrap: wrap;
 			gap: 5px;
-			padding: 15px;
-			background: rgba(0, 0, 0, 0.5);
-			border-radius: 12px;
-			z-index: 50;
-			max-height: 60%;
-			overflow-y: auto;
+			padding: 10px;
+			background: rgba(0, 0, 0, 0.85);
 			border: 1px solid var(--border);
+			border-radius: 8px;
+			z-index: 101;
+			/* Above the image but below main sidebar */
+			overflow-y: auto;
+			backdrop-filter: blur(10px);
 		}
 
 		#grid-slider-container {
 			display: none;
+			/* JavaScript toggles this to 'flex' */
 			align-items: center;
-			gap: 8px;
-			flex-grow: 1;
-			justify-content: center;
-			padding: 0 10px;
+			margin-left: 15px;
+			/* Space after "Images" text */
+			margin-right: 15px;
+			/* Space before the grid button */
+			flex: 1;
+			/* Fills the entire gap */
+			min-width: 0;
 		}
 
 		#col-slider {
+			-webkit-appearance: none;
+			width: 100%;
+			/* Slider stretches to fill the whole container */
 			height: 4px;
+			background: var(--border);
+			border-radius: 2px;
+			outline: none;
 			cursor: pointer;
 			accent-color: var(--accent);
-			width: 60px;
 		}
 
-		/* Thinner Pencil pointing Lower-Left */
-		.icon-pencil {
-			width: 6px;
-			/* Thinner body */
-			height: 14px;
-			border: 1.5px solid currentColor;
-			/* Thinner lines */
-			position: relative;
-			/* Rotated 135deg to point lower-left */
-			transform: rotate(135deg) translateY(2px);
-			border-radius: 1px;
+		#grid-toggle-btn {
+			flex-shrink: 0;
+			/* Keeps the button square and fixed to the right */
 		}
 
-		/* The Tip */
-		.icon-pencil::before {
-			content: "";
-			position: absolute;
-			bottom: 100%;
-			left: -1.5px;
-			width: 0;
-			height: 0;
-			border-left: 3px solid transparent;
-			border-right: 3px solid transparent;
-			border-bottom: 5px solid currentColor;
+		#col-slider::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			width: 12px;
+			height: 12px;
+			background: var(--accent);
+			border-radius: 50%;
+			cursor: pointer;
 		}
 
-		/* The Eraser */
-		.icon-pencil::after {
-			content: "";
-			position: absolute;
-			top: 100%;
-			left: -1.5px;
-			width: 6px;
-			height: 3px;
-			background: currentColor;
-			border-radius: 0 0 1px 1px;
+
+		/* 1. Base style for the Scroll Direction button */
+		#mode-toggle {
+			background: rgba(255, 255, 255, 0.1) !important;
+			/* Semi-transparent */
+			color: #fff !important;
+			/* Current direction in White */
+			border: 1px solid var(--border) !important;
+			transition: all 0.2s ease;
 		}
+
+		/* 2. Hover state: Border turns white */
+		#mode-toggle:hover {
+			border-color: #fff !important;
+			background: rgba(255, 255, 255, 0.2) !important;
+		}
+
+
+		/* Center the character containers perfectly */
+		.icon-h,
+		.icon-v {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 24px;
+			/* Fixed width to prevent shifting */
+			height: 24px;
+			/* Fixed height to prevent shifting */
+			font-size: 24px;
+			font-weight: bold;
+			color: #fff;
+			line-height: 0;
+			/* Strips font-specific vertical padding */
+			pointer-events: none;
+			user-select: none;
+			margin: 0 auto;
+			/* Centers the div within the square button */
+		}
+
+		/* Horizontal Dash centering */
+		.icon-h::before {
+			content: '—';
+			transform: translateY(-2px);
+			/* Corrects the typical 'sink' of a dash */
+		}
+
+		/* Vertical Pipe centering */
+		.icon-v::before {
+			content: '|';
+			transform: translateX(0);
+			/* Ensure no horizontal bias */
+		}
+
+		/* Hover Preview Logic: Ensure previews use the same offsets as active states */
+		#mode-toggle:hover .icon-h::before {
+			content: '|';
+			opacity: 0.7;
+			transform: translateY(0);
+			/* Remove the dash-specific vertical shift */
+		}
+
+		#mode-toggle:hover .icon-v::before {
+			content: '—';
+			opacity: 0.7;
+			transform: translateY(-2px);
+			/* Apply the dash-specific vertical shift */
+		}
+
 
 		/* CSS Star Icon */
 		/* Perfect 5-Point Star using Clip-Path */
 		.icon-star {
-			width: 18px;
-			height: 18px;
+			width: 20px;
+			height: 20px;
 			background: currentColor;
 			clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
 		}
@@ -831,63 +895,26 @@
 			border-top: 18px solid currentColor;
 		}
 
-		/* CSS Arrows (Horizontal/Vertical) */
-		.icon-arrows {
-			width: 16px;
-			height: 16px;
+		/* Simple Perfect Circle Icon */
+		.icon-circle {
+			width: 14px;
+			height: 14px;
 			border: 2px solid currentColor;
-			position: relative;
+			/* Matches the button's text color */
+			border-radius: 50%;
+			display: inline-block;
+			background: transparent;
+			/* Hollow circle */
 		}
 
-		.icon-arrows::before,
-		.icon-arrows::after {
-			content: "";
-			position: absolute;
+		/* Optional: Solid circle on hover */
+		.action-btn:hover .icon-circle {
 			background: currentColor;
-		}
-
-		/* Horizontal Arrows ↔ */
-		.icon-h::before {
-			width: 12px;
-			height: 2px;
-			top: 5px;
-			left: 0;
-		}
-
-		.icon-h::after {
-			width: 4px;
-			height: 4px;
-			border-top: 2px solid;
-			border-left: 2px solid;
-			transform: rotate(-45deg);
-			top: 3px;
-			left: -2px;
-			box-shadow: 12px 12px 0 -2px;
-		}
-
-		/* Vertical Arrows ↕ */
-		.icon-v::before {
-			width: 2px;
-			height: 12px;
-			left: 5px;
-			top: 0;
-		}
-
-		.icon-v::after {
-			width: 4px;
-			height: 4px;
-			border-top: 2px solid;
-			border-left: 2px solid;
-			transform: rotate(45deg);
-			top: -2px;
-			left: 3px;
-			box-shadow: 12px 12px 0 -2px;
 		}
 	</style>
 </head>
 
-<body id="body-wrap" contenteditable="false" data-new-gr-c-s-check-loaded="14.1267.0" data-gr-ext-installed="" class=""
-	style="background-image: url(&quot;https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg&quot;);">
+<body id="body-wrap" contenteditable="false">
 	<div id="trigger-left" class="hover-trigger" onclick="handleCornerClick('left')">☰</div>
 	<div id="trigger-right" class="hover-trigger" onclick="handleCornerClick('right')">☰</div>
 	<div id="toast"></div>
@@ -915,7 +942,7 @@
 		<div id="stage-tools">
 			<div style="display:flex; gap:10px; align-items:center;">
 				<button id="auto-flush-btn" class="sq-btn action-btn" onclick="toggleAutoFlush()">↻</button>
-				<button class="sq-btn state-active" id="mode-toggle" onclick="cycleViewMode()">
+				<button class="sq-btn state-active" id="mode-toggle" onclick="cycleViewMode()" title="Scroll Direction">
 					<div class="icon-h"></div>
 				</button>
 			</div>
@@ -923,8 +950,8 @@
 
 		<div class="stats-bar tags-bar">
 			<span class="stats-clickable" onclick="toggleTagCloud()">Tags (<span id="tag-count">0</span>)</span>
-			<input type="text" id="master-search" class="unified-width" style="width:100px;" placeholder="SEARCH..."
-				oninput="refreshAllUI()">
+			<input type="text" id="master-search" class="unified-width" style="width:100px; text-align:center"
+				placeholder="SEARCH..." oninput="refreshAllUI()">
 			<button class="inline-toggle" id="tag-sort-btn" onclick="toggleTagSort()">A-Z</button>
 		</div>
 		<div id="collapsible-tags">
@@ -933,6 +960,9 @@
 
 		<div class="stats-bar">
 			<div class="stats-clickable" onclick="toggleImages()">Images (<span id="img-count">0</span>)</div>
+			<div id="grid-slider-container">
+				<input type="range" id="col-slider" min="1" max="5" value="3" oninput="updateGridCols(this.value)">
+			</div>
 			<button class="inline-toggle" id="grid-toggle-btn" onclick="toggleSidebarView()">
 				<div class="css-grid" id="toggle-icon">
 					<div></div>
@@ -946,7 +976,7 @@
 			style="flex: 1; display: flex; flex-direction: column; overflow: hidden; background: rgba(0,0,0,0.2);">
 			<div id="file-list" class="file-list"></div>
 		</div>
-		<div id="settings-panel">
+		<div id="settings-panel" style="display: none;">
 			<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" class="help-icon">ⓘ</a>
 			<div style="display:flex; gap:5px; align-items:center;">
 				<a id="add-btn" href="#" target="_blank" class="sq-btn action-btn" onclick="handleLinkAction(event)">+</a>
@@ -956,15 +986,15 @@
 			<textarea id="user-note" class="unified-width" style="height:80px; margin-bottom:10px;" placeholder="NOTES..."
 				oninput="saveNotes(this.value)"></textarea>
 		</div>
+
 		<div class="header-bar" style="border-top: 1px solid var(--border); padding-top: 10px;">
-
-
 			<div class="btn-group">
 				<button class="sq-btn action-btn" id="settings-btn" onclick="toggleSettings()">
-					O
+					<div class="icon-circle"></div>
 				</button>
 			</div>
 		</div>
+
 
 
 	</div>
@@ -984,10 +1014,19 @@
 			tagBtn.className = 'inline-toggle action-btn';
 
 			// 2. View Mode Initialization (Future State / Reversed)
-			const isMax = document.getElementById('body-wrap').classList.contains('max-width');
-			const modeBtn = document.getElementById('mode-toggle');
-			modeBtn.innerText = isMax ? '↔' : '↕';
-			modeBtn.className = 'sq-btn action-btn';
+			const savedMax = localStorage.getItem('gallery_is_max_width') === 'true';
+			const bodyWrap = document.getElementById('body-wrap');
+			const btn = document.getElementById('mode-toggle');
+
+			if (savedMax) {
+				bodyWrap.classList.add('max-width');
+				if (btn) btn.innerHTML = '<div class="icon-v"></div>';
+			} else {
+				bodyWrap.classList.remove('max-width');
+				if (btn) btn.innerHTML = '<div class="icon-h"></div>';
+			}
+
+			persistentWallpaper();
 
 			// 3. Restore Sidebar Docking
 			currentDock = localStorage.getItem('gallery_dock') || 'right';
@@ -999,6 +1038,30 @@
 
 			autoFlush = localStorage.getItem('gallery_flush') === 'true';
 			updateAutoFlushUI();
+
+
+
+			// Restore Grid Columns
+			const savedCols = localStorage.getItem('gallery_cols') || 3;
+			document.documentElement.style.setProperty('--grid-cols', savedCols);
+			document.getElementById('col-slider').value = savedCols;
+
+
+
+			// Set initial slider visibility
+			const container = document.getElementById('grid-slider-container');
+			const icon = document.getElementById('toggle-icon');
+
+			if (sidebarIsGrid) {
+				container.style.display = 'flex';
+				icon.className = 'css-list';
+				icon.innerHTML = '<div></div><div></div><div></div>';
+			} else {
+				container.style.display = 'none';
+				icon.className = 'css-grid';
+				icon.innerHTML = '<div></div><div></div><div></div><div></div>';
+			}
+
 
 			const savedAddUrl = localStorage.getItem('gallery_add_url');
 			if (savedAddUrl) {
@@ -1027,6 +1090,35 @@
 				}
 			});
 		};
+
+		function persistentWallpaper() {
+			const savedWallpaper = localStorage.getItem('gallery_wallpaper');
+			const defaultWallpaper = "https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg";
+			const b = document.body;
+
+			// Apply the image logic
+			if (savedWallpaper) {
+				b.style.backgroundImage = `url("${savedWallpaper}")`;
+			} else {
+				b.style.backgroundImage = `url("${defaultWallpaper}")`;
+			}
+
+
+		}
+		function setWallpaper(url, e) {
+			if (e) e.preventDefault();
+			const b = document.body;
+
+			// Check if we are clearing the wallpaper or setting a new one
+			if (b.style.backgroundImage.includes(url)) {
+				b.style.backgroundImage = 'none';
+				localStorage.removeItem('gallery_wallpaper');
+			} else {
+				b.style.backgroundImage = `url("${url}")`;
+				localStorage.setItem('gallery_wallpaper', url);
+			}
+		}
+
 		async function smartImport() {
 			let clipboardText = "";
 			try {
@@ -1078,11 +1170,32 @@
 			i.style.display = (i.style.display === 'none') ? 'flex' : 'none';
 			refreshAllUI();
 		}
+		function toggleOverlay(btn) {
+			const card = btn.closest('.card');
+			const overlay = card.querySelector('.card-tag-overlay');
 
+			// Toggle between none and flex
+			if (overlay.style.display === 'flex') {
+				overlay.style.display = 'none';
+			} else {
+				overlay.style.display = 'flex';
+				// Ensure the overlay content is up to date
+				updateAllCardOverlays();
+			}
+		}
 		function togglePathCheck(index) {
 			savedPaths[index].checked = !savedPaths[index].checked;
 			renderPathList();
 			loadActiveCollections();
+		}
+		function toggleSettings() {
+			const s = document.getElementById('settings-panel');
+			// Toggle between 'none' and 'flex'
+			if (s.style.display === 'none' || s.style.display === '') {
+				s.style.display = 'flex';
+			} else {
+				s.style.display = 'none';
+			}
 		}
 		function removePath(index) {
 			savedPaths.splice(index, 1);
@@ -1240,7 +1353,7 @@
 
 			c.innerHTML = `
         <div class="card-tools">
-          <button class="tool-btn pin-btn" title="Star"><div class="icon-star" style="transform: scale(0.6);"></div></button>
+          <button class="tool-btn pin-btn" title="Star"><div class="icon-star" style="transform: scale(1.);"></div></button>
           <button class="tool-btn" onclick="toggleOverlay(this)">#</button>
           <button class="tool-btn" onclick="toggleFocus(this.closest('.card'))" title="Magnifier"><div class="css-mag"></div></button>
           <a class="tool-btn" href="${item.f || item.p}" onclick="setWallpaper('${item.p}', event)" title="Wallpaper"><div class="css-wall"></div></a>
@@ -1455,7 +1568,7 @@
 		}
 		function handleLinkAction(e) { e.preventDefault(); const filtered = Array.from(activeTags).filter(t => !t.match(/^\[.*\]$/)); navigator.clipboard.writeText((document.getElementById('user-note').value + " " + filtered.join(' ')).trim()); const btn = document.getElementById('add-btn'); btn.innerText = '✓'; setTimeout(() => btn.innerText = '+', 1000); }
 
-		function setWallpaper(url, e) { if (e) e.preventDefault(); const b = document.body; b.style.backgroundImage = b.style.backgroundImage.includes(url) ? 'none' : `url("${url}")`; }
+
 		function toggleFocus(card) { cycleViewMode(); setTimeout(() => { card.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' }); }, 150); }
 		function handleMissingImage(img, path) { const card = img.closest('.card'); DATA = DATA.filter(i => i.p !== path); card.remove(); refreshAllUI(); }
 		function toggleTag(t) { if (activeTags.has(t)) activeTags.delete(t); else activeTags.add(t); refreshAllUI(); }
@@ -1476,36 +1589,37 @@
 		}
 		function cycleViewMode() {
 			const bodyWrap = document.getElementById('body-wrap');
-			const isMax = bodyWrap.classList.toggle('max-width');
 			const btn = document.getElementById('mode-toggle');
+			const isMax = bodyWrap.classList.toggle('max-width');
 
-			// Change the icon class instead of innerText
+			localStorage.setItem('gallery_is_max_width', isMax);
+
+			// Set character based on current mode
+			// icon-v is used for Max Height mode, icon-h for Max Width mode
 			btn.innerHTML = isMax ? '<div class="icon-v"></div>' : '<div class="icon-h"></div>';
-			btn.className = 'sq-btn action-btn';
 		}
 
 		function toggleSidebarView() {
 			sidebarIsGrid = !sidebarIsGrid;
 			const icon = document.getElementById('toggle-icon');
+			const container = document.getElementById('grid-slider-container'); // Get the slider container
 
 			if (sidebarIsGrid) {
-				// Change icon to List mode
 				icon.className = 'css-list';
 				icon.innerHTML = '<div></div><div></div><div></div>';
+				if (container) container.style.display = 'flex'; // Show slider
 			} else {
-				// Change icon to Grid mode
 				icon.className = 'css-grid';
 				icon.innerHTML = '<div></div><div></div><div></div><div></div>';
+				if (container) container.style.display = 'none'; // Hide slider
 			}
 
-			// Crucial: Refresh the UI immediately to apply .grid-view class to #file-list
 			refreshAllUI();
 		}
-		function updateGridCols(v) { document.documentElement.style.setProperty('--grid-cols', v); document.getElementById('col-val').innerText = v; localStorage.setItem('gallery_cols', v); }
-		function toggleSettings() {
-			const s = document.getElementById('settings-panel');
-			// Toggle between none and flex for the absolute positioned panel
-			s.style.display = (s.style.display === 'flex') ? 'none' : 'flex';
+		function updateGridCols(v) {
+			document.documentElement.style.setProperty('--grid-cols', v);
+			// document.getElementById('col-val').innerText = v; // REMOVE OR COMMENT OUT THIS LINE
+			localStorage.setItem('gallery_cols', v);
 		}
 
 		document.getElementById('main').addEventListener('wheel', (e) => {
@@ -1515,19 +1629,22 @@
 			}
 		});
 		// Click outside to hide sidebar
+		// Refined Click-to-Hide Logic
 		document.addEventListener('mousedown', (e) => {
 			const sidebar = document.getElementById('sidebar');
 			const bodyWrap = document.getElementById('body-wrap');
-
-			// Check if the sidebar is currently visible (not collapsed)
 			const isSidebarOpen = !bodyWrap.classList.contains('collapsed');
 
-			// If the click is OUTSIDE the sidebar and the sidebar is open, hide it
-			if (isSidebarOpen && !sidebar.contains(e.target)) {
-				// Ensure we aren't clicking the triggers that are supposed to open it
-				if (!e.target.classList.contains('hover-trigger') && e.target.id !== 'ghost-restore') {
-					toggleSidebar(false);
-				}
+			// If sidebar is closed, do nothing
+			if (!isSidebarOpen) return;
+
+			// Check if the click was on the main background or an image, but NOT a button
+			const clickedMain = document.getElementById('main').contains(e.target);
+			const clickedButton = e.target.closest('.tool-btn') || e.target.closest('.sq-btn');
+
+			// Hide only if clicking main area/image AND not clicking a functional button
+			if (clickedMain && !clickedButton) {
+				toggleSidebar(false);
 			}
 		});
 	</script>
