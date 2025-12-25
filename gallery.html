@@ -24,16 +24,25 @@
 			box-sizing: border-box;
 		}
 
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+		}
+
 		#sidebar *,
 		#tag-cloud,
 		.file-list,
-		#main {
+		#track {
 			-ms-overflow-style: none;
 			scrollbar-width: none;
+			
 		}
 
 		#sidebar *::-webkit-scrollbar,
-		#main::-webkit-scrollbar {
+		#track::-webkit-scrollbar {
 			display: none;
 		}
 
@@ -65,26 +74,165 @@
 			pointer-events: none;
 		}
 
+		#splash-screen {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			background-color: #000;
+			display: none;
+			justify-content: center;
+			align-items: center;
+			z-index: 9999;
+			overflow: hidden;
+			/* Hide scrollbars during panning */
+			touch-action: none;
+			/* Prevents browser interference on mobile */
+		}
+
+		#splash-img {
+			max-width: 100%;
+			max-height: 100%;
+			width: 100vw;
+			height: 100vh;
+			object-fit: contain;
+			transition: transform 0.1s ease-out;
+			/* Smooths out the zoom/pan */
+			cursor: grab;
+			user-select: none;
+			display: block;
+			margin: 0;
+		}
+
+		#splash-img:active {
+			cursor: grabbing;
+		}
+
+		/* Your existing trigger/corner buttons */
+		.hover-trigger,
+		#ghost-restore {
+			z-index: 10000 !important;
+			/* Always on top */
+		}
+
+		@keyframes zoomIn {
+			from {
+				transform: scale(0.5);
+				opacity: 0;
+			}
+
+			to {
+				transform: scale(1);
+				opacity: 1;
+			}
+		}
+
+		/* Update the CSS for your menu toggle buttons */
+		#menu-toggle,
+		.corner-button-id {
+			z-index: 10000;
+			/* One level higher than the splash screen */
+			position: fixed;
+			/* Ensures they stay pinned to the corner */
+		}
+
+		#multitrack {
+			flex: 1;
+			display: flex;
+			overflow: hidden;
+			order: 1;
+			gap: 0px;
+			padding:5px;
+		}
+
+		/* HORIZONTAL: Tracks are stacked vertically as Rows */
+		#body-wrap:not(.max-width) #multitrack {
+			flex-direction: column-reverse;
+		}
+
+		#body-wrap:not(.max-width) #track {
+			flex-direction: row;
+			height: 100%;
+			/* Becomes 50% automatically if a second track is added */
+			width: 100%;
+			display: flex;
+			align-items: center;
+			overflow-x: auto;
+			overflow-y: hidden;
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+
+		/* VERTICAL: Tracks are placed side-by-side as Columns */
+		#body-wrap.max-width #multitrack {
+			flex-direction: row;
+		}
+
+		#body-wrap.max-width #track {
+			flex-direction: column;
+			width: 100%;
+			/* Becomes 50% automatically if a second track is added */
+			height: 100%;
+			display: flex;
+			align-items: center;
+			overflow-y: auto;
+			overflow-x: hidden;
+			padding-bottom: 40vh;
+		}
+
+		/* Push the main content over when sidebar is visible */
+		body:not(.collapsed) #multitrack {
+			/*margin-left: var(--sidebar-w);*/
+			transition: margin-left 0.3s ease;
+		}
+
+		body.collapsed #multitrack {
+			margin-left: 0;
+		}
+
 		#sidebar {
+			position: fixed;
+			border-radius:15px;
+			bottom: 0;
+			top: auto;
 			width: var(--sidebar-w);
+			max-height: 100vh;
+			height: auto;
 			background: var(--panel);
-			backdrop-filter: blur(12px);
+			backdrop-filter: blur(20px);
+			border-right: 1px solid var(--border);
+
+			z-index: 9998;
+			/* Below Splash, as requested earlier */
+
+			/* New Flex Logic */
 			display: flex;
 			flex-direction: column;
-			/* Transition opacity instead of transform */
-			transition: opacity 0.3s ease, visibility 0.3s ease;
-			z-index: 10000;
-			position: relative;
+			justify-content: flex-end;
+			/* Pushes content to the bottom */
+
+			overflow-y: auto;
+			/* Keeps it scrollable if content overflows */
+		}
+
+		/* Ensure children don't stretch awkwardly */
+		#sidebar>* {
+			flex-shrink: 0;
 		}
 
 		/* Default Right Docked */
 		body:not(.dock-left) #sidebar {
+			right: 0;
+			left: auto;
 			order: 2;
 			border-left: 1px solid var(--border);
 		}
 
 		/* Left Docked */
 		body.dock-left #sidebar {
+			left: 0;
+			right: auto;
 			order: 0;
 			border-right: 1px solid var(--border);
 		}
@@ -113,7 +261,7 @@
 			visibility: hidden;
 			pointer-events: none;
 			position: absolute;
-			/* Take out of flow so #main expands instantly */
+			/* Take out of flow so #track expands instantly */
 		}
 
 		/* Visible States: Fade in */
@@ -121,7 +269,9 @@
 			opacity: 1;
 			visibility: visible;
 			pointer-events: auto;
-			position: relative;
+			position: fixed;
+			/* Changed from relative */
+			bottom: 0;
 		}
 
 		.control-panel-grid {
@@ -132,41 +282,44 @@
 			border-top: 1px solid var(--border);
 		}
 
-.sq-btn {
-    aspect-ratio: 1 / 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    
-    /* Normal state: semi-transparent */
-    background: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.4); /* Dimmed text/icon */
-    
-    cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.2s ease; /* Smooth fade effect */
-}
+		.sq-btn {
+			aspect-ratio: 1 / 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.2rem;
+
+			/* Normal state: semi-transparent */
+			background: rgba(255, 255, 255, 0.5);
+			border: 1px solid rgba(255, 255, 255, 0.1);
+			color: rgba(255, 255, 255, 0.4);
+			/* Dimmed text/icon */
+
+			cursor: pointer;
+			border-radius: 4px;
+			transition: all 0.2s ease;
+			/* Smooth fade effect */
+		}
 
 
-.sq-btn:hover:not(.dim) {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.8);
-    color: rgba(255, 255, 255, 1); /* Full white text/icon */
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-}
+		.sq-btn:hover:not(.dim) {
+			background: rgba(255, 255, 255, 0.15);
+			border-color: rgba(255, 255, 255, 0.8);
+			color: rgba(255, 255, 255, 1);
+			/* Full white text/icon */
+			box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+		}
 
-/* Special styling for the active mode toggle button */
-.sq-btn.active-gold {
-    color: var(--gold);
-    border-color: rgba(255, 215, 0, 0.3);
-}
+		/* Special styling for the active mode toggle button */
+		.sq-btn.active-gold {
+			color: var(--gold);
+			border-color: rgba(255, 215, 0, 0.3);
+		}
 
-.sq-btn.active-gold:hover {
-    border-color: var(--gold);
-    color: var(--gold);
-}
+		.sq-btn.active-gold:hover {
+			border-color: var(--gold);
+			color: var(--gold);
+		}
 
 		#toast {
 			position: fixed;
@@ -248,17 +401,18 @@
 			display: flex;
 		}
 
-		#main {
+		#track {
 			flex: 1;
-			padding: 10px;
+			padding: 0px;
 			display: flex;
-			gap: 40px;
+			gap: 10px;
 			/* Wider gap for cleaner storyboard look */
 			transition: width 0.3s ease;
 			height: 100vh;
 			order: 1;
 			flex-direction: var(--h-dir);
 			align-items: center;
+			justify-content:flex-start;
 			/* Center images vertically in horizontal mode */
 			overflow-x: auto;
 			overflow-y: hidden;
@@ -274,9 +428,10 @@
 		}
 
 		/* Ensure vertical mode keeps its original padding */
-		body.max-width #main {
-			padding: 20px;
-			padding-bottom: 40vh;
+		body.max-width #track {
+			padding: 5px;
+			padding-top: 5px;
+			padding-bottom: 5px;
 			/* Adds empty space at the bottom so the last card can scroll up to the middle */
 			flex-direction: column;
 			align-items: center;
@@ -302,25 +457,35 @@
 
 		.card {
 			position: relative;
-			border: 3px solid rgba(255, 255, 255, 0.4);
+			border: 3px solid rgba(255, 255, 255, 0.2);
 			border-radius: 14px;
 			flex-shrink: 0;
-			height: 98vh;
+			/* CHANGE: Uses 98% of the parent track's height instead of a fixed 98vh */
+			height: 98%;
 			overflow: hidden;
 			background: transparent;
-			transition: opacity 0.3s ease, box-shadow 0.3s ease;
 			transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-			/* Smoothly slides existing cards */
 			animation: cardEntrance 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
-			/* Arrival animation */
-			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.7);
 			display: inline-block;
-			transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+		}
+
+		.card img {
+			height: 100%;
+			width: auto;
+			object-fit: contain;
+			display: block;
+		}
+
+		body.max-width .card {
+			width: 95%;
+			/* Fits column width in Vertical */
+			height: auto;
 		}
 
 		/* The active/centered card style */
 		.card.is-active {
-			border-color: rgba(255, 255, 255, 1);
+			border-color: rgba(255, 255, 255, 0.6);
 			box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 			transform: scale(1.02);
 			z-index: 10;
@@ -522,29 +687,51 @@
 		}
 
 		#settings-panel {
-			background: rgba(10, 10, 10, 0.9);
-			/* Increased opacity for readability */
-			border: 1px solid var(--border);
-			padding: 15px;
-			display: none;
-			flex-direction: column;
-			gap: 12px;
-			font-size: 10px;
-			border-radius: 12px;
-			backdrop-filter: blur(15px);
-			box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.5);
+    position: fixed; /* Changed from absolute */
+    bottom: 0px;    /* Distance from bottom of screen */
+    left: 50%; 
+		transform: translateX(-50%);
+    
+    width: 100vw;    /* You can now make it wider than the sidebar */
+    max-width: 800px;
+		min-height: 300px;
+    
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(20px);
+    border: 2px solid gold;
+    border-radius: 15px;
+    padding: 20px;
+		
+    z-index: 9999; /* Keeps it above the sidebar */
 
-			/* Anchor it to the bottom of the sidebar area */
-			position: absolute;
-			bottom: 60px;
-			/* Sits exactly above the footer buttons */
-			left: 10px;
-			right: 10px;
-			width: calc(100% - 20px);
-			/* Stays within sidebar width */
-			z-index: 10002;
-		}
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.8);
+		font-size: 1.5em;
+}
+/* Custom Scrollbar Styling */
+#settings-panel textarea::-webkit-scrollbar {
+    width: 6px; /* Very thin */
+}
 
+#settings-panel textarea::-webkit-scrollbar-track {
+    background: transparent; /* Makes the track invisible */
+}
+
+#settings-panel textarea::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2); /* Subtle white thumb */
+    border-radius: 10px;
+}
+
+#settings-panel textarea::-webkit-scrollbar-thumb:hover {
+    background: var(--gold); /* Highlights gold on hover to match your UI */
+}
+
+/* For Firefox */
+#settings-panel textarea {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
 
 
 		.unified-width {
@@ -718,7 +905,7 @@
 		#stage-tools,
 		#collapsible-collections {
 			display: none;
-			padding: 10px 15px;
+			padding: 5px 5px;
 			gap: 8px;
 			flex-direction: column;
 			border-bottom: 1px solid var(--border);
@@ -887,6 +1074,22 @@
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
+			transition: all 0.2s ease;
+		}
+
+		.file-item.active-item {
+			color: var(--gold) !important;
+			font-weight: bold;
+			background: rgba(255, 215, 0, 0.15) !important;
+			/* Visible highlight */
+		}
+
+		.grid-view .file-item.active-item {
+			border: 3px solid var(--gold) !important;
+			transform: scale(1.05);
+			z-index: 5;
+			background: transparent !important;
+			/* Hide list bg in grid mode */
 		}
 
 		.active-item {
@@ -1090,16 +1293,14 @@
 	<div id="ghost-restore" onclick="toggleSidebar(true)">☰</div>
 
 	<div id="sidebar">
-		<div class="stats-bar">
-			<div class="stats-clickable" onclick="toggleCollections()">Collections (<span id="collection-count">0</span>)
-			</div>
-			<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" class="bakery-link"
-				id="version-link">ⓘ</a>
-		</div>
+
 		<div id="collapsible-collections">
-
-
-
+			<div class="stats-bar">
+				<div class="stats-clickable" onclick="toggleCollections()">Collections (<span id="collection-count">0</span>)
+				</div>
+				<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" class="bakery-link"
+					id="version-link">ⓘ</a>
+			</div>
 
 			<input type="file" id="json-input" style="display:none" accept=".json" onchange="importJSON(this)">
 			<div style="display:flex; gap:4px;">
@@ -1113,52 +1314,75 @@
 
 
 
-		<div class="stats-bar tags-bar">
-			<span class="stats-clickable" onclick="toggleTagCloud()">Tags (<span id="tag-count">0</span>)</span>
-			<input type="text" id="master-search" class="unified-width" style="width:100px; text-align:center"
-				placeholder="SEARCH..." oninput="refreshAllUI()">
-			<button class="inline-toggle" id="tag-sort-btn" onclick="toggleTagSort()">A-Z</button>
-		</div>
+
 		<div id="collapsible-tags">
+			<div class="stats-bar tags-bar">
+				<span class="stats-clickable" onclick="toggleTagCloud()">Tags (<span id="tag-count">0</span>)</span>
+				<input type="text" id="master-search" class="unified-width" style="width:100px; text-align:center"
+					placeholder="SEARCH..." oninput="refreshAllUI()">
+				<button class="inline-toggle" id="tag-sort-btn" onclick="toggleTagSort()">A-Z</button>
+			</div>
+
+
 			<div id="tag-cloud"></div>
 		</div>
 
-		<div class="stats-bar">
-			<div class="stats-clickable" onclick="toggleImages()">Images (<span id="img-count">0</span>)</div>
-			<div id="grid-slider-container">
-				<input type="range" id="col-slider" min="1" max="5" value="3" oninput="updateGridCols(this.value)">
-			</div>
-			<button class="inline-toggle" id="grid-toggle-btn" onclick="toggleSidebarView()">
-				<div class="css-grid" id="toggle-icon">
-					<div></div>
-					<div></div>
-					<div></div>
-					<div></div>
-				</div>
-			</button>
-		</div>
+
 		<div id="collapsible-images"
 			style="flex: 1; display: flex; flex-direction: column; overflow: hidden; background: rgba(0,0,0,0.2);">
+			<div class="stats-bar">
+				<div class="stats-clickable" onclick="toggleImages()">Images (<span id="img-count">0</span>)</div>
+				<div id="grid-slider-container">
+					<input type="range" id="col-slider" min="1" max="5" value="3" oninput="updateGridCols(this.value)">
+				</div>
+				<button class="inline-toggle" id="grid-toggle-btn" onclick="toggleSidebarView()">
+					<div class="css-grid" id="toggle-icon">
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+					</div>
+				</button>
+			</div>
+
+
 			<div id="file-list" class="file-list"></div>
 		</div>
 
 
 
-		<div class="stats-bar">
+		<!--<div class="stats-bar">
 			<div class="stats-clickable" onclick="toggleStageTools()">Staging (<span id="stage-count">0</span>)</div>
 			<button class="inline-toggle" onclick="clearWorkspace()">✕</button>
-		</div>
-		<div id="stage-tools"><!--#Stage-->
+		</div>-->
+		<div id="stage-tools"><!--@@Stage-->
 			<div class="btn-group">
-				<button class="sq-btn dim" onclick=""></button>
-				<button class="sq-btn dim" onclick="addTrackRelative(-1)" title="Add Track">+</button>
+				<button class="sq-btn dim" onclick="toggleCollections()" title="Collections"><svg width="24" height="24"
+						viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+						stroke-linejoin="round">
+						<rect x="7" y="7" width="14" height="14" rx="2" ry="2"></rect>
+						<path d="M3 15v-8c0-1.1.9-2 2-2h8"></path>
+					</svg></button>&nbsp;
+				<button class="sq-btn dim" onclick="removeTrackRelative(+1)" title="Remove Track">-</button>
 				<button class="sq-btn" onclick="moveActiveCard('up')" title="Move Up (Vertical Mode Only)">▲</button>
-				<button class="sq-btn dim" onclick="removeTrackRelative(-1)" title="Remove Track">-</button>
-				<button class="sq-btn dim" onclick=""></button>	
-				<button class="sq-btn dim" onclick=""></button>				
+				<button class="sq-btn dim" onclick="addTrackRelative(+1)" title="Add Track">+</button>
+				&nbsp;
+				<button class="sq-btn action-btn" id="settings-btn" onclick="toggleSettings()">
+					<div class="icon-circle"></div>
+				</button>
+
+				<!--<button class="inline-toggle" onclick="clearWorkspace()">✕</button>-->
+
 			</div>
 			<div class="btn-group">
-				<button class="sq-btn dim" onclick=""></button>	
+				<button class="sq-btn dim" onclick="toggleTagCloud()" title="Tags"><svg width="24" height="24"
+						viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+						stroke-linejoin="round">
+						<line x1="4" y1="9" x2="20" y2="9"></line>
+						<line x1="4" y1="15" x2="20" y2="15"></line>
+						<line x1="10" y1="3" x2="8" y2="21"></line>
+						<line x1="16" y1="3" x2="14" y2="21"></line>
+					</svg></button>&nbsp;
 				<button class="sq-btn" onclick="moveActiveCard('left')"
 					title="Move Left (Horizontal Mode Only)">&#9664;</button>
 				<button id="mode-toggle" class="sq-btn active-gold" onclick="toggleScrollMode()" title="Scroll Wheel Direction">
@@ -1166,40 +1390,35 @@
 				</button>
 				<button class="sq-btn" onclick="moveActiveCard('right')"
 					title="Move Right (Horizontal Mode Only)">&#9654;</button>
-				<button class="sq-btn dim" onclick=""></button>	
-				<button class="sq-btn dim" onclick=""></button>	
+				&nbsp;
+				<button id="auto-flush-btn" class="sq-btn action-btn" onclick="toggleAutoFlush()">↻</button>
+
 			</div>
 			<div class="btn-group">
-				<button class="sq-btn dim" onclick=""></button>	
-				<button class="sq-btn dim" onclick="removeTrackRelative(1)" title="Remove Track">-</button>
+				<button class="sq-btn dim" onclick="toggleImages()" title="Listing"><svg width="20" height="20"
+						viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<rect x="3" y="3" width="7" height="7"></rect>
+						<rect x="14" y="3" width="7" height="7"></rect>
+						<rect x="14" y="14" width="7" height="7"></rect>
+						<rect x="3" y="14" width="7" height="7"></rect>
+					</svg></button>
+				&nbsp;
+				<button class="sq-btn dim" onclick="addTrackRelative(-1)" title="Add Track">+</button>
 				<button class="sq-btn" onclick="moveActiveCard('down')" title="Move Down (Vertical Mode Only)">▼</button>
-				<button class="sq-btn dim" onclick="addTrackRelative(1)" title="Add Track">+</button>
-				<button class="sq-btn dim" onclick=""></button>	
-				<button class="sq-btn dim" onclick=""></button>	
+				<button class="sq-btn dim" onclick="removeTrackRelative(-1)" title="Remove Track">-</button>
+				&nbsp;<button class="sq-btn dim" onclick="clearWorkspace()">✕</button>
+
+
 			</div>
 
 		</div>
 
-		<div id="settings-panel" style="display: none;">
-			<button class="tool-btn settings-close" onclick="toggleSettings()"
-				style="position: absolute; top: 10px; right: 10px;">×</button>
-
-			<div style="font-weight: bold; margin-bottom: 5px; color: var(--gold);">SYSTEM SETTINGS</div>
-			<div style="display:flex; gap:5px; align-items:center;">
-				<a id="add-btn" href="#" target="_blank" class="sq-btn action-btn" onclick="handleLinkAction(event)">+</a>
-				<input type="text" id="add-url-input" class="unified-width" placeholder="URL for + button..."
-					oninput="updateAddUrl(this.value)">
-			</div>
-			<textarea id="user-note" class="unified-width" style="height:80px; margin-bottom:10px;" placeholder="NOTES..."
-				oninput="saveNotes(this.value)"></textarea>
-		</div>
+		
 
 		<div class="header-bar" style="border-top: 1px solid var(--border); padding-top: 10px;">
-			<div class="btn-group">
-				<button id="auto-flush-btn" class="sq-btn action-btn" onclick="toggleAutoFlush()">↻</button>
-				<button class="sq-btn action-btn" id="settings-btn" onclick="toggleSettings()">
-					<div class="icon-circle"></div>
-				</button>
+			<div class="btn-group " onclick="toggleStageTools()">
+
+
 				<button class="sq-btn action-btn" onclick="setCenteredAsWallpaper()" title="Set Center as Wallpaper">
 					<div class="css-wall"></div>
 				</button>
@@ -1209,11 +1428,28 @@
 
 
 	</div>
-	<div id="main"></div>
+	<div id="multitrack">
+		<div id="track"></div>
+	</div>
+	<div id="settings-panel" style="display: none;">
+			<button class="tool-btn settings-close" onclick="toggleSettings()"
+				style="position: absolute; top: 10px; right: 10px;">×</button>
 
+			<div style="font-weight: bold; margin-bottom: 5px; color: var(--gold);">SYSTEM SETTINGS</div>
+			<div style="display:flex; gap:5px; align-items:center;">
+				<a id="add-btn" href="#" target="_blank" class="sq-btn action-btn" onclick="handleLinkAction(event)">+</a>
+				<input type="text" id="add-url-input" class="unified-width" placeholder="URL for + button..."
+					oninput="updateAddUrl(this.value)">
+			</div>
+			<textarea id="user-note" class="unified-width" style="resize:none;height:180px; margin-bottom:5px;font-size:1em;overflow-y: auto;" placeholder="NOTES..."
+				oninput="saveNotes(this.value)"></textarea>
+		</div>
+	<div id="splash-screen" onclick="if(event.target === this) hideSplash()">
+		<img id="splash-img" src="" alt="Enlarged View">
+	</div>
 	<script>
 		// --- UPDATE VERSION HERE (#Version)---
-		const APP_VERSION = "20251224195200";
+		const APP_VERSION = "20251224080300";
 		// ---------------------------
 		let DATA = [];
 		let ALL_TAGS = [];
@@ -1308,42 +1544,179 @@
 				}
 			});
 		};
+		function addTrackRelative(direction) {
+			const multitrack = document.getElementById('multitrack');
+			const activeCard = document.querySelector('.card.is-active');
+
+			// 1. Identify the reference track
+			// If no card is active, we default to the first track or create one if none exist
+			let referenceTrack = activeCard ? activeCard.closest('#track') : multitrack.querySelector('#track');
+
+			if (!referenceTrack) {
+				// Fallback: If no tracks exist at all, just use babyStep
+				babyStepAddTrack();
+				return;
+			}
+
+			// 2. Create the new track element
+			const newTrack = document.createElement('div');
+			newTrack.id = 'track'; // Keeping ID consistent with your CSS selectors
+
+			// Add the scroll listener so theater-mode centering works on the new track
+			newTrack.addEventListener('scroll', updateCenteredCard);
+
+			// 3. Insert relative to the reference
+			if (direction === -1) {
+				// Insert BEFORE (Above in Horizontal / Left in Vertical)
+				referenceTrack.insertAdjacentElement('beforebegin', newTrack);
+				showToast("Track Added Above/Left");
+			} else {
+				// Insert AFTER (Below in Horizontal / Right in Vertical)
+				referenceTrack.insertAdjacentElement('afterend', newTrack);
+				showToast("Track Added Below/Right");
+			}
+
+			// 4. Update UI to reflect the new layout
+			updateAllCardOverlays();
+		}
+
+		/**
+		 * Complementary function for the '-' buttons in your staging panel
+		 */
+		function removeTrackRelative(direction) {
+			const activeCard = document.querySelector('.card.is-active');
+			if (!activeCard) {
+				showToast("Select a card in the track to remove");
+				return;
+			}
+
+			const currentTrack = activeCard.closest('#track');
+			const multitrack = document.getElementById('multitrack');
+
+			// Logic: direction -1 targets the track ABOVE the current one, 1 targets BELOW.
+			// 0 (if you wanted) would target the current track itself.
+			const bodyWrap = document.getElementById('body-wrap');
+			const isVertical = bodyWrap.classList.contains('max-width');
+			let targetTrack;
+			if (direction === -1) {
+				if (isVertical) {
+					targetTrack = currentTrack.nextElementSibling;
+				} else {
+					targetTrack = currentTrack.previousElementSibling;
+				}
+
+			} else if (direction === 1) {
+				if (isVertical) {
+					targetTrack = currentTrack.previousElementSibling;
+				} else {
+					targetTrack = currentTrack.nextElementSibling;
+				}
+			}
+
+			if (targetTrack && targetTrack.id === 'track') {
+				targetTrack.remove();
+				showToast("Track Removed");
+			} else {
+				showToast("No track found in that direction");
+			}
+		}
+
+
+		function babyStepAddTrack() {
+			const multitrack = document.getElementById('multitrack');
+
+			// 1. Create a second track
+			const newTrack = document.createElement('div');
+			newTrack.id = "track-2";
+			newTrack.style.flex = "1"; // This splits the space 50/50
+			newTrack.style.border = "2px dashed rgba(255,255,255,0.2)";
+			//newTrack.innerHTML = "<div style='color:gray; padding:5px;'>Track 2 Active</div>";
+
+			// 2. Ensure the first track is also flexible
+			document.getElementById('track').style.flex = "1";
+
+			multitrack.appendChild(newTrack);
+			showToast("Multi-track split enabled");
+		}
+
+
+
+
 		/**
 		 * Moves the active card within its track based on mode-restricted directions.
 		 * @param {string} direction - 'up', 'down', 'left', or 'right'
 		 */
 		function moveActiveCard(direction) {
-			const activeCard = document.querySelector('.card.is-active') || document.querySelector('.card.is-centered');
+			const activeCard = document.querySelector('.card.is-active');
 			if (!activeCard) return;
 
 			const bodyWrap = document.getElementById('body-wrap');
-			const isVertical = bodyWrap.classList.contains('max-width');
-			const isHorizontal = !isVertical;
+			const isVerticalMode = bodyWrap.classList.contains('max-width');
+			const currentTrack = activeCard.closest('#track');
 
-			// Restriction Logic
-			if ((direction === 'up' || direction === 'down') && isHorizontal) return;
-			if ((direction === 'left' || direction === 'right') && isVertical) return;
-
-			// Movement Logic
-			const parent = activeCard.parentNode;
-			if (direction === 'up' || direction === 'left') {
-				const prev = activeCard.previousElementSibling;
-				if (prev) parent.insertBefore(activeCard, prev);
-			} else if (direction === 'down' || direction === 'right') {
-				const next = activeCard.nextElementSibling;
-				if (next) parent.insertBefore(next, activeCard);
+			// 1. Determine if we are moving WITHIN the track or BETWEEN tracks
+			let isCrossTrackMove = false;
+			if (isVerticalMode) {
+				// In Vertical, Left/Right jumps tracks
+				if (direction === 'left' || direction === 'right') isCrossTrackMove = true;
+			} else {
+				// In Horizontal, Up/Down jumps tracks
+				if (direction === 'up' || direction === 'down') isCrossTrackMove = true;
 			}
 
-			// Keep the moved card in the center of the screen
-			activeCard.scrollIntoView({
-				behavior: 'smooth',
-				block: 'center',
-				inline: 'center'
-			});
+			if (isCrossTrackMove) {
+				// --- LOGIC FOR MOVING TO ANOTHER TRACK ---
+				let targetTrack;
+				if (direction === 'down' || direction === 'left') {
+					targetTrack = currentTrack.previousElementSibling;
+				} else {
+					targetTrack = currentTrack.nextElementSibling;
+				}
+
+				if (targetTrack && targetTrack.id === 'track') {
+					// Get current coordinates of the active card to determine where it "was"
+					const rect = activeCard.getBoundingClientRect();
+					const x = rect.left + rect.width / 2;
+					const y = rect.top + rect.height / 2;
+
+					// Find visual insertion point in the new track
+					const sibling = getInsertionSibling(targetTrack, x, y);
+
+					if (sibling) {
+						targetTrack.insertBefore(activeCard, sibling);
+					} else {
+						targetTrack.appendChild(activeCard);
+					}
+
+
+
+					// Ensure the new track scrolls the moved card into view
+					setTimeout(() => {
+						activeCard.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+					}, 50);
+				} else {
+					showToast("No track in that direction");
+				}
+			} else {
+				// --- LOGIC FOR MOVING WITHIN THE SAME TRACK ---
+				if (direction === 'left' || direction === 'up') {
+					const prev = activeCard.previousElementSibling;
+					if (prev) activeCard.parentNode.insertBefore(activeCard, prev);
+				} else {
+					const next = activeCard.nextElementSibling;
+					if (next) activeCard.parentNode.insertBefore(activeCard, next.nextElementSibling);
+				}
+
+				// Keep focus on the card after it moves
+				activeCard.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+			}
+
+			// Refresh overlays in case position-based logic (like theater mode) needs to update
+			updateAllCardOverlays();
 		}
 		function moveCurrentCard(direction) {
-			const main = document.getElementById('main');
-			const centeredCard = main.querySelector('.card.is-centered');
+			const track = document.getElementById('track');
+			const centeredCard = track.querySelector('.card.is-centered');
 
 			if (!centeredCard) return;
 
@@ -1351,14 +1724,14 @@
 				// Move Left/Up: Insert before the previous sibling
 				const prev = centeredCard.previousElementSibling;
 				if (prev && prev.classList.contains('card')) {
-					main.insertBefore(centeredCard, prev);
+					track.insertBefore(centeredCard, prev);
 				}
 			} else if (direction === 1) {
 				// Move Right/Down: Insert after the next sibling
 				const next = centeredCard.nextElementSibling;
 				if (next && next.classList.contains('card')) {
 					// insertBefore(node, nextNext) effectively moves it after next
-					main.insertBefore(next, centeredCard);
+					track.insertBefore(next, centeredCard);
 				}
 			}
 
@@ -1390,33 +1763,54 @@
 
 		}
 		function setCenteredAsWallpaper() {
-			// Find the card currently highlighted as center
-			const centeredCard = document.querySelector('.card.is-centered');
+			const activeCard = document.querySelector('.card.is-active img');
+			if (!activeCard) {
+				showToast("No active image centered");
+				return;
+			}
 
-			if (centeredCard) {
-				const path = centeredCard.dataset.path;
-				// Call your existing setWallpaper function
-				// We pass 'null' for the event since there is no click event to prevent
-				setWallpaper(path, null);
+			const url = activeCard.src;
+			const body = document.body;
+			// Normalize background string for comparison
+			const currentBg = body.style.backgroundImage.replace(/url\(["']?/, '').replace(/["']?\)/, '');
+
+			if (currentBg === url) {
+				// Toggle OFF: If already set, remove it
+				body.style.backgroundImage = 'none';
+				localStorage.removeItem('gallery_wallpaper'); // Remove from storage
+				showToast("Wallpaper Removed");
 			} else {
-				// Optional: show a toast if no card is found
-				showToast("No image centered");
+				// Toggle ON: Set new wallpaper
+				body.style.backgroundImage = `url('${url}')`;
+				localStorage.setItem('gallery_wallpaper', url); // Save to storage
+				showToast("Wallpaper Set");
 			}
 		}
-		function setWallpaper(url, e) {
-			if (e) e.preventDefault();
-			const b = document.body;
+		function setWallpaper(url) {
+			const body = document.body;
+			// Normalize the URL for comparison (removing potential browser-added quotes/wrappers)
+			const cleanUrl = url.replace(/['"]/g, '');
+			const currentBg = body.style.backgroundImage.replace(/url\(["']?/, '').replace(/["']?\)/, '');
 
-			// Check if we are clearing the wallpaper or setting a new one
-			if (b.style.backgroundImage.includes(url)) {
-				b.style.backgroundImage = 'none';
-				localStorage.removeItem('gallery_wallpaper');
+			// TOGGLE: If it's already the wallpaper, remove it
+			if (currentBg === cleanUrl && cleanUrl !== "") {
+				body.style.backgroundImage = 'none';
+				localStorage.removeItem('gallery_wallpaper'); // Clear from storage
+				showToast("Wallpaper Removed");
+				document.querySelectorAll('.sq-btn').forEach(btn => btn.classList.remove('active-gold'));
 			} else {
-				b.style.backgroundImage = `url("${url}")`;
-				localStorage.setItem('gallery_wallpaper', url);
+				// SET: Apply and save
+				body.style.backgroundImage = `url('${cleanUrl}')`;
+				localStorage.setItem('gallery_wallpaper', cleanUrl); // Save to storage
+				showToast("Wallpaper Set");
+
+				// Update active button state
+				document.querySelectorAll('.sq-btn').forEach(btn => btn.classList.remove('active-gold'));
+				if (event && event.currentTarget) {
+					event.currentTarget.classList.add('active-gold');
+				}
 			}
 		}
-
 		async function smartImport() {
 			let clipboardText = "";
 			try {
@@ -1468,6 +1862,16 @@
 			i.style.display = (i.style.display === 'none') ? 'flex' : 'none';
 			refreshAllUI();
 		}
+		function toggleOrientation() {
+			const body = document.getElementById('body-wrap');
+			const btn = document.getElementById('mode-toggle');
+			const isVertical = body.classList.toggle('max-width');
+			btn.innerText = isVertical ? 'V' : 'H';
+
+			// No need to clear inline styles anymore, 
+			// Flexbox handles the transition between row and column.
+			updateCenteredCard();
+		}
 		function toggleOverlay(btn) {
 			const card = btn.closest('.card');
 			const overlay = card.querySelector('.card-tag-overlay');
@@ -1486,11 +1890,19 @@
 			renderPathList();
 			loadActiveCollections();
 		}
-		function toggleSettings() {
-			const panel = document.getElementById('settings-panel');
-			const isVisible = panel.style.display === 'flex';
-			panel.style.display = isVisible ? 'none' : 'flex';
-		}
+function toggleSettings() {
+    const panel = document.getElementById('settings-panel');
+    // Check computed style to see if it's currently hidden
+    const isHidden = window.getComputedStyle(panel).display === 'none';
+    
+    if (isHidden) {
+        panel.style.display = 'block';
+        // Optional: add your existing entrance animation
+        panel.style.animation = 'cardEntrance 0.3s ease-out';
+    } else {
+        panel.style.display = 'none';
+    }
+}
 		function toggleScrollMode() {
 			const body = document.getElementById('body-wrap');
 			const btn = document.getElementById('mode-toggle');
@@ -1508,7 +1920,21 @@
 				localStorage.setItem('scrollDirection', 'vertical'); // Save state
 			}
 
+			const activeCard = document.querySelector('.card.is-active');
+			if (activeCard) {
+				// We use a small timeout to ensure the CSS transition/layout 
+				// has started before calculating the new scroll position.
+				setTimeout(() => {
+					activeCard.scrollIntoView({
+						behavior: 'smooth',
+						block: 'nearest',    // Centers vertically in vertical mode
+						inline: 'nearest'    // Centers horizontally in horizontal mode
+					});
+				}, 400);
+			}
+
 			updateCenteredCard();
+
 		}
 		function removePath(index) {
 			savedPaths.splice(index, 1);
@@ -1664,6 +2090,65 @@
 			}
 		}
 
+
+
+		function showSplash(src) {
+			const splash = document.getElementById('splash-screen');
+			const splashImg = document.getElementById('splash-img');
+
+			// 1. Reset values so it starts maximized and centered
+			scale = 1;
+			pointX = 0;
+			pointY = 0;
+
+			// 2. Set image and update transform BEFORE showing
+			splashImg.src = src;
+			updateTransform();
+
+			// 3. Show the screen
+			splash.style.display = 'flex';
+			document.body.style.overflow = 'hidden';
+		}
+
+		function hideSplash() {
+			const splash = document.getElementById('splash-screen');
+			splash.style.display = 'none';
+			document.body.style.overflow = '';
+
+			// Clear image to save memory
+			document.getElementById('splash-img').src = '';
+		}
+
+		function updateTransform() {
+			const img = document.getElementById('splash-img');
+			// Using translate3d is more performant for panning
+			img.style.transform = `translate3d(${pointX}px, ${pointY}px, 0) scale(${scale})`;
+		}
+
+		// Panning Logic
+		const sImg = document.getElementById('splash-img');
+		sImg.onmousedown = (e) => {
+			if (scale === 1) return;
+			isPanning = true;
+			startX = e.clientX - pointX;
+			startY = e.clientY - pointY;
+		};
+		window.onmousemove = (e) => {
+			if (!isPanning) return;
+			pointX = e.clientX - startX;
+			pointY = e.clientY - startY;
+			updateTransform();
+		};
+		window.onmouseup = () => isPanning = false;
+
+		// Zoom Logic
+		document.getElementById('splash-screen').onwheel = (e) => {
+			e.preventDefault();
+			scale = e.deltaY > 0 ? Math.max(1, scale - 0.2) : Math.min(5, scale + 0.2);
+			if (scale === 1) { pointX = 0; pointY = 0; }
+			updateTransform();
+		};
+
 		function showToast(msg) {
 			const t = document.getElementById('toast');
 			t.innerText = msg;
@@ -1671,36 +2156,54 @@
 			setTimeout(() => t.classList.remove('show'), 2500);
 		}
 		function updateCenteredCard() {
-			const main = document.getElementById('main');
-			const cards = document.querySelectorAll('.card');
-			const centerX = window.innerWidth / 2;
-			const centerY = window.innerHeight / 2;
-			const isSingleTrack = !document.getElementById('body-wrap').classList.contains('multi-track'); // Adjust based on your mode toggle
+			// 1. Check if more than one track exists
+			const multitrack = document.getElementById('multitrack');
+			if (multitrack && multitrack.children.length > 1) {
+				// If there's more than one track, just exit
 
-			cards.forEach(card => {
+				return;
+			}
+			const track = document.getElementById('track');
+			const cards = track.querySelectorAll('.card');
+			const bodyWrap = document.getElementById('body-wrap');
+			const isVertical = bodyWrap.classList.contains('max-width');
+
+			// Find the center point of the viewport
+			const viewportCenterX = window.innerWidth / 2;
+			const viewportCenterY = window.innerHeight / 2;
+
+			let closestCard = null;
+			let minDistance = Infinity;
+
+			cards.forEach((card, index) => {
 				const rect = card.getBoundingClientRect();
-				const cardMidX = rect.left + rect.width / 2;
-				const cardMidY = rect.top + rect.height / 2;
+				const cardCenterX = rect.left + rect.width / 2;
+				const cardCenterY = rect.top + rect.height / 2;
 
-				const isCentered = Math.abs(cardMidX - centerX) < rect.width / 2 &&
-					Math.abs(cardMidY - centerY) < rect.height / 2;
+				// Calculate distance from viewport center based on orientation
+				const distance = isVertical
+					? Math.abs(viewportCenterY - cardCenterY)
+					: Math.abs(viewportCenterX - cardCenterX);
 
-				if (isCentered) {
-					// Update Center status
-					document.querySelectorAll('.card').forEach(c => c.classList.remove('is-centered'));
-					card.classList.add('is-centered');
-
-					// Promote to Active if in single-track mode
-					if (isSingleTrack) {
-						document.querySelectorAll('.card').forEach(c => c.classList.remove('is-active'));
-						card.classList.add('is-active');
-
-						// Keep the track active as well
-						document.querySelectorAll('.scroll-track').forEach(t => t.classList.remove('active-track'));
-						card.closest('.scroll-track')?.classList.add('active-track');
-					}
+				if (distance < minDistance) {
+					minDistance = distance;
+					closestCard = { card, index };
 				}
 			});
+
+			if (closestCard) {
+				// 1. Clear previous centered/active states
+				cards.forEach(c => {
+					c.classList.remove('is-centered');
+					c.classList.remove('is-active'); // This triggers the white border
+				});
+
+				// 2. Highlight the new center card
+				closestCard.card.classList.add('is-centered');
+				closestCard.card.classList.add('is-active');
+				console.log("@@EEE1");
+
+			}
 		}
 		function updateStageCount() {
 			const count = document.querySelectorAll('.card').length;
@@ -1716,7 +2219,10 @@
 		}
 
 		function createCard(item) {
-			const m = document.getElementById('main');
+			// 1. Change: Target the active track or the default track
+			const multitrack = document.getElementById('multitrack');
+			const activeCard = document.querySelector('.card.is-active');
+			const activeTrack = activeCard ? activeCard.parentElement : document.querySelector('#track');
 			const isVertical = document.getElementById('body-wrap').classList.contains('max-width');
 
 			// Duplicate check
@@ -1740,40 +2246,54 @@
 			const c = document.createElement('div');
 			c.className = 'card';
 			c.dataset.path = item.p;
-			c.innerHTML = `
-        <div class="card-tools">
-          <button class="tool-btn pin-btn" title="Star"><div class="icon-star"></div></button>
-          <button class="tool-btn" onclick="toggleOverlay(this)">#</button>
-          
-          
-          <button class="tool-btn" onclick="this.closest('.card').remove(); syncSidebarHighlights();" title="Close">✕</button>
-        </div>
-        <div class="card-tag-overlay"></div>
-        <img src="${item.p}" onerror="handleMissingImage(this, '${item.p}')">`;
+			c.classList.add('is-active');
 
-			c.querySelector('.pin-btn').onclick = function () {
+			// 2. Change: Card Click Logic
+			c.onclick = function (e) {
+				// Prevent background click-to-hide sidebar
+				e.stopPropagation();
+
+				// In Multi-track, we manually set active because center-detection is off
+				if (multitrack.children.length > 1) {
+					document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
+					c.classList.add('is-active');
+
+				}
+
+			};
+			c.addEventListener('dblclick', function () {
+				showSplash(item.p);
+			});
+
+			c.innerHTML = `
+    <div class="card-tools">
+      <button class="tool-btn pin-btn" title="Star"><div class="icon-star"></div></button>
+      <button class="tool-btn" onclick="toggleOverlay(this)">#</button>
+      <button class="tool-btn" onclick="event.stopPropagation(); this.closest('.card').remove(); syncSidebarHighlights();" title="Close">✕</button>
+    </div>
+    <div class="card-tag-overlay"></div>
+    <img src="${item.p}" onerror="handleMissingImage(this, '${item.p}')">`;
+
+			c.querySelector('.pin-btn').onclick = function (e) {
+				e.stopPropagation(); // Prevent card focus when just pinning
 				this.style.color = c.classList.toggle('pinned') ? 'var(--gold)' : 'white';
 			};
 
-			const cards = Array.from(m.querySelectorAll('.card'));
+			// 3. Change: Insertion logic targets activeTrack
+			const cards = Array.from(activeTrack.querySelectorAll('.card'));
 
-			// --- UPDATED INSERTION LOGIC ---
 			if (cards.length === 0) {
-				m.appendChild(c);
+				activeTrack.appendChild(c);
 			} else {
-				// Find the center point of the container
-				const centerX = m.scrollLeft + (m.clientWidth / 2);
-				const centerY = m.scrollTop + (m.clientHeight / 2);
+				const centerX = activeTrack.scrollLeft + (activeTrack.clientWidth / 2);
+				const centerY = activeTrack.scrollTop + (activeTrack.clientHeight / 2);
 
 				let closestCard = cards[0];
 				let minDistance = Infinity;
 
 				cards.forEach(card => {
-					// Calculate center of card relative to the container
 					const midX = card.offsetLeft + (card.offsetWidth / 2);
 					const midY = card.offsetTop + (card.offsetHeight / 2);
-
-					// Choose distance metric based on current mode
 					const dist = isVertical ? Math.abs(centerY - midY) : Math.abs(centerX - midX);
 
 					if (dist < minDistance) {
@@ -1784,23 +2304,39 @@
 
 				if (currentDock === 'left') {
 					closestCard.insertAdjacentElement('beforebegin', c);
+
 				} else {
 					closestCard.insertAdjacentElement('afterend', c);
+
 				}
 			}
 
+			// --- NEW LOGIC FOR MULTI-TRACK AUTO-ACTIVE ---			
+			if (multitrack && multitrack.children.length > 1) {
+				// 1. Clear existing active state from all other cards
+				document.querySelectorAll('.card.is-active').forEach(c => c.classList.remove('is-active'));
 
-			// --- UPDATED SCROLL LOGIC ---
+				// 2. Make this new card active
+				c.classList.add('is-active');
+
+
+			}
+
 			setTimeout(() => {
-				// If vertical, scroll until the new card is at the center (or bottom)
-				// If horizontal, use existing centerline logic
+				//if (multitrack.children.length > 1) {
 				c.scrollIntoView({
 					behavior: 'smooth',
 					block: 'center',
 					inline: 'center'
 				});
+				//}else{
+				//c.scrollIntoView({behavior: 'smooth',block: 'nearest',inline: 'nearest'});
+				//}
 				updateAllCardOverlays();
 				syncSidebarHighlights();
+
+				// This function will now check if (multitrack.children.length > 1) 
+				// and skip logic if multi-track is active.
 				updateCenteredCard();
 			}, 50);
 		}
@@ -1963,8 +2499,31 @@
 			a.download = 'Gallery_Export.html';
 			a.click();
 		}
+		/**
+		 * Finds the existing card in a track that the new card should be inserted BEFORE.
+		 * @param {HTMLElement} track - The target track container.
+		 * @param {number} x - The horizontal coordinate (for Horizontal mode).
+		 * @param {number} y - The vertical coordinate (for Vertical mode).
+		 * @returns {HTMLElement|null} - The sibling to insert before, or null to append at the end.
+		 */
+		function getInsertionSibling(track, x, y) {
+			const isVertical = document.getElementById('body-wrap').classList.contains('max-width');
+			const siblings = Array.from(track.querySelectorAll('.card:not(.is-dragging)'));
 
-		function updateStageCount() { document.getElementById('stage-count').innerText = document.querySelectorAll('.card').length; }
+			return siblings.find(sibling => {
+				const box = sibling.getBoundingClientRect();
+				if (isVertical) {
+					// In Vertical mode, compare Y coordinates (Vertical mid-point)
+					return y < box.top + box.height / 2;
+				} else {
+					// In Horizontal mode, compare X coordinates (Horizontal mid-point)
+					return x < box.left + box.width / 2;
+				}
+			});
+		}
+		function updateStageCount() { 
+			return;
+			document.getElementById('stage-count').innerText = document.querySelectorAll('.card').length; }
 		// New function to handle the side-specific click
 		function restoreAndDock(side) {
 			updateDock(side);      // Move the sidebar to clicked side
@@ -1973,9 +2532,10 @@
 		function handleCornerClick(clickedSide) {
 			const bodyWrap = document.getElementById('body-wrap');
 			const isCollapsed = bodyWrap.classList.contains('collapsed');
-
+			console.log("@@BeforeBegin" + currentDock);
 			if (currentDock !== clickedSide) {
 				// Instant side swap and show
+				console.log("@@EREWR");
 				updateDock(clickedSide);
 				toggleSidebar(true);
 			} else {
@@ -1984,6 +2544,15 @@
 			}
 		}
 		function toggleSidebar(show) {
+			const splash = document.getElementById('splash-screen');
+
+			// 1. Check if the splash screen is currently visible
+			if (window.getComputedStyle(splash).display !== 'none') {
+				// If splash is open, the button acts as a CLOSE button
+				hideSplash();
+				return; // Exit the function so the sidebar doesn't open
+			}
+
 			const bodyWrap = document.getElementById('body-wrap');
 			bodyWrap.classList.toggle('collapsed', !show);
 		}
@@ -2003,7 +2572,73 @@
 		function handleMissingImage(img, path) { const card = img.closest('.card'); DATA = DATA.filter(i => i.p !== path); card.remove(); refreshAllUI(); }
 		function toggleTag(t) { if (activeTags.has(t)) activeTags.delete(t); else activeTags.add(t); refreshAllUI(); }
 		function saveNotes(v) { localStorage.setItem('gallery_notes', v); }
+		let scale = 1;
+		let pointX = 0;
+		let pointY = 0;
+		let startX = 0;
+		let startY = 0;
+		let isPanning = false;
 
+		const splashImg = document.getElementById('splash-img');
+		const splashScreen = document.getElementById('splash-screen');
+
+		// ZOOM LOGIC (Mouse Wheel)
+		splashScreen.onwheel = function (e) {
+			e.preventDefault();
+			const delta = e.deltaY;
+			const zoomSpeed = 0.2;
+
+			if (delta > 0) {
+				scale = Math.max(1, scale - zoomSpeed); // Min zoom is 1x
+			} else {
+				scale = Math.min(5, scale + zoomSpeed); // Max zoom is 5x
+			}
+
+			// If we zoom back to 1, reset position
+			if (scale === 1) {
+				pointX = 0;
+				pointY = 0;
+			}
+
+			updateTransform();
+		};
+
+		// PAN LOGIC (Click and Drag)
+		splashImg.onmousedown = function (e) {
+			if (scale === 1) return; // Only pan if zoomed in
+			e.preventDefault();
+			isPanning = true;
+			startX = e.clientX - pointX;
+			startY = e.clientY - pointY;
+		};
+
+		window.onmousemove = function (e) {
+			if (!isPanning) return;
+			pointX = e.clientX - startX;
+			pointY = e.clientY - startY;
+			updateTransform();
+		};
+
+		window.onmouseup = function () {
+			isPanning = false;
+		};
+
+		function updateTransform() {
+			splashImg.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+		}
+
+		// Update your hideSplash to reset these values
+		function hideSplash() {
+			const splash = document.getElementById('splash-screen');
+			splash.style.display = 'none';
+			document.body.style.overflow = '';
+
+			// Reset state for next time
+			scale = 1;
+			pointX = 0;
+			pointY = 0;
+			updateTransform();
+		}
 		function toggleStageTools() {
 			const s = document.getElementById('stage-tools');
 			// Check for empty string (initial state)
@@ -2054,13 +2689,18 @@
 			localStorage.setItem('gallery_cols', v);
 		}
 
-		document.getElementById('main').addEventListener('wheel', (e) => {
+		document.addEventListener('wheel', (e) => {
+			// Only intercept if we are in Horizontal Mode
 			if (!document.getElementById('body-wrap').classList.contains('max-width')) {
-				e.preventDefault();
-				// Standardize: deltaY always moves scrollLeft forward
-				document.getElementById('main').scrollLeft += e.deltaY;
+				const targetTrack = e.target.closest('#track');
+
+				if (targetTrack) {
+					e.preventDefault();
+					// Scroll the specific track the mouse is hovering over
+					targetTrack.scrollLeft += e.deltaY;
+				}
 			}
-		});
+		}, { passive: false });
 		// Click outside to hide sidebar
 		// Refined Click-to-Hide Logic
 		document.addEventListener('mousedown', (e) => {
@@ -2072,11 +2712,12 @@
 			if (!isSidebarOpen) return;
 
 			// Check if the click was on the main background or an image, but NOT a button
-			const clickedMain = document.getElementById('main').contains(e.target);
+			const clickedMain = document.getElementById('track').contains(e.target);
 
 			const clickedButton =
 				e.target.closest('.tool-btn') ||
 				e.target.closest('.sq-btn') ||
+				e.target.closest('.card') ||
 				e.target.closest('.card-tag-overlay') ||
 				e.target.closest('.tag-btn'); // Assuming your tags have this class
 
@@ -2086,8 +2727,16 @@
 			}
 		});
 		// Add this to your initialization logic
-		document.getElementById('main').addEventListener('scroll', updateCenteredCard);
-
+		document.getElementById('track').addEventListener('scroll', updateCenteredCard);
+		document.addEventListener('mousedown', (e) => {
+			const track = e.target.closest('#track');
+			if (track) {
+				// Remove active class from all tracks
+				document.querySelectorAll('#track').forEach(t => t.classList.remove('active-track'));
+				// Add to the one we just clicked
+				track.classList.add('active-track');
+			}
+		});
 		// Also run it once on load to highlight the first card
 		window.addEventListener('load', updateCenteredCard);
 	</script>
