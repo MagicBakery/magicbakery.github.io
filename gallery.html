@@ -16,7 +16,7 @@
 			--grid-cols: 3;
 			--sidebar-w: 300px;
 			--gold: #ffd700;
-			--h-dir: row-reverse;
+			--h-dir: row;
 			--green: #4CAF50;
 		}
 
@@ -124,12 +124,6 @@
 			position: relative;
 		}
 
-		/* Adjust for Left Docking */
-		body.dock-left #settings-panel {
-			right: auto;
-			left: calc(var(--sidebar-w) + 10px);
-			/* Appear to the right of the sidebar */
-		}
 
 		#toast {
 			position: fixed;
@@ -215,23 +209,39 @@
 			flex: 1;
 			padding: 10px;
 			display: flex;
-			gap: 20px;
+			gap: 40px;
+			/* Wider gap for cleaner storyboard look */
 			transition: width 0.3s ease;
 			height: 100vh;
 			order: 1;
 			flex-direction: var(--h-dir);
-			align-items: flex-start;
+			align-items: center;
+			/* Center images vertically in horizontal mode */
 			overflow-x: auto;
 			overflow-y: hidden;
 			flex-wrap: nowrap;
+
+			/* Horizontal Centering Padding */
+			padding-left: calc(50vw - (var(--sidebar-w) / 2) - 150px);
+			padding-right: 50vw;
+
+			scroll-behavior: smooth;
+			/* Ensure the container transitions smoothly if padding changes */
+			transition: padding 0.5s ease;
 		}
 
+		/* Ensure vertical mode keeps its original padding */
 		body.max-width #main {
+			padding: 20px;
+			padding-bottom: 40vh;
+			/* Adds empty space at the bottom so the last card can scroll up to the middle */
 			flex-direction: column;
 			align-items: center;
 			overflow-y: auto;
 			overflow-x: hidden;
 		}
+
+
 
 		.card {
 			position: relative;
@@ -242,7 +252,39 @@
 			overflow: hidden;
 			background: transparent;
 			transition: opacity 0.3s ease, box-shadow 0.3s ease;
+			transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+			/* Smoothly slides existing cards */
+			animation: cardEntrance 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+			/* Arrival animation */
 			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+			display: inline-block;
+			transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+		}
+
+		/* The active/centered card style */
+		.card.is-centered {
+			border-color: rgba(255, 255, 255, 1);
+			/* Pure white border */
+			box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+			/* Soft glow */
+			transform: scale(1.02);
+			/* Slight pop-out effect */
+			z-index: 10;
+		}
+
+		/* Keyframes for the new card appearing */
+		@keyframes cardEntrance {
+			0% {
+				opacity: 0;
+				transform: scale(0.8) translateY(20px);
+				filter: blur(10px);
+			}
+
+			100% {
+				opacity: 1;
+				transform: scale(1) translateY(0);
+				filter: blur(0);
+			}
 		}
 
 		body.max-width .card {
@@ -278,9 +320,9 @@
 		}
 
 		.tool-btn {
-			background: rgba(0, 0, 0, 0.6);
-			color: #fff;
-			border: 1px solid rgba(255, 255, 255, 0.2);
+			background: rgba(0, 0, 0, 0.1);
+			color: rgba(255, 255, 255, 0.1);
+			border: 1px solid rgba(255, 255, 255, 0.1);
 			width: 36px;
 			height: 36px;
 			cursor: pointer;
@@ -289,8 +331,12 @@
 			align-items: center;
 			justify-content: center;
 			font-size: 16px;
-			backdrop-filter: blur(5px);
 			text-decoration: none;
+		}
+
+		.tool-btn:hover {
+			border: 1px solid rgba(255, 255, 255, 0.8);
+			color: rgba(255, 255, 255, 0.8);
 		}
 
 		.import-btn {
@@ -374,10 +420,18 @@
 
 		.btn-group {
 			display: flex;
-			gap: 5px;
+			gap: 8px;
+			/* Slightly wider gap for better touch/click targets */
 			margin-bottom: 10px;
 			justify-content: center;
-			/* This centers the buttons horizontally */
+			/* Centers the buttons horizontally */
+			width: 100%;
+			/* Ensures the group spans the sidebar width */
+		}
+
+		/* Ensure buttons within the group don't stretch */
+		.btn-group .sq-btn {
+			flex: 0 0 auto;
 		}
 
 		.sq-btn {
@@ -407,44 +461,38 @@
 			color: #000 !important;
 		}
 
-		/* Position settings panel to appear "on the side" */
-		/* Position settings panel to float above the bottom buttons */
+		/* Centers the wallpaper icon inside the sidebar square button */
+		.sq-btn .css-wall {
+			margin: 0 auto;
+			transform: rotate(-45deg) scale(1.2);
+			/* Slightly larger for the sidebar */
+		}
+
 		#settings-panel {
-			background: rgba(10, 10, 10, 0.75);
+			background: rgba(10, 10, 10, 0.9);
+			/* Increased opacity for readability */
 			border: 1px solid var(--border);
 			padding: 15px;
 			display: none;
-			/* Controlled by toggleSettings */
 			flex-direction: column;
 			gap: 12px;
 			font-size: 10px;
-			border-radius: 12px 12px 0 0;
-			/* Rounded top corners for "popup" look */
+			border-radius: 12px;
+			backdrop-filter: blur(15px);
+			box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.5);
 
-			/* Floating positioning */
+			/* Anchor it to the bottom of the sidebar area */
 			position: absolute;
-			bottom: 70px;
-			/* Sits above the note area and buttons */
+			bottom: 60px;
+			/* Sits exactly above the footer buttons */
 			left: 10px;
 			right: 10px;
 			width: calc(100% - 20px);
+			/* Stays within sidebar width */
 			z-index: 10002;
-			backdrop-filter: blur(15px);
-			box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.5);
 		}
 
-		.help-icon {
-			position: absolute;
-			top: 10px;
-			right: 10px;
-			color: var(--text-dim);
-			text-decoration: none;
-			font-size: 16px;
-		}
 
-		.help-icon:hover {
-			color: var(--gold);
-		}
 
 		.unified-width {
 			width: 100%;
@@ -507,7 +555,6 @@
 			opacity: 1 !important;
 		}
 
-		/* New Middle Bar */
 		.stats-bar {
 			display: flex;
 			align-items: center;
@@ -534,13 +581,37 @@
 
 		/* Centering logic for Tags Bar */
 		.stats-bar.tags-bar {
-			justify-content: space-between;
+			display: flex;
+			align-items: center;
 			gap: 10px;
+			padding: 8px 15px;
 		}
 
 		.stats-bar-spacer {
 			width: 32px;
 			flex-shrink: 0;
+		}
+
+		.version-code {
+			font-size: 9px;
+			color: var(--text-dim);
+			opacity: 0.6;
+			font-family: monospace;
+			flex-grow: 1;
+			text-align: center;
+		}
+
+		.bakery-link {
+			color: var(--text-dim);
+			text-decoration: none;
+			font-size: 14px;
+			transition: color 0.2s;
+			cursor: help;
+			/* Indicates hoverable info */
+		}
+
+		.bakery-link:hover {
+			color: var(--gold);
 		}
 
 		/* Matches Sort button width */
@@ -599,6 +670,31 @@
 			flex-direction: column;
 			border-bottom: 1px solid var(--border);
 			background: rgba(0, 0, 0, 0.2);
+		}
+
+		#master-search {
+			flex: 1;
+			/* This makes the search box grow to fill all available space */
+			min-width: 50px;
+			/* Prevents it from disappearing on tiny screens */
+			text-align: center;
+			background: rgba(255, 255, 255, 0.05);
+			border: 1px solid var(--border);
+			color: #fff;
+			border-radius: 6px;
+			padding: 6px;
+			outline: none;
+			transition: border-color 0.2s;
+		}
+
+		#master-search:focus {
+			border-color: var(--accent);
+		}
+
+		/* Ensure the label and button don't shrink */
+		.tags-bar .stats-clickable,
+		#tag-sort-btn {
+			flex-shrink: 0;
 		}
 
 		/* Collection Path List Styles */
@@ -895,6 +991,25 @@
 			border-top: 18px solid currentColor;
 		}
 
+		/* When the card is pinned, turn the star button gold and solid */
+.card.pinned .pin-btn {
+    color: var(--gold) !important;
+    background: rgba(0, 0, 0, 0.4); /* Slightly darker background to pop the gold */
+    border-color: var(--gold);
+}
+
+/* Ensure that when NOT pinned, the star stays semi-transparent even on the 'centered' card */
+.pin-btn {
+    color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Hovering over the star should still make it visible */
+.pin-btn:hover {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+		
+
 		/* Simple Perfect Circle Icon */
 		.icon-circle {
 			width: 14px;
@@ -924,8 +1039,14 @@
 		<div class="stats-bar">
 			<div class="stats-clickable" onclick="toggleCollections()">Collections (<span id="collection-count">0</span>)
 			</div>
+			<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" class="bakery-link"
+				id="version-link">ⓘ</a>
 		</div>
 		<div id="collapsible-collections">
+
+
+
+
 			<input type="file" id="json-input" style="display:none" accept=".json" onchange="importJSON(this)">
 			<div style="display:flex; gap:4px;">
 				<button class="import-btn action-btn" style="width: 32px;" onclick="smartImport()">+</button>
@@ -935,18 +1056,8 @@
 			<div id="path-list-container"></div>
 		</div>
 
-		<div class="stats-bar">
-			<div class="stats-clickable" onclick="toggleStageTools()">Stage Controls (<span id="stage-count">0</span>)</div>
-			<button class="inline-toggle" onclick="clearWorkspace()">✕</button>
-		</div>
-		<div id="stage-tools">
-			<div style="display:flex; gap:10px; align-items:center;">
-				<button id="auto-flush-btn" class="sq-btn action-btn" onclick="toggleAutoFlush()">↻</button>
-				<button class="sq-btn state-active" id="mode-toggle" onclick="cycleViewMode()" title="Scroll Direction">
-					<div class="icon-h"></div>
-				</button>
-			</div>
-		</div>
+
+
 
 		<div class="stats-bar tags-bar">
 			<span class="stats-clickable" onclick="toggleTagCloud()">Tags (<span id="tag-count">0</span>)</span>
@@ -976,8 +1087,25 @@
 			style="flex: 1; display: flex; flex-direction: column; overflow: hidden; background: rgba(0,0,0,0.2);">
 			<div id="file-list" class="file-list"></div>
 		</div>
+
+
+
+		<div class="stats-bar">
+			<div class="stats-clickable" onclick="toggleStageTools()">Staging (<span id="stage-count">0</span>)</div>
+			<button class="inline-toggle" onclick="clearWorkspace()">✕</button>
+		</div>
+		<div id="stage-tools">
+			<div class="btn-group">
+				<button class="sq-btn dim" onclick="moveCurrentCard(-1)" title="Move Left/Up">&#9664;</button>
+				<button class="sq-btn state-active" id="mode-toggle" onclick="cycleViewMode()" title="Scroll Direction">
+					<div class="icon-h"></div>
+				</button>
+				<button class="sq-btn dim" onclick="moveCurrentCard(1)" title="Move Right/Down">&#9654;</button>
+			</div>
+		</div>
+
 		<div id="settings-panel" style="display: none;">
-			<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" class="help-icon">ⓘ</a>
+
 			<div style="display:flex; gap:5px; align-items:center;">
 				<a id="add-btn" href="#" target="_blank" class="sq-btn action-btn" onclick="handleLinkAction(event)">+</a>
 				<input type="text" id="add-url-input" class="unified-width" placeholder="URL for + button..."
@@ -989,8 +1117,12 @@
 
 		<div class="header-bar" style="border-top: 1px solid var(--border); padding-top: 10px;">
 			<div class="btn-group">
+				<button id="auto-flush-btn" class="sq-btn action-btn" onclick="toggleAutoFlush()">↻</button>
 				<button class="sq-btn action-btn" id="settings-btn" onclick="toggleSettings()">
 					<div class="icon-circle"></div>
+				</button>
+				<button class="sq-btn action-btn" onclick="setCenteredAsWallpaper()" title="Set Center as Wallpaper">
+					<div class="css-wall"></div>
 				</button>
 			</div>
 		</div>
@@ -1001,12 +1133,18 @@
 	<div id="main"></div>
 
 	<script>
+		// --- UPDATE VERSION HERE (#Version)---
+		const APP_VERSION = "20251224172300";
+		// ---------------------------
 		let DATA = [];
 		let ALL_TAGS = [];
 		let activeTags = new Set(), sidebarIsGrid = false, currentDock = 'right', autoFlush = false;
 		let tagSortMode = 'alpha', savedPaths = [];
 
 		window.onload = () => {
+			// Inject the version code into the info link tooltip
+			document.getElementById('version-link').title = "Ver." + APP_VERSION;
+
 			// 1. Tag Sort Initialization (Future State)
 			tagSortMode = localStorage.getItem('gallery_tag_sort') || 'alpha';
 			const tagBtn = document.getElementById('tag-sort-btn');
@@ -1091,6 +1229,40 @@
 			});
 		};
 
+		function moveCurrentCard(direction) {
+			const main = document.getElementById('main');
+			const centeredCard = main.querySelector('.card.is-centered');
+
+			if (!centeredCard) return;
+
+			if (direction === -1) {
+				// Move Left/Up: Insert before the previous sibling
+				const prev = centeredCard.previousElementSibling;
+				if (prev && prev.classList.contains('card')) {
+					main.insertBefore(centeredCard, prev);
+				}
+			} else if (direction === 1) {
+				// Move Right/Down: Insert after the next sibling
+				const next = centeredCard.nextElementSibling;
+				if (next && next.classList.contains('card')) {
+					// insertBefore(node, nextNext) effectively moves it after next
+					main.insertBefore(next, centeredCard);
+				}
+			}
+
+			// After moving, re-center the view on the same card immediately
+			setTimeout(() => {
+				centeredCard.scrollIntoView({
+					behavior: 'smooth',
+					block: 'center',
+					inline: 'center'
+				});
+
+				// Refresh UI if you have counters or specific ordering logic
+				if (typeof refreshAllUI === "function") refreshAllUI();
+			}, 50);
+		}
+
 		function persistentWallpaper() {
 			const savedWallpaper = localStorage.getItem('gallery_wallpaper');
 			const defaultWallpaper = "https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg";
@@ -1104,6 +1276,20 @@
 			}
 
 
+		}
+		function setCenteredAsWallpaper() {
+			// Find the card currently highlighted as center
+			const centeredCard = document.querySelector('.card.is-centered');
+
+			if (centeredCard) {
+				const path = centeredCard.dataset.path;
+				// Call your existing setWallpaper function
+				// We pass 'null' for the event since there is no click event to prevent
+				setWallpaper(path, null);
+			} else {
+				// Optional: show a toast if no card is found
+				showToast("No image centered");
+			}
 		}
 		function setWallpaper(url, e) {
 			if (e) e.preventDefault();
@@ -1314,7 +1500,38 @@
 			t.classList.add('show');
 			setTimeout(() => t.classList.remove('show'), 2500);
 		}
+		function updateCenteredCard() {
+			const m = document.getElementById('main');
+			const isVertical = document.getElementById('body-wrap').classList.contains('max-width');
+			const cards = m.querySelectorAll('.card');
 
+			// Find the midpoint of the visible viewport
+			const centerX = m.scrollLeft + (m.clientWidth / 2);
+			const centerY = m.scrollTop + (m.clientHeight / 2);
+
+			let closestCard = null;
+			let minDistance = Infinity;
+
+			cards.forEach(card => {
+				card.classList.remove('is-centered');
+
+				// Midpoints of the card relative to the scroll container
+				const midX = card.offsetLeft + (card.offsetWidth / 2);
+				const midY = card.offsetTop + (card.offsetHeight / 2);
+
+				// Calculate distance based on current mode
+				const dist = isVertical ? Math.abs(centerY - midY) : Math.abs(centerX - midX);
+
+				if (dist < minDistance) {
+					minDistance = dist;
+					closestCard = card;
+				}
+			});
+
+			if (closestCard) {
+				closestCard.classList.add('is-centered');
+			}
+		}
 		function updateStageCount() {
 			const count = document.querySelectorAll('.card').length;
 			document.getElementById('stage-count').innerText = count;
@@ -1330,7 +1547,9 @@
 
 		function createCard(item) {
 			const m = document.getElementById('main');
+			const isVertical = document.getElementById('body-wrap').classList.contains('max-width');
 
+			// Duplicate check
 			const existing = Array.from(document.querySelectorAll('.card')).find(c => c.dataset.path === item.p);
 			if (existing) {
 				if (existing.classList.contains('pinned')) {
@@ -1341,6 +1560,7 @@
 				}
 				return;
 			}
+
 			if (autoFlush) {
 				document.querySelectorAll('.card').forEach(c => {
 					if (!c.classList.contains('pinned')) c.remove();
@@ -1350,27 +1570,69 @@
 			const c = document.createElement('div');
 			c.className = 'card';
 			c.dataset.path = item.p;
-
 			c.innerHTML = `
         <div class="card-tools">
-          <button class="tool-btn pin-btn" title="Star"><div class="icon-star" style="transform: scale(1.);"></div></button>
+          <button class="tool-btn pin-btn" title="Star"><div class="icon-star"></div></button>
           <button class="tool-btn" onclick="toggleOverlay(this)">#</button>
-          <button class="tool-btn" onclick="toggleFocus(this.closest('.card'))" title="Magnifier"><div class="css-mag"></div></button>
-          <a class="tool-btn" href="${item.f || item.p}" onclick="setWallpaper('${item.p}', event)" title="Wallpaper"><div class="css-wall"></div></a>
+          
+          
           <button class="tool-btn" onclick="this.closest('.card').remove(); syncSidebarHighlights();" title="Close">✕</button>
         </div>
         <div class="card-tag-overlay"></div>
         <img src="${item.p}" onerror="handleMissingImage(this, '${item.p}')">`;
 
-
 			c.querySelector('.pin-btn').onclick = function () {
 				this.style.color = c.classList.toggle('pinned') ? 'var(--gold)' : 'white';
 			};
 
-			m.prepend(c);
-			if (currentDock === 'left') m.scrollLeft = 0; else m.scrollLeft = m.scrollWidth;
-			updateAllCardOverlays();
-			syncSidebarHighlights();
+			const cards = Array.from(m.querySelectorAll('.card'));
+
+			// --- UPDATED INSERTION LOGIC ---
+			if (cards.length === 0) {
+				m.appendChild(c);
+			} else {
+				// Find the center point of the container
+				const centerX = m.scrollLeft + (m.clientWidth / 2);
+				const centerY = m.scrollTop + (m.clientHeight / 2);
+
+				let closestCard = cards[0];
+				let minDistance = Infinity;
+
+				cards.forEach(card => {
+					// Calculate center of card relative to the container
+					const midX = card.offsetLeft + (card.offsetWidth / 2);
+					const midY = card.offsetTop + (card.offsetHeight / 2);
+
+					// Choose distance metric based on current mode
+					const dist = isVertical ? Math.abs(centerY - midY) : Math.abs(centerX - midX);
+
+					if (dist < minDistance) {
+						minDistance = dist;
+						closestCard = card;
+					}
+				});
+
+				if (currentDock === 'left') {
+					closestCard.insertAdjacentElement('beforebegin', c);
+				} else {
+					closestCard.insertAdjacentElement('afterend', c);
+				}
+			}
+
+
+			// --- UPDATED SCROLL LOGIC ---
+			setTimeout(() => {
+				// If vertical, scroll until the new card is at the center (or bottom)
+				// If horizontal, use existing centerline logic
+				c.scrollIntoView({
+					behavior: 'smooth',
+					block: 'center',
+					inline: 'center'
+				});
+				updateAllCardOverlays();
+				syncSidebarHighlights();
+				updateCenteredCard();
+			}, 50);
 		}
 
 		function updateAllCardOverlays() {
@@ -1560,8 +1822,6 @@
 			// Add/Remove class to handle the layout direction
 			document.body.classList.toggle('dock-left', side === 'left');
 
-			// Update the horizontal flex direction for the stage
-			document.documentElement.style.setProperty('--h-dir', side === 'left' ? 'row' : 'row-reverse');
 
 			// Save preference
 			localStorage.setItem('gallery_dock', side);
@@ -1597,6 +1857,8 @@
 			// Set character based on current mode
 			// icon-v is used for Max Height mode, icon-h for Max Width mode
 			btn.innerHTML = isMax ? '<div class="icon-v"></div>' : '<div class="icon-h"></div>';
+			// Trigger highlight update immediately after switching modes
+			setTimeout(updateCenteredCard, 100);
 		}
 
 		function toggleSidebarView() {
@@ -1625,7 +1887,8 @@
 		document.getElementById('main').addEventListener('wheel', (e) => {
 			if (!document.getElementById('body-wrap').classList.contains('max-width')) {
 				e.preventDefault();
-				document.getElementById('main').scrollLeft += (e.deltaY * (currentDock === 'right' ? -1 : 1));
+				// Standardize: deltaY always moves scrollLeft forward
+				document.getElementById('main').scrollLeft += e.deltaY;
 			}
 		});
 		// Click outside to hide sidebar
@@ -1640,14 +1903,26 @@
 
 			// Check if the click was on the main background or an image, but NOT a button
 			const clickedMain = document.getElementById('main').contains(e.target);
-			const clickedButton = e.target.closest('.tool-btn') || e.target.closest('.sq-btn');
+
+			const clickedButton =
+				e.target.closest('.tool-btn') ||
+				e.target.closest('.sq-btn') ||
+				e.target.closest('.card-tag-overlay') ||
+				e.target.closest('.tag-btn'); // Assuming your tags have this class
 
 			// Hide only if clicking main area/image AND not clicking a functional button
 			if (clickedMain && !clickedButton) {
 				toggleSidebar(false);
 			}
 		});
+		// Add this to your initialization logic
+		document.getElementById('main').addEventListener('scroll', updateCenteredCard);
+
+		// Also run it once on load to highlight the first card
+		window.addEventListener('load', updateCenteredCard);
 	</script>
+
+
 </body>
 
 </html>
