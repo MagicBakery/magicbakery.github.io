@@ -411,9 +411,14 @@
 			height: 100vh;
 			order: 1;
 			flex-direction: var(--h-dir);
+			
+			/* align-items: center;
+			justify-content:flex-start;*/
+			
+			justify-content: safe center; /* Test */
+			width:100%; /* Test */
+
 			align-items: center;
-			justify-content:flex-start;
-			/* Center images vertically in horizontal mode */
 			overflow-x: auto;
 			overflow-y: hidden;
 			flex-wrap: nowrap;
@@ -1449,7 +1454,7 @@
 	</div>
 	<script>
 		// --- UPDATE VERSION HERE (#Version)---
-		const APP_VERSION = "20251224080300";
+		const APP_VERSION = "20251225151000";
 		// ---------------------------
 		let DATA = [];
 		let ALL_TAGS = [];
