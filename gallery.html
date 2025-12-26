@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png">
+	<script>
+		const APP_VERSION = "20251225195852";
+	</script>
 	<style>
 		:root {
 			--bg: #000;
@@ -490,8 +492,8 @@
 
 		/* The active/centered card style */
 		.card.is-active {
-			border-color: rgba(255, 255, 255, 0.6);
-			box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+			border-color: rgba(255, 215, 0, 0.6); /*Gold Color */
+			box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
 			transform: scale(1.02);
 			z-index: 10;
 		}
@@ -1453,9 +1455,6 @@
 		<img id="splash-img" src="" alt="Enlarged View">
 	</div>
 	<script>
-		// --- UPDATE VERSION HERE (#Version)---
-		const APP_VERSION = "20251225151000";
-		// ---------------------------
 		let DATA = [];
 		let ALL_TAGS = [];
 		let activeTags = new Set(), sidebarIsGrid = false, currentDock = 'right', autoFlush = false;
@@ -1625,8 +1624,6 @@
 				showToast("No track found in that direction");
 			}
 		}
-
-
 		function babyStepAddTrack() {
 			const multitrack = document.getElementById('multitrack');
 
@@ -1643,10 +1640,6 @@
 			multitrack.appendChild(newTrack);
 			showToast("Multi-track split enabled");
 		}
-
-
-
-
 		/**
 		 * Moves the active card within its track based on mode-restricted directions.
 		 * @param {string} direction - 'up', 'down', 'left', or 'right'
@@ -1752,7 +1745,6 @@
 				if (typeof refreshAllUI === "function") refreshAllUI();
 			}, 50);
 		}
-
 		function persistentWallpaper() {
 			const savedWallpaper = localStorage.getItem('gallery_wallpaper');
 			const defaultWallpaper = "https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg";
@@ -1835,7 +1827,6 @@
 				document.getElementById('json-input').click();
 			}
 		}
-
 		async function importFromURL(url) {
 			try {
 				const response = await fetch(url);
@@ -2748,5 +2739,4 @@ function toggleSettings() {
 
 
 </body>
-
 </html>
