@@ -6,7 +6,7 @@
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png">
 	<script>
-		const APP_VERSION = "20251225225053";
+		const APP_VERSION = "20251225232453";
 	</script>
 	<style>
 		:root {
@@ -1482,7 +1482,7 @@
 	<div id="splash-screen" onclick="if(event.target === this) hideSplash()">
 		<img id="splash-img" src="" alt="Enlarged View">
 	</div>
-	<div id="loading-screen" onclick="fadeOutLoadingScreen()"></div>
+	<div id="loading-screen" onclick="fadeLoadingScreen(false)"></div>
 	<script>
 		let DATA = [];
 		let ALL_TAGS = [];
@@ -1580,22 +1580,29 @@
 			});
 
 			// STEP: Content ready to be shown
-			fadeOutLoadingScreen();
+			fadeLoadingScreen(false);
 			summonRefreshGuard();
 		};
 		/* SORTED CODE */
 		const zLayers = ['Notifications', 'LoadingScreen', 'TransparentControls', 'ExamineScreen', 'GUIControls', 'Listings', 'Gallery', 'AppWallpaper'];
 
 
-		function fadeOutLoadingScreen() {
+		function fadeLoadingScreen(bIn) {
 			// 20251225: Tanya: Remove the loading screen after z-index are initialized.
+			// 20251225: StarTree: bIn = false means fade out
 			const curtain = document.getElementById('loading-screen');
-			if (!curtain) return;			
-			curtain.style.opacity = '0';
-			curtain.style.visibility = 'hidden';
-			// Wait for the transition to finish (time defined in CSS)
-			// then remove it from the layout entirely
-			setTimeout(() => { curtain.style.display = 'none'; }, 800);
+			if (!curtain) return;
+			if(bIn){
+				curtain.style.opacity = '1';
+				curtain.style.visibility = 'visible';
+				curtain.style.display = "flex";
+			}else{
+				curtain.style.opacity = '0';
+				curtain.style.visibility = 'hidden';
+				// Wait for the transition to finish (time defined in CSS)
+				// then remove it from the layout entirely
+				setTimeout(() => { curtain.style.display = 'none'; }, 800);
+			}
 		}
 		function initZLayers() {
 			// 20251225: Tanya: Enumerate the layers by code.
@@ -1610,8 +1617,7 @@
 			// 20251225: LRRH, StarTree: On mobile it is too easy to accidentally refresh the page and lose the arrangement.
 			window.addEventListener('beforeunload', (event) => {
 				event.preventDefault();
-				const curtain = document.getElementById('loading-screen');
-				curtain.style.display = "flex";
+				fadeLoadingScreen(true);
 				event.returnValue = ''; 
 			});
 		}
