@@ -2,11 +2,12 @@
 <html>
 
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png">
 	<script>
-		const APP_VERSION = "20251225232453";
+		const APP_VERSION = "20251226031205";
+		const APP_ANNOUNCEMENT = "20251226: Auto Save is now enabled!"
 	</script>
 	<style>
 		:root {
@@ -71,6 +72,7 @@
 			margin: 0;
 			display: flex;
 			height: 100vh;
+			height: 100dvh;
 			width: 100vw;
 			overflow: hidden;
 			background-size: cover;
@@ -97,6 +99,7 @@
 			left: 0;
 			width: 100vw;
 			height: 100vh;
+			height: 100dvh;
 			background-color: #000;
 			display: none;
 			justify-content: center;
@@ -113,6 +116,7 @@
 			max-height: 100%;
 			width: 100vw;
 			height: 100vh;
+			height: 100dvh;
 			object-fit: contain;
 			transition: transform 0.1s ease-out;
 			/* Smooths out the zoom/pan */
@@ -129,7 +133,8 @@
 		/* Your existing trigger/corner buttons */
 		.hover-trigger,
 		#ghost-restore {
-			z-index: var(--z-TransparentControls); !important;
+			z-index: var(--z-TransparentControls);
+			!important;
 			/* Always on top */
 		}
 
@@ -148,7 +153,7 @@
 		/* Update the CSS for your menu toggle buttons */
 		#menu-toggle,
 		.corner-button-id {
-			z-index: var(--z-TransparentControls);;
+			z-index: var(--z-TransparentControls);
 			/* One level higher than the splash screen */
 			position: fixed;
 			/* Ensures they stay pinned to the corner */
@@ -160,7 +165,7 @@
 			overflow: hidden;
 			order: 1;
 			gap: 0px;
-			padding: 5px;
+
 		}
 
 		/* HORIZONTAL: Tracks are stacked vertically as Rows */
@@ -177,8 +182,7 @@
 			align-items: center;
 			overflow-x: auto;
 			overflow-y: hidden;
-			padding-left: 5px;
-			padding-right: 5px;
+
 		}
 
 		/* VERTICAL: Tracks are placed side-by-side as Columns */
@@ -195,7 +199,7 @@
 			align-items: center;
 			overflow-y: auto;
 			overflow-x: hidden;
-			padding-bottom: 40vh;
+
 		}
 
 		/* Push the main content over when sidebar is visible */
@@ -208,6 +212,33 @@
 			margin-left: 0;
 		}
 
+		/* The "X" button turns red when active */
+		.sq-btn.removal-active {
+			background: #ff4444 !important;
+			color: white !important;
+			border-color: #ff0000 !important;
+			box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+		}
+
+		/* Optional: Make cards look "dangerous" or fragile when in removal mode */
+
+		body.removal-mode .card:hover {
+			border-color: #ff4444;
+			filter: sepia(1) saturate(2) hue-rotate(-50deg);
+			/* Slight reddish tint */
+		}
+
+		/* When Removal Mode is ON, highlight the specific targets on hover */
+		body.removal-mode .card:hover {
+			outline: 3px solid #ff4444;
+			cursor: pointer;
+		}
+
+		body.removal-mode #track:hover:not(:has(.card:hover)) {
+			background: rgba(255, 0, 0, 0.1) !important;
+			cursor: pointer;
+		}
+
 		#sidebar {
 			position: fixed;
 			border-radius: 15px;
@@ -215,6 +246,7 @@
 			top: auto;
 			width: var(--sidebar-w);
 			max-height: 100vh;
+			max-height: 100dvh;
 			height: auto;
 			background: var(--panel);
 			backdrop-filter: blur(20px);
@@ -226,11 +258,13 @@
 			/* New Flex Logic */
 			display: flex;
 			flex-direction: column;
-			justify-content: flex-end;
+			justify-content: flex-start;
 			/* Pushes content to the bottom */
 
 			overflow-y: auto;
 			/* Keeps it scrollable if content overflows */
+			-webkit-overflow-scrolling: touch;
+			/* Adds smooth momentum scrolling for mobile */
 		}
 
 		/* Ensure children don't stretch awkwardly */
@@ -340,7 +374,7 @@
 
 		#toast {
 			position: fixed;
-			bottom: 20px;
+			top: 50%;
 			left: 50%;
 			transform: translateX(-50%);
 			background: rgba(255, 215, 0, 0.6);
@@ -349,12 +383,13 @@
 			padding: 10px 20px;
 			border-radius: 8px;
 			font-weight: bold;
-			font-size: 14px;
+			font-size: 16px;
 			z-index: var(--z-Notifications);
 			opacity: 0;
 			transition: opacity 0.3s ease;
 			pointer-events: none;
 			border: 1px solid rgba(255, 255, 255, 0.2);
+			text-align: center;
 		}
 
 		#toast.show {
@@ -426,6 +461,7 @@
 			/* Wider gap for cleaner storyboard look */
 			transition: width 0.3s ease;
 			height: 100vh;
+			height: 100dvh;
 			order: 1;
 			flex-direction: var(--h-dir);
 
@@ -442,9 +478,6 @@
 			overflow-y: hidden;
 			flex-wrap: nowrap;
 
-			/* Horizontal Centering Padding */
-			padding-left: calc(50vw - (var(--sidebar-w) / 2) - 150px);
-			padding-right: 50vw;
 
 			scroll-behavior: smooth;
 			/* Ensure the container transitions smoothly if padding changes */
@@ -490,7 +523,7 @@
 			background: transparent;
 			transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 			animation: cardEntrance 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
-			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.7);
+			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 			display: inline-block;
 		}
 
@@ -726,7 +759,7 @@
 
 			background: rgba(0, 0, 0, 0.4);
 			backdrop-filter: blur(20px);
-			border: 2px solid gold;
+			border: 2px solid rgba(255, 255, 255, 0.4);
 			border-radius: 15px;
 			padding: 20px;
 
@@ -1211,6 +1244,44 @@
 		}
 
 
+		/* The main container for the icon */
+		.floppy-icon {
+			position: relative;
+			width: 20px;
+			height: 20px;
+			background-color: currentColor;
+			/* Matches the text color of the button */
+			border-radius: 2px 4px 2px 2px;
+			/* The top-right is slightly more rounded/clipped */
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		/* The Metal Shutter (Top part) */
+		.floppy-icon::before {
+			content: '';
+			position: absolute;
+			top: 2px;
+			left: 4px;
+			width: 10px;
+			height: 6px;
+			background-color: var(--bg, #000);
+			/* Uses your app's background color */
+			border-radius: 1px;
+		}
+
+		/* The Label (Bottom part) */
+		.floppy-icon::after {
+			content: '';
+			position: absolute;
+			bottom: 2px;
+			left: 3px;
+			right: 3px;
+			height: 8px;
+			background-color: rgba(255, 255, 255, 0.8);
+			border-radius: 1px;
+		}
+
 		/* Center the character containers perfectly */
 		.icon-h,
 		.icon-v {
@@ -1440,7 +1511,7 @@
 				<button class="sq-btn dim" onclick="addTrackRelative(-1)" title="Add Track">+</button>
 				<button class="sq-btn" onclick="moveActiveCard('down')" title="Move Down (Vertical Mode Only)">▼</button>
 				<button class="sq-btn dim" onclick="removeTrackRelative(-1)" title="Remove Track">-</button>
-				&nbsp;<button class="sq-btn dim" onclick="clearWorkspace()">✕</button>
+				&nbsp;<button class="sq-btn dim" onclick="toggleRemovalMode(this)" title="Toggle Removal Mode">✕</button>
 
 
 			</div>
@@ -1456,6 +1527,7 @@
 				<button class="sq-btn action-btn" onclick="setCenteredAsWallpaper()" title="Set Center as Wallpaper">
 					<div class="css-wall"></div>
 				</button>
+				<!--<button class="sq-btn action-btn" onclick="memDOM()" title="Save Changes"><span class="floppy-icon"></span></button>-->
 			</div>
 		</div>
 
@@ -1579,12 +1651,13 @@
 				}
 			});
 
-			// STEP: Content ready to be shown
-			fadeLoadingScreen(false);
-			summonRefreshGuard();
+			// STEP: Content ready to be shown			
+			summonFairyQueen();
+			summonGateGuardian();
 		};
-		/* SORTED CODE */
+		/* ALPHABETICALLY SORTED CODE */
 		const zLayers = ['Notifications', 'LoadingScreen', 'TransparentControls', 'ExamineScreen', 'GUIControls', 'Listings', 'Gallery', 'AppWallpaper'];
+		let isRemovalMode = false; /* 20251226: StarTree: Used for the Removal button */
 
 
 		function fadeLoadingScreen(bIn) {
@@ -1592,17 +1665,62 @@
 			// 20251225: StarTree: bIn = false means fade out
 			const curtain = document.getElementById('loading-screen');
 			if (!curtain) return;
-			if(bIn){
-				curtain.style.opacity = '1';
+			if (bIn) {
 				curtain.style.visibility = 'visible';
 				curtain.style.display = "flex";
-			}else{
-				curtain.style.opacity = '0';
+				curtain.style.opacity = '1';
+			} else {
 				curtain.style.visibility = 'hidden';
+				curtain.style.opacity = '0';
 				// Wait for the transition to finish (time defined in CSS)
 				// then remove it from the layout entirely
 				setTimeout(() => { curtain.style.display = 'none'; }, 800);
 			}
+		}
+		function fairyActiveCardCheck(e) {
+			// 20251226: StarTree: Set the card to be the active card if it is in multi track mode.
+			const card = e.target.closest('.card');
+			if (!card) return false;
+			document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
+			card.classList.add('is-active');
+			memDOM();
+		}
+		function fairyRemovalCheck(e) {
+			// 20251226: StarTree: Handle element removal
+			// Returns true if the click is processed.
+			if (!isRemovalMode) return false;
+			const card = e.target.closest('.card');
+			const track = e.target.closest('#track');
+
+			if (card) {
+				// Prevent accidental triggers of other features (like splash)
+				e.stopPropagation();
+				// Perform the removal
+				card.style.transform = "scale(0.8) translateY(20px)";
+				card.style.opacity = "0";
+				setTimeout(() => {
+					card.remove();
+					refreshAllUI(); // Update your "Stage (X)" count in the sidebar
+					memDOM();   // Ensure the deletion is saved to localStorage
+				}, 300);
+				return true;
+			}
+			if (track) {
+				const allTracks = document.querySelectorAll('#track');
+				if (allTracks.length <= 1) {
+					showToast("Cannot delete the last track!");
+					return true;
+				} else if (track.innerHTML == "" || confirm("This track is not empty. Delete this entire track?")) {
+					track.style.opacity = "0";
+					track.style.maxHeight = "0"; // Smoothly collapse the track
+					setTimeout(() => {
+						track.remove();
+						memDOM();
+					}, 300);
+				}
+				return true;
+			}
+			return false;
 		}
 		function initZLayers() {
 			// 20251225: Tanya: Enumerate the layers by code.
@@ -1613,14 +1731,60 @@
 				zi -= 10;
 			});
 		}
-		function summonRefreshGuard(){
+		function memDOM(isLoad, aID) {
+			// 20251226: StarTree: For a quick way to save the workspace, save the html of the multitrack section to local storage
+			// .. isLoad = true means loading to the page. 
+			// .. isLoad = false means saving to local storage.
+
+			if (!aID) {
+				// if aID is not defined, save everything.
+				memDOM(isLoad, "multitrack");
+				return;
+			}
+			const mSection = document.getElementById(aID);
+			if (isLoad) {
+				const mSavedHTML = localStorage.getItem(aID + '_snapshot');
+				if (!mSavedHTML) { return; }
+				mSection.innerHTML = mSavedHTML;
+			} else {
+				localStorage.setItem(aID + '_snapshot', mSection.innerHTML);
+				localStorage.setItem(aID + '_snapshot_version', APP_VERSION);
+			}
+		}
+		function summonGateGuardian() {
 			// 20251225: LRRH, StarTree: On mobile it is too easy to accidentally refresh the page and lose the arrangement.
-			window.addEventListener('beforeunload', (event) => {
-				event.preventDefault();
-				fadeLoadingScreen(true);
-				event.returnValue = ''; 
+			if (false) { // 20251226: LRRH: After implementing auto save, this doesn't seem necessary.
+				window.addEventListener('beforeunload', (event) => {
+					event.preventDefault();
+					fadeLoadingScreen(true);
+					event.returnValue = '';
+				});
+			}
+			// 20251226: LRRH: There might need to be a check or a greeting before removing the loading screen.
+			memDOM(true);
+			fadeLoadingScreen(false);
+		}
+		function summonFairyQueen() {
+			// 20251226: StarTree: This is supposed to handle all clicks on staging areas.
+			document.addEventListener('click', (e) => {
+				if (fairyRemovalCheck(e)) { return; }
+				fairyActiveCardCheck(e);
+			});
+			// 20251226: StarTree: Double Click
+			document.addEventListener('dblclick', (e) => {
+				showSplash(e);
 			});
 		}
+		function toggleRemovalMode(btn) {
+			// 20251226: StarTree, Gemini
+			isRemovalMode = !isRemovalMode;
+			// Toggle visual state of the button
+			btn.classList.toggle('removal-active', isRemovalMode);
+			// Toggle a class on the body so CSS can change card appearances
+			document.body.classList.toggle('removal-mode', isRemovalMode);
+			showToast(isRemovalMode ? "REMOVAL MODE: ON" : "REMOVAL MODE: OFF");
+		}
+
 
 
 
@@ -1644,7 +1808,7 @@
 			newTrack.id = 'track'; // Keeping ID consistent with your CSS selectors
 
 			// Add the scroll listener so theater-mode centering works on the new track
-			newTrack.addEventListener('scroll', updateCenteredCard);
+			//newTrack.addEventListener('scroll', updateCenteredCard);
 
 			// 3. Insert relative to the reference
 			if (direction === -1) {
@@ -1659,6 +1823,7 @@
 
 			// 4. Update UI to reflect the new layout
 			updateAllCardOverlays();
+			memDOM();
 		}
 
 		/**
@@ -1700,6 +1865,7 @@
 			} else {
 				showToast("No track found in that direction");
 			}
+			memDOM();
 		}
 		function babyStepAddTrack() {
 			const multitrack = document.getElementById('multitrack');
@@ -1788,6 +1954,7 @@
 
 			// Refresh overlays in case position-based logic (like theater mode) needs to update
 			updateAllCardOverlays();
+			memDOM();
 		}
 		function moveCurrentCard(direction) {
 			const track = document.getElementById('track');
@@ -1943,7 +2110,7 @@
 
 			// No need to clear inline styles anymore, 
 			// Flexbox handles the transition between row and column.
-			updateCenteredCard();
+			//updateCenteredCard();
 		}
 		function toggleOverlay(btn) {
 			const card = btn.closest('.card');
@@ -2006,7 +2173,7 @@
 				}, 400);
 			}
 
-			updateCenteredCard();
+			//updateCenteredCard();
 
 		}
 		function removePath(index) {
@@ -2165,7 +2332,13 @@
 
 
 
-		function showSplash(src) {
+		function showSplash(e) {
+			// 20251226: StarTree: If the e target is not an image, return
+			if (!e || !e.target) return false;
+			const image = e.target.closest('img');
+			if (!image) return;
+
+
 			const splash = document.getElementById('splash-screen');
 			const splashImg = document.getElementById('splash-img');
 
@@ -2175,7 +2348,7 @@
 			pointY = 0;
 
 			// 2. Set image and update transform BEFORE showing
-			splashImg.src = src;
+			splashImg.src = image.src;
 			updateTransform();
 
 			// 3. Show the screen
@@ -2222,21 +2395,64 @@
 			updateTransform();
 		};
 
+		let initialDist = 0; // For pinch-zoom
+
+		document.getElementById('splash-screen').addEventListener('touchstart', (e) => {
+			if (e.touches.length === 2) {
+				// Prepare for pinch-zoom
+				initialDist = Math.hypot(
+					e.touches[0].pageX - e.touches[1].pageX,
+					e.touches[0].pageY - e.touches[1].pageY
+				);
+			} else if (e.touches.length === 1) {
+				// Prepare for panning
+				startX = e.touches[0].pageX - translateX;
+				startY = e.touches[0].pageY - translateY;
+			}
+		}, { passive: false });
+
+		document.getElementById('splash-screen').addEventListener('touchmove', (e) => {
+			e.preventDefault(); // Stop the page from bouncing/scrolling
+
+			if (e.touches.length === 2 && initialDist > 0) {
+				// Handle Pinch Zoom
+				const currentDist = Math.hypot(
+					e.touches[0].pageX - e.touches[1].pageX,
+					e.touches[0].pageY - e.touches[1].pageY
+				);
+				const zoomFactor = currentDist / initialDist;
+				scale *= zoomFactor;
+				initialDist = currentDist; // Update for next move
+			} else if (e.touches.length === 1) {
+				// Handle Panning
+				translateX = e.touches[0].pageX - startX;
+				translateY = e.touches[0].pageY - startY;
+			}
+
+			updateSplashTransform(); // Your existing function to apply scale/translate
+		}, { passive: false });
+
+
 		function showToast(msg) {
 			const t = document.getElementById('toast');
 			t.innerText = msg;
 			t.classList.add('show');
 			setTimeout(() => t.classList.remove('show'), 2500);
 		}
-		function updateCenteredCard() {
-			// 1. Check if more than one track exists
-			const multitrack = document.getElementById('multitrack');
-			if (multitrack && multitrack.children.length > 1) {
-				// If there's more than one track, just exit
+		function updateCenteredCard(e) {
+			// 20251226: StarTree: If the user is scrolling on a track in single track mode, automatically set the center card as the active card.
+			return;
+			let track = document.getElementById('track');
+			console.log(e);
+			if (e && e.target) {
+				if (typeof e.target.closest === "function") {
+					track = e.target.closest('#track');
 
-				return;
+				}
 			}
-			const track = document.getElementById('track');
+			if (!track) return;
+			const tracks = document.querySelectorAll('#track');
+			if (tracks.length > 1) { return; }
 			const cards = track.querySelectorAll('.card');
 			const bodyWrap = document.getElementById('body-wrap');
 			const isVertical = bodyWrap.classList.contains('max-width');
@@ -2274,8 +2490,6 @@
 				// 2. Highlight the new center card
 				closestCard.card.classList.add('is-centered');
 				closestCard.card.classList.add('is-active');
-				console.log("@@EEE1");
-
 			}
 		}
 		function updateStageCount() {
@@ -2315,42 +2529,16 @@
 					if (!c.classList.contains('pinned')) c.remove();
 				});
 			}
-
+			document.querySelectorAll('.card.is-active').forEach(c => c.classList.remove('is-active'));
 			const c = document.createElement('div');
 			c.className = 'card';
 			c.dataset.path = item.p;
 			c.classList.add('is-active');
 
-			// 2. Change: Card Click Logic
-			c.onclick = function (e) {
-				// Prevent background click-to-hide sidebar
-				e.stopPropagation();
 
-				// In Multi-track, we manually set active because center-detection is off
-				if (multitrack.children.length > 1) {
-					document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
-					c.classList.add('is-active');
-
-				}
-
-			};
-			c.addEventListener('dblclick', function () {
-				showSplash(item.p);
-			});
-
-			c.innerHTML = `
-    <div class="card-tools">
-      <button class="tool-btn pin-btn" title="Star"><div class="icon-star"></div></button>
-      <button class="tool-btn" onclick="toggleOverlay(this)">#</button>
-      <button class="tool-btn" onclick="event.stopPropagation(); this.closest('.card').remove(); syncSidebarHighlights();" title="Close">✕</button>
-    </div>
-    <div class="card-tag-overlay"></div>
+			c.innerHTML = `<div class="card-tag-overlay"></div>
     <img src="${item.p}" onerror="handleMissingImage(this, '${item.p}')">`;
 
-			c.querySelector('.pin-btn').onclick = function (e) {
-				e.stopPropagation(); // Prevent card focus when just pinning
-				this.style.color = c.classList.toggle('pinned') ? 'var(--gold)' : 'white';
-			};
 
 			// 3. Change: Insertion logic targets activeTrack
 			const cards = Array.from(activeTrack.querySelectorAll('.card'));
@@ -2410,11 +2598,14 @@
 
 				// This function will now check if (multitrack.children.length > 1) 
 				// and skip logic if multi-track is active.
-				updateCenteredCard();
+				//updateCenteredCard();
 			}, 50);
+			memDOM();
 		}
 
 		function updateAllCardOverlays() {
+			// 20251226: StarTree: To be changed to so the tags don't show on the card itself.
+			return;
 			document.querySelectorAll('.card').forEach(card => {
 				const path = card.dataset.path;
 				const item = DATA.find(i => i.p === path);
@@ -2431,6 +2622,7 @@
 					overlay.appendChild(p);
 				});
 			});
+			memDOM();
 		}
 
 		function toggleAutoFlush() {
@@ -2527,6 +2719,7 @@
 			updateAllCardOverlays();
 			syncSidebarHighlights();
 			updateStageCount();
+			memDOM();
 		}
 
 		function clearWorkspace() {
@@ -2606,10 +2799,8 @@
 		function handleCornerClick(clickedSide) {
 			const bodyWrap = document.getElementById('body-wrap');
 			const isCollapsed = bodyWrap.classList.contains('collapsed');
-			console.log("@@BeforeBegin" + currentDock);
 			if (currentDock !== clickedSide) {
 				// Instant side swap and show
-				console.log("@@EREWR");
 				updateDock(clickedSide);
 				toggleSidebar(true);
 			} else {
@@ -2737,7 +2928,7 @@
 			// icon-v is used for Max Height mode, icon-h for Max Width mode
 			btn.innerHTML = isMax ? '<div class="icon-v"></div>' : '<div class="icon-h"></div>';
 			// Trigger highlight update immediately after switching modes
-			setTimeout(updateCenteredCard, 100);
+			//setTimeout(updateCenteredCard, 100);
 		}
 
 		function toggleSidebarView() {
@@ -2775,44 +2966,14 @@
 				}
 			}
 		}, { passive: false });
-		// Click outside to hide sidebar
-		// Refined Click-to-Hide Logic
-		document.addEventListener('mousedown', (e) => {
-			const sidebar = document.getElementById('sidebar');
-			const bodyWrap = document.getElementById('body-wrap');
-			const isSidebarOpen = !bodyWrap.classList.contains('collapsed');
 
-			// If sidebar is closed, do nothing
-			if (!isSidebarOpen) return;
 
-			// Check if the click was on the main background or an image, but NOT a button
-			const clickedMain = document.getElementById('track').contains(e.target);
 
-			const clickedButton =
-				e.target.closest('.tool-btn') ||
-				e.target.closest('.sq-btn') ||
-				e.target.closest('.card') ||
-				e.target.closest('.card-tag-overlay') ||
-				e.target.closest('.tag-btn'); // Assuming your tags have this class
-
-			// Hide only if clicking main area/image AND not clicking a functional button
-			if (clickedMain && !clickedButton) {
-				toggleSidebar(false);
-			}
-		});
 		// Add this to your initialization logic
-		document.getElementById('track').addEventListener('scroll', updateCenteredCard);
-		document.addEventListener('mousedown', (e) => {
-			const track = e.target.closest('#track');
-			if (track) {
-				// Remove active class from all tracks
-				document.querySelectorAll('#track').forEach(t => t.classList.remove('active-track'));
-				// Add to the one we just clicked
-				track.classList.add('active-track');
-			}
-		});
+		//document.getElementById('multitrack').addEventListener('scroll', updateCenteredCard);
+
 		// Also run it once on load to highlight the first card
-		window.addEventListener('load', updateCenteredCard);
+		//window.addEventListener('load', updateCenteredCard);
 	</script>
 
 
