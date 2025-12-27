@@ -6,8 +6,8 @@
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png">
 	<script>
-		const APP_VERSION = "20251226031205";
-		const APP_ANNOUNCEMENT = "20251226: Auto Save is now enabled!"
+		const APP_VERSION = "20251227091549";
+		const APP_ANNOUNCEMENT = "20251227: GUI and Buttons Upgrade"
 	</script>
 	<style>
 		:root {
@@ -35,6 +35,93 @@
 			width: 100%;
 			height: 100%;
 		}
+
+		.bottom-menu-container {
+			position: fixed;
+			bottom: 0;
+			left: 50%;
+			transform: translateX(-50%);
+			z-index: var(--z-TransparentControls);
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			padding-bottom: 0;
+
+		}
+
+		.semi-circle-btn {
+			width: 100px;
+			height: 50px;
+			background: rgba(255, 255, 255, 0.0);
+			border: 1px solid rgba(255, 255, 255, 0.0);
+			border-bottom: none;
+			border-radius: 50px 50px 0 0;
+			cursor: pointer;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			/* Layering & Transparency */
+			z-index: 2;
+			/* Higher than the panel */
+			opacity: 0;
+			/* Completely transparent */
+			transition: opacity 0.3s ease;
+
+			/* Backdrop blur looks great even when semi-transparent */
+			backdrop-filter: blur(5px);
+		}
+
+		.bottom-menu-container:hover .semi-circle-btn {
+			opacity: 1;
+			/* Reveals on hover */
+		}
+
+
+		/* Graphic inside (matching your existing corner button style) */
+		.menu-icon-graphic {
+			display: flex;
+			flex-direction: column;
+			gap: 3px;
+			margin-top: 5px;
+			/* Adjusting for the half-shape visual center */
+		}
+
+		.menu-icon-graphic span {
+			display: block;
+			width: 20px;
+			height: 2px;
+			background: grey;
+		}
+
+		/* The Panel that pops up */
+		.bottom-menu-panel {
+			display: none;
+			/* Hidden by default */
+			width: auto;
+			max-width: 800px;
+			position: fixed;
+			bottom: 0px;
+			left: 50%;
+			transform: translateX(-50%);
+			background: rgba(0, 0, 0, 0.05);
+			border: 1px solid var(--border);
+			backdrop-filter: blur(10px);
+			border-radius: 20px 20px 0 0;
+			padding: 10px;
+			margin: 0px;
+			flex-direction: row;
+			gap: 8px;
+			text-align: center;
+			justify-content: center;
+			/* Sits above the button */
+			z-index: var(--z-TransparentControls);
+		}
+
+		.bottom-menu-panel.active {
+			display: flex;
+		}
+
 
 		#loading-screen {
 			position: fixed;
@@ -212,13 +299,7 @@
 			margin-left: 0;
 		}
 
-		/* The "X" button turns red when active */
-		.sq-btn.removal-active {
-			background: #ff4444 !important;
-			color: white !important;
-			border-color: #ff0000 !important;
-			box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
-		}
+
 
 		/* Optional: Make cards look "dangerous" or fragile when in removal mode */
 
@@ -235,22 +316,50 @@
 		}
 
 		body.removal-mode #track:hover:not(:has(.card:hover)) {
-			background: rgba(255, 0, 0, 0.1) !important;
+			background: rgba(128, 0, 0, 0.5) !important;
 			cursor: pointer;
 		}
 
+
+
+		.sidebar-inner {
+			container-type: inline-size;
+			container-name: sidebar-container;
+			border-radius: 30px 30px 0px 0px;
+			max-height: calc(100vh - 128px);
+			max-height: calc(100dvh - 128px);
+			min-height: 0;
+			backdrop-filter: blur(10px);
+
+			height: auto;
+			/* New Flex Logic */
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			/* Pushes content to the bottom */
+
+			overflow-y: hidden;
+			/* Keeps it scrollable if content overflows */
+			-webkit-overflow-scrolling: touch;
+			/* Adds smooth momentum scrolling for mobile */
+			opacity: 0;
+			transition: opacity 0.5s ease 5s;
+		}
+
+
+
 		#sidebar {
 			position: fixed;
-			border-radius: 15px;
+			border-radius: 30px;
 			bottom: 0;
 			top: auto;
 			width: var(--sidebar-w);
 			max-height: 100vh;
 			max-height: 100dvh;
 			height: auto;
-			background: var(--panel);
-			backdrop-filter: blur(20px);
-			border-right: 1px solid var(--border);
+			background: transparent;
+			backdrop-filter: none;
+
 
 			z-index: var(--z-GUIControls);
 			/* Below Splash, as requested earlier */
@@ -265,6 +374,35 @@
 			/* Keeps it scrollable if content overflows */
 			-webkit-overflow-scrolling: touch;
 			/* Adds smooth momentum scrolling for mobile */
+
+			transition: background 0.5s ease 3s, backdrop-filter 0.5s ease 3s;
+		}
+
+		#sidebar:hover {
+			/* When hovered, the background and blur return INSTANTLY */
+			background: rgba(0, 0, 0, 0.0);
+			backdrop-filter: none;
+			transition: background 0.2s ease, backdrop-filter 0.2s ease;
+		}
+
+		#sidebar:hover:has(.sidebar-upper) {
+			/* When hovered, the background and blur return INSTANTLY */
+			background: var(--panel);
+			backdrop-filter: blur(20px);
+			transition: background 0.2s ease, backdrop-filter 0.2s ease;
+		}
+
+
+		#sidebar>*:not(.header-bar) {
+			opacity: 1;
+			/* Fade out after 3 seconds */
+		}
+
+		#sidebar:not(:hover)>*:not(.header-bar) {
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.5s ease 3s;
+			/* Prevent clicking invisible images/tags */
 		}
 
 		/* Ensure children don't stretch awkwardly */
@@ -277,7 +415,7 @@
 			right: 0;
 			left: auto;
 			order: 2;
-			border-left: 1px solid var(--border);
+
 		}
 
 		/* Left Docked */
@@ -285,7 +423,7 @@
 			left: 0;
 			right: auto;
 			order: 0;
-			border-right: 1px solid var(--border);
+
 		}
 
 		/* Hidden States: Force the sidebar to the literal edges */
@@ -406,8 +544,8 @@
 			position: fixed;
 			bottom: 0;
 			/* Changed from top: 0 */
-			width: 60px;
-			height: 60px;
+			width: 50px;
+			height: 50px;
 			z-index: var(--z-TransparentControls);
 			display: flex;
 			align-items: center;
@@ -689,11 +827,17 @@
 		}
 
 		.header-bar {
-			padding: 5px 15px;
-			display: flex;
-			flex-direction: column;
-			width: 100%;
+			background-color: transparent;
+			padding: 0px;
+			transition: background-color 0.3s ease;
+			flex-shrink: 0;
+			/* Smooth fade effect */
 		}
+
+		.header-bar:hover {
+			backdrop-filter: none;
+		}
+
 
 		.btn-group {
 			display: flex;
@@ -702,12 +846,21 @@
 			justify-content: center;
 			/* Centers the buttons horizontally */
 			width: 100%;
-			/* Ensures the group spans the sidebar width */
 		}
 
 		/* Ensure buttons within the group don't stretch */
 		.btn-group .sq-btn {
 			flex: 0 0 auto;
+		}
+
+		.grid-container {
+			display: grid;
+			/* This tells the grid: "Make as many columns as fit, 
+       with a minimum width of 100px and a maximum of 1fr" */
+			grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+			gap: 10px;
+			padding: 10px;
+			width: 100%;
 		}
 
 		.sq-btn {
@@ -728,9 +881,19 @@
 		}
 
 		.sq-btn.dim {
-			background: rgba(255, 255, 255, 0.1);
-			color: var(--text-dim) !important;
+			background: rgba(255, 255, 255, 0.25);
+			color: rgba(0, 0, 0, 0) !important;
+			transition: background 0.5s ease 3s, color 0.5s ease 3s;
 		}
+
+		#sidebar:hover .sq-btn.dim {
+			background: rgba(255, 255, 255, 0.5);
+			color: rgba(0, 0, 0, 0.75) !important;
+			transition: background 0.5s ease, color 0.5s ease;
+		}
+
+
+
 
 		.sq-btn.active-gold {
 			background: var(--gold);
@@ -951,6 +1114,7 @@
 			color: #fff;
 		}
 
+
 		/* Ensure the image container grows to fill all vertical space */
 		#collapsible-images {
 			flex: 1;
@@ -960,19 +1124,32 @@
 			overflow: hidden;
 			min-height: 0;
 			background: rgba(0, 0, 0, 0.2);
-			/* Matching the stage-tools/collections background */
 		}
 
 		#file-list {
 			flex: 1;
 			overflow-y: auto;
 			width: 100%;
+			min-height: 0;
 		}
 
-		#stage-tools,
+
+		.button-grid {
+
+
+			/* Optional: visual separator */
+			display: grid !important;
+			gap: 2px;
+			grid-template-columns: repeat(7, 1fr);
+			/* 6 buttons per row */
+			height: auto;
+			padding: 2px 2px;
+			width: 100%;
+		}
+
 		#collapsible-collections {
 			display: none;
-			padding: 5px 5px;
+
 			gap: 8px;
 			flex-direction: column;
 			border-bottom: 1px solid var(--border);
@@ -1227,21 +1404,34 @@
 		}
 
 
-		/* 1. Base style for the Scroll Direction button */
-		#mode-toggle {
-			background: rgba(255, 255, 255, 0.1) !important;
-			/* Semi-transparent */
-			color: #fff !important;
-			/* Current direction in White */
-			border: 1px solid var(--border) !important;
-			transition: all 0.2s ease;
+		#remove-mode-btn,
+		#auto-flush-btn,
+		.dimmer {
+			opacity: 0;
+			transition: opacity 0.3s ease 5s;
 		}
 
-		/* 2. Hover state: Border turns white */
-		#mode-toggle:hover {
-			border-color: #fff !important;
-			background: rgba(255, 255, 255, 0.2) !important;
+		#remove-mode-btn:hover,
+		#auto-flush-btn:hover,
+		#sidebar:hover .active-gold,
+		.dimmer:hover {
+			opacity: 1;
+			transition: opacity 0.5s ease;
 		}
+
+		#remove-mode-btn.removal-active {
+			opacity: 1;
+			background: darkred !important;
+			color: white !important;
+			border-color: darkred !important;
+			box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+		}
+
+		.sq-btn.dimmer {
+			background: rgba(0, 0, 0, 0.0);
+			color: var(--text-dim) !important;
+		}
+
 
 
 		/* The main container for the icon */
@@ -1392,37 +1582,33 @@
 </head>
 
 <body id="body-wrap" contenteditable="false">
-	<div id="trigger-left" class="hover-trigger" onclick="handleCornerClick('left')">☰</div>
-	<div id="trigger-right" class="hover-trigger" onclick="handleCornerClick('right')">☰</div>
-	<div id="toast"></div>
-	<div id="ghost-restore" onclick="toggleSidebar(true)">☰</div>
+	<div id="multitrack">
+		<div id="track"></div>
+	</div>
+
 
 	<div id="sidebar">
-
 		<div id="collapsible-collections">
 			<div class="stats-bar">
-				<div class="stats-clickable" onclick="toggleCollections()">Collections (<span id="collection-count">0</span>)
+				<div class="stats-clickable" onclick="toggleCollections(event)">Collections (<span
+						id="collection-count">0</span>)
 				</div>
 				<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" class="bakery-link"
 					id="version-link">ⓘ</a>
 			</div>
-
-			<input type="file" id="json-input" style="display:none" accept=".json" onchange="importJSON(this)">
-			<div style="display:flex; gap:4px;">
-				<button class="import-btn action-btn" style="width: 32px;" onclick="smartImport()">+</button>
-				<button class="import-btn action-btn" style="flex: 1;" onclick="exportFilteredData()">EXPORT JSON</button>
-				<button class="import-btn action-btn" style="flex: 1;" onclick="exportGallery()">EXPORT HTML</button>
+			<div style="padding:0px 5px">
+				<input type="file" id="json-input" style="display:none" accept=".json" onchange="importJSON(this)">
+				<div style="display:flex; gap:4px;">
+					<button class="import-btn action-btn" style="width: 32px;" onclick="smartImport()">+</button>
+					<button class="import-btn action-btn" style="flex: 1;" onclick="exportFilteredData()">EXPORT JSON</button>
+					<button class="import-btn action-btn" style="flex: 1;" onclick="exportGallery()">EXPORT HTML</button>
+				</div>
+				<div id="path-list-container"></div>
 			</div>
-			<div id="path-list-container"></div>
 		</div>
-
-
-
-
-
-		<div id="collapsible-tags">
+		<div id="collapsible-tags" class="sidebar-upper">
 			<div class="stats-bar tags-bar">
-				<span class="stats-clickable" onclick="toggleTagCloud()">Tags (<span id="tag-count">0</span>)</span>
+				<span class="stats-clickable" onclick="toggleTagCloud(event)">Tags (<span id="tag-count">0</span>)</span>
 				<input type="text" id="master-search" class="unified-width" style="width:100px; text-align:center"
 					placeholder="SEARCH..." oninput="refreshAllUI()">
 				<button class="inline-toggle" id="tag-sort-btn" onclick="toggleTagSort()">A-Z</button>
@@ -1431,12 +1617,10 @@
 
 			<div id="tag-cloud"></div>
 		</div>
-
-
-		<div id="collapsible-images"
+		<div id="collapsible-images" class="sidebar-upper"
 			style="flex: 1; display: flex; flex-direction: column; overflow: hidden; background: rgba(0,0,0,0.2);">
 			<div class="stats-bar">
-				<div class="stats-clickable" onclick="toggleImages()">Images (<span id="img-count">0</span>)</div>
+				<div class="stats-clickable" onclick="toggleImages(event)">Images (<span id="img-count">0</span>)</div>
 				<div id="grid-slider-container">
 					<input type="range" id="col-slider" min="1" max="5" value="3" oninput="updateGridCols(this.value)">
 				</div>
@@ -1449,96 +1633,177 @@
 					</div>
 				</button>
 			</div>
-
-
 			<div id="file-list" class="file-list"></div>
 		</div>
+		<div class="header-bar">
+			<div id="button-palette" style="display:block;"><!--@@Stage-->
+				<div class="button-grid">
+					<button class="sq-btn dimmer"></button>
+					<!--Collections Button-->
+					<button class="sq-btn dimmer" onclick="toggleCollections(event)" title="Collections">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+							stroke-linecap="round" stroke-linejoin="round">
+							<rect x="7" y="7" width="14" height="14" rx="2" ry="2"></rect>
+							<path d="M3 15v-8c0-1.1.9-2 2-2h8"></path>
+						</svg>
+					</button>
+
+					<!--Save button-->
+					<!--
+					<button class="sq-btn dim" onclick="memDOM()" title="Save Changes">
+						<svg viewBox="0 0 100 100" style="width:90%; height:90%;">
+							<path d="M20,15 H70 L85,30 V85 H20 Z" fill="none" stroke="currentColor" stroke-width="6" />
+
+							<rect x="35" y="15" width="30" height="25" fill="none" stroke="currentColor" stroke-width="4" />
+
+							<rect x="30" y="55" width="40" height="30" fill="none" stroke="currentColor" stroke-width="4" />
+							<rect x="55" y="60" width="10" height="20" fill="currentColor" />
+						</svg>
+
+					</button>-->
+					<!--Remove Track Button ◸-->
+					<button class="sq-btn dimmer" onclick="removeTrackRelative(event,+1)" title="Remove Track Above/Left">
+						<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
+							<path d="M100,50 L50,50 L50,100 Z" fill="none" stroke="currentColor" stroke-width="6" />
+						</svg>
+					</button>
+					<!--UP BUTTON-->
+					<button class="sq-btn dim" onclick="moveActiveCard(event, 'up')" title="Move Up">
+						<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
+							<polygon points="10,80 50,10 90,80" fill="currentColor" />
+						</svg>
+					</button>
+					<!--Add Track Button ◥-->
+					<button class="sq-btn dimmer" onclick="addTrackRelative(event,+1)" title="Add Track Above/Right">
+						<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
+							<polygon points="50,100 50,50 0,50" fill="currentColor" />
+						</svg>
+					</button>
+					<!--NOTES BUTTON-->
+					<button class="sq-btn dimmer" id="settings-btn" onclick="toggleSettings(event)">
+						<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+							<rect x="20" y="15" width="60" height="70" rx="5" fill="none" stroke="currentColor" stroke-width="6" />
+
+							<line x1="35" y1="35" x2="65" y2="35" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+							<line x1="35" y1="50" x2="65" y2="50" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+							<line x1="35" y1="65" x2="55" y2="65" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+						</svg>
+					</button>
 
 
 
-		<!--<div class="stats-bar">
-			<div class="stats-clickable" onclick="toggleStageTools()">Staging (<span id="stage-count">0</span>)</div>
-			<button class="inline-toggle" onclick="clearWorkspace()">✕</button>
-		</div>-->
-		<div id="stage-tools"><!--@@Stage-->
-			<div class="btn-group">
-				<button class="sq-btn dim" onclick="toggleCollections()" title="Collections"><svg width="24" height="24"
-						viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-						stroke-linejoin="round">
-						<rect x="7" y="7" width="14" height="14" rx="2" ry="2"></rect>
-						<path d="M3 15v-8c0-1.1.9-2 2-2h8"></path>
-					</svg></button>&nbsp;
-				<button class="sq-btn dim" onclick="removeTrackRelative(+1)" title="Remove Track">-</button>
-				<button class="sq-btn" onclick="moveActiveCard('up')" title="Move Up (Vertical Mode Only)">▲</button>
-				<button class="sq-btn dim" onclick="addTrackRelative(+1)" title="Add Track">+</button>
-				&nbsp;
-				<button class="sq-btn action-btn" id="settings-btn" onclick="toggleSettings()">
-					<div class="icon-circle"></div>
-				</button>
+					<button class="sq-btn dimmer"></button>
+					<!--Auto Flush Mode Button ↻-->
+					<button id="auto-flush-btn" class="sq-btn action-btn" onclick="toggleAutoFlush(event)">
+						<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+							<path d="M75,30 C65,15 35,15 25,30 M25,70 C35,85 65,85 75,70" fill="none" stroke="currentColor"
+								stroke-width="8" stroke-linecap="round" />
+							<polygon points="70,12 88,28 68,40" fill="currentColor" />
+							<polygon points="30,88 12,72 32,60" fill="currentColor" />
+						</svg>
+					</button>
+					<!--Tags Button-->
+					<button class="sq-btn dimmer " onclick="toggleTagCloud(event)" title="Tags">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+							stroke-linecap="round" stroke-linejoin="round">
+							<line x1="4" y1="9" x2="20" y2="9"></line>
+							<line x1="4" y1="15" x2="20" y2="15"></line>
+							<line x1="10" y1="3" x2="8" y2="21"></line>
+							<line x1="16" y1="3" x2="14" y2="21"></line>
+						</svg>
+					</button>
 
-				<!--<button class="inline-toggle" onclick="clearWorkspace()">✕</button>-->
 
+					<!--LEFT BUTTON-->
+					<button class="sq-btn dim" onclick="moveActiveCard(event,'left')" title="Move Left">
+						<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
+							<polygon points="80,10 10,50 80,90" fill="currentColor" />
+						</svg>
+					</button>
+					<!--Scroll Orientation Button-->
+					<button id="mode-toggle" class="sq-btn dimmer" onclick="toggleScrollMode(event)" title="Scroll Direction">
+						<div class="icon-h"></div>
+					</button>
+					<!--RIGHT BUTTON-->
+					<button class="sq-btn dim" onclick="moveActiveCard(event,'right')" title="Move Right">
+						<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
+							<polygon points="20,10 90,50 20,90" fill="currentColor" />
+						</svg>
+					</button>
+					<!--Set Wallpaper Button-->
+					<button class="sq-btn dimmer" onclick="setCenteredAsWallpaper(event)" title="Set Active Card as Wallpaper">
+						<svg viewBox="0 0 100 100" class="icon-svg">
+
+							<rect x="15" y="20" width="70" height="60" rx="5" fill="none" stroke="currentColor" stroke-width="6" />
+							<path d="M15,70 L35,45 L55,70 L70,55 L85,75" stroke="currentColor" stroke-width="6" stroke-linecap="round"
+								fill="none" stroke-linejoin="round" />
+							<circle cx="65" cy="40" r="6" fill="currentColor" />
+						</svg>
+						<!--<div class="css-wall"></div>-->
+					</button>
+					<!--Remove Mode Button-->
+					<button id="remove-mode-btn" class="sq-btn action-btn" onclick="toggleRemovalMode(this)"
+						ondblclick="clearWorkspace(event)" title="Toggle Removal Mode">
+						<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+							<path d="M20,20 L80,80 M80,20 L20,80" fill="none" stroke="currentColor" stroke-width="8" />
+						</svg>
+					</button>
+					<!--Clear Workspace-->
+					<!--<button class="sq-btn dim" onclick="clearWorkspace(event)">CW</button>-->
+					<!--Show/Hide Custom Buttons-->
+					<button class="sq-btn dimmer" onclick="toggleAllBlockByID(event,'custom-buttons')"
+						title="Toggle custom buttons"></button>
+					<!--Listing Button-->
+					<button class="sq-btn dimmer" onclick="toggleImages(event)" title="Listing">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<rect x="3" y="3" width="7" height="7"></rect>
+							<rect x="14" y="3" width="7" height="7"></rect>
+							<rect x="14" y="14" width="7" height="7"></rect>
+							<rect x="3" y="14" width="7" height="7"></rect>
+						</svg>
+					</button>
+					<!--Add Track Button ◣-->
+					<button class="sq-btn dimmer" onclick="addTrackRelative(event,-1)" title="Add Track Below/Left">
+						<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
+							<polygon points="50,0 50,50 100,50" fill="currentColor" />
+						</svg>
+					</button>
+					<!--DOWN BUTTON-->
+					<button class="sq-btn dim" onclick="moveActiveCard(event,'down')" title="Move Down">
+						<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
+							<polygon points="10,20 50,90 90,20" fill="currentColor" />
+						</svg>
+					</button>
+					<!--Remove Track Button ◿-->
+					<button class="sq-btn dimmer" onclick="removeTrackRelative(event,-1)" title="Add Track Below/Right">
+						<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
+							<path d="M50,0 L50,50 L0,50 Z" fill="none" stroke="currentColor" stroke-width="6" />
+						</svg>
+					</button>
+
+					<button class="sq-btn dimmer"></button>
+					<!--Show/Hide Custom Buttons-->
+					<button class="sq-btn dimmer" onclick="toggleAllBlockByID(event,'custom-buttons')"
+						title="Toggle custom buttons"></button>
+				</div>
 			</div>
-			<div class="btn-group">
-				<button class="sq-btn dim" onclick="toggleTagCloud()" title="Tags"><svg width="24" height="24"
-						viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-						stroke-linejoin="round">
-						<line x1="4" y1="9" x2="20" y2="9"></line>
-						<line x1="4" y1="15" x2="20" y2="15"></line>
-						<line x1="10" y1="3" x2="8" y2="21"></line>
-						<line x1="16" y1="3" x2="14" y2="21"></line>
-					</svg></button>&nbsp;
-				<button class="sq-btn" onclick="moveActiveCard('left')"
-					title="Move Left (Horizontal Mode Only)">&#9664;</button>
-				<button id="mode-toggle" class="sq-btn active-gold" onclick="toggleScrollMode()" title="Scroll Wheel Direction">
-					<div class="icon-h"></div>
-				</button>
-				<button class="sq-btn" onclick="moveActiveCard('right')"
-					title="Move Right (Horizontal Mode Only)">&#9654;</button>
-				&nbsp;
-				<button id="auto-flush-btn" class="sq-btn action-btn" onclick="toggleAutoFlush()">↻</button>
-
+			<div id="custom-buttons" style="display:none;">
+				<div class="button-grid">
+					<button class="sq-btn dimmer" onclick="toggleAllBlockByID(event,'button-palette')"
+						title="Toggle Button Grid"></button>
+					<button class="sq-btn dimmer">A</button>
+					<button class="sq-btn dimmer">B</button>
+					<button class="sq-btn dimmer">C</button>
+					<button class="sq-btn dimmer">D</button>
+					<button class="sq-btn dimmer">E</button>
+					<button class="sq-btn dimmer" onclick="toggleAllBlockByID(event,'button-palette')"
+						title="Toggle Button Pallete"></button>
+				</div>
 			</div>
-			<div class="btn-group">
-				<button class="sq-btn dim" onclick="toggleImages()" title="Listing"><svg width="20" height="20"
-						viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<rect x="3" y="3" width="7" height="7"></rect>
-						<rect x="14" y="3" width="7" height="7"></rect>
-						<rect x="14" y="14" width="7" height="7"></rect>
-						<rect x="3" y="14" width="7" height="7"></rect>
-					</svg></button>
-				&nbsp;
-				<button class="sq-btn dim" onclick="addTrackRelative(-1)" title="Add Track">+</button>
-				<button class="sq-btn" onclick="moveActiveCard('down')" title="Move Down (Vertical Mode Only)">▼</button>
-				<button class="sq-btn dim" onclick="removeTrackRelative(-1)" title="Remove Track">-</button>
-				&nbsp;<button class="sq-btn dim" onclick="toggleRemovalMode(this)" title="Toggle Removal Mode">✕</button>
-
-
-			</div>
-
 		</div>
-
-
-
-		<div class="header-bar" style="border-top: 1px solid var(--border); padding-top: 10px;">
-			<div class="btn-group " onclick="toggleStageTools()">
-
-
-				<button class="sq-btn action-btn" onclick="setCenteredAsWallpaper()" title="Set Center as Wallpaper">
-					<div class="css-wall"></div>
-				</button>
-				<!--<button class="sq-btn action-btn" onclick="memDOM()" title="Save Changes"><span class="floppy-icon"></span></button>-->
-			</div>
-		</div>
-
-
-
-	</div>
-	<div id="multitrack">
-		<div id="track"></div>
 	</div>
 	<div id="settings-panel" style="display: none;">
-		<button class="tool-btn settings-close" onclick="toggleSettings()"
+		<button class="tool-btn settings-close" onclick="toggleSettings(event)"
 			style="position: absolute; top: 10px; right: 10px;">×</button>
 
 		<div style="font-weight: bold; margin-bottom: 5px; color: var(--gold);">SYSTEM SETTINGS</div>
@@ -1554,7 +1819,32 @@
 	<div id="splash-screen" onclick="if(event.target === this) hideSplash()">
 		<img id="splash-img" src="" alt="Enlarged View">
 	</div>
+	<!--
+	<div class="bottom-menu-container" id="bottom-nav">
+		<button class="semi-circle-btn" onclick="toggleBottomMenu(event)" title="Show Action Bar">
+			<div class="menu-icon-graphic">
+				<span></span><span></span><span></span>
+			</div>
+		</button>
+	</div>
+	<div id="bottom-menu-items" class="bottom-menu-panel">		
+		<button class="sq-btn dim" onclick="toggleRemovalMode(this)" title="Removal Mode">✕</button>	
+		<button id="mode-toggle" class="sq-btn active-gold" onclick="toggleScrollMode()" title="Scroll Wheel Direction">
+					<div class="icon-h"></div>
+				</button>	
+		<button class="sq-btn dim" onclick="toggleBottomMenu(event)" title="Close Action Bar"><div class="menu-icon-graphic">
+				<span></span><span></span><span></span>
+			</div></button> 
+		<button class="sq-btn dim" style="margin:-30px 0px 30px 0px" onclick="" title="">&#9664;</button>
+		<button class="sq-btn dim" onclick="" title=""></button>	
+	</div>-->
+	<!--Transparent Buttons-->
+
 	<div id="loading-screen" onclick="fadeLoadingScreen(false)"></div>
+	<div id="trigger-left" class="hover-trigger" onclick="handleCornerClick('left')">☰</div>
+	<div id="trigger-right" class="hover-trigger" onclick="handleCornerClick('right')">☰</div>
+	<div id="ghost-restore" onclick="toggleSidebar(true)">☰</div>
+	<div id="toast"></div>
 	<script>
 		let DATA = [];
 		let ALL_TAGS = [];
@@ -1708,7 +1998,14 @@
 			if (track) {
 				const allTracks = document.querySelectorAll('#track');
 				if (allTracks.length <= 1) {
-					showToast("Cannot delete the last track!");
+					// 20251226: StarTree: Just delete the content if the track is not empty.
+					if (track.innerHTML != "") {
+						if (confirm("This track is not empty. Delete its contents?")) {
+							track.innerHTML = "";
+						}
+					} else {
+						showToast("Cannot delete the last track!");
+					}
 					return true;
 				} else if (track.innerHTML == "" || confirm("This track is not empty. Delete this entire track?")) {
 					track.style.opacity = "0";
@@ -1753,10 +2050,12 @@
 		}
 		function summonGateGuardian() {
 			// 20251225: LRRH, StarTree: On mobile it is too easy to accidentally refresh the page and lose the arrangement.
-			if (false) { // 20251226: LRRH: After implementing auto save, this doesn't seem necessary.
+			if (true) {
+				// 20251226: LRRH: After implementing auto save, this doesn't seem necessary.
+				// 20251226: Cardinal: Need this if the user loads local collections.
 				window.addEventListener('beforeunload', (event) => {
 					event.preventDefault();
-					fadeLoadingScreen(true);
+					//fadeLoadingScreen(true);
 					event.returnValue = '';
 				});
 			}
@@ -1775,6 +2074,35 @@
 				showSplash(e);
 			});
 		}
+		function toggleAllBlockByID(e, aID) {
+			// 20251227: Black: Consolidating the toggle code.
+			e.stopPropagation();
+			const blocks = document.querySelectorAll("#" + aID);
+			blocks.forEach(block => {
+				if (block.style.display == "block") {
+					block.style.display = "none";
+				} else {
+					block.style.display = "block";
+				}
+			});
+		}
+		function toggleBottomMenu(e) {
+			if (e) e.stopPropagation(); // Prevents the 'click outside' from firing instantly
+
+			const container = document.getElementById('bottom-nav');
+			const panel = document.getElementById('bottom-menu-items');
+
+			const isOpening = !panel.classList.contains('active');
+
+			if (isOpening) {
+				panel.classList.add('active');
+				container.classList.add('active-state');
+			} else {
+				// This part handles clicking the semi-circle while it's already open
+				panel.classList.remove('active');
+				container.classList.remove('active-state');
+			}
+		}
 		function toggleRemovalMode(btn) {
 			// 20251226: StarTree, Gemini
 			isRemovalMode = !isRemovalMode;
@@ -1789,7 +2117,8 @@
 
 
 		/* UNSORTED CODE */
-		function addTrackRelative(direction) {
+		function addTrackRelative(e, direction) {
+			e.stopPropagation();
 			const multitrack = document.getElementById('multitrack');
 			const activeCard = document.querySelector('.card.is-active');
 
@@ -1814,11 +2143,11 @@
 			if (direction === -1) {
 				// Insert BEFORE (Above in Horizontal / Left in Vertical)
 				referenceTrack.insertAdjacentElement('beforebegin', newTrack);
-				showToast("Track Added Above/Left");
+				showToast("Track Added Below/Left");
 			} else {
 				// Insert AFTER (Below in Horizontal / Right in Vertical)
 				referenceTrack.insertAdjacentElement('afterend', newTrack);
-				showToast("Track Added Below/Right");
+				showToast("Track Added Above/Right");
 			}
 
 			// 4. Update UI to reflect the new layout
@@ -1829,13 +2158,13 @@
 		/**
 		 * Complementary function for the '-' buttons in your staging panel
 		 */
-		function removeTrackRelative(direction) {
+		function removeTrackRelative(e, direction) {
+			e.stopPropagation();
 			const activeCard = document.querySelector('.card.is-active');
 			if (!activeCard) {
-				showToast("Select a card in the track to remove");
+				showToast("Please select a card first.");
 				return;
 			}
-
 			const currentTrack = activeCard.closest('#track');
 			const multitrack = document.getElementById('multitrack');
 
@@ -1860,6 +2189,9 @@
 			}
 
 			if (targetTrack && targetTrack.id === 'track') {
+				if (targetTrack.querySelectorAll(".card").length > 1) {
+					if (!confirm("The target track is not empty. Remove it anyway?")) { return; }
+				}
 				targetTrack.remove();
 				showToast("Track Removed");
 			} else {
@@ -1887,7 +2219,8 @@
 		 * Moves the active card within its track based on mode-restricted directions.
 		 * @param {string} direction - 'up', 'down', 'left', or 'right'
 		 */
-		function moveActiveCard(direction) {
+		function moveActiveCard(e, direction) {
+			e.stopPropagation();
 			const activeCard = document.querySelector('.card.is-active');
 			if (!activeCard) return;
 
@@ -1907,10 +2240,19 @@
 
 			if (isCrossTrackMove) {
 				// --- LOGIC FOR MOVING TO ANOTHER TRACK ---
+				// 20251227: Cardinal: If there is no next track, create the track.
 				let targetTrack;
 				if (direction === 'down' || direction === 'left') {
 					targetTrack = currentTrack.previousElementSibling;
+					if (!targetTrack || !(targetTrack.id === 'track')) {
+						addTrackRelative(e, -1);
+					}
+					targetTrack = currentTrack.previousElementSibling;
 				} else {
+					targetTrack = currentTrack.nextElementSibling;
+					if (!targetTrack || !(targetTrack.id === 'track')) {
+						addTrackRelative(e, +1);
+					}
 					targetTrack = currentTrack.nextElementSibling;
 				}
 
@@ -1929,14 +2271,10 @@
 						targetTrack.appendChild(activeCard);
 					}
 
-
-
 					// Ensure the new track scrolls the moved card into view
 					setTimeout(() => {
 						activeCard.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
 					}, 50);
-				} else {
-					showToast("No track in that direction");
 				}
 			} else {
 				// --- LOGIC FOR MOVING WITHIN THE SAME TRACK ---
@@ -2003,15 +2341,19 @@
 
 
 		}
-		function setCenteredAsWallpaper() {
+		function setCenteredAsWallpaper(e) {
+			e.stopPropagation();
+			const body = document.body;
 			const activeCard = document.querySelector('.card.is-active img');
 			if (!activeCard) {
-				showToast("No active image centered");
+				body.style.backgroundImage = 'none';
+				localStorage.removeItem('gallery_wallpaper'); // Remove from storage
+				showToast("Wallpaper Removed");
 				return;
 			}
 
 			const url = activeCard.src;
-			const body = document.body;
+
 			// Normalize background string for comparison
 			const currentBg = body.style.backgroundImage.replace(/url\(["']?/, '').replace(/["']?\)/, '');
 
@@ -2096,10 +2438,9 @@
 				document.getElementById('json-input').click();
 			}
 		}
-		function toggleImages() {
-			const i = document.getElementById('collapsible-images');
-			// Toggle between none and flex so it maintains its space-filling behavior
-			i.style.display = (i.style.display === 'none') ? 'flex' : 'none';
+		function toggleImages(e) {
+			toggleSidebarUpper(e, 'collapsible-images');
+
 			refreshAllUI();
 		}
 		function toggleOrientation() {
@@ -2130,7 +2471,8 @@
 			renderPathList();
 			loadActiveCollections();
 		}
-		function toggleSettings() {
+		function toggleSettings(e) {
+			e.stopPropagation();
 			const panel = document.getElementById('settings-panel');
 			// Check computed style to see if it's currently hidden
 			const isHidden = window.getComputedStyle(panel).display === 'none';
@@ -2143,7 +2485,8 @@
 				panel.style.display = 'none';
 			}
 		}
-		function toggleScrollMode() {
+		function toggleScrollMode(e) {
+			e.stopPropagation();
 			const body = document.getElementById('body-wrap');
 			const btn = document.getElementById('mode-toggle');
 			const iconContainer = btn.querySelector('div'); // Targets the icon-h or icon-v div
@@ -2525,9 +2868,19 @@
 			}
 
 			if (autoFlush) {
-				document.querySelectorAll('.card').forEach(c => {
-					if (!c.classList.contains('pinned')) c.remove();
-				});
+				// 20251227: Cardinal: First count the number of cards in the track.
+				const cardsInTrack = activeTrack.querySelectorAll('.card');
+				if (cardsInTrack.length > 1) {
+					if (confirm("This track has more than one card, flush them all?")) {
+						cardsInTrack.forEach(c => {
+							if (!c.classList.contains('pinned')) c.remove();
+						});
+					}
+				} else {
+					cardsInTrack.forEach(c => {
+						if (!c.classList.contains('pinned')) c.remove();
+					});
+				}
 			}
 			document.querySelectorAll('.card.is-active').forEach(c => c.classList.remove('is-active'));
 			const c = document.createElement('div');
@@ -2625,7 +2978,8 @@
 			memDOM();
 		}
 
-		function toggleAutoFlush() {
+		function toggleAutoFlush(e) {
+			e.stopPropagation();
 			autoFlush = !autoFlush;
 			localStorage.setItem('gallery_flush', autoFlush);
 			updateAutoFlushUI();
@@ -2722,10 +3076,17 @@
 			memDOM();
 		}
 
-		function clearWorkspace() {
+		function clearWorkspace(e) {
+			e.stopPropagation();
+			if (!confirm("This will wipe the multitrack area. Are you sure?")) { return; }
+			const multitrack = document.querySelector("#multitrack");
+			multitrack.innerHTML = "<div id='track'></div>";
+
+
+			/*
 			document.querySelectorAll('.card').forEach(c => {
 				if (!c.classList.contains('pinned')) c.remove();
-			});
+			});*/
 			syncSidebarHighlights();
 		}
 
@@ -2904,18 +3265,37 @@
 			pointY = 0;
 			updateTransform();
 		}
-		function toggleStageTools() {
-			const s = document.getElementById('stage-tools');
+		function toggleStageTools(e) {
+			e.stopPropagation();
+			const s = document.getElementById('button-palatte');
 			// Check for empty string (initial state)
-			s.style.display = (s.style.display === 'none' || s.style.display === '') ? 'flex' : 'none';
+			s.style.display = (s.style.display === 'none' || s.style.display === '') ? 'block' : 'none';
 		}
-		function toggleCollections() {
-			const c = document.getElementById('collapsible-collections');
-			c.style.display = (c.style.display === 'none' || c.style.display === '') ? 'flex' : 'none';
+		function toggleSidebarUpper(e, aID) {
+			e.stopPropagation();
+			const c = document.getElementById(aID);
+			if (c.checkVisibility()) {
+				c.style.display = "none";
+				c.classList.remove("sidebar-upper");
+			} else {
+				c.style.display = "flex";
+				c.classList.add("sidebar-upper");
+			}
 		}
-		function toggleTagCloud() {
-			const h = document.getElementById('collapsible-tags');
-			h.style.display = (h.style.display === 'none') ? 'block' : 'none';
+
+		function toggleCollections(e) {
+			toggleSidebarUpper(e, 'collapsible-collections');
+		}
+		function toggleTagCloud(e) {
+			e.stopPropagation();
+			const c = document.getElementById('collapsible-tags');
+			if (c.checkVisibility()) {
+				c.style.display = "none";
+				c.classList.remove("sidebar-upper");
+			} else {
+				c.style.display = "block";
+				c.classList.add("sidebar-upper");
+			}
 		}
 		function cycleViewMode() {
 			const bodyWrap = document.getElementById('body-wrap');
@@ -2966,17 +3346,7 @@
 				}
 			}
 		}, { passive: false });
-
-
-
-		// Add this to your initialization logic
-		//document.getElementById('multitrack').addEventListener('scroll', updateCenteredCard);
-
-		// Also run it once on load to highlight the first card
-		//window.addEventListener('load', updateCenteredCard);
 	</script>
-
-
 </body>
 
 </html>
