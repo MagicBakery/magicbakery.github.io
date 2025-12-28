@@ -2268,6 +2268,7 @@ function MacroIcons(el,iHTMLInner){
     ["CD","📀"],
     ["ChatBubble","💬"],
     ["Checker",":Checker:"],
+    ["ChessPawn","♟️"],
     ["Chick","🐤"],
     ["Circus","🎪"],
     ["Clipboard","📋"],
@@ -2402,6 +2403,16 @@ function MacroIcons(el,iHTMLInner){
     ["SmileyHappy","😀"],
     ["SmileyMelt","🫠"],
     ["Spell","💫"],
+    ["Square0","0️⃣"],
+    ["Square1","1️⃣"],
+    ["Square2","2️⃣"],
+    ["Square3","3️⃣"],
+    ["Square4","4️⃣"],
+    ["Square5","5️⃣"],
+    ["Square6","6️⃣"],
+    ["Square7","7️⃣"],
+    ["Square8","8️⃣"],
+    ["Square9","9️⃣"],
     ["SquareCap","🎓"],
     ["Star","⭐"],
     ["StarEmpty",":StarEmpty:"],
@@ -2460,6 +2471,10 @@ function MacroIcons(el,iHTMLInner){
         //.iQuestion{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Question.png?raw=true');}
         // 20250505: StarTree: Need to use &quot; for correct formatting in scanner result.
         mSubstitute = "<span class='mbIcon' style='background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/"+ mImgCode +".png&quot;)'><icon>"+mSearchIcon+"</icon></span>";
+
+        // 20251227: LRRH: Why not use the images folder of the code?
+        mSubstitute = "<span class='mbIcon' style='background-image:url(&quot;https://magicbakery.github.io/images/"+ mImgCode +".png&quot;)'><icon>"+mSearchIcon+"</icon></span>";
+
         mHTMLInner = mHTMLInner.slice(0,mPos) + mSubstitute + mHTMLInner.slice(mPos+mSearchIcon.length);
         mStart = mPos + mSubstitute.length;
       }else{
