@@ -4,10 +4,10 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 	<title>Magic Theater</title>
-	<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Star.png">
+	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Stage.png">
 	<script>
-		const APP_VERSION = "20251227091549";
-		const APP_ANNOUNCEMENT = "20251227: GUI and Buttons Upgrade"
+		const APP_VERSION = "20251228005119"; //#Version
+		const APP_ANNOUNCEMENT = "20251227: Reduced gaps between cards."
 	</script>
 	<style>
 		:root {
@@ -595,7 +595,7 @@
 			flex: 1;
 			padding: 0px;
 			display: flex;
-			gap: 10px;
+			gap: 0px;
 			/* Wider gap for cleaner storyboard look */
 			transition: width 0.3s ease;
 			height: 100vh;
@@ -624,7 +624,7 @@
 
 		/* Ensure vertical mode keeps its original padding */
 		body.max-width #track {
-			padding: 5px;
+			
 			padding-top: 5px;
 			padding-bottom: 5px;
 			/* Adds empty space at the bottom so the last card can scroll up to the middle */
@@ -656,7 +656,7 @@
 			border-radius: 14px;
 			flex-shrink: 0;
 			/* CHANGE: Uses 98% of the parent track's height instead of a fixed 98vh */
-			height: 98%;
+			height: 100%;
 			overflow: hidden;
 			background: transparent;
 			transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -672,11 +672,6 @@
 			display: block;
 		}
 
-		body.max-width .card {
-			width: 95%;
-			/* Fits column width in Vertical */
-			height: auto;
-		}
 
 		/* The active/centered card style */
 		.card.is-active {
@@ -705,7 +700,6 @@
 		body.max-width .card {
 			width: 98%;
 			height: auto;
-			margin-bottom: 20px;
 		}
 
 		.card img {
