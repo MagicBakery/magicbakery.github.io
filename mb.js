@@ -2010,7 +2010,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20251118 Auto Export Reminder";
+  elContainer.innerHTML = "20251227 Icons Address Change";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2278,6 +2278,7 @@ function MacroIcons(el,iHTMLInner){
     ["CombatHelmet","🪖"],
     ["CornerRibbon",":CornerRibbon:"],
     ["Correct","✔️"],
+    ["Comet","☄️"],
     ["Compass","🧭"],
     ["CopperCoin",":CopperCoin:"],
     ["Court","🏛️"],
@@ -2304,6 +2305,7 @@ function MacroIcons(el,iHTMLInner){
     ["FileBox","🗃️"],
     ["Fire","🔥"],
     ["FirePit",":FirePit:"],
+    ["Floppy","💾"],
     ["Forbid","🚫"],
     ["FortuneCookie","🥠"],
     ["Fountain","⛲"],
@@ -2440,6 +2442,7 @@ function MacroIcons(el,iHTMLInner){
     ["Violin","🎻"],
     ["Vote","🗳️"],
     ["Waffle","🧇"],
+    ["Waterdrop","💧"],
     ["Wand","🪄"],
     ["Wheel","🛞"],
     ["WingL",":WingL:"],
@@ -2474,7 +2477,7 @@ function MacroIcons(el,iHTMLInner){
         //mSubstitute = "<span class='mbIcon i"+ mImgCode +"'><icon>"+mSearchIcon+"</icon></span>";
         //.iQuestion{background-image:url('https://github.com/MagicBakery/Icons/blob/main/Question.png?raw=true');}
         // 20250505: StarTree: Need to use &quot; for correct formatting in scanner result.
-        mSubstitute = "<span class='mbIcon' style='background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/"+ mImgCode +".png&quot;)'><icon>"+mSearchIcon+"</icon></span>";
+        /*mSubstitute = "<span class='mbIcon' style='background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/"+ mImgCode +".png&quot;)'><icon>"+mSearchIcon+"</icon></span>";*/
 
         // 20251227: LRRH: Why not use the images folder of the code?
         mSubstitute = "<span class='mbIcon' style='background-image:url(&quot;https://magicbakery.github.io/images/"+ mImgCode +".png&quot;)'><icon>"+mSearchIcon+"</icon></span>";
