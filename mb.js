@@ -2418,6 +2418,7 @@ function MacroIcons(el,iHTMLInner){
     ["Square8","8️⃣"],
     ["Square9","9️⃣"],
     ["SquareCap","🎓"],
+    ["Stage",":stage:"],
     ["Star","⭐"],
     ["StarEmpty",":StarEmpty:"],
     ["Stopwatch","⏱️"],
