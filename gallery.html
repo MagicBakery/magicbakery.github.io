@@ -6,8 +6,8 @@
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Stage.png">
 	<script>
-		const APP_VERSION = "20251228005119"; //#Version
-		const APP_ANNOUNCEMENT = "20251227: Reduced gaps between cards."
+		const APP_VERSION = "20251228135948"; //#Version
+		const APP_ANNOUNCEMENT = "20251228: Multitap Sync."
 	</script>
 	<style>
 		:root {
@@ -27,6 +27,15 @@
 		* {
 			box-sizing: border-box;
 		}
+
+		/* Only triggers when running as an installed Windows app */
+		@media (display-mode: standalone) {
+			body {
+				/* Adds a little breathing room at the top for the window controls */
+				padding-top: env(safe-area-inset-top);
+			}
+		}
+
 
 		html,
 		body {
@@ -624,7 +633,7 @@
 
 		/* Ensure vertical mode keeps its original padding */
 		body.max-width #track {
-			
+
 			padding-top: 5px;
 			padding-bottom: 5px;
 			/* Adds empty space at the bottom so the last card can scroll up to the middle */
@@ -1065,18 +1074,8 @@
 			text-align: center;
 		}
 
-		.bakery-link {
-			color: var(--text-dim);
-			text-decoration: none;
-			font-size: 14px;
-			transition: color 0.2s;
-			cursor: help;
-			/* Indicates hoverable info */
-		}
 
-		.bakery-link:hover {
-			color: var(--gold);
-		}
+
 
 		/* Matches Sort button width */
 		.tags-bar-center {
@@ -1587,8 +1586,8 @@
 				<div class="stats-clickable" onclick="toggleCollections(event)">Collections (<span
 						id="collection-count">0</span>)
 				</div>
-				<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" class="bakery-link"
-					id="version-link">ⓘ</a>
+				<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" rel="noopener noreferrer"
+					class="bakery-link" id="version-link">ⓘ</a>
 			</div>
 			<div style="padding:0px 5px">
 				<input type="file" id="json-input" style="display:none" accept=".json" onchange="importJSON(this)">
@@ -1797,8 +1796,25 @@
 		</div>
 	</div>
 	<div id="settings-panel" style="display: none;">
-		<button class="tool-btn settings-close" onclick="toggleSettings(event)"
-			style="position: absolute; top: 10px; right: 10px;">×</button>
+		<button class="tool-btn settings-close" onclick="toggleSettings(event)" style="float:right">×</button>
+
+		<a class="tool-btn" target="_blank" title="Log Bugs" style="float: right;height:24px;width:24px;margin-right:5px"
+			href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">
+			<svg viewBox="-3 -3 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+				stroke-linejoin="round">
+				<path d="M4 4h16c1.1 0 2 0.9 2 2v12c0 1.1-0.9 2-2 2H4c-1.1 0-2-0.9-2-2V6c0-1.1 0.9-2 2-2z"></path>
+				<polyline points="22,6 12,13 2,6"></polyline>
+			</svg>
+		</a>
+		<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" rel="noopener noreferrer"
+			class="tool-btn bakery-link" style="float: right;height:24px;width:24px;margin-right:5px" title="Visit Homepage">
+			<svg viewBox="-3 -3 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+				stroke-linejoin="round">
+				<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+				<polyline points="9 22 9 12 15 12 15 22"></polyline>
+			</svg>
+		</a>
+
 
 		<div style="font-weight: bold; margin-bottom: 5px; color: var(--gold);">SYSTEM SETTINGS</div>
 		<div style="display:flex; gap:5px; align-items:center;">
@@ -2053,6 +2069,15 @@
 					event.returnValue = '';
 				});
 			}
+			// 20251228: Cardinal: Multi-tap storage sync
+			window.addEventListener('storage', (event) => {
+				if (event.key === 'multitrack_snapshot') {
+					// NOTE: the listening cannot run a confirm and would skip it.
+					memDOM(true);
+					showToast("✨ Workspace synced from another tab");
+				}
+			});
+
 			// 20251226: LRRH: There might need to be a check or a greeting before removing the loading screen.
 			memDOM(true);
 			fadeLoadingScreen(false);
