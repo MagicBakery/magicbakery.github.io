@@ -4,10 +4,10 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 	<title>Magic Theater</title>
-	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Stage.png">
+	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
 	<script>
-		const APP_VERSION = "20251228135948"; //#Version
-		const APP_ANNOUNCEMENT = "20251228: Multitap Sync."
+		const APP_VERSION = "20251229011847"; //#Version
+		const APP_ANNOUNCEMENT = "20251229: Starred Cards."
 	</script>
 	<style>
 		:root {
@@ -43,6 +43,52 @@
 			padding: 0;
 			width: 100%;
 			height: 100%;
+		}
+		.modal-overlay {
+			position: fixed;
+			inset: 0;
+			background: rgba(0, 0, 0, 0.7);
+			backdrop-filter: blur(10px);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			z-index: var(--z-Notifications);
+		}
+		.modal-content {
+			background: #222;
+			padding: 20px;
+			border-radius: 15px;
+			border: 1px solid var(--gold);
+			text-align: center;
+		}
+		.modal-btns button {
+			padding: 10px 25px;
+			border-radius: 8px;
+			border: none !important;
+			cursor: pointer;
+			font-weight: bold;
+			transition: all 0.3s ease;
+			/* Smooth color switching */
+			filter: grayscale(0);
+			opacity: 1;
+		}
+		.confirm-yes {
+			background-color: var(--green);
+			color: white;
+		}
+		.confirm-no {
+			background-color: #444;
+			color: #ccc;
+		}
+		.confirm-no:hover {
+			background-color: #cc0000;
+			color: white;
+		}
+		#custom-confirm:has(.confirm-no:hover) .confirm-yes {
+			background-color: #444;
+			color: #888;
+			filter: grayscale(1);
+			opacity: 0.6;
 		}
 
 		.bottom-menu-container {
@@ -255,6 +301,12 @@
 			/* Ensures they stay pinned to the corner */
 		}
 
+		body:has(.card.is-active.pinned) .star-btn,
+		body:has(.card.is-active.pinned) .pin-btn {
+			color: var(--gold) !important;
+			background: rgba(255, 215, 0, 0.1) !important;
+			border-color: var(--gold) !important;
+		}
 		#multitrack {
 			flex: 1;
 			display: flex;
@@ -352,7 +404,7 @@
 			-webkit-overflow-scrolling: touch;
 			/* Adds smooth momentum scrolling for mobile */
 			opacity: 0;
-			transition: opacity 0.5s ease 5s;
+			transition: opacity 0.5s ease 10s;
 		}
 
 
@@ -384,7 +436,7 @@
 			-webkit-overflow-scrolling: touch;
 			/* Adds smooth momentum scrolling for mobile */
 
-			transition: background 0.5s ease 3s, backdrop-filter 0.5s ease 3s;
+			transition: background 0.5s ease 10s, backdrop-filter 0.5s ease 10s;
 		}
 
 		#sidebar:hover {
@@ -394,7 +446,9 @@
 			transition: background 0.2s ease, backdrop-filter 0.2s ease;
 		}
 
+		/* 20251228: Tanya: Don't hide the upper panel, it blocks clicks. */
 		#sidebar:hover:has(.sidebar-upper) {
+			/*#sidebar:has(.sidebar-upper) {*/
 			/* When hovered, the background and blur return INSTANTLY */
 			background: var(--panel);
 			backdrop-filter: blur(20px);
@@ -407,11 +461,11 @@
 			/* Fade out after 3 seconds */
 		}
 
+		/* 20251228: Tanya: Don't hide the upper panel, it blocks clicks.*/
 		#sidebar:not(:hover)>*:not(.header-bar) {
-			opacity: 0;
+			opacity: 0.1;
 			pointer-events: none;
-			transition: opacity 0.5s ease 3s;
-			/* Prevent clicking invisible images/tags */
+			transition: opacity 0.5s ease 10s;
 		}
 
 		/* Ensure children don't stretch awkwardly */
@@ -521,7 +575,7 @@
 
 		#toast {
 			position: fixed;
-			top: 50%;
+			top: 20%;
 			left: 50%;
 			transform: translateX(-50%);
 			background: rgba(255, 215, 0, 0.6);
@@ -723,18 +777,31 @@
 			height: auto;
 		}
 
-		.card.pinned {
-			border-color: var(--gold);
-			box-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
-		}
 
-		.card-tools {
+
+		.card.pinned::after {
+			content: "";
+			/* Empty content because we are using a background image */
 			position: absolute;
-			top: 15px;
-			right: 15px;
-			display: flex;
-			gap: 8px;
-			z-index: var(--z-Gallery);
+			top: -4px;
+			left: -4px;
+			width: 36px;
+			height: 36px;
+			/* Using a data URI SVG so you don't need an external file */
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFD700'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E");
+			background-size: contain;
+			background-repeat: no-repeat;
+			/* Optional: Add a subtle drop shadow to make it pop against card art */
+			filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.5));
+			pointer-events: none;
+			/* Let clicks pass through the icon to the card */
+			z-index: calc(var(--z-Gallery)+1);
+			opacity: 0;
+			transition: opacity 0.3s ease 10s;
+		}
+		body:has(#sidebar:hover) .card.pinned::after {
+			opacity: 1;
+			transition: opacity 0.3s ease;
 		}
 
 		.tool-btn {
@@ -886,7 +953,7 @@
 		.sq-btn.dim {
 			background: rgba(255, 255, 255, 0.25);
 			color: rgba(0, 0, 0, 0) !important;
-			transition: background 0.5s ease 3s, color 0.5s ease 3s;
+			transition: background 0.5s ease 10s, color 0.5s ease 10s;
 		}
 
 		#sidebar:hover .sq-btn.dim {
@@ -910,7 +977,7 @@
 			/* Slightly larger for the sidebar */
 		}
 
-		#settings-panel {
+		#command-panel {
 			position: fixed;
 			/* Changed from absolute */
 			bottom: 0px;
@@ -939,29 +1006,29 @@
 		}
 
 		/* Custom Scrollbar Styling */
-		#settings-panel textarea::-webkit-scrollbar {
+		#command-panel textarea::-webkit-scrollbar {
 			width: 6px;
 			/* Very thin */
 		}
 
-		#settings-panel textarea::-webkit-scrollbar-track {
+		#command-panel textarea::-webkit-scrollbar-track {
 			background: transparent;
 			/* Makes the track invisible */
 		}
 
-		#settings-panel textarea::-webkit-scrollbar-thumb {
+		#command-panel textarea::-webkit-scrollbar-thumb {
 			background: rgba(255, 255, 255, 0.2);
 			/* Subtle white thumb */
 			border-radius: 10px;
 		}
 
-		#settings-panel textarea::-webkit-scrollbar-thumb:hover {
+		#command-panel textarea::-webkit-scrollbar-thumb:hover {
 			background: var(--gold);
 			/* Highlights gold on hover to match your UI */
 		}
 
 		/* For Firefox */
-		#settings-panel textarea {
+		#command-panel textarea {
 			scrollbar-width: thin;
 			scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 		}
@@ -1401,7 +1468,7 @@
 		#auto-flush-btn,
 		.dimmer {
 			opacity: 0;
-			transition: opacity 0.3s ease 5s;
+			transition: opacity 0.3s ease 10s;
 		}
 
 		#remove-mode-btn:hover,
@@ -1631,7 +1698,12 @@
 		<div class="header-bar">
 			<div id="button-palette" style="display:block;"><!--@@Stage-->
 				<div class="button-grid">
-					<button class="sq-btn dimmer"></button>
+					<button class="sq-btn dimmer star-btn" onclick="togglePinActiveCard(event)" title="Star Active Card">
+						<svg viewBox="0 0 24 24" width="100" height="100" fill="currentColor" stroke="currentColor" stroke-width="2"
+							stroke-linejoin="round">
+							<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+						</svg>
+					</button>
 					<!--Collections Button-->
 					<button class="sq-btn dimmer" onclick="toggleCollections(event)" title="Collections">
 						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1795,7 +1867,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="settings-panel" style="display: none;">
+	<div id="command-panel" style="display: none;">
 		<button class="tool-btn settings-close" onclick="toggleSettings(event)" style="float:right">×</button>
 
 		<a class="tool-btn" target="_blank" title="Log Bugs" style="float: right;height:24px;width:24px;margin-right:5px"
@@ -1816,7 +1888,7 @@
 		</a>
 
 
-		<div style="font-weight: bold; margin-bottom: 5px; color: var(--gold);">SYSTEM SETTINGS</div>
+		<div style="font-weight: bold; margin-bottom: 5px; color: var(--gold);">DEV</div>
 		<div style="display:flex; gap:5px; align-items:center;">
 			<a id="add-btn" href="#" target="_blank" class="sq-btn action-btn" onclick="handleLinkAction(event)">+</a>
 			<input type="text" id="add-url-input" class="unified-width" placeholder="URL for + button..."
@@ -1854,6 +1926,15 @@
 	<div id="trigger-left" class="hover-trigger" onclick="handleCornerClick('left')">☰</div>
 	<div id="trigger-right" class="hover-trigger" onclick="handleCornerClick('right')">☰</div>
 	<div id="ghost-restore" onclick="toggleSidebar(true)">☰</div>
+	<div id="custom-confirm" class="modal-overlay" style="display:none;">
+		<div class="modal-content">
+			<p id="confirm-text" style="color: white; margin-bottom: 20px;"></p>
+			<div class="modal-btns">
+				<button id="btn-yes" onclick="confirmChoice(true)" class="confirm-yes">Yes</button>
+				<button id="btn-no" onclick="confirmChoice(false)" class="confirm-no">No</button>
+			</div>
+		</div>
+	</div>
 	<div id="toast"></div>
 	<script>
 		let DATA = [];
@@ -1958,6 +2039,7 @@
 		/* ALPHABETICALLY SORTED CODE */
 		const zLayers = ['Notifications', 'LoadingScreen', 'TransparentControls', 'ExamineScreen', 'GUIControls', 'Listings', 'Gallery', 'AppWallpaper'];
 		let isRemovalMode = false; /* 20251226: StarTree: Used for the Removal button */
+		let resolveConfirm = null;
 
 
 		function fadeLoadingScreen(bIn) {
@@ -1985,7 +2067,7 @@
 			card.classList.add('is-active');
 			memDOM();
 		}
-		function fairyRemovalCheck(e) {
+		async function fairyRemovalCheck(e) {
 			// 20251226: StarTree: Handle element removal
 			// Returns true if the click is processed.
 			if (!isRemovalMode) return false;
@@ -1993,8 +2075,10 @@
 			const track = e.target.closest('#track');
 
 			if (card) {
-				// Prevent accidental triggers of other features (like splash)
 				e.stopPropagation();
+				if (card.classList.contains('pinned')) {
+					if (await showConfirm("This card has a ⭐. Keep it?")) { return true; }
+				}
 				// Perform the removal
 				card.style.transform = "scale(0.8) translateY(20px)";
 				card.style.opacity = "0";
@@ -2006,25 +2090,7 @@
 				return true;
 			}
 			if (track) {
-				const allTracks = document.querySelectorAll('#track');
-				if (allTracks.length <= 1) {
-					// 20251226: StarTree: Just delete the content if the track is not empty.
-					if (track.innerHTML != "") {
-						if (confirm("This track is not empty. Delete its contents?")) {
-							track.innerHTML = "";
-						}
-					} else {
-						showToast("Cannot delete the last track!");
-					}
-					return true;
-				} else if (track.innerHTML == "" || confirm("This track is not empty. Delete this entire track?")) {
-					track.style.opacity = "0";
-					track.style.maxHeight = "0"; // Smoothly collapse the track
-					setTimeout(() => {
-						track.remove();
-						memDOM();
-					}, 300);
-				}
+				removeTrack(track);
 				return true;
 			}
 			return false;
@@ -2084,8 +2150,8 @@
 		}
 		function summonFairyQueen() {
 			// 20251226: StarTree: This is supposed to handle all clicks on staging areas.
-			document.addEventListener('click', (e) => {
-				if (fairyRemovalCheck(e)) { return; }
+			document.addEventListener('click', async (e) => {
+				if (await fairyRemovalCheck(e)) { return; }
 				fairyActiveCardCheck(e);
 			});
 			// 20251226: StarTree: Double Click
@@ -2122,6 +2188,24 @@
 				container.classList.remove('active-state');
 			}
 		}
+		function togglePinActiveCard(e) {
+			e.stopPropagation();
+			// 1. Find the active card. 
+			// This assumes you add an 'active' class when hovering or clicking.
+			const activeCard = document.querySelector('.card.is-active');
+			if (activeCard) {
+				// 2. Toggle the 'pinned' class
+				const isPinned = activeCard.classList.toggle('pinned');
+				// 3. Optional: Provide haptic/visual feedback or save state
+				console.log(isPinned ? "Card pinned" : "Card unpinned");
+				// If you use your memDOM function, save the change:
+				if (typeof memDOM === "function") {
+					memDOM(false, "multitrack");
+				}
+			} else {
+				console.warn("No active card found to pin.");
+			}
+		}
 		function toggleRemovalMode(btn) {
 			// 20251226: StarTree, Gemini
 			isRemovalMode = !isRemovalMode;
@@ -2136,6 +2220,35 @@
 
 
 		/* UNSORTED CODE */
+		function showConfirm(message) {
+			const modal = document.getElementById('custom-confirm');
+			const text = modal.querySelector('#confirm-text');
+			const btnYes = document.getElementById('btn-yes');
+			const btnNo = document.getElementById('btn-no');
+			text.innerText = message;
+			modal.style.display = 'flex';
+			return new Promise((resolve) => {
+				resolveConfirm = resolve;
+			});
+		}
+		function confirmChoice(choice) {
+			const modal = document.getElementById('custom-confirm');
+			if (modal) modal.style.display = 'none';
+			// Only resolve if we have a pending promise
+			if (resolveConfirm) {
+				resolveConfirm(choice);
+				resolveConfirm = null; // Reset it so it can't be clicked twice
+			}
+		}
+		// HOW TO USE IT IN YOUR STORAGE LISTENER:
+		window.addEventListener('storage', async (event) => {
+			if (event.key === 'multitrack_snapshot') {
+				const userSaidYes = await showConfirm(); // Pauses here for the user!
+				if (userSaidYes) {
+					memDOM(true, "multitrack");
+				}
+			}
+		});
 		function addTrackRelative(e, direction) {
 			e.stopPropagation();
 			const multitrack = document.getElementById('multitrack');
@@ -2177,6 +2290,32 @@
 		/**
 		 * Complementary function for the '-' buttons in your staging panel
 		 */
+		async function removeTrack(targetTrack) {
+			// Keep the last track.
+			if (targetTrack.closest('#multitrack').querySelectorAll('#track') > 1) {
+				showToast("The last track cannot be deleted.")
+				return;
+			}
+			if (targetTrack && targetTrack.id === 'track') {
+				let cardsCount = targetTrack.querySelectorAll(".card").length;
+				if (cardsCount > 0) {
+					if (await showConfirm("The target track is not empty. Keep it?")) { return; }
+				}
+				let starsCount = targetTrack.querySelectorAll(".card.pinned").length;
+				if (starsCount == 0 || !await showConfirm("The target track has ⭐ cards. Keep them?")) {
+					targetTrack.remove();
+					showToast("Track Removed");
+					memDOM();
+					return;
+				}
+				targetTrack.querySelectorAll(".card:not(.pinned)").forEach(card => {
+					card.remove();
+				});
+				memDOM();
+			} else {
+				showToast("No track found in that direction");
+			}
+		}
 		function removeTrackRelative(e, direction) {
 			e.stopPropagation();
 			const activeCard = document.querySelector('.card.is-active');
@@ -2207,16 +2346,7 @@
 				}
 			}
 
-			if (targetTrack && targetTrack.id === 'track') {
-				if (targetTrack.querySelectorAll(".card").length > 1) {
-					if (!confirm("The target track is not empty. Remove it anyway?")) { return; }
-				}
-				targetTrack.remove();
-				showToast("Track Removed");
-			} else {
-				showToast("No track found in that direction");
-			}
-			memDOM();
+			removeTrack(targetTrack);
 		}
 		function babyStepAddTrack() {
 			const multitrack = document.getElementById('multitrack');
@@ -2492,7 +2622,7 @@
 		}
 		function toggleSettings(e) {
 			e.stopPropagation();
-			const panel = document.getElementById('settings-panel');
+			const panel = document.getElementById('command-panel');
 			// Check computed style to see if it's currently hidden
 			const isHidden = window.getComputedStyle(panel).display === 'none';
 
@@ -2867,7 +2997,7 @@
 			updateStageCount();
 		}
 
-		function createCard(item) {
+		async function createCard(item) {
 			// 1. Change: Target the active track or the default track
 			const multitrack = document.getElementById('multitrack');
 			const activeCard = document.querySelector('.card.is-active');
@@ -2888,9 +3018,9 @@
 
 			if (autoFlush) {
 				// 20251227: Cardinal: First count the number of cards in the track.
-				const cardsInTrack = activeTrack.querySelectorAll('.card');
+				const cardsInTrack = activeTrack.querySelectorAll('.card:not(.pinned)');
 				if (cardsInTrack.length > 1) {
-					if (confirm("This track has more than one card, flush them all?")) {
+					if (!await showConfirm("This track has more than one unstarred cards. Keep them?")) {
 						cardsInTrack.forEach(c => {
 							if (!c.classList.contains('pinned')) c.remove();
 						});
@@ -2906,12 +3036,28 @@
 			c.className = 'card';
 			c.dataset.path = item.p;
 			c.classList.add('is-active');
+			updateStarButtonState();
 
 
 			c.innerHTML = `<div class="card-tag-overlay"></div>
     <img src="${item.p}" onerror="handleMissingImage(this, '${item.p}')">`;
 
 
+			// 20251229: Sasha: In Multitrack vertical mode insert after the active card.
+			const isMultitrack = multitrack.querySelectorAll("#track").length > 1;
+			if (isMultitrack) {
+				if (isVertical) {
+					activeCard.after(c);
+				} else {
+					if (currentDock === 'left') {
+						activeCard.before(c);
+						
+					} else {
+						activeCard.after(c);
+						
+					}
+				}
+			} else {
 			// 3. Change: Insertion logic targets activeTrack
 			const cards = Array.from(activeTrack.querySelectorAll('.card'));
 
@@ -2951,10 +3097,12 @@
 
 				// 2. Make this new card active
 				c.classList.add('is-active');
+					updateStarButtonState();
 
 
 			}
 
+			}
 			setTimeout(() => {
 				//if (multitrack.children.length > 1) {
 				c.scrollIntoView({
@@ -2962,19 +3110,23 @@
 					block: 'center',
 					inline: 'center'
 				});
-				//}else{
-				//c.scrollIntoView({behavior: 'smooth',block: 'nearest',inline: 'nearest'});
-				//}
+
 				updateAllCardOverlays();
 				syncSidebarHighlights();
-
-				// This function will now check if (multitrack.children.length > 1) 
-				// and skip logic if multi-track is active.
-				//updateCenteredCard();
+				memDOM();
 			}, 50);
-			memDOM();
-		}
 
+		}
+		function updateStarButtonState() {
+			const activeCard = document.querySelector('.card.is-active');
+			const starBtn = document.querySelector('.star-btn'); // or .pin-btn
+
+			if (activeCard && activeCard.classList.contains('pinned')) {
+				starBtn.classList.add('active-gold');
+			} else {
+				starBtn.classList.remove('active-gold');
+			}
+		}
 		function updateAllCardOverlays() {
 			// 20251226: StarTree: To be changed to so the tags don't show on the card itself.
 			return;
@@ -3095,9 +3247,9 @@
 			memDOM();
 		}
 
-		function clearWorkspace(e) {
+		async function clearWorkspace(e) {
 			e.stopPropagation();
-			if (!confirm("This will wipe the multitrack area. Are you sure?")) { return; }
+			if (await showConfirm("This will wipe the multitrack area. Keep it?")) { return; }
 			const multitrack = document.querySelector("#multitrack");
 			multitrack.innerHTML = "<div id='track'></div>";
 
