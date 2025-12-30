@@ -6,8 +6,8 @@
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
 	<script>
-		const APP_VERSION = "20251229011847"; //#Version
-		const APP_ANNOUNCEMENT = "20251229: Starred Cards."
+		const APP_VERSION = "20251230021604"; //#Version
+		const APP_ANNOUNCEMENT = "20251230: Card Notes."
 	</script>
 	<style>
 		:root {
@@ -44,6 +44,7 @@
 			width: 100%;
 			height: 100%;
 		}
+
 		.modal-overlay {
 			position: fixed;
 			inset: 0;
@@ -54,6 +55,7 @@
 			justify-content: center;
 			z-index: var(--z-Notifications);
 		}
+
 		.modal-content {
 			background: #222;
 			padding: 20px;
@@ -61,6 +63,7 @@
 			border: 1px solid var(--gold);
 			text-align: center;
 		}
+
 		.modal-btns button {
 			padding: 10px 25px;
 			border-radius: 8px;
@@ -72,23 +75,112 @@
 			filter: grayscale(0);
 			opacity: 1;
 		}
+
 		.confirm-yes {
 			background-color: var(--green);
 			color: white;
 		}
+
 		.confirm-no {
 			background-color: #444;
 			color: #ccc;
 		}
+
 		.confirm-no:hover {
 			background-color: #cc0000;
 			color: white;
 		}
+
 		#custom-confirm:has(.confirm-no:hover) .confirm-yes {
 			background-color: #444;
 			color: #888;
 			filter: grayscale(1);
 			opacity: 0.6;
+		}
+
+
+		/* Container for the Tab Buttons */
+		.panel-tabs {
+			display: flex;
+			gap: 10px;
+			margin-bottom: 15px;
+			border-bottom: 1px solid var(--border);
+			padding-bottom: 10px;
+		}
+
+		.tab-btn {
+			background: none;
+			border: none;
+			color: var(--text-dim);
+			cursor: pointer;
+			font-size: 0.9rem;
+			padding: 5px 10px;
+			transition: color 0.3s;
+		}
+
+		.tab-btn.active {
+			color: var(--gold);
+			font-weight: bold;
+		}
+
+		#tab-card-notes {
+			display: block;
+			/* Hidden by default */
+			flex-direction: column;
+			gap: 10px;
+			height: 100%;
+		}
+
+		#card-notes {
+			width: 100%;
+			height: 200px;
+			/* Adjust based on sidebar height */
+			background: rgba(255, 255, 255, 0.05);
+			border: 1px solid var(--border);
+			color: var(--text);
+			padding: 10px;
+			border-radius: 8px;
+			resize: none;
+			font-family: inherit;
+			line-height: 1.5;
+			outline: none;
+		}
+
+		#card-notes:focus {
+			border-color: var(--gold);
+		}
+
+		/* The Save Button Styling */
+		.save-notes-btn {
+			align-self: flex-end;
+			background: transparent;
+			border: 1px solid #444;
+			color: #444;
+			/* Grayed out by default */
+			padding: 8px 15px;
+			border-radius: 5px;
+			cursor: default;
+			/* Not clickable when clean */
+			transition: all 0.3s ease;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			filter: grayscale(1);
+			opacity: 0.5;
+		}
+
+		/* The "Dirty" State: When user has typed but not saved */
+		#command-panel:has(.is-dirty) .save-notes-btn {
+			color: var(--gold);
+			border-color: var(--gold);
+			cursor: pointer;
+			filter: grayscale(0);
+			opacity: 1;
+			box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+		}
+
+		#command-panel:has(.is-dirty) .save-notes-btn:hover {
+			background: rgba(255, 215, 0, 0.1);
 		}
 
 		.bottom-menu-container {
@@ -103,6 +195,7 @@
 			padding-bottom: 0;
 
 		}
+
 
 		.semi-circle-btn {
 			width: 100px;
@@ -307,6 +400,7 @@
 			background: rgba(255, 215, 0, 0.1) !important;
 			border-color: var(--gold) !important;
 		}
+
 		#multitrack {
 			flex: 1;
 			display: flex;
@@ -799,6 +893,7 @@
 			opacity: 0;
 			transition: opacity 0.3s ease 10s;
 		}
+
 		body:has(#sidebar:hover) .card.pinned::after {
 			opacity: 1;
 			transition: opacity 0.3s ease;
@@ -1869,7 +1964,6 @@
 	</div>
 	<div id="command-panel" style="display: none;">
 		<button class="tool-btn settings-close" onclick="toggleSettings(event)" style="float:right">×</button>
-
 		<a class="tool-btn" target="_blank" title="Log Bugs" style="float: right;height:24px;width:24px;margin-right:5px"
 			href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">
 			<svg viewBox="-3 -3 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -1887,16 +1981,45 @@
 			</svg>
 		</a>
 
+		<div class="panel-tabs">
 
-		<div style="font-weight: bold; margin-bottom: 5px; color: var(--gold);">DEV</div>
-		<div style="display:flex; gap:5px; align-items:center;">
-			<a id="add-btn" href="#" target="_blank" class="sq-btn action-btn" onclick="handleLinkAction(event)">+</a>
-			<input type="text" id="add-url-input" class="unified-width" placeholder="URL for + button..."
-				oninput="updateAddUrl(this.value)">
+			<button class="tab-btn save-notes-btn" onclick="saveCardNotes(event)">SAVE
+				<!--<svg viewBox="0 0 100 100" style="width:90%; height:90%;">
+					<path d="M20,15 H70 L85,30 V85 H20 Z" fill="none" stroke="currentColor" stroke-width="6" />
+
+					<rect x="35" y="15" width="30" height="25" fill="none" stroke="currentColor" stroke-width="4" />
+
+					<rect x="30" y="55" width="40" height="30" fill="none" stroke="currentColor" stroke-width="4" />
+					<rect x="55" y="60" width="10" height="20" fill="currentColor" />
+				</svg>-->
+			</button>
+			<button class="tab-btn" onclick="toggleTab(event,'tab-card-notes')">Card</button>
+			<button class="tab-btn" onclick="toggleTab(event,'tab-dev-notes')">DEV</button>
+
 		</div>
-		<textarea id="user-note" class="unified-width"
-			style="resize:none;height:180px; margin-bottom:5px;font-size:1em;overflow-y: auto;" placeholder="NOTES..."
-			oninput="saveNotes(this.value)"></textarea>
+
+		<div class="tabs-contents">
+			<div id="tab-card-notes">
+
+				<textarea id="card-notes" class="unified-width" oninput="markDirty(this)"
+					style="resize:none;height:180px; margin-bottom:5px;font-size:1em;overflow-y: auto;" placeholder=""></textarea>
+			</div>
+			<div id="tab-dev-notes" style="display:none">
+				<div style="display:flex; gap:5px; align-items:center;">
+					<a id="add-btn" href="#" target="_blank" class="sq-btn action-btn" onclick="handleLinkAction(event)">+</a>
+					<input type="text" id="add-url-input" class="unified-width" placeholder="URL for + button..."
+						oninput="updateAddUrl(this.value)">
+				</div>
+				<textarea id="user-note" class="unified-width"
+					style="resize:none;height:180px; margin-bottom:5px;font-size:1em;overflow-y: auto;" placeholder="NOTES..."
+					oninput="saveNotes(this.value)"></textarea>
+			</div>
+		</div>
+
+
+
+
+
 	</div>
 	<div id="splash-screen" onclick="if(event.target === this) hideSplash()">
 		<img id="splash-img" src="" alt="Enlarged View">
@@ -2063,6 +2186,17 @@
 			// 20251226: StarTree: Set the card to be the active card if it is in multi track mode.
 			const card = e.target.closest('.card');
 			if (!card) return false;
+			const curCard = document.querySelector('.card.is-active');
+			if (curCard == card) { return true; }
+			const curNotes = decodeURIComponent(curCard.dataset.notes || "");
+			const cardNotes = document.getElementById("card-notes");
+			/*if(curNotes !== cardNotes){
+				if(showConfirm("Save changes to your card notes?")){
+					saveCardNotes(e);
+				}
+			}*/
+			cardNotes.dataset.notes = card.dataset.notes;
+			cardNotes.value = decodeURIComponent(card.dataset.notes || "");
 			document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
 			card.classList.add('is-active');
 			memDOM();
@@ -2123,6 +2257,18 @@
 				localStorage.setItem(aID + '_snapshot', mSection.innerHTML);
 				localStorage.setItem(aID + '_snapshot_version', APP_VERSION);
 			}
+		}
+		function saveCardNotes(e) {
+			// 20251230: Cardinal
+			e.stopPropagation();
+			const activeCard = document.querySelector(".card.is-active");
+			if (!activeCard) { return; }
+			const textArea = document.getElementById("card-notes");
+			activeCard.dataset.notes = encodeURIComponent(textArea.value);
+			textArea.dataset.notes = activeCard.dataset.notes
+			activeCard.classList.add("pinned");
+			textArea.classList.remove("is-dirty");
+			memDOM();
 		}
 		function summonGateGuardian() {
 			// 20251225: LRRH, StarTree: On mobile it is too easy to accidentally refresh the page and lose the arrangement.
@@ -2215,11 +2361,33 @@
 			document.body.classList.toggle('removal-mode', isRemovalMode);
 			showToast(isRemovalMode ? "REMOVAL MODE: ON" : "REMOVAL MODE: OFF");
 		}
-
+		function toggleTab(e, aID) {
+			// 20251230: Cardinal: A generic reusable function to show one tab and hide the rest.
+			e.stopPropagation();
+			const targetTab = document.getElementById(aID);
+			if (!targetTab) return;
+			const tabFrame = targetTab.parentElement;
+			Array.from(tabFrame.children).forEach(child => {
+				child.style.display = 'none';
+				child.classList.remove('active-tab-content');
+			});
+			targetTab.style.display = 'block';
+			targetTab.classList.add('active-tab-content');
+		}
 
 
 
 		/* UNSORTED CODE */
+		function markDirty(elThis) {
+			// 20251230: Cardinal
+			const savedValue = elThis.dataset.notes || "";
+			const currentValue = encodeURIComponent(elThis.value || "");
+			if (savedValue !== currentValue) {
+				elThis.classList.add('is-dirty');
+			} else {
+				elThis.classList.remove('is-dirty');
+			}
+		}
 		function showConfirm(message) {
 			const modal = document.getElementById('custom-confirm');
 			const text = modal.querySelector('#confirm-text');
@@ -3051,56 +3219,56 @@
 				} else {
 					if (currentDock === 'left') {
 						activeCard.before(c);
-						
+
 					} else {
 						activeCard.after(c);
-						
+
 					}
 				}
 			} else {
-			// 3. Change: Insertion logic targets activeTrack
-			const cards = Array.from(activeTrack.querySelectorAll('.card'));
+				// 3. Change: Insertion logic targets activeTrack
+				const cards = Array.from(activeTrack.querySelectorAll('.card'));
 
-			if (cards.length === 0) {
-				activeTrack.appendChild(c);
-			} else {
-				const centerX = activeTrack.scrollLeft + (activeTrack.clientWidth / 2);
-				const centerY = activeTrack.scrollTop + (activeTrack.clientHeight / 2);
-
-				let closestCard = cards[0];
-				let minDistance = Infinity;
-
-				cards.forEach(card => {
-					const midX = card.offsetLeft + (card.offsetWidth / 2);
-					const midY = card.offsetTop + (card.offsetHeight / 2);
-					const dist = isVertical ? Math.abs(centerY - midY) : Math.abs(centerX - midX);
-
-					if (dist < minDistance) {
-						minDistance = dist;
-						closestCard = card;
-					}
-				});
-
-				if (currentDock === 'left') {
-					closestCard.insertAdjacentElement('beforebegin', c);
-
+				if (cards.length === 0) {
+					activeTrack.appendChild(c);
 				} else {
-					closestCard.insertAdjacentElement('afterend', c);
+					const centerX = activeTrack.scrollLeft + (activeTrack.clientWidth / 2);
+					const centerY = activeTrack.scrollTop + (activeTrack.clientHeight / 2);
 
+					let closestCard = cards[0];
+					let minDistance = Infinity;
+
+					cards.forEach(card => {
+						const midX = card.offsetLeft + (card.offsetWidth / 2);
+						const midY = card.offsetTop + (card.offsetHeight / 2);
+						const dist = isVertical ? Math.abs(centerY - midY) : Math.abs(centerX - midX);
+
+						if (dist < minDistance) {
+							minDistance = dist;
+							closestCard = card;
+						}
+					});
+
+					if (currentDock === 'left') {
+						closestCard.insertAdjacentElement('beforebegin', c);
+
+					} else {
+						closestCard.insertAdjacentElement('afterend', c);
+
+					}
 				}
-			}
 
-			// --- NEW LOGIC FOR MULTI-TRACK AUTO-ACTIVE ---			
-			if (multitrack && multitrack.children.length > 1) {
-				// 1. Clear existing active state from all other cards
-				document.querySelectorAll('.card.is-active').forEach(c => c.classList.remove('is-active'));
+				// --- NEW LOGIC FOR MULTI-TRACK AUTO-ACTIVE ---			
+				if (multitrack && multitrack.children.length > 1) {
+					// 1. Clear existing active state from all other cards
+					document.querySelectorAll('.card.is-active').forEach(c => c.classList.remove('is-active'));
 
-				// 2. Make this new card active
-				c.classList.add('is-active');
+					// 2. Make this new card active
+					c.classList.add('is-active');
 					updateStarButtonState();
 
 
-			}
+				}
 
 			}
 			setTimeout(() => {
