@@ -2053,8 +2053,9 @@
 		<div class="modal-content">
 			<p id="confirm-text" style="color: white; margin-bottom: 20px;"></p>
 			<div class="modal-btns">
-				<button id="btn-yes" onclick="confirmChoice(true)" class="confirm-yes">Yes</button>
 				<button id="btn-no" onclick="confirmChoice(false)" class="confirm-no">No</button>
+				&nbsp;&nbsp;&nbsp;
+				<button id="btn-yes" onclick="confirmChoice(true)" class="confirm-yes">Yes</button>
 			</div>
 		</div>
 	</div>
@@ -2186,20 +2187,28 @@
 			// 20251226: StarTree: Set the card to be the active card if it is in multi track mode.
 			const card = e.target.closest('.card');
 			if (!card) return false;
+			e.stopPropagation();
 			const curCard = document.querySelector('.card.is-active');
 			//if (curCard == card) { return true; } // 20251230: Sassha: This line seems bugg and lprevents the multitrack from getting any card selected as active or added.
-			const curNotes = decodeURIComponent(curCard.dataset.notes || "");
+			const curNotes = decodeURIComponent(curCard?.dataset?.notes || "");
 			const cardNotes = document.getElementById("card-notes");
-			/*if(curNotes !== cardNotes){
+			// The following is disable because the logic doesn't handle the initiate state when the Notes section is blank when the HTML first loads.
+			/*if(curCard && curNotes !== cardNotes.value){
 				if(showConfirm("Save changes to your card notes?")){
 					saveCardNotes(e);
 				}
 			}*/
-			cardNotes.dataset.notes = card.dataset.notes;
+			if ('notes' in card.dataset) {
+				cardNotes.dataset.notes = card.dataset.notes;
+			}else{
+				cardNotes.dataset.notes = "";
+			}
+			
 			cardNotes.value = decodeURIComponent(card.dataset.notes || "");
 			document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
 			card.classList.add('is-active');
 			memDOM();
+			return true;
 		}
 		async function fairyRemovalCheck(e) {
 			// 20251226: StarTree: Handle element removal
