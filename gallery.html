@@ -3222,7 +3222,7 @@
 
 			// 20251229: Sasha: In Multitrack vertical mode insert after the active card.
 			const isMultitrack = multitrack.querySelectorAll("#track").length > 1;
-			if (isMultitrack) {
+			if (isMultitrack && activeCard) {
 				if (isVertical) {
 					activeCard.after(c);
 				} else {
