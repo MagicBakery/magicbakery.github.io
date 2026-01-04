@@ -2160,7 +2160,7 @@
 			summonFairyQueen();
 			summonGateGuardian();
 		};
-		/* ALPHABETICALLY SORTED CODE */
+		/* #ALPHABETICALLY SORTED CODE */
 		const zLayers = ['Notifications', 'LoadingScreen', 'TransparentControls', 'ExamineScreen', 'GUIControls', 'Listings', 'Gallery', 'AppWallpaper'];
 		let isRemovalMode = false; /* 20251226: StarTree: Used for the Removal button */
 		let resolveConfirm = null;
@@ -2200,10 +2200,10 @@
 			}*/
 			if ('notes' in card.dataset) {
 				cardNotes.dataset.notes = card.dataset.notes;
-			}else{
+			} else {
 				cardNotes.dataset.notes = "";
 			}
-			
+
 			cardNotes.value = decodeURIComponent(card.dataset.notes || "");
 			document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
 			card.classList.add('is-active');
@@ -2237,6 +2237,25 @@
 				return true;
 			}
 			return false;
+		}
+		function getThumbnail(path) {
+			// 20260103: Lei: Returns the image path for thumbnail when the item is not an image file.
+			// Check if the path is a Base64 image string
+			if (typeof path === 'string' && path.startsWith('data:image/')) {
+					return path; // Return as-is, browser can render this
+			}
+			const fileName = path.split('/').pop();
+			const extension = fileName.split('.').pop().toLowerCase();
+			// List of formats the browser can actually render in an <img> tag
+			const imageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'avif'];
+			if (imageExtensions.includes(extension)) {
+				return path; // It's an image, use it directly
+			} else {
+				// It's a PDF, video, or unknown file - use placeholder
+				// We use the extension name as the label (e.g., "PDF", "MP4", "ZIP")
+				const label = extension.toUpperCase() || "FILE";
+				return `https://placehold.co/400x400/000/FFF?text=${encodeURIComponent(fileName)}`;
+			}
 		}
 		function initZLayers() {
 			// 20251225: Tanya: Enumerate the layers by code.
@@ -3215,10 +3234,38 @@
 			c.classList.add('is-active');
 			updateStarButtonState();
 
+			// 20250103: Lei: using iFrame to show PDF
+			const isPDF = item.p.toLowerCase().endsWith('.pdf');
 
-			c.innerHTML = `<div class="card-tag-overlay"></div>
-    <img src="${item.p}" onerror="handleMissingImage(this, '${item.p}')">`;
+			if (isPDF) {
+				// PDF.js viewer approach:
+				// Assuming your pdfjs folder is in the same directory. 
+				// The format is: viewer.html?file=URL
+				
+				//* PDF.js:
+				const pdfViewerUrl = `pdfjs/web/viewer.html?file=${encodeURIComponent(item.p)}`;
+				c.innerHTML = `
+        <div class="card-tag-overlay"></div>
+        <iframe 
+            src="${pdfViewerUrl}" 
+            style="width:100%; height:100%; border:none;" 
+            allowfullscreen 
+            webkitallowfullscreen>
+        </iframe>`;//*/
 
+				// Using the Browser's PDF viewer
+				/*
+				c.innerHTML = `
+        <div class="card-tag-overlay"></div>
+        <iframe 
+            src="${item.p}" 
+            style="width:100%; height:100%; border:none;" 
+            type="application/pdf">
+        </iframe>`;
+				//*/
+			} else {
+				c.innerHTML = `<div class="card-tag-overlay"></div><img src="${getThumbnail(item.p)}" onerror="handleMissingImage(this, '${item.p}')">`;
+			}
 
 			// 20251229: Sasha: In Multitrack vertical mode insert after the active card.
 			const isMultitrack = multitrack.querySelectorAll("#track").length > 1;
@@ -3414,7 +3461,7 @@
 				d.className = 'file-item';
 				d.dataset.path = item.p;
 				d.id = 'f-' + idx;
-				d.innerHTML = sidebarIsGrid ? `<img src="${item.p}" loading="lazy">` : item.n;
+				d.innerHTML = sidebarIsGrid ? `<img src="${getThumbnail(item.p)}" loading="lazy">` : item.n;
 				d.onclick = () => createCard(item);
 				list.appendChild(d);
 			});

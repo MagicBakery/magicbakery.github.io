@@ -90,7 +90,6 @@ def scan_directory(scan_dir, is_mobile):
                         "n": file.upper(),
                         "t": combined,
                         "p": src,
-                        "f": Path(root).as_uri() if not is_mobile else ""
                     })
     return results
 
