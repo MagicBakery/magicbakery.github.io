@@ -894,6 +894,44 @@
 			transition: opacity 0.3s ease 10s;
 		}
 
+		/* Ensure the card is wide enough for a document */
+		.card:has(embed),
+		.card:has(iframe) {
+			width: 100vw;
+			/* Or 90vw for mobile responsiveness */
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: stretch;
+		}
+
+		/* Force the embed to take all available space */
+		embed {
+			display: block;
+			width: 100% !important;
+			height: 100% !important;
+		}
+
+		/* When the track is vertical, ensure the PDF card spans more height */
+		.max-width #track .card:has(embed),
+		.max-width #track .card:has(iframe) {
+			height: 100vh !important;
+			/* Spans 80% of the screen height */
+			width: 100%;
+			/* Takes full width of the vertical track */
+			max-width: none;
+			min-height: none;
+			/* Ensures it's never too 'flat' to read */
+		}
+
+		/* Ensure the embed fills the newly sized card */
+		.card embed,
+		.card iframe {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+		}
+
 		body:has(#sidebar:hover) .card.pinned::after {
 			opacity: 1;
 			transition: opacity 0.3s ease;
@@ -1303,7 +1341,7 @@
 		}
 
 		#collapsible-collections {
-			display: none;
+			display: flex;
 
 			gap: 8px;
 			flex-direction: column;
@@ -1517,6 +1555,7 @@
 			/* Above the image but below main sidebar */
 			overflow-y: auto;
 			backdrop-filter: blur(10px);
+
 		}
 
 		#grid-slider-container {
@@ -2242,7 +2281,7 @@
 			// 20260103: Lei: Returns the image path for thumbnail when the item is not an image file.
 			// Check if the path is a Base64 image string
 			if (typeof path === 'string' && path.startsWith('data:image/')) {
-					return path; // Return as-is, browser can render this
+				return path; // Return as-is, browser can render this
 			}
 			const fileName = path.split('/').pop();
 			const extension = fileName.split('.').pop().toLowerCase();
@@ -2439,7 +2478,7 @@
 		// HOW TO USE IT IN YOUR STORAGE LISTENER:
 		window.addEventListener('storage', async (event) => {
 			if (event.key === 'multitrack_snapshot') {
-				const userSaidYes = await showConfirm(); // Pauses here for the user!
+				const userSaidYes = await showConfirm("Another tab has updated local storage. Sync with those changes?"); // Pauses here for the user!
 				if (userSaidYes) {
 					memDOM(true, "multitrack");
 				}
@@ -2749,6 +2788,30 @@
 				console.warn("Clipboard access denied, defaulting to file picker.");
 			}
 
+			// 2. Determine if it's a JSON Collection or a single Asset
+			const isJson = clipboardText.toLowerCase().endsWith('.json');
+			const isUrl = clipboardText.startsWith('http') || clipboardText.startsWith('data:');
+			const isFilePath = clipboardText.includes('/') || clipboardText.includes('\\');
+
+			if (isJson && isUrl) {
+				// --- BRANCH A: Existing JSON Collection Logic ---
+				//loadCollectionFromUrl(clipboardText);
+				showToast("URL detected in clipboard. Importing...");
+				importFromURL(clipboardText);
+			}
+			else if (clipboardText && (isUrl || isFilePath)) {
+				// --- BRANCH B: New Single Entry Logic ---
+				console.log("@@@ADDING " + clipboardText);
+				addNewEntryFromClipboard(clipboardText);
+
+			}
+			else {
+				// --- BRANCH C: Fallback to File Browser ---
+				//openFileBrowserForJson();
+				document.getElementById('json-input').click();
+			}
+
+			/*
 			// 2. Decision: Is it a Web URL?
 			if (clipboardText.startsWith('http://') || clipboardText.startsWith('https://')) {
 				showToast("URL detected in clipboard. Importing...");
@@ -2756,7 +2819,42 @@
 			} else {
 				// 3. Fallback: Open the local file dialog
 				document.getElementById('json-input').click();
+			}*/
+		}
+		async function addNewEntryFromClipboard(path) {
+			const tagsToAdd = Array.from(activeTags);
+			const searchInput = document.getElementById('master-search');
+    	const searchTag = searchInput.value.trim().toUpperCase();
+			if (searchTag !== "" && !tagsToAdd.includes(searchTag)) {
+        tagsToAdd.push(searchTag);
+    	}
+
+			// Create the new item object
+			const newItem = {
+				n: path.split('/').pop().split('#')[0].split('?')[0] || "New Entry", // Filename for display
+				t: tagsToAdd, // The currently active tags
+				p: path      // The path/URL
+			};
+
+			// 2. Prevent exact duplicates if you wish
+			const exists = DATA.some(item => item.p === path);
+			if (exists) {
+				alert("This item is already in your list.");
+				return;
 			}
+
+			// 3. Push to the master DATA array
+			DATA.push(newItem);
+
+			// 4. Update the 'ALL_TAGS' set so new tags from the clipboard are recognized
+			newItem.t.forEach(tag => {
+				if (!ALL_TAGS.includes(tag)) ALL_TAGS.push(tag);
+			});
+
+			// 5. Trigger your UI refresh to rebuild the DOM
+			refreshAllUI();
+
+			console.log("Added new item:", newItem);
 		}
 		async function importFromURL(url) {
 			try {
@@ -3241,27 +3339,29 @@
 				// PDF.js viewer approach:
 				// Assuming your pdfjs folder is in the same directory. 
 				// The format is: viewer.html?file=URL
-				
-				//* PDF.js:
+
+				/* PDF.js:
 				const pdfViewerUrl = `pdfjs/web/viewer.html?file=${encodeURIComponent(item.p)}`;
 				c.innerHTML = `
-        <div class="card-tag-overlay"></div>
-        <iframe 
-            src="${pdfViewerUrl}" 
-            style="width:100%; height:100%; border:none;" 
-            allowfullscreen 
-            webkitallowfullscreen>
-        </iframe>`;//*/
+				<div class="card-tag-overlay"></div>
+				<iframe 
+						src="${pdfViewerUrl}" 
+						style="width:100%; height:100%; border:none;" 
+						allowfullscreen 
+						webkitallowfullscreen>
+				</iframe>`;//*/
 
 				// Using the Browser's PDF viewer
-				/*
+				//*				
+				const pdfUrl = `${item.p}#view=FitH&zoom=100`;
 				c.innerHTML = `
-        <div class="card-tag-overlay"></div>
-        <iframe 
-            src="${item.p}" 
-            style="width:100%; height:100%; border:none;" 
-            type="application/pdf">
-        </iframe>`;
+        <div class="card-selection-hitbox" style="position:absolute; top:0; left:0; width:100%; height:20px; z-index:20; cursor:cell;"></div>
+				<div class="card-tag-overlay"></div>
+        <embed 
+            src="${pdfUrl}" 
+            type="application/pdf" 
+            style="min-width: 100%;"
+				/>`;
 				//*/
 			} else {
 				c.innerHTML = `<div class="card-tag-overlay"></div><img src="${getThumbnail(item.p)}" onerror="handleMissingImage(this, '${item.p}')">`;

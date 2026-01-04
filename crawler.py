@@ -5,10 +5,10 @@ import re
 from pathlib import Path
 from datetime import datetime
 
-# VERSION: 20251228190219
+# VERSION: 20260103223027
 # 20251228: The CFG file can specify an optional output filename after |
 
-EXTENSIONS = ('.jpg', '.jpeg', '.png', '.webp', '.gif', '.url')
+EXTENSIONS = ('.jpg', '.jpeg', '.png', '.webp', '.gif', '.url', '.pdf')
 CFG_FILE = os.path.splitext(os.path.basename(__file__))[0] + ".cfg"
 
 def get_url_from_file(file_path):
@@ -35,8 +35,13 @@ def get_image_source(full_path, is_mobile):
 
 def process_string_into_tags(input_str, is_filename=False):
     if is_filename and "_" not in input_str: return []
-    segments = re.split(r'[_\\/]', input_str)
     tags = []
+    if is_filename:
+        root, ext = os.path.splitext(input_str)
+        if ext:
+            tags.append("<" + ext[1:].upper() + ">")
+        input_str = root
+    segments = re.split(r'[_\\/]', input_str)
     for s in segments:
         s = s.strip()
         if not s or (s.startswith('(') and s.endswith(')')): continue
@@ -82,14 +87,14 @@ def scan_directory(scan_dir, is_mobile):
             if file.lower().endswith(EXTENSIONS):
                 full_path = os.path.join(root, file)
                 name_base = os.path.splitext(file)[0]
-                file_tags = process_string_into_tags(name_base, is_filename=True)
+                file_tags = process_string_into_tags(file, is_filename=True)
                 combined = list(set(folder_tags + file_tags))
                 src = get_image_source(full_path, is_mobile)
                 if src:
                     results.append({
                         "n": file.upper(),
                         "t": combined,
-                        "p": src,
+                        "p": src
                     })
     return results
 
