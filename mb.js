@@ -2269,7 +2269,7 @@ function MacroIcons(el,iHTMLInner){
     ["CD","📀"],
     ["ChatBubble","💬"],
     ["Checker",":Checker:"],
-    ["Cherries","🍒"]
+    ["Cherries","🍒"],
     ["ChessPawn","♟️"],
     ["Chick","🐤"],
     ["Circus","🎪"],
