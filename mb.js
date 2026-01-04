@@ -2010,7 +2010,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20251227 Icons Address Change";
+  elContainer.innerHTML = "20260103 Quest Board Macro Icon";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2269,6 +2269,7 @@ function MacroIcons(el,iHTMLInner){
     ["CD","📀"],
     ["ChatBubble","💬"],
     ["Checker",":Checker:"],
+    ["Cherries","🍒"]
     ["ChessPawn","♟️"],
     ["Chick","🐤"],
     ["Circus","🎪"],
@@ -2291,6 +2292,7 @@ function MacroIcons(el,iHTMLInner){
     ["D6StarB",":D6StarB:"],
     ["D6StarW",":D6StarW:"],
     ["D6StarY",":D6StarY:"],
+    ["Diamond","💎"],
     ["Dice","🎲"],
     ["Done","✅"],
     ["Dove","🕊️"],
@@ -2302,6 +2304,7 @@ function MacroIcons(el,iHTMLInner){
     ["Egg","🥚"],
     ["Fan","🪭"],
     ["FallingLeaf","🍃"],
+    ["FallingLeaves","🍂"],
     ["FileBox","🗃️"],
     ["Fire","🔥"],
     ["FirePit",":FirePit:"],
@@ -2317,6 +2320,9 @@ function MacroIcons(el,iHTMLInner){
     ["Ghost","👻"],
     ["Gift","🎁"],
     ["Giraffe","🦒"],
+    ["GlobeC","🌍"],
+    ["GlobeE","🌏"],
+    ["GlobeW","🌎"],
     ["GoldCoin",":GoldCoin:"],
     ["GoldCoin","🪙"],
     ["Grape","🍇"],
@@ -2333,6 +2339,7 @@ function MacroIcons(el,iHTMLInner){
     ["HeartGreen","💚"],
     ["HeartHand","🫶"],
     ["HeartYellow","💛"],
+    ["Hibiscus","🌺"],
     ["Honey","🍯"],
     ["Hourglass","⏳"],
     ["House","🏡"],
@@ -4680,14 +4687,18 @@ function MMInner(el,mMacro){
     //mScore = mUpdates*10;
     mScore = Number(mUpdates);
 
+    // 20260103: Sasha: Don't use CSS before because it can't render custom icons.
+    let mRankIcon = "🤎";    
+
     switch(mRank){
-      case "SS": mScore += 600; break;
-      case "S":  mScore += 500; break;
-      case "A":  mScore += 400; break;
-      case "B":  mScore += 300; break;
-      case "C":  mScore += 200; break;
-      case "D":  mScore += 100; break;
+      case "SS": mScore += 600; mRankIcon="👑"; break;
+      case "S":  mScore += 500; mRankIcon="👑"; break;
+      case "A":  mScore += 400; mRankIcon="🍀"; break;
+      case "B":  mScore += 300; mRankIcon="🍵"; break;
+      case "C":  mScore += 200; mRankIcon="🍮"; break;
+      case "D":  mScore += 100; mRankIcon="🍯"; break;
     }
+    mRankIcon = MacroIcons("",mRankIcon);
 
     el.parentNode.style.order = -mScore;
     
@@ -4704,7 +4715,9 @@ function MMInner(el,mMacro){
     if(IsBlank(mGuildLogCount)){
       mGuildLogCount = "Unknown";
     }
-    mHTML = "<a onclick=\"" + InterLink() + "'" + mMacro.node+ "');return false;\" class=\"mbbuttonIn mbILB35 mbRankBlk" + mRank + "\" href=\"" + ViewerPath() + "?id=P"+  mMacro.node  +"\" title='Quests Completed: "+ mUpdates +"\nHighest Rank: "+mRank+"\nRemaining: "+mGuildLogCount+"'></a>";
+    
+      
+    mHTML = "<a onclick=\"" + InterLink() + "'" + mMacro.node+ "');return false;\" class=\"mbbuttonIn mbILB35 mbRankBlk" + mRank + "\" href=\"" + ViewerPath() + "?id=P"+  mMacro.node  +"\" title='Quests Completed: "+ mUpdates +"\nHighest Rank: "+mRank+"\nRemaining: "+mGuildLogCount+"'>" + mRankIcon + "</a>";
     mHTML += "<span class='mbILB25 mbRankNone' style='margin-left:5px'>" + mStatusIcon + "</span>";
     mAuthor = mMacro.author;
     if(NotBlank(mAuthor)){

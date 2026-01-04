@@ -1279,20 +1279,20 @@ cursor:pointer;
 .mbRankU{background-color:none;color:dimgray;}
 
 
-.mbRankBlkSS::before{content:"👑";}
+/*.mbRankBlkSS::before{content:"👑";}*/
 .mbRankBlkSS{background-color:darkblue;color:white; font-weight:bold; }
-.mbRankBlkS::before{content:"👑";}
+/*.mbRankBlkS::before{content:"👑";}*/
 .mbRankBlkS{background-color:darkgreen;color:white;font-weight:bold; }
-.mbRankBlkA::before{content:"🍀";}
+/*.mbRankBlkA::before{content:"🍀";}*/
 .mbRankBlkA{background-color:green;color:white;font-weight:bold;}
-.mbRankBlkB::before{content:"🍵";}
+/*.mbRankBlkB::before{content:"🍵";}*/
 .mbRankBlkB{background-color:yellowgreen;color:white;font-weight:bold;}
-.mbRankBlkC::before{content:"🍮";}
+/*.mbRankBlkC::before{content:"🍮";}*/
 .mbRankBlkC{background-color:gold;color:white;font-weight:bold;}
-.mbRankBlkD::before{content:"🍯";}
+/*.mbRankBlkD::before{content:"🍯";}*/
 .mbRankBlkD{background-color:darkgoldenrod;color:white;font-weight:bold;}
-.mbRankBlkU::before{content:"🤎";}
-.mbRankBlkU{background-color:saddlebrown;color:saddlebrown;font-weight:bold;}
+/*.mbRankBlkU::before{content:"🤎";}*/
+.mbRankBlkU{background-color:saddlebrown;color:white;font-weight:bold;}
 .mbXPTB{font-weight:bold;color:gold; text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;}
 
 

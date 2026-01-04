@@ -1,5 +1,5 @@
 (function () {
-  const mVersion = "20251115011723";
+  const mVersion = "20260103181843";
   const mMBLink ="https://magicbakery.github.io/?id=P202511132257";
   const PANEL_ID = 'mb-spellbook-injection-div'; // This is the ID of the added section.
   
@@ -69,7 +69,7 @@
     // --- 2. Get Participants (OP + Commenters) ---    
     if (mSource) {
       mSource
-        .querySelectorAll('a[href$="feed_author"],a[href$="feed_commenter"]')
+        .querySelectorAll('a[href*="feed_author"],a[href*="feed_commenter"]')
         .forEach(a => {
           if (a.children.length === 0) allParticipantLinks.push(a);
         });
@@ -114,7 +114,7 @@
 
     allParticipantLinks.forEach(link => {
       const authorName = link.textContent.trim();
-      const isOp = link.href.endsWith("feed_author");
+      const isOp = link.href.includes("feed_author");
       const contentId = `c${displayIndex}`;
       
       const userProfileId = link.href.match(/\/profile\/([^/?]+)/)?.[1];
