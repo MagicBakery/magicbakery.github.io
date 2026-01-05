@@ -1817,6 +1817,7 @@
 			<div style="padding:0px 5px">
 				<input type="file" id="json-input" style="display:none" accept=".json" onchange="importJSON(this)">
 				<div style="display:flex; gap:4px;">
+					<input type="file" id="mobile-file-input" style="display:none" accept="image/*">
 					<button class="import-btn action-btn" style="width: 32px;" onclick="smartImport()">+</button>
 					<button class="import-btn action-btn" style="flex: 1;" onclick="exportFilteredData('path')"
 						title="Export Path">PATH</button>
@@ -2071,7 +2072,8 @@
 		<div class="tabs-contents">
 			<div id="tab-card-notes">
 				<textarea id="card-notes" class="" oninput="markDirty(this)"
-					style="resize:none;height:180px; margin-bottom:5px;font-size:1em;overflow-y: auto;" placeholder=""></textarea>
+					style="resize:none;height:180px; margin-bottom:5px;font-size:16px;overflow-y: auto;"
+					placeholder=""></textarea>
 			</div>
 			<div id="tab-dev-notes" style="display:none">
 				<div style="display:flex; gap:5px; align-items:center;">
@@ -2080,7 +2082,7 @@
 						oninput="updateAddUrl(this.value)">
 				</div>
 				<textarea id="user-note" class="unified-width"
-					style="resize:none;height:180px; margin-bottom:5px;font-size:1em;overflow-y: auto;" placeholder="NOTES..."
+					style="resize:none;height:180px; margin-bottom:5px;font-size:16px;overflow-y: auto;" placeholder="NOTES..."
 					oninput="saveNotes(this.value)"></textarea>
 			</div>
 		</div>
@@ -2445,6 +2447,13 @@
 				root.style.setProperty(`--z-${layer}`, zi);
 				zi -= 10;
 			});
+		}
+		function isMobile() {
+			const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+			const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+			// Check for specific mobile strings in User Agent
+			const isMobileUA = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+			return isMobileUA || isTouch;
 		}
 		function memDOM(isLoad, aID) {
 			// 20251226: StarTree: For a quick way to save the workspace, save the html of the multitrack section to local storage
@@ -2949,9 +2958,35 @@
 			else {
 				// --- BRANCH C: Fallback to File Browser ---
 				//openFileBrowserForJson();
+				if(isMobile()){
+					const input = document.getElementById('mobile-file-input');
+					input.click();
+				}else{
 				document.getElementById('json-input').click();
+				}
 			}
 		}
+		function handlePlusButton() {
+			// If on mobile (or just as an alternative)
+			const input = document.getElementById('mobile-file-input');
+			// Ask user: Paste Link or Upload?
+			const choice = confirm("Press OK to Upload from Gallery, Cancel to Paste Link");
+			if (choice) {
+				input.click();
+			} else {
+				const link = prompt("Paste image URL:");
+				if (link) createCard({ p: link, t: ['unlabeled'], n: 'New Image' });
+			}
+		}
+		// Handle the file selection
+		document.getElementById('mobile-file-input').onchange = (e) => {
+			const file = e.target.files[0];
+			if (file) {
+				const blobUrl = URL.createObjectURL(file);
+				// Use the Blob URL as the path 'p'
+				createCard({ p: blobUrl, t: ['local-mobile'], n: file.name });
+			}
+		};
 		async function addNewEntryFromClipboard(path) {
 			const tagsToAdd = Array.from(activeTags);
 			const searchInput = document.getElementById('master-search');
@@ -3820,17 +3855,6 @@
 		}
 
 
-		/*function exportFilteredData() {
-			const q = document.getElementById('master-search').value.toLowerCase();
-			const filtered = DATA.filter(i => {
-				const matchesActive = Array.from(activeTags).every(at => i.t.includes(at));
-				return matchesActive && (q === "" || i.t.some(it => it.toLowerCase().includes(q)));
-			});
-			const blob = new Blob([JSON.stringify(filtered, null, 2)], { type: 'application/json' });
-			const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-			a.download = `Filtered_Data_${new Date().toISOString().slice(0, 10)}.json`; a.click();
-			showToast(`Exported ${filtered.length} items.`);
-		}*/
 		function exportGallery() {
 			let docClone = document.documentElement.cloneNode(true);
 			let bodyWrap = docClone.querySelector('#body-wrap');
