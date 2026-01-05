@@ -2979,13 +2979,27 @@
 			}
 		}
 		// Handle the file selection
-		document.getElementById('mobile-file-input').onchange = (e) => {
+		// This should be in your init code or script root
+		document.getElementById('mobile-file-input').onchange = async (e) => {
 			const file = e.target.files[0];
-			if (file) {
-				const blobUrl = URL.createObjectURL(file);
-				// Use the Blob URL as the path 'p'
-				createCard({ p: blobUrl, t: ['local-mobile'], n: file.name });
+			if (!file) return;
+			// BRANCH 1: User picked a JSON file (Collection)
+			if (file.type === "application/json" || file.name.endsWith('.json')) {
+				importJSON(e.target);
+				// Note: importJSON handles its own reader and resetting input.value
 			}
+			// BRANCH 2: User picked an Image (Single Entry)
+			else if (file.type.startsWith('image/')) {
+				// Generate a temporary browser path for the mobile file
+				const blobUrl = URL.createObjectURL(file);
+
+				// Pass it to your existing function
+				// This will handle tags, Orphans, and UI refresh automatically
+				await addNewEntryFromClipboard(blobUrl);
+				showToast(`Added: ${file.name}`);
+			}
+			// Reset the input so the same file can be picked again if deleted
+			e.target.value = '';
 		};
 		async function addNewEntryFromClipboard(path) {
 			const tagsToAdd = Array.from(activeTags);
