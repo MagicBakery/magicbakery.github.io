@@ -6,8 +6,8 @@
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
 	<script>
-		const APP_VERSION = "20251230021604"; //#Version
-		const APP_ANNOUNCEMENT = "20251230: Card Notes."
+		const APP_VERSION = "20260105005821"; //#Version
+		const APP_ANNOUNCEMENT = "20260105: Export/Import Upgrades."
 	</script>
 	<style>
 		:root {
@@ -103,9 +103,8 @@
 		.panel-tabs {
 			display: flex;
 			gap: 10px;
-			margin-bottom: 15px;
-			border-bottom: 1px solid var(--border);
-			padding-bottom: 10px;
+			margin-bottom: 5px;
+			padding-bottom: 5px;
 		}
 
 		.tab-btn {
@@ -457,15 +456,10 @@
 
 
 		/* Optional: Make cards look "dangerous" or fragile when in removal mode */
-
-		body.removal-mode .card:hover {
+		body.removal-mode .card:hover,
+		body.removal-mode .file-item:hover {
 			border-color: #ff4444;
 			filter: sepia(1) saturate(2) hue-rotate(-50deg);
-			/* Slight reddish tint */
-		}
-
-		/* When Removal Mode is ON, highlight the specific targets on hover */
-		body.removal-mode .card:hover {
 			outline: 3px solid #ff4444;
 			cursor: pointer;
 		}
@@ -882,7 +876,8 @@
 			width: 36px;
 			height: 36px;
 			/* Using a data URI SVG so you don't need an external file */
-			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFD700'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E");
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 30 30' fill='%23FFC700' stroke='rgba(255,255,255,0.5)' stroke-width='2' stroke-linejoin='round'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E");
+			/*background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23FFD700'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E");*/
 			background-size: contain;
 			background-repeat: no-repeat;
 			/* Optional: Add a subtle drop shadow to make it pop against card art */
@@ -1110,6 +1105,35 @@
 			/* Slightly larger for the sidebar */
 		}
 
+		.active-preview-container {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			padding: 0px;
+			background: rgba(255, 255, 255, 0.05);
+			border-radius: 8px;
+			border: 1px solid rgba(255, 255, 255, 0.1);
+		}
+
+		#active-preview-thumb {
+			width: 32px;
+			height: 32px;
+			object-fit: cover;
+			border-radius: 4px;
+			border: 1px solid #ffd700;
+			/* A little gold border to match the star theme */
+			box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+		}
+
+		#active-preview-label {
+			font-size: 0.8rem;
+			color: #ccc;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			max-width: 120px;
+		}
+
 		#command-panel {
 			position: fixed;
 			/* Changed from absolute */
@@ -1121,13 +1145,13 @@
 			width: 100vw;
 			/* You can now make it wider than the sidebar */
 			max-width: 800px;
-			min-height: 300px;
+			min-height: 200px;
 
 			background: rgba(0, 0, 0, 0.4);
 			backdrop-filter: blur(20px);
 			border: 2px solid rgba(255, 255, 255, 0.4);
 			border-radius: 15px;
-			padding: 20px;
+			padding: 10px;
 
 			z-index: var(--z-GUIControls);
 			/* Keeps it above the sidebar */
@@ -1794,8 +1818,14 @@
 				<input type="file" id="json-input" style="display:none" accept=".json" onchange="importJSON(this)">
 				<div style="display:flex; gap:4px;">
 					<button class="import-btn action-btn" style="width: 32px;" onclick="smartImport()">+</button>
-					<button class="import-btn action-btn" style="flex: 1;" onclick="exportFilteredData()">EXPORT JSON</button>
-					<button class="import-btn action-btn" style="flex: 1;" onclick="exportGallery()">EXPORT HTML</button>
+					<button class="import-btn action-btn" style="flex: 1;" onclick="exportFilteredData('path')"
+						title="Export Path">PATH</button>
+					<button class="import-btn action-btn" style="flex: 1;" onclick="exportFilteredData('base64')"
+						title="Export Base64">BASE64</button>
+					<button class="import-btn action-btn" style="flex: 1;" onclick="exportMultiTrack()"
+						title="Export or Import Multitrack DOM">DOM</button>
+					<button class="import-btn action-btn" style="flex: 1;" onclick="exportGallery()"
+						title="Export HTML">HTML</button>
 				</div>
 				<div id="path-list-container"></div>
 			</div>
@@ -2021,7 +2051,12 @@
 		</a>
 
 		<div class="panel-tabs">
-
+			<div class="active-preview-container">
+				<img id="active-preview-thumb" src="" alt="" style="display: none;">
+				<!--<span id="active-preview-label">No Selection</span>-->
+				<button class="tab-btn" onclick="toggleTab(event,'tab-card-notes')">Notes</button>
+			</div>
+			<button class="tab-btn" onclick="toggleTab(event,'tab-dev-notes')">DEV</button>
 			<button class="tab-btn save-notes-btn" onclick="saveCardNotes(event)">SAVE
 				<!--<svg viewBox="0 0 100 100" style="width:90%; height:90%;">
 					<path d="M20,15 H70 L85,30 V85 H20 Z" fill="none" stroke="currentColor" stroke-width="6" />
@@ -2032,15 +2067,10 @@
 					<rect x="55" y="60" width="10" height="20" fill="currentColor" />
 				</svg>-->
 			</button>
-			<button class="tab-btn" onclick="toggleTab(event,'tab-card-notes')">Card</button>
-			<button class="tab-btn" onclick="toggleTab(event,'tab-dev-notes')">DEV</button>
-
 		</div>
-
 		<div class="tabs-contents">
 			<div id="tab-card-notes">
-
-				<textarea id="card-notes" class="unified-width" oninput="markDirty(this)"
+				<textarea id="card-notes" class="" oninput="markDirty(this)"
 					style="resize:none;height:180px; margin-bottom:5px;font-size:1em;overflow-y: auto;" placeholder=""></textarea>
 			</div>
 			<div id="tab-dev-notes" style="display:none">
@@ -2204,7 +2234,33 @@
 		let isRemovalMode = false; /* 20251226: StarTree: Used for the Removal button */
 		let resolveConfirm = null;
 
+		function exportMultiTrack() {
+			// 20260104: Sasha: Export MultiTrack if it is not empty. If it is empty, import.
+			const multiTrackDOM = document.getElementById('multitrack'); // Adjust ID to match your container
+			if (!multiTrackDOM) {
+				showToast("Error: MultiTrack container not found.");
+				return;
+			}
+			const tracks = multiTrackDOM.querySelectorAll("#track");
+			if(tracks.length <=1 && tracks[0].innerHTML == ""){
+				// The Multitrack section is empty. Switch to Import.
+				importMultiTrackDOM();
+				return;
+			}
 
+
+
+			const blob = new Blob([multiTrackDOM.outerHTML], { type: 'text/html' });
+			const a = document.createElement('a');
+			a.href = URL.createObjectURL(blob);
+			a.download = `MultiTrack_${new Date().toISOString().slice(0, 10)}.dom`;
+
+			document.body.appendChild(a);
+			a.click();
+			document.body.removeChild(a);
+
+			showToast("MultiTrack HTML exported!");
+		}
 		function fadeLoadingScreen(bIn) {
 			// 20251225: Tanya: Remove the loading screen after z-index are initialized.
 			// 20251225: StarTree: bIn = false means fade out
@@ -2224,6 +2280,15 @@
 		}
 		function fairyActiveCardCheck(e) {
 			// 20251226: StarTree: Set the card to be the active card if it is in multi track mode.
+			const file = e.target.closest('.file-item');
+			if (file) {
+				e.stopPropagation();
+				const path = file.dataset.path;
+				const item = DATA.find(i => i.p === path);
+				if (item) createCard(item);
+				return true;
+			}
+
 			const card = e.target.closest('.card');
 			if (!card) return false;
 			e.stopPropagation();
@@ -2231,7 +2296,8 @@
 			//if (curCard == card) { return true; } // 20251230: Sassha: This line seems bugg and lprevents the multitrack from getting any card selected as active or added.
 			const curNotes = decodeURIComponent(curCard?.dataset?.notes || "");
 			const cardNotes = document.getElementById("card-notes");
-			// The following is disable because the logic doesn't handle the initiate state when the Notes section is blank when the HTML first loads.
+
+			// The following is disable because the logic doesn't handle the initial state when the Notes section is blank when the HTML first loads.
 			/*if(curCard && curNotes !== cardNotes.value){
 				if(showConfirm("Save changes to your card notes?")){
 					saveCardNotes(e);
@@ -2246,6 +2312,18 @@
 			cardNotes.value = decodeURIComponent(card.dataset.notes || "");
 			document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
 			card.classList.add('is-active');
+
+			// Mirror Thumbnail.
+			const mirrorImg = document.getElementById('active-preview-thumb');
+			//const mirrorLabel = document.getElementById('active-preview-label');
+			const cardImg = card.querySelector('img');
+			const cardName = card.querySelector('.card-title')?.innerText || "Active Card";
+			if (cardImg && mirrorImg) {
+				mirrorImg.src = cardImg.src;
+				mirrorImg.style.display = "block";
+				//mirrorLabel.innerText = cardName;
+			}
+
 			memDOM();
 			return true;
 		}
@@ -2255,7 +2333,32 @@
 			if (!isRemovalMode) return false;
 			const card = e.target.closest('.card');
 			const track = e.target.closest('#track');
+			const file = e.target.closest('.file-item');
 
+			if (file) {
+				e.stopPropagation();
+				const pathToRemove = file.dataset.path;
+
+				// 1. Remove from the master DATA array
+				DATA = DATA.filter(item => item.p !== pathToRemove);
+
+				// 2. Also remove it from the [Orphan Files] in savedPaths so it stays gone
+				savedPaths.forEach(entry => {
+					if (entry.data) {
+						entry.data = entry.data.filter(item => item.p !== pathToRemove);
+					}
+				});
+
+				// 3. Visual feedback & Save
+				file.style.opacity = "0";
+				file.style.transform = "translateX(-20px)";
+
+				setTimeout(() => {
+					refreshAllUI(); // Rebuilds the list without the deleted item
+					memDOM();       // Persists the change to localStorage
+				}, 200);
+				return true;
+			}
 			if (card) {
 				e.stopPropagation();
 				if (card.classList.contains('pinned')) {
@@ -2295,6 +2398,44 @@
 				const label = extension.toUpperCase() || "FILE";
 				return `https://placehold.co/400x400/000/FFF?text=${encodeURIComponent(fileName)}`;
 			}
+		}
+		async function importMultiTrackDOM() {
+			// 1. Create a hidden file input to trigger the dialog
+			const fileInput = document.createElement('input');
+			fileInput.type = 'file';
+			fileInput.accept = '.DOM, .html, .txt'; // Accept your custom extension
+
+			fileInput.onchange = async (e) => {
+				const file = e.target.files[0];
+				if (!file) return;
+
+				const reader = new FileReader();
+				reader.onload = (event) => {
+					const fileContent = event.target.result;
+					const parser = new DOMParser();
+					const doc = parser.parseFromString(fileContent, 'text/html');
+					const importedSection = doc.getElementById('multitrack');
+
+					if (importedSection) {
+						const mainContainer = document.getElementById('multitrack');
+
+						// 3. Replace the live container's content with the imported content
+						mainContainer.innerHTML = importedSection.innerHTML;
+
+						showToast("MultiTrack section restored from file.");
+
+						// 4. Update memory and UI
+						if (typeof memDOM === 'function') memDOM();
+						updateAllCardOverlays(); // Re-sync any visual states
+					} else {
+						showToast("Could not find the [multi-track-container] in that file.");
+					}
+				};
+
+				reader.readAsText(file);
+			};
+
+			fileInput.click();
 		}
 		function initZLayers() {
 			// 20251225: Tanya: Enumerate the layers by code.
@@ -2527,7 +2668,7 @@
 		 */
 		async function removeTrack(targetTrack) {
 			// Keep the last track.
-			if (targetTrack.closest('#multitrack').querySelectorAll('#track') > 1) {
+			if (!(targetTrack.closest('#multitrack').querySelectorAll('#track').length > 1)) {
 				showToast("The last track cannot be deleted.")
 				return;
 			}
@@ -2801,8 +2942,8 @@
 			}
 			else if (clipboardText && (isUrl || isFilePath)) {
 				// --- BRANCH B: New Single Entry Logic ---
-				console.log("@@@ADDING " + clipboardText);
 				addNewEntryFromClipboard(clipboardText);
+
 
 			}
 			else {
@@ -2810,30 +2951,20 @@
 				//openFileBrowserForJson();
 				document.getElementById('json-input').click();
 			}
-
-			/*
-			// 2. Decision: Is it a Web URL?
-			if (clipboardText.startsWith('http://') || clipboardText.startsWith('https://')) {
-				showToast("URL detected in clipboard. Importing...");
-				importFromURL(clipboardText);
-			} else {
-				// 3. Fallback: Open the local file dialog
-				document.getElementById('json-input').click();
-			}*/
 		}
 		async function addNewEntryFromClipboard(path) {
 			const tagsToAdd = Array.from(activeTags);
 			const searchInput = document.getElementById('master-search');
-    	const searchTag = searchInput.value.trim().toUpperCase();
+			const searchTag = searchInput.value.trim().toUpperCase();
 			if (searchTag !== "" && !tagsToAdd.includes(searchTag)) {
         tagsToAdd.push(searchTag);
-    	}
+			}
 
 			// Create the new item object
 			const newItem = {
 				n: path.split('/').pop().split('#')[0].split('?')[0] || "New Entry", // Filename for display
 				t: tagsToAdd, // The currently active tags
-				p: path      // The path/URL
+				p: path,      // The path/URL
 			};
 
 			// 2. Prevent exact duplicates if you wish
@@ -2851,10 +2982,34 @@
 				if (!ALL_TAGS.includes(tag)) ALL_TAGS.push(tag);
 			});
 
-			// 5. Trigger your UI refresh to rebuild the DOM
-			refreshAllUI();
+			// 2. Find or Create the [Orphan Files] collection in savedPaths
+			const orphanName = "[Orphan Files]";
+			let orphanEntry = savedPaths.find(p => p.path === orphanName);
 
-			console.log("Added new item:", newItem);
+			if (!orphanEntry) {
+				// Create the "Ghost Collection" if it doesn't exist
+				orphanEntry = {
+					path: orphanName,
+					checked: true,
+					data: []
+				};
+				savedPaths.push(orphanEntry);
+			} else {
+				orphanEntry.checked = true;
+				if (!orphanEntry.data) {
+					orphanEntry.data = [];
+				}
+			}
+			// 3. Add the file to this ghost collection's data
+			// Prevent duplicates within orphans
+			if (!orphanEntry.data.some(item => item.p === path)) {
+				orphanEntry.data.push(newItem);
+			}
+
+
+			// 4. Update the UI
+			renderPathList();        // Refreshes the checkbox list so [Orphan Files] appears
+			loadActiveCollections(); // Rebuilds the main DATA array from all checked paths
 		}
 		async function importFromURL(url) {
 			try {
@@ -3561,8 +3716,17 @@
 				d.className = 'file-item';
 				d.dataset.path = item.p;
 				d.id = 'f-' + idx;
-				d.innerHTML = sidebarIsGrid ? `<img src="${getThumbnail(item.p)}" loading="lazy">` : item.n;
-				d.onclick = () => createCard(item);
+				if (sidebarIsGrid) {
+					// Wrap the thumbnail in a link pointing to the real source
+					d.innerHTML = `
+      <a href="${item.p}" target="_blank" class="file-link" onclick="return false;">
+        <img src="${getThumbnail(item.p)}" loading="lazy" alt="${item.n}">
+      </a>`;
+				} else {
+					d.innerHTML = item.n;
+				}
+				//d.innerHTML = sidebarIsGrid ? `<img src="${getThumbnail(item.p)}" loading="lazy">` : item.n;
+				//d.onclick = () => createCard(item);
 				list.appendChild(d);
 			});
 			updateAllCardOverlays();
@@ -3573,19 +3737,90 @@
 
 		async function clearWorkspace(e) {
 			e.stopPropagation();
-			if (await showConfirm("This will wipe the multitrack area. Keep it?")) { return; }
+			// 20260105: Sasha: If the multitrack area has pinned cards, but not all of them are pinned, remove only the unpinned cards.
+
 			const multitrack = document.querySelector("#multitrack");
+			const numCards = document.querySelectorAll(".card").length;
+			const numPinned = document.querySelectorAll(".card.pinned").length;
+
+			let msg = "This will wipe the multitrack area. Keep it?"
+			if(numCards != numPinned && numPinned > 0){
+				msg = "This will remove " + (numCards - numPinned) + " card(s) that don't have a ⭐. Continue?";
+				if (!(await showConfirm(msg))) { return; }
+				document.querySelectorAll('.card').forEach(c => {
+					if (!c.classList.contains('pinned')) c.remove();
+				});
+				return;
+			}else if(numCards == numPinned){
+				msg = "The multitrack only has ⭐ card(s). Keep them?"
+				if (await showConfirm(msg)) { return; }
+			}
 			multitrack.innerHTML = "<div id='track'></div>";
-
-
-			/*
-			document.querySelectorAll('.card').forEach(c => {
-				if (!c.classList.contains('pinned')) c.remove();
-			});*/
 			syncSidebarHighlights();
 		}
+		async function exportFilteredData(mode = 'path') {
+			const q = document.getElementById('master-search').value.toLowerCase();
+			const filtered = DATA.filter(i => {
+				const matchesActive = Array.from(activeTags).every(at => i.t.includes(at));
+				return matchesActive && (q === "" || i.t.some(it => it.toLowerCase().includes(q)));
+			});
 
-		function exportFilteredData() {
+			showToast(`Preparing ${filtered.length} items for export...`);
+			document.body.style.cursor = 'wait';
+			let dataToExport = [];
+			let failCount = 0; // Track failures
+
+			if (mode === 'base64') {
+				showToast("Starting Base64 conversion...");
+				// Transform the paths into Base64 strings
+				dataToExport = await Promise.all(filtered.map(async (item) => {
+					try {
+						const base64String = await getBase64FromUrl(item.p);
+						return { ...item, p: base64String }; // Replace path with base64
+					} catch (err) {
+						console.error(`@@Failed to convert ${item.p}:`, err);
+						failCount++; // Increment failure count
+						return item; // Fallback to path if conversion fails
+					}
+				}));
+			} else {
+				dataToExport = filtered;
+			}
+
+			// standard Download Logic
+			const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
+			const a = document.createElement('a');
+			a.href = URL.createObjectURL(blob);
+			a.download = `${mode.toUpperCase()}_Export_${new Date().toISOString().slice(0, 10)}.json`;
+			a.click();
+
+			// 5. Cleanup
+			document.body.style.cursor = 'default';
+			setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+			// --- THE FIX: COMBINED FINAL TOAST ---
+			let finalMsg = `Exported ${filtered.length} items.`;
+			if (failCount > 0) {
+				finalMsg += ` (${failCount} images kept as URLs due to CORS)`;
+			}
+
+			showToast(finalMsg);
+		}
+
+		// Helper function to handle the conversion
+		async function getBase64FromUrl(url) {
+			const response = await fetch(url);
+			const blob = await response.blob();
+			return new Promise((resolve, reject) => {
+				const reader = new FileReader();
+				reader.onloadend = () => resolve(reader.result);
+				reader.onerror = reject;
+				reader.readAsDataURL(blob);
+			});
+		}
+
+
+		/*function exportFilteredData() {
 			const q = document.getElementById('master-search').value.toLowerCase();
 			const filtered = DATA.filter(i => {
 				const matchesActive = Array.from(activeTags).every(at => i.t.includes(at));
@@ -3595,7 +3830,7 @@
 			const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
 			a.download = `Filtered_Data_${new Date().toISOString().slice(0, 10)}.json`; a.click();
 			showToast(`Exported ${filtered.length} items.`);
-		}
+		}*/
 		function exportGallery() {
 			let docClone = document.documentElement.cloneNode(true);
 			let bodyWrap = docClone.querySelector('#body-wrap');
