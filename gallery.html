@@ -2388,6 +2388,8 @@
 		}
 		function getThumbnail(path) {
 			// 20260103: Lei: Returns the image path for thumbnail when the item is not an image file.
+			if (!path || typeof path !== 'string') return "https://placehold.co/400x400/000/FFF?text=No+Path";
+			const cleanPath = path.trim();
 			// Check if the path is a Base64 image string
 			if (typeof path === 'string' && path.startsWith('data:image/')) {
 				return path; // Return as-is, browser can render this
