@@ -2396,18 +2396,16 @@
 			if (typeof path === 'string' && path.startsWith('blob:')) {
 				return path;
 			}
-			const fileName = path.split('/').pop();
-			const extension = fileName.split('.').pop().toLowerCase();
-			// List of formats the browser can actually render in an <img> tag
+			const fileName = cleanPath.split('/').pop().split('?')[0].split('#')[0];
+			const parts = fileName.split('.');
+			if(parts.length > 1) {
+				const extension = parts.pop().toLowerCase();
 			const imageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'avif'];
 			if (imageExtensions.includes(extension)) {
-				return path; // It's an image, use it directly
-			} else {
-				// It's a PDF, video, or unknown file - use placeholder
-				// We use the extension name as the label (e.g., "PDF", "MP4", "ZIP")
-				const label = extension.toUpperCase() || "FILE";
-				return `https://placehold.co/400x400/000/FFF?text=${encodeURIComponent(fileName)}`;
+					return cleanPath;
+				}
 			}
+			return `https://placehold.co/400x400/000/FFF?text=${encodeURIComponent(fileName || 'FILE')}`;
 		}
 		async function importMultiTrackDOM() {
 			// 1. Create a hidden file input to trigger the dialog
