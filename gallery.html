@@ -3802,7 +3802,7 @@
 
 			let msg = "This will wipe the multitrack area. Keep it?"
 			if(numCards != numPinned && numPinned > 0){
-				msg = "This will remove " + (numCards - numPinned) + " card(s) that don't have a ⭐. Continue?";
+				msg = "This will remove " + (numCards - numPinned) + " card(s) without ⭐. Continue?";
 				if (!(await showConfirm(msg))) { return; }
 				document.querySelectorAll('.card').forEach(c => {
 					if (!c.classList.contains('pinned')) c.remove();
