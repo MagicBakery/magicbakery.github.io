@@ -113,7 +113,7 @@
 			color: var(--text-dim);
 			cursor: pointer;
 			font-size: 0.9rem;
-			padding: 5px 10px;
+			padding: 5px 5px;
 			transition: color 0.3s;
 		}
 
@@ -145,7 +145,7 @@
 			outline: none;
 		}
 
-		#card-notes:focus {
+		#command-panel:has(.is-dirty) #card-notes:focus {
 			border-color: var(--gold);
 		}
 
@@ -153,10 +153,10 @@
 		.save-notes-btn {
 			align-self: flex-end;
 			background: transparent;
-			border: 1px solid #444;
-			color: #444;
+			border: 1px solid #888;
+			color: #888;
 			/* Grayed out by default */
-			padding: 8px 15px;
+			padding: 0px;
 			border-radius: 5px;
 			cursor: default;
 			/* Not clickable when clean */
@@ -164,14 +164,14 @@
 			display: flex;
 			align-items: center;
 			gap: 8px;
-			filter: grayscale(1);
-			opacity: 0.5;
+			/*filter: grayscale(1);*/
+			/*opacity: 0.5;*/
 		}
 
 		/* The "Dirty" State: When user has typed but not saved */
 		#command-panel:has(.is-dirty) .save-notes-btn {
 			color: var(--gold);
-			border-color: var(--gold);
+			border: 3px solid gold;
 			cursor: pointer;
 			filter: grayscale(0);
 			opacity: 1;
@@ -1108,7 +1108,7 @@
 		.active-preview-container {
 			display: flex;
 			align-items: center;
-			gap: 10px;
+			gap: 5px;
 			padding: 0px;
 			background: rgba(255, 255, 255, 0.05);
 			border-radius: 8px;
@@ -1120,7 +1120,7 @@
 			height: 32px;
 			object-fit: cover;
 			border-radius: 4px;
-			border: 1px solid #ffd700;
+			/*border: 1px solid #ffd700;*/
 			/* A little gold border to match the star theme */
 			box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
 		}
@@ -2053,12 +2053,11 @@
 
 		<div class="panel-tabs">
 			<div class="active-preview-container">
-				<img id="active-preview-thumb" src="" alt="" style="display: none;">
+				<img id="active-preview-thumb" class="save-notes-btn" src="" alt="" style="display: none;"
+					onclick="saveCardNotes(event)" title="Save changes to this card">
 				<!--<span id="active-preview-label">No Selection</span>-->
 				<button class="tab-btn" onclick="toggleTab(event,'tab-card-notes')">Notes</button>
-			</div>
-			<button class="tab-btn" onclick="toggleTab(event,'tab-dev-notes')">DEV</button>
-			<button class="tab-btn save-notes-btn" onclick="saveCardNotes(event)">SAVE
+				<!--<button class="tab-btn save-notes-btn" onclick="saveCardNotes(event)" title="Save">
 				<!--<svg viewBox="0 0 100 100" style="width:90%; height:90%;">
 					<path d="M20,15 H70 L85,30 V85 H20 Z" fill="none" stroke="currentColor" stroke-width="6" />
 
@@ -2067,7 +2066,9 @@
 					<rect x="30" y="55" width="40" height="30" fill="none" stroke="currentColor" stroke-width="4" />
 					<rect x="55" y="60" width="10" height="20" fill="currentColor" />
 				</svg>-->
-			</button>
+				</button>-->
+			</div>
+			<button class="tab-btn" onclick="toggleTab(event,'tab-dev-notes')">DEV</button>
 		</div>
 		<div class="tabs-contents">
 			<div id="tab-card-notes">
@@ -2940,8 +2941,10 @@
 			let clipboardText = "";
 			try {
 				// 1. Try to read the clipboard
-				clipboardText = await navigator.clipboard.readText();
-				clipboardText = clipboardText ? clipboardText.trim() : "";
+				let rawText = await navigator.clipboard.readText();
+				// 2. Trim whitespace AND strip leading/trailing quotes
+				clipboardText = rawText ? rawText.trim().replace(/^"|"$/g, '') : "";
+				console.log(clipboardText);
 			} catch (err) {
 				console.warn("Clipboard access denied, defaulting to file picker.");
 			}
@@ -3065,6 +3068,7 @@
 
 
 			// 4. Update the UI
+			createCard(newItem);
 			renderPathList();        // Refreshes the checkbox list so [Orphan Files] appears
 			loadActiveCollections(); // Rebuilds the main DATA array from all checked paths
 		}
@@ -3780,7 +3784,7 @@
         <img src="${getThumbnail(item.p)}" loading="lazy" alt="${item.n}">
       </a>`;
 				} else {
-					d.innerHTML = item.n;
+					d.innerHTML = `<span title="${item.p}">${item.n}</span>`;
 				}
 				//d.innerHTML = sidebarIsGrid ? `<img src="${getThumbnail(item.p)}" loading="lazy">` : item.n;
 				//d.onclick = () => createCard(item);
