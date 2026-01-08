@@ -38,8 +38,8 @@ def process_string_into_tags(input_str, is_filename=False):
     tags = []
     if is_filename:
         root, ext = os.path.splitext(input_str)
-        if ext:
-            tags.append("<" + ext[1:].upper() + ">")
+        #if ext:
+        #    tags.append("<" + ext[1:].upper() + ">")
         input_str = root
     segments = re.split(r'[_\\/]', input_str)
     for s in segments:

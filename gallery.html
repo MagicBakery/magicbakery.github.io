@@ -6,8 +6,8 @@
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
 	<script>
-		const APP_VERSION = "20260105005821"; //#Version
-		const APP_ANNOUNCEMENT = "20260105: Export/Import Upgrades."
+		const APP_VERSION = "20260108035204"; //#Version
+		const APP_ANNOUNCEMENT = "20260108: Card Tag Tab."
 	</script>
 	<style>
 		:root {
@@ -36,6 +36,7 @@
 			color: inherit;
 			text-decoration: none;
 		}
+
 		/* Only triggers when running as an installed Windows app */
 		@media (display-mode: standalone) {
 			body {
@@ -51,6 +52,32 @@
 			padding: 0;
 			width: 100%;
 			height: 100%;
+		}
+
+		/* Ensure the tagging mode is clear but doesn't break pill visibility */
+		body.tag-assign-active {
+			/* Optional: subtle cursor change for the whole app */
+			cursor: crosshair;
+		}
+
+		/* The Green Tint Highlight */
+		.already-has-tag {
+			background-color: rgba(0, 255, 0, 0.2) !important;
+			/* Green tint */
+			outline: 2px solid var(--green) !important;
+			box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+			transition: background-color 0.2s;
+		}
+
+		/* Visual indicator for "Already Tagged" items */
+		.already-has-tag::before {
+			content: "✅";
+			position: absolute;
+			top: 2px;
+			right: 5px;
+			color: var(--green);
+			font-weight: bold;
+			z-index: 10;
 		}
 
 		.modal-overlay {
@@ -138,6 +165,38 @@
 			height: 100%;
 		}
 
+		/* If the input has text, change the cursor across the app */
+		#assign-tag-input:not(:placeholder-shown)~#main-content {
+			cursor: copy;
+		}
+
+		/* The Highlight State */
+		.file-item .card.already-has-tag {
+			background-color: rgba(46, 204, 113, 0.25) !important;
+			/* Green tint */
+			outline: 2px solid #2ecc71 !important;
+			transition: background-color 0.2s, outline 0.2s;
+			position: relative;
+		}
+
+		/* Optional: Add a small green indicator dot or checkmark */
+		.file-item.already-has-tag::after,
+		.card.already-has-tag::after {
+			content: '●';
+			position: absolute;
+			top: 5px;
+			right: 8px;
+			color: #2ecc71;
+			font-size: 12px;
+			text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+		}
+
+		/* Highlight items on hover when a tag is ready to be assigned */
+		.tag-assign-active .card:hover,
+		.tag-assign-active .file-item:hover {
+			outline: 2px solid #00ff00;
+		}
+
 		#card-notes {
 			width: 100%;
 			height: 200px;
@@ -180,6 +239,7 @@
 		#command-panel:has(.is-dirty) .save-notes-btn {
 			color: var(--gold);
 			border: 3px solid gold;
+
 			cursor: pointer;
 			filter: grayscale(0);
 			opacity: 1;
@@ -293,7 +353,7 @@
 		}
 
 		#sidebar *,
-		#tag-cloud,
+		.tag-cloud,
 		.file-list,
 		#track {
 			-ms-overflow-style: none;
@@ -1210,12 +1270,11 @@
 			padding: 8px;
 		}
 
-		#tag-cloud {
+		.tag-cloud {
 			display: flex;
 			flex-wrap: wrap;
 			gap: 4px;
 			padding: 5px 15px;
-			border-bottom: 1px solid var(--border);
 			max-height: 25vh;
 			overflow-y: auto;
 		}
@@ -1848,7 +1907,7 @@
 			</div>
 
 
-			<div id="tag-cloud"></div>
+			<div id="tag-cloud" class="tag-cloud"></div>
 		</div>
 		<div id="collapsible-images" class="sidebar-upper"
 			style="flex: 1; display: flex; flex-direction: column; overflow: hidden; background: rgba(0,0,0,0.2);">
@@ -2041,6 +2100,7 @@
 		</div>
 	</div>
 	<div id="command-panel" style="display: none;">
+		<!--Float Right Elements-->
 		<button class="tool-btn settings-close" onclick="toggleSettings(event)" style="float:right">×</button>
 		<a class="tool-btn" target="_blank" title="Log Bugs" style="float: right;height:24px;width:24px;margin-right:5px"
 			href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">
@@ -2065,8 +2125,9 @@
 					onclick="saveCardNotes(event)" title="Save changes to this card">
 				<!--<span id="active-preview-label">No Selection</span>-->
 				<button class="tab-btn" onclick="toggleTab(event,'tab-card-notes')">Notes</button>
+				<button class="tab-btn" onclick="toggleTab(event,'tab-card-tags')">Tags</button>
 				<!--<button class="tab-btn save-notes-btn" onclick="saveCardNotes(event)" title="Save">
-				<!--<svg viewBox="0 0 100 100" style="width:90%; height:90%;">
+					<svg viewBox="0 0 100 100" style="width:16px; height:16px;">
 					<path d="M20,15 H70 L85,30 V85 H20 Z" fill="none" stroke="currentColor" stroke-width="6" />
 
 					<rect x="35" y="15" width="30" height="25" fill="none" stroke="currentColor" stroke-width="4" />
@@ -2077,6 +2138,8 @@
 				</button>-->
 			</div>
 			<button class="tab-btn" onclick="toggleTab(event,'tab-dev-notes')">DEV</button>
+
+
 		</div>
 		<div class="tabs-contents">
 			<div id="tab-card-notes">
@@ -2084,16 +2147,26 @@
 					style="resize:none;height:180px; margin-bottom:5px;font-size:16px;overflow-y: auto;"
 					placeholder=""></textarea>
 			</div>
+			<div id="tab-card-tags" class="tab-content" style="display:none">
+
+				<div id="card-tag-list" class="tag-cloud" style="padding:5px 0px"></div>
+				<input type="text" id="assign-tag-input" placeholder="Add Tag" oninput="updateAssignmentUI()"
+					onkeydown="handleTagKey(event)"
+					style="padding: 8px; border-radius: 4px; border: 1px solid #444; background: #222; color: #fff;width:100%">
+			</div>
 			<div id="tab-dev-notes" style="display:none">
 				<div style="display:flex; gap:5px; align-items:center;">
 					<a id="add-btn" href="#" target="_blank" class="sq-btn action-btn" onclick="handleLinkAction(event)">+</a>
 					<input type="text" id="add-url-input" class="unified-width" placeholder="URL for + button..."
 						oninput="updateAddUrl(this.value)">
+
 				</div>
+
 				<textarea id="user-note" class="unified-width"
 					style="resize:none;height:180px; margin-bottom:5px;font-size:16px;overflow-y: auto;" placeholder="NOTES..."
 					oninput="saveNotes(this.value)"></textarea>
 			</div>
+
 		</div>
 
 
@@ -2245,6 +2318,7 @@
 		let isRemovalMode = false; /* 20251226: StarTree: Used for the Removal button */
 		let resolveConfirm = null;
 
+
 		function exportMultiTrack() {
 			// 20260104: Sasha: Export MultiTrack if it is not empty. If it is empty, import.
 			const multiTrackDOM = document.getElementById('multitrack'); // Adjust ID to match your container
@@ -2253,7 +2327,7 @@
 				return;
 			}
 			const tracks = multiTrackDOM.querySelectorAll("#track");
-			if(tracks.length <=1 && tracks[0].innerHTML == ""){
+			if (tracks.length <= 1 && tracks[0].innerHTML == "") {
 				// The Multitrack section is empty. Switch to Import.
 				importMultiTrackDOM();
 				return;
@@ -2291,57 +2365,122 @@
 		}
 		function fairyActiveCardCheck(e) {
 			// 20251226: StarTree: Set the card to be the active card if it is in multi track mode.
+			// 20260108: LRRH: Clicking on a tag toggles it.
+			const tagPill = e.target.closest('.tag-pill');
+			if (tagPill) {
+				e.stopPropagation();
+				const t = tagPill.firstChild.textContent.trim();
+				toggleTag(t);
+				return true;
+			}
+
 			const file = e.target.closest('.file-item');
 			if (file) {
 				e.stopPropagation();
 				const path = file.dataset.path;
 				const item = DATA.find(i => i.p === path);
-				if (item) createCard(item);
+				if (item) {
+					createCard(item);
+				}
 				return true;
 			}
 
 			const card = e.target.closest('.card');
 			if (!card) return false;
 			e.stopPropagation();
-			const curCard = document.querySelector('.card.is-active');
-			//if (curCard == card) { return true; } // 20251230: Sassha: This line seems bugg and lprevents the multitrack from getting any card selected as active or added.
-			const curNotes = decodeURIComponent(curCard?.dataset?.notes || "");
-			const cardNotes = document.getElementById("card-notes");
-
-			// The following is disable because the logic doesn't handle the initial state when the Notes section is blank when the HTML first loads.
-			/*if(curCard && curNotes !== cardNotes.value){
-				if(showConfirm("Save changes to your card notes?")){
-					saveCardNotes(e);
-				}
-			}*/
-			if ('notes' in card.dataset) {
-				cardNotes.dataset.notes = card.dataset.notes;
-			} else {
-				cardNotes.dataset.notes = "";
-			}
-
-			cardNotes.value = decodeURIComponent(card.dataset.notes || "");
-			document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
-			card.classList.add('is-active');
-
-			// Mirror Thumbnail.
-			const mirrorImg = document.getElementById('active-preview-thumb');
-			//const mirrorLabel = document.getElementById('active-preview-label');
-			const cardImg = card.querySelector('img');
-			const cardName = card.querySelector('.card-title')?.innerText || "Active Card";
-			if (cardImg && mirrorImg) {
-				mirrorImg.src = cardImg.src;
-				mirrorImg.style.display = "block";
-				//mirrorLabel.innerText = cardName;
-			}
-
-			memDOM();
+			setActiveCard(card);
 			return true;
+		}
+		async function fairyBlessCheck(e) {
+			const tag = document.getElementById('assign-tag-input').value.trim().toUpperCase();
+			if (tag == "") { return false; }
+			const file = e.target.closest('.file-item');
+			const card = e.target.closest('.card');
+			const track = e.target.closest('#track');
+
+			// 1. Click on File in Sidebar
+			if (file) {
+				e.stopPropagation();
+				const item = DATA.find(i => i.p === file.dataset.path);
+				if (item && !item.t.includes(tag)) {
+					item.t.push(tag);
+					showToast(`Added [${tag}] to ${item.n}`);
+					refreshAllUI();
+				}
+				return true;
+			}
+
+			// 2. Click on Card in Track
+			if (card) {
+				e.stopPropagation();
+				const item = DATA.find(i => i.p === card.dataset.path);
+				if (item && !item.t.includes(tag)) {
+					item.t.push(tag);
+					showToast(`Added [${tag}] to card`);
+					refreshAllUI();
+				}
+				return true;
+			}
+
+			// 3. Click on Track (Background)
+			if (track) {
+				e.stopPropagation();
+				const cards = Array.from(track.querySelectorAll('.card'));
+				if (cards.length > 0) {
+					const count = cards.length;
+					if (await showConfirm(`Add tag [${tag}] to all ${count} cards in this track?`)) {
+						cards.forEach(c => {
+							const item = DATA.find(i => i.p === c.dataset.path);
+							if (item && !item.t.includes(tag)) item.t.push(tag);
+						});
+						showToast(`Tagged track with [${tag}]`);
+						refreshAllUI();
+					}
+				}
+				return true;
+			}
+
+			return false;
 		}
 		async function fairyRemovalCheck(e) {
 			// 20251226: StarTree: Handle element removal
 			// Returns true if the click is processed.
 			if (!isRemovalMode) return false;
+			const tagPill = e.target.closest('.tag-pill');
+			if (tagPill) {
+				e.stopPropagation();
+				const t = tagPill.firstChild.textContent.trim();
+
+				// 1. Check if it's in the Command Panel (Card Tags)
+				if (e.target.closest('#card-tag-list')) {
+					const activeCardData = getActiveCardData();
+					if (activeCardData && activeCardData.t) {
+						activeCardData.t = activeCardData.t.filter(tag => tag !== t);
+						showToast(`Removed ${t} from current card`);
+					}
+				}
+				// 2. Otherwise, assume it's in the Sidebar Tag Cloud
+				else if (e.target.closest('#tag-cloud')) {
+					const targetFiles = getFilteredData();
+					// Find the count span inside the clicked tag-pill
+					const countSpan = tagPill.querySelector('.tag-count-small');
+					const displayCount = countSpan ? countSpan.textContent : targetFiles.length;
+					if (await showConfirm(`Remove tag "${t}" from the ${displayCount} currently shown?`)) {
+						targetFiles.forEach(item => {
+							item.t = item.t.filter(tag => tag !== t);
+						});
+						// If the tag being removed was an active filter, clear it
+						activeTags.delete(t);
+						showToast(`Bulk removed tag: ${t}`);
+					}
+				}
+
+				refreshAllUI();
+				renderCardTags(); // Sync the command panel
+				memDOM();
+				return true;
+			}
+
 			const card = e.target.closest('.card');
 			const track = e.target.closest('#track');
 			const file = e.target.closest('.file-item');
@@ -2354,6 +2493,7 @@
 				if (pathToRemove.startsWith('blob:')) {
 					URL.revokeObjectURL(pathToRemove);
 				}
+
 				// 1. Remove from the master DATA array
 				DATA = DATA.filter(item => item.p !== pathToRemove);
 
@@ -2398,7 +2538,9 @@
 		function getThumbnail(path) {
 			// 20260103: Lei: Returns the image path for thumbnail when the item is not an image file.
 			if (!path || typeof path !== 'string') return "https://placehold.co/400x400/000/FFF?text=No+Path";
+
 			const cleanPath = path.trim();
+
 			// Check if the path is a Base64 image string
 			if (typeof path === 'string' && path.startsWith('data:image/')) {
 				return path; // Return as-is, browser can render this
@@ -2409,10 +2551,11 @@
 			}
 			const fileName = cleanPath.split('/').pop().split('?')[0].split('#')[0];
 			const parts = fileName.split('.');
-			if(parts.length > 1) {
+			if (parts.length > 1) {
 				const extension = parts.pop().toLowerCase();
-			const imageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'avif'];
-			if (imageExtensions.includes(extension)) {
+				const imageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'avif'];
+
+				if (imageExtensions.includes(extension)) {
 					return cleanPath;
 				}
 			}
@@ -2468,8 +2611,10 @@
 		function isMobile() {
 			const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 			const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+
 			// Check for specific mobile strings in User Agent
 			const isMobileUA = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
+
 			return isMobileUA || isTouch;
 		}
 		function memDOM(isLoad, aID) {
@@ -2492,6 +2637,50 @@
 				localStorage.setItem(aID + '_snapshot_version', APP_VERSION);
 			}
 		}
+		function renderCardTags() {
+			const container = document.getElementById('card-tag-list');
+			if (!container) return;
+			container.innerHTML = "";
+			const card = document.querySelector(".card.is-active");
+			if (!card) { return; }
+			const path = card.dataset.path;
+			const item = DATA.find(i => i.p === path);
+			if (!item) return;
+
+			[...item.t].sort().forEach(tag => {
+				const p = document.createElement('div');
+				const isActive = activeTags.has(tag);
+				p.className = 'tag-pill' + (isActive ? ' active' : '');
+				p.dataset.tag = tag;
+				p.innerText = tag;
+				container.appendChild(p);
+			});
+
+			/*
+			activeCardData.t.forEach(tag => {
+				const p = document.createElement('div');
+
+				// Use the exact same class logic as your sidebar pills
+				const isActive = activeTags.has(tag);
+				p.className = 'tag-pill' + (isActive ? ' active' : '');
+				p.innerText = tag;
+
+				p.onclick = () => {
+					// Mirror logic: toggle the global activeTags Set
+					if (activeTags.has(tag)) {
+						activeTags.delete(tag);
+					} else {
+						activeTags.add(tag);
+					}
+
+					// Refresh EVERYTHING to keep sidebar and command panel in sync
+					refreshAllUI();
+					renderCardTags();
+				};
+
+				container.appendChild(p);
+			});*/
+		}
 		function saveCardNotes(e) {
 			// 20251230: Cardinal
 			e.stopPropagation();
@@ -2502,6 +2691,35 @@
 			textArea.dataset.notes = activeCard.dataset.notes
 			activeCard.classList.add("pinned");
 			textArea.classList.remove("is-dirty");
+			memDOM();
+		}
+		function setActiveCard(card) {
+			if (!card) return;
+			// 20260108: LRRH: Remove the active attribute from all cards then set this card to be active
+			document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
+			card.classList.add('is-active');
+
+			const cardNotes = document.getElementById("card-notes");
+			if ('notes' in card.dataset) {
+				cardNotes.dataset.notes = card.dataset.notes;
+			} else {
+				cardNotes.dataset.notes = "";
+			}
+			cardNotes.value = decodeURIComponent(card.dataset.notes || "");
+			document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
+			card.classList.add('is-active');
+			renderCardTags();
+
+			// Mirror Thumbnail.
+			const mirrorImg = document.getElementById('active-preview-thumb');
+			//const mirrorLabel = document.getElementById('active-preview-label');
+			const cardImg = card.querySelector('img');
+			const cardName = card.querySelector('.card-title')?.innerText || "Active Card";
+			if (cardImg && mirrorImg) {
+				mirrorImg.src = cardImg.src;
+				mirrorImg.style.display = "block";
+				//mirrorLabel.innerText = cardName;
+			}
 			memDOM();
 		}
 		function summonGateGuardian() {
@@ -2532,6 +2750,7 @@
 			// 20251226: StarTree: This is supposed to handle all clicks on staging areas.
 			document.addEventListener('click', async (e) => {
 				if (await fairyRemovalCheck(e)) { return; }
+				if (await fairyBlessCheck(e)) { return; }
 				fairyActiveCardCheck(e);
 			});
 			// 20251226: StarTree: Double Click
@@ -2576,8 +2795,7 @@
 			if (activeCard) {
 				// 2. Toggle the 'pinned' class
 				const isPinned = activeCard.classList.toggle('pinned');
-				// 3. Optional: Provide haptic/visual feedback or save state
-				console.log(isPinned ? "Card pinned" : "Card unpinned");
+				// 3. Optional: Provide haptic/visual feedback or save state				
 				// If you use your memDOM function, save the change:
 				if (typeof memDOM === "function") {
 					memDOM(false, "multitrack");
@@ -2946,6 +3164,7 @@
 			}
 		}
 		async function smartImport() {
+
 			let clipboardText = "";
 			try {
 				// 1. Try to read the clipboard
@@ -2971,25 +3190,26 @@
 			else if (clipboardText && (isUrl || isFilePath)) {
 				// --- BRANCH B: New Single Entry Logic ---
 				addNewEntryFromClipboard(clipboardText);
-
-
 			}
 			else {
 				// --- BRANCH C: Fallback to File Browser ---
 				//openFileBrowserForJson();
-				if(isMobile()){
+				if (isMobile()) {
 					const input = document.getElementById('mobile-file-input');
 					input.click();
-				}else{
-				document.getElementById('json-input').click();
+				} else {
+					document.getElementById('json-input').click();
 				}
+
 			}
 		}
 		function handlePlusButton() {
 			// If on mobile (or just as an alternative)
 			const input = document.getElementById('mobile-file-input');
+
 			// Ask user: Paste Link or Upload?
 			const choice = confirm("Press OK to Upload from Gallery, Cancel to Paste Link");
+
 			if (choice) {
 				input.click();
 			} else {
@@ -2997,16 +3217,87 @@
 				if (link) createCard({ p: link, t: ['unlabeled'], n: 'New Image' });
 			}
 		}
+		function handleTagKey(e) {
+			// Only trigger on Enter
+			if (e.key === 'Enter') {
+				const input = e.target;
+				const tag = input.value.trim().toUpperCase();
+
+				if (tag === "") return;
+
+				// 1. Add to the currently active card if it exists
+				const activeCardData = getActiveCardData();
+				if (activeCardData) {
+					if (!activeCardData.t.includes(tag)) {
+						activeCardData.t.push(tag);
+
+						// 2. Ensure the tag exists in the global cloud list too
+						if (!ALL_TAGS.includes(tag)) {
+							ALL_TAGS.push(tag);
+							ALL_TAGS.sort();
+						}
+
+						showToast(`Tagged active card: ${tag}`);
+					}
+				} else {
+					showToast("No active card selected to tag.");
+				}
+
+				// 3. Clear the input and reset UI mode
+				clearAssignmentTag();
+
+				// 4. Update everything
+				refreshAllUI();
+				renderCardTags(); // Refresh the pill list in the command panel
+				memDOM();         // Persist changes
+			}
+		}
+		function updateAssignmentUI() {
+    const input = document.getElementById('assign-tag-input');
+    if (!input) return;
+    
+    const val = input.value.trim().toUpperCase();
+    const isActive = val !== "";
+
+    document.body.classList.toggle('tag-assign-active', isActive);
+
+    // Target ONLY files and cards
+    const targets = document.querySelectorAll('.file-item, .card');
+    
+    targets.forEach(el => {
+        const path = el.dataset.path;
+        if (!path) return;
+
+        // Look up the item in your master DATA array
+        const item = DATA.find(i => i.p === path);
+        
+        // If the item exists and its tags array (item.t) contains the input value
+        const hasTag = item && item.t.includes(val);
+
+        if (isActive && hasTag) {
+            el.classList.add('already-has-tag');
+        } else {
+            el.classList.remove('already-has-tag');
+        }
+    });
+}
+		function clearAssignmentTag() {
+			const input = document.getElementById('assign-tag-input');
+			input.value = "";
+			updateAssignmentUI();
+		}
 		// Handle the file selection
 		// This should be in your init code or script root
 		document.getElementById('mobile-file-input').onchange = async (e) => {
 			const file = e.target.files[0];
 			if (!file) return;
+
 			// BRANCH 1: User picked a JSON file (Collection)
 			if (file.type === "application/json" || file.name.endsWith('.json')) {
 				importJSON(e.target);
 				// Note: importJSON handles its own reader and resetting input.value
 			}
+
 			// BRANCH 2: User picked an Image (Single Entry)
 			else if (file.type.startsWith('image/')) {
 				// Generate a temporary browser path for the mobile file
@@ -3015,8 +3306,10 @@
 				// Pass it to your existing function
 				// This will handle tags, Orphans, and UI refresh automatically
 				await addNewEntryFromClipboard(blobUrl);
+
 				showToast(`Added: ${file.name}`);
 			}
+
 			// Reset the input so the same file can be picked again if deleted
 			e.target.value = '';
 		};
@@ -3025,30 +3318,33 @@
 			const searchInput = document.getElementById('master-search');
 			const searchTag = searchInput.value.trim().toUpperCase();
 			if (searchTag !== "" && !tagsToAdd.includes(searchTag)) {
-        tagsToAdd.push(searchTag);
+				tagsToAdd.push(searchTag);
+			}
+			// Get extension, remove query params, and check if it's not empty
+			const extMatch = path.split(/[\\/]/).pop().split('?')[0].split('#')[0].split('.');
+			if (extMatch.length > 1) {
+				const extTag = "." + extMatch.pop().toLowerCase();
+				// Use a safe prefix like "type:" or just the extension name
+				const formattedExt = `type:${extTag}`;
+				if (!tagsToAdd.includes(formattedExt)) {
+					tagsToAdd.push(formattedExt);
+				}
 			}
 
 			// Create the new item object
+			// This regex /[\\/]/ means "split by \ OR /"
+			const filename = path.split(/[\\/]/).pop().split('#')[0].split('?')[0] || "New Entry";
 			const newItem = {
-				n: path.split('/').pop().split('#')[0].split('?')[0] || "New Entry", // Filename for display
-				t: tagsToAdd, // The currently active tags
-				p: path,      // The path/URL
+				n: filename,
+				t: tagsToAdd,
+				p: path,
 			};
 
-			// 2. Prevent exact duplicates if you wish
-			const exists = DATA.some(item => item.p === path);
-			if (exists) {
+			// 1. Duplicate check against current master DATA
+			if (DATA.some(item => item.p === path)) {
 				alert("This item is already in your list.");
 				return;
 			}
-
-			// 3. Push to the master DATA array
-			DATA.push(newItem);
-
-			// 4. Update the 'ALL_TAGS' set so new tags from the clipboard are recognized
-			newItem.t.forEach(tag => {
-				if (!ALL_TAGS.includes(tag)) ALL_TAGS.push(tag);
-			});
 
 			// 2. Find or Create the [Orphan Files] collection in savedPaths
 			const orphanName = "[Orphan Files]";
@@ -3076,9 +3372,12 @@
 
 
 			// 4. Update the UI
-			createCard(newItem);
 			renderPathList();        // Refreshes the checkbox list so [Orphan Files] appears
 			loadActiveCollections(); // Rebuilds the main DATA array from all checked paths
+
+			// Create card from the version now inside DATA (to ensure references match)
+			const finalItem = DATA.find(i => i.p === path);
+			if (finalItem) createCard(finalItem);
 		}
 		async function importFromURL(url) {
 			try {
@@ -3231,7 +3530,6 @@
 			combined.forEach(item => uniqueMap.set(item.p, item));
 			DATA = Array.from(uniqueMap.values());
 
-			// ADD THIS SECTION: Update the global tag list
 			const tags = new Set();
 			DATA.forEach(item => {
 				if (item.t && Array.isArray(item.t)) {
@@ -3259,7 +3557,6 @@
 			}
 		}
 
-
 		function importJSON(input) {
 			const file = input.files[0];
 			if (!file) return;
@@ -3270,7 +3567,6 @@
 
 					// Use webkitRelativePath if available, otherwise fallback to name
 					const pathName = file.webkitRelativePath || file.name;
-
 					const existingIndex = savedPaths.findIndex(p => p.path === pathName);
 					if (existingIndex === -1) {
 						savedPaths.push({ path: pathName, checked: true, data: importedData });
@@ -3278,7 +3574,6 @@
 						savedPaths[existingIndex].data = importedData;
 						savedPaths[existingIndex].checked = true;
 					}
-
 					renderPathList();
 					loadActiveCollections();
 					showToast(`Imported: ${pathName}`);
@@ -3518,65 +3813,58 @@
 		async function createCard(item) {
 			// 1. Change: Target the active track or the default track
 			const multitrack = document.getElementById('multitrack');
-			const activeCard = document.querySelector('.card.is-active');
+			let activeCard = document.querySelector('.card.is-active');
 			const activeTrack = activeCard ? activeCard.parentElement : document.querySelector('#track');
 			const isVertical = document.getElementById('body-wrap').classList.contains('max-width');
 
 			// Duplicate check
 			const existing = Array.from(document.querySelectorAll('.card')).find(c => c.dataset.path === item.p);
 			if (existing) {
+				const bSameTrack = (activeTrack == existing.closest('#track'));
 				if (existing.classList.contains('pinned')) {
 					existing.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+					setActiveCard(existing);
+					return;
 				} else {
 					existing.remove();
-					syncSidebarHighlights();
+					if (bSameTrack) {
+						syncSidebarHighlights();
+						return;
+					}
 				}
-				return;
 			}
 
 			if (autoFlush) {
 				// 20251227: Cardinal: First count the number of cards in the track.
 				const cardsInTrack = activeTrack.querySelectorAll('.card:not(.pinned)');
-				if (cardsInTrack.length > 1) {
-					if (!await showConfirm("This track has more than one unstarred cards. Keep them?")) {
+				if (cardsInTrack.length > 0) {
+					if (cardsInTrack.length > 1) {
+						if (!await showConfirm("This track has more than one unstarred cards. Keep them?")) {
+							cardsInTrack.forEach(c => {
+								if (!c.classList.contains('pinned')) c.remove();
+							});
+						}
+					} else {
 						cardsInTrack.forEach(c => {
 							if (!c.classList.contains('pinned')) c.remove();
 						});
 					}
-				} else {
-					cardsInTrack.forEach(c => {
-						if (!c.classList.contains('pinned')) c.remove();
-					});
 				}
+				activeCard = document.querySelector('.card.is-active');
 			}
-			document.querySelectorAll('.card.is-active').forEach(c => c.classList.remove('is-active'));
+
+
+
+
 			const c = document.createElement('div');
 			c.className = 'card';
 			c.dataset.path = item.p;
-			c.classList.add('is-active');
 			updateStarButtonState();
 
 			// 20250103: Lei: using iFrame to show PDF
 			const isPDF = item.p.toLowerCase().endsWith('.pdf');
 
 			if (isPDF) {
-				// PDF.js viewer approach:
-				// Assuming your pdfjs folder is in the same directory. 
-				// The format is: viewer.html?file=URL
-
-				/* PDF.js:
-				const pdfViewerUrl = `pdfjs/web/viewer.html?file=${encodeURIComponent(item.p)}`;
-				c.innerHTML = `
-				<div class="card-tag-overlay"></div>
-				<iframe 
-						src="${pdfViewerUrl}" 
-						style="width:100%; height:100%; border:none;" 
-						allowfullscreen 
-						webkitallowfullscreen>
-				</iframe>`;//*/
-
-				// Using the Browser's PDF viewer
-				//*				
 				const pdfUrl = `${item.p}#view=FitH&zoom=100`;
 				c.innerHTML = `
         <div class="card-selection-hitbox" style="position:absolute; top:0; left:0; width:100%; height:20px; z-index:20; cursor:cell;"></div>
@@ -3586,7 +3874,6 @@
             type="application/pdf" 
             style="min-width: 100%;"
 				/>`;
-				//*/
 			} else {
 				c.innerHTML = `<div class="card-tag-overlay"></div><img src="${getThumbnail(item.p)}" onerror="handleMissingImage(this, '${item.p}')">`;
 			}
@@ -3663,7 +3950,7 @@
 				syncSidebarHighlights();
 				memDOM();
 			}, 50);
-
+			setActiveCard(c);
 		}
 		function updateStarButtonState() {
 			const activeCard = document.querySelector('.card.is-active');
@@ -3689,6 +3976,7 @@
 					const p = document.createElement('div');
 					p.className = 'tag-pill';
 					if (activeTags.has(t)) p.classList.add('active');
+					p.dataset.tag = t;
 					p.innerText = t;
 					p.onclick = (e) => { e.stopPropagation(); toggleTag(t); };
 					overlay.appendChild(p);
@@ -3696,7 +3984,13 @@
 			});
 			memDOM();
 		}
-
+		function getActiveCardData() {
+			const card = document.querySelector(".card.is-active");
+			if (!card) { return null; }
+			const path = card.dataset.path;
+			const item = DATA.find(i => i.p === path);
+			return item;
+		}
 		function toggleAutoFlush(e) {
 			e.stopPropagation();
 			autoFlush = !autoFlush;
@@ -3731,7 +4025,19 @@
 		function updateTagSortUI() {
 			document.getElementById('tag-sort-btn').innerText = tagSortMode === 'alpha' ? 'A-Z' : '1-9';
 		}
+		function getFilteredData() {
+			const q = document.getElementById('master-search').value.toLowerCase().trim();
 
+			return DATA.filter(i => {
+				// 1. Must have EVERY active tag
+				const matchesActive = Array.from(activeTags).every(at => i.t.includes(at));
+
+				// 2. Must match the text search (against tags)
+				const matchesSearch = q === "" || i.t.some(it => it.toLowerCase().includes(q));
+
+				return matchesActive && matchesSearch;
+			});
+		}
 		function refreshAllUI() {
 			const q = document.getElementById('master-search').value.toLowerCase();
 			const list = document.getElementById('file-list');
@@ -3744,12 +4050,24 @@
 				return matchesActive && matchesSearch;
 			});
 
+			renderCardTags();
+
 			// 1. Calculate tag frequencies in the current filtered set
 			const tagFreq = {};
-			filtered.forEach(i => i.t.forEach(t => tagFreq[t] = (tagFreq[t] || 0) + 1));
+			filtered.forEach(i => {
+				i.t.forEach(t => {
+					if (t && t.trim() !== "") {
+						tagFreq[t] = (tagFreq[t] || 0) + 1;
+					}
+				});
+			});
 
 			// 2. Sort the cloud based on the active mode (Alpha vs Frequency)
-			let sortedTags = ALL_TAGS.filter(t => t.toLowerCase().includes(q));
+			let sortedTags = ALL_TAGS.filter(t => {
+				const matchesSearch = t.toLowerCase().includes(q);
+				const isNotEmpty = t && t.trim() !== ""; // <--- ADD THIS CHECK
+				return matchesSearch && isNotEmpty;
+			});
 
 			if (tagSortMode === 'freq') {
 				sortedTags.sort((a, b) => (tagFreq[b] || 0) - (tagFreq[a] || 0) || a.localeCompare(b));
@@ -3766,13 +4084,9 @@
 
 				const p = document.createElement('div');
 				p.className = 'tag-pill' + (activeTags.has(t) ? ' active' : '');
+				p.dataset.tag = t;
 				// Optional: Add a small count indicator next to the tag name
 				p.innerHTML = `${t} <span class="tag-count-small">${count}</span>`;
-				p.onclick = () => {
-					if (activeTags.has(t)) activeTags.delete(t);
-					else activeTags.add(t);
-					refreshAllUI();
-				};
 				cloud.appendChild(p);
 			});
 
@@ -3802,6 +4116,7 @@
 			syncSidebarHighlights();
 			updateStageCount();
 			memDOM();
+			updateAssignmentUI();
 		}
 
 		async function clearWorkspace(e) {
@@ -3813,14 +4128,14 @@
 			const numPinned = document.querySelectorAll(".card.pinned").length;
 
 			let msg = "This will wipe the multitrack area. Keep it?"
-			if(numCards != numPinned && numPinned > 0){
+			if (numCards != numPinned && numPinned > 0) {
 				msg = "This will remove " + (numCards - numPinned) + " card(s) without ⭐. Keep them?";
 				if (await showConfirm(msg)) { return; }
 				document.querySelectorAll('.card').forEach(c => {
 					if (!c.classList.contains('pinned')) c.remove();
 				});
 				return;
-			}else if(numCards == numPinned){
+			} else if (numCards == numPinned) {
 				msg = "The multitrack only has ⭐ card(s). Keep them?"
 				if (await showConfirm(msg)) { return; }
 			}
@@ -3887,7 +4202,6 @@
 				reader.readAsDataURL(blob);
 			});
 		}
-
 
 		function exportGallery() {
 			let docClone = document.documentElement.cloneNode(true);
@@ -3984,7 +4298,9 @@
 
 		function toggleFocus(card) { cycleViewMode(); setTimeout(() => { card.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' }); }, 150); }
 		function handleMissingImage(img, path) { const card = img.closest('.card'); DATA = DATA.filter(i => i.p !== path); card.remove(); refreshAllUI(); }
-		function toggleTag(t) { if (activeTags.has(t)) activeTags.delete(t); else activeTags.add(t); refreshAllUI(); }
+		function toggleTag(t) {
+			if (activeTags.has(t)) activeTags.delete(t); else activeTags.add(t); refreshAllUI();
+		}
 		function saveNotes(v) { localStorage.setItem('gallery_notes', v); }
 		let scale = 1;
 		let pointX = 0;
