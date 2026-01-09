@@ -6,8 +6,8 @@
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
 	<script>
-		const APP_VERSION = "20260108035204"; //#Version
-		const APP_ANNOUNCEMENT = "20260108: Card Tag Tab."
+		const APP_VERSION = "20260109043722"; //#Version
+		const APP_ANNOUNCEMENT = "20260109: Asset Edit."
 	</script>
 	<style>
 		:root {
@@ -58,6 +58,16 @@
 		body.tag-assign-active {
 			/* Optional: subtle cursor change for the whole app */
 			cursor: crosshair;
+		}
+
+		input {
+			padding: 8px;
+			border-radius: 4px;
+			border: 1px solid #444;
+			background: #2222;
+			color: #fff;
+			width: 100%;
+			font-family: monospace;
 		}
 
 		/* The Green Tint Highlight */
@@ -1202,6 +1212,50 @@
 			max-width: 120px;
 		}
 
+		.tabs-contents {
+			display: block;
+			/* Ensure it's a block container */
+			max-height: 30vh;
+			/* The limit */
+			overflow-y: auto;
+			/* Enable vertical scroll */
+			overflow-x: hidden;
+			/* Prevent horizontal shifting */
+			box-sizing: border-box;
+			/* CRITICAL: Includes padding in the 30vh calculation */
+			padding-bottom: 60px;
+			/* Gives the inputs some breathing room at the bottom */
+		}
+
+		/* Width of the scrollbar */
+		.tabs-contents::-webkit-scrollbar {
+			width: 6px;
+		}
+
+		/* The background track */
+		.tabs-contents::-webkit-scrollbar-track {
+			background: transparent;
+		}
+
+		/* The actual draggable handle */
+		.tabs-contents::-webkit-scrollbar-thumb {
+			background-color: rgba(155, 155, 155, 0.5);
+			/* Semi-transparent grey */
+			border-radius: 10px;
+			/* Rounded edges */
+		}
+
+		/* Handle on hover */
+		.tabs-contents::-webkit-scrollbar-thumb:hover {
+			background-color: rgba(155, 155, 155, 0.8);
+		}
+
+		/* For Firefox support */
+		.tabs-contents {
+			scrollbar-width: thin;
+			scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+		}
+
 		#command-panel {
 			position: fixed;
 			/* Changed from absolute */
@@ -1212,8 +1266,10 @@
 
 			width: 100vw;
 			/* You can now make it wider than the sidebar */
+			max-height: 30vh;
 			max-width: 800px;
 			min-height: 200px;
+
 
 			background: rgba(0, 0, 0, 0.4);
 			backdrop-filter: blur(20px);
@@ -1672,6 +1728,7 @@
 			outline: none;
 			cursor: pointer;
 			accent-color: var(--accent);
+			padding: 0px;
 		}
 
 		#grid-toggle-btn {
@@ -1931,7 +1988,7 @@
 			<div id="button-palette" style="display:block;"><!--@@Stage-->
 				<div class="button-grid">
 					<button class="sq-btn dimmer star-btn" onclick="togglePinActiveCard(event)" title="Star Active Card">
-						<svg viewBox="0 0 24 24" width="100" height="100" fill="currentColor" stroke="currentColor" stroke-width="2"
+						<svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor" stroke="currentColor" stroke-width="2"
 							stroke-linejoin="round">
 							<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
 						</svg>
@@ -1976,19 +2033,25 @@
 							<polygon points="50,100 50,50 0,50" fill="currentColor" />
 						</svg>
 					</button>
-					<!--NOTES BUTTON-->
-					<button class="sq-btn dimmer" id="settings-btn" onclick="toggleSettings(event)">
-						<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-							<rect x="20" y="15" width="60" height="70" rx="5" fill="none" stroke="currentColor" stroke-width="6" />
+					
 
-							<line x1="35" y1="35" x2="65" y2="35" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
-							<line x1="35" y1="50" x2="65" y2="50" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
-							<line x1="35" y1="65" x2="55" y2="65" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+
+
+					<button class="sq-btn dimmer" onclick="createCard()" title="Random Draw">
+						<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M12 3L19 7L12 11L5 7L12 3Z" fill="currentColor" fill-opacity="0.3" stroke="currentColor"
+								stroke-width="1.5" stroke-linejoin="round" />
+							<path d="M12 11L19 7V15L12 19V11Z" fill="currentColor" fill-opacity="0.1" stroke="currentColor"
+								stroke-width="1.5" stroke-linejoin="round" />
+							<path d="M5 7L12 11V19L5 15V7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+							<circle cx="12" cy="7" r="1" fill="currentColor" />
+							<circle cx="7" cy="11" r="1" fill="currentColor" />
+							<circle cx="10" cy="15" r="1" fill="currentColor" />
+							<circle cx="14" cy="15" r="1" fill="currentColor" />
+							<circle cx="15.5" cy="13" r="1" fill="currentColor" />
+							<circle cx="17" cy="11" r="1" fill="currentColor" />
 						</svg>
 					</button>
-
-
-
 					<button class="sq-btn dimmer"></button>
 					<!--Auto Flush Mode Button ↻-->
 					<button id="auto-flush-btn" class="sq-btn action-btn" onclick="toggleAutoFlush(event)">
@@ -2077,8 +2140,17 @@
 							<path d="M50,0 L50,50 L0,50 Z" fill="none" stroke="currentColor" stroke-width="6" />
 						</svg>
 					</button>
+<!--NOTES BUTTON-->
+					<button class="sq-btn dimmer" id="settings-btn" onclick="toggleSettings(event)">
+						<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+							<rect x="20" y="15" width="60" height="70" rx="5" fill="none" stroke="currentColor" stroke-width="6" />
 
-					<button class="sq-btn dimmer"></button>
+							<line x1="35" y1="35" x2="65" y2="35" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+							<line x1="35" y1="50" x2="65" y2="50" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+							<line x1="35" y1="65" x2="55" y2="65" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+						</svg>
+					</button>
+					
 					<!--Show/Hide Custom Buttons-->
 					<button class="sq-btn dimmer" onclick="toggleAllBlockByID(event,'custom-buttons')"
 						title="Toggle custom buttons"></button>
@@ -2125,7 +2197,7 @@
 					onclick="saveCardNotes(event)" title="Save changes to this card">
 				<!--<span id="active-preview-label">No Selection</span>-->
 				<button class="tab-btn" onclick="toggleTab(event,'tab-card-notes')">Notes</button>
-				<button class="tab-btn" onclick="toggleTab(event,'tab-card-tags')">Tags</button>
+
 				<!--<button class="tab-btn save-notes-btn" onclick="saveCardNotes(event)" title="Save">
 					<svg viewBox="0 0 100 100" style="width:16px; height:16px;">
 					<path d="M20,15 H70 L85,30 V85 H20 Z" fill="none" stroke="currentColor" stroke-width="6" />
@@ -2137,22 +2209,30 @@
 				</svg>
 				</button>-->
 			</div>
-			<button class="tab-btn" onclick="toggleTab(event,'tab-dev-notes')">DEV</button>
+			<!--<button class="tab-btn" onclick="toggleTab(event,'tab-card-tags')">Tags</button>-->
+			<button class="tab-btn" onclick="toggleTab(event,'tab-dev-notes')">Lab</button>
 
 
 		</div>
 		<div class="tabs-contents">
+
 			<div id="tab-card-notes">
+				<div id="card-tag-list" class="tag-cloud" style="padding:5px 0px"></div>
+				<input type="text" id="assign-tag-input" placeholder="Add Tag" oninput="updateAssignmentUI()"
+					onkeydown="handleTagKey(event)">
+
+				<input type="text" id="card-title" placeholder="Title" title="Title (n)">
 				<textarea id="card-notes" class="" oninput="markDirty(this)"
 					style="resize:none;height:180px; margin-bottom:5px;font-size:16px;overflow-y: auto;"
-					placeholder=""></textarea>
+					placeholder="Notes"></textarea>
+				<input type="text" id="edit-img-path" placeholder="Cover Image" title="Cover Image (i)">
+				<input type="text" id="edit-url-path" placeholder="Jump URL" title="Path/URL (p)">
+
 			</div>
 			<div id="tab-card-tags" class="tab-content" style="display:none">
 
-				<div id="card-tag-list" class="tag-cloud" style="padding:5px 0px"></div>
-				<input type="text" id="assign-tag-input" placeholder="Add Tag" oninput="updateAssignmentUI()"
-					onkeydown="handleTagKey(event)"
-					style="padding: 8px; border-radius: 4px; border: 1px solid #444; background: #222; color: #fff;width:100%">
+
+
 			</div>
 			<div id="tab-dev-notes" style="display:none">
 				<div style="display:flex; gap:5px; align-items:center;">
@@ -2388,7 +2468,13 @@
 			const card = e.target.closest('.card');
 			if (!card) return false;
 			e.stopPropagation();
+			if (getActiveCard() == card && isHidden("command-panel")) {
+				toggleSettings(e);
+			}
+
+
 			setActiveCard(card);
+
 			return true;
 		}
 		async function fairyBlessCheck(e) {
@@ -2535,31 +2621,45 @@
 			}
 			return false;
 		}
-		function getThumbnail(path) {
+		function getThumbnail(item) {
 			// 20260103: Lei: Returns the image path for thumbnail when the item is not an image file.
-			if (!path || typeof path !== 'string') return "https://placehold.co/400x400/000/FFF?text=No+Path";
+			// Priority 1: If the item has an image, use it.
+			if (item.i && item.i.trim() !== "") return item.i;
 
-			const cleanPath = path.trim();
-
+			// Priority 2: If the item has a path that is an image, use it.
 			// Check if the path is a Base64 image string
-			if (typeof path === 'string' && path.startsWith('data:image/')) {
-				return path; // Return as-is, browser can render this
-			}
-			// 2. Handle Mobile Blob URLs (Always images in our use case)
-			if (typeof path === 'string' && path.startsWith('blob:')) {
-				return path;
-			}
-			const fileName = cleanPath.split('/').pop().split('?')[0].split('#')[0];
-			const parts = fileName.split('.');
-			if (parts.length > 1) {
-				const extension = parts.pop().toLowerCase();
-				const imageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'avif'];
 
-				if (imageExtensions.includes(extension)) {
-					return cleanPath;
+			if (item.p) {
+				if (typeof item.p === 'string' && item.p.startsWith('data:image/')) {
+					return item.p; // Return as-is, browser can render this
 				}
+				// 2. Handle Mobile Blob URLs (Always images in our use case)
+				if (typeof item.p === 'string' && item.p.startsWith('blob:')) {
+					return item.p;
+				}
+				const cleanPath = item.p.trim();
+				const parts = cleanPath.split('.');
+				if (parts.length > 1) {
+					const extension = parts.pop().toLowerCase();
+					const imageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'avif', 'url'];
+					if (imageExtensions.includes(extension)) {
+						return cleanPath;
+					}
+				}
+
+
+			}
+			const fileName = item.n;
+			if (fileName.trim() == "") {
+				fileName = cleanPath.split(/[/\\]/).pop().split(/[?#]/)[0];
 			}
 			return `https://placehold.co/400x400/000/FFF?text=${encodeURIComponent(fileName || 'FILE')}`;
+		}
+		function getURL(item) {
+			// 20260106: Skyle: Returns the URL for a data entry.
+			if (item.p) { return item.p; }
+			if (item.i) { return item.i }
+			return "";
 		}
 		async function importMultiTrackDOM() {
 			// 1. Create a hidden file input to trigger the dialog
@@ -2607,6 +2707,10 @@
 				root.style.setProperty(`--z-${layer}`, zi);
 				zi -= 10;
 			});
+		}
+		function isHidden(elID) {
+			const el = document.getElementById(elID);
+			return window.getComputedStyle(el).display === 'none';
 		}
 		function isMobile() {
 			const userAgent = navigator.userAgent || navigator.vendor || window.opera;
@@ -2691,7 +2795,26 @@
 			textArea.dataset.notes = activeCard.dataset.notes
 			activeCard.classList.add("pinned");
 			textArea.classList.remove("is-dirty");
+			saveMetadata();
 			memDOM();
+		}
+		function saveMetadata() {
+			activeCardData = getActiveCardData();
+			if (!activeCardData) return;
+			activeCardData.i = document.getElementById('edit-img-path').value.trim();
+			activeCardData.n = document.getElementById('card-title').value.trim();
+			activeCardData.o = encodeURIComponent(document.getElementById('card-notes').value);
+			activeCardData.p = document.getElementById('edit-url-path').value.trim();
+
+			// Update the visual card immediately if the image changed
+			const card = document.querySelector(`.card[data-path="${CSS.escape(activeCardData.p)}"]`);
+			const cardThumbnail = document.getElementById('active-preview-thumb');
+			cardThumbnail.src = getThumbnail(activeCardData);
+			if (card) {
+				const img = card.querySelector('img');
+				if (img) img.src = cardThumbnail.src;
+			}
+			// Persist to localStorage (see point 3 below)
 		}
 		function setActiveCard(card) {
 			if (!card) return;
@@ -2699,15 +2822,19 @@
 			document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
 			card.classList.add('is-active');
 
+			const activeCard = getActiveCardData();
+			document.getElementById("edit-img-path").value = activeCard.i || "";
+			document.getElementById("card-title").value = activeCard.n || "";
+			document.getElementById("edit-url-path").value = activeCard.p || "";
+
 			const cardNotes = document.getElementById("card-notes");
+
 			if ('notes' in card.dataset) {
 				cardNotes.dataset.notes = card.dataset.notes;
 			} else {
-				cardNotes.dataset.notes = "";
+				cardNotes.dataset.notes = activeCard.o || "";
 			}
-			cardNotes.value = decodeURIComponent(card.dataset.notes || "");
-			document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
-			card.classList.add('is-active');
+			cardNotes.value = decodeURIComponent(cardNotes.dataset.notes || "");
 			renderCardTags();
 
 			// Mirror Thumbnail.
@@ -2720,6 +2847,7 @@
 				mirrorImg.style.display = "block";
 				//mirrorLabel.innerText = cardName;
 			}
+			// Mirror 
 			memDOM();
 		}
 		function summonGateGuardian() {
@@ -3253,34 +3381,34 @@
 			}
 		}
 		function updateAssignmentUI() {
-    const input = document.getElementById('assign-tag-input');
-    if (!input) return;
-    
-    const val = input.value.trim().toUpperCase();
-    const isActive = val !== "";
+			const input = document.getElementById('assign-tag-input');
+			if (!input) return;
 
-    document.body.classList.toggle('tag-assign-active', isActive);
+			const val = input.value.trim().toUpperCase();
+			const isActive = val !== "";
 
-    // Target ONLY files and cards
-    const targets = document.querySelectorAll('.file-item, .card');
-    
-    targets.forEach(el => {
-        const path = el.dataset.path;
-        if (!path) return;
+			document.body.classList.toggle('tag-assign-active', isActive);
 
-        // Look up the item in your master DATA array
-        const item = DATA.find(i => i.p === path);
-        
-        // If the item exists and its tags array (item.t) contains the input value
-        const hasTag = item && item.t.includes(val);
+			// Target ONLY files and cards
+			const targets = document.querySelectorAll('.file-item, .card');
 
-        if (isActive && hasTag) {
-            el.classList.add('already-has-tag');
-        } else {
-            el.classList.remove('already-has-tag');
-        }
-    });
-}
+			targets.forEach(el => {
+				const path = el.dataset.path;
+				if (!path) return;
+
+				// Look up the item in your master DATA array
+				const item = DATA.find(i => i.p === path);
+
+				// If the item exists and its tags array (item.t) contains the input value
+				const hasTag = item && item.t.includes(val);
+
+				if (isActive && hasTag) {
+					el.classList.add('already-has-tag');
+				} else {
+					el.classList.remove('already-has-tag');
+				}
+			});
+		}
 		function clearAssignmentTag() {
 			const input = document.getElementById('assign-tag-input');
 			input.value = "";
@@ -3440,10 +3568,7 @@
 		function toggleSettings(e) {
 			e.stopPropagation();
 			const panel = document.getElementById('command-panel');
-			// Check computed style to see if it's currently hidden
-			const isHidden = window.getComputedStyle(panel).display === 'none';
-
-			if (isHidden) {
+			if (isHidden('command-panel')) {
 				panel.style.display = 'block';
 				// Optional: add your existing entrance animation
 				panel.style.animation = 'cardEntrance 0.3s ease-out';
@@ -3811,6 +3936,16 @@
 		}
 
 		async function createCard(item) {
+			// If the item is null, choose a random one from the file list.
+			if(!item){
+				const choices = document.querySelectorAll(".file-item:not(.active-item)");
+				const numChoices = choices.length;
+				if(choices.length < 1){return;}
+				const file = choices[Math.floor(Math.random() * choices.length)];
+				const path = file.dataset.path;
+				item = DATA.find(i => i.p === path);
+			}
+
 			// 1. Change: Target the active track or the default track
 			const multitrack = document.getElementById('multitrack');
 			let activeCard = document.querySelector('.card.is-active');
@@ -3875,7 +4010,7 @@
             style="min-width: 100%;"
 				/>`;
 			} else {
-				c.innerHTML = `<div class="card-tag-overlay"></div><img src="${getThumbnail(item.p)}" onerror="handleMissingImage(this, '${item.p}')">`;
+				c.innerHTML = `<a href="${item.p}" target="_blank" class="file-link" onclick="return false;"><img src="${getThumbnail(item)}" onerror="handleMissingImage(this, '${getURL(item)}')"></a>`;
 			}
 
 			// 20251229: Sasha: In Multitrack vertical mode insert after the active card.
@@ -3984,8 +4119,13 @@
 			});
 			memDOM();
 		}
-		function getActiveCardData() {
+		function getActiveCard() {
 			const card = document.querySelector(".card.is-active");
+			if (!card) { return null; }
+			return card;
+		}
+		function getActiveCardData() {
+			const card = getActiveCard();
 			if (!card) { return null; }
 			const path = card.dataset.path;
 			const item = DATA.find(i => i.p === path);
@@ -4103,13 +4243,11 @@
 					// Wrap the thumbnail in a link pointing to the real source
 					d.innerHTML = `
       <a href="${item.p}" target="_blank" class="file-link" onclick="return false;">
-        <img src="${getThumbnail(item.p)}" loading="lazy" alt="${item.n}">
+        <img src="${getThumbnail(item)}" loading="lazy" alt="${getURL(item)}">
       </a>`;
 				} else {
-					d.innerHTML = `<span title="${item.p}">${item.n}</span>`;
+					d.innerHTML = `<a href="${item.p}" target="_blank" class="file-link" onclick="return false;" title="${item.p}">${item.n}</a>`;
 				}
-				//d.innerHTML = sidebarIsGrid ? `<img src="${getThumbnail(item.p)}" loading="lazy">` : item.n;
-				//d.onclick = () => createCard(item);
 				list.appendChild(d);
 			});
 			updateAllCardOverlays();
@@ -4180,7 +4318,7 @@
 
 			// 5. Cleanup
 			document.body.style.cursor = 'default';
-			setTimeout(() => URL.revokeObjectURL(url), 1000);
+			setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 
 			// --- THE FIX: COMBINED FINAL TOAST ---
 			let finalMsg = `Exported ${filtered.length} items.`;
