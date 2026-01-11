@@ -143,6 +143,121 @@
 			opacity: 0.6;
 		}
 
+		.speech-bubble {
+			position: relative;
+			/* This is the anchor for the absolute button */
+			background: rgba(255, 255, 255, 0.9);
+			backdrop-filter: blur(15px);
+			border-radius: 30px;
+			padding: 25px;
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+			/* ... your other styles ... */
+		}
+
+		.close-dialog-btn {
+			position: absolute;
+			top: 0px;
+
+			right: 0px;
+
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+			border: none;
+			border: 3px solid rgba(255, 255, 255, 0.7);
+			;
+			background: rgba(0, 0, 0, 0.3);
+			color: white;
+			font-size: 20px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: background 0.2s;
+			line-height: 1;
+		}
+
+		.close-dialog-btn:hover {
+			background: rgba(0, 0, 0, 0.2);
+			color: #000;
+		}
+
+		.dialogue-overlay {
+			position: fixed;
+			bottom: 25vh;
+			left: 50%;
+			transform: translateX(-50%);
+
+			max-width: 800px;
+			justify-content: center;
+			z-index: var(--z-SpeechBubble);
+		}
+
+		.speech-bubble {
+			position: relative;
+			background: rgba(255, 255, 255, 0.5);
+
+			backdrop-filter: blur(10px);
+			border-radius: 75px;
+			padding: 25px;
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+			text-align: center;
+			/* Space between text and buttons */
+			box-shadow: 0 15px 40px 5px rgba(0, 0, 0, 0.4);
+			border: 1px solid rgba(255, 255, 255, 0.4);
+			width: fit-content;
+			/* Shrink to text size */
+			min-width: 300px;
+			/* Don't get too tiny */
+			max-width: 80vw;
+		}
+
+		.speech-content {
+			font-size: 18px;
+			line-height: 1.5;
+			color: #111;
+			max-height: 150px;
+			overflow-y: auto;
+
+			&::-webkit-scrollbar {
+				display: none;
+			}
+
+			-ms-overflow-style: none;
+			scrollbar-width: none;
+
+		}
+
+		/* The New Button Row */
+		.choice-row {
+			display: flex;
+			justify-content: center;
+			/* Center buttons horizontally */
+			align-items: center;
+			gap: 15px;
+			flex-wrap: wrap;
+			/* Wrap buttons if there are many */
+		}
+
+		.choice-btn {
+			width: 40px;
+			height: 40px;
+			border-radius: 50%;
+			border: 2px solid #fff;
+			cursor: pointer;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			transition: transform 0.2s, box-shadow 0.2s;
+		}
+
+		.choice-btn:hover {
+			transform: scale(1.15) translateY(-2px);
+			box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+		}
+
 
 		/* Container for the Tab Buttons */
 		.panel-tabs {
@@ -2474,7 +2589,7 @@
 						<!--Next Button-->
 						<button class="tool-btn full script-step-btn" onClick="scriptSingleStep(this)">
 							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-								style="transform: scale(3)" title="Next" >
+								style="transform: scale(3)" title="Next">
 								<rect x="17" y="5" width="2" height="14" rx="1" fill="currentColor" />
 								<polygon points="5,5 15,12 5,19" fill="currentColor" />
 							</svg>
@@ -2520,11 +2635,19 @@
 			</div>
 
 		</div>
+	</div>
+	<div id="dialogue-overlay" class="dialogue-overlay" style="display: none;">
+		<div class="speech-bubble">
+			<button class="close-dialog-btn" onclick="this.closest('#dialogue-overlay').style.display='none'">
+				<svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M18 6L6 18" stroke="currentColor" stroke-width="8" stroke-linecap="round" opacity="0.75" />
+					<path d="M6 6L18 18" stroke="currentColor" stroke-width="8" stroke-linecap="round" opacity="0.75" />
+				</svg>
+			</button>
 
-
-
-
-
+			<div id="speech-text" class="speech-content"></div>
+			<div id="choice-container" class="choice-row"></div>
+		</div>
 	</div>
 	<div id="splash-screen" onclick="if(event.target === this) hideSplash()">
 		<img id="splash-img" src="" alt="Enlarged View">
@@ -2672,6 +2795,18 @@
 		let autoRandomTrack = null;
 		let isRemovalMode = false; /* 20251226: StarTree: Used for the Removal button */
 		let resolveConfirm = null;
+		
+		// FOR ZOOMING:
+		// Persistent state (Global)
+		let initialDist = 0;
+		let scale = 1; // Usually used for zoom
+		// Interaction anchors (Global)
+		let startX = 0;
+		let startY = 0;
+		
+
+		
+		
 
 		function exportMultiTrack() {
 			// 20260104: Sasha: Export MultiTrack if it is not empty. If it is empty, import.
@@ -3047,6 +3182,41 @@
 
 			return false;
 		}
+		function processScriptDialog(text, choiceColors = []) {
+			const overlay = document.getElementById('dialogue-overlay');
+			const textField = document.getElementById('speech-text');
+			const choiceContainer = document.getElementById('choice-container');
+
+
+			// If choiceColors is blank, hide the container.
+			if (choiceColors.length == 0) {
+				choiceContainer.style.display = "none";
+			} else {
+				choiceContainer.style.display = "flex";
+			}
+
+			// Set Text
+			textField.innerText = text;
+
+			// Clear and Populate Buttons
+			choiceContainer.innerHTML = "";
+			choiceColors.forEach(color => {
+				const btn = document.createElement('button');
+				btn.className = 'choice-btn';
+				btn.style.backgroundColor = color;
+
+				// Add click logic (e.g., clicking a button might trigger the next step)
+				btn.onclick = () => {
+					console.log(`Clicked ${color} choice`);
+					// You could trigger scriptSingleStep here if the button "resolves" the dialogue
+				};
+
+				choiceContainer.appendChild(btn);
+			});
+
+			overlay.style.display = 'block';
+			document.querySelector('.speech-bubble').scrollTop = 0;
+		}
 		function processScriptLine(line) {
 			const prefix = line.charAt(0);
 			const content = line.substring(1).trim();
@@ -3064,7 +3234,8 @@
 					createCard(getCardByPath(content));
 					return false;
 				default:
-					console.log("Action or Narrative:", line);
+					processScriptDialog(line);
+					return false;
 			}
 			return false;
 		}
@@ -3083,7 +3254,7 @@
 					return true;
 				}
 			});
-			console.log("Error in processScriptTag: " + (bAdd? "+":"-")+ line);
+			console.log("Error in processScriptTag: " + (bAdd ? "+" : "-") + line);
 			return true;
 		}
 		function renderCardTags() {
@@ -3140,7 +3311,7 @@
 		async function scriptSingleStep(elThis) {
 			// 20260111: Sasha: Runs the next command in the script
 			// STEP 1: Store the node ID and the Script to the button if they are different from what the button has.
-			
+
 			const nodeID = document.getElementById("card-path-url").value;
 			if (!nodeID) { return }
 			if (nodeID != elThis.dataset.nodeId) {// || elThis.dataset.mode == "rewind") {
@@ -3155,7 +3326,7 @@
 				//showToast("You hve reached the end of the script.");
 				if (await showConfirm("You have reached the end of the script. Rewind?")) {
 					elThis.dataset.nodeId = "";
-					scriptSingleStep(elThis);
+					//scriptSingleStep(elThis);
 				}
 				return;
 			}
@@ -3172,8 +3343,8 @@
 			if (processScriptLine(currentLine)) {
 				console.log("@@ Script returned true");
 				scriptSingleStep(elThis);
-				
-			}else{
+
+			} else {
 				console.log("@@ Script returned false");
 			}
 
@@ -3218,6 +3389,7 @@
 			// Mirror 
 			memDOM();
 		}
+
 		function summonGateGuardian() {
 			// 20251225: LRRH, StarTree: On mobile it is too easy to accidentally refresh the page and lose the arrangement.
 			if (true) {
@@ -4293,7 +4465,7 @@
 			updateTransform();
 		};
 
-		let initialDist = 0; // For pinch-zoom
+
 
 		document.getElementById('splash-screen').addEventListener('touchstart', (e) => {
 			if (e.touches.length === 2) {
@@ -4304,8 +4476,8 @@
 				);
 			} else if (e.touches.length === 1) {
 				// Prepare for panning
-				startX = e.touches[0].pageX - translateX;
-				startY = e.touches[0].pageY - translateY;
+				startX = e.touches[0].pageX - pointX;
+				startY = e.touches[0].pageY - pointY;
 			}
 		}, { passive: false });
 
@@ -4323,11 +4495,11 @@
 				initialDist = currentDist; // Update for next move
 			} else if (e.touches.length === 1) {
 				// Handle Panning
-				translateX = e.touches[0].pageX - startX;
-				translateY = e.touches[0].pageY - startY;
+				pointX = e.touches[0].pageX - startX;
+				pointY = e.touches[0].pageY - startY;
 			}
 
-			updateSplashTransform(); // Your existing function to apply scale/translate
+			updateTransform(); // Your existing function to apply scale/translate
 		}, { passive: false });
 
 
@@ -4938,11 +5110,9 @@
 			if (activeTags.has(t)) activeTags.delete(t); else activeTags.add(t); refreshAllUI();
 		}
 		function saveNotes(v) { localStorage.setItem('gallery_notes', v); }
-		let scale = 1;
+		
 		let pointX = 0;
 		let pointY = 0;
-		let startX = 0;
-		let startY = 0;
 		let isPanning = false;
 
 		const splashImg = document.getElementById('splash-img');
