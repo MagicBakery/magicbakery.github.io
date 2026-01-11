@@ -2657,8 +2657,20 @@
 		}
 		function getURL(item) {
 			// 20260106: Skyle: Returns the URL for a data entry.
-			if (item.p) { return item.p; }
-			if (item.i) { return item.i }
+			if (item.p) {
+				// 20260110: Sasha: If the path link is a substack proxy compression link, return the link to the full image.
+				const substackRegex = /https:\/\/substackcdn\.com\/image\/fetch\/.*?\/(https%3A%2F%2Fsubstack-post-media\.s3\.amazonaws\.com%2F[^\s"']+)/;
+				const match = item.p.match(substackRegex);
+				if(match){
+					console.log("Matched");
+					console.log(decodeURIComponent(match[1]));
+				}else{
+					console.log("==UNMatched==");
+				}
+				
+				return match ? decodeURIComponent(match[1]) : item.p;
+			}
+			if (item.i) {return item.i;}
 			return "";
 		}
 		async function importMultiTrackDOM() {
@@ -4010,7 +4022,7 @@
             style="min-width: 100%;"
 				/>`;
 			} else {
-				c.innerHTML = `<a href="${item.p}" target="_blank" class="file-link" onclick="return false;"><img src="${getThumbnail(item)}" onerror="handleMissingImage(this, '${getURL(item)}')"></a>`;
+				c.innerHTML = `<a href="${getURL(item)}" target="_blank" class="file-link" onclick="return false;"><img src="${getThumbnail(item)}" loading="lazy"></a>`;
 			}
 
 			// 20251229: Sasha: In Multitrack vertical mode insert after the active card.
@@ -4242,11 +4254,11 @@
 				if (sidebarIsGrid) {
 					// Wrap the thumbnail in a link pointing to the real source
 					d.innerHTML = `
-      <a href="${item.p}" target="_blank" class="file-link" onclick="return false;">
+      <a href="${getURL(item)}" target="_blank" class="file-link" onclick="return false;">
         <img src="${getThumbnail(item)}" loading="lazy" alt="${getURL(item)}">
       </a>`;
 				} else {
-					d.innerHTML = `<a href="${item.p}" target="_blank" class="file-link" onclick="return false;" title="${item.p}">${item.n}</a>`;
+					d.innerHTML = `<a href="${getURL(item)}" target="_blank" class="file-link" onclick="return false;" title="${item.p}">${item.n}</a>`;
 				}
 				list.appendChild(d);
 			});
@@ -4435,7 +4447,13 @@
 
 
 		function toggleFocus(card) { cycleViewMode(); setTimeout(() => { card.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' }); }, 150); }
-		function handleMissingImage(img, path) { const card = img.closest('.card'); DATA = DATA.filter(i => i.p !== path); card.remove(); refreshAllUI(); }
+		function handleMissingImage(img, path) {
+			// 20260110: Sasha: Don't need to remove the image.
+			 const card = img.closest('.card'); 
+			 DATA = DATA.filter(i => i.p !== path); 
+			 card.remove(); 
+			 refreshAllUI(); 
+			}
 		function toggleTag(t) {
 			if (activeTags.has(t)) activeTags.delete(t); else activeTags.add(t); refreshAllUI();
 		}
