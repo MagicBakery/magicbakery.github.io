@@ -152,6 +152,14 @@
 			padding-bottom: 0px;
 		}
 
+		.script-step-btn {
+			transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		}
+
+		.script-step-btn:active {
+			transform: scale(0.8) rotate(-10deg);
+		}
+
 		.tab-btn {
 			background: none;
 			border: none;
@@ -378,7 +386,12 @@
 
 		/* Mobile-specific override */
 		@media (max-width: 768px) {
-			#sidebar, #collapsible-collections, #collapsible-tags, #collapsible-images, #header-bar {
+
+			#sidebar,
+			#collapsible-collections,
+			#collapsible-tags,
+			#collapsible-images,
+			#header-bar {
 				opacity: 1 !important;
 				/* Optional: If you have a semi-transparent background, 
            you might want to force it to solid as well */
@@ -459,7 +472,6 @@
 		.hover-trigger,
 		#ghost-restore {
 			z-index: var(--z-TransparentControls);
-			!important;
 			/* Always on top */
 		}
 
@@ -583,7 +595,7 @@
 			-webkit-overflow-scrolling: touch;
 			/* Adds smooth momentum scrolling for mobile */
 			opacity: 0;
-			transition: opacity 0.5s ease 10s;
+			transition: opacity 0.5s ease 0s;
 		}
 
 
@@ -615,7 +627,7 @@
 			-webkit-overflow-scrolling: touch;
 			/* Adds smooth momentum scrolling for mobile */
 
-			transition: background 0.5s ease 10s, backdrop-filter 0.5s ease 10s;
+			transition: background 0.5s ease 0s, backdrop-filter 0.5s ease 0s;
 		}
 
 		#sidebar:hover {
@@ -644,7 +656,7 @@
 		#sidebar:not(:hover)>*:not(.header-bar) {
 			opacity: 0.1;
 			pointer-events: none;
-			transition: opacity 0.5s ease 10s;
+			transition: opacity 0.5s ease 0 los;
 		}
 
 		/* Ensure children don't stretch awkwardly */
@@ -742,14 +754,55 @@
 		}
 
 		/* Special styling for the active mode toggle button */
+		body.auto-flush #command-panel .auto-flush-btn {
+			color: lightskyblue;
+			border-color: lightskyblue;
+			background-color: rgba(0, 0, 0, 0.25);
+		}
+
+		body.auto-random .auto-random-btn {
+			color: var(--green);
+			border-color: var(--green);
+			background-color: rgba(0, 0, 0, 0.25);
+		}
+
+		body.auto-random .auto-random-btn {
+			animation: pulse-green 5s ease-in-out infinite;
+		}
+
+		@keyframes pulse-green {
+			0% {
+				color: darkgreen
+			}
+
+			25% {
+				color: var(--green)
+			}
+
+			100% {
+				color: white;
+				border-color: white
+			}
+		}
+
+		body.removal-mode .removal-mode-btn {
+			color: Crimson;
+			border-color: Crimson;
+			background-color: rgba(0, 0, 0, 0.25);
+			transition: all 0.3s ease;
+		}
+
 		.sq-btn.active-gold {
 			color: var(--gold);
 			border-color: rgba(255, 215, 0, 0.3);
 		}
 
+		#auto-flush-btn:hover,
 		.sq-btn.active-gold:hover {
 			border-color: var(--gold);
 			color: var(--gold);
+			opacity: 1;
+			transition: all 0.2s ease;
 		}
 
 		#toast {
@@ -1018,7 +1071,8 @@
 			object-fit: contain;
 		}
 
-		body:has(#sidebar:hover) .card.pinned::after {
+		body:has(#sidebar:hover) .card.pinned::after,
+		body:has(#command-panel:not(.hidden)) .card.pinned::after {
 			opacity: 1;
 			transition: opacity 0.3s ease;
 		}
@@ -1187,7 +1241,7 @@
 		.sq-btn.dim {
 			background: rgba(255, 255, 255, 0.25);
 			color: rgba(0, 0, 0, 0) !important;
-			transition: background 0.5s ease 10s, color 0.5s ease 10s;
+			transition: background 0.5s ease 10s, color 0.5s ease 1s;
 		}
 
 		#sidebar:hover .sq-btn.dim {
@@ -1290,13 +1344,12 @@
 			bottom: 0px;
 			/* Distance from bottom of screen */
 			left: 50%;
-			transform: translateX(-50%);
+			/*transform: translateX(-50%);*/
 
 			width: 100vw;
 			/* You can now make it wider than the sidebar */
 			max-height: 50vh;
 			max-width: 792px;
-
 
 			background: rgba(0, 0, 0, 0.4);
 			backdrop-filter: blur(20px);
@@ -1311,7 +1364,17 @@
 			gap: 15px;
 			box-shadow: 0 10px 10px rgba(0, 0, 0, 0.8);
 			font-size: 1.5em;
+			transform: translateX(-50%) translateY(0%);
+			opacity: 1;
+			transition: all 0.3s ease-out;
 		}
+
+		#command-panel.hidden {
+			/* Keep X at -50% so it stays centered while sliding up */
+			transform: translateX(-50%) translateY(100%);
+			opacity: 0;
+		}
+
 
 		/* Custom Scrollbar Styling */
 		#command-panel textarea::-webkit-scrollbar {
@@ -1771,23 +1834,26 @@
 		}
 
 
-		#remove-mode-btn,
-		#auto-flush-btn,
+
+		#sidebar #remove-mode-btn,
+		#sidebar #auto-flush-btn,
 		.dimmer {
 			opacity: 0;
-			transition: opacity 0.3s ease 10s;
+			transition: opacity 0.3s ease 0s;
 		}
 
 		#remove-mode-btn:hover,
 		#auto-flush-btn:hover,
 		#sidebar:hover .active-gold,
+		body.auto-flush #auto-flush-btn,
 		.dimmer:hover {
-			opacity: 1;
+			opacity: 1 !important;
 			transition: opacity 0.5s ease;
 		}
 
-		#remove-mode-btn.removal-active {
-			opacity: 1;
+		#remove-mode-btn.removal-active,
+		.removal-mode-btn .removal-active {
+			opacity: 1 !important;
 			background: darkred !important;
 			color: white !important;
 			border-color: darkred !important;
@@ -2012,6 +2078,7 @@
 		<div class="header-bar">
 			<div id="button-palette" style="display:block;"><!--@@Stage-->
 				<div class="button-grid">
+					<!--Star Button-->
 					<button class="sq-btn dimmer star-btn" onclick="togglePinActiveCard(event)" title="Star Active Card">
 						<svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor" stroke="currentColor" stroke-width="2"
 							stroke-linejoin="round">
@@ -2079,7 +2146,7 @@
 					</button>
 
 					<!--Auto Flush Mode Button ↻-->
-					<button id="auto-flush-btn" class="sq-btn action-btn" onclick="toggleAutoFlush(event)">
+					<button id="auto-flush-btn" class="sq-btn action-btn auto-flush-btn" onclick="toggleAutoFlush(event)">
 						<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
 							<path d="M75,30 C65,15 35,15 25,30 M25,70 C35,85 65,85 75,70" fill="none" stroke="currentColor"
 								stroke-width="8" stroke-linecap="round" />
@@ -2127,7 +2194,7 @@
 						<!--<div class="css-wall"></div>-->
 					</button>
 					<!--Remove Mode Button-->
-					<button id="remove-mode-btn" class="sq-btn action-btn" onclick="toggleRemovalMode(this)"
+					<button id="remove-mode-btn" class="sq-btn action-btn removal-mode-btn" onclick="toggleRemovalMode(this)"
 						ondblclick="clearWorkspace(event)" title="Toggle Removal Mode">
 						<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
 							<path d="M20,20 L80,80 M80,20 L20,80" fill="none" stroke="currentColor" stroke-width="8" />
@@ -2196,7 +2263,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="command-panel" style="display: none;">
+	<div id="command-panel" class="hidden" style="display:none">
 		<!--Float Right Elements-->
 		<button class="tool-btn settings-close" onclick="toggleCommandPanel(event)" style="float:right">×</button>
 		<a class="tool-btn" target="_blank" title="Log Bugs" style="float: right;height:24px;width:24px;margin-right:5px"
@@ -2264,17 +2331,16 @@
 		</div>
 		<div class="tabs-contents">
 
-			<div id="tab-card-notes" style="padding-bottom:40px">
+			<div id="tab-card-notes">
 				<div id="card-tag-list" class="tag-cloud" style="padding:5px 0px"></div>
-				<input type="text" id="assign-tag-input" placeholder="Add Tag" oninput="updateAssignmentUI()"
-					onkeydown="handleTagKey(event)">
-
-				<input type="text" id="card-title" placeholder="Title" title="Title (n)">
+				<input type="text" id="assign-tag-input" placeholder="Add Tag" style="display:none" enterkeyhint="go"
+					inputmode="text" oninput="updateAssignmentUI()" onkeydown="handleTagKey(event)">
+				<input type="text" id="card-title" style="display:none" placeholder="Title" title="Title (n)">
 				<textarea id="card-notes" class="" oninput="markDirty(this)"
-					style="resize:none;height:180px; margin-bottom:5px;font-size:16px;overflow-y: auto;"
-					placeholder="Notes"></textarea>
-				<input type="text" id="edit-img-path" placeholder="Cover Image" title="Cover Image (i)">
-				<input type="text" id="edit-url-path" placeholder="Jump URL" title="Path/URL (p)">
+					style="resize:none;height:180px; font-size:16px;overflow-y: auto;" placeholder="Notes"></textarea>
+				<input type="text" id="card-img-url" style="display:none" placeholder="Cover Image" title="Cover Image (i)">
+				<input type="text" id="card-path-url" style="display:none" placeholder="Jump URL" title="Path/URL (p)">
+				<div onclick="toggleNodeDetails(this)" style="text-align: center;width:100%;height:40px;color:grey">▽</div>
 
 			</div>
 			<div id="tab-card-tags" class="tab-content" style="display:none">
@@ -2287,9 +2353,49 @@
 				<div style="display:flex;">
 					<div class="button-pad left"
 						style="flex:1;display:flex;flex-wrap:wrap-reverse;justify-content: flex-start;flex-direction:column;height:108px;overflow-x:auto;box-sizing: content-box;align-items: flex-end;align-content: flex-start;scrollbar-width: none; -ms-overflow-style: none;">
-						<button class="tool-btn full">L1</button>
-						<button class="tool-btn half">L2</button>
-						<button class="tool-btn half">L3</button>
+						<!--Random Draw-->
+						<button class="tool-btn half auto-random-btn" onclick="toggleAutoRandom()" title="Random Draw">
+							<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M12 3L19 7L12 11L5 7L12 3Z" fill="currentColor" fill-opacity="0.3" stroke="currentColor"
+									stroke-width="1.5" stroke-linejoin="round" />
+								<path d="M12 11L19 7V15L12 19V11Z" fill="currentColor" fill-opacity="0.1" stroke="currentColor"
+									stroke-width="1.5" stroke-linejoin="round" />
+								<path d="M5 7L12 11V19L5 15V7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+								<circle cx="12" cy="7" r="1" fill="currentColor" />
+								<circle cx="7" cy="11" r="1" fill="currentColor" />
+								<circle cx="10" cy="15" r="1" fill="currentColor" />
+								<circle cx="14" cy="15" r="1" fill="currentColor" />
+								<circle cx="15.5" cy="13" r="1" fill="currentColor" />
+								<circle cx="17" cy="11" r="1" fill="currentColor" />
+							</svg>
+						</button>
+						<!--Auto Flush Mode Button ↻-->
+						<button class="tool-btn half auto-flush-btn" onclick="toggleAutoFlush(event)">
+							<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+								<path d="M75,30 C65,15 35,15 25,30 M25,70 C35,85 65,85 75,70" fill="none" stroke="currentColor"
+									stroke-width="8" stroke-linecap="round" />
+								<polygon points="70,12 88,28 68,40" fill="currentColor" />
+								<polygon points="30,88 12,72 32,60" fill="currentColor" />
+							</svg>
+						</button>
+						<!--Star Button-->
+						<button class="tool-btn half star-btn" onclick="togglePinActiveCard(event)" title="Star Active Card">
+							<svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor" stroke="currentColor" stroke-width="2"
+								stroke-linejoin="round">
+								<path
+									d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+							</svg>
+						</button>
+						<!--Removal Mode Button-->
+						<button class="tool-btn half removal-mode-btn" onclick="toggleRemovalMode(this)"
+							ondblclick="clearWorkspace(event)" title="Toggle Removal Mode">
+							<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+								<path d="M20,20 L80,80 M80,20 L20,80" fill="none" stroke="currentColor" stroke-width="8" />
+							</svg>
+						</button>
+						<!--<button class="tool-btn full">L1</button>-->
+						<!--<button class="tool-btn half">L2</button>-->
+						<!--<button class="tool-btn half">L3</button>-->
 						<button class="tool-btn half">L4</button>
 						<button class="tool-btn half">L5</button>
 						<button class="tool-btn">L6</button>
@@ -2365,7 +2471,16 @@
 					</div>
 					<div class="button-pad right"
 						style="flex:1;display:flex;flex-wrap:wrap;justify-content: center;flex-direction:column;height:108px;overflow-x:auto;box-sizing: content-box;align-items: flex-start; scrollbar-width: none; -ms-overflow-style: none;align-content: flex-start">
-						<button class="tool-btn full">R1</button>
+						<!--Next Button-->
+						<button class="tool-btn full script-step-btn" onClick="scriptSingleStep(this)">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+								style="transform: scale(3)" title="Next" >
+								<rect x="17" y="5" width="2" height="14" rx="1" fill="currentColor" />
+								<polygon points="5,5 15,12 5,19" fill="currentColor" />
+							</svg>
+						</button>
+
+						<!--<button class="tool-btn full">R1</button>-->
 						<button class="tool-btn half">R2</button>
 						<button class="tool-btn half">R3</button>
 						<button class="tool-btn half">R4</button>
@@ -2443,9 +2558,9 @@
 		<div class="modal-content">
 			<p id="confirm-text" style="color: white; margin-bottom: 20px;"></p>
 			<div class="modal-btns">
-				<button id="btn-no" onclick="confirmChoice(false)" class="confirm-no">No</button>
-				&nbsp;&nbsp;&nbsp;
 				<button id="btn-yes" onclick="confirmChoice(true)" class="confirm-yes">Yes</button>
+				&nbsp;&nbsp;&nbsp;
+				<button id="btn-no" onclick="confirmChoice(false)" class="confirm-no">No</button>
 			</div>
 		</div>
 	</div>
@@ -2493,6 +2608,7 @@
 			if (n) document.getElementById('user-note').value = n;
 
 			autoFlush = localStorage.getItem('gallery_flush') === 'true';
+			document.body.classList.toggle("auto-flush", autoFlush);
 			updateAutoFlushUI();
 
 
@@ -2551,10 +2667,11 @@
 			summonGateGuardian();
 		};
 		/* #ALPHABETICALLY SORTED CODE */
-		const zLayers = ['Notifications', 'LoadingScreen', 'TransparentControls', 'ExamineScreen', 'GUIControls', 'Listings', 'Gallery', 'AppWallpaper'];
+		const zLayers = ['Notifications', 'LoadingScreen', 'TransparentControls', 'ExamineScreen', 'SpeechBubble', 'GUIControls', 'Listings', 'Gallery', 'AppWallpaper'];
+		let autoRandomTimer = null;
+		let autoRandomTrack = null;
 		let isRemovalMode = false; /* 20251226: StarTree: Used for the Removal button */
 		let resolveConfirm = null;
-
 
 		function exportMultiTrack() {
 			// 20260104: Sasha: Export MultiTrack if it is not empty. If it is empty, import.
@@ -2610,7 +2727,12 @@
 				toggleTag(t);
 				return true;
 			}
-
+			const tagList = e.target.closest('#card-tag-list');
+			if (tagList) {
+				e.stopPropagation();
+				toggleAddTag(false);
+				return true;
+			}
 			const file = e.target.closest('.file-item');
 			if (file) {
 				e.stopPropagation();
@@ -2621,18 +2743,16 @@
 				}
 				return true;
 			}
-
 			const card = e.target.closest('.card');
-			if (!card) return false;
-			e.stopPropagation();
-			if (getActiveCard() == card && isHidden("command-panel")) {
-				toggleCommandPanel(e);
+			if (card) {
+				e.stopPropagation();
+				if (getActiveCard() == card && isHidden("command-panel")) {
+					toggleCommandPanel(e);
+				}
+				setActiveCard(card);
+				return true;
 			}
-
-
-			setActiveCard(card);
-
-			return true;
+			return false;
 		}
 		async function fairyBlessCheck(e) {
 			const tag = document.getElementById('assign-tag-input').value.trim().toUpperCase();
@@ -2882,20 +3002,20 @@
 		}
 		function isHidden(elID) {
 			const el = document.getElementById(elID);
-			return window.getComputedStyle(el).display === 'none';
+			return window.getComputedStyle(el).display === 'none' || el.classList.contains("hidden");
 		}
 		function isMobile() {
 			const isSmallScreen = (window.innerWidth <= 768 || window.innerHeight <= 768);
-			return isSmallScreen;						
+			return isSmallScreen;
 			const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 			const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-			
+
 
 			// Check for specific mobile strings in User Agent
 			const isMobileUA = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase());
 
 			//return isMobileUA || isTouch;
-			
+
 		}
 		function memDOM(isLoad, aID) {
 			// 20251226: StarTree: For a quick way to save the workspace, save the html of the multitrack section to local storage
@@ -2917,6 +3037,55 @@
 				localStorage.setItem(aID + '_snapshot_version', APP_VERSION);
 			}
 		}
+		function processScriptCommands(line) {
+			const mUpper = line.toUpperCase();
+			if (mUpper === "CLEAR TAGS") {
+				activeTags.clear();
+				refreshAllUI();
+				return true;
+			}
+
+			return false;
+		}
+		function processScriptLine(line) {
+			const prefix = line.charAt(0);
+			const content = line.substring(1).trim();
+
+			switch (prefix) {
+				case '#': return true; // # are comments.
+				case '!': return processScriptCommands(content);
+				case '+': return processScriptTag(content, true);
+				case '-': return processScriptTag(content, false);
+				case '@': // Dialogue
+					const [name, text] = content.split(':');
+					showSpeechBubble(name, text);
+					break;
+				case '>': // Change Card Image/URL
+					createCard(getCardByPath(content));
+					return false;
+				default:
+					console.log("Action or Narrative:", line);
+			}
+			return false;
+		}
+		function processScriptTag(line, bAdd) {
+			const tags = line.split(',');
+			tags.forEach(rawTag => {
+				const tag = rawTag.trim();
+				const exactTag = ALL_TAGS.find(t => t.toLowerCase() === tag.toLowerCase());
+				if (exactTag) {
+					if (bAdd) {
+						activeTags.add(exactTag);
+					} else {
+						activeTags.delete(exactTag);
+					}
+					refreshAllUI(); // Trigger the UI update
+					return true;
+				}
+			});
+			console.log("Error in processScriptTag: " + (bAdd? "+":"-")+ line);
+			return true;
+		}
 		function renderCardTags() {
 			const container = document.getElementById('card-tag-list');
 			if (!container) return;
@@ -2935,31 +3104,7 @@
 				p.innerText = tag;
 				container.appendChild(p);
 			});
-
-			/*
-			activeCardData.t.forEach(tag => {
-				const p = document.createElement('div');
-
-				// Use the exact same class logic as your sidebar pills
-				const isActive = activeTags.has(tag);
-				p.className = 'tag-pill' + (isActive ? ' active' : '');
-				p.innerText = tag;
-
-				p.onclick = () => {
-					// Mirror logic: toggle the global activeTags Set
-					if (activeTags.has(tag)) {
-						activeTags.delete(tag);
-					} else {
-						activeTags.add(tag);
-					}
-
-					// Refresh EVERYTHING to keep sidebar and command panel in sync
-					refreshAllUI();
-					renderCardTags();
-				};
-
-				container.appendChild(p);
-			});*/
+			toggleAddTag(true);
 		}
 		function saveCardNotes(e) {
 			// 20251230: Cardinal
@@ -2977,10 +3122,10 @@
 		function saveMetadata() {
 			activeCardData = getActiveCardData();
 			if (!activeCardData) return;
-			activeCardData.i = document.getElementById('edit-img-path').value.trim();
+			activeCardData.i = document.getElementById('card-img-url').value.trim();
 			activeCardData.n = document.getElementById('card-title').value.trim();
 			activeCardData.o = encodeURIComponent(document.getElementById('card-notes').value);
-			activeCardData.p = document.getElementById('edit-url-path').value.trim();
+			activeCardData.p = document.getElementById('card-path-url').value.trim();
 
 			// Update the visual card immediately if the image changed
 			const card = document.querySelector(`.card[data-path="${CSS.escape(activeCardData.p)}"]`);
@@ -2992,16 +3137,63 @@
 			}
 			// Persist to localStorage (see point 3 below)
 		}
+		async function scriptSingleStep(elThis) {
+			// 20260111: Sasha: Runs the next command in the script
+			// STEP 1: Store the node ID and the Script to the button if they are different from what the button has.
+			
+			const nodeID = document.getElementById("card-path-url").value;
+			if (!nodeID) { return }
+			if (nodeID != elThis.dataset.nodeId) {// || elThis.dataset.mode == "rewind") {
+				elThis.dataset.nodeId = nodeID;
+				elThis.dataset.script = document.getElementById("card-notes").value || "";
+			}
+			// STEP: Pop the top line and process it.
+			const lineRegex = /^(.*?)(?:\r?\n|$)/;
+			const match = elThis.dataset.script.match(lineRegex);
+			if (!match || match[0].length < 1) {
+				// Script finished.
+				//showToast("You hve reached the end of the script.");
+				if (await showConfirm("You have reached the end of the script. Rewind?")) {
+					elThis.dataset.nodeId = "";
+					scriptSingleStep(elThis);
+				}
+				return;
+			}
+			const currentLine = match[1].trim();
+			elThis.dataset.script = elThis.dataset.script.replace(lineRegex, "");
+
+			// If the current line is blank, move to the next line automatically.
+			if (!currentLine) {
+				scriptSingleStep(elThis);
+				return;
+			}
+
+			// STEP Process the line. Returning True means continue to next line.
+			if (processScriptLine(currentLine)) {
+				console.log("@@ Script returned true");
+				scriptSingleStep(elThis);
+				
+			}else{
+				console.log("@@ Script returned false");
+			}
+
+		}
 		function setActiveCard(card) {
+			// 20260111: LRRH: Don't set active card if auto spawning with the notes tab open.
+
+
 			if (!card) return;
 			// 20260108: LRRH: Remove the active attribute from all cards then set this card to be active
 			document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
 			card.classList.add('is-active');
 
 			const activeCard = getActiveCardData();
-			document.getElementById("edit-img-path").value = activeCard.i || "";
+			if (!activeCard) { return; }
+			document.getElementById("card-img-url").value = activeCard.i || "";
 			document.getElementById("card-title").value = activeCard.n || "";
-			document.getElementById("edit-url-path").value = activeCard.p || "";
+			document.getElementById("card-path-url").value = activeCard.p || "";
+			document.querySelector(".script-step-btn").dataset.nodeId = "";
+
 
 			const cardNotes = document.getElementById("card-notes");
 
@@ -3055,7 +3247,17 @@
 			document.addEventListener('click', async (e) => {
 				if (await fairyRemovalCheck(e)) { return; }
 				if (await fairyBlessCheck(e)) { return; }
-				fairyActiveCardCheck(e);
+				if (await fairyActiveCardCheck(e)) { return; }
+				/*if (e.target.closest("#tab-card-notes")) {
+					e.stopPropagation();
+					toggleNodeDetails(e);
+					return;
+				}*/
+				if (e.target.closest("#multitrack")) {
+					e.stopPropagation();
+					toggleCommandPanel(e);
+					toggleTab(e, 'tab-controls');
+				}
 			});
 			// 20251226: StarTree: Double Click
 			document.addEventListener('dblclick', (e) => {
@@ -3063,18 +3265,42 @@
 			});
 			// 20260110: Sasha: Resizing the main area when the command-panel is shown.
 			const cp = document.getElementById('command-panel');
+
+
 			new ResizeObserver(() => {
-				if (!isMobile()) { return; }
+
 				const multitrack = document.getElementById('multitrack');
 				const sidebar = document.getElementById('sidebar');
-				if (multitrack) {
-					multitrack.style.paddingBottom = `${cp.offsetHeight}px`;
-				}
-				if (sidebar) {
-					sidebar.style.paddingBottom = `${cp.offsetHeight}px`;
+				const panelHeight = cp.offsetHeight;
+				if (isMobile()) {
+					if (multitrack) multitrack.style.paddingBottom = `${panelHeight}px`;
+					if (sidebar) sidebar.style.paddingBottom = `${panelHeight}px`;
+				} else {
+					// RESET styles for Desktop so they don't stay shifted
+					if (multitrack) multitrack.style.paddingBottom = "0px";
+					if (sidebar) sidebar.style.paddingBottom = "0px";
 				}
 			}).observe(cp);
 
+		}
+		function toggleAddTag(bInit) {
+			// 20260110: V: Toggle the visibility, but don't hide it if is not blank.
+			const addTagInputBox = document.getElementById("assign-tag-input");
+			if (bInit) {
+				// if the card's tag list is blank, display this so the user can add a tag.
+				const cardTagList = document.getElementById("card-tag-list");
+				if (cardTagList.innerHTML == "") {
+					addTagInputBox.style.display = "block";
+				}
+				return;
+			}
+			if (isHidden("assign-tag-input")) {
+				addTagInputBox.style.display = "block";
+			} else {
+				if (addTagInputBox.value.trim() == "") {
+					addTagInputBox.style.display = "none";
+				}
+			}
 		}
 		function toggleAllBlockByID(e, aID) {
 			// 20251227: Black: Consolidating the toggle code.
@@ -3087,6 +3313,31 @@
 					block.style.display = "block";
 				}
 			});
+		}
+		function toggleAutoRandom(bTimer = false) {
+			// 20260111: Skyle: If Auto Flush is ON, toggle Auto Random mode.			
+			const isAutoRandom = document.body.classList.contains("auto-random");
+			if (bTimer && !isAutoRandom) { return; }
+			if (isAutoRandom && !bTimer) {
+				// If auto random mode is ON and this is not called by a timer, then the user has just clicked to disable the mode. 
+				document.body.classList.remove("auto-random");
+				if (autoRandomTimer) clearTimeout(autoRandomTimer);
+				autoRandomTimer = null;
+				autoRandomTrack = null;
+				return;
+			}
+			const activeCard = getActiveCard();
+			if (!isAutoRandom) {
+				document.body.classList.add("auto-random");
+				if (activeCard) { autoRandomTrack = activeCard.closest("#track"); }
+			}
+			// Spawn a card and schedule the next one in 5 seconds.
+			createCard();
+			if (autoRandomTimer) clearTimeout(autoRandomTimer);
+			autoRandomTimer = setTimeout(() => {
+
+				toggleAutoRandom(true);
+			}, 5000);
 		}
 		function toggleBottomMenu(e) {
 			if (e) e.stopPropagation(); // Prevents the 'click outside' from firing instantly
@@ -3105,6 +3356,26 @@
 				container.classList.remove('active-state');
 			}
 		}
+		function toggleNodeDetails(el) {
+			// 20260111: Skyle: Hide the advanced settings in card details.
+			const fTitle = document.getElementById("card-title");
+			const fImgURL = document.getElementById("card-img-url");
+			const fPathURL = document.getElementById("card-path-url");
+
+
+			if (isHidden("card-title")) {
+				fTitle.style.display = "block";
+				fImgURL.style.display = "block";
+				fPathURL.style.display = "block";
+				el.innerHTML = "△";
+				el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+			} else {
+				fTitle.style.display = "none";
+				fImgURL.style.display = "none";
+				fPathURL.style.display = "none";
+				el.innerHTML = "▽";
+			}
+		}
 		function togglePinActiveCard(e) {
 			e.stopPropagation();
 			// 1. Find the active card. 
@@ -3119,7 +3390,7 @@
 					memDOM(false, "multitrack");
 				}
 			} else {
-				console.warn("No active card found to pin.");
+				console.warn("No active card ;found to pin.");
 			}
 		}
 		function toggleRemovalMode(btn) {
@@ -3535,7 +3806,8 @@
 		}
 		function handleTagKey(e) {
 			// Only trigger on Enter
-			if (e.key === 'Enter') {
+			if (e.key === 'Enter' || e.keyCode === 13) {
+				e.preventDefault();
 				const input = e.target;
 				const tag = input.value.trim().toUpperCase();
 
@@ -3723,13 +3995,22 @@
 		function toggleCommandPanel(e) {
 			e.stopPropagation();
 			const panel = document.getElementById('command-panel');
+			if (!panel) return;
 			if (isHidden('command-panel')) {
 				panel.style.display = 'block';
-				// Optional: add your existing entrance animation
-				panel.style.animation = 'cardEntrance 0.3s ease-out';
+
 			} else {
-				panel.style.display = 'none';
+
+				setTimeout(() => {
+					// Double check it's still supposed to be hidden 
+					// (in case the user clicked 'open' again quickly)
+					if (panel.classList.contains('hidden')) {
+						panel.style.display = 'none';
+					}
+				}, 150);
 			}
+			panel.classList.toggle('hidden');
+
 		}
 		function toggleImages(e) {
 			toggleSidebarUpper(e, 'collapsible-images');
@@ -4099,13 +4380,14 @@
 
 			if (closestCard) {
 				// 1. Clear previous centered/active states
+				closestCard.card.classList.add('is-centered');
+				if (autoRandomTrack && !isHidden('tab-card-notes')) { return; }
 				cards.forEach(c => {
 					c.classList.remove('is-centered');
 					c.classList.remove('is-active'); // This triggers the white border
 				});
 
 				// 2. Highlight the new center card
-				closestCard.card.classList.add('is-centered');
 				closestCard.card.classList.add('is-active');
 			}
 		}
@@ -4136,7 +4418,11 @@
 			// 1. Change: Target the active track or the default track
 			const multitrack = document.getElementById('multitrack');
 			let activeCard = document.querySelector('.card.is-active');
-			const activeTrack = activeCard ? activeCard.parentElement : document.querySelector('#track');
+			let activeTrack = activeCard ? activeCard.parentElement : document.querySelector('#track');
+			if (autoRandomTrack) {
+				activeTrack = autoRandomTrack;
+			}
+			if (document.body.classList.contains("auto-random")) { autoRandomTrack = activeTrack; }
 			const isVertical = document.getElementById('body-wrap').classList.contains('max-width');
 
 			// Duplicate check
@@ -4145,6 +4431,7 @@
 				const bSameTrack = (activeTrack == existing.closest('#track'));
 				if (existing.classList.contains('pinned')) {
 					existing.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+					if (autoRandomTrack && !isHidden('tab-card-notes')) { return; }
 					setActiveCard(existing);
 					return;
 				} else {
@@ -4202,7 +4489,7 @@
 
 			// 20251229: Sasha: In Multitrack vertical mode insert after the active card.
 			const isMultitrack = multitrack.querySelectorAll("#track").length > 1;
-			if (isMultitrack && activeCard) {
+			if (isMultitrack && activeCard && !autoRandomTrack) {
 				if (isVertical) {
 					activeCard.after(c);
 				} else {
@@ -4250,10 +4537,14 @@
 				// --- NEW LOGIC FOR MULTI-TRACK AUTO-ACTIVE ---			
 				if (multitrack && multitrack.children.length > 1) {
 					// 1. Clear existing active state from all other cards
-					document.querySelectorAll('.card.is-active').forEach(c => c.classList.remove('is-active'));
+
 
 					// 2. Make this new card active
-					c.classList.add('is-active');
+					if (!autoRandomTrack || isHidden('tab-card-notes')) {
+						document.querySelectorAll('.card.is-active').forEach(c => c.classList.remove('is-active'));
+						c.classList.add('is-active');
+					}
+
 					updateStarButtonState();
 
 
@@ -4272,17 +4563,18 @@
 				syncSidebarHighlights();
 				memDOM();
 			}, 50);
+			if (autoRandomTrack && !isHidden('tab-card-notes')) { return; }
 			setActiveCard(c);
 		}
 		function updateStarButtonState() {
 			const activeCard = document.querySelector('.card.is-active');
 			const starBtn = document.querySelector('.star-btn'); // or .pin-btn
 
-			if (activeCard && activeCard.classList.contains('pinned')) {
+			/*if (activeCard && activeCard.classList.contains('pinned')) {
 				starBtn.classList.add('active-gold');
 			} else {
 				starBtn.classList.remove('active-gold');
-			}
+			}*/
 		}
 		function updateAllCardOverlays() {
 			// 20251226: StarTree: To be changed to so the tags don't show on the card itself.
@@ -4318,10 +4610,19 @@
 			const item = DATA.find(i => i.p === path);
 			return item;
 		}
+		function getCardByPath(path) {
+			const item = DATA.find(i => i.p === path);
+			return item;
+		}
 		function toggleAutoFlush(e) {
 			e.stopPropagation();
 			autoFlush = !autoFlush;
 			localStorage.setItem('gallery_flush', autoFlush);
+			if (autoFlush) {
+				document.body.classList.add("auto-flush");
+			} else {
+				document.body.classList.remove("auto-flush");
+			}
 			updateAutoFlushUI();
 			showToast(autoFlush ? "Auto-Flush Enabled" : "Auto-Flush Disabled");
 		}
@@ -4460,7 +4761,7 @@
 					if (!c.classList.contains('pinned')) c.remove();
 				});
 				return;
-			} else if (numCards == numPinned) {
+			} else if (numCards == numPinned && numCards > 0) {
 				msg = "The multitrack only has ⭐ card(s). Keep them?"
 				if (await showConfirm(msg)) { return; }
 			}
@@ -4621,7 +4922,11 @@
 		function handleLinkAction(e) { e.preventDefault(); const filtered = Array.from(activeTags).filter(t => !t.match(/^\[.*\]$/)); navigator.clipboard.writeText((document.getElementById('user-note').value + " " + filtered.join(' ')).trim()); const btn = document.getElementById('add-btn'); btn.innerText = '✓'; setTimeout(() => btn.innerText = '+', 1000); }
 
 
-		function toggleFocus(card) { cycleViewMode(); setTimeout(() => { card.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' }); }, 150); }
+		function toggleFocus(card) {
+			cycleViewMode(); setTimeout(() => {
+				card.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+			}, 150);
+		}
 		function handleMissingImage(img, path) {
 			// 20260110: Sasha: Don't need to remove the image.
 			const card = img.closest('.card');
