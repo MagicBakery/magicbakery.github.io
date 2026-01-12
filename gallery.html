@@ -3427,10 +3427,10 @@
 			if (!match || match[0].length < 1) {
 				// Script finished.
 				//showToast("You hve reached the end of the script.");
-				if (await showConfirm("You have reached the end of the script. Rewind?")) {
-					elThis.dataset.nodeId = "";
-					//scriptSingleStep(elThis);
-				}
+				//if (await showConfirm("You have reached the end of the script. Rewind?")) {
+				elThis.dataset.nodeId = "";
+				//scriptSingleStep(elThis);
+				//}
 				return;
 			}
 			const currentLine = match[1].trim();
