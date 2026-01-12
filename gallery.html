@@ -145,16 +145,59 @@
 
 		.speech-bubble {
 			position: relative;
-			/* This is the anchor for the absolute button */
-			background: rgba(255, 255, 255, 0.9);
-			backdrop-filter: blur(15px);
-			border-radius: 30px;
-			padding: 25px;
+			z-index: 1;
+			padding: 25px 40px;
+			/* Give it padding so the text doesn't touch the edges */
 			display: flex;
 			flex-direction: column;
 			gap: 20px;
-			/* ... your other styles ... */
+			background: rgba(255, 255, 255, 0.25);
+			opacity: 1;
+			background: transparent;
 		}
+
+		.speech-bubble::before {
+			content: '';
+			position: absolute;
+			/* MUST HAVE THESE to show up */
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			min-width: 200px;
+			max-width: 80vw;
+
+			background: rgba(255, 255, 255, 0.3);
+			backdrop-filter: blur(15px);
+			border-radius: 100px;
+			z-index: -1;
+			border: 3px solid white;
+			animation: bubblePulse 10s infinite ease-in-out;
+		}
+
+		@keyframes bubblePulse {
+
+			0%,
+			100% {
+				opacity: 0.5;
+				transform: scale(1) rotate(var(--bubble-rot, 0deg));
+			}
+
+			25% {
+
+				transform: scale(1.025) rotate(var(--bubble-rot, 5deg));
+			}
+
+			50% {
+				opacity: 1;
+				transform: scale(1.) rotate(var(--bubble-rot, 0deg));
+			}
+
+			75% {
+				transform: scale(1.025) rotate(var(--bubble-rot, -5deg));
+			}
+		}
+
 
 		.close-dialog-btn {
 			position: absolute;
@@ -195,26 +238,7 @@
 			z-index: var(--z-SpeechBubble);
 		}
 
-		.speech-bubble {
-			position: relative;
-			background: rgba(255, 255, 255, 0.5);
 
-			backdrop-filter: blur(10px);
-			border-radius: 75px;
-			padding: 25px;
-			display: flex;
-			flex-direction: column;
-			gap: 20px;
-			text-align: center;
-			/* Space between text and buttons */
-			box-shadow: 0 15px 40px 5px rgba(0, 0, 0, 0.4);
-			border: 1px solid rgba(255, 255, 255, 0.4);
-			width: fit-content;
-			/* Shrink to text size */
-			min-width: 300px;
-			/* Don't get too tiny */
-			max-width: 80vw;
-		}
 
 		.speech-content {
 			font-size: 18px;
@@ -508,8 +532,8 @@
 			#collapsible-images,
 			#header-bar {
 				opacity: 1 !important;
-				/* Optional: If you have a semi-transparent background, 
-           you might want to force it to solid as well */
+				/* Optional: If you have a semi-transparent background,
+	you might want to force it to solid as well */
 				background-color: rgba(26, 26, 26, 1) !important;
 
 				/* Ensures any transitions don't fight with the opacity */
@@ -1014,7 +1038,7 @@
 			flex-direction: var(--h-dir);
 
 			/* align-items: center;
-			justify-content:flex-start;*/
+	justify-content:flex-start;*/
 
 			justify-content: safe center;
 			/* Test */
@@ -1045,7 +1069,8 @@
 		}
 
 
-		/* Add this to your <style> section */
+		/* Add this to your <style>
+		section */
 		.settings-close {
 			width: 24px !important;
 			height: 24px !important;
@@ -2363,7 +2388,7 @@
 						title="Toggle custom buttons"></button>
 				</div>
 			</div>
-			<div id="custom-buttons" style="display:none;">
+			<div id="custom-buttons-old" style="display:none;">
 				<div class="button-grid">
 					<button class="sq-btn dimmer" onclick="toggleAllBlockByID(event,'button-palette')"
 						title="Toggle Button Grid"></button>
@@ -2584,7 +2609,7 @@
 							</svg>
 						</button>
 					</div>
-					<div class="button-pad right"
+					<div class="button-pad right custom-buttons"
 						style="flex:1;display:flex;flex-wrap:wrap;justify-content: center;flex-direction:column;height:108px;overflow-x:auto;box-sizing: content-box;align-items: flex-start; scrollbar-width: none; -ms-overflow-style: none;align-content: flex-start">
 						<!--Next Button-->
 						<button class="tool-btn full script-step-btn" onClick="scriptSingleStep(this)">
@@ -2613,7 +2638,7 @@
 						<button class="tool-btn half">R16</button>
 						<button class="tool-btn half">R17</button>
 						<button class="tool-btn half">R18</button>
-						<button class="tool-btn full">R19</button>
+						<button class="tool-btn full" onClink="getActiveCard()?.classList.toggle('2s');">R19</button>
 					</div>
 				</div>
 
@@ -2793,9 +2818,10 @@
 		const zLayers = ['Notifications', 'LoadingScreen', 'TransparentControls', 'ExamineScreen', 'SpeechBubble', 'GUIControls', 'Listings', 'Gallery', 'AppWallpaper'];
 		let autoRandomTimer = null;
 		let autoRandomTrack = null;
+		const injectedCSS = new Set();
 		let isRemovalMode = false; /* 20251226: StarTree: Used for the Removal button */
 		let resolveConfirm = null;
-		
+
 		// FOR ZOOMING:
 		// Persistent state (Global)
 		let initialDist = 0;
@@ -2803,11 +2829,34 @@
 		// Interaction anchors (Global)
 		let startX = 0;
 		let startY = 0;
-		
 
-		
-		
 
+
+
+		function addButton(label, script) {
+			console.log('@@ Adding Buttons');
+			const container = document.querySelector('.custom-buttons');
+			if (!container) return;
+
+			// 1. Cleanup: Remove existing buttons that don't have an 'onclick' attribute
+			const legacyButtons = container.querySelectorAll('button:not([onclick])');
+			console.log('@@ Found ' + legacyButtons.length + ' legacy buttons.')
+			legacyButtons.forEach(btn => btn.remove());
+
+			// 2. Create the new button
+			const newBtn = document.createElement('button');
+			newBtn.className = 'tool-btn full';
+
+			// 3. Set the Label (supports SVG or Text)
+			newBtn.innerHTML = label;
+
+			// 4. Set the Logic
+			// We wrap the script in a string for the attribute
+			newBtn.setAttribute('onclick', script);
+
+			// 5. Add to the container
+			container.appendChild(newBtn);
+		}
 		function exportMultiTrack() {
 			// 20260104: Sasha: Export MultiTrack if it is not empty. If it is empty, import.
 			const multiTrackDOM = document.getElementById('multitrack'); // Adjust ID to match your container
@@ -3033,7 +3082,27 @@
 			}
 			return false;
 		}
+		function flushCSS() {
+			// 1. Clear the JS Set
+			injectedCSS.clear();
 
+			// 2. Clear the actual Style Tag in the DOM
+			const styleTag = document.getElementById('dynamic-injected-style');
+			if (styleTag) {
+				styleTag.textContent = '';
+			}
+
+			// 3. Optional: Remove custom classes from the bubble so it returns to normal
+			/*const bubble = document.querySelector('.speech-bubble');
+			if (bubble) {
+				// This removes every class that starts with 'custom_mood'
+				const moodClasses = Array.from(bubble.classList)
+					.filter(c => c.startsWith('custom_mood'));
+				moodClasses.forEach(c => bubble.classList.remove(c));
+			}*/
+
+			console.log("CSS Registry and Styles flushed.");
+		}
 		function getFullResURL(url) {
 			// 20260110: Sasha: Given the url, get the full resolution URL.
 			const substackRegex = /https:\/\/substackcdn\.com\/image\/fetch\/.*?\/(https%3A%2F%2Fsubstack-post-media\.s3\.amazonaws\.com%2F[^\s"']+)/;
@@ -3135,6 +3204,22 @@
 				zi -= 10;
 			});
 		}
+		function injectCSS(cssCode) {
+			if (injectedCSS.has(cssCode)) { return; }
+
+			let styleTag = document.getElementById('dynamic-injected-style');
+
+			// 1. Create the tag if it's the first time
+			if (!styleTag) {
+				styleTag = document.createElement('style');
+				styleTag.id = 'dynamic-injected-style';
+				document.head.appendChild(styleTag);
+			}
+			const cleanCSS = cssCode.replace(/transformtransform/g, 'transform').trim();
+			styleTag.textContent += "\n" + cleanCSS;
+			injectedCSS.add(cssCode);
+			console.log("New CSS appended to library.");
+		}
 		function isHidden(elID) {
 			const el = document.getElementById(elID);
 			return window.getComputedStyle(el).display === 'none' || el.classList.contains("hidden");
@@ -3173,10 +3258,29 @@
 			}
 		}
 		function processScriptCommands(line) {
-			const mUpper = line.toUpperCase();
-			if (mUpper === "CLEAR TAGS") {
+			//if (!inputString.startsWith('!')) return false;
+			console.log('@@ Command: ' + line);
+			const parts = line.split('!');
+			const secondMarkerIndex = line.indexOf('!', 1);
+			console.log(secondMarkerIndex);
+			const thirdMarkerIndex = line.indexOf('!', secondMarkerIndex + 1);
+			console.log(thirdMarkerIndex);
+			const command = line.substring(0, secondMarkerIndex).toUpperCase().trim();
+			const after1 = line.substring(secondMarkerIndex + 1).trim();
+			const after2 = line.substring(thirdMarkerIndex + 1).trim();
+			console.log(command);
+			if (command === 'BUTTON') {
+				addButton(parts[1].trim(), after2.trim());
+				return true;
+			} if (command === 'CLEAR CSS') {
+				flushCSS();
+				return true;
+			} else if (command === 'CLEAR TAGS') {
 				activeTags.clear();
 				refreshAllUI();
+				return true;
+			} else if (command === 'CSS') {
+				injectCSS(after1.trim());
 				return true;
 			}
 
@@ -3220,6 +3324,8 @@
 		function processScriptLine(line) {
 			const prefix = line.charAt(0);
 			const content = line.substring(1).trim();
+
+
 
 			switch (prefix) {
 				case '#': return true; // # are comments.
@@ -5110,7 +5216,7 @@
 			if (activeTags.has(t)) activeTags.delete(t); else activeTags.add(t); refreshAllUI();
 		}
 		function saveNotes(v) { localStorage.setItem('gallery_notes', v); }
-		
+
 		let pointX = 0;
 		let pointY = 0;
 		let isPanning = false;
@@ -5238,6 +5344,24 @@
 
 			refreshAllUI();
 		}
+		function applyRandomStyle() {
+			const bubble = document.querySelector('.speech-bubble');
+
+			// Randomize corners (between 20px and 70px)
+			bubble.style.setProperty('--br-tl', `${Math.random() * 50 + 20}px`);
+			bubble.style.setProperty('--br-tr', `${Math.random() * 50 + 20}px`);
+			bubble.style.setProperty('--br-br', `${Math.random() * 50 + 20}px`);
+			bubble.style.setProperty('--br-bl', `${Math.random() * 50 + 20}px`);
+
+			// Randomize rotation (between -2 and +2 degrees)
+			bubble.style.setProperty('--bubble-rot', `${(Math.random() - 0.5) * 4}deg`);
+
+			// Randomize the "blob" shape behind it
+			const r = () => Math.floor(Math.random() * 30 + 30);
+			bubble.style.setProperty('--blob-radius', `${r()}% ${r()}% ${r()}% ${r()}%`);
+		}
+
+		// Call this inside your showSpeech() function
 		function updateGridCols(v) {
 			document.documentElement.style.setProperty('--grid-cols', v);
 			// document.getElementById('col-val').innerText = v; // REMOVE OR COMMENT OUT THIS LINE
