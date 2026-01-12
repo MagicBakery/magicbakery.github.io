@@ -6,8 +6,8 @@
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
 	<script>
-		const APP_VERSION = "20260110201916"; //#Version
-		const APP_ANNOUNCEMENT = "20260110: Command Panel Upgrades."
+		const APP_VERSION = "20260111180545"; //#Version
+		const APP_ANNOUNCEMENT = "20260111: Script Actions"
 	</script>
 	<style>
 		:root {
@@ -2870,9 +2870,6 @@
 				importMultiTrackDOM();
 				return;
 			}
-
-
-
 			const blob = new Blob([multiTrackDOM.outerHTML], { type: 'text/html' });
 			const a = document.createElement('a');
 			a.href = URL.createObjectURL(blob);
