@@ -164,7 +164,7 @@
 			left: 0;
 			right: 0;
 			bottom: 0;
-			min-width: 200px;
+			min-width: 0px;
 			max-width: 80vw;
 
 			background: rgba(255, 255, 255, 0.3);
@@ -1235,16 +1235,19 @@
 		.tool-btn.half {
 			width: 54px;
 			height: 54px;
+			font-size: 27px;
 		}
 
 		.tool-btn.large {
 			width: 72px;
 			height: 72px;
+			font-size: 36px;
 		}
 
 		.tool-btn.full {
 			width: 108px;
 			height: 108px;
+			font-size: 54px
 		}
 
 		.tool-btn:hover {
@@ -2816,11 +2819,15 @@
 		};
 		/* #ALPHABETICALLY SORTED CODE */
 		const zLayers = ['Notifications', 'LoadingScreen', 'TransparentControls', 'ExamineScreen', 'SpeechBubble', 'GUIControls', 'Listings', 'Gallery', 'AppWallpaper'];
+		const assetLibrary = {}; // { "key1": AudioObject }
+
 		let autoRandomTimer = null;
 		let autoRandomTrack = null;
 		const injectedCSS = new Set();
 		let isRemovalMode = false; /* 20251226: StarTree: Used for the Removal button */
 		let resolveConfirm = null;
+		const soundMap = {};    // { "Name": Set(["key1", "key2"]) }
+		let SFXTrack1 = null;		// Sound Track Channel 1.
 
 		// FOR ZOOMING:
 		// Persistent state (Global)
@@ -2833,19 +2840,17 @@
 
 
 
-		function addButton(label, script) {
-			console.log('@@ Adding Buttons');
+		function addButton(label, size, script) {
 			const container = document.querySelector('.custom-buttons');
 			if (!container) return;
 
 			// 1. Cleanup: Remove existing buttons that don't have an 'onclick' attribute
 			const legacyButtons = container.querySelectorAll('button:not([onclick])');
-			console.log('@@ Found ' + legacyButtons.length + ' legacy buttons.')
 			legacyButtons.forEach(btn => btn.remove());
 
 			// 2. Create the new button
 			const newBtn = document.createElement('button');
-			newBtn.className = 'tool-btn full';
+			newBtn.className = 'tool-btn ' + size.toLowerCase();
 
 			// 3. Set the Label (supports SVG or Text)
 			newBtn.innerHTML = label;
@@ -3100,6 +3105,13 @@
 
 			console.log("CSS Registry and Styles flushed.");
 		}
+		function flushSounds() {
+			// Clear the object
+			for (let key in soundLibrary) {
+				delete soundLibrary[key];
+			}
+			console.log("Sound library cleared.");
+		}
 		function getFullResURL(url) {
 			// 20260110: Sasha: Given the url, get the full resolution URL.
 			const substackRegex = /https:\/\/substackcdn\.com\/image\/fetch\/.*?\/(https%3A%2F%2Fsubstack-post-media\.s3\.amazonaws\.com%2F[^\s"']+)/;
@@ -3254,33 +3266,54 @@
 				localStorage.setItem(aID + '_snapshot_version', APP_VERSION);
 			}
 		}
+		function playSound(name, rate = 1.0, shouldLoop = false) {
+			const keys = soundMap[name];
+			if (!keys || keys.size === 0) return;
+
+			const keyArray = Array.from(keys);
+			const randomKey = keyArray[Math.floor(Math.random() * keyArray.length)];
+			const audio = assetLibrary[randomKey];
+
+			if (audio) {
+				audio.currentTime = 0;
+				audio.playbackRate = parseFloat(rate);
+				audio.preservesPitch = false;
+
+				// Add this line to handle looping for BGM
+				audio.loop = shouldLoop;
+
+				audio.play().catch(e => console.warn("Playback failed", e));
+			}
+		}
 		function processScriptCommands(line) {
 			//if (!inputString.startsWith('!')) return false;
-			console.log('@@ Command: ' + line);
 			const parts = line.split('!');
 			const secondMarkerIndex = line.indexOf('!', 1);
-			console.log(secondMarkerIndex);
 			const thirdMarkerIndex = line.indexOf('!', secondMarkerIndex + 1);
-			console.log(thirdMarkerIndex);
+			const fourthMarkerIndex = line.indexOf('!', thirdMarkerIndex + 1);
 			const command = line.substring(0, secondMarkerIndex).toUpperCase().trim();
+			const arg1 = parts[1]?.toUpperCase().trim();
+			const arg2 = parts[2]?.toUpperCase().trim();
+			const arg3 = parts[3]?.toUpperCase().trim();
 			const after1 = line.substring(secondMarkerIndex + 1).trim();
 			const after2 = line.substring(thirdMarkerIndex + 1).trim();
-			console.log(command);
-			if (command === 'BUTTON') {
-				addButton(parts[1].trim(), after2.trim());
-				return true;
-			} if (command === 'CLEAR CSS') {
-				flushCSS();
-				return true;
-			} else if (command === 'CLEAR TAGS') {
-				activeTags.clear();
-				refreshAllUI();
-				return true;
+			const after3 = line.substring(fourthMarkerIndex + 1).trim();
+			if (command === 'BUTTON') { addButton(arg1, arg2, after3); return true; }
+			if (command === 'CLEAR') {
+				if (arg1 === 'CSS') { flushCSS(); return true; }
+				if (arg1 === 'TAGS') { activeTags.clear(); refreshAllUI(); return true; }
+				if (arg1 === 'SOUND') { flushSounds(); return true; }
+				return false;
 			} else if (command === 'CSS') {
 				injectCSS(after1.trim());
 				return true;
-			}
+			} else if (command === 'PLAY') {
 
+				playSound(arg1, arg2, arg3); return true;
+			} else if (command === 'SOUND') {
+				handleSoundCommand(arg1, arg2, after3);
+				return true;
+			}
 			return false;
 		}
 		function processScriptDialog(text, choiceColors = []) {
@@ -3360,6 +3393,30 @@
 			console.log("Error in processScriptTag: " + (bAdd ? "+" : "-") + line);
 			return true;
 		}
+
+		function registerAsset(key, source) {
+			if (assetLibrary[key]) return; // Key already exists
+
+			// If source doesn't start with data:, assume it's a URL/path
+			const src = source.startsWith('data:') || source.startsWith('http') || source.startsWith('./')
+				? source
+				: "data:audio/mpeg;base64," + source;
+
+			assetLibrary[key] = new Audio(src);
+			console.log(`Asset Registered: ${key}`);
+		}
+
+
+		function registerMap(name, key) {
+			if (!soundMap[name]) {
+				soundMap[name] = new Set();
+			}
+
+			// Set naturally prevents duplicate Name+Key pairs
+			soundMap[name].add(key);
+			console.log(`Mapping added: ${name} -> ${key}`);
+		}
+
 		function renderCardTags() {
 			const container = document.getElementById('card-tag-list');
 			if (!container) return;
@@ -3429,6 +3486,7 @@
 				//showToast("You hve reached the end of the script.");
 				//if (await showConfirm("You have reached the end of the script. Rewind?")) {
 				elThis.dataset.nodeId = "";
+				hideSpeechBubble();
 				//scriptSingleStep(elThis);
 				//}
 				return;
@@ -4079,6 +4137,33 @@
 				if (link) createCard({ p: link, t: ['unlabeled'], n: 'New Image' });
 			}
 		}
+		function handleSoundCommand(name, assetKey, source = null) {
+			// 1. If a source is provided, register/update the asset first
+			if (source) {
+				if (!assetLibrary[assetKey]) {
+					// Check if it's already a full URL or needs the Base64 prefix
+					const src = (source.startsWith('data:') || source.startsWith('http') || source.startsWith('./'))
+						? source
+						: "data:audio/mpeg;base64," + source;
+
+					assetLibrary[assetKey] = new Audio(src);
+					console.log(`Asset Created: ${assetKey}`);
+				}
+			}
+
+			// 2. Create the mapping between the Name and the AssetName
+			if (!soundMap[name]) {
+				soundMap[name] = new Set();
+			}
+
+			// Ensure the asset actually exists before mapping (optional safety check)
+			if (assetLibrary[assetKey]) {
+				soundMap[name].add(assetKey);
+				console.log(`Mapped "${name}" to asset "${assetKey}"`);
+			} else {
+				console.warn(`Cannot map "${name}" to "${assetKey}": Asset not found.`);
+			}
+		}
 		function handleTagKey(e) {
 			// Only trigger on Enter
 			if (e.key === 'Enter' || e.keyCode === 13) {
@@ -4114,6 +4199,10 @@
 				renderCardTags(); // Refresh the pill list in the command panel
 				memDOM();         // Persist changes
 			}
+		}
+		function hideSpeechBubble() {
+			const bubble = document.getElementById('dialogue-overlay');
+			bubble.style.display = "none";
 		}
 		function updateAssignmentUI() {
 			const input = document.getElementById('assign-tag-input');
