@@ -2940,13 +2940,12 @@
 			const card = e.target.closest('.card');
 			if (card) {
 				e.stopPropagation();
-				if (getActiveCard() == card && isHidden("command-panel")) {
+				if (getActiveCard() == card ) {
 					if (isHidden("command-panel")) {
 						toggleCommandPanel(e);
 					} else {
 						scriptSingleStep();
 					}
-
 				}
 				setActiveCard(card);
 				return true;
@@ -3492,7 +3491,7 @@
 			// 20260111: Sasha: Runs the next command in the script
 			// STEP 1: Store the node ID and the Script to the button if they are different from what the button has.
 			if (!elThis) {
-				elThis = document.getElementById('script-step-btn');
+				elThis = document.querySelector('.script-step-btn');
 			}
 
 			const nodeID = document.getElementById("card-path-url").value;
@@ -3535,7 +3534,6 @@
 		}
 		function setActiveCard(card) {
 			// 20260111: LRRH: Don't set active card if auto spawning with the notes tab open.
-
 
 			if (!card) return;
 			// 20260108: LRRH: Remove the active attribute from all cards then set this card to be active
