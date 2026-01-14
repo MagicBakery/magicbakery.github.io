@@ -6,8 +6,8 @@
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
 	<script>
-		const APP_VERSION = "20260111180545"; //#Version
-		const APP_ANNOUNCEMENT = "20260111: Script Actions"
+		const APP_VERSION = "20260114111128"; //#Version
+		const APP_ANNOUNCEMENT = "20260114: Track Size and Focus"
 	</script>
 	<style>
 		:root {
@@ -169,7 +169,7 @@
 
 			background: rgba(255, 255, 255, 0.3);
 			backdrop-filter: blur(15px);
-			border-radius: 100px;
+			border-radius: 50px;
 			z-index: -1;
 			border: 3px solid white;
 			animation: bubblePulse 10s infinite ease-in-out;
@@ -1069,8 +1069,7 @@
 		}
 
 
-		/* Add this to your <style>
-		section */
+		/* Add this to your <style> section */
 		.settings-close {
 			width: 24px !important;
 			height: 24px !important;
@@ -2189,17 +2188,6 @@
 				<div id="path-list-container"></div>
 			</div>
 		</div>
-		<div id="collapsible-tags" class="sidebar-upper">
-			<div class="stats-bar tags-bar">
-				<span class="stats-clickable" onclick="toggleTagCloud(event)">Tags (<span id="tag-count">0</span>)</span>
-				<input type="text" id="master-search" class="unified-width" style="width:100px; text-align:center"
-					placeholder="SEARCH..." oninput="refreshAllUI()">
-				<button class="inline-toggle" id="tag-sort-btn" onclick="toggleTagSort()">A-Z</button>
-			</div>
-
-
-			<div id="tag-cloud" class="tag-cloud"></div>
-		</div>
 		<div id="collapsible-images" class="sidebar-upper"
 			style="flex: 1; display: flex; flex-direction: column; overflow: hidden; background: rgba(0,0,0,0.2);">
 			<div class="stats-bar">
@@ -2218,6 +2206,19 @@
 			</div>
 			<div id="file-list" class="file-list"></div>
 		</div>
+		<div id="collapsible-tags" class="sidebar-upper">
+			<div id="tag-cloud" class="tag-cloud"></div>
+			<div class="stats-bar tags-bar">
+				<span class="stats-clickable" onclick="toggleTagCloud(event)">Tags (<span id="tag-count">0</span>)</span>
+				<input type="text" id="master-search" class="unified-width" style="width:100px; text-align:center"
+					placeholder="SEARCH..." oninput="refreshAllUI()">
+				<button class="inline-toggle" id="tag-sort-btn" onclick="toggleTagSort()">A-Z</button>
+			</div>
+
+
+
+		</div>
+
 		<div class="header-bar">
 			<div id="button-palette" style="display:block;"><!--@@Stage-->
 				<div class="button-grid">
@@ -2536,11 +2537,18 @@
 								<path d="M20,20 L80,80 M80,20 L20,80" fill="none" stroke="currentColor" stroke-width="8" />
 							</svg>
 						</button>
+						<button class="tool-btn half" title="Focus on this Track" onClick="TrackFocus(this)">TF</button>
+						<button class="tool-btn half" title="Show Tracks" onClick="showAllTracks()">TR</button>
+						<button class="tool-btn half" title="Expand Track" onClick="activeTrackWidth(1)">T+</button>
+						<button class="tool-btn half" title="Shrink Track" onClick="activeTrackWidth(-1)">T-</button>
+						<button class="tool-btn half" title="Move Track to Next" onClick="TrackMove(true)">TN</button>
+						<button class="tool-btn half" title="Move Track to Previous" onClick="TrackMove(false)">TP</button>
+
 						<!--<button class="tool-btn full">L1</button>-->
 						<!--<button class="tool-btn half">L2</button>-->
 						<!--<button class="tool-btn half">L3</button>-->
-						<button class="tool-btn half">L4</button>
-						<button class="tool-btn half">L5</button>
+						<!--<button class="tool-btn half">L4</button>-->
+						<!--<button class="tool-btn half">L5</button>-->
 						<button class="tool-btn">L6</button>
 						<button class="tool-btn">L7</button>
 						<button class="tool-btn">L8</button>
@@ -2933,7 +2941,12 @@
 			if (card) {
 				e.stopPropagation();
 				if (getActiveCard() == card && isHidden("command-panel")) {
-					toggleCommandPanel(e);
+					if (isHidden("command-panel")) {
+						toggleCommandPanel(e);
+					} else {
+						scriptSingleStep();
+					}
+
 				}
 				setActiveCard(card);
 				return true;
@@ -3266,6 +3279,17 @@
 				localStorage.setItem(aID + '_snapshot_version', APP_VERSION);
 			}
 		}
+		function Multitrack() {
+			// 20260114: Albatross: Returns the multitrack.
+			const activeCard = getActiveCard();
+			let multitrack = ""
+			if (!activeCard) {
+				multitrack = document.querySelector('#multitrack');
+			} else {
+				multitrack = activeCard.closest('#multitrack');
+			}
+			return multitrack;
+		}
 		function playSound(name, rate = 1.0, shouldLoop = false) {
 			const keys = soundMap[name];
 			if (!keys || keys.size === 0) return;
@@ -3393,7 +3417,6 @@
 			console.log("Error in processScriptTag: " + (bAdd ? "+" : "-") + line);
 			return true;
 		}
-
 		function registerAsset(key, source) {
 			if (assetLibrary[key]) return; // Key already exists
 
@@ -3405,8 +3428,6 @@
 			assetLibrary[key] = new Audio(src);
 			console.log(`Asset Registered: ${key}`);
 		}
-
-
 		function registerMap(name, key) {
 			if (!soundMap[name]) {
 				soundMap[name] = new Set();
@@ -3416,7 +3437,6 @@
 			soundMap[name].add(key);
 			console.log(`Mapping added: ${name} -> ${key}`);
 		}
-
 		function renderCardTags() {
 			const container = document.getElementById('card-tag-list');
 			if (!container) return;
@@ -3471,6 +3491,9 @@
 		async function scriptSingleStep(elThis) {
 			// 20260111: Sasha: Runs the next command in the script
 			// STEP 1: Store the node ID and the Script to the button if they are different from what the button has.
+			if (!elThis) {
+				elThis = document.getElementById('script-step-btn');
+			}
 
 			const nodeID = document.getElementById("card-path-url").value;
 			if (!nodeID) { return }
@@ -3550,7 +3573,25 @@
 			// Mirror 
 			memDOM();
 		}
-
+		function showAllTracks() {
+			// 20260114: Albatross: for the multitrack frame of the active card (or the multitrack frame if there is no active card), make sure that the flex number of each track is at least 1.
+			const activeCard = getActiveCard();
+			let multitrack = ""
+			if (!activeCard) {
+				multitrack = document.querySelector('#multitrack');
+			} else {
+				multitrack = activeCard.closest('#multitrack');
+			}
+			multitrack.querySelectorAll('#track').forEach(t => {
+				let currentFlex = parseFloat(t.style.flexGrow) || 0;
+				let newFlex = Math.max(1, currentFlex);
+				t.style.flex = `${newFlex} ${newFlex} 0%`;
+				t.style.overflow = "";   // Restore default so content isn't clipped
+				t.style.opacity = "1";   // Ensure it's visible
+				t.style.padding = "";    // Restore original spacing
+				t.style.margin = "";
+			});
+		}
 		function summonGateGuardian() {
 			// 20251225: LRRH, StarTree: On mobile it is too easy to accidentally refresh the page and lose the arrangement.
 			if (true) {
@@ -3748,8 +3789,73 @@
 			targetTab.style.display = 'block';
 			targetTab.classList.add('active-tab-content');
 		}
+		function Track() {
+			const activeCard = getActiveCard();
+			return activeCard.closest("#track") || activeCard.closest(".track");
+		}
+		function TrackFocus(elButton) {
+			// 20260114: Albatross: Temporarily override the flex num of other tracks to 0, but use a dataset on the track to remember the track's original flex values.
+			// When this button is clicked, check if this track is marked .focus, if it is already in .focus, toggle it off and restore the flex of the other tracks in the multitrack.
+			const track = Track();
+			if (!track) return;
+			const multitrack = track.closest("#multitrack") || track.closest(".multitrack");
+			if (!multitrack) return;
+			const isAlreadyFocused = track.classList.contains('focus');
+			const allTracks = multitrack.querySelectorAll('#track');
+			if (isAlreadyFocused) {
+				// --- TOGGLE OFF: Restore Everyone ---
+				allTracks.forEach(t => {
+					const savedFlex = t.dataset.originalFlex || "1";
+					t.style.flex = `${savedFlex} ${savedFlex} 0%`;
+					t.style.overflow = "";
+					t.style.opacity = "1";
+					t.classList.remove('focus');
+				});
+			} else {
+				// --- TOGGLE ON: Save & Hide Others ---
+				allTracks.forEach(t => {
+					// 1. Remember what it was (read from style, default to 1)
+					const currentFlex = t.style.flexGrow || "1";
+					t.dataset.originalFlex = currentFlex;
 
+					// 2. If it's NOT the chosen track, squash it
+					if (t !== track) {
+						t.style.flex = "0 0 0%";
+						t.style.overflow = "hidden";
+						t.style.opacity = "0";
+						t.classList.remove('focus');
+					} else {
+						// The Star of the Show
+						t.style.flex = `${currentFlex} ${currentFlex} 0%`;
+						t.classList.add('focus');
+					}
+				});
+			}
+		}
+		function TrackMove(bNext = true) {
+			// 1. Get the current context
+			const track = activeTrack();
+			if (!track) return;
 
+			// 2. Identify the target sibling
+			const targetSibling = bNext
+				? track.nextElementSibling
+				: track.previousElementSibling;
+
+			// 3. Safety Check: Only swap if a sibling exists AND it's actually a track
+			// (This prevents swapping with a header or a footer by accident)
+			if (targetSibling ){//&& targetSibling.classList.contains('track')) {
+				if (bNext) {
+					targetSibling.after(track);
+				} else {
+					targetSibling.before(track);
+				}
+
+				// Optional: Visual polish to show the move happened
+				//track.classList.add('moving');
+				//setTimeout(() => track.classList.remove('moving'), 300);
+			}
+		}
 
 		/* UNSORTED CODE */
 		function markDirty(elThis) {
@@ -3791,6 +3897,33 @@
 				}
 			}
 		});
+		function activeTrack() {
+			return getActiveCard().closest('#track');
+		}
+		function activeTrackWidth(delta = 1) {
+			// 20260114: Natalie: Expand or Shrink a track
+			// 1. Get the track using your helper
+			const track = activeTrack();
+
+			// 2. Safety check: if no track is found, stop immediately
+			if (!track) return;
+
+			// 3. Initialize flex if it's missing or empty
+			// We use getComputedStyle to see what the browser actually calculated
+			let currentFlex = parseFloat(window.getComputedStyle(track).flexGrow);
+			if (isNaN(currentFlex)) {
+				track.style.flex = "1 1 0%";
+				currentFlex = 1;
+			}
+			// 4. Calculate new value
+			let flexNum = Math.max(0, currentFlex + delta);
+			// 5. Apply the new styles
+			track.style.flexGrow = flexNum;
+			track.style.flexShrink = flexNum;
+			track.style.flexBasis = "0%";
+			showToast("Track Size: " + flexNum);
+			memDOM();
+		}
 		function addTrackRelative(e, direction) {
 			e.stopPropagation();
 			const multitrack = document.getElementById('multitrack');
@@ -4277,7 +4410,7 @@
 			if (extMatch.length > 1) {
 				const extTag = "." + extMatch.pop().toLowerCase();
 				// Use a safe prefix like "type:" or just the extension name
-				const formattedExt = `type:${extTag}`;
+				const formattedExt = `${extTag}`;
 				if (!tagsToAdd.includes(formattedExt)) {
 					tagsToAdd.push(formattedExt);
 				}
