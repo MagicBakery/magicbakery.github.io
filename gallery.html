@@ -165,7 +165,7 @@
 			right: 0;
 			bottom: 0;
 			min-width: 0px;
-			max-width: 80vw;
+			max-width: 100%;
 
 			background: rgba(255, 255, 255, 0.3);
 			backdrop-filter: blur(15px);
@@ -179,7 +179,7 @@
 
 			0%,
 			100% {
-				opacity: 0.5;
+				opacity: 1;
 				transform: scale(1) rotate(var(--bubble-rot, 0deg));
 			}
 
@@ -189,7 +189,7 @@
 			}
 
 			50% {
-				opacity: 1;
+				opacity: 0.75;
 				transform: scale(1.) rotate(var(--bubble-rot, 0deg));
 			}
 
@@ -232,7 +232,7 @@
 			bottom: 25vh;
 			left: 50%;
 			transform: translateX(-50%);
-
+			width:90%;
 			max-width: 800px;
 			justify-content: center;
 			z-index: var(--z-SpeechBubble);
@@ -242,7 +242,7 @@
 
 		.speech-content {
 			font-size: 18px;
-			line-height: 1.5;
+			line-height: 1;
 			color: #111;
 			max-height: 150px;
 			overflow-y: auto;
