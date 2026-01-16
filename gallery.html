@@ -3644,7 +3644,10 @@
 				const multitrack = document.getElementById('multitrack');
 				const sidebar = document.getElementById('sidebar');
 				const panelHeight = cp.offsetHeight;
-				if (isMobile()) {
+				const panelWidth = cp.offsetWidth;
+				console.log(panelWidth + " " + window.innerWidth);
+				//if (isMobile()) {
+				if(panelWidth >= window.innerWidth){
 					if (multitrack) multitrack.style.paddingBottom = `${panelHeight}px`;
 					if (sidebar) sidebar.style.paddingBottom = `${panelHeight}px`;
 				} else {
