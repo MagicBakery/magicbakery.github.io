@@ -1209,7 +1209,7 @@ function ExportForAI(elThis){
   mHTMLOuter += mHTML;
   mHTMLOuter+= "</div>";
   // 20251118: StarTree: Update the version code at the exported content.
-  mHTMLOuter = mHTMLOuter.replace(/<versioncode(.*?)<\/versioncode>/g, '<versioncode>QSE' + mVersion + "</versioncode>"); // REMOVE all buttons
+  mHTMLOuter = mHTMLOuter.replace(/<versioncode(.*?)<\/versioncode>/g, 'QSE' + mVersion); // REMOVE all buttons
 
   navigator.clipboard.writeText(mHTMLOuter);
 }
@@ -2010,7 +2010,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20260103 Quest Board Macro Icon";
+  elContainer.innerHTML = "20260119 QSE version tag";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
