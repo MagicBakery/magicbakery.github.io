@@ -6,8 +6,8 @@
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
 	<script>
-		const APP_VERSION = "20260114111128"; //#Version
-		const APP_ANNOUNCEMENT = "20260114: Track Size and Focus"
+		const APP_VERSION = "202601190510"; //#Version
+		const APP_ANNOUNCEMENT = "20260119: Dialog choices."
 	</script>
 	<style>
 		:root {
@@ -143,17 +143,138 @@
 			opacity: 0.6;
 		}
 
+
+		.choice-bubble {
+			position: fixed;
+			width: 50px;
+			height: 50px;
+			background: rgba(255, 255, 255, 0.05);
+			backdrop-filter: blur(1px);
+			border: 3px solid rgba(255, 255, 255, 0.1);
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+			z-index: var(--z-SpeechBubble);
+			box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+			animation: floatSpore 6s infinite ease-in-out;
+		}
+
+		/* Hover state: It glows and expands slightly */
+		.choice-bubble:hover {
+			background: rgba(255, 255, 255, 0.5);
+			border-color: rgba(255, 255, 255, 0.6);
+		}
+
+		/* When it's been "seen" but not chosen, we change the color */
+		.choice-bubble.opened {
+			background: rgba(100, 150, 255, 0.2);
+			/* Soft Blue/Purple hint */
+			border-color: rgba(100, 150, 255, 0.4);
+		}
+
+		@keyframes floatSpore {
+
+			0%,
+			100% {
+				transform: translateY(0) scale(1);
+			}
+
+			33% {
+				transform: translateY(-15px) scale(1.5);
+			}
+
+			66% {
+				transform: translateY(5px) scale(0.75);
+			}
+		}
+
+		#choice-container {
+			display: block;
+			/* Change from flex to block */
+			width: 100%;
+			max-height: 300px;
+			/* Vertical limit */
+			overflow-y: auto;
+			/* Force vertical scroll */
+			overflow-x: hidden;
+			/* Kill horizontal scroll */
+			padding-right: 10px;
+			/* Space for the scrollbar */
+		}
+
+		/* Chrome/Safari Scrollbar styling */
+		#choice-container::-webkit-scrollbar {
+			width: 2px;
+		}
+
+		#choice-container::-webkit-scrollbar-thumb {
+			background: var(--gold);
+			border-radius: 10px;
+		}
+
+		.choice-entry {
+			display: block;
+			/* Each entry is a full-width block */
+			width: 100%;
+			/* Fill the container */
+			margin-bottom: 12px;
+			/* Vertical spacing between items */
+			background: rgba(255, 255, 255, 0.08);
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			border-radius: 50px;
+			padding: 15px;
+			cursor: pointer;
+			position: relative;
+			/* For positioning internal buttons */
+			font-size: 18px;
+		}
+
+		.choice-entry.selected {
+			border: 2px solid var(--gold);
+			background: rgba(255, 215, 0, 0.1);
+		}
+
+		.choice-actions {
+			display: flex;
+			gap: 10px;
+		}
+
+		.confirm-btn,
+		.dismiss-btn {
+			background: none;
+			border: 1px solid rgba(255, 255, 255, 0.3);
+			color: white;
+			border-radius: 4px;
+			padding: 4px 8px;
+			cursor: pointer;
+		}
+
+		.confirm-btn:hover {
+			background: var(--green);
+		}
+
+		.dismiss-btn:hover {
+			background: #d9534f;
+		}
+
 		.speech-bubble {
 			position: relative;
 			z-index: 1;
-			padding: 25px 40px;
+			padding: 25px 25px;
 			/* Give it padding so the text doesn't touch the edges */
 			display: flex;
 			flex-direction: column;
 			gap: 20px;
-			background: rgba(255, 255, 255, 0.25);
+			background: rgba(255, 255, 255, 0.5);
 			opacity: 1;
 			background: transparent;
+			width: auto;
+			min-width: 100px;
+			max-width: 800px;
+			pointer-events: auto;
 		}
 
 		.speech-bubble::before {
@@ -185,16 +306,16 @@
 
 			25% {
 
-				transform: scale(1.025) rotate(var(--bubble-rot, 5deg));
+				transform: scale(1.025) rotate(var(--bubble-rot, 3deg));
 			}
 
 			50% {
-				opacity: 0.75;
+				opacity: 0.8;
 				transform: scale(1.) rotate(var(--bubble-rot, 0deg));
 			}
 
 			75% {
-				transform: scale(1.025) rotate(var(--bubble-rot, -5deg));
+				transform: scale(1.025) rotate(var(--bubble-rot, -3deg));
 			}
 		}
 
@@ -231,21 +352,25 @@
 			position: fixed;
 			bottom: 25vh;
 			left: 50%;
+			width: 100%;
+			max-height:50vh;
 			transform: translateX(-50%);
-			width:90%;
-			max-width: 800px;
 			justify-content: center;
 			z-index: var(--z-SpeechBubble);
+			pointer-events: none;
 		}
 
-
-
 		.speech-content {
-			font-size: 18px;
+			font-size: 24px;
 			line-height: 1;
 			color: #111;
+
 			max-height: 150px;
 			overflow-y: auto;
+			text-align: center;
+			word-wrap: break-word;
+			font-weight: bold;
+
 
 			&::-webkit-scrollbar {
 				display: none;
@@ -512,14 +637,14 @@
 		#sidebar *,
 		.tag-cloud,
 		.file-list,
-		#track {
+		.track {
 			-ms-overflow-style: none;
 			scrollbar-width: none;
 
 		}
 
 		#sidebar *::-webkit-scrollbar,
-		#track::-webkit-scrollbar {
+		.track::-webkit-scrollbar {
 			display: none;
 		}
 
@@ -656,7 +781,7 @@
 			flex-direction: column-reverse;
 		}
 
-		#body-wrap:not(.max-width) #track {
+		#body-wrap:not(.max-width) .track {
 			flex-direction: row;
 			height: 100%;
 			/* Becomes 50% automatically if a second track is added */
@@ -673,7 +798,7 @@
 			flex-direction: row;
 		}
 
-		#body-wrap.max-width #track {
+		#body-wrap.max-width .track {
 			flex-direction: column;
 			width: 100%;
 			/* Becomes 50% automatically if a second track is added */
@@ -706,7 +831,7 @@
 			cursor: pointer;
 		}
 
-		body.removal-mode #track:hover:not(:has(.card:hover)) {
+		body.removal-mode .track:hover:not(:has(.card:hover)) {
 			background: rgba(128, 0, 0, 0.5) !important;
 			cursor: pointer;
 		}
@@ -843,7 +968,7 @@
 			visibility: hidden;
 			pointer-events: none;
 			position: absolute;
-			/* Take out of flow so #track expands instantly */
+			/* Take out of flow so .track expands instantly */
 		}
 
 		/* Visible States: Fade in */
@@ -1025,7 +1150,7 @@
 			display: flex;
 		}
 
-		#track {
+		.track {
 			flex: 1;
 			padding: 0px;
 			display: flex;
@@ -1057,7 +1182,7 @@
 		}
 
 		/* Ensure vertical mode keeps its original padding */
-		body.max-width #track {
+		body.max-width .track {
 
 			padding-top: 5px;
 			padding-bottom: 5px;
@@ -1191,8 +1316,8 @@
 		}
 
 		/* When the track is vertical, ensure the PDF card spans more height */
-		.max-width #track .card:has(embed),
-		.max-width #track .card:has(iframe) {
+		.max-width .track .card:has(embed),
+		.max-width .track .card:has(iframe) {
 			height: 100vh !important;
 			/* Spans 80% of the screen height */
 			width: 100%;
@@ -2158,7 +2283,7 @@
 
 <body id="body-wrap" contenteditable="false">
 	<div id="multitrack">
-		<div id="track"></div>
+		<div class="track"></div>
 	</div>
 
 
@@ -2466,7 +2591,7 @@
 			</button>
 			<button class="tab-btn" onclick="toggleTab(event,'tab-dev-notes')">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-					stroke-linecap="round" stroke-linejoin="round">
+					stroke-linecap="round" stroke-linejoin="round" style="transform: scale(1.1);">
 					<path d="M12 3v3m0 12v3M5.3 5.3l2.1 2.1m9.2 9.2l2.1 2.1M3 12h3m12 0h3m-15.7 6.7l2.1-2.1m9.2-9.2l2.1-2.1"
 						opacity="0.5" />
 					<path d="M12 8l-1 4-4 1 4 1 1 4 1-4 4-1-4-1-1-4z" />
@@ -2475,15 +2600,19 @@
 		</div>
 		<div class="tabs-contents">
 
-			<div id="tab-card-notes">
+			<div id="tab-card-notes"
+				onkeydown="if (event.key.toLowerCase() === 's' && (event.ctrlKey || event.metaKey)) {event.preventDefault();saveCardNotes(event);}">
 				<div id="card-tag-list" class="tag-cloud" style="padding:5px 0px"></div>
 				<input type="text" id="assign-tag-input" placeholder="Add Tag" style="display:none" enterkeyhint="go"
 					inputmode="text" oninput="updateAssignmentUI()" onkeydown="handleTagKey(event)">
-				<input type="text" id="card-title" style="display:none" placeholder="Title" title="Title (n)">
+				<input type="text" id="card-title" placeholder="Display Title" title="Title (n)">
 				<textarea id="card-notes" class="" oninput="markDirty(this)"
-					style="resize:none;height:180px; font-size:16px;overflow-y: auto;" placeholder="Notes"></textarea>
+					style="resize:none;height:172px; font-size:16px;overflow-y: auto;" placeholder="Notes"></textarea>
+
 				<input type="text" id="card-img-url" style="display:none" placeholder="Cover Image" title="Cover Image (i)">
-				<input type="text" id="card-path-url" style="display:none" placeholder="Jump URL" title="Path/URL (p)">
+				<input type="text" id="card-path-url" style="display:none" placeholder="URL / File Path" title="Path/URL (u)">
+				<input type="text" id="card-id" style="display:none" placeholder="Unique ID" title="Card ID (p)">
+
 				<div onclick="toggleNodeDetails(this)" style="text-align: center;width:100%;height:40px;color:grey">▽</div>
 
 			</div>
@@ -2537,12 +2666,15 @@
 								<path d="M20,20 L80,80 M80,20 L20,80" fill="none" stroke="currentColor" stroke-width="8" />
 							</svg>
 						</button>
+						<button class="tool-btn half" title="Create a blank card" onClick="createCard(null,true)">C+</button>
+						<button class="tool-btn half" title="Toggle Speech Bubble" onClick="hideSpeechBubble(true)">SB</button>
 						<button class="tool-btn half" title="Focus on this Track" onClick="TrackFocus(this)">TF</button>
 						<button class="tool-btn half" title="Show Tracks" onClick="showAllTracks()">TR</button>
 						<button class="tool-btn half" title="Expand Track" onClick="activeTrackWidth(1)">T+</button>
 						<button class="tool-btn half" title="Shrink Track" onClick="activeTrackWidth(-1)">T-</button>
 						<button class="tool-btn half" title="Move Track to Next" onClick="TrackMove(true)">TN</button>
 						<button class="tool-btn half" title="Move Track to Previous" onClick="TrackMove(false)">TP</button>
+
 
 						<!--<button class="tool-btn full">L1</button>-->
 						<!--<button class="tool-btn half">L2</button>-->
@@ -2623,7 +2755,7 @@
 					<div class="button-pad right custom-buttons"
 						style="flex:1;display:flex;flex-wrap:wrap;justify-content: center;flex-direction:column;height:108px;overflow-x:auto;box-sizing: content-box;align-items: flex-start; scrollbar-width: none; -ms-overflow-style: none;align-content: flex-start">
 						<!--Next Button-->
-						<button class="tool-btn full script-step-btn" onClick="scriptSingleStep(this)">
+						<button class="tool-btn full script-step-btn" onClick="scriptSingleStep(this)" title="Play Script">
 							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
 								style="transform: scale(3)" title="Next">
 								<rect x="17" y="5" width="2" height="14" rx="1" fill="currentColor" />
@@ -2662,12 +2794,14 @@
 					<a id="add-btn" href="#" target="_blank" class="sq-btn action-btn" onclick="handleLinkAction(event)">+</a>
 					<input type="text" id="add-url-input" class="unified-width" placeholder="URL for + button..."
 						oninput="updateAddUrl(this.value)">
-
 				</div>
-
+				<input type="text" id="dev-command" class="unified-width" placeholder="Command..." oninput="memDEV()"
+					onkeydown="if (event.key === 'Enter' || event.keyCode === 13) {event.preventDefault(); processScriptLine(this.value)}">
 				<textarea id="user-note" class="unified-width"
-					style="resize:none;height:180px; margin-bottom:5px;font-size:16px;overflow-y: auto;" placeholder="NOTES..."
+					style="resize:none;height:172px; margin-bottom:5px;font-size:16px;overflow-y: auto;" placeholder="NOTES..."
 					oninput="saveNotes(this.value)"></textarea>
+
+
 			</div>
 
 		</div>
@@ -2870,6 +3004,118 @@
 			// 5. Add to the container
 			container.appendChild(newBtn);
 		}
+		function ChoiceAdd(choice) {
+			// 20260118: StarTree: Adds a choice to the multitrack DOM so that it is easy to debug, save and load.
+			Multitrack()?.setAttribute(ChoiceName(choice), '');
+			memDOM();
+		}
+		function ChoiceCheck(choice) {
+			// 20260118: StarTree: Returns true if the choice is active.
+			return Multitrack()?.hasAttribute(ChoiceName(choice));
+		}
+		function ChoiceCommit(e) {
+			const entry = e.target.closest('.choice-entry');
+			if(!entry) return false;
+			e.stopPropagation();
+			// If the entry is not at the top, return.
+			if(entry.parentNode.querySelector('.choice-entry') != entry){return true;}
+			const code = entry.dataset.code;
+
+			const choiceList = document.getElementById('choice-container');
+			choiceList.style.display = "none";
+			ChoiceAdd(code);
+			ChoiceBubblePop(null, true);
+			ScriptBubbleSpawning(null, true);
+			scriptSingleStep();
+
+		}
+		function ChoiceEntry(code, choiceText) {
+			const div = document.createElement('div');
+			div.className = 'choice-entry';
+			div.dataset.code = code;
+
+			div.innerHTML = `
+    <span class="choice-label">${choiceText}</span>
+    <div class="choice-actions">
+      <!--<button class="confirm-btn" onclick="ChoiceCommit('${code}')">✔</button>-->
+      <!--<button class="dismiss-btn" onclick="this.parentElement.parentElement.remove()">✖</button>-->
+    </div>
+  `;
+
+			div.onclick = (e) => {
+				// Prevent the buttons from triggering the "bump" logic
+				if (e.target.tagName === 'BUTTON') return;
+
+				const isAlreadySelected = div.classList.contains('selected');
+
+				if (!isAlreadySelected) {
+					// Step A: Deselect others and highlight this one soft gold
+					document.querySelectorAll('.choice-entry').forEach(el => el.classList.remove('selected'));
+					div.classList.add('selected');
+				} else {
+					// Just move up one slot.
+					const previous = div.previousElementSibling;
+					if (previous && previous.classList.contains('choice-entry')) {
+						previous.before(div);
+						div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+						div.animate([{ transform: 'scale(1.05)' }, { transform: 'scale(1)' }], { duration: 200 });
+					}
+					/*// Step B: If clicked again while selected, bump to top
+					const parent = div.parentElement;
+					parent.prepend(div);*/
+					// Optional: Add a little "bump" animation
+
+				}
+			};
+
+			return div;
+		}
+		function ChoiceName(choice) {
+			// 20260118: StarTree: Returns the attribute name for embedding the choice
+			return "choice-" + choice.toLowerCase();
+		}
+		function ChoiceRemove(choice, bAll) {
+			// 20260118: StarTree: Removes a choice embedded in multitrack
+			const multitrack = Multitrack();
+			if (bAll) {
+				const toRemove = Array.from(multitrack.attributes)
+					.map(attr => attr.name)
+					.filter(name => name.startsWith('choice-'));
+
+				toRemove?.forEach(name => multitrack.removeAttribute(name));
+			} else {
+				multitrack?.removeAttribute(ChoiceName(choice));
+			}
+			memDOM();
+			return true;
+		}
+		function ChoiceBubblePop(bubble, popAll) {
+			// 20260119: Skyle: Pops choice bubbles.
+			if (popAll) {
+				const choiceBubbles = document.querySelectorAll(".choice-bubble");
+				choiceBubbles.forEach(i => { i.remove(); });
+			} else {
+				bubble.closest(".choice-bubble").remove();
+			}
+		}
+		function ChoiceBubbleSpawn(code, choiceText) {
+			// 20260119: LRRH: Enter spawning mode
+			const scriptEngine = ScriptEngine();
+			scriptEngine.setAttribute('SE-BubbleSpawning', '');
+			const bubble = document.createElement('div');
+			bubble.className = 'choice-bubble';
+			bubble.innerText = ''; // Nondescript at first
+
+			// Random position within safe center area
+			const top = Math.floor(Math.random() * 80 + 10); // 10% to 90%
+			const left = Math.floor(Math.random() * 80 + 10); // 10% to 90%
+
+			bubble.style.top = `${top}vh`;
+			bubble.style.left = `${left}vw`;
+			bubble.dataset.code = code;
+			bubble.dataset.choiceText = choiceText;
+			document.body.appendChild(bubble);
+		}
 		function exportMultiTrack() {
 			// 20260104: Sasha: Export MultiTrack if it is not empty. If it is empty, import.
 			const multiTrackDOM = document.getElementById('multitrack'); // Adjust ID to match your container
@@ -2877,7 +3123,7 @@
 				showToast("Error: MultiTrack container not found.");
 				return;
 			}
-			const tracks = multiTrackDOM.querySelectorAll("#track");
+			const tracks = multiTrackDOM.querySelectorAll(".track");
 			if (tracks.length <= 1 && tracks[0].innerHTML == "") {
 				// The Multitrack section is empty. Switch to Import.
 				importMultiTrackDOM();
@@ -2930,8 +3176,8 @@
 			const file = e.target.closest('.file-item');
 			if (file) {
 				e.stopPropagation();
-				const path = file.dataset.path;
-				const item = DATA.find(i => i.p === path);
+				const id = file.dataset.id;
+				const item = DATA.find(i => i.p === id);
 				if (item) {
 					createCard(item);
 				}
@@ -2940,7 +3186,7 @@
 			const card = e.target.closest('.card');
 			if (card) {
 				e.stopPropagation();
-				if (getActiveCard() == card ) {
+				if (getActiveCard() == card) {
 					if (isHidden("command-panel")) {
 						toggleCommandPanel(e);
 					} else {
@@ -2948,6 +3194,7 @@
 					}
 				}
 				setActiveCard(card);
+
 				return true;
 			}
 			return false;
@@ -2957,12 +3204,12 @@
 			if (tag == "") { return false; }
 			const file = e.target.closest('.file-item');
 			const card = e.target.closest('.card');
-			const track = e.target.closest('#track');
+			const track = e.target.closest('.track');
 
 			// 1. Click on File in Sidebar
 			if (file) {
 				e.stopPropagation();
-				const item = DATA.find(i => i.p === file.dataset.path);
+				const item = DATA.find(i => i.p === file.dataset.id);
 				if (item && !item.t.includes(tag)) {
 					item.t.push(tag);
 					showToast(`Added [${tag}] to ${item.n}`);
@@ -2974,7 +3221,7 @@
 			// 2. Click on Card in Track
 			if (card) {
 				e.stopPropagation();
-				const item = DATA.find(i => i.p === card.dataset.path);
+				const item = DATA.find(i => i.p === card.dataset.id);
 				if (item && !item.t.includes(tag)) {
 					item.t.push(tag);
 					showToast(`Added [${tag}] to card`);
@@ -2991,7 +3238,7 @@
 					const count = cards.length;
 					if (await showConfirm(`Add tag [${tag}] to all ${count} cards in this track?`)) {
 						cards.forEach(c => {
-							const item = DATA.find(i => i.p === c.dataset.path);
+							const item = DATA.find(i => i.u === c.dataset.id);
 							if (item && !item.t.includes(tag)) item.t.push(tag);
 						});
 						showToast(`Tagged track with [${tag}]`);
@@ -3002,6 +3249,20 @@
 			}
 
 			return false;
+		}
+		async function fairyBubblePopping(e) {
+			const bubble = e.target.closest('.choice-bubble');
+			if (!bubble) return false;
+			e.stopPropagation();
+			// 20250119: Evelyn: If a bubble is clicked, add its choice to the main bubble and remove the bubble itself.
+			const choiceList = document.getElementById('choice-container');
+			choiceList.style.display = "block";
+			const code = bubble.dataset.code;
+			const text = bubble.dataset.choiceText;
+			const choiceEntry = ChoiceEntry(code, text);
+			choiceList.prepend(choiceEntry);
+
+			ChoiceBubblePop(bubble);
 		}
 		async function fairyRemovalCheck(e) {
 			// 20251226: StarTree: Handle element removal
@@ -3043,25 +3304,25 @@
 			}
 
 			const card = e.target.closest('.card');
-			const track = e.target.closest('#track');
+			const track = e.target.closest('.track');
 			const file = e.target.closest('.file-item');
 
 			if (file) {
 				e.stopPropagation();
-				const pathToRemove = file.dataset.path;
+				const idToRemove = file.dataset.id;
 
 				// If it's a blob, tell the browser to release the memory
-				if (pathToRemove.startsWith('blob:')) {
-					URL.revokeObjectURL(pathToRemove);
+				if (idToRemove.startsWith('blob:')) {
+					URL.revokeObjectURL(idToRemove);
 				}
 
 				// 1. Remove from the master DATA array
-				DATA = DATA.filter(item => item.p !== pathToRemove);
+				DATA = DATA.filter(item => item.u !== idToRemove);
 
 				// 2. Also remove it from the [Orphan Files] in savedPaths so it stays gone
 				savedPaths.forEach(entry => {
 					if (entry.data) {
-						entry.data = entry.data.filter(item => item.p !== pathToRemove);
+						entry.data = entry.data.filter(item => item.u !== idToRemove);
 					}
 				});
 
@@ -3132,12 +3393,32 @@
 		}
 		function getImageURL(item) {
 			// 20260103: Lei: Returns the image path for thumbnail when the item is not an image file.
+			const imageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'avif', 'url'];
 			// Priority 1: If the item has an image, use it.
 			if (item.i && item.i.trim() !== "") return item.i;
 
 			// Priority 2: If the item has a path that is an image, use it.
 			// Check if the path is a Base64 image string
 
+			if (item.u) {
+				if (typeof item.u === 'string' && item.u.startsWith('data:image/')) {
+					return item.u; // Return as-is, browser can render this
+				}
+				// 2. Handle Mobile Blob URLs (Always images in our use case)
+				if (typeof item.u === 'string' && item.u.startsWith('blob:')) {
+					return item.u;
+				}
+				const cleanPath = item.u.trim();
+				const parts = cleanPath.split('.');
+				if (parts.length > 1) {
+					const extension = parts.pop().toLowerCase();
+
+					if (imageExtensions.includes(extension)) {
+						return cleanPath;
+					}
+				}
+			}
+			// Priority 3: use P if it is a path.
 			if (item.p) {
 				if (typeof item.p === 'string' && item.p.startsWith('data:image/')) {
 					return item.p; // Return as-is, browser can render this
@@ -3146,21 +3427,40 @@
 				if (typeof item.p === 'string' && item.p.startsWith('blob:')) {
 					return item.p;
 				}
-				const cleanPath = item.p.trim();
-				const parts = cleanPath.split('.');
-				if (parts.length > 1) {
-					const extension = parts.pop().toLowerCase();
-					const imageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'avif', 'url'];
-					if (imageExtensions.includes(extension)) {
-						return cleanPath;
+				const cleanPath2 = item.p.trim();
+				const parts2 = cleanPath2.split('.');
+				if (parts2.length > 1) {
+					const extension2 = parts2.pop().toLowerCase();
+					if (imageExtensions.includes(extension2)) {
+						return cleanPath2;
 					}
 				}
 			}
+
 			const fileName = item.n;
 			if (fileName.trim() == "") {
 				fileName = cleanPath.split(/[/\\]/).pop().split(/[?#]/)[0];
 			}
-			return `https://placehold.co/400x400/000/FFF?text=${encodeURIComponent(fileName || 'FILE')}`;
+			return getPlaceholderDataURL(fileName || 'FILE');
+		}
+		function getPlaceholderDataURL(text) {
+			const canvas = document.createElement('canvas');
+			canvas.width = 400;
+			canvas.height = 100;
+			const ctx = canvas.getContext('2d');
+
+			// Draw Background
+			ctx.fillStyle = '#000';
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+			// Draw Text
+			ctx.fillStyle = '#fff';
+			ctx.font = canvas.height / 2.5 + 'px monospace';
+			ctx.textAlign = 'center';
+			ctx.textBaseline = 'middle';
+			ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+			return canvas.toDataURL(); // Returns a string starting with "data:image/png;base64..."
 		}
 		function getThumbnailURL(url, res = 256) {
 			// 20260110: Sash: Return the thumbnail image URL if it is from substack.
@@ -3174,7 +3474,9 @@
 		function getURL(item) {
 			// 20260106: Skyle: Returns the URL for a data entry.
 			// 20260110: Sasha: If the path link is a substack proxy compression link, return the link to the full image.
-			if (item.p) { return getFullResURL(item.p); }
+			// 20260118: Ivy: p is the unique ID, u is the URL or path. Use P as the path only if it contains / or \.
+			if (item.u) { return getFullResURL(item.u); }
+			if (item.p && isPath(item.p)) { return getFullResURL(item.p); }
 			if (item.i) { return getFullResURL(item.i); }
 			return "";
 		}
@@ -3200,6 +3502,7 @@
 
 						// 3. Replace the live container's content with the imported content
 						mainContainer.innerHTML = importedSection.innerHTML;
+						MigrationChecks();
 
 						showToast("MultiTrack section restored from file.");
 
@@ -3258,11 +3561,24 @@
 			//return isMobileUA || isTouch;
 
 		}
+		function isPath(p) {
+			// 20260118: Ivy: Returbs true if p looks like a path.
+			const pathRegex = /[\\.\/]/;
+			return pathRegex.test(p);
+		}
+		function memDEV(isLoad) {
+			// 20260118: StarTree: Saves the developer tab content to local storage
+			const devScript = document.getElementById('dev-command')
+			if (isLoad) {
+				devScript.value = localStorage.getItem('dev-command');
+			} else {
+				localStorage.setItem('dev-command', devScript.value);
+			}
+		}
 		function memDOM(isLoad, aID) {
 			// 20251226: StarTree: For a quick way to save the workspace, save the html of the multitrack section to local storage
 			// .. isLoad = true means loading to the page. 
 			// .. isLoad = false means saving to local storage.
-
 			if (!aID) {
 				// if aID is not defined, save everything.
 				memDOM(isLoad, "multitrack");
@@ -3273,10 +3589,26 @@
 				const mSavedHTML = localStorage.getItem(aID + '_snapshot');
 				if (!mSavedHTML) { return; }
 				mSection.innerHTML = mSavedHTML;
+				MigrationChecks();
 			} else {
 				localStorage.setItem(aID + '_snapshot', mSection.innerHTML);
 				localStorage.setItem(aID + '_snapshot_version', APP_VERSION);
 			}
+
+		}
+		async function MigrationChecks() {
+			// 20260118: Tanya: Temporary code to transit from #track to .track
+			const tempTracks = document.querySelectorAll('#track');
+			if (tempTracks.length > 0) {
+				if (await showConfirm("You are loading data with an old track format. Some buttons may not work until the format is upgraded. Upgrade now?")) {
+					tempTracks.forEach(t => {
+						t.classList.add('track');
+						t.removeAttribute('id');
+					});
+					localStorage.setItem(aID + '_snapshot', mSection.innerHTML);
+				}
+			}
+			//*/ End of temporary transition fix.
 		}
 		function Multitrack() {
 			// 20260114: Albatross: Returns the multitrack.
@@ -3322,7 +3654,9 @@
 			const after2 = line.substring(thirdMarkerIndex + 1).trim();
 			const after3 = line.substring(fourthMarkerIndex + 1).trim();
 			if (command === 'BUTTON') { addButton(arg1, arg2, after3); return true; }
+			if (command === 'CHOOSE') { ChoiceAdd(arg1); return true; }
 			if (command === 'CLEAR') {
+				if (arg1 === 'CHOICES') { ChoiceRemove(null, true); return true; }
 				if (arg1 === 'CSS') { flushCSS(); return true; }
 				if (arg1 === 'TAGS') { activeTags.clear(); refreshAllUI(); return true; }
 				if (arg1 === 'SOUND') { flushSounds(); return true; }
@@ -3331,7 +3665,6 @@
 				injectCSS(after1.trim());
 				return true;
 			} else if (command === 'PLAY') {
-
 				playSound(arg1, arg2, arg3); return true;
 			} else if (command === 'SOUND') {
 				handleSoundCommand(arg1, arg2, after3);
@@ -3371,30 +3704,34 @@
 				choiceContainer.appendChild(btn);
 			});
 
-			overlay.style.display = 'block';
+			overlay.style.display = 'flex';
 			document.querySelector('.speech-bubble').scrollTop = 0;
 		}
 		function processScriptLine(line) {
+			// 20260119: Arcacia: This function runs a line in the script. if it returns true, it means that the function calling this may run the next line immediately.
 			const prefix = line.charAt(0);
+
+			// 20260119: LRRH: If the engine is spawning bubbles and the prefix is not *, put the line back and return.
+			if (prefix != '*' && ScriptBubbleSpawning(null)) {
+				const se = ScriptEngine();
+				se.dataset.script = line + "\n" + se.dataset.script;
+				return false;
+			}
+
+
 			const content = line.substring(1).trim();
-
-
 
 			switch (prefix) {
 				case '#': return true; // # are comments.
 				case '!': return processScriptCommands(content);
+				case '?': return ScriptIf(content);
 				case '+': return processScriptTag(content, true);
 				case '-': return processScriptTag(content, false);
-				case '@': // Dialogue
-					const [name, text] = content.split(':');
-					showSpeechBubble(name, text);
+				case '*': return ScriptBubbleSpawning(content);
+				case '@': // Actor action		
 					break;
-				case '>': // Change Card Image/URL
-					createCard(getCardByPath(content));
-					return false;
-				default:
-					processScriptDialog(line);
-					return false;
+				case '>': createCard(getCardByPath(content)); return false;
+				default: processScriptDialog(line); return false;
 			}
 			return false;
 		}
@@ -3442,8 +3779,8 @@
 			container.innerHTML = "";
 			const card = document.querySelector(".card.is-active");
 			if (!card) { return; }
-			const path = card.dataset.path;
-			const item = DATA.find(i => i.p === path);
+			const id = card.dataset.id;
+			const item = DATA.find(i => i.p === id);
 			if (!item) return;
 
 			[...item.t].sort().forEach(tag => {
@@ -3470,22 +3807,47 @@
 			memDOM();
 		}
 		function saveMetadata() {
+			const card = getActiveCard();
 			activeCardData = getActiveCardData();
 			if (!activeCardData) return;
 			activeCardData.i = document.getElementById('card-img-url').value.trim();
 			activeCardData.n = document.getElementById('card-title').value.trim();
 			activeCardData.o = encodeURIComponent(document.getElementById('card-notes').value);
-			activeCardData.p = document.getElementById('card-path-url').value.trim();
+			activeCardData.u = document.getElementById('card-path-url').value.trim();
+			activeCardData.p = document.getElementById('card-id').value.trim();
 
 			// Update the visual card immediately if the image changed
-			const card = document.querySelector(`.card[data-path="${CSS.escape(activeCardData.p)}"]`);
+			card.dataset.id = activeCardData.p;
 			const cardThumbnail = document.getElementById('active-preview-thumb');
 			cardThumbnail.src = getImageURL(activeCardData);
 			if (card) {
 				const img = card.querySelector('img');
 				if (img) img.src = cardThumbnail.src;
 			}
-			// Persist to localStorage (see point 3 below)
+			refreshAllUI(); // So that if the p code has changed the grid view or file list button is still functional.
+		}
+		function ScriptBubbleSpawning(line, done) {
+			// 20260119: LRRH: if done, clear the bubble spawning mode.
+			// This is supposed to be called by the confirm button of a choice.
+			if (done) {
+				ScriptEngine().removeAttribute('SE-BubbleSpawning');
+				return true;
+			}
+			// 20260119: LRRH: If the line argument is null, return whether the engine is in bubble spawning mode.
+			if (line == null) {
+				return ScriptEngine().hasAttribute('SE-BubbleSpawning');
+			}
+
+			// 20260119: LRRH: When the script interpreter encounters a * command line it enters bubble spawning mode. During that mode, if it encounters a non * command line, it waits for the mode to be over. (The confirm button of a choice bubble allows the code to resume.
+			// Format of the * command line itself: *A* Text of choice A
+			const parts = line.split('*');
+			const code = parts[0].trim();
+			const choiceText = line.substring(line.indexOf('*', 1) + 1).trim();
+			ChoiceBubbleSpawn(code, choiceText);
+			return true;
+		}
+		function ScriptEngine() {
+			return document.querySelector('.script-step-btn');
 		}
 		async function scriptSingleStep(elThis) {
 			// 20260111: Sasha: Runs the next command in the script
@@ -3494,11 +3856,12 @@
 				elThis = document.querySelector('.script-step-btn');
 			}
 
-			const nodeID = document.getElementById("card-path-url").value;
-			if (!nodeID) { return }
-			if (nodeID != elThis.dataset.nodeId) {// || elThis.dataset.mode == "rewind") {
-				elThis.dataset.nodeId = nodeID;
+			const nodeID = document.getElementById("card-id").value;
+			if (!nodeID) { return false; }
+			if (nodeID != elThis.dataset.p) {// || elThis.dataset.mode == "rewind") {
+				elThis.dataset.p = nodeID;
 				elThis.dataset.script = document.getElementById("card-notes").value || "";
+				elThis.removeAttribute('SE-BubbleSpawning');
 			}
 			// STEP: Pop the top line and process it.
 			const lineRegex = /^(.*?)(?:\r?\n|$)/;
@@ -3507,30 +3870,37 @@
 				// Script finished.
 				//showToast("You hve reached the end of the script.");
 				//if (await showConfirm("You have reached the end of the script. Rewind?")) {
-				elThis.dataset.nodeId = "";
+				elThis.dataset.p = "";
 				hideSpeechBubble();
 				//scriptSingleStep(elThis);
 				//}
-				return;
+				return false;
 			}
 			const currentLine = match[1].trim();
 			elThis.dataset.script = elThis.dataset.script.replace(lineRegex, "");
-
 			// If the current line is blank, move to the next line automatically.
 			if (!currentLine) {
 				scriptSingleStep(elThis);
-				return;
+				return true;
 			}
 
 			// STEP Process the line. Returning True means continue to next line.
 			if (processScriptLine(currentLine)) {
-				console.log("@@ Script returned true");
+				console.log("[ ] " + currentLine); //
 				scriptSingleStep(elThis);
-
 			} else {
-				console.log("@@ Script returned false");
+				console.log("[>] " + currentLine); //
 			}
-
+		}
+		function ScriptIf(line) {
+			// 20260119: Arcacia: The line interpreter calls this if the first character is ?
+			// The format: ?ChoiceCode Line
+			// What to do: Check if the ChoiceCode exists, if so, run the line.
+			const parts = line.split(' ');
+			const code = parts[0].trim();
+			if (!ChoiceCheck(code)) { return true; }
+			const remaining = line.substring(line.indexOf(' ', 1) + 1).trim();
+			return processScriptLine(remaining.trim());
 		}
 		function setActiveCard(card) {
 			// 20260111: LRRH: Don't set active card if auto spawning with the notes tab open.
@@ -3544,8 +3914,11 @@
 			if (!activeCard) { return; }
 			document.getElementById("card-img-url").value = activeCard.i || "";
 			document.getElementById("card-title").value = activeCard.n || "";
-			document.getElementById("card-path-url").value = activeCard.p || "";
-			document.querySelector(".script-step-btn").dataset.nodeId = "";
+			document.getElementById("card-path-url").value = activeCard.u || "";
+			document.getElementById("card-id").value = activeCard.p || "";
+			if (activeCard.p != document.querySelector(".script-step-btn").dataset.p) {
+				hideSpeechBubble();
+			};
 
 
 			const cardNotes = document.getElementById("card-notes");
@@ -3580,7 +3953,7 @@
 			} else {
 				multitrack = activeCard.closest('#multitrack');
 			}
-			multitrack.querySelectorAll('#track').forEach(t => {
+			multitrack.querySelectorAll('.track').forEach(t => {
 				let currentFlex = parseFloat(t.style.flexGrow) || 0;
 				let newFlex = Math.max(1, currentFlex);
 				t.style.flex = `${newFlex} ${newFlex} 0%`;
@@ -3612,12 +3985,14 @@
 
 			// 20251226: LRRH: There might need to be a check or a greeting before removing the loading screen.
 			memDOM(true);
+			memDEV(true);
 			fadeLoadingScreen(false);
 		}
 		function summonFairyQueen() {
 			// 20251226: StarTree: This is supposed to handle all clicks on staging areas.
 			document.addEventListener('click', async (e) => {
 				if (await fairyRemovalCheck(e)) { return; }
+				if (await fairyBubblePopping(e)) { return; }
 				if (await fairyBlessCheck(e)) { return; }
 				if (await fairyActiveCardCheck(e)) { return; }
 				/*if (e.target.closest("#tab-card-notes")) {
@@ -3633,6 +4008,7 @@
 			});
 			// 20251226: StarTree: Double Click
 			document.addEventListener('dblclick', (e) => {
+				ChoiceCommit(e);
 				showSplash(e);
 			});
 			// 20260110: Sasha: Resizing the main area when the command-panel is shown.
@@ -3645,9 +4021,8 @@
 				const sidebar = document.getElementById('sidebar');
 				const panelHeight = cp.offsetHeight;
 				const panelWidth = cp.offsetWidth;
-				console.log(panelWidth + " " + window.innerWidth);
 				//if (isMobile()) {
-				if(panelWidth >= window.innerWidth){
+				if (panelWidth >= window.innerWidth) {
 					if (multitrack) multitrack.style.paddingBottom = `${panelHeight}px`;
 					if (sidebar) sidebar.style.paddingBottom = `${panelHeight}px`;
 				} else {
@@ -3656,7 +4031,6 @@
 					if (sidebar) sidebar.style.paddingBottom = "0px";
 				}
 			}).observe(cp);
-
 		}
 		function toggleAddTag(bInit) {
 			// 20260110: V: Toggle the visibility, but don't hide it if is not blank.
@@ -3704,7 +4078,7 @@
 			const activeCard = getActiveCard();
 			if (!isAutoRandom) {
 				document.body.classList.add("auto-random");
-				if (activeCard) { autoRandomTrack = activeCard.closest("#track"); }
+				if (activeCard) { autoRandomTrack = activeCard.closest(".track"); }
 			}
 			// Spawn a card and schedule the next one in 5 seconds.
 			createCard();
@@ -3736,18 +4110,21 @@
 			const fTitle = document.getElementById("card-title");
 			const fImgURL = document.getElementById("card-img-url");
 			const fPathURL = document.getElementById("card-path-url");
+			const fID = document.getElementById("card-id");
 
 
 			if (isHidden("card-title")) {
 				fTitle.style.display = "block";
 				fImgURL.style.display = "block";
 				fPathURL.style.display = "block";
+				fID.style.display = "block";
 				el.innerHTML = "△";
 				el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
 			} else {
 				fTitle.style.display = "none";
 				fImgURL.style.display = "none";
 				fPathURL.style.display = "none";
+				fID.style.display = "none";
 				el.innerHTML = "▽";
 			}
 		}
@@ -3792,7 +4169,7 @@
 		}
 		function Track() {
 			const activeCard = getActiveCard();
-			return activeCard.closest("#track") || activeCard.closest(".track");
+			return activeCard.closest(".track");
 		}
 		function TrackFocus(elButton) {
 			// 20260114: Albatross: Temporarily override the flex num of other tracks to 0, but use a dataset on the track to remember the track's original flex values.
@@ -3802,7 +4179,7 @@
 			const multitrack = track.closest("#multitrack") || track.closest(".multitrack");
 			if (!multitrack) return;
 			const isAlreadyFocused = track.classList.contains('focus');
-			const allTracks = multitrack.querySelectorAll('#track');
+			const allTracks = multitrack.querySelectorAll('.track');
 			if (isAlreadyFocused) {
 				// --- TOGGLE OFF: Restore Everyone ---
 				allTracks.forEach(t => {
@@ -3845,7 +4222,7 @@
 
 			// 3. Safety Check: Only swap if a sibling exists AND it's actually a track
 			// (This prevents swapping with a header or a footer by accident)
-			if (targetSibling ){//&& targetSibling.classList.contains('track')) {
+			if (targetSibling) {//&& targetSibling.classList.contains('track')) {
 				if (bNext) {
 					targetSibling.after(track);
 				} else {
@@ -3859,6 +4236,14 @@
 		}
 
 		/* UNSORTED CODE */
+
+		function openChoicePreview(code, text, el) {
+			// Show the text + "Choose", "Collapse", "Delete" buttons
+			// If chosen:
+			// window.currentChoices.add(code);
+			// el.remove();
+			// scriptSingleStep(); // Resume the script
+		}
 		function markDirty(elThis) {
 			// 20251230: Cardinal
 			const savedValue = elThis.dataset.notes || "";
@@ -3899,7 +4284,7 @@
 			}
 		});
 		function activeTrack() {
-			return getActiveCard().closest('#track');
+			return getActiveCard().closest('.track');
 		}
 		function activeTrackWidth(delta = 1) {
 			// 20260114: Natalie: Expand or Shrink a track
@@ -3932,7 +4317,7 @@
 
 			// 1. Identify the reference track
 			// If no card is active, we default to the first track or create one if none exist
-			let referenceTrack = activeCard ? activeCard.closest('#track') : multitrack.querySelector('#track');
+			let referenceTrack = activeCard ? activeCard.closest('.track') : multitrack.querySelector('.track');
 
 			if (!referenceTrack) {
 				// Fallback: If no tracks exist at all, just use babyStep
@@ -3942,7 +4327,8 @@
 
 			// 2. Create the new track element
 			const newTrack = document.createElement('div');
-			newTrack.id = 'track'; // Keeping ID consistent with your CSS selectors
+			newTrack.classList.add('track');
+			//newTrack.id = 'track'; // Keeping ID consistent with your CSS selectors
 
 			// Add the scroll listener so theater-mode centering works on the new track
 			//newTrack.addEventListener('scroll', updateCenteredCard);
@@ -3968,11 +4354,11 @@
 		 */
 		async function removeTrack(targetTrack) {
 			// Keep the last track.
-			if (!(targetTrack.closest('#multitrack').querySelectorAll('#track').length > 1)) {
+			if (!(targetTrack.closest('#multitrack').querySelectorAll('.track').length > 1)) {
 				showToast("The last track cannot be deleted.")
 				return;
 			}
-			if (targetTrack && targetTrack.id === 'track') {
+			if (targetTrack && targetTrack.classList.contains('track')) {
 				let cardsCount = targetTrack.querySelectorAll(".card").length;
 				if (cardsCount > 0) {
 					if (await showConfirm("The target track is not empty. Keep it?")) { return; }
@@ -3999,7 +4385,7 @@
 				showToast("Please select a card first.");
 				return;
 			}
-			const currentTrack = activeCard.closest('#track');
+			const currentTrack = activeCard.closest('.track');
 			const multitrack = document.getElementById('multitrack');
 
 			// Logic: direction -1 targets the track ABOVE the current one, 1 targets BELOW.
@@ -4029,13 +4415,13 @@
 
 			// 1. Create a second track
 			const newTrack = document.createElement('div');
-			newTrack.id = "track-2";
+			newTrack.classList.add('track');
 			newTrack.style.flex = "1"; // This splits the space 50/50
 			newTrack.style.border = "2px dashed rgba(255,255,255,0.2)";
 			//newTrack.innerHTML = "<div style='color:gray; padding:5px;'>Track 2 Active</div>";
 
 			// 2. Ensure the first track is also flexible
-			document.getElementById('track').style.flex = "1";
+			document.querySelector('.track').style.flex = "1";
 
 			multitrack.appendChild(newTrack);
 			showToast("Multi-track split enabled");
@@ -4051,7 +4437,7 @@
 
 			const bodyWrap = document.getElementById('body-wrap');
 			const isVerticalMode = bodyWrap.classList.contains('max-width');
-			const currentTrack = activeCard.closest('#track');
+			const currentTrack = activeCard.closest('.track');
 
 			// 1. Determine if we are moving WITHIN the track or BETWEEN tracks
 			let isCrossTrackMove = false;
@@ -4069,19 +4455,19 @@
 				let targetTrack;
 				if (direction === 'down' || direction === 'left') {
 					targetTrack = currentTrack.previousElementSibling;
-					if (!targetTrack || !(targetTrack.id === 'track')) {
+					if (!targetTrack || !(targetTrack.classList.contains('track'))) {
 						addTrackRelative(e, -1);
 					}
 					targetTrack = currentTrack.previousElementSibling;
 				} else {
 					targetTrack = currentTrack.nextElementSibling;
-					if (!targetTrack || !(targetTrack.id === 'track')) {
+					if (!targetTrack || !(targetTrack.classList.contains('track'))) {
 						addTrackRelative(e, +1);
 					}
 					targetTrack = currentTrack.nextElementSibling;
 				}
 
-				if (targetTrack && targetTrack.id === 'track') {
+				if (targetTrack && targetTrack.classList.contains('track')) {
 					// Get current coordinates of the active card to determine where it "was"
 					const rect = activeCard.getBoundingClientRect();
 					const x = rect.left + rect.width / 2;
@@ -4120,7 +4506,7 @@
 			memDOM();
 		}
 		function moveCurrentCard(direction) {
-			const track = document.getElementById('track');
+			const track = document.querySelector('.track');
 			const centeredCard = track.querySelector('.card.is-centered');
 
 			if (!centeredCard) return;
@@ -4175,12 +4561,13 @@
 				return;
 			}
 
-			const url = activeCard.src;
+			const url = getFullResURL(activeCard.src);
 
 			// Normalize background string for comparison
+			const urlComp = url.replace(/url\(["']?/, '').replace(/["']?\)/, '');
 			const currentBg = body.style.backgroundImage.replace(/url\(["']?/, '').replace(/["']?\)/, '');
 
-			if (currentBg === url) {
+			if (currentBg === urlComp) {
 				// Toggle OFF: If already set, remove it
 				body.style.backgroundImage = 'none';
 				localStorage.removeItem('gallery_wallpaper'); // Remove from storage
@@ -4334,9 +4721,18 @@
 				memDOM();         // Persist changes
 			}
 		}
-		function hideSpeechBubble() {
+		function hideSpeechBubble(bToggle) {
 			const bubble = document.getElementById('dialogue-overlay');
-			bubble.style.display = "none";
+			if (bToggle == null) {
+				bubble.style.display = 'none';
+			} else {
+				if (bubble.style.display == 'none') {
+					bubble.style.display = 'flex';
+				} else {
+					bubble.style.display = 'none';
+				}
+			}
+
 		}
 		function updateAssignmentUI() {
 			const input = document.getElementById('assign-tag-input');
@@ -4351,11 +4747,11 @@
 			const targets = document.querySelectorAll('.file-item, .card');
 
 			targets.forEach(el => {
-				const path = el.dataset.path;
-				if (!path) return;
+				const id = el.dataset.id;
+				if (!id) return;
 
 				// Look up the item in your master DATA array
-				const item = DATA.find(i => i.p === path);
+				const item = DATA.find(i => i.u === id);
 
 				// If the item exists and its tags array (item.t) contains the input value
 				const hasTag = item && item.t.includes(val);
@@ -4420,17 +4816,20 @@
 			// Create the new item object
 			// This regex /[\\/]/ means "split by \ OR /"
 			const filename = path.split(/[\\/]/).pop().split('#')[0].split('?')[0] || "New Entry";
+			// 1. Duplicate check against current master DATA
+			if (DATA.some(item => item.u === path)) {
+				if (!await showConfirm("This item is already in your list. Add it again?")) {
+					return;
+				}
+			}
+			let pid = generatePID();
+			if (DATA.some(item => item.p === pid)) { pid = path; }
 			const newItem = {
+				p: pid,
 				n: filename,
 				t: tagsToAdd,
-				p: path,
+				u: path,
 			};
-
-			// 1. Duplicate check against current master DATA
-			if (DATA.some(item => item.p === path)) {
-				alert("This item is already in your list.");
-				return;
-			}
 
 			// 2. Find or Create the [Orphan Files] collection in savedPaths
 			const orphanName = "[Orphan Files]";
@@ -4838,16 +5237,16 @@
 		function updateCenteredCard(e) {
 			// 20251226: StarTree: If the user is scrolling on a track in single track mode, automatically set the center card as the active card.
 			return;
-			let track = document.getElementById('track');
+			let track = document.querySelector('.track');
 			console.log(e);
 			if (e && e.target) {
 				if (typeof e.target.closest === "function") {
-					track = e.target.closest('#track');
+					track = e.target.closest('.track');
 
 				}
 			}
 			if (!track) return;
-			const tracks = document.querySelectorAll('#track');
+			const tracks = document.querySelectorAll('.track');
 			if (tracks.length > 1) { return; }
 			const cards = track.querySelectorAll('.card');
 			const bodyWrap = document.getElementById('body-wrap');
@@ -4894,29 +5293,45 @@
 			document.getElementById('stage-count').innerText = count;
 		}
 		function syncSidebarHighlights() {
-			const activePaths = Array.from(document.querySelectorAll('.card')).map(c => c.dataset.path);
+			const activePaths = Array.from(document.querySelectorAll('.card')).map(c => c.dataset.id);
 			document.querySelectorAll('.file-item').forEach(item => {
-				const itemPath = item.dataset.path;
+				const itemPath = item.dataset.id;
 				item.classList.toggle('active-item', activePaths.includes(itemPath));
 			});
 			updateStageCount();
 		}
 
-		async function createCard(item) {
-			// If the item is null, choose a random one from the file list.
+		async function createCard(item, makeNewCard = false) {
+			// 20260118: Ivy: if makeNewCard, make a blank new card.
+			if (makeNewCard) {
+				// Create a YYYYMMDDhhmmss timestamp ID and push it to DATA after confirming that it is not already there.
+				const pid = generatePID();
+				if (DATA.some(item => item.p === pid)) {
+					showToast("A card with ID " + pid + " already exists.")
+					return;
+				}
+				const newItem = {
+					p: pid,
+					n: "P" + pid,
+					t: ["NEW"],
+				};
+				DATA.push(newItem);
+				item = DATA.find(i => i.p === pid);
+			}
+			// If the item is null, choose a random one from the file list.			
 			if (!item) {
 				const choices = document.querySelectorAll(".file-item:not(.active-item)");
 				const numChoices = choices.length;
 				if (choices.length < 1) { return; }
 				const file = choices[Math.floor(Math.random() * choices.length)];
-				const path = file.dataset.path;
-				item = DATA.find(i => i.p === path);
+				const id = file.dataset.id;
+				item = DATA.find(i => i.p === id);
 			}
 
 			// 1. Change: Target the active track or the default track
 			const multitrack = document.getElementById('multitrack');
 			let activeCard = document.querySelector('.card.is-active');
-			let activeTrack = activeCard ? activeCard.parentElement : document.querySelector('#track');
+			let activeTrack = activeCard ? activeCard.parentElement : document.querySelector('.track');
 			if (autoRandomTrack) {
 				activeTrack = autoRandomTrack;
 			}
@@ -4924,9 +5339,9 @@
 			const isVertical = document.getElementById('body-wrap').classList.contains('max-width');
 
 			// Duplicate check
-			const existing = Array.from(document.querySelectorAll('.card')).find(c => c.dataset.path === item.p);
+			const existing = Array.from(document.querySelectorAll('.card')).find(c => c.dataset.id === item.p);
 			if (existing) {
-				const bSameTrack = (activeTrack == existing.closest('#track'));
+				const bSameTrack = (activeTrack == existing.closest('.track'));
 				if (existing.classList.contains('pinned')) {
 					existing.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
 					if (autoRandomTrack && !isHidden('tab-card-notes')) { return; }
@@ -4965,7 +5380,7 @@
 
 			const c = document.createElement('div');
 			c.className = 'card';
-			c.dataset.path = item.p;
+			c.dataset.id = item.p;
 			updateStarButtonState();
 
 			// 20250103: Lei: using iFrame to show PDF
@@ -4986,7 +5401,7 @@
 			}
 
 			// 20251229: Sasha: In Multitrack vertical mode insert after the active card.
-			const isMultitrack = multitrack.querySelectorAll("#track").length > 1;
+			const isMultitrack = multitrack.querySelectorAll(".track").length > 1;
 			if (isMultitrack && activeCard && !autoRandomTrack) {
 				if (isVertical) {
 					activeCard.after(c);
@@ -5078,8 +5493,8 @@
 			// 20251226: StarTree: To be changed to so the tags don't show on the card itself.
 			return;
 			document.querySelectorAll('.card').forEach(card => {
-				const path = card.dataset.path;
-				const item = DATA.find(i => i.p === path);
+				const id = card.dataset.id;
+				const item = DATA.find(i => i.p === id);
 				if (!item) return;
 
 				const overlay = card.querySelector('.card-tag-overlay');
@@ -5096,6 +5511,19 @@
 			});
 			memDOM();
 		}
+		function generatePID() {
+			const now = new Date();
+
+			// Extract parts and pad with a leading zero if they are single digits
+			const year = now.getFullYear();
+			const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+			const day = String(now.getDate()).padStart(2, '0');
+			const hour = String(now.getHours()).padStart(2, '0');
+			const min = String(now.getMinutes()).padStart(2, '0');
+			const sec = String(now.getSeconds()).padStart(2, '0');
+
+			return `${year}${month}${day}${hour}${min}${sec}`;
+		}
 		function getActiveCard() {
 			const card = document.querySelector(".card.is-active");
 			if (!card) { return null; }
@@ -5104,8 +5532,8 @@
 		function getActiveCardData() {
 			const card = getActiveCard();
 			if (!card) { return null; }
-			const path = card.dataset.path;
-			const item = DATA.find(i => i.p === path);
+			const id = card.dataset.id;
+			const item = DATA.find(i => i.p === id);
 			return item;
 		}
 		function getCardByPath(path) {
@@ -5223,7 +5651,7 @@
 			filtered.forEach((item, idx) => {
 				const d = document.createElement('div');
 				d.className = 'file-item';
-				d.dataset.path = item.p;
+				d.dataset.id = item.p;
 				d.id = 'f-' + idx;
 				if (sidebarIsGrid) {
 					// Wrap the thumbnail in a link pointing to the real source
@@ -5263,7 +5691,7 @@
 				msg = "The multitrack only has ⭐ card(s). Keep them?"
 				if (await showConfirm(msg)) { return; }
 			}
-			multitrack.innerHTML = "<div id='track'></div>";
+			multitrack.innerHTML = "<div class='track'></div>";
 			syncSidebarHighlights();
 		}
 		async function exportFilteredData(mode = 'path') {
@@ -5605,7 +6033,7 @@
 			// Horizontal scrolling for horizontal tracks
 			const isHorizontalMode = !document.getElementById('body-wrap').classList.contains('max-width');
 			if (isHorizontalMode) {
-				const targetTrack = e.target.closest('#track');
+				const targetTrack = e.target.closest('.track');
 				if (targetTrack) {
 					e.preventDefault();
 					targetTrack.scrollLeft += e.deltaY;
