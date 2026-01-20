@@ -6,8 +6,8 @@
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
 	<script>
-		const APP_VERSION = "202601190510"; //#Version
-		const APP_ANNOUNCEMENT = "20260119: Dialog choices."
+		const APP_VERSION = "20260120115700"; //#Version
+		const APP_ANNOUNCEMENT = "20260120: Colorful Choice Bubbles."
 	</script>
 	<style>
 		:root {
@@ -2376,8 +2376,11 @@
 			opacity: 0.75 !important;
 			animation: none !important;
 		}
-
-
+		body:has(.choice-entry.selected) .stage-next-btn{
+			background-color:gold;
+			/*opacity: 0.75 !important;
+			animation: none !important;*/
+		}
 
 		@keyframes invisiblePulse {
 
@@ -3144,11 +3147,11 @@
 			return Multitrack()?.hasAttribute(ChoiceName(choice));
 		}
 		function ChoiceCommit(e) {
-			const entry = e.target.closest('.choice-entry');
+			const entry = e.target.closest('.choice-entry.selected');
 			if (!entry) return false;
 			e.stopPropagation();
 			// If the entry is not at the top, return.
-			if (entry.parentNode.querySelector('.choice-entry') != entry) { return true; }
+			if (entry.parentNode.firstChild != entry) { return true; }
 			const code = entry.dataset.code;
 
 			const choiceList = document.getElementById('choice-container');
@@ -3157,7 +3160,7 @@
 			ChoiceBubblePop(null, true);
 			ScriptBubbleSpawning(null, true);
 			scriptSingleStep();
-
+			return true;
 		}
 		function ChoiceEntry(code, choiceText) {
 			const div = document.createElement('div');
@@ -3239,7 +3242,17 @@
 			// Random position within safe center area
 			const top = Math.floor(Math.random() * 80 + 10); // 10% to 90%
 			const left = Math.floor(Math.random() * 80 + 10); // 10% to 90%
+			const size = Math.floor(Math.random() * 50 + 50);
+			let r = Math.random() > 0.25 ? 255 : 0;
+			let g = Math.random() > 0.25 ? 255 : 0;
+			let b = Math.random() > 0.25 ? 255 : 0;
+			if(r + g + b === 0){r = 255; g=255; b=255;}
+			
 
+			//bubble.style.borderColor = `rgba(${r}, ${g}, ${b}, 0.15)`;
+			bubble.style.background = `rgba(${r}, ${g}, ${b}, 0.1)`;
+			bubble.style.width = `${size}px`;
+			bubble.style.height = `${size}px`;
 			bubble.style.top = `${top}vh`;
 			bubble.style.left = `${left}vw`;
 			bubble.dataset.code = code;
@@ -3835,7 +3848,7 @@
 			const prefix = text.charAt(0);
 			const bubble = document.querySelector('.speech-bubble');
 			//if(StageLive() && prefix != ':'){
-			if (StageLive() && prefix != ':') {
+			if(prefix != ':') {
 				bubble.classList.add('narrative-mode');
 			} else {
 				bubble.classList.remove('narrative-mode');
@@ -3876,7 +3889,11 @@
 			// 20260119: Arcacia: This function runs a line in the script. if it returns true, it means that the function calling this may run the next line immediately.
 			const prefix = line.charAt(0);
 
+			// 20260120: Natalie: If there is a selected choice, set bubble spawning to done.
+			if(document.querySelector('.choice-entry.selected')){ScriptBubbleSpawning(null,true);}
+
 			// 20260119: LRRH: If the engine is spawning bubbles and the prefix is not *, put the line back and return.
+			
 			if (prefix != '*' && ScriptBubbleSpawning(null)) {
 				const se = ScriptEngine();
 				se.dataset.script = line + "\n" + se.dataset.script;
@@ -4333,8 +4350,7 @@
 			const fPathURL = document.getElementById("card-path-url");
 			const fID = document.getElementById("card-id");
 
-
-			if (isHidden("card-title")) {
+			if (isHidden("card-id")) {
 				fTitle.style.display = "block";
 				fImgURL.style.display = "block";
 				fPathURL.style.display = "block";
@@ -5743,7 +5759,11 @@
 			const card = getActiveCard();
 			if (!card) { return null; }
 			const id = card.dataset.id;
-			const item = DATA.find(i => i.p === id);
+			let item = DATA.find(i => i.p === id);
+			// 20260120: Natalie: If the ID is not found, try to match the path instead.
+			// .. This is for fixing a data migration issue where originally the assets used the path as their ID.
+			if(!item){item = DATA.find(i => i.u === id);} // Try matching the path
+			if(!item){item = DATA.find(i => i.i === id);} // Try matching the image
 			return item;
 		}
 		function getCardByPath(path) {
