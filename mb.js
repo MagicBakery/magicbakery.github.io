@@ -2497,7 +2497,7 @@ function MacroIcons(el,iHTMLInner){
         /*mSubstitute = "<span class='mbIcon' style='background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/"+ mImgCode +".png&quot;)'><icon>"+mSearchIcon+"</icon></span>";*/
 
         // 20251227: LRRH: Why not use the images folder of the code?
-        mSubstitute = "<span class='mbIcon' style='background-image:url(&quot;https://magicbakery.github.io/images/"+ mImgCode +".png&quot;)'><icon>"+mSearchIcon+"</icon></span>";
+        mSubstitute = "<span class='mbIcon' style='background-image:url(&quot;https://magicbakery.github.io/icons/"+ mImgCode +".png&quot;)'><icon>"+mSearchIcon+"</icon></span>";
 
         mHTMLInner = mHTMLInner.slice(0,mPos) + mSubstitute + mHTMLInner.slice(mPos+mSearchIcon.length);
         mStart = mPos + mSubstitute.length;
