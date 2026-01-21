@@ -6,8 +6,8 @@
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
 	<script>
-		const APP_VERSION = "20260120115700"; //#Version
-		const APP_ANNOUNCEMENT = "20260120: Colorful Choice Bubbles."
+		const APP_VERSION = "20260121105700"; //#Version
+		const APP_ANNOUNCEMENT = "20260121: Sprite X and Y Offsets."
 	</script>
 	<style>
 		:root {
@@ -2376,8 +2376,9 @@
 			opacity: 0.75 !important;
 			animation: none !important;
 		}
-		body:has(.choice-entry.selected) .stage-next-btn{
-			background-color:gold;
+
+		body:has(.choice-entry.selected) .stage-next-btn {
+			background-color: gold;
 			/*opacity: 0.75 !important;
 			animation: none !important;*/
 		}
@@ -2731,9 +2732,26 @@
 				<textarea id="card-notes" class="" oninput="markDirty(this)"
 					style="resize:none;height:172px; font-size:16px;overflow-y: auto;" placeholder="Notes"></textarea>
 
-				<input type="text" id="card-img-url" style="display:none" placeholder="Cover Image" title="Cover Image (i)">
-				<input type="text" id="card-path-url" style="display:none" placeholder="URL / File Path" title="Path/URL (u)">
-				<input type="text" id="card-id" style="display:none" placeholder="Unique ID" title="Card ID (p)">
+				<div class="card-details" style="display:none">
+					<div style="display:flex">
+						<input type="text" id="card-img-url" style="flex: 1;min-width:40%" placeholder="Image Path"
+							title="Image (i)">
+							<button class="scale-btn" onclick="" title="Scale the image">s</button>
+						<input type="number" id="card-scale" placeholder="scale" title="scale (pixels per 1m)"
+							style="min-width:60px;max-width:34%;text-align: center;">
+						<button class="flip-btn" onclick="ImageFlip()" title="Flip the image">x</button>
+							<input type="number" id="card-x-offset" placeholder="x-offset"
+							title="x-offset from left edge to center for flipping (px)"
+							style="min-width:60px;max-width:34%;text-align: center;">
+						<button class="ground-btn" onclick="ImageGround()" title="Ground the image">y</button>
+						<input type="number" id="card-y-offset" placeholder="y-offset"
+							title="y-offset from bottom edge to ground (px)" style="min-width:60px;max-width:34%;text-align: center;">
+						
+					</div>
+					<input type="text" id="card-path-url" placeholder="URL / File Path" title="Path/URL (u)">
+					<input type="text" id="card-id" placeholder="Unique ID" title="Card ID (p)">
+				</div>
+
 
 				<div onclick="toggleNodeDetails(this)" style="text-align: center;width:100%;height:40px;color:grey">▽</div>
 
@@ -3246,8 +3264,8 @@
 			let r = Math.random() > 0.25 ? 255 : 0;
 			let g = Math.random() > 0.25 ? 255 : 0;
 			let b = Math.random() > 0.25 ? 255 : 0;
-			if(r + g + b === 0){r = 255; g=255; b=255;}
-			
+			if (r + g + b === 0) { r = 255; g = 255; b = 255; }
+
 
 			//bubble.style.borderColor = `rgba(${r}, ${g}, ${b}, 0.15)`;
 			bubble.style.background = `rgba(${r}, ${g}, ${b}, 0.1)`;
@@ -3642,6 +3660,87 @@
 			if (item.i) { return getFullResURL(item.i); }
 			return "";
 		}
+		function GroundLine(sprite, dist = 1) {
+			// 20260121: LRRH: Perspective-based ground line calculation
+			// Returns position of the ground line based on a sprite's distance (meters) from the viewer.
+			// When the distance is Infinity, it is interpreted as infinity so the ground line should be at the vertically centered horizon of the viewing frame.
+			// The viewing frame is the stage if the sprite is closest to a stage. Otherwise it is the track if it is closest to a track.
+			// Zooming: When dist=1, the ground line should be 25% of the frame's height below the frame.
+			const frame = sprite.closest('#stage-area') || sprite.closest('.track');
+			const H = frame.offsetHeight;
+			const horizon = H / 2; // Vertically centered horizon
+			if (dist === Infinity || dist === null) return horizon;
+			const offsetAtOneMeter = 0.75 * H;
+			const groundY = horizon + (offsetAtOneMeter / dist);
+			return H - groundY;
+
+		}
+		function ImageFlip(img, xOffset, faceLeft) {
+			if (!img) {
+				const activeCard = getActiveCard();
+				if (!activeCard) return;
+				img = activeCard.querySelector('img');
+				const data = getActiveCardData();
+				xOffset = data.x;
+			}
+
+			const naturalWidth = img.naturalWidth;
+			let pivotPercent = 50;
+			if (naturalWidth && xOffset != null) {
+				pivotPercent = (xOffset / naturalWidth) * 100;
+			}
+
+			// Handle Switch
+			const isCurrentlyRight = img.classList.contains('rightFacing');
+			const shouldFaceRight = (faceLeft === undefined) ? !isCurrentlyRight : !faceLeft;
+			img.classList.toggle('rightFacing', shouldFaceRight);
+
+			// Apply ORIGIN (combining X from here and Y from ground)
+			const currentYOrigin = img.style.transformOrigin.split(' ')[1] || "50%";
+			img.style.transformOrigin = `${pivotPercent}% ${currentYOrigin}`;
+
+			// USE INDEPENDENT SCALE PROPERTY
+			// This won't overwrite the 'translate' property used by grounding
+			img.style.scale = shouldFaceRight ? "-1 1" : "1 1";
+			document.querySelector(".flip-btn").innerHTML = shouldFaceRight? 'R':'L';
+			
+		}
+		function ImageGround(img, yOffset, ground, distance) {
+			if (!img) {
+				const activeCard = getActiveCard();
+				if (!activeCard) return;
+				img = activeCard.querySelector('img');
+				yOffset = getActiveCardData().y || 0;
+			}
+
+			const groundPos = (typeof ground === 'number') ? ground : GroundLine(img, distance);
+			// Handle Switch
+			const isCurrentlyGrounded = img.classList.contains('grounded');
+			const shouldBeGrounded = (typeof ground === 'number' || distance !== undefined)
+				? true
+				: (ground === undefined ? !isCurrentlyGrounded : ground);
+			img.classList.toggle('grounded', shouldBeGrounded);
+			if (shouldBeGrounded) {
+				// Apply ORIGIN (combining Y from here and X from flip)
+				const naturalHeight = img.naturalHeight;
+				const renderedHeight = img.offsetHeight || naturalHeight; // Current visible height
+				const internalPercent = (naturalHeight && yOffset) ? (yOffset / naturalHeight) * 100 : 0;
+				const externalPercent = (groundPos / renderedHeight) * 100;
+				console.log(groundPos + " " + renderedHeight);
+				console.log(internalPercent + " " + externalPercent);
+				const finalTranslateY = internalPercent - externalPercent;
+				const currentXOrigin = img.style.transformOrigin.split(' ')[0] || "50%";
+				img.style.transformOrigin = `${currentXOrigin} ${100 - internalPercent}%`;
+				// USE INDEPENDENT TRANSLATE PROPERTY
+				// This won't overwrite the 'scale' property used by flipping
+				img.style.translate = `0 ${finalTranslateY}%`;
+				document.querySelector(".ground-btn").innerHTML = "G"
+			} else {
+				img.style.translate = `0 0`;
+				document.querySelector(".ground-btn").innerHTML = "-"
+			}
+		}
+
 		async function importMultiTrackDOM() {
 			// 1. Create a hidden file input to trigger the dialog
 			const fileInput = document.createElement('input');
@@ -3708,7 +3807,8 @@
 		}
 		function isHidden(elID) {
 			const el = document.getElementById(elID);
-			return window.getComputedStyle(el).display === 'none' || el.classList.contains("hidden");
+			if (!el) return true;
+			return !el.checkVisibility();
 		}
 		function isMobile() {
 			const isSmallScreen = (window.innerWidth <= 768 || window.innerHeight <= 768);
@@ -3848,7 +3948,7 @@
 			const prefix = text.charAt(0);
 			const bubble = document.querySelector('.speech-bubble');
 			//if(StageLive() && prefix != ':'){
-			if(prefix != ':') {
+			if (prefix != ':') {
 				bubble.classList.add('narrative-mode');
 			} else {
 				bubble.classList.remove('narrative-mode');
@@ -3890,10 +3990,10 @@
 			const prefix = line.charAt(0);
 
 			// 20260120: Natalie: If there is a selected choice, set bubble spawning to done.
-			if(document.querySelector('.choice-entry.selected')){ScriptBubbleSpawning(null,true);}
+			if (document.querySelector('.choice-entry.selected')) { ScriptBubbleSpawning(null, true); }
 
 			// 20260119: LRRH: If the engine is spawning bubbles and the prefix is not *, put the line back and return.
-			
+
 			if (prefix != '*' && ScriptBubbleSpawning(null)) {
 				const se = ScriptEngine();
 				se.dataset.script = line + "\n" + se.dataset.script;
@@ -3998,8 +4098,11 @@
 			activeCardData.i = document.getElementById('card-img-url').value.trim();
 			activeCardData.n = document.getElementById('card-title').value.trim();
 			activeCardData.o = encodeURIComponent(document.getElementById('card-notes').value);
-			activeCardData.u = document.getElementById('card-path-url').value.trim();
 			activeCardData.p = document.getElementById('card-id').value.trim();
+			activeCardData.s = document.getElementById('card-scale').value.trim();
+			activeCardData.u = document.getElementById('card-path-url').value.trim();
+			activeCardData.x = document.getElementById('card-x-offset').value.trim();
+			activeCardData.y = document.getElementById('card-y-offset').value.trim();
 
 			// Update the visual card immediately if the image changed
 			card.dataset.id = activeCardData.p;
@@ -4100,12 +4203,21 @@
 			if (!activeCard) { return; }
 			document.getElementById("card-img-url").value = activeCard.i || "";
 			document.getElementById("card-title").value = activeCard.n || "";
-			document.getElementById("card-path-url").value = activeCard.u || "";
+
 			document.getElementById("card-id").value = activeCard.p || "";
+
 			if (activeCard.p != document.querySelector(".script-step-btn").dataset.p) {
 				SpeechBubbleShow(false);
 			};
+			document.getElementById("card-scale").value = activeCard.s || "1";
+			document.getElementById("card-path-url").value = activeCard.u || "";
 
+			const imgEl = card.querySelector('img');
+			const xVal = activeCard.x;
+			document.getElementById("card-x-offset").value = (xVal !== undefined && xVal !== null)
+				? xVal
+				: (imgEl ? Math.round(imgEl.naturalWidth / 2) : "");
+			document.getElementById("card-y-offset").value = activeCard.y || "0";
 
 			const cardNotes = document.getElementById("card-notes");
 
@@ -4153,10 +4265,10 @@
 			const bubble = document.getElementById('dialogue-overlay');
 			bubble.classList.toggle('active', bShow);
 		}
-		async function StageChange(url){
+		async function StageChange(url) {
 			await fadeLoadingScreen(true);
 			const stageEl = document.getElementById('stage-area');
-  		stageEl.style.backgroundImage = `url(${url})`;
+			stageEl.style.backgroundImage = `url(${url})`;
 			await new Promise(r => setTimeout(r, 200));
 			await fadeLoadingScreen(false);
 
@@ -4189,7 +4301,7 @@
 			let scene = FilterDraw();
 			if (!scene) { scene = getActiveCardData(); }
 			if (scene) {
-				StageChange(DATAFullResURL(scene));				
+				StageChange(DATAFullResURL(scene));
 			} else {
 				// If there is no match, reset the background image to nothing.				
 				StageChange('');
@@ -4346,22 +4458,16 @@
 		function toggleNodeDetails(el) {
 			// 20260111: Skyle: Hide the advanced settings in card details.
 			const fTitle = document.getElementById("card-title");
-			const fImgURL = document.getElementById("card-img-url");
-			const fPathURL = document.getElementById("card-path-url");
-			const fID = document.getElementById("card-id");
+			const details = document.querySelector('.card-details');
 
 			if (isHidden("card-id")) {
 				fTitle.style.display = "block";
-				fImgURL.style.display = "block";
-				fPathURL.style.display = "block";
-				fID.style.display = "block";
+				details.style.display = "block";
 				el.innerHTML = "△";
 				el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
 			} else {
 				fTitle.style.display = "none";
-				fImgURL.style.display = "none";
-				fPathURL.style.display = "none";
-				fID.style.display = "none";
+				details.style.display = "none";
 				el.innerHTML = "▽";
 			}
 		}
@@ -5762,8 +5868,8 @@
 			let item = DATA.find(i => i.p === id);
 			// 20260120: Natalie: If the ID is not found, try to match the path instead.
 			// .. This is for fixing a data migration issue where originally the assets used the path as their ID.
-			if(!item){item = DATA.find(i => i.u === id);} // Try matching the path
-			if(!item){item = DATA.find(i => i.i === id);} // Try matching the image
+			if (!item) { item = DATA.find(i => i.u === id); } // Try matching the path
+			if (!item) { item = DATA.find(i => i.i === id); } // Try matching the image
 			return item;
 		}
 		function getCardByPath(path) {
