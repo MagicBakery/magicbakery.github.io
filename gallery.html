@@ -6,8 +6,8 @@
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
 	<script>
-		const APP_VERSION = "20260121105700"; //#Version
-		const APP_ANNOUNCEMENT = "20260121: Sprite X and Y Offsets."
+		const APP_VERSION = "202601220643"; //#Version
+		const APP_ANNOUNCEMENT = "20260122: Sprite Scale, X and Y Offsets."
 	</script>
 	<style>
 		:root {
@@ -2400,6 +2400,16 @@
 			/* Fades in and out for screenshots */
 		}
 
+		body:has(.card.card.is-active img.scaled) .scale-btn,
+		body:has(.card.card.is-active img.left) .flip-btn,
+		body:has(.card.card.is-active img.grounded) .ground-btn {
+			background-color: palegreen;
+		}
+
+		body:has(.card.card.is-active img.right) .flip-btn {
+			background-color: gold;
+		}
+
 
 		/* #CSS END */
 	</style>
@@ -2737,17 +2747,17 @@
 					<div style="display:flex">
 						<input type="text" id="card-img-url" style="flex: 1;min-width:40%" placeholder="Image Path"
 							title="Image (i)">
-							<button class="scale-btn" onclick="" title="Scale the image">s</button>
+						<button class="scale-btn" onclick="ImageScale()" title="Scale the image">s</button>
 						<input type="number" id="card-scale" placeholder="scale" title="scale (pixels per 1m)"
 							style="min-width:60px;max-width:34%;text-align: center;">
 						<button class="flip-btn" onclick="ImageFlip()" title="Flip the image">x</button>
-							<input type="number" id="card-x-offset" placeholder="x-offset"
+						<input type="number" id="card-x-offset" placeholder="x-offset"
 							title="x-offset from left edge to center for flipping (px)"
 							style="min-width:60px;max-width:34%;text-align: center;">
 						<button class="ground-btn" onclick="ImageGround()" title="Ground the image">y</button>
 						<input type="number" id="card-y-offset" placeholder="y-offset"
 							title="y-offset from bottom edge to ground (px)" style="min-width:60px;max-width:34%;text-align: center;">
-						
+
 					</div>
 					<input type="text" id="card-path-url" placeholder="URL / File Path" title="Path/URL (u)">
 					<input type="text" id="card-id" placeholder="Unique ID" title="Card ID (p)">
@@ -3158,6 +3168,11 @@
 		}
 		function ChoiceAdd(choice) {
 			// 20260118: StarTree: Adds a choice to the multitrack DOM so that it is easy to debug, save and load.
+			const forbiddenChars = /[\s"'><\/=]/;
+			if (forbiddenChars.test(choice)) {
+				console.log("RETURN: Choice contains invalid attribute characters.");
+				return;
+			}
 			Multitrack()?.setAttribute(ChoiceName(choice), '');
 			console.log('@@ChoiceAdd: ' + ChoiceName(choice));
 			memDOM();
@@ -3168,18 +3183,18 @@
 		}
 		function ChoiceCommit() {
 			const entry = document.querySelector('.choice-entry.selected');
-			if (!entry) return false;			
+			if (!entry) return false;
 			// If the entry is not at the top, return.
 			//if (entry.parentNode.firstChild != entry) { return true; }
 			entry.classList.remove('selected');
-			
+
 			const code = entry.dataset.code;
 			const choiceList = document.getElementById('choice-container');
 			choiceList.style.display = "none";
 			ChoiceAdd(code);
 			ChoiceBubblePop(null, true);
 			ScriptBubbleSpawning(null, true);
-			
+
 			return true;
 		}
 		function ChoiceEntry(code, choiceText) {
@@ -3678,6 +3693,14 @@
 
 		}
 		function ImageFlip(img, xOffset, faceLeft) {
+			const curImg = getActiveCard().querySelector('img');
+			const curScaled = curImg.classList.contains('scaled');
+			const curLeft = curImg.classList.contains('left');
+			const curRight = curImg.classList.contains('right');
+			const curGrounded = curImg.classList.contains('grounded');
+			return SpriteOnStage(null, 0, 0, null, undefined, null);
+
+			return SpriteOnStage(null, 0, 0, curScaled, undefined, curGrounded);
 			if (!img) {
 				const activeCard = getActiveCard();
 				if (!activeCard) return;
@@ -3704,10 +3727,16 @@
 			// USE INDEPENDENT SCALE PROPERTY
 			// This won't overwrite the 'translate' property used by grounding
 			img.style.scale = shouldFaceRight ? "-1 1" : "1 1";
-			document.querySelector(".flip-btn").innerHTML = shouldFaceRight? 'R':'L';
-			
+			document.querySelector(".flip-btn").innerHTML = shouldFaceRight ? 'R' : 'L';
+
 		}
 		function ImageGround(img, yOffset, ground, distance) {
+			const curImg = getActiveCard().querySelector('img');
+			const curScaled = curImg.classList.contains('scaled');
+			const curLeft = curImg.classList.contains('left');
+			const curGrounded = curImg.classList.contains('grounded');
+			return SpriteOnStage(null, 0, 0, null, null, undefined);
+
 			if (!img) {
 				const activeCard = getActiveCard();
 				if (!activeCard) return;
@@ -3743,6 +3772,40 @@
 			}
 		}
 
+		function ImageScale(bScale) {
+			const curImg = getActiveCard().querySelector('img');
+			const curScaled = curImg.classList.contains('scaled');
+			const curLeft = curImg.classList.contains('left');
+			const curGrounded = curImg.classList.contains('grounded');
+
+			return SpriteOnStage(null, 0, 0, undefined, null, null);
+			// 20260122: Skyle: This is just a demo function to show the math of scaling without applying X and Y offset.
+			// Forget about distance for now, assume that the target scale is 700px per meter.
+			// The sprite data.s has the sprite's px/m value.
+			// When the scale is applied to the sprite, set its class .scaled, and set its data-s attribute to store data.s
+			const card = getActiveCard();
+			const data = getActiveCardData();
+			if (!card || !data) return;
+			const sprite = card.querySelector('img');
+			if (!sprite) return;
+			// 1. Calculate the Ratio
+			const targetPxPerMeter = 700;
+			const spritePxPerMeter = data.s || 700;
+			const scaleFactor = targetPxPerMeter / spritePxPerMeter;
+			// 2. Handle the Three-Way Switch (true/false/toggle)
+			const isCurrentlyScaled = sprite.classList.contains('scaled');
+			const shouldScale = (bScale === undefined) ? !isCurrentlyScaled : bScale;
+			// 3. Apply Metadata and Classes
+			sprite.classList.toggle('scaled', shouldScale);
+			sprite.setAttribute('data-s', spritePxPerMeter);
+			// 4. Apply the Transform
+			if (shouldScale) {
+				// We use the independent 'scale' property to avoid clobbering 'translate'
+				sprite.style.scale = `${scaleFactor}`;
+			} else {
+				sprite.style.scale = "1";
+			}
+		}
 		async function importMultiTrackDOM() {
 			// 1. Create a hidden file input to trigger the dialog
 			const fileInput = document.createElement('input');
@@ -3993,7 +4056,7 @@
 
 			// 20260120: Natalie: If there is a selected choice, set bubble spawning to done.
 			ChoiceCommit();
-			
+
 
 			// 20260119: LRRH: If the engine is spawning bubbles and the prefix is not *, put the line back and return.
 
@@ -4268,6 +4331,89 @@
 			const bubble = document.getElementById('dialogue-overlay');
 			bubble.classList.toggle('active', bShow);
 		}
+		function SpriteOnStage(sprite, posX = 0, posY = 0, bScale, bLeft, bGround) {
+			// 20260122: Skyle: This function sets the position of a sprite on stage (or in backstage during adjustment)
+			// Treat bScale, bLeft, and bGround as three-way switches: true, false, undefined=toggle.
+			// If the sprite is specified, assume that the frame is the stage.
+			// If the sprite is not specified, assume that the frame is the active card at backstage.			
+			if (!sprite) {
+				const card = getActiveCard(); if (!card) return;
+				const data = getActiveCardData();
+				sprite = card.querySelector('img'); if (!sprite) return;
+				sprite.dataset.s = data.s || 700;
+				sprite.dataset.x = data.x || sprite.naturalWidth / 2;
+				sprite.dataset.y = data.y || 0;
+			}
+			// STEP 0 Update ClassList		
+			if (bLeft === undefined && posX != 0) {
+				bLeft = (posX > 0);
+			}
+			if (bScale !== null) {
+				sprite.classList.toggle('scaled', bScale)
+			}
+			if (bLeft !== null) {
+				bLeft = sprite.classList.toggle('left', bLeft);
+				sprite.classList.toggle('right', !bLeft);
+			}
+			if (bGround !== null) {
+				sprite.classList.toggle('grounded', bGround);
+			}
+			let shouldScale = sprite.classList.contains('scaled');
+			let shouldFaceLeft = sprite.classList.contains('left');
+			let shouldFaceRight = sprite.classList.contains('right');
+			let shouldGround = sprite.classList.contains('grounded');
+
+
+			const frame = sprite.closest('#stage-area, .track') || sprite.parentElement;
+			const frameW = frame.clientWidth;
+			const frameH = frame.clientHeight;
+			const naturalW = sprite.naturalWidth;
+			const naturalH = sprite.naturalHeight;
+
+			// STEP 1: Compute the final scaling needed considering if bScale is true.
+			// Store the state of whether the sprite is scaled using class .scaled.
+			const finalScale = shouldScale ? (720 / parseFloat(sprite.dataset.s)) : 1;
+			console.log(frameH);
+
+			// STEP 2: Compute the final X translation needed, consider the final scale, data.x, bLeft and the commanded posX. PosX is measured in percentage where 0 means center of the screen, 50 means the center of the right side of the screen. 
+			// If bLeft is undefined but posX is a number, set bLeft to true when X is >0, set bLeft to false when x is <0, and toggle bLeft (.left abd .right) when posX is 0.
+			// If bLeft and posX are both undefined, clear .left and .right and do not apply x offset. 
+			let finalX = 0;
+			let flipFactor = 1;
+
+			if (shouldFaceLeft || shouldFaceRight) {
+				const dataX = parseFloat(sprite.dataset.x);
+				const isNaturalLeft = dataX >= 0;
+				flipFactor = (shouldFaceLeft === isNaturalLeft) ? 1 : -1;
+				const naturalCenter = (isNaturalLeft) ? naturalW / 2 : -naturalW / 2;
+				const recenterX = flipFactor * ((naturalCenter - dataX) * finalScale);
+				const stagePos = (posX / 100) * frameW/2 || 0;
+				finalX = recenterX + stagePos;
+			}
+
+			// STEP 3: Compute the final Y translation needed. Consider the final scale, the y offset, posY, and the default ground line which is 25% of the frame's height below the frame. PosY is a percentage of the frame's height above the ground line. 
+			// Store the state of whether the sprite is ground using .grounded.
+			let finalY = 0;
+			if (shouldGround) {
+				const scaleLift = (frameH * (1 - finalScale)) / 2; // The amount the wprite shifts up when the sprite is scaled down.
+
+				const dataY = parseFloat(sprite.dataset.y); // pixels UP from bottom edge
+				const scaledYOffset = dataY * finalScale * frameH / naturalH;
+				const liftPx = (posY / 100) * frameH;
+
+				finalY = scaleLift + frameH * 0.25 + scaledYOffset - liftPx;
+				//console.log(finalY + "=" + scaleLift + "+" + frameH*0.25 + "+" + scaledYOffset + "-" + liftPx);
+			}
+
+			// STEP 4: Apply the combined transformation.
+			const finalFlip = (shouldFaceLeft || shouldFaceRight) ? flipFactor : 1;
+
+			// Explicitly reset origin to center to ensure predictable behavior
+			sprite.style.scale = `${finalScale * finalFlip} ${finalScale}`;
+			sprite.style.translate = `${finalX}px ${finalY}px`;
+		}
+
+
 		async function StageChange(url) {
 			await fadeLoadingScreen(true);
 			const stageEl = document.getElementById('stage-area');
@@ -4360,7 +4506,7 @@
 			});
 			// 20251226: StarTree: Double Click
 			document.addEventListener('dblclick', (e) => {
-				StageQuit(e);				
+				StageQuit(e);
 				showSplash(e);
 			});
 			// 20260110: Sasha: Resizing the main area when the command-panel is shown.
