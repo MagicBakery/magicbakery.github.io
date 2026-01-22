@@ -231,6 +231,7 @@
 			position: relative;
 			/* For positioning internal buttons */
 			font-size: 18px;
+			text-align: center;
 		}
 
 		.choice-entry.selected {
@@ -3158,26 +3159,27 @@
 		function ChoiceAdd(choice) {
 			// 20260118: StarTree: Adds a choice to the multitrack DOM so that it is easy to debug, save and load.
 			Multitrack()?.setAttribute(ChoiceName(choice), '');
+			console.log('@@ChoiceAdd: ' + ChoiceName(choice));
 			memDOM();
 		}
 		function ChoiceCheck(choice) {
 			// 20260118: StarTree: Returns true if the choice is active.
 			return Multitrack()?.hasAttribute(ChoiceName(choice));
 		}
-		function ChoiceCommit(e) {
-			const entry = e.target.closest('.choice-entry.selected');
-			if (!entry) return false;
-			e.stopPropagation();
+		function ChoiceCommit() {
+			const entry = document.querySelector('.choice-entry.selected');
+			if (!entry) return false;			
 			// If the entry is not at the top, return.
-			if (entry.parentNode.firstChild != entry) { return true; }
+			//if (entry.parentNode.firstChild != entry) { return true; }
+			entry.classList.remove('selected');
+			
 			const code = entry.dataset.code;
-
 			const choiceList = document.getElementById('choice-container');
 			choiceList.style.display = "none";
 			ChoiceAdd(code);
 			ChoiceBubblePop(null, true);
 			ScriptBubbleSpawning(null, true);
-			scriptSingleStep();
+			
 			return true;
 		}
 		function ChoiceEntry(code, choiceText) {
@@ -3990,7 +3992,8 @@
 			const prefix = line.charAt(0);
 
 			// 20260120: Natalie: If there is a selected choice, set bubble spawning to done.
-			if (document.querySelector('.choice-entry.selected')) { ScriptBubbleSpawning(null, true); }
+			ChoiceCommit();
+			
 
 			// 20260119: LRRH: If the engine is spawning bubbles and the prefix is not *, put the line back and return.
 
@@ -4357,8 +4360,7 @@
 			});
 			// 20251226: StarTree: Double Click
 			document.addEventListener('dblclick', (e) => {
-				StageQuit(e);
-				ChoiceCommit(e);
+				StageQuit(e);				
 				showSplash(e);
 			});
 			// 20260110: Sasha: Resizing the main area when the command-panel is shown.
