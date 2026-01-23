@@ -2380,24 +2380,30 @@
 
 		body:has(.choice-entry.selected) .stage-next-btn {
 			background-color: gold;
-			/*opacity: 0.75 !important;
-			animation: none !important;*/
+			animation: invisiblePulse 5s infinite;
 		}
 
 		@keyframes invisiblePulse {
-
+			0%,			
+			100% {
+				opacity: 0.5;
+			}
+			25%,50%,75%
+			 {
+				opacity: 0.0;
+			}
+		}
+		@keyframes selectedPulse {
 			0%,
 			25%,
 			75%,
 			100% {
-				opacity: 0.0;
-			}
-
-			50% {
 				opacity: 0.5;
 			}
 
-			/* Fades in and out for screenshots */
+			50% {
+				opacity: 0.0;
+			}
 		}
 
 		body:has(.card.card.is-active img.scaled) .scale-btn,
@@ -4257,10 +4263,17 @@
 			const remaining = line.substring(line.indexOf(' ', 1) + 1).trim();
 			return processScriptLine(remaining.trim());
 		}
-		function setActiveCard(card) {
+		async function setActiveCard(card) {
 			// 20260111: LRRH: Don't set active card if auto spawning with the notes tab open.
-
 			if (!card) return;
+			// 20260123: Natalie: Don't set another active card if the current command panel is dirty.
+			const dirt = document.querySelector('#command-panel .is-dirty');
+			if(dirt){
+				if(await showConfirm('You have unsaved changes on the active card. Return to save them first?')){return;}
+				dirt.classList.remove('is-dirty');
+			}
+
+
 			// 20260108: LRRH: Remove the active attribute from all cards then set this card to be active
 			document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
 			card.classList.add('is-active');
@@ -5339,7 +5352,7 @@
 			loadActiveCollections(); // Rebuilds the main DATA array from all checked paths
 
 			// Create card from the version now inside DATA (to ensure references match)
-			const finalItem = DATA.find(i => i.p === path);
+			const finalItem = DATA.find(i => i.p === pid);
 			if (finalItem) createCard(finalItem);
 		}
 		async function importFromURL(url) {
