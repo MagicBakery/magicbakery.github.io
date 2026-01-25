@@ -4279,32 +4279,31 @@
 			card.classList.add('is-active');
 
 			const activeCard = getActiveCardData();
-			if (!activeCard) { return; }
-			document.getElementById("card-img-url").value = activeCard.i || "";
-			document.getElementById("card-title").value = activeCard.n || "";
-
-			document.getElementById("card-id").value = activeCard.p || "";
-
-			if (activeCard.p != document.querySelector(".script-step-btn").dataset.p) {
-				SpeechBubbleShow(false);
-			};
-			document.getElementById("card-scale").value = activeCard.s || "1";
-			document.getElementById("card-path-url").value = activeCard.u || "";
-
-			const imgEl = card.querySelector('img');
-			const xVal = activeCard.x;
-			document.getElementById("card-x-offset").value = (xVal !== undefined && xVal !== null)
-				? xVal
-				: (imgEl ? Math.round(imgEl.naturalWidth / 2) : "");
-			document.getElementById("card-y-offset").value = activeCard.y || "0";
-
 			const cardNotes = document.getElementById("card-notes");
 
-			if ('notes' in card.dataset) {
-				cardNotes.dataset.notes = card.dataset.notes;
-			} else {
-				cardNotes.dataset.notes = activeCard.o || "";
+			// 20260123: Evelyn: Just use the data in the card if it is not found in DATA.
+			if (activeCard) {				 
+				document.getElementById("card-img-url").value = activeCard.i || "";
+				document.getElementById("card-title").value = activeCard.n || "";
+				document.getElementById("card-id").value = activeCard.p || "";
+				document.getElementById("card-scale").value = activeCard.s || "1";
+				document.getElementById("card-path-url").value = activeCard.u || "";
+				if (activeCard.p != document.querySelector(".script-step-btn").dataset.p) {
+					SpeechBubbleShow(false);
+				};
+				if ('notes' in card.dataset) {
+					cardNotes.dataset.notes = card.dataset.notes;
+				} else {
+					cardNotes.dataset.notes = activeCard.o || "";
+				}
+				const xVal = activeCard.x;
+				document.getElementById("card-x-offset").value = (xVal !== undefined && xVal !== null)
+					? xVal
+					: (imgEl ? Math.round(imgEl.naturalWidth / 2) : "");
+				document.getElementById("card-y-offset").value = activeCard.y || "0";
 			}
+
+			const imgEl = card.querySelector('img');			
 			cardNotes.value = decodeURIComponent(cardNotes.dataset.notes || "");
 			renderCardTags();
 
