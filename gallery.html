@@ -1267,6 +1267,9 @@
 			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 			display: inline-block;
 		}
+		.card:has(.scaled){
+			overflow:visible;
+		}
 
 		.card img {
 			height: 100%;
@@ -4277,10 +4280,10 @@
 			// 20260108: LRRH: Remove the active attribute from all cards then set this card to be active
 			document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
 			card.classList.add('is-active');
-
+			const imgEl = card.querySelector('img');		
 			const activeCard = getActiveCardData();
 			const cardNotes = document.getElementById("card-notes");
-
+			
 			// 20260123: Evelyn: Just use the data in the card if it is not found in DATA.
 			if (activeCard) {				 
 				document.getElementById("card-img-url").value = activeCard.i || "";
@@ -4303,7 +4306,7 @@
 				document.getElementById("card-y-offset").value = activeCard.y || "0";
 			}
 
-			const imgEl = card.querySelector('img');			
+					
 			cardNotes.value = decodeURIComponent(cardNotes.dataset.notes || "");
 			renderCardTags();
 
@@ -4384,8 +4387,7 @@
 
 			// STEP 1: Compute the final scaling needed considering if bScale is true.
 			// Store the state of whether the sprite is scaled using class .scaled.
-			const finalScale = shouldScale ? (720 / parseFloat(sprite.dataset.s)) : 1;
-			console.log(frameH);
+			const finalScale = shouldScale ? (0.7*naturalH / parseFloat(sprite.dataset.s)) : 1;			
 
 			// STEP 2: Compute the final X translation needed, consider the final scale, data.x, bLeft and the commanded posX. PosX is measured in percentage where 0 means center of the screen, 50 means the center of the right side of the screen. 
 			// If bLeft is undefined but posX is a number, set bLeft to true when X is >0, set bLeft to false when x is <0, and toggle bLeft (.left abd .right) when posX is 0.
