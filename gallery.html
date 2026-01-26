@@ -6,8 +6,8 @@
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
 	<script>
-		const APP_VERSION = "20260125164200"; //#Version
-		const APP_ANNOUNCEMENT = "20260125: Actor On Stage."
+		const APP_VERSION = "20260126012300"; //#Version
+		const APP_ANNOUNCEMENT = "20260126: Public Script Support."
 	</script>
 	<style>
 		:root {
@@ -539,9 +539,9 @@
 			outline: 2px solid #00ff00;
 		}
 
-		#card-notes {
+		.card-textarea {
 			width: 100%;
-			height: 200px;
+			height: 172px;
 			/* Adjust based on sidebar height */
 			background: rgba(255, 255, 255, 0.05);
 			border: 1px solid var(--border);
@@ -550,11 +550,17 @@
 			border-radius: 8px;
 			resize: none;
 			font-family: inherit;
+			font-size: 16px;
 			line-height: 1.5;
 			outline: none;
+			overflow-y: auto;
 		}
 
-		#command-panel:has(.is-dirty) #card-notes:focus {
+		.card-textarea.active {
+			border: 1px solid gold;
+		}
+
+		#command-panel:has(.unsaved) .card-textarea:focus {
 			border-color: var(--gold);
 		}
 
@@ -578,7 +584,7 @@
 		}
 
 		/* The "Dirty" State: When user has typed but not saved */
-		#command-panel:has(.is-dirty) .save-notes-btn {
+		#command-panel:has(.unsaved) .save-notes-btn {
 			color: var(--gold);
 			border: 3px solid gold;
 
@@ -588,7 +594,7 @@
 			box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
 		}
 
-		#command-panel:has(.is-dirty) .save-notes-btn:hover {
+		#command-panel:has(.unsaved) .save-notes-btn:hover {
 			background: rgba(255, 215, 0, 0.1);
 		}
 
@@ -1602,7 +1608,7 @@
 		#active-preview-thumb {
 			width: 32px;
 			height: 32px;
-			object-fit: cover;
+			object-fit: contain;
 			border-radius: 4px;
 			/*border: 1px solid #ffd700;*/
 			/* A little gold border to match the star theme */
@@ -2783,7 +2789,7 @@
 				</svg>
 			</button>
 			<button class="tab-btn" onclick="toggleTab(event,'tab-dev-notes')">
-				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+				<svg width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
 					stroke-linecap="round" stroke-linejoin="round" style="transform: scale(1.1);">
 					<path d="M12 3v3m0 12v3M5.3 5.3l2.1 2.1m9.2 9.2l2.1 2.1M3 12h3m12 0h3m-15.7 6.7l2.1-2.1m9.2-9.2l2.1-2.1"
 						opacity="0.5" />
@@ -2800,18 +2806,32 @@
 					inputmode="text" oninput="updateAssignmentUI()" onkeydown="handleTagKey(event)">
 				<input type="text" id="card-title" placeholder="Display Title" title="Title (n)">
 				<div class="notes-panel">
-					<button class="notes-btn" onClick="NoteLineSwap(true)" title="Move line up">
+					<div style="float:right;margin-bottom:2px">
+						<button class="notes-btn" onclick="scriptSingleStep()" title="Run as Script">Run</button>
+						<button class="notes-btn" onclick="PanelTextareaResize(this)"
+							title="Notes/Script Display Ratio">3:1</button>
+						<button class="notes-btn" style="width:55px" onclick="ScriptPublish(this)"
+							title="Publish Script">Publish</button>
+					</div>
+
+					<button class="notes-btn" onclick="NoteLineSwap(true)" title="Move line up">
 						<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
 							<polygon points="0,100 50,10 100,100" fill="currentColor" />
 						</svg>
 					</button>
-					<button class="notes-btn" onClick="NoteLineSwap(false)" title="Move line down">
+					<button class="notes-btn" onclick="NoteLineSwap(false)" title="Move line down">
 						<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
 							<polygon points="0,10 50,100 100,10" fill="currentColor" />
 						</svg>
 					</button>
-					<textarea id="card-notes" class="" oninput="markDirty(this)"
-						style="resize:none;height:172px; font-size:16px;overflow-y: auto;" placeholder="Notes"></textarea>
+					
+
+					<div style="display:flex;clear:right">
+						<textarea id="card-notes" class="card-textarea" onfocus="PanelTextareaActivate(this)"
+							oninput="markDirty(this)" style="flex: 3 3 0%" placeholder="User Notes"></textarea>
+						<textarea id="card-script" class="card-textarea" onfocus="PanelTextareaActivate(this)"
+							oninput="markDirty(this)" style="flex: 1 1 0%" placeholder="Official Script"></textarea>
+					</div>
 				</div>
 
 
@@ -3332,7 +3352,7 @@
 			// 20260118: StarTree: Adds a choice to the multitrack DOM so that it is easy to debug, save and load.
 			const forbiddenChars = /[\s"'><\/=]/;
 			if (forbiddenChars.test(choice)) {
-				DEBUG("RETURN: Choice contains invalid attribute characters.",true);
+				DEBUG("RETURN: Choice contains invalid attribute characters.", true);
 				return;
 			}
 			Multitrack()?.setAttribute(ChoiceName(choice), '');
@@ -3499,7 +3519,7 @@
 			if (!imgURL || imgURL.trim() == "") { imgURL = item.u; }
 			if (!imgURL || imgURL.trim() == "") { imgURL = item.p; }
 			return getFullResURL(imgURL);
-		}
+		}		
 		function DEBUG(msg, bCompact) {
 			// 20260125: Evelyn: Help locate where all the console log are and where they are called.
 			if (bCompact) { console.log(msg); return; }
@@ -4159,24 +4179,54 @@
 			return multitrack;
 		}
 		function NoteLineSwap(bUp) {
-			// 20260125: Skyle: Moves the selected line up the notes if it is not already at the top.			
-			const elNotes = document.getElementById('card-notes');
-			const text = elNotes.value;
-			const start = elNotes.selectionStart;
+			// 20260125: Skyle: Moves the selected line up the notes if it is not already at the top.
+			const elFrame = document.querySelector('.card-textarea.active');
+			if (!elFrame || !elFrame.checkVisibility()) return;
+			const text = elFrame.value;
+			const start = elFrame.selectionStart;
 			const lines = text.split('\n');
 			const currentLineIndex = text.substring(0, start).split('\n').length - 1;
 			const targetIndex = bUp ? currentLineIndex - 1 : currentLineIndex + 1;
 			if (targetIndex < 0 || targetIndex >= lines.length) return;
-			elNotes.classList.toggle('active', true);
+			elFrame.classList.toggle('active', true);
 			const temp = lines[currentLineIndex];
 			lines[currentLineIndex] = lines[targetIndex];
 			lines[targetIndex] = temp;
-			elNotes.value = lines.join('\n');
+			elFrame.value = lines.join('\n');
 			const lineToJump = lines[currentLineIndex];
 			const shift = (lineToJump.length + 1) * (bUp ? -1 : 1);
-			elNotes.selectionStart = elNotes.selectionEnd = start + shift;
-			elNotes.classList.add('is-dirty');
-			elNotes.focus();
+			elFrame.selectionStart = elFrame.selectionEnd = start + shift;
+			elFrame.classList.add('unsaved');
+			elFrame.focus();
+		}
+		function PanelTextareaActivate(elThis) {
+			// 20260125: Mark the current one active and the other one not active.
+			const elFrame = elThis.closest('.notes-panel');
+			elFrame.querySelectorAll('.card-textarea').forEach(n => {
+				n.classList.remove('active');
+			});
+			elThis.classList.add('active');
+		}
+		function PanelTextareaResize(elThis) {
+			// 20260125: Cycles through the display ratios of the user notes and script areas.
+			const elNotes = document.getElementById('card-notes');
+			const elScript = document.getElementById('card-script');
+			let flexN = elNotes.style.flex;
+			let curRatio = elThis.innerText;
+			switch (curRatio) {
+				case '0:4': flexN = 1; break;
+				case '1:3': flexN = 2; break;
+				case '2:2': flexN = 3; break;
+				case '3:1': flexN = 4; break;
+				case '4:0': flexN = 0; break;
+				default: flexN = 3;
+			}
+			const flexS = 4 - flexN;
+			elNotes.style.flex = `${flexN} ${flexN} 0%`;
+			elScript.style.flex = `${flexS} ${flexS} 0%`;
+			elNotes.style.display = flexN == 0 ? 'none' : 'block';
+			elScript.style.display = flexS == 0 ? 'none' : 'block';
+			elThis.innerHTML = `${flexN}:${flexS}`;
 		}
 		function playSound(name, rate = 1.0, shouldLoop = false) {
 			const keys = soundMap[name];
@@ -4371,11 +4421,17 @@
 			e.stopPropagation();
 			const activeCard = document.querySelector(".card.is-active");
 			if (!activeCard) { return; }
-			const textArea = document.getElementById("card-notes");
-			activeCard.dataset.notes = encodeURIComponent(textArea.value);
-			textArea.dataset.notes = activeCard.dataset.notes
+			const cardNotes = document.getElementById("card-notes");
+			activeCard.dataset.notes = encodeURIComponent(cardNotes.value);
+			cardNotes.dataset.original = activeCard.dataset.notes;
+			cardNotes.classList.remove("unsaved");
+
+			const cardScript = document.getElementById("card-script");
+			activeCard.dataset.script = encodeURIComponent(cardScript.value);
+			cardScript.dataset.original = activeCard.dataset.script;
+			cardScript.classList.remove("unsaved");
+
 			activeCard.classList.add("pinned");
-			textArea.classList.remove("is-dirty");
 			saveMetadata();
 			memDOM();
 		}
@@ -4383,14 +4439,23 @@
 			const card = getActiveCard();
 			activeCardData = getActiveCardData();
 			if (!activeCardData) return;
+			activeCardData.c = encodeURIComponent(document.getElementById('card-script').value);
 			activeCardData.i = document.getElementById('card-img-url').value.trim();
 			activeCardData.n = document.getElementById('card-title').value.trim();
 			activeCardData.o = encodeURIComponent(document.getElementById('card-notes').value);
 			activeCardData.p = document.getElementById('card-id').value.trim();
-			activeCardData.s = document.getElementById('card-scale').value.trim();
+			activeCardData.s = Number(document.getElementById('card-scale').value.trim());
 			activeCardData.u = document.getElementById('card-path-url').value.trim();
-			activeCardData.x = document.getElementById('card-x-offset').value.trim();
-			activeCardData.y = document.getElementById('card-y-offset').value.trim();
+			activeCardData.x = Number(document.getElementById('card-x-offset').value.trim());
+			activeCardData.y = Number(document.getElementById('card-y-offset').value.trim());
+
+			const fields = ['c','i','n','o','p','s','u','x','y'];
+			fields.forEach( field => {
+				const val = activeCardData[field];
+				if(val===""){delete activeCardData[field];}
+			});
+			//if(activeCardData.c==0){delete activeCardData.c;}
+			//if(activeCardData.y==0){delete activeCardData.y;}
 
 			// Update the visual card immediately if the image changed
 			card.dataset.id = activeCardData.p;
@@ -4430,6 +4495,68 @@
 		function ScriptEngine() {
 			return document.querySelector('.script-step-btn');
 		}
+		async function ScriptPublish(elThis) {
+			// 20250125: StarTree: Save the data in "Publish" spec that does not include user notes. Show additional messages to inform the user what the button is for.
+
+			if (!await showConfirm("This will save a copy of the data with the scripts without your user notes. Continue?")) return;
+			// Check for unsaved script box
+			const elScript = document.getElementById('card-script');
+			if (elScript.classList.contains('unsaved')) {
+				if (!await showConfirm("You have unsaved changes at the script edit box. Continue?")) { return; }
+			}
+			// Confirm the collection selection
+			let strCollectionList = "";
+			const collections = document.querySelectorAll('.path-entry:has([checked])');
+			let i = 1;
+			collections.forEach(c => {
+				const title = c.querySelector('.path-text').innerText;
+				strCollectionList += i + ") " + title + "\n";
+				i++;
+			});
+			// Confirm the filter selections 
+			let strTags = "";
+			const tagCloud = document.getElementById('tag-cloud');
+			const tags = tagCloud.querySelectorAll('.tag-pill.active');
+			tags.forEach(t => {
+				if (strTags != "") { strTags += ", "; }
+				strTags += t.dataset.tag;
+			});
+			// Confirm the number of items
+			const q = document.getElementById('master-search').value.toLowerCase();
+			const fileList = document.getElementById('file-list');
+			const files = fileList.querySelectorAll('.file-item');
+
+			if (!await showConfirm(`This will export the data of ${files.length} card(s) from ${collections.length} collection(s):\n${strCollectionList}filtered with ${tags.length} tag(s): ${strTags} containing tag keyword "${q}". Continue?`)) { return; }
+
+			const filtered = DATA
+				.filter(i => {
+					// 1. Check if item has all active tags
+					const matchesActive = Array.from(activeTags).every(at => i.t.includes(at));
+					// 2. Check if it matches the search query 'q'
+					return matchesActive && (q === "" || i.t.some(it => it.toLowerCase().includes(q)));
+				})
+				.map(item => {
+					// 3. Create a copy WITHOUT 'o'
+					// This pulls 'o' out and puts everything else into a new object called 'cleanItem'
+					const { o, ...cleanItem } = item;
+					return cleanItem;
+				});
+
+			document.body.style.cursor = 'wait';
+			let dataToExport = filtered;			
+
+			// standard Download Logic
+			const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
+			const a = document.createElement('a');
+			a.href = URL.createObjectURL(blob);
+			a.download = `Script_Export_${new Date().toISOString().slice(0, 10)}.json`;
+			a.click();
+
+			// 5. Cleanup
+			document.body.style.cursor = 'default';
+			setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+
+		}
 		async function scriptSingleStep(elThis) {
 			// 20260111: Sasha: Runs the next command in the script
 			// STEP 1: Store the node ID and the Script to the button if they are different from what the button has.
@@ -4441,7 +4568,22 @@
 			if (!nodeID) { return false; }
 			if (nodeID != elThis.dataset.p) {// || elThis.dataset.mode == "rewind") {
 				elThis.dataset.p = nodeID;
-				elThis.dataset.script = document.getElementById("card-notes").value || "";
+
+				// 20260125: StarTree: Prioritize running the side that is selected. 				
+				const elNotes = document.getElementById("card-notes");
+				const elScript = document.getElementById("card-script");
+				let scriptToRun = "";
+				if (elNotes.classList.contains('active')) {
+					scriptToRun = elNotes.value;
+				} else if (elScript.classList.contains('active')) {
+					scriptToRun = elScript.value;
+				} else if (elScript.value.trim() != '') {
+					// If neither is selected, prioritize the official script.
+					scriptToRun = elScript.value;
+				} else {
+					scriptToRun = elNotes.value;
+				}
+				elThis.dataset.script = scriptToRun;
 				elThis.removeAttribute('SE-BubbleSpawning');
 			}
 			// STEP: Pop the top line and process it.
@@ -4488,10 +4630,10 @@
 			// 20260111: LRRH: Don't set active card if auto spawning with the notes tab open.
 			if (!card) return;
 			// 20260123: Natalie: Don't set another active card if the current command panel is dirty.
-			const dirt = document.querySelector('#command-panel .is-dirty');
+			const dirt = document.querySelector('#command-panel .unsaved');
 			if (dirt) {
 				if (await showConfirm('You have unsaved changes on the active card. Return to save them first?')) { return; }
-				dirt.classList.remove('is-dirty');
+				dirt.classList.remove('unsaved');
 			}
 
 
@@ -4501,31 +4643,36 @@
 			const imgEl = card.querySelector('img');
 			const activeCard = getActiveCardData();
 			const cardNotes = document.getElementById("card-notes");
-
+			const cardScript = document.getElementById("card-script");
 			// 20260123: Evelyn: Just use the data in the card if it is not found in DATA.
 			if (activeCard) {
 				document.getElementById("card-img-url").value = activeCard.i || "";
 				document.getElementById("card-title").value = activeCard.n || "";
 				document.getElementById("card-id").value = activeCard.p || "";
-				document.getElementById("card-scale").value = activeCard.s || "1";
+				document.getElementById("card-scale").value = activeCard.s;
 				document.getElementById("card-path-url").value = activeCard.u || "";
 				if (activeCard.p != document.querySelector(".script-step-btn").dataset.p) {
 					SpeechBubbleShow(false);
 				};
 				if ('notes' in card.dataset) {
-					cardNotes.dataset.notes = card.dataset.notes;
+					cardNotes.dataset.original = card.dataset.notes;
 				} else {
-					cardNotes.dataset.notes = activeCard.o || "";
+					cardNotes.dataset.original = activeCard.o || "";
+				}
+				if ('script' in card.dataset) {
+					cardScript.dataset.original = card.dataset.script;
+				} else {
+					cardScript.dataset.original = activeCard.c || "";
 				}
 				const xVal = activeCard.x;
-				document.getElementById("card-x-offset").value = (xVal !== undefined && xVal !== null)
+				/*document.getElementById("card-x-offset").value = (xVal !== undefined && xVal !== null)
 					? xVal
-					: (imgEl ? Math.round(imgEl.naturalWidth / 2) : "");
-				document.getElementById("card-y-offset").value = activeCard.y || "0";
+					: (imgEl ? Math.round(imgEl.naturalWidth / 2) : "");*/
+				document.getElementById("card-x-offset").value = activeCard.x;
+				document.getElementById("card-y-offset").value = activeCard.y;
 			}
-
-
-			cardNotes.value = decodeURIComponent(cardNotes.dataset.notes || "");
+			cardNotes.value = decodeURIComponent(cardNotes.dataset.original || "");
+			cardScript.value = decodeURIComponent(cardScript.dataset.original || "");
 			renderCardTags();
 
 			// Mirror Thumbnail.
@@ -4658,10 +4805,10 @@
 			sprite.style.scale = `${finalScale * finalFlip} ${finalScale}`;
 			sprite.style.translate = `${finalX}px ${finalY}px`;
 		}
-		function StageActorsOff(){
+		function StageActorsOff() {
 			const stageEl = document.getElementById('stage-area');
 			// Deactivate all actors.
-			stageEl.querySelectorAll('.actor.active').forEach(a=>{a.classList.remove('active');});
+			stageEl.querySelectorAll('.actor.active').forEach(a => { a.classList.remove('active'); });
 		}
 		async function StageChange(url) {
 			await fadeLoadingScreen(true);
@@ -4698,7 +4845,7 @@
 			// 20260125: Sasha: By default, the stage scene is the script card's cover image.
 			let scene = null;
 			args = args.toUpperCase().trim() || "SEASON";
-			
+
 			if (args === "THIS") {
 				scene = getActiveCardData();
 			} else if (args === "SEASON") {
@@ -4710,7 +4857,7 @@
 				scene = DATABestMatch(["[SCENE]"], [curSeason, curMonthName]);
 			} else if (args === "USER") {
 				scene = FilterDraw();
-			} else if(isOnlyDigits(args)) {
+			} else if (isOnlyDigits(args)) {
 				// Assume it is the ID
 				scene = DATAByID(args);
 			}
@@ -4795,7 +4942,7 @@
 			String.prototype.between = function (substring1, substring2) {
 				return this.rightOf(substring1).leftOf(substring2);
 			}
-			String.prototype.isOnlyDigits = function() {
+			String.prototype.isOnlyDigits = function () {
 				return /^\d+$/.test(this);
 			};
 			String.prototype.leftOf = function (substring) {
@@ -5015,12 +5162,12 @@
 		}
 		function markDirty(elThis) {
 			// 20251230: Cardinal
-			const savedValue = elThis.dataset.notes || "";
+			const savedValue = elThis.dataset.original || "";
 			const currentValue = encodeURIComponent(elThis.value || "");
 			if (savedValue !== currentValue) {
-				elThis.classList.add('is-dirty');
+				elThis.classList.add('unsaved');
 			} else {
-				elThis.classList.remove('is-dirty');
+				elThis.classList.remove('unsaved');
 			}
 			elThis.classList.add('active');
 		}
@@ -6495,7 +6642,6 @@
 			document.body.style.cursor = 'default';
 			setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 
-			// --- THE FIX: COMBINED FINAL TOAST ---
 			let finalMsg = `Exported ${filtered.length} items.`;
 			if (failCount > 0) {
 				finalMsg += ` (${failCount} images kept as URLs due to CORS)`;
