@@ -6,8 +6,8 @@
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
 	<script>
-		const APP_VERSION = "202601220643"; //#Version
-		const APP_ANNOUNCEMENT = "20260122: Sprite Scale, X and Y Offsets."
+		const APP_VERSION = "20260125164200"; //#Version
+		const APP_ANNOUNCEMENT = "20260125: Actor On Stage."
 	</script>
 	<style>
 		:root {
@@ -466,6 +466,22 @@
 
 		.script-step-btn:active {
 			transform: scale(0.8) rotate(-10deg);
+		}
+
+		.notes-btn {
+			background: none;
+			border-radius: 10px;
+			color: var(--text-dim);
+			cursor: pointer;
+			display: none;
+			font-size: 12px;
+			padding: 2px 5px;
+			height: 24px;
+			width: 36px;
+		}
+
+		.notes-panel:focus-within .notes-btn {
+			display: inline-block;
 		}
 
 		.tab-btn {
@@ -1267,8 +1283,9 @@
 			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 			display: inline-block;
 		}
-		.card:has(.scaled){
-			overflow:visible;
+
+		.card:has(.scaled) {
+			overflow: visible;
 		}
 
 		.card img {
@@ -1306,13 +1323,6 @@
 		body.max-width .card {
 			width: 98%;
 			height: auto;
-		}
-
-		.card img {
-			height: 100%;
-			width: auto;
-			object-fit: contain;
-			display: block;
 		}
 
 		body.max-width .card img {
@@ -2381,22 +2391,62 @@
 			animation: none !important;
 		}
 
+		.actor {
+			position: absolute;
+			bottom: 0;
+			/* Anchors the container to the floor */
+			left: 50%;
+			/* Anchors the container to the horizontal center */
+			width: 0;
+			/* Zero size container so it doesn't block clicks */
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: flex-end;
+			pointer-events: none;
+			opacity: 0;
+			visibility: none;
+			transition: opacity 1s ease-in-out, visibility 1s;
+
+		}
+
+		.stage-area.active .actor.active {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.actor img {
+			position: absolute;
+			pointer-events: auto;
+			/*transform-origin: center bottom;*/
+			/* Optional, since you are moving to 50% 50% logic */
+			max-width: none;
+			height: 100%;
+			/* Prevents the image from being squished */
+		}
+
+
 		body:has(.choice-entry.selected) .stage-next-btn {
 			background-color: gold;
 			animation: invisiblePulse 5s infinite;
 		}
 
 		@keyframes invisiblePulse {
-			0%,			
+
+			0%,
 			100% {
 				opacity: 0.5;
 			}
-			25%,50%,75%
-			 {
+
+			25%,
+			50%,
+			75% {
 				opacity: 0.0;
 			}
 		}
+
 		@keyframes selectedPulse {
+
 			0%,
 			25%,
 			75%,
@@ -2749,8 +2799,21 @@
 				<input type="text" id="assign-tag-input" placeholder="Add Tag" style="display:none" enterkeyhint="go"
 					inputmode="text" oninput="updateAssignmentUI()" onkeydown="handleTagKey(event)">
 				<input type="text" id="card-title" placeholder="Display Title" title="Title (n)">
-				<textarea id="card-notes" class="" oninput="markDirty(this)"
-					style="resize:none;height:172px; font-size:16px;overflow-y: auto;" placeholder="Notes"></textarea>
+				<div class="notes-panel">
+					<button class="notes-btn" onClick="NoteLineSwap(true)" title="Move line up">
+						<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
+							<polygon points="0,100 50,10 100,100" fill="currentColor" />
+						</svg>
+					</button>
+					<button class="notes-btn" onClick="NoteLineSwap(false)" title="Move line down">
+						<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
+							<polygon points="0,10 50,100 100,10" fill="currentColor" />
+						</svg>
+					</button>
+					<textarea id="card-notes" class="" oninput="markDirty(this)"
+						style="resize:none;height:172px; font-size:16px;overflow-y: auto;" placeholder="Notes"></textarea>
+				</div>
+
 
 				<div class="card-details" style="display:none">
 					<div style="display:flex">
@@ -2967,7 +3030,6 @@
 		</div>
 	</div>
 	<div id="stage-area" class="stage-area">
-		<div id="actor-layer"></div>
 	</div>
 
 	<div id="stage-ui" class="stage-ui">
@@ -3127,6 +3189,7 @@
 			});
 
 			// STEP: Content ready to be shown			
+			summonQuickCast();
 			summonFairyQueen();
 			summonGateGuardian();
 		};
@@ -3175,15 +3238,106 @@
 			// 5. Add to the container
 			container.appendChild(newBtn);
 		}
+		function ActorData(name, filters) {
+			// 20260125: Tanya: Returns the DATA item that has the actor image data.
+			if (typeof filters === 'string') filters = filters.split(' ');
+			name = name.toUpperCase();
+			let topMatches = [];
+			let topScore = -1;
+			// For each item in DATA, find one that has "[ACTOR]" tag and "NAME" tag.
+			// Skip the ones that don't even have those two required tags.
+			// Then check each tag in filters one by one, if it has it, increment its matching score. If it scores equal to the current topMatch, add it to the list of topMatches.
+			// If it scores higher, flush the current topMatches and add it as the only.
+
+			DATA.forEach(item => {
+				// 1. Mandatory Tag Check
+				// Assuming item.tags is an array. If it's a string, use item.tags.includes()
+				const tags = item.t || [];
+				const hasActorTag = tags.includes('[ACTOR]');
+				const hasNameTag = tags.includes(name);
+				if (!hasActorTag || !hasNameTag) return;
+				// 2. Scoring Logic
+				let currentScore = 0;
+				filters.forEach(f => {
+					if (tags.includes(f)) {
+						currentScore++;
+					}
+				});
+				// 3. Comparison Logic
+				if (currentScore > topScore) {
+					// Higher score found: Flush and replace
+					topScore = currentScore;
+					topMatches = [item];
+				} else if (currentScore === topScore) {
+					// Equal score: Add to pool
+					topMatches.push(item);
+				}
+			});
+			if (topMatches.length === 0) return null;
+			const randomIndex = Math.floor(Math.random() * topMatches.length);
+			return topMatches[randomIndex];
+		}
+		function ActorSet(command) {
+			// 20260125: Evelyn: Process a script command line that starts with @.
+			// Here the @ at the beginning is already removed.
+			// STEP: Get the name of the actor.
+			let actorName = command.leftOf(' ').trim();
+			let rest = command.rightOf(actorName).trim();
+
+			if (!actorName) { DEBUG("Actor is missing in: @" + command); }
+			// STEP: If the actor is not already on stage, bring it on stage.
+			const elStage = document.getElementById('stage-area');
+			let actor = elStage.querySelector(`.actor[data-name="${actorName}" i]`);
+			let filters = [];
+
+			// If the command is it get the actor off stage
+			let arg1 = rest.toUpperCase();
+			if (rest === '!OFF') { if (actor) { actor.remove(); } return true; }
+
+			if (!actor) {
+				actor = document.createElement('div');
+				const img = document.createElement('img');
+				actor.className = 'actor';
+				actor.dataset.name = actorName;
+				const actorData = ActorData(actorName, filters);
+
+				if (actorData) {
+					actor.dataset.p = actorData.p;
+					actor.dataset.i = getFullResURL(actorData.u);
+					img.src = actor.dataset.i;
+					img.dataset.s = actorData.s || 700;
+					img.dataset.x = actorData.x || (img.naturalWidth / 2);
+					img.dataset.y = actorData.y || 0;
+				}
+				// Make the img code inside the actor div, and run SpriteOnStage for the img.
+				actor.append(img);
+				elStage.append(actor);
+				if (actorData.x >= 0) {
+					// Enter from right and face left.
+					SpriteOnStage(img, 0, 0, true, true, true);
+				} else {
+					// Enter from left and face right.
+					SpriteOnStage(img, 0, 0, true, false, true);
+				}
+			}
+
+
+			// STEP: Clear the active status of all other actors on stage, and set this to be active.
+			elStage.querySelectorAll('.actor').forEach(a => { a.classList.remove('active'); });
+			actor.classList.add('active');
+			// STEP: Process the rest of the command			
+			return processScriptLine(rest);
+		}
 		function ChoiceAdd(choice) {
 			// 20260118: StarTree: Adds a choice to the multitrack DOM so that it is easy to debug, save and load.
 			const forbiddenChars = /[\s"'><\/=]/;
 			if (forbiddenChars.test(choice)) {
-				console.log("RETURN: Choice contains invalid attribute characters.");
+				DEBUG("RETURN: Choice contains invalid attribute characters.",true);
 				return;
 			}
 			Multitrack()?.setAttribute(ChoiceName(choice), '');
-			console.log('@@ChoiceAdd: ' + ChoiceName(choice));
+
+			DEBUG('@@ChoiceAdd: ' + ChoiceName(choice), true);
 			memDOM();
 		}
 		function ChoiceCheck(choice) {
@@ -3210,15 +3364,14 @@
 			const div = document.createElement('div');
 			div.className = 'choice-entry';
 			div.dataset.code = code;
-
-			div.innerHTML = `
-    <span class="choice-label">${choiceText}</span>
-    <div class="choice-actions">
-      <!--<button class="confirm-btn" onclick="ChoiceCommit('${code}')">✔</button>-->
-      <!--<button class="dismiss-btn" onclick="this.parentElement.parentElement.remove()">✖</button>-->
-    </div>
-  `;
-
+			const content = `
+				<span class="choice-label">${choiceText}</span>
+				<div class="choice-actions">
+					<!--<button class="confirm-btn" onclick="ChoiceCommit('${code}')">✔</button>-->
+					<!--<button class="dismiss-btn" onclick="this.parentElement.parentElement.remove()">✖</button>-->
+				</div>
+			`;
+			div.innerHTML = content;
 			div.onclick = (e) => {
 				// Prevent the buttons from triggering the "bump" logic
 				if (e.target.tagName === 'BUTTON') return;
@@ -3303,12 +3456,61 @@
 			bubble.dataset.choiceText = choiceText;
 			document.body.appendChild(bubble);
 		}
+		function DATABestMatch(requiredTags, optionalTags) {
+			// 20260125: Sasha: Returns the best match in an array of items, where item.t has an array of tags in upper case.
+			// Scoring: The candidate must have the required tags given in an array to have a score of 0. Then for each optional tag it has, add 1 point.
+			// When the result candidate list has more than one item, pick one randomly.
+			let candidates = [];
+			let bestScore = -1;
+			DATA.forEach(item => {
+				const tags = item.t || [];
+				const hasAllRequired = requiredTags.every(req => tags.includes(req.toUpperCase()));
+				if (hasAllRequired) {
+					// 2. Calculate Optional Score: +1 for every matching optional tag
+					let currentScore = 0;
+					optionalTags.forEach(opt => {
+						if (tags.includes(opt.toUpperCase())) {
+							currentScore++;
+						}
+					});
+
+					// 3. Update Candidates List
+					if (currentScore > bestScore) {
+						// Found a new "Best" - clear the old ones and start fresh
+						bestScore = currentScore;
+						candidates = [item];
+					} else if (currentScore === bestScore) {
+						// Tied with current "Best" - add to the pool for random selection
+						candidates.push(item);
+					}
+				}
+
+			});
+			if (candidates.length === 0) return null;
+			const randomIndex = Math.floor(Math.random() * candidates.length);
+			return candidates[randomIndex];
+		}
+		function DATAByID(id) {
+			return DATA.find(item => item.p === id);
+		}
 		function DATAFullResURL(item) {
 			// 20260119: Sasha: Given a DATA object, return the full res URL of its image.
 			let imgURL = item.i;
-			if (!imgURL || imgURL.trim() !== "") { imgURL = item.u; }
-			if (!imgURL || imgURL.trim() !== "") { imgURL = item.p; }
+			if (!imgURL || imgURL.trim() == "") { imgURL = item.u; }
+			if (!imgURL || imgURL.trim() == "") { imgURL = item.p; }
 			return getFullResURL(imgURL);
+		}
+		function DEBUG(msg, bCompact) {
+			// 20260125: Evelyn: Help locate where all the console log are and where they are called.
+			if (bCompact) { console.log(msg); return; }
+			const err = new Error();
+			const stack = err.stack.split('\n');
+			const callerLine = stack[2].trim();
+			console.log(`[${callerLine}]`, msg);
+			// Show Toast if the callierLine contains "file:///"
+			if (callerLine.indexOf('file:///') > -1) {
+				showToast(`[${callerLine}] ${msg}`);
+			}
 		}
 		function exportMultiTrack() {
 			// 20260104: Sasha: Export MultiTrack if it is not empty. If it is empty, import.
@@ -3514,12 +3716,12 @@
 				}
 
 				// 1. Remove from the master DATA array
-				DATA = DATA.filter(item => item.u !== idToRemove);
+				DATA = DATA.filter(item => item.p !== idToRemove);
 
 				// 2. Also remove it from the [Orphan Files] in savedPaths so it stays gone
 				savedPaths.forEach(entry => {
 					if (entry.data) {
-						entry.data = entry.data.filter(item => item.u !== idToRemove);
+						entry.data = entry.data.filter(item => item.p !== idToRemove);
 					}
 				});
 
@@ -3582,14 +3784,14 @@
 				moodClasses.forEach(c => bubble.classList.remove(c));
 			}*/
 
-			console.log("CSS Registry and Styles flushed.");
+			DEBUG("CSS Registry and Styles flushed.", true);
 		}
 		function flushSounds() {
 			// Clear the object
 			for (let key in soundLibrary) {
 				delete soundLibrary[key];
 			}
-			console.log("Sound library cleared.");
+			DEBUG("Sound library cleared.", true);
 		}
 		function getFullResURL(url) {
 			// 20260110: Sasha: Given the url, get the full resolution URL.
@@ -3766,8 +3968,8 @@
 				const renderedHeight = img.offsetHeight || naturalHeight; // Current visible height
 				const internalPercent = (naturalHeight && yOffset) ? (yOffset / naturalHeight) * 100 : 0;
 				const externalPercent = (groundPos / renderedHeight) * 100;
-				console.log(groundPos + " " + renderedHeight);
-				console.log(internalPercent + " " + externalPercent);
+
+
 				const finalTranslateY = internalPercent - externalPercent;
 				const currentXOrigin = img.style.transformOrigin.split(' ')[0] || "50%";
 				img.style.transformOrigin = `${currentXOrigin} ${100 - internalPercent}%`;
@@ -3780,7 +3982,6 @@
 				document.querySelector(".ground-btn").innerHTML = "-"
 			}
 		}
-
 		function ImageScale(bScale) {
 			const curImg = getActiveCard().querySelector('img');
 			const curScaled = curImg.classList.contains('scaled');
@@ -3877,7 +4078,7 @@
 			const cleanCSS = cssCode.replace(/transformtransform/g, 'transform').trim();
 			styleTag.textContent += "\n" + cleanCSS;
 			injectedCSS.add(cssCode);
-			console.log("New CSS appended to library.");
+			DEBUG("New CSS appended to library.", true);
 		}
 		function isHidden(elID) {
 			const el = document.getElementById(elID);
@@ -3957,6 +4158,26 @@
 			}
 			return multitrack;
 		}
+		function NoteLineSwap(bUp) {
+			// 20260125: Skyle: Moves the selected line up the notes if it is not already at the top.			
+			const elNotes = document.getElementById('card-notes');
+			const text = elNotes.value;
+			const start = elNotes.selectionStart;
+			const lines = text.split('\n');
+			const currentLineIndex = text.substring(0, start).split('\n').length - 1;
+			const targetIndex = bUp ? currentLineIndex - 1 : currentLineIndex + 1;
+			if (targetIndex < 0 || targetIndex >= lines.length) return;
+			elNotes.classList.toggle('active', true);
+			const temp = lines[currentLineIndex];
+			lines[currentLineIndex] = lines[targetIndex];
+			lines[targetIndex] = temp;
+			elNotes.value = lines.join('\n');
+			const lineToJump = lines[currentLineIndex];
+			const shift = (lineToJump.length + 1) * (bUp ? -1 : 1);
+			elNotes.selectionStart = elNotes.selectionEnd = start + shift;
+			elNotes.classList.add('is-dirty');
+			elNotes.focus();
+		}
 		function playSound(name, rate = 1.0, shouldLoop = false) {
 			const keys = soundMap[name];
 			if (!keys || keys.size === 0) return;
@@ -3978,18 +4199,20 @@
 		}
 		function processScriptCommands(line) {
 			//if (!inputString.startsWith('!')) return false;
+			const command = line.leftOf(' ').trim().toUpperCase();
+			const after1 = line.trim().rightOf(' ').trim();
+			const arg1 = after1.leftOf(' ').trim().toUpperCase();
+
 			const parts = line.split('!');
 			const secondMarkerIndex = line.indexOf('!', 1);
 			const thirdMarkerIndex = line.indexOf('!', secondMarkerIndex + 1);
 			const fourthMarkerIndex = line.indexOf('!', thirdMarkerIndex + 1);
-			const command = parts[0]?.toUpperCase().trim();
-			const arg1 = parts[1]?.toUpperCase().trim();
+
+
 			const arg2 = parts[2]?.toUpperCase().trim();
 			const arg3 = parts[3]?.toUpperCase().trim();
-			const after1 = line.substring(secondMarkerIndex + 1).trim();
 			const after2 = line.substring(thirdMarkerIndex + 1).trim();
 			const after3 = line.substring(fourthMarkerIndex + 1).trim();
-			console.log("@@1: " + line + "|" + command);
 			if (command === 'BUTTON') { addButton(arg1, arg2, after3); return true; }
 			if (command === 'CHOOSE') { ChoiceAdd(arg1); return true; }
 			if (command === 'CLEAR') {
@@ -4001,12 +4224,15 @@
 			} else if (command === 'CSS') {
 				injectCSS(after1.trim());
 				return true;
+			} else if (command === 'END') {
+				ScriptEnd();
+				return true;
 			} else if (command === 'PLAY') {
 				playSound(arg1, arg2, arg3); return true;
 			} else if (command === 'SOUND') {
 				handleSoundCommand(arg1, arg2, after3);
 				return true;
-			} else if (command === 'STAGE') { StageSet(); return true; }
+			} else if (command === 'STAGE') { StageSet(after1); return true; }
 			return false;
 		}
 		function processScriptDialog(text, choiceColors = []) {
@@ -4046,13 +4272,6 @@
 				const btn = document.createElement('button');
 				btn.className = 'choice-btn';
 				btn.style.backgroundColor = color;
-
-				// Add click logic (e.g., clicking a button might trigger the next step)
-				btn.onclick = () => {
-					console.log(`Clicked ${color} choice`);
-					// You could trigger scriptSingleStep here if the button "resolves" the dialogue
-				};
-
 				choiceContainer.appendChild(btn);
 			});
 
@@ -4077,10 +4296,7 @@
 				SpeechBubbleShow(true);
 				return false;
 			}
-
-
 			const content = line.substring(1).trim();
-
 			switch (prefix) {
 				case '#': return true; // # are comments.
 				case '!': return processScriptCommands(content);
@@ -4088,15 +4304,14 @@
 				case '+': return processScriptTag(content, true);
 				case '-': return processScriptTag(content, false);
 				case '*': return ScriptBubbleSpawning(content);
-				case '@': // Actor action		
-					break;
+				case '@': return ActorSet(content);
 				case '>': createCard(getCardByPath(content)); return false;
 				default: processScriptDialog(line); return false;
 			}
 			return false;
 		}
 		function processScriptTag(line, bAdd) {
-			const tags = line.split(',');
+			const tags = line.split(' ');
 			tags.forEach(rawTag => {
 				const tag = rawTag.trim();
 				const exactTag = ALL_TAGS.find(t => t.toLowerCase() === tag.toLowerCase());
@@ -4106,11 +4321,9 @@
 					} else {
 						activeTags.delete(exactTag);
 					}
-					refreshAllUI(); // Trigger the UI update
-					return true;
 				}
 			});
-			console.log("Error in processScriptTag: " + (bAdd ? "+" : "-") + line);
+			refreshAllUI(); // Trigger the UI update
 			return true;
 		}
 		function registerAsset(key, source) {
@@ -4122,7 +4335,7 @@
 				: "data:audio/mpeg;base64," + source;
 
 			assetLibrary[key] = new Audio(src);
-			console.log(`Asset Registered: ${key}`);
+			DEBUG(`Asset Registered: ${key}`, true);
 		}
 		function registerMap(name, key) {
 			if (!soundMap[name]) {
@@ -4131,7 +4344,7 @@
 
 			// Set naturally prevents duplicate Name+Key pairs
 			soundMap[name].add(key);
-			console.log(`Mapping added: ${name} -> ${key}`);
+			DEBUG(`Mapping added: ${name} -> ${key}`, true);
 		}
 		function renderCardTags() {
 			const container = document.getElementById('card-tag-list');
@@ -4209,6 +4422,11 @@
 			ChoiceBubbleSpawn(code, choiceText);
 			return true;
 		}
+		function ScriptEnd() {
+			// 20260125: Evelyn: Ends the script. (To keep tht engine from running the rest.)
+			const elSE = ScriptEngine();
+			elSE.dataset.script = "";
+		}
 		function ScriptEngine() {
 			return document.querySelector('.script-step-btn');
 		}
@@ -4250,10 +4468,10 @@
 
 			// STEP Process the line. Returning True means continue to next line.
 			if (processScriptLine(currentLine)) {
-				console.log("[ ] " + currentLine); //
+				DEBUG("[ ] " + currentLine, true); //
 				scriptSingleStep(elThis);
 			} else {
-				console.log("[>] " + currentLine); //
+				DEBUG("[>] " + currentLine, true); //
 			}
 		}
 		function ScriptIf(line) {
@@ -4271,8 +4489,8 @@
 			if (!card) return;
 			// 20260123: Natalie: Don't set another active card if the current command panel is dirty.
 			const dirt = document.querySelector('#command-panel .is-dirty');
-			if(dirt){
-				if(await showConfirm('You have unsaved changes on the active card. Return to save them first?')){return;}
+			if (dirt) {
+				if (await showConfirm('You have unsaved changes on the active card. Return to save them first?')) { return; }
 				dirt.classList.remove('is-dirty');
 			}
 
@@ -4280,12 +4498,12 @@
 			// 20260108: LRRH: Remove the active attribute from all cards then set this card to be active
 			document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
 			card.classList.add('is-active');
-			const imgEl = card.querySelector('img');		
+			const imgEl = card.querySelector('img');
 			const activeCard = getActiveCardData();
 			const cardNotes = document.getElementById("card-notes");
-			
+
 			// 20260123: Evelyn: Just use the data in the card if it is not found in DATA.
-			if (activeCard) {				 
+			if (activeCard) {
 				document.getElementById("card-img-url").value = activeCard.i || "";
 				document.getElementById("card-title").value = activeCard.n || "";
 				document.getElementById("card-id").value = activeCard.p || "";
@@ -4306,7 +4524,7 @@
 				document.getElementById("card-y-offset").value = activeCard.y || "0";
 			}
 
-					
+
 			cardNotes.value = decodeURIComponent(cardNotes.dataset.notes || "");
 			renderCardTags();
 
@@ -4359,6 +4577,21 @@
 				sprite.dataset.x = data.x || sprite.naturalWidth / 2;
 				sprite.dataset.y = data.y || 0;
 			}
+			if (sprite.tagName === 'IMG' && !sprite.complete) {
+				// If not loaded, wait for the 'load' event and run this function again
+				sprite.onload = () => {
+					SpriteOnStage(sprite, posX, posY, bScale, bLeft, bGround);
+				};
+				return; // Stop execution for now
+			}
+
+			// Double check naturalHeight isn't 0 (rare edge case for broken images)
+			if (sprite.naturalHeight === 0) {
+				return;
+			}
+
+
+
 			// STEP 0 Update ClassList		
 			if (bLeft === undefined && posX != 0) {
 				bLeft = (posX > 0);
@@ -4379,7 +4612,7 @@
 			let shouldGround = sprite.classList.contains('grounded');
 
 
-			const frame = sprite.closest('#stage-area, .track') || sprite.parentElement;
+			const frame = sprite.closest('.stage-area, .track') || sprite.parentElement;
 			const frameW = frame.clientWidth;
 			const frameH = frame.clientHeight;
 			const naturalW = sprite.naturalWidth;
@@ -4387,7 +4620,7 @@
 
 			// STEP 1: Compute the final scaling needed considering if bScale is true.
 			// Store the state of whether the sprite is scaled using class .scaled.
-			const finalScale = shouldScale ? (0.7*naturalH / parseFloat(sprite.dataset.s)) : 1;			
+			const finalScale = shouldScale ? (0.7 * naturalH / parseFloat(sprite.dataset.s)) : 1;
 
 			// STEP 2: Compute the final X translation needed, consider the final scale, data.x, bLeft and the commanded posX. PosX is measured in percentage where 0 means center of the screen, 50 means the center of the right side of the screen. 
 			// If bLeft is undefined but posX is a number, set bLeft to true when X is >0, set bLeft to false when x is <0, and toggle bLeft (.left abd .right) when posX is 0.
@@ -4401,7 +4634,7 @@
 				flipFactor = (shouldFaceLeft === isNaturalLeft) ? 1 : -1;
 				const naturalCenter = (isNaturalLeft) ? naturalW / 2 : -naturalW / 2;
 				const recenterX = flipFactor * ((naturalCenter - dataX) * finalScale);
-				const stagePos = (posX / 100) * frameW/2 || 0;
+				const stagePos = (posX / 100) * frameW / 2 || 0;
 				finalX = recenterX + stagePos;
 			}
 
@@ -4416,7 +4649,6 @@
 				const liftPx = (posY / 100) * frameH;
 
 				finalY = scaleLift + frameH * 0.25 + scaledYOffset - liftPx;
-				//console.log(finalY + "=" + scaleLift + "+" + frameH*0.25 + "+" + scaledYOffset + "-" + liftPx);
 			}
 
 			// STEP 4: Apply the combined transformation.
@@ -4426,20 +4658,22 @@
 			sprite.style.scale = `${finalScale * finalFlip} ${finalScale}`;
 			sprite.style.translate = `${finalX}px ${finalY}px`;
 		}
-
-
+		function StageActorsOff(){
+			const stageEl = document.getElementById('stage-area');
+			// Deactivate all actors.
+			stageEl.querySelectorAll('.actor.active').forEach(a=>{a.classList.remove('active');});
+		}
 		async function StageChange(url) {
 			await fadeLoadingScreen(true);
 			const stageEl = document.getElementById('stage-area');
 			stageEl.style.backgroundImage = `url(${url})`;
 			await new Promise(r => setTimeout(r, 200));
 			await fadeLoadingScreen(false);
-
 		}
 		function StageFade() {
 			// 20260119: Sasha: Fades the stage area away.
 			const stageEl = document.getElementById('stage-area');
-
+			StageActorsOff();
 			setTimeout(() => { stageEl.classList.remove('active'); }, 800);
 		}
 		function StageLive() {
@@ -4458,10 +4692,28 @@
 				}
 			}
 		}
-		async function StageSet() {
+		async function StageSet(args) {
 			// 20260119: Sasha: Get the scene from current filter and show it if it is not already shown.
 			const stageEl = document.getElementById('stage-area');
-			let scene = FilterDraw();
+			// 20260125: Sasha: By default, the stage scene is the script card's cover image.
+			let scene = null;
+			args = args.toUpperCase().trim() || "SEASON";
+			
+			if (args === "THIS") {
+				scene = getActiveCardData();
+			} else if (args === "SEASON") {
+				const date = new Date();
+				const month = date.getMonth();
+				const seasons = ['WINTER', 'SPRING', 'SUMMER', "AUTUMN"];
+				const curSeason = seasons[Math.floor(((month + 1) % 12) / 3)];
+				const curMonthName = date.toLocaleString('en-US', { month: 'long' });
+				scene = DATABestMatch(["[SCENE]"], [curSeason, curMonthName]);
+			} else if (args === "USER") {
+				scene = FilterDraw();
+			} else if(isOnlyDigits(args)) {
+				// Assume it is the ID
+				scene = DATAByID(args);
+			}
 			if (!scene) { scene = getActiveCardData(); }
 			if (scene) {
 				StageChange(DATAFullResURL(scene));
@@ -4469,9 +4721,6 @@
 				// If there is no match, reset the background image to nothing.				
 				StageChange('');
 			}
-
-
-			console.log("$$GGDFG")
 			stageEl.classList.add('active');
 			return true;
 		}
@@ -4525,8 +4774,6 @@
 			});
 			// 20260110: Sasha: Resizing the main area when the command-panel is shown.
 			const cp = document.getElementById('command-panel');
-
-
 			new ResizeObserver(() => {
 
 				const multitrack = document.getElementById('multitrack');
@@ -4543,6 +4790,23 @@
 					if (sidebar) sidebar.style.paddingBottom = "0px";
 				}
 			}).observe(cp);
+		}
+		function summonQuickCast() {
+			String.prototype.between = function (substring1, substring2) {
+				return this.rightOf(substring1).leftOf(substring2);
+			}
+			String.prototype.isOnlyDigits = function() {
+				return /^\d+$/.test(this);
+			};
+			String.prototype.leftOf = function (substring) {
+				return this.split(substring)[0];
+			}
+			String.prototype.rightOf = function (substring) {
+				// 20260125: Evelyn: Returns the remaining string after the first instance of substring.
+				const index = this.indexOf(substring);
+				if (index === -1) return "";
+				return this.substring(index + substring.length);
+			}
 		}
 		function toggleAddTag(bInit) {
 			// 20260110: V: Toggle the visibility, but don't hide it if is not blank.
@@ -4758,6 +5022,7 @@
 			} else {
 				elThis.classList.remove('is-dirty');
 			}
+			elThis.classList.add('active');
 		}
 		function showConfirm(message) {
 			const modal = document.getElementById('custom-confirm');
@@ -5117,7 +5382,6 @@
 				let rawText = await navigator.clipboard.readText();
 				// 2. Trim whitespace AND strip leading/trailing quotes
 				clipboardText = rawText ? rawText.trim().replace(/^"|"$/g, '') : "";
-				console.log(clipboardText);
 			} catch (err) {
 				console.warn("Clipboard access denied, defaulting to file picker.");
 			}
@@ -5173,7 +5437,7 @@
 						: "data:audio/mpeg;base64," + source;
 
 					assetLibrary[assetKey] = new Audio(src);
-					console.log(`Asset Created: ${assetKey}`);
+					DEBUG(`Asset Created: ${assetKey}`);
 				}
 			}
 
@@ -5185,7 +5449,7 @@
 			// Ensure the asset actually exists before mapping (optional safety check)
 			if (assetLibrary[assetKey]) {
 				soundMap[name].add(assetKey);
-				console.log(`Mapped "${name}" to asset "${assetKey}"`);
+				DEBUG(`Mapped "${name}" to asset "${assetKey}"`);
 			} else {
 				console.warn(`Cannot map "${name}" to "${assetKey}": Asset not found.`);
 			}
@@ -5730,7 +5994,6 @@
 			// 20251226: StarTree: If the user is scrolling on a track in single track mode, automatically set the center card as the active card.
 			return;
 			let track = document.querySelector('.track');
-			console.log(e);
 			if (e && e.target) {
 				if (typeof e.target.closest === "function") {
 					track = e.target.closest('.track');
