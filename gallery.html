@@ -403,7 +403,7 @@
 
 
 		.speech-content {
-			font-size: 24px;
+			font-size: 20px;
 			line-height: 1;
 			color: #111;
 
@@ -4879,7 +4879,8 @@
 			args = args.toUpperCase().trim() || "SEASON";
 
 			if (args === "THIS") {
-				scene = getActiveCardData();
+				//scene = getActiveCardData();
+				scene = DATAByID(ScriptEngine().dataset.p);
 			} else if (args === "SEASON") {
 				const date = new Date();
 				const month = date.getMonth();
