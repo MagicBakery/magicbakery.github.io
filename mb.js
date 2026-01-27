@@ -2259,6 +2259,7 @@ function MacroIcons(el,iHTMLInner){
     ["Bread","🍞"],
     ["Briefcase","💼"],
     ["Broom","🧹"],
+    ["Bubbles","🫧"],
     ["Bulb","💡"],
     ["Cactus","🌵"],
     ["Cake","🍰"],

@@ -412,6 +412,7 @@
 			text-align: center;
 			word-wrap: break-word;
 			font-weight: bold;
+			white-space: pre-wrap;
 
 			&::-webkit-scrollbar {
 				display: none;
@@ -419,6 +420,9 @@
 
 			-ms-overflow-style: none;
 			scrollbar-width: none;
+		}
+		.speech-content a{
+			color: gold;
 		}
 
 		.speech-bubble.narrative-mode .speech-content {
@@ -3520,6 +3524,18 @@
 			if (!imgURL || imgURL.trim() == "") { imgURL = item.p; }
 			return getFullResURL(imgURL);
 		}		
+		function DialogFormat(text){
+			text = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+			text = text.replace(/\[url\]([^\[]+)\[\/url\]/gi, '<a href="$1" target="_blank">$1</a>');
+			text = text.replace(/\[url=([^\]]+)\]([^\[]+)\[\/url\]/gi, (match, url, label) => {
+				return `<a href="${url.trim()}" target="_blank" rel="noopener">${label}</a>`;
+			});
+			
+			// 20260127: StarTree: Format some of the text to avoid allowing full html.
+			//text = text.replaceAll("//","\n");
+			
+			return text;
+		}
 		function DEBUG(msg, bCompact) {
 			// 20260125: Evelyn: Help locate where all the console log are and where they are called.
 			if (bCompact) { console.log(msg); return; }
@@ -4314,7 +4330,7 @@
 			}
 
 			// Set Text
-			textField.innerText = text;
+			textField.innerHTML = DialogFormat(text);
 
 			// Clear and Populate Buttons
 			choiceContainer.innerHTML = "";
