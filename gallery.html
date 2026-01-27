@@ -421,7 +421,8 @@
 			-ms-overflow-style: none;
 			scrollbar-width: none;
 		}
-		.speech-content a{
+
+		.speech-content a {
 			color: gold;
 		}
 
@@ -2828,7 +2829,7 @@
 							<polygon points="0,10 50,100 100,10" fill="currentColor" />
 						</svg>
 					</button>
-					
+
 
 					<div style="display:flex;clear:right">
 						<textarea id="card-notes" class="card-textarea" onfocus="PanelTextareaActivate(this)"
@@ -3216,6 +3217,8 @@
 			summonQuickCast();
 			summonFairyQueen();
 			summonGateGuardian();
+
+
 		};
 		/* #ALPHABETICALLY SORTED CODE */
 		const zLayers = ['Notifications', 'LoadingScreen', 'TransparentControls', 'ExamineScreen', 'SpeechBubble', 'StageGUI', 'Stage', 'GUIControls', 'Listings', 'Gallery', 'AppWallpaper'];
@@ -3515,7 +3518,7 @@
 			return candidates[randomIndex];
 		}
 		function DATAByID(id) {
-			return DATA.find(item => item.p === id);
+			return DATA.find(item => String(item.p) === String(id));
 		}
 		function DATAFullResURL(item) {
 			// 20260119: Sasha: Given a DATA object, return the full res URL of its image.
@@ -3523,17 +3526,17 @@
 			if (!imgURL || imgURL.trim() == "") { imgURL = item.u; }
 			if (!imgURL || imgURL.trim() == "") { imgURL = item.p; }
 			return getFullResURL(imgURL);
-		}		
-		function DialogFormat(text){
+		}
+		function DialogFormat(text) {
 			text = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 			text = text.replace(/\[url\]([^\[]+)\[\/url\]/gi, '<a href="$1" target="_blank">$1</a>');
 			text = text.replace(/\[url=([^\]]+)\]([^\[]+)\[\/url\]/gi, (match, url, label) => {
 				return `<a href="${url.trim()}" target="_blank" rel="noopener">${label}</a>`;
 			});
-			
+
 			// 20260127: StarTree: Format some of the text to avoid allowing full html.
 			//text = text.replaceAll("//","\n");
-			
+
 			return text;
 		}
 		function DEBUG(msg, bCompact) {
@@ -4465,10 +4468,10 @@
 			activeCardData.x = Number(document.getElementById('card-x-offset').value.trim());
 			activeCardData.y = Number(document.getElementById('card-y-offset').value.trim());
 
-			const fields = ['c','i','n','o','p','s','u','x','y'];
-			fields.forEach( field => {
+			const fields = ['c', 'i', 'n', 'o', 'p', 's', 'u', 'x', 'y'];
+			fields.forEach(field => {
 				const val = activeCardData[field];
-				if(val===""){delete activeCardData[field];}
+				if (val === "") { delete activeCardData[field]; }
 			});
 			//if(activeCardData.c==0){delete activeCardData.c;}
 			//if(activeCardData.y==0){delete activeCardData.y;}
@@ -4559,7 +4562,7 @@
 				});
 
 			document.body.style.cursor = 'wait';
-			let dataToExport = filtered;			
+			let dataToExport = filtered;
 
 			// standard Download Logic
 			const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
@@ -4573,35 +4576,48 @@
 			setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 
 		}
+		function ScriptRunID(id) {
+			// 20260127: StarTree: Run the script from the DATA with the ID.
+			//document.querySelector('.card.active').classList.Remove('active');
+			
+			const data = DATAByID(id);
+			if (!data) return;
+			const SE = ScriptEngine();
+			SE.dataset.p = id;
+			SE.dataset.script = decodeURIComponent(data.c);
+			scriptSingleStep();
+		}
 		async function scriptSingleStep(elThis) {
 			// 20260111: Sasha: Runs the next command in the script
 			// STEP 1: Store the node ID and the Script to the button if they are different from what the button has.
 			if (!elThis) {
 				elThis = document.querySelector('.script-step-btn');
 			}
+			let scriptToRun = elThis.dataset.script;
+			if (getActiveCard()) {
+				const nodeID = document.getElementById("card-id").value;
+				if (!nodeID) { return false; }
+				if (nodeID != elThis.dataset.p) {// || elThis.dataset.mode == "rewind") {
+					elThis.dataset.p = nodeID;
+					// 20260125: StarTree: Prioritize running the side that is selected. 				
+					const elNotes = document.getElementById("card-notes");
+					const elScript = document.getElementById("card-script");
 
-			const nodeID = document.getElementById("card-id").value;
-			if (!nodeID) { return false; }
-			if (nodeID != elThis.dataset.p) {// || elThis.dataset.mode == "rewind") {
-				elThis.dataset.p = nodeID;
-
-				// 20260125: StarTree: Prioritize running the side that is selected. 				
-				const elNotes = document.getElementById("card-notes");
-				const elScript = document.getElementById("card-script");
-				let scriptToRun = "";
-				if (elNotes.classList.contains('active')) {
-					scriptToRun = elNotes.value;
-				} else if (elScript.classList.contains('active')) {
-					scriptToRun = elScript.value;
-				} else if (elScript.value.trim() != '') {
-					// If neither is selected, prioritize the official script.
-					scriptToRun = elScript.value;
-				} else {
-					scriptToRun = elNotes.value;
+					if (elNotes.classList.contains('active')) {
+						scriptToRun = elNotes.value;
+					} else if (elScript.classList.contains('active')) {
+						scriptToRun = elScript.value;
+					} else if (elScript.value.trim() != '') {
+						// If neither is selected, prioritize the official script.
+						scriptToRun = elScript.value;
+					} else {
+						scriptToRun = elNotes.value;
+					}
+					elThis.dataset.script = scriptToRun;
+					elThis.removeAttribute('SE-BubbleSpawning');
 				}
-				elThis.dataset.script = scriptToRun;
-				elThis.removeAttribute('SE-BubbleSpawning');
 			}
+
 			// STEP: Pop the top line and process it.
 			const lineRegex = /^(.*?)(?:\r?\n|$)/;
 			const match = elThis.dataset.script.match(lineRegex);
@@ -5947,6 +5963,13 @@
 				}
 			});
 			ALL_TAGS = Array.from(tags).sort(); // Update the cloud source
+
+			// URLParam
+			urlParams = new URLSearchParams(window.location.search);
+			const rawId = urlParams.get('id');
+			if (rawId) {
+				ScriptRunID(rawId);
+			}
 
 			refreshAllUI();
 		}
