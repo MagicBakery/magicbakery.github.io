@@ -2812,7 +2812,7 @@
 				<input type="text" id="card-title" placeholder="Display Title" title="Title (n)">
 				<div class="notes-panel">
 					<div style="float:right;margin-bottom:2px">
-						<button class="notes-btn" onclick="scriptSingleStep()" title="Run as Script">Run</button>
+						<button class="notes-btn" onclick="ScriptStart()" title="Run as Script">Run</button>
 						<button class="notes-btn" onclick="PanelTextareaResize(this)"
 							title="Notes/Script Display Ratio">3:1</button>
 						<button class="notes-btn" style="width:55px" onclick="ScriptPublish(this)"
@@ -3003,7 +3003,7 @@
 					<div class="button-pad right custom-buttons"
 						style="flex:1;display:flex;flex-wrap:wrap;justify-content: center;flex-direction:column;height:108px;overflow-x:auto;box-sizing: content-box;align-items: flex-start; scrollbar-width: none; -ms-overflow-style: none;align-content: flex-start">
 						<!--Next Button-->
-						<button class="tool-btn full script-step-btn" onClick="scriptSingleStep(this)" title="Play Script">
+						<button class="tool-btn full script-step-btn" onClick="ScriptStart(this)" title="Play Script">
 							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
 								style="transform: scale(3)" title="Next">
 								<rect x="17" y="5" width="2" height="14" rx="1" fill="currentColor" />
@@ -3058,7 +3058,7 @@
 	</div>
 
 	<div id="stage-ui" class="stage-ui">
-		<div class="stage-next-btn" onclick="scriptSingleStep()">
+		<div class="stage-next-btn" onclick="ScriptRun()">
 			<svg viewBox="0 0 24 24" width="40" fill="white">
 				<path d="M8 5v14l11-7z" />
 			</svg>
@@ -3628,7 +3628,7 @@
 					if (isHidden("command-panel")) {
 						toggleCommandPanel(e);
 					} else {
-						scriptSingleStep();
+						ScriptStart();
 					}
 				}
 				setActiveCard(card);
@@ -4353,8 +4353,6 @@
 
 			// 20260120: Natalie: If there is a selected choice, set bubble spawning to done.
 			ChoiceCommit();
-
-
 			// 20260119: LRRH: If the engine is spawning bubbles and the prefix is not *, put the line back and return.
 
 			if (prefix != '*' && ScriptBubbleSpawning(null)) {
@@ -4514,6 +4512,16 @@
 		function ScriptEngine() {
 			return document.querySelector('.script-step-btn');
 		}
+		function ScriptIf(line) {
+			// 20260119: Arcacia: The line interpreter calls this if the first character is ?
+			// The format: ?ChoiceCode Line
+			// What to do: Check if the ChoiceCode exists, if so, run the line.
+			const parts = line.split(' ');
+			const code = parts[0].trim();
+			if (!ChoiceCheck(code)) { return true; }
+			const remaining = line.substring(line.indexOf(' ', 1) + 1).trim();
+			return processScriptLine(remaining.trim());
+		}
 		async function ScriptPublish(elThis) {
 			// 20250125: StarTree: Save the data in "Publish" spec that does not include user notes. Show additional messages to inform the user what the button is for.
 
@@ -4576,6 +4584,34 @@
 			setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 
 		}
+		async function ScriptRun(SE){
+			// 20260129: LRRH: Runs the script that is already in the script engine.
+			if(!SE) {SE = ScriptEngine();}
+			let scriptToRun = SE.dataset.script;			
+			const lineRegex = /^(.*?)(?:\r?\n|$)/; // Pop the first line
+			const match = scriptToRun.match(lineRegex);
+			if (!match || match[0].length < 1) {
+				// Script finished.				
+				SE.dataset.p = "";
+				SpeechBubbleShow(false);
+				StageFade();
+				return false;
+			}
+			const currentLine = match[1].trim();
+			SE.dataset.script = SE.dataset.script.replace(lineRegex, "");
+			if (!currentLine) {
+				ScriptRun(SE);
+				return true;
+			}
+			// STEP Process the line. Returning True means continue to next line.
+			if (processScriptLine(currentLine)) {
+				DEBUG("[ ] " + currentLine, true); //
+				ScriptRun(SE);
+			} else {
+				DEBUG("[>] " + currentLine, true); //
+			}
+
+		}
 		function ScriptRunID(id) {
 			// 20260127: StarTree: Run the script from the DATA with the ID.
 			//document.querySelector('.card.active').classList.Remove('active');
@@ -4585,20 +4621,18 @@
 			const SE = ScriptEngine();
 			SE.dataset.p = id;
 			SE.dataset.script = decodeURIComponent(data.c);
-			scriptSingleStep();
+			ScriptRun(SE);
 		}
-		async function scriptSingleStep(elThis) {
+		async function ScriptStart(SE) {
 			// 20260111: Sasha: Runs the next command in the script
 			// STEP 1: Store the node ID and the Script to the button if they are different from what the button has.
-			if (!elThis) {
-				elThis = document.querySelector('.script-step-btn');
-			}
-			let scriptToRun = elThis.dataset.script;
+			if (!SE) {SE = ScriptEngine();}
+			let scriptToRun = SE.dataset.script;
 			if (getActiveCard()) {
 				const nodeID = document.getElementById("card-id").value;
 				if (!nodeID) { return false; }
-				if (nodeID != elThis.dataset.p) {// || elThis.dataset.mode == "rewind") {
-					elThis.dataset.p = nodeID;
+				if (nodeID != SE.dataset.p) {
+					SE.dataset.p = nodeID;
 					// 20260125: StarTree: Prioritize running the side that is selected. 				
 					const elNotes = document.getElementById("card-notes");
 					const elScript = document.getElementById("card-script");
@@ -4613,50 +4647,12 @@
 					} else {
 						scriptToRun = elNotes.value;
 					}
-					elThis.dataset.script = scriptToRun;
-					elThis.removeAttribute('SE-BubbleSpawning');
+					SE.dataset.script = scriptToRun;
+					SE.removeAttribute('SE-BubbleSpawning');
 				}
 			}
 
-			// STEP: Pop the top line and process it.
-			const lineRegex = /^(.*?)(?:\r?\n|$)/;
-			const match = elThis.dataset.script.match(lineRegex);
-			if (!match || match[0].length < 1) {
-				// Script finished.
-				//showToast("You hve reached the end of the script.");
-				//if (await showConfirm("You have reached the end of the script. Rewind?")) {
-				elThis.dataset.p = "";
-				SpeechBubbleShow(false);
-				StageFade();
-				//scriptSingleStep(elThis);
-				//}
-				return false;
-			}
-			const currentLine = match[1].trim();
-			elThis.dataset.script = elThis.dataset.script.replace(lineRegex, "");
-			// If the current line is blank, move to the next line automatically.
-			if (!currentLine) {
-				scriptSingleStep(elThis);
-				return true;
-			}
-
-			// STEP Process the line. Returning True means continue to next line.
-			if (processScriptLine(currentLine)) {
-				DEBUG("[ ] " + currentLine, true); //
-				scriptSingleStep(elThis);
-			} else {
-				DEBUG("[>] " + currentLine, true); //
-			}
-		}
-		function ScriptIf(line) {
-			// 20260119: Arcacia: The line interpreter calls this if the first character is ?
-			// The format: ?ChoiceCode Line
-			// What to do: Check if the ChoiceCode exists, if so, run the line.
-			const parts = line.split(' ');
-			const code = parts[0].trim();
-			if (!ChoiceCheck(code)) { return true; }
-			const remaining = line.substring(line.indexOf(' ', 1) + 1).trim();
-			return processScriptLine(remaining.trim());
+			ScriptRun(SE);
 		}
 		async function setActiveCard(card) {
 			// 20260111: LRRH: Don't set active card if auto spawning with the notes tab open.
@@ -5191,7 +5187,7 @@
 			// If chosen:
 			// window.currentChoices.add(code);
 			// el.remove();
-			// scriptSingleStep(); // Resume the script
+			// ScriptStart(); // Resume the script
 		}
 		function markDirty(elThis) {
 			// 20251230: Cardinal
