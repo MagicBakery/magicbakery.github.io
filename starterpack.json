@@ -752,6 +752,20 @@
     "c": "!stage%0A!clear%20choices%0A%40Tanya%20TANYA%0A*1*%20%3F%3F%3F%0A*2*%20%3F%3F%3F%0A*3*%20%3F%3F%3F%0A*4*%20%3F%3F%3F%0A*5*%20%3F%3F%3F%0A*6*%20%3F%3F%3F%0A*7*%20%3F%3F%3F%0A%3F1%20%3A%20%20%20I%20don't%20end%20sentences%20with%20'nya'.%0A%3F2%20%3A%20I%20see.%0A%3F3%20%3A%20I%20don't%20have%20four%20ears.%0A%3F4%20%3A%20I%20want%20to%20show%20my%20fingers%20in%20front%20on%20both%20hands.%0A%3F5%20%3A%20This%20is%20not%20idle%20chatter.%20This%20is%20a%20regression%20test.%0A%3F6%20%3A%20You%20seem%20really%20proud%20of%20what%20you're%20doing.%0A%3F7%20%3A%20I%20am%20smiling.%0A%3F8%20%3A%20If%20this%20feels%20boring%20to%20you%2C%20you're%20doing%20it%20wrong.%20%0A%3F9%20%3A%20It%20hasn't%20failed%20yet.%0A%23"
   },
   {
+    "n": "ZOEY_TALK",
+    "t": [
+      "[ACTOR]",
+      "[STARTER PACK]",
+      "ZOEY",
+      "TALK"
+    ],
+    "p": "20260130101000",
+    "u": "https://magicbakery.github.io/sprites/Zoey_Talk_%7B20260130101000%7D.png",
+    "s": 832.0,
+    "x": -327.0,
+    "y": 34.0
+  },
+  {
     "n": "ADVENTURERS GUILD_QUEST BOARD",
     "t": [
       "[SCENE]",
