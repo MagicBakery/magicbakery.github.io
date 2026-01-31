@@ -4680,11 +4680,11 @@
 			document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
 			card.classList.add('is-active');
 			const imgEl = card.querySelector('img');
-			const activeCard = getActiveCardData();
+			const data = getActiveCardData();
 			const cardNotes = document.getElementById("card-notes");
 			const cardScript = document.getElementById("card-script");
 			// 20260123: Evelyn: Just use the data in the card if it is not found in DATA.
-			//if(!activeCard){
+			//if(!data){
 				document.getElementById("card-img-url").value = card.dataset.i || "";
 				document.getElementById("card-title").value = card.dataset.n || "";
 				document.getElementById("card-id").value = card.dataset.p || "";
@@ -4696,31 +4696,39 @@
 				cardScript.dataset.original = card.dataset.c || "";
 				
 			//}
-			if (activeCard) {
-				document.getElementById("card-img-url").value = activeCard.i || "";
-				document.getElementById("card-title").value = activeCard.n || "";
-				document.getElementById("card-id").value = activeCard.p || "";
-				document.getElementById("card-scale").value = activeCard.s || "";
-				document.getElementById("card-path-url").value = activeCard.u || "";
-				if (activeCard.p != document.querySelector(".script-step-btn").dataset.p) {
+			if (data) {
+				document.getElementById("card-img-url").value = data.i || "";
+				document.getElementById("card-title").value = data.n || "";
+				document.getElementById("card-id").value = data.p || "";
+				document.getElementById("card-scale").value = data.s || "";
+				document.getElementById("card-path-url").value = data.u || "";
+				if(cardNotes.value == ""){
+					cardNotes.value = data.o? decodeURIComponent(data.o) : "";
+					cardNotes.dataset.original = data.o || "";
+				}
+				if(cardScript.value == ""){
+					cardScript.value = data.c? decodeURIComponent(data.c) : "";
+					cardScript.dataset.original = data.c || "";
+				}
+				
+				if (data.p != document.querySelector(".script-step-btn").dataset.p) {
 					SpeechBubbleShow(false);
 				};
+				
+				/*
 				if ('notes' in card.dataset) {
 					cardNotes.dataset.original = card.dataset.o;
 				} else {
-					cardNotes.dataset.original = activeCard.o || "";
+					cardNotes.dataset.original = data.o || "";
 				}
 				if ('script' in card.dataset) {
 					cardScript.dataset.original = card.dataset.c;
 				} else {
-					cardScript.dataset.original = activeCard.c || "";
-				}
-				const xVal = activeCard.x;
-				/*document.getElementById("card-x-offset").value = (xVal !== undefined && xVal !== null)
-					? xVal
-					: (imgEl ? Math.round(imgEl.naturalWidth / 2) : "");*/
-				document.getElementById("card-x-offset").value = activeCard.x || "";
-				document.getElementById("card-y-offset").value = activeCard.y || "";
+					cardScript.dataset.original = data.c || "";
+				}*/
+
+				document.getElementById("card-x-offset").value = data.x || "";
+				document.getElementById("card-y-offset").value = data.y || "";
 			}
 			//cardNotes.value = decodeURIComponent(cardNotes.dataset.original || "");
 			//cardScript.value = decodeURIComponent(cardScript.dataset.original || "");
@@ -4767,8 +4775,10 @@
 			// Treat bScale, bLeft, and bGround as three-way switches: true, false, undefined=toggle.
 			// If the sprite is specified, assume that the frame is the stage.
 			// If the sprite is not specified, assume that the frame is the active card at backstage.			
+			const card = sprite? sprite.closest('.card') : getActiveCard(); 
+			const track = card? card.closest('.track') : null;
 			if (!sprite) {
-				const card = getActiveCard(); if (!card) return;
+				if (!card) return;
 				const data = getActiveCardData();
 				sprite = card.querySelector('img'); if (!sprite) return;
 				sprite.dataset.s = data.s || 700;
@@ -4806,12 +4816,29 @@
 			let shouldFaceRight = sprite.classList.contains('right');
 			let shouldGround = sprite.classList.contains('grounded');
 
-
 			const frame = sprite.closest('.stage-area, .track') || sprite.parentElement;
 			const frameW = frame.clientWidth;
-			const frameH = frame.clientHeight;
+			let frameH = frame.clientHeight;
 			const naturalW = sprite.naturalWidth;
 			const naturalH = sprite.naturalHeight;
+
+			if(StageLive() || !shouldGround || !shouldScale){
+				if(card){
+					card.style.height = "100%";
+					card.style.marginTop = "0%";
+					card.style.marginBottom = "0%";
+				}
+			}else{
+				if(card){
+					card.style.height = "92%";
+					card.style.marginTop = "2%";
+					card.style.marginBottom = "6%";
+					frameH = frameH*0.92;
+				}
+			}
+
+
+			
 
 			// STEP 1: Compute the final scaling needed considering if bScale is true.
 			// Assume that the frame is in fit to 100% height. 
@@ -4874,11 +4901,12 @@
 			// Shrink the margins in backstage
 			if(StageLive() || !shouldGround || !shouldScale){
 				sprite.style.marginLeft = 0;
-				sprite.style.marginRight = 0;
+				sprite.style.marginRight = 0;	
 			}else{
 				sprite.style.marginLeft = `-${autoScale * naturalW/5}px`;
-				sprite.style.marginRight = `-${autoScale * naturalW/5}px`;
+				sprite.style.marginRight = `-${autoScale * naturalW/5}px`;	
 			}
+			
 		}
 		function StageActorsOff() {
 			const stageEl = document.getElementById('stage-area');
