@@ -2063,7 +2063,7 @@
 		.grid-view .file-item img {
 			width: 100%;
 			height: 100%;
-			object-fit: cover;
+			object-fit: contain;
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -4440,15 +4440,23 @@
 			// 20251230: Cardinal
 			e.stopPropagation();
 			const activeCard = document.querySelector(".card.is-active");
-			if (!activeCard) { return; }
+			if (!activeCard) { return; }			
+			activeCard.dataset.c = encodeURIComponent(document.getElementById('card-script').value);
+			activeCard.dataset.i = document.getElementById('card-img-url').value.trim();
+			activeCard.dataset.n = document.getElementById('card-title').value.trim();
+			activeCard.dataset.o = encodeURIComponent(document.getElementById('card-notes').value);
+			activeCard.dataset.p = document.getElementById('card-id').value.trim();
+			activeCard.dataset.s = Number(document.getElementById('card-scale').value.trim());
+			activeCard.dataset.u = document.getElementById('card-path-url').value.trim();
+			activeCard.dataset.x = Number(document.getElementById('card-x-offset').value.trim());
+			activeCard.dataset.y = Number(document.getElementById('card-y-offset').value.trim());
+
 			const cardNotes = document.getElementById("card-notes");
-			activeCard.dataset.notes = encodeURIComponent(cardNotes.value);
-			cardNotes.dataset.original = activeCard.dataset.notes;
+			cardNotes.dataset.original = activeCard.dataset.o;
 			cardNotes.classList.remove("unsaved");
 
-			const cardScript = document.getElementById("card-script");
-			activeCard.dataset.script = encodeURIComponent(cardScript.value);
-			cardScript.dataset.original = activeCard.dataset.script;
+			const cardScript = document.getElementById("card-script");			
+			cardScript.dataset.original = activeCard.dataset.c;
 			cardScript.classList.remove("unsaved");
 
 			activeCard.classList.add("pinned");
@@ -4676,6 +4684,18 @@
 			const cardNotes = document.getElementById("card-notes");
 			const cardScript = document.getElementById("card-script");
 			// 20260123: Evelyn: Just use the data in the card if it is not found in DATA.
+			if(!activeCard){
+				document.getElementById("card-img-url").value = card.dataset.i || "";
+				document.getElementById("card-title").value = card.dataset.n || "";
+				document.getElementById("card-id").value = card.dataset.p || "";
+				document.getElementById("card-scale").value = card.dataset.s || "";
+				document.getElementById("card-path-url").value = card.dataset.u || "";
+				cardNotes.value = card.dataset.o;
+				cardScript.value = card.dataset.c;
+				cardNotes.dataset.original = card.dataset.o || "";
+				cardScript.dataset.original = card.dataset.c || "";
+				
+			}
 			if (activeCard) {
 				document.getElementById("card-img-url").value = activeCard.i || "";
 				document.getElementById("card-title").value = activeCard.n || "";
@@ -4686,12 +4706,12 @@
 					SpeechBubbleShow(false);
 				};
 				if ('notes' in card.dataset) {
-					cardNotes.dataset.original = card.dataset.notes;
+					cardNotes.dataset.original = card.dataset.o;
 				} else {
 					cardNotes.dataset.original = activeCard.o || "";
 				}
 				if ('script' in card.dataset) {
-					cardScript.dataset.original = card.dataset.script;
+					cardScript.dataset.original = card.dataset.c;
 				} else {
 					cardScript.dataset.original = activeCard.c || "";
 				}
