@@ -5,7 +5,9 @@ import re
 from pathlib import Path
 from datetime import datetime
 
-# VERSION: 20260131902
+# VERSION: 20260131903
+# 20260131: Sort tags ("t") alphabetically within each entry
+# 20260131: Sort final output entries by .p
 # 20260113: File Extensions go to a tag .EXT
 # 20251228: The CFG file can specify an optional output filename after |
 
@@ -183,8 +185,17 @@ def main():
                 # Deduplicate by ID if exists, otherwise by source
                 key = item.get('id') or item.get('u') or item.get('p')
                 if key not in seen_ids:
+                    # --- TAG SORTING ---
+                    # Sort the tags list inside "t" alphabetically
+                    if "t" in item and isinstance(item["t"], list):
+                        item["t"].sort()
+                    
                     final_data.append(item)
                     seen_ids.add(key)
+
+        # --- ENTRY SORTING ---
+        # Sort the overall list by the 'p' key (case-insensitive)
+        final_data.sort(key=lambda x: str(x.get('p', '')).lower())
 
         filename = f"data_{datetime.now().strftime('%Y%m%d%H%M%S')}.json"
         final_out_path = os.path.join(script_dir, filename)
