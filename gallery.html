@@ -6,8 +6,8 @@
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
 	<script>
-		const APP_VERSION = "20260126012300"; //#Version
-		const APP_ANNOUNCEMENT = "20260126: Public Script Support."
+		const APP_VERSION = "20260130235800"; //#Version
+		const APP_ANNOUNCEMENT = "20260130: Scaling Fixes."
 	</script>
 	<style>
 		:root {
@@ -2842,7 +2842,7 @@
 
 				<div class="card-details" style="display:none">
 					<div style="display:flex">
-						<input type="text" id="card-img-url" style="flex: 1;min-width:40%" placeholder="Image Path"
+						<input type="text" id="card-img-url" style="flex: 1;min-width:25%" placeholder="Image Path"
 							title="Image (i)">
 						<button class="scale-btn" onclick="ImageScale()" title="Scale the image">s</button>
 						<input type="number" id="card-scale" placeholder="scale" title="scale (pixels per 1m)"
@@ -4764,9 +4764,6 @@
 			if (sprite.naturalHeight === 0) {
 				return;
 			}
-
-
-
 			// STEP 0 Update ClassList		
 			if (bLeft === undefined && posX != 0) {
 				bLeft = (posX > 0);
@@ -4794,8 +4791,14 @@
 			const naturalH = sprite.naturalHeight;
 
 			// STEP 1: Compute the final scaling needed considering if bScale is true.
-			// Store the state of whether the sprite is scaled using class .scaled.
-			const finalScale = shouldScale ? (0.7 * naturalH / parseFloat(sprite.dataset.s)) : 1;
+			// Assume that the frame is in fit to 100% height. 
+			// finalScale=1 means the image is scaled to 100% frameH.
+			const autoScale = frameH / naturalH; // This is the scale ALREADY applied.
+			// The 0.7 is an adjustable parameter for how many meter is shown per frameH.
+			// targetScale = (0.7screen/meter)*(pixel/screen)*(meter/pixels)
+			const screenScale = StageLive()? 0.7 : 0.5;
+			const targetScale = screenScale * frameH / parseFloat(sprite.dataset.s);			
+			const finalScale = shouldScale ? (targetScale / autoScale) : 1;
 
 			// STEP 2: Compute the final X translation needed, consider the final scale, data.x, bLeft and the commanded posX. PosX is measured in percentage where 0 means center of the screen, 50 means the center of the right side of the screen. 
 			// If bLeft is undefined but posX is a number, set bLeft to true when X is >0, set bLeft to false when x is <0, and toggle bLeft (.left abd .right) when posX is 0.
@@ -4817,13 +4820,26 @@
 			// Store the state of whether the sprite is ground using .grounded.
 			let finalY = 0;
 			if (shouldGround) {
-				const scaleLift = (frameH * (1 - finalScale)) / 2; // The amount the wprite shifts up when the sprite is scaled down.
-
-				const dataY = parseFloat(sprite.dataset.y); // pixels UP from bottom edge
-				const scaledYOffset = dataY * finalScale * frameH / naturalH;
+				// scaleShift is the amount the sprite should shift down (+Y) when the sprite is scaled
+				const scaleShift = (frameH * (1 - finalScale)) / 2; 
+				// groundShift is the amount to shift when the ground line is not the bottom of the track.
+				const groundShift = frameH *0.25;
+				// liftPx is the amount to shift up when the sprite is supposed to be above ground line.
 				const liftPx = (posY / 100) * frameH;
 
-				finalY = scaleLift + frameH * 0.25 + scaledYOffset - liftPx;
+				// dataY is the amount in raw image pixels of the sprite's ground line
+				const dataY = parseFloat(sprite.dataset.y); // pixels UP from bottom edge
+				// scaledYOffset is the amount to shift down so the sprite's ground line aligns with the stage's ground line.
+				// Even when finalScale is 1, dataY needs to be scaled due to fit to height.
+				// The math is scaledYOffset = dataY * finalScale * autoScale = dataY * targetScale.		
+				const scaledYOffset = dataY * targetScale;
+
+				if(!StageLive()){
+					// If showing in backstage, use the bottom edge of the track as the ground line.
+					finalY = scaleShift + scaledYOffset - liftPx;	
+				}else{
+					finalY = scaleShift + scaledYOffset - liftPx + groundShift ;
+				}
 			}
 
 			// STEP 4: Apply the combined transformation.
@@ -4832,6 +4848,14 @@
 			// Explicitly reset origin to center to ensure predictable behavior
 			sprite.style.scale = `${finalScale * finalFlip} ${finalScale}`;
 			sprite.style.translate = `${finalX}px ${finalY}px`;
+			// Shrink the margins in backstage
+			if(StageLive() || !shouldGround ){
+				sprite.style.marginLeft = 0;
+				sprite.style.marginRight = 0;
+			}else{
+				sprite.style.marginLeft = `-${autoScale * naturalW/5}px`;
+				sprite.style.marginRight = `-${autoScale * naturalW/5}px`;
+			}
 		}
 		function StageActorsOff() {
 			const stageEl = document.getElementById('stage-area');
