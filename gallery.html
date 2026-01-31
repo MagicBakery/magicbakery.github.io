@@ -4700,7 +4700,7 @@
 				document.getElementById("card-img-url").value = activeCard.i || "";
 				document.getElementById("card-title").value = activeCard.n || "";
 				document.getElementById("card-id").value = activeCard.p || "";
-				document.getElementById("card-scale").value = activeCard.s;
+				document.getElementById("card-scale").value = activeCard.s || "";
 				document.getElementById("card-path-url").value = activeCard.u || "";
 				if (activeCard.p != document.querySelector(".script-step-btn").dataset.p) {
 					SpeechBubbleShow(false);
@@ -4719,8 +4719,8 @@
 				/*document.getElementById("card-x-offset").value = (xVal !== undefined && xVal !== null)
 					? xVal
 					: (imgEl ? Math.round(imgEl.naturalWidth / 2) : "");*/
-				document.getElementById("card-x-offset").value = activeCard.x;
-				document.getElementById("card-y-offset").value = activeCard.y;
+				document.getElementById("card-x-offset").value = activeCard.x || "";
+				document.getElementById("card-y-offset").value = activeCard.y || "";
 			}
 			cardNotes.value = decodeURIComponent(cardNotes.dataset.original || "");
 			cardScript.value = decodeURIComponent(cardScript.dataset.original || "");
