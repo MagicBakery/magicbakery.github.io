@@ -4437,8 +4437,8 @@
 			toggleAddTag(true);
 		}
 		function saveCardNotes(e) {
-			// 20251230: Cardinal
-			e.stopPropagation();
+			// 20251230: Cardinal			
+			e?.stopPropagation();
 			const activeCard = document.querySelector(".card.is-active");
 			if (!activeCard) { return; }			
 			activeCard.dataset.c = encodeURIComponent(document.getElementById('card-script').value);
@@ -6302,6 +6302,7 @@
 				};
 				DATA.push(newItem);
 				item = DATA.find(i => i.p === pid);
+				
 			}
 			// If the item is null, choose a random one from the file list.			
 			if (!item) {
@@ -6465,6 +6466,7 @@
 			}, 50);
 			if (autoRandomTrack && !isHidden('tab-card-notes')) { return; }
 			setActiveCard(c);
+			saveCardNotes();
 		}
 		function updateStarButtonState() {
 			const activeCard = document.querySelector('.card.is-active');
