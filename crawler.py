@@ -5,7 +5,8 @@ import re
 from pathlib import Path
 from datetime import datetime
 
-# VERSION: 20260103223027
+# VERSION: 20260131902
+# 20260113: File Extensions go to a tag .EXT
 # 20251228: The CFG file can specify an optional output filename after |
 
 EXTENSIONS = ('.jpg', '.jpeg', '.png', '.webp', '.gif', '.url', '.pdf')
@@ -33,24 +34,52 @@ def get_image_source(full_path, is_mobile):
     else: 
         return Path(full_path).as_uri()
 
+def parse_metadata_from_name(filename):
+    """
+    Extracts {ID|s|x|y} patterns.
+    Returns (cleaned_name, metadata_dict)
+    """
+    metadata = {}
+    filename = os.path.splitext(filename)[0]
+    # Find content inside curly braces
+    match = re.search(r'\{(.*?)\}', filename)
+    if match:
+        content = match.group(1)
+        parts = content.split('+')
+        
+        # Part 1 is ID
+        if len(parts) > 0: metadata['id'] = parts[0].strip()
+        
+        # Subsequent parts search for s, x, y prefixes
+        for p in parts[1:]:
+            p = p.strip().lower()
+            if p.startswith('s'): metadata['s'] = float(p[1:])
+            elif p.startswith('x'): metadata['x'] = float(p[1:])
+            elif p.startswith('y'): metadata['y'] = float(p[1:])
+            
+        # Remove the curly brace block from the filename for tag processing
+        filename = filename.replace(match.group(0), "")
+    filename = filename.strip('_ ').strip()
+    return filename, metadata
+
 def process_string_into_tags(input_str, is_filename=False):
     if is_filename and "_" not in input_str: return []
     tags = []
     if is_filename:
         root, ext = os.path.splitext(input_str)
-        #if ext:
-        #    tags.append("<" + ext[1:].upper() + ">")
         input_str = root
+    
+    # Split by underscores, slashes, and backslashes
     segments = re.split(r'[_\\/]', input_str)
     for s in segments:
         s = s.strip()
+        # Ignore empty or text in parentheses
         if not s or (s.startswith('(') and s.endswith(')')): continue
         tags.append(s.upper())
     return tags
 
 def load_cfg():
-    if not os.path.exists(CFG_FILE): 
-        return []
+    if not os.path.exists(CFG_FILE): return []
     parsed_entries = []
     try:
         with open(CFG_FILE, "r", encoding="utf-8-sig") as f:
@@ -58,24 +87,17 @@ def load_cfg():
                 line = line.strip()
                 if not line: continue
                 parts = line.split('|')
-                scan_p = parts[0].strip()
-                out_p = parts[1].strip() if len(parts) > 1 else None
-                parsed_entries.append({"scan": scan_p, "output": out_p})
+                parsed_entries.append({"scan": parts[0].strip(), "output": parts[1].strip() if len(parts) > 1 else None})
         return parsed_entries
-    except Exception as e:
-        print(f"Warning: Could not read config: {e}")
-        return []
+    except Exception: return []
 
 def save_cfg(config_entries):
     try:
         with open(CFG_FILE, "w", encoding="utf-8") as f:
             for entry in config_entries:
-                line = entry['scan']
-                if entry.get('output'):
-                    line += f"|{entry['output']}"
+                line = entry['scan'] + (f"|{entry['output']}" if entry.get('output') else "")
                 f.write(line + "\n")
-    except Exception as e:
-        print(f"\nError: Could not save config file: {e}")
+    except Exception: pass
 
 def scan_directory(scan_dir, is_mobile):
     results = []
@@ -83,19 +105,39 @@ def scan_directory(scan_dir, is_mobile):
         dirs[:] = [d for d in dirs if not d.startswith('_')]
         rel_path = os.path.relpath(root, scan_dir)
         folder_tags = ["ROOT"] if rel_path == "." else process_string_into_tags(rel_path)
+        
         for file in files:
             if file.lower().endswith(EXTENSIONS):
                 full_path = os.path.join(root, file)
-                name_base = os.path.splitext(file)[0]
-                file_tags = process_string_into_tags(file, is_filename=True)
+                
+                # Extract Metadata {ID|s|x|y}
+                clean_name, meta = parse_metadata_from_name(file)
+                
+                # Tagging based on cleaned name
+                file_tags = process_string_into_tags(clean_name, is_filename=True)
                 combined = list(set(folder_tags + file_tags))
+                
                 src = get_image_source(full_path, is_mobile)
                 if src:
-                    results.append({
-                        "n": file.upper(),
-                        "t": combined,
-                        "p": src
-                    })
+                    # Construct Entry
+                    entry = {
+                        "n": clean_name.upper(),
+                        "t": combined
+                    }
+                    
+                    # If ID exists, path moves to 'u', otherwise stays 'p'
+                    if 'id' in meta:
+                        entry['p'] = meta['id']
+                        entry['u'] = src
+                    else:
+                        entry['p'] = src
+                    
+                    # Add Scale/Offset if present
+                    if 's' in meta: entry['s'] = meta['s']
+                    if 'x' in meta: entry['x'] = meta['x']
+                    if 'y' in meta: entry['y'] = meta['y']
+                    
+                    results.append(entry)
     return results
 
 def main():
@@ -103,86 +145,57 @@ def main():
     try:
         script_dir = os.path.dirname(os.path.abspath(__file__))
         CFG_FILE = os.path.join(script_dir, CFG_FILE)
-
         config_entries = load_cfg()
         
         print("\n--- DIRECTORY SELECTION ---")
-        if not config_entries:
-            print("(No saved paths found in config)")
-        else:
-            for i, entry in enumerate(config_entries):
-                out_info = f" [Out: {entry['output']}]" if entry['output'] else ""
-                print(f"{i+1}) {entry['scan']}{out_info}")
+        for i, entry in enumerate(config_entries):
+            print(f"{i+1}) {entry['scan']}")
         
         user_input = input(f"\nSelect #, enter path (scan|out), '.' (current), or '*' (all): ").strip()
         
         to_scan = []
         target_output_raw = None
 
-        if user_input == "*":
-            to_scan = [e['scan'] for e in config_entries]
-        elif user_input == ".":
-            to_scan = [script_dir]
+        if user_input == "*": to_scan = [e['scan'] for e in config_entries]
+        elif user_input == ".": to_scan = [script_dir]
         elif user_input.isdigit() and 0 < int(user_input) <= len(config_entries):
             selected = config_entries[int(user_input)-1]
-            to_scan = [selected['scan']]
-            target_output_raw = selected['output']
+            to_scan, target_output_raw = [selected['scan']], selected['output']
         else:
             parts = user_input.split('|')
             new_scan = os.path.abspath(os.path.expanduser(parts[0].strip().replace('"', '')))
-            new_out = parts[1].strip().replace('"', '') if len(parts) > 1 else None
-            
             if os.path.exists(new_scan):
-                to_scan = [new_scan]
-                target_output_raw = new_out
-                match = next((e for e in config_entries if e['scan'] == new_scan), None)
-                if not match:
-                    config_entries.append({"scan": new_scan, "output": new_out})
-                    save_cfg(config_entries)
-                elif match['output'] != new_out:
-                    match['output'] = new_out
+                to_scan, target_output_raw = [new_scan], parts[1].strip() if len(parts) > 1 else None
+                if not any(e['scan'] == new_scan for e in config_entries):
+                    config_entries.append({"scan": new_scan, "output": target_output_raw})
                     save_cfg(config_entries)
             else:
-                print(f"Error: Path not found -> {new_scan}")
-                input("Press Enter to exit...")
-                return
+                print(f"Error: Path not found -> {new_scan}"); return
 
-        print("\n--- OUTPUT MODE ---")
-        print("1) JSON (File Paths)")
-        print("2) JSON (Embedded Base64)")
-        mode = input("Choice: ").strip()
-        is_mobile = (mode == '2')
+        print("\n--- OUTPUT MODE ---\n1) JSON (Paths)\n2) JSON (Base64)")
+        is_mobile = (input("Choice: ").strip() == '2')
 
         final_data = []
-        seen_sources = set()
+        seen_ids = set()
         for d in to_scan:
-            print(f"Scanning: {d}...")
             found = scan_directory(d, is_mobile)
             for item in found:
-                if item['p'] not in seen_sources:
+                # Deduplicate by ID if exists, otherwise by source
+                key = item.get('id') or item.get('u') or item.get('p')
+                if key not in seen_ids:
                     final_data.append(item)
-                    seen_sources.add(item['p'])
+                    seen_ids.add(key)
 
-        # --- SMART PATH LOGIC ---
-        # 1. Start with default name
         filename = f"data_{datetime.now().strftime('%Y%m%d%H%M%S')}.json"
         final_out_path = os.path.join(script_dir, filename)
-
         if target_output_raw:
-            # Resolve the '.' to the script directory
-            if target_output_raw.startswith("."):
-                target_output_raw = os.path.join(script_dir, target_output_raw[2:] if target_output_raw.startswith("./") or target_output_raw.startswith(".\\") else target_output_raw[1:])
-            
-            # Check if user provided a specific .json filename
+            # Handle standard path logic
+            target_output_raw = target_output_raw.replace("./", script_dir + os.sep)
             if target_output_raw.lower().endswith(".json"):
                 final_out_path = os.path.abspath(target_output_raw)
-                save_dir = os.path.dirname(final_out_path)
             else:
-                save_dir = os.path.abspath(target_output_raw)
-                final_out_path = os.path.join(save_dir, filename)
-            
-            # Ensure the directory exists
-            os.makedirs(save_dir, exist_ok=True)
+                os.makedirs(target_output_raw, exist_ok=True)
+                final_out_path = os.path.join(target_output_raw, filename)
 
         with open(final_out_path, "w", encoding="utf-8") as f:
             json.dump(final_data, f, indent=2)
