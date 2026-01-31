@@ -4684,18 +4684,18 @@
 			const cardNotes = document.getElementById("card-notes");
 			const cardScript = document.getElementById("card-script");
 			// 20260123: Evelyn: Just use the data in the card if it is not found in DATA.
-			if(!activeCard){
+			//if(!activeCard){
 				document.getElementById("card-img-url").value = card.dataset.i || "";
 				document.getElementById("card-title").value = card.dataset.n || "";
 				document.getElementById("card-id").value = card.dataset.p || "";
 				document.getElementById("card-scale").value = card.dataset.s || "";
 				document.getElementById("card-path-url").value = card.dataset.u || "";
-				cardNotes.value = card.dataset.o;
-				cardScript.value = card.dataset.c;
+				cardNotes.value = card.dataset.o? decodeURIComponent(card.dataset.o) : "";
+				cardScript.value = card.dataset.c? decodeURIComponent(card.dataset.c) : "";
 				cardNotes.dataset.original = card.dataset.o || "";
 				cardScript.dataset.original = card.dataset.c || "";
 				
-			}
+			//}
 			if (activeCard) {
 				document.getElementById("card-img-url").value = activeCard.i || "";
 				document.getElementById("card-title").value = activeCard.n || "";
@@ -4722,8 +4722,8 @@
 				document.getElementById("card-x-offset").value = activeCard.x || "";
 				document.getElementById("card-y-offset").value = activeCard.y || "";
 			}
-			cardNotes.value = decodeURIComponent(cardNotes.dataset.original || "");
-			cardScript.value = decodeURIComponent(cardScript.dataset.original || "");
+			//cardNotes.value = decodeURIComponent(cardNotes.dataset.original || "");
+			//cardScript.value = decodeURIComponent(cardScript.dataset.original || "");
 			renderCardTags();
 
 			// Mirror Thumbnail.
