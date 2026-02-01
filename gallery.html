@@ -4830,10 +4830,10 @@
 				}
 			}else{
 				if(card){
-					card.style.height = "92%";
-					card.style.marginTop = "2%";
-					card.style.marginBottom = "6%";
-					frameH = frameH*0.92;
+					card.style.height = "90%";
+					card.style.marginTop = "3%";
+					card.style.marginBottom = "7%";
+					frameH = frameH*0.90;
 				}
 			}
 
@@ -4873,7 +4873,7 @@
 				// scaleShift is the amount the sprite should shift down (+Y) when the sprite is scaled
 				const scaleShift = (frameH * (1 - finalScale)) / 2; 
 				// groundShift is the amount to shift when the ground line is not the bottom of the track.
-				const groundShift = frameH *0.25;
+				const groundShift = frameH *0.30;
 				// liftPx is the amount to shift up when the sprite is supposed to be above ground line.
 				const liftPx = (posY / 100) * frameH;
 
@@ -4935,7 +4935,7 @@
 			if (!e.target.closest('.stage-next-btn')) return false;
 			e.stopPropagation();
 			if (StageLive()) {
-				if (await showConfirm('Quit this story?')) {
+				if (await showConfirm('Quit this script?')) {
 					SpeechBubbleShow(false);
 					ChoiceBubblePop(null,true);
 					StageFade();

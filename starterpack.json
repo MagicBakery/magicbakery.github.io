@@ -48,10 +48,9 @@
     ],
     "p": "20260120011400",
     "u": "https://magicbakery.github.io/sprites/Evelyn_Talk_%7B20260120011400%7D.png",
-    "s": 610.0,
+    "s": 600.0,
     "x": 214.0,
-    "y": 47,
-    "c": "!Stage%0A%40Evelyn%20Evelyn%0A!clear%20choices%0A*Greet*%20Greet%0A*Quest*%20Quest%0A*Rest*%20Rest%0A*Timer*%20Timer%0A%23%0A%3FGreet%20%3A%20Hello%2C%20my%20name%20is%20Evelyn.%20I'm%20a%20Cleric%20from%20Magic%20Bakery.%20Nice%20to%20meet%20you!%0A%3FQuest%20%3A%20For%20this%20App%20we%20need%20three%20kinds%20of%20help%3A%20(1)%20Programmers%20for%20the%20engine%2C%20(2)%20Artists%20for%20the%20graphics%20and%20sound%2C%20(3)%20Writers%20for%20the%20scripts.%0A%3FRest%20%3A%20Let's%20take%20a%20break.%0A%3FTimer%20%3A%20I%20want%20a%20timer%20to%20tally%20the%20time%20spent%20on%20a%20quest%20across%20days%20so%20I%20can%20log%20the%20combined%20time%20for%20a%20month.%0A%23"
+    "y": 47.0
   },
   {
     "n": "SASHA_DETECTIVE_TALK",
@@ -116,7 +115,7 @@
     ],
     "p": "20260122065700",
     "u": "https://magicbakery.github.io/sprites/StarTree_Talk_%7B20260122065700%7D.png",
-    "s": 550.0,
+    "s": 535.0,
     "x": 203.0,
     "y": 37.0,
     "c": "!Stage%0A%40StarTree%20%E2%AD%90%20STARTREE%20%E2%AD%90%0A!Clear%20choices%0A*AI*%20AI%0A*BUG*%20Bug%0A*Hobby*%20Hobby%0A*Third*%20Third%20Person%0A*Wee*%20Celebrate%0A%23%0A%3FAI%20%3A%20StarTree%20in%20not%20AI.%20StarTree%20is%20andragora.%0A%3FAI%20%3A%20But%20when%20people%20started%20vibe%20coding%20with%20Gemini%2C%20no%20one%20asks%20StarTree%20anymore!%0A%3FBUG%20%3A%20You%20can%20log%20bugs%20about%20this%20app%20at%20the%20email%20button%20or%20%5Burl%3Dhttps%3A%2F%2Fmagicbakery.github.io%2Ffeedback.html%5Dhere%5B%2Furl%5D.%0A%3FHobby%20%3A%20StarTree%20likes%20filing...%0A%3FHobby%20%3A%20like%20documents...%0A%3FHobby%20%3A%20fingernails...%0A%3FHobby%20%3A%20herself.%0A%3FThird%20%3A%20StarTree%20refers%20to%20herself%20in%20third%20person%20because%20the%20StarTree%20you%20are%20talking%20to%20is%20like%20a%20leaf%20to%20the%20actual%20tree.%20StarTree%20assumes%20you%20are%20trying%20to%20talk%20to%20StarTree%20and%20not%20just%20the%20leaf%20but%20the%20leaf%20is%20doing%20the%20actual%20speaking.%20%0A%3FWee%20%3A%20Wee~!%0A%23"
@@ -160,7 +159,7 @@
     ],
     "p": "20260130101000",
     "u": "https://magicbakery.github.io/sprites/Zoey_Talk_%7B20260130101000%7D.png",
-    "s": 825.0,
+    "s": 800.0,
     "x": -327.0,
     "y": 66.0
   },
@@ -939,8 +938,22 @@
     ],
     "p": "20260131130800",
     "u": "https://magicbakery.github.io/sprites/James_Listen_%7B20260131130800%7D.png",
-    "s": 831.0,
+    "s": 760.0,
     "x": -350.0,
-    "y": 66.0
+    "y": 69.0
+  },
+  {
+    "n": "LRRH_TALK",
+    "t": [
+      "LRRH",
+      "TALK",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260131181700",
+    "u": "https://magicbakery.github.io/sprites/LRRH_Talk_%7B20260131181700%7D.png",
+    "s": 700.0,
+    "x": 400.0,
+    "y": 126.0
   }
 ]
