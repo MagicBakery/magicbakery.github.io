@@ -146,9 +146,9 @@
     ],
     "p": "20260124152700",
     "u": "https://magicbakery.github.io/sprites/Cardinal_Talk_%7B20260124152700%7D.png",
-    "s": 699,
-    "x": 480,
-    "y": 124
+    "s": 699.0,
+    "x": 480.0,
+    "y": 124.0
   },
   {
     "n": "ZOEY_TALK",
@@ -160,9 +160,9 @@
     ],
     "p": "20260130101000",
     "u": "https://magicbakery.github.io/sprites/Zoey_Talk_%7B20260130101000%7D.png",
-    "s": 800,
-    "x": -327,
-    "y": 66
+    "s": 800.0,
+    "x": -327.0,
+    "y": 66.0
   },
   {
     "n": "3B_WINTER_THEATER",
@@ -939,9 +939,9 @@
     ],
     "p": "20260131130800",
     "u": "https://magicbakery.github.io/sprites/James_Listen_%7B20260131130800%7D.png",
-    "s": 760,
-    "x": -350,
-    "y": 69
+    "s": 760.0,
+    "x": -350.0,
+    "y": 69.0
   },
   {
     "n": "LRRH_TALK",
@@ -1106,10 +1106,7 @@
       "[STARTER PACK]"
     ],
     "p": "20260131212600",
-    "u": "https://substackcdn.com/image/fetch/$s_!MtTO!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Faa892c88-95b6-4487-b257-8d2bbc1e1b7c_1024x1024.jpeg",
-    "s": 0,
-    "x": 0,
-    "y": 0
+    "u": "https://substackcdn.com/image/fetch/$s_!MtTO!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Faa892c88-95b6-4487-b257-8d2bbc1e1b7c_1024x1024.jpeg"
   },
   {
     "n": "TOWN_STREET_WINTER_NIGHT",
@@ -1134,9 +1131,9 @@
     ],
     "p": "20260131225500",
     "u": "https://magicbakery.github.io/sprites/Arcacia_Love_%7B20260131225500%7D.png",
-    "s": 580.0,
+    "s": 590.0,
     "x": 265.0,
-    "y": 48.0
+    "y": 45.0
   },
   {
     "n": "BLACK_LISTEN",
