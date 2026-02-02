@@ -1024,18 +1024,6 @@
     "u": "https://substackcdn.com/image/fetch/$s_!zAMB!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F58842f0e-f193-4107-9599-5ec8df5ea22a_1536x1024.jpeg"
   },
   {
-    "n": "TOWN_STREET_WINTER",
-    "t": [
-      "STREET",
-      "TOWN",
-      "WINTER",
-      "[SCENE]",
-      "[STARTER PACK]"
-    ],
-    "p": "20260131205700",
-    "u": "https://substackcdn.com/image/fetch/$s_!6L8U!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb4e96e3d-cd67-48e8-8631-3d657fd91450_1536x1024.jpeg"
-  },
-  {
     "n": "FOREST_RUINS_TELEPORT CRYSTAL",
     "t": [
       "FOREST",
@@ -1194,8 +1182,19 @@
     ],
     "p": "20260202005900",
     "u": "https://magicbakery.github.io/sprites/Ken_Talk_%7B20260202005900%7D.png",
-    "s": 590.0,
-    "x": 200.0,
+    "s": 740.0,
+    "x": 385.0,
     "y": 126.0
+  },
+  {
+    "n": "TOWN_WINTER",
+    "t": [
+      "TOWN",
+      "WINTER",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260202013200",
+    "u": "https://substackcdn.com/image/fetch/$s_!56mr!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7ea47d0f-c081-4c80-96b4-8862e7bc559f_1536x1024.jpeg"
   }
 ]
