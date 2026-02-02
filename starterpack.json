@@ -160,9 +160,9 @@
     ],
     "p": "20260130101000",
     "u": "https://magicbakery.github.io/sprites/Zoey_Talk_%7B20260130101000%7D.png",
-    "s": 800,
-    "x": -327,
-    "y": 66
+    "s": 800.0,
+    "x": -327.0,
+    "y": 66.0
   },
   {
     "n": "3B_WINTER_THEATER",
@@ -1148,5 +1148,26 @@
     "s": 900.0,
     "x": 310.0,
     "y": 76.0
+  },
+  {
+    "n": "WHEAT_FIELD_SUMMER",
+    "t": [
+      "FIELD",
+      "SUMMER",
+      "WHEAT",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260201235200",
+    "u": "https://substackcdn.com/image/fetch/$s_!8eOI!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3b652e6a-a5a5-423e-baed-606ef847d751_1536x1024.jpeg"
+  },
+  {
+    "n": "STUDY",
+    "t": [
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260201235800",
+    "u": "https://substackcdn.com/image/fetch/$s_!NbW9!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F503c30ea-a8d8-436e-8995-6f34d78df7f8_1536x1024.jpeg"
   }
 ]
