@@ -1180,8 +1180,21 @@
     ],
     "p": "20260202004200",
     "u": "https://magicbakery.github.io/sprites/Ivy_Listen_%7B20260202004200%7D.png",
-    "s": 590.0,
-    "x": -248.0,
+    "s": 830.0,
+    "x": -273.0,
     "y": 66.0
+  },
+  {
+    "n": "KEN_TALK",
+    "t": [
+      "KEN",
+      "TALK",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260202005900",
+    "u": "https://magicbakery.github.io/sprites/Ken_Talk_%7B20260202005900%7D.png",
+    "s": 200.0,
+    "y": 126.0
   }
 ]
