@@ -1169,5 +1169,19 @@
     ],
     "p": "20260201235800",
     "u": "https://substackcdn.com/image/fetch/$s_!NbW9!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F503c30ea-a8d8-436e-8995-6f34d78df7f8_1536x1024.jpeg"
+  },
+  {
+    "n": "IVY_LISTEN",
+    "t": [
+      "IVY",
+      "LISTEN",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260202004200",
+    "u": "https://magicbakery.github.io/sprites/Ivy_Listen_%7B20260202004200%7D.png",
+    "s": 590.0,
+    "x": -248.0,
+    "y": 66.0
   }
 ]
