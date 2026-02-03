@@ -2420,7 +2420,7 @@
 			pointer-events: none;
 			opacity: 0;
 			visibility: none;
-			transition: opacity 1s ease-in-out, visibility 1s;
+			transition: opacity 0.5s ease-in-out, visibility 0.5s;
 
 		}
 
@@ -3600,7 +3600,7 @@
 					curtain.style.opacity = '0';
 					// Wait for the transition to finish (time defined in CSS)
 					// then remove it from the layout entirely
-					setTimeout(() => { curtain.style.display = 'none'; }, 800);
+					setTimeout(() => { curtain.style.display = 'none'; }, 1000);
 				}
 			});
 		}
@@ -4357,7 +4357,7 @@
 			SpeechBubbleShow(true);
 			document.querySelector('.speech-bubble').scrollTop = 0;
 		}
-		function processScriptLine(line) {
+		async function processScriptLine(line) {
 			// 20260119: Arcacia: This function runs a line in the script. if it returns true, it means that the function calling this may run the next line immediately.
 			const prefix = line.charAt(0);
 
@@ -4635,7 +4635,7 @@
 				return true;
 			}
 			// STEP Process the line. Returning True means continue to next line.
-			if (processScriptLine(currentLine)) {
+			if (await processScriptLine(currentLine)) {
 				DEBUG("[ ] " + currentLine, true); //
 				ScriptRun(SE);
 			} else {
@@ -4936,6 +4936,8 @@
 		}
 		async function StageChange(url) {
 			await fadeLoadingScreen(true);
+			// 20260203: Auto hide all actors until they speak again.
+			StageActorsOff();
 			const stageEl = document.getElementById('stage-area');
 			stageEl.style.backgroundImage = `url(${url})`;
 			await new Promise(r => setTimeout(r, 200));
@@ -5080,7 +5082,7 @@
 				const substringcc = bInsensitive? substring.toUpperCase():substring
 				const index = strcc.indexOf(substringcc);
 				if (index === -1) return "";
-				return strcc.substring(index + substring.length);
+				return this.substring(index + substring.length);
 			}
 		}
 		function toggleAddTag(bInit) {
