@@ -2374,6 +2374,7 @@ function MacroIcons(el,iHTMLInner){
     ["Masks","🎭"],
     ["Medal","🏅"],
     ["Mirror","🪞"],
+    ["Moon0","🌑"],
     ["NestEggs","🪺"],
     ["Notes","📒"],
     ["Orange","🍊"],

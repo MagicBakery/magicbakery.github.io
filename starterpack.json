@@ -160,9 +160,9 @@
     ],
     "p": "20260130101000",
     "u": "https://magicbakery.github.io/sprites/Zoey_Talk_%7B20260130101000%7D.png",
-    "s": 800.0,
-    "x": -327.0,
-    "y": 66.0
+    "s": 800,
+    "x": -327,
+    "y": 66
   },
   {
     "n": "3B_WINTER_THEATER",
@@ -325,6 +325,7 @@
   {
     "n": "EVELYN",
     "t": [
+      "EVELYN",
       "[ALBUM]",
       "[STARTER PACK]"
     ],
@@ -360,6 +361,7 @@
   {
     "n": "FORTUNE COOKIE",
     "t": [
+      "FORTUNE COOKIE",
       "[ALBUM]",
       "[STARTER PACK]"
     ],
@@ -923,6 +925,7 @@
   {
     "n": "BAKERY",
     "t": [
+      "BAKERY",
       "[SCENE]",
       "[STARTER PACK]"
     ],
@@ -939,9 +942,9 @@
     ],
     "p": "20260131130800",
     "u": "https://magicbakery.github.io/sprites/James_Listen_%7B20260131130800%7D.png",
-    "s": 760.0,
-    "x": -350.0,
-    "y": 69.0
+    "s": 760,
+    "x": -350,
+    "y": 69
   },
   {
     "n": "LRRH_TALK",
@@ -960,6 +963,7 @@
   {
     "n": "STAGE",
     "t": [
+      "STAGE",
       "[SCENE]",
       "[STARTER PACK]"
     ],
@@ -1094,7 +1098,10 @@
       "[STARTER PACK]"
     ],
     "p": "20260131212600",
-    "u": "https://substackcdn.com/image/fetch/$s_!MtTO!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Faa892c88-95b6-4487-b257-8d2bbc1e1b7c_1024x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!MtTO!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Faa892c88-95b6-4487-b257-8d2bbc1e1b7c_1024x1024.jpeg",
+    "s": 0,
+    "x": 0,
+    "y": 0
   },
   {
     "n": "TOWN_STREET_WINTER_NIGHT",
@@ -1152,6 +1159,7 @@
   {
     "n": "STUDY",
     "t": [
+      "STUDY",
       "[SCENE]",
       "[STARTER PACK]"
     ],

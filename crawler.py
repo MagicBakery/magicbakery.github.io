@@ -5,7 +5,8 @@ import re
 from pathlib import Path
 from datetime import datetime
 
-# VERSION: 20260131903
+# VERSION: 20260202
+# 20260202: Filename tagging triggered ONLY by underscore
 # 20260131: Sort tags ("t") alphabetically within each entry
 # 20260131: Sort final output entries by .p
 # 20260113: File Extensions go to a tag .EXT
@@ -38,7 +39,7 @@ def get_image_source(full_path, is_mobile):
 
 def parse_metadata_from_name(filename):
     """
-    Extracts {ID|s|x|y} patterns.
+    Extracts {ID+s+x+y} patterns.
     Returns (cleaned_name, metadata_dict)
     """
     metadata = {}
@@ -65,18 +66,21 @@ def parse_metadata_from_name(filename):
     return filename, metadata
 
 def process_string_into_tags(input_str, is_filename=False):
-    if is_filename and "_" not in input_str: return []
+    """
+    Processes tags. For filenames, an underscore MUST be present to generate tags.
+    Filters out metadata braces {...} and parentheses (...).
+    """
+    if is_filename and "_" not in input_str: 
+        return []
+        
     tags = []
-    if is_filename:
-        root, ext = os.path.splitext(input_str)
-        input_str = root
-    
     # Split by underscores, slashes, and backslashes
     segments = re.split(r'[_\\/]', input_str)
     for s in segments:
         s = s.strip()
-        # Ignore empty or text in parentheses
-        if not s or (s.startswith('(') and s.endswith(')')): continue
+        # Ignore empty, text in parentheses, OR metadata in curly braces
+        if not s or (s.startswith('(') and s.endswith(')')) or (s.startswith('{') and s.endswith('}')): 
+            continue
         tags.append(s.upper())
     return tags
 
@@ -112,11 +116,15 @@ def scan_directory(scan_dir, is_mobile):
             if file.lower().endswith(EXTENSIONS):
                 full_path = os.path.join(root, file)
                 
-                # Extract Metadata {ID|s|x|y}
+                # 1. Get the original filename without extension for tag processing
+                original_name_no_ext = os.path.splitext(file)[0]
+                
+                # 2. Extract Metadata for the clean display name 'n'
                 clean_name, meta = parse_metadata_from_name(file)
                 
-                # Tagging based on cleaned name
-                file_tags = process_string_into_tags(clean_name, is_filename=True)
+                # 3. Process tags from the ORIGINAL filename (detects underscore in Stage_{2026})
+                file_tags = process_string_into_tags(original_name_no_ext, is_filename=True)
+                
                 combined = list(set(folder_tags + file_tags))
                 
                 src = get_image_source(full_path, is_mobile)

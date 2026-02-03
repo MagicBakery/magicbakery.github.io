@@ -6,8 +6,8 @@
 	<title>Magic Theater</title>
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
 	<script>
-		const APP_VERSION = "20260130235800"; //#Version
-		const APP_ANNOUNCEMENT = "20260130: Scaling Fixes."
+		const APP_VERSION = "20260203003300"; //#Version
+		const APP_ANNOUNCEMENT = "20260203: Goto."
 	</script>
 	<style>
 		:root {
@@ -3226,9 +3226,11 @@
 		/* #ALPHABETICALLY SORTED CODE */
 		const zLayers = ['Notifications', 'LoadingScreen', 'TransparentControls', 'ExamineScreen', 'SpeechBubble', 'StageGUI', 'Stage', 'GUIControls', 'Listings', 'Gallery', 'AppWallpaper'];
 		const assetLibrary = {}; // { "key1": AudioObject }
+		
 
 		let autoRandomTimer = null;
 		let autoRandomTrack = null;
+		let firstLoad = true; // 20260203: To process URL param just once.
 		const injectedCSS = new Set();
 		let isRemovalMode = false; /* 20251226: StarTree: Used for the Removal button */
 		let resolveConfirm = null;
@@ -3355,7 +3357,11 @@
 			// STEP: Clear the active status of all other actors on stage, and set this to be active.
 			elStage.querySelectorAll('.actor').forEach(a => { a.classList.remove('active'); });
 			actor.classList.add('active');
-			// STEP: Process the rest of the command			
+			// STEP: Process the rest of the command		
+			if(rest == '')	{
+				SpeechBubbleShow(false);
+				return false;
+			}
 			return processScriptLine(rest);
 		}
 		function ChoiceAdd(choice) {
@@ -3845,6 +3851,7 @@
 			// 20260103: Lei: Returns the image path for thumbnail when the item is not an image file.
 			const imageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'avif', 'url'];
 			// Priority 1: If the item has an image, use it.
+			DEBUG(item.i,true);
 			if (item.i && item.i.trim() !== "") return item.i;
 
 			// Priority 2: If the item has a path that is an image, use it.
@@ -3886,7 +3893,7 @@
 					}
 				}
 			}
-
+			DEBUG(item.n,true);
 			const fileName = item.n;
 			if (fileName.trim() == "") {
 				fileName = cleanPath.split(/[/\\]/).pop().split(/[?#]/)[0];
@@ -4299,6 +4306,9 @@
 			} else if (command === 'END') {
 				ScriptEnd();
 				return true;
+			} else if (command === 'GOTO') {
+				ScriptGoto(arg1);
+				return true;
 			} else if (command === 'PLAY') {
 				playSound(arg1, arg2, arg3); return true;
 			} else if (command === 'SOUND') {
@@ -4308,9 +4318,6 @@
 			return false;
 		}
 		function processScriptDialog(text, choiceColors = []) {
-
-
-
 			const overlay = document.getElementById('dialogue-overlay');
 			const textField = document.getElementById('speech-text');
 			const choiceContainer = document.getElementById('choice-container');
@@ -4368,6 +4375,7 @@
 			}
 			const content = line.substring(1).trim();
 			switch (prefix) {
+				case '': return false;
 				case '#': return true; // # are comments.
 				case '!': return processScriptCommands(content);
 				case '?': return ScriptIf(content);
@@ -4459,6 +4467,17 @@
 			cardScript.dataset.original = activeCard.dataset.c;
 			cardScript.classList.remove("unsaved");
 
+			// Update the visual card immediately if the image changed
+			activeCard.dataset.id = activeCard.dataset.p;
+			const cardThumbnail = document.getElementById('active-preview-thumb');
+			cardThumbnail.src = getImageURL(activeCard.dataset);
+			if (activeCard) {
+				const img = activeCard.querySelector('img');
+				if (img) img.src = cardThumbnail.src;
+			}
+			refreshAllUI(); // So that if the p code has changed the grid view or file list button is still functional.
+
+
 			activeCard.classList.add("pinned");
 			saveMetadata();
 			memDOM();
@@ -4485,15 +4504,7 @@
 			//if(activeCardData.c==0){delete activeCardData.c;}
 			//if(activeCardData.y==0){delete activeCardData.y;}
 
-			// Update the visual card immediately if the image changed
-			card.dataset.id = activeCardData.p;
-			const cardThumbnail = document.getElementById('active-preview-thumb');
-			cardThumbnail.src = getImageURL(activeCardData);
-			if (card) {
-				const img = card.querySelector('img');
-				if (img) img.src = cardThumbnail.src;
-			}
-			refreshAllUI(); // So that if the p code has changed the grid view or file list button is still functional.
+			
 		}
 		function ScriptBubbleSpawning(line, done) {
 			// 20260119: LRRH: if done, clear the bubble spawning mode.
@@ -4519,9 +4530,18 @@
 			// 20260125: Evelyn: Ends the script. (To keep tht engine from running the rest.)
 			const elSE = ScriptEngine();
 			elSE.dataset.script = "";
+			elSE.dataset.p = "";
 		}
 		function ScriptEngine() {
 			return document.querySelector('.script-step-btn');
+		}
+		function ScriptGoto(label){
+			// 20260202: Fina: Go to a label encapsulated by '#' in the script.
+			const SE = ScriptEngine();
+			let remainingScript = SE.dataset.scriptBackup;
+			remainingScript = remainingScript.rightOf(`#${label}#`,true);
+			remainingScript = remainingScript.rightOf('\n');
+			SE.dataset.script = remainingScript;
 		}
 		function ScriptIf(line) {
 			// 20260119: Arcacia: The line interpreter calls this if the first character is ?
@@ -4659,6 +4679,7 @@
 						scriptToRun = elNotes.value;
 					}
 					SE.dataset.script = scriptToRun;
+					SE.dataset.scriptBackup = scriptToRun;
 					SE.removeAttribute('SE-BubbleSpawning');
 				}
 			}
@@ -4936,10 +4957,10 @@
 			e.stopPropagation();
 			if (StageLive()) {
 				if (await showConfirm('Quit this script?')) {
+					ScriptEnd();
 					SpeechBubbleShow(false);
 					ChoiceBubblePop(null,true);
 					StageFade();
-
 				}
 			}
 		}
@@ -5053,11 +5074,13 @@
 			String.prototype.leftOf = function (substring) {
 				return this.split(substring)[0];
 			}
-			String.prototype.rightOf = function (substring) {
+			String.prototype.rightOf = function (substring, bInsensitive) {
 				// 20260125: Evelyn: Returns the remaining string after the first instance of substring.
-				const index = this.indexOf(substring);
+				const strcc = bInsensitive? this.toUpperCase(): this;
+				const substringcc = bInsensitive? substring.toUpperCase():substring
+				const index = strcc.indexOf(substringcc);
 				if (index === -1) return "";
-				return this.substring(index + substring.length);
+				return strcc.substring(index + substring.length);
 			}
 		}
 		function toggleAddTag(bInit) {
@@ -6038,11 +6061,15 @@
 			ALL_TAGS = Array.from(tags).sort(); // Update the cloud source
 
 			// URLParam
-			urlParams = new URLSearchParams(window.location.search);
-			const rawId = urlParams.get('id');
-			if (rawId) {
-				ScriptRunID(rawId);
+			if(firstLoad){
+				urlParams = new URLSearchParams(window.location.search);
+				const rawId = urlParams.get('id');
+				if (rawId) {
+					ScriptRunID(rawId);					
+				}
+				firstLoad = false;
 			}
+			
 
 			refreshAllUI();
 		}
