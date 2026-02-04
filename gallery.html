@@ -2448,13 +2448,15 @@
 		@keyframes invisiblePulse {
 
 			0%,
+			30%,
+			70%,
 			100% {
 				opacity: 0.5;
 			}
 
-			25%,
+			40%,
 			50%,
-			75% {
+			60% {
 				opacity: 0.0;
 			}
 		}
@@ -4356,6 +4358,14 @@
 
 			SpeechBubbleShow(true);
 			document.querySelector('.speech-bubble').scrollTop = 0;
+
+			// Reset the next button animation.
+			const nextBtn = document.querySelector('.stage-next-btn');
+			nextBtn.classList.remove('stage-next-btn');
+			void nextBtn.offsetWidth;
+			nextBtn.classList.add('stage-next-btn');
+
+
 		}
 		async function processScriptLine(line) {
 			// 20260119: Arcacia: This function runs a line in the script. if it returns true, it means that the function calling this may run the next line immediately.
@@ -4985,9 +4995,13 @@
 				scene = DATABestMatch(["[SCENE]"], [curSeason, curMonthName]);
 			} else if (args === "USER") {
 				scene = FilterDraw();
-			} else if (isOnlyDigits(args)) {
+			} else if (args.isOnlyDigits()) {
 				// Assume it is the ID
 				scene = DATAByID(args);
+			}else{
+				// 20260203: Evelyn: Interpret the rest as a comma separated list of tags.
+				const inlineTags = args.split(',');
+				scene = DATABestMatch([],inlineTags);
 			}
 			if (!scene) { scene = getActiveCardData(); }
 			if (scene) {
