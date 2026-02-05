@@ -2763,7 +2763,7 @@
 
 		<div class="panel-tabs">
 			<div class="active-preview-container">
-				<img id="active-preview-thumb" class="save-notes-btn" src="" alt="" style="display: none;"
+				<img id="active-preview-thumb" class="save-notes-btn" src="" referrerpolicy="no-referrer" alt="" style="display: none;"
 					onclick="saveCardNotes(event)" title="Save changes to this card">
 				<button class="tab-btn" onclick="toggleTab(event,'tab-card-notes')" title="Details">
 					<svg width="24" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
@@ -3852,8 +3852,8 @@
 		function getImageURL(item) {
 			// 20260103: Lei: Returns the image path for thumbnail when the item is not an image file.
 			const imageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'avif', 'url'];
-			// Priority 1: If the item has an image, use it.
-			DEBUG(item.i,true);
+			const nonimageExtensions = ['pdf','doc','docx','html','json'];
+			// Priority 1: If the item has an image, use it.			
 			if (item.i && item.i.trim() !== "") return item.i;
 
 			// Priority 2: If the item has a path that is an image, use it.
@@ -3867,12 +3867,12 @@
 				if (typeof item.u === 'string' && item.u.startsWith('blob:')) {
 					return item.u;
 				}
-				const cleanPath = item.u.trim();
+				const cleanPath = URLHotLink(item.u);
 				const parts = cleanPath.split('.');
 				if (parts.length > 1) {
 					const extension = parts.pop().toLowerCase();
 
-					if (imageExtensions.includes(extension)) {
+					if (!nonimageExtensions.includes(extension)) {
 						return cleanPath;
 					}
 				}
@@ -3890,12 +3890,12 @@
 				const parts2 = cleanPath2.split('.');
 				if (parts2.length > 1) {
 					const extension2 = parts2.pop().toLowerCase();
-					if (imageExtensions.includes(extension2)) {
+					if (!nonImageExtensions.includes(extension2)) {
 						return cleanPath2;
 					}
 				}
 			}
-			DEBUG(item.n,true);
+			
 			const fileName = item.n;
 			if (fileName.trim() == "") {
 				fileName = cleanPath.split(/[/\\]/).pop().split(/[?#]/)[0];
@@ -4260,6 +4260,8 @@
 			elThis.innerHTML = `${flexN}:${flexS}`;
 		}
 		function playSound(name, rate = 1.0, shouldLoop = false) {
+			if(rate==""){rate = 1};
+			if(shouldLoop==""){shouldLoop = false;}			
 			const keys = soundMap[name];
 			if (!keys || keys.size === 0) return;
 
@@ -4283,17 +4285,11 @@
 			const command = line.leftOf(' ').trim().toUpperCase();
 			const after1 = line.trim().rightOf(' ').trim();
 			const arg1 = after1.leftOf(' ').trim().toUpperCase();
-
-			const parts = line.split('!');
-			const secondMarkerIndex = line.indexOf('!', 1);
-			const thirdMarkerIndex = line.indexOf('!', secondMarkerIndex + 1);
-			const fourthMarkerIndex = line.indexOf('!', thirdMarkerIndex + 1);
-
-
-			const arg2 = parts[2]?.toUpperCase().trim();
-			const arg3 = parts[3]?.toUpperCase().trim();
-			const after2 = line.substring(thirdMarkerIndex + 1).trim();
-			const after3 = line.substring(fourthMarkerIndex + 1).trim();
+			const after2 = after1.trim().rightOf(' ').trim();
+			const arg2 = after2.leftOf(' ').trim().toUpperCase();
+			const after3 = after2.trim().rightOf(' ').trim();
+			const arg3 = after3.leftOf(' ').trim().toUpperCase();
+		
 			if (command === 'BUTTON') { addButton(arg1, arg2, after3); return true; }
 			if (command === 'CHOOSE') { ChoiceAdd(arg1); return true; }
 			if (command === 'CLEAR') {
@@ -5294,7 +5290,17 @@
 				//setTimeout(() => track.classList.remove('moving'), 300);
 			}
 		}
-
+		function URLHotLink(url){
+			// 20260205: LRRH: Converts a google drive link to a hotlink
+			// Doesn't work. Use Google Photo instead.
+			url = url.trim();
+			const idMatch = url.match(/\/d\/([^/]+)/);
+			if (idMatch && idMatch[1]) {
+				const fileId = idMatch[1];				
+				return `https://drive.usercontent.google.com/download?id=${fileId}`;
+			}
+			return url;
+		}
 		/* UNSORTED CODE */
 
 		function openChoicePreview(code, text, el) {
@@ -5728,7 +5734,7 @@
 						: "data:audio/mpeg;base64," + source;
 
 					assetLibrary[assetKey] = new Audio(src);
-					DEBUG(`Asset Created: ${assetKey}`);
+					//DEBUG(`Asset Created: ${assetKey}`);
 				}
 			}
 
@@ -6457,7 +6463,7 @@
             style="min-width: 100%;"
 				/>`;
 			} else {
-				c.innerHTML = `<a href="${getURL(item)}" target="_blank" class="file-link" onclick="return false;"><img src="${getImageURL(item)}" loading="lazy"></a>`;
+				c.innerHTML = `<a href="${getURL(item)}" target="_blank" class="file-link" onclick="return false;"><img src="${getImageURL(item)}" referrerpolicy="no-referrer" loading="lazy"></a>`;
 			}
 
 			// 20251229: Sasha: In Multitrack vertical mode insert after the active card.
