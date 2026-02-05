@@ -1098,10 +1098,7 @@
       "[STARTER PACK]"
     ],
     "p": "20260131212600",
-    "u": "https://substackcdn.com/image/fetch/$s_!MtTO!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Faa892c88-95b6-4487-b257-8d2bbc1e1b7c_1024x1024.jpeg",
-    "s": 0,
-    "x": 0,
-    "y": 0
+    "u": "https://substackcdn.com/image/fetch/$s_!MtTO!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Faa892c88-95b6-4487-b257-8d2bbc1e1b7c_1024x1024.jpeg"
   },
   {
     "n": "TOWN_STREET_WINTER_NIGHT",
@@ -1204,5 +1201,19 @@
     ],
     "p": "20260202013200",
     "u": "https://substackcdn.com/image/fetch/$s_!56mr!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7ea47d0f-c081-4c80-96b4-8862e7bc559f_1536x1024.jpeg"
+  },
+  {
+    "n": "SKYLE_LISTEN",
+    "t": [
+      "LISTEN",
+      "SKYLE",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260205005700",
+    "u": "https://magicbakery.github.io/sprites/Skyle_Listen_%7B20260205005700%7D.png",
+    "s": 800.0,
+    "x": 176.0,
+    "y": 62.0
   }
 ]
