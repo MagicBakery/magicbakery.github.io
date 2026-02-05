@@ -160,9 +160,9 @@
     ],
     "p": "20260130101000",
     "u": "https://magicbakery.github.io/sprites/Zoey_Talk_%7B20260130101000%7D.png",
-    "s": 800,
-    "x": -327,
-    "y": 66
+    "s": 800.0,
+    "x": -327.0,
+    "y": 66.0
   },
   {
     "n": "3B_WINTER_THEATER",
@@ -942,9 +942,9 @@
     ],
     "p": "20260131130800",
     "u": "https://magicbakery.github.io/sprites/James_Listen_%7B20260131130800%7D.png",
-    "s": 760,
-    "x": -350,
-    "y": 69
+    "s": 760.0,
+    "x": -350.0,
+    "y": 69.0
   },
   {
     "n": "LRRH_TALK",
@@ -1212,8 +1212,8 @@
     ],
     "p": "20260205005700",
     "u": "https://magicbakery.github.io/sprites/Skyle_Listen_%7B20260205005700%7D.png",
-    "s": 800.0,
-    "x": 176.0,
-    "y": 62.0
+    "s": 760.0,
+    "x": 221.0,
+    "y": 64.0
   }
 ]
