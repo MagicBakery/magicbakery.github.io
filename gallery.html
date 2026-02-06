@@ -7,7 +7,7 @@
 	<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 	<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
-	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="/icons/star_192.png">
 	<script>
@@ -3352,12 +3352,14 @@
 				// Make the img code inside the actor div, and run SpriteOnStage for the img.
 				actor.append(img);
 				elStage.append(actor);
+				let rndX =0;
+				if(actorData.s > 0){rndX= Math.random()*40;	}
 				if (actorData.x >= 0) {
 					// Enter from right and face left.
-					SpriteOnStage(img, 0, 0, true, true, true);
+					SpriteOnStage(img, rndX, 0, true, true, true);
 				} else {
 					// Enter from left and face right.
-					SpriteOnStage(img, 0, 0, true, false, true);
+					SpriteOnStage(img, -rndX, 0, true, false, true);
 				}
 			}
 
@@ -4367,7 +4369,7 @@
 			void nextBtn.offsetWidth;
 			nextBtn.classList.add('stage-next-btn');
 
-
+			return false;
 		}
 		async function processScriptLine(line) {
 			// 20260119: Arcacia: This function runs a line in the script. if it returns true, it means that the function calling this may run the next line immediately.
@@ -4383,6 +4385,7 @@
 
 				// 20260119: Skyle: If the dialog overlay is hidden, show it back so the user can confirm their choice.
 				SpeechBubbleShow(true);
+				showToast('Please find and select a choice.')
 				return false;
 			}
 			const content = line.substring(1).trim();
@@ -4396,7 +4399,7 @@
 				case '*': return ScriptBubbleSpawning(content);
 				case '@': return ActorSet(content);
 				case '>': createCard(getCardByPath(content)); return false;
-				default: processScriptDialog(line); return false;
+				default: return processScriptDialog(line);
 			}
 			return false;
 		}
