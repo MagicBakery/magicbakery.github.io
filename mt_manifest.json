@@ -1,7 +1,7 @@
 {
   "name": "Magic Theater",
   "short_name": "Theater",
-  "start_url": "/gallery.html",
+  "start_url": "/mt.html",
   "display": "standalone",
   "scope": "/",
   "background_color": "#ffffff",
