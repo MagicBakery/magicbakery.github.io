@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html>
-
 <head>
+	<link rel="manifest" href="/mt_manifest.json">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 	<title>Magic Theater</title>
+	<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+	<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="/icons/star_192.png">
 	<script>
 		const APP_VERSION = "20260203003300"; //#Version
 		const APP_ANNOUNCEMENT = "20260203: Goto."
@@ -3205,6 +3210,7 @@
 				// DEFAULT PATH: Starter Pack
 				savedPaths = [{
 					path: "https://magicbakery.github.io/starterpack.json",
+					//path: "https://gist.githubusercontent.com/MagicBakery/5f922bc0fe8b3eae4726e723aa15ad27/raw/",
 					checked: true,
 					data: null
 				}];
@@ -7110,6 +7116,13 @@
 				}
 			}
 		}, { passive: false });
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', () => {
+				navigator.serviceWorker.register('/sw.js')
+					.then((reg) => console.log('Service Worker Registered!', reg))
+					.catch((err) => console.log('Registration Failed:', err));
+			});
+		}
 	</script>
 </body>
 
