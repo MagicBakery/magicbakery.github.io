@@ -160,9 +160,9 @@
     ],
     "p": "20260130101000",
     "u": "https://magicbakery.github.io/sprites/Zoey_Talk_%7B20260130101000%7D.png",
-    "s": 800,
-    "x": -327,
-    "y": 66
+    "s": 770.0,
+    "x": -335.0,
+    "y": 65.0
   },
   {
     "n": "3B_WINTER_THEATER",
@@ -174,7 +174,11 @@
       "[STARTER PACK]"
     ],
     "p": "20260131092800",
-    "u": "https://substackcdn.com/image/fetch/$s_!tnGq!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7d045ae9-eedc-4e69-872c-92ebc7d084e8_1024x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!tnGq!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7d045ae9-eedc-4e69-872c-92ebc7d084e8_1024x1024.jpeg",
+    "c": "!stage%0A!clear%20choices%0AMagic%20Theater%20Upgrades%0A*QUIZ*%20Quiz%20mode%20needs%20Jump%0A*News*%20Support%20ongoing%20discussions%0A*Github*%20Script%20call%20to%20GitHub%20node%0A*Priority*%20Priority%20%0A%23%0A%3FGithub%20%40Tanya%20%3AAll%20script%20should%20still%20be%20able%20to%20run%20from%20user%20notes%20because%20that%20is%20the%20quickest%20way%20to%20check%20the%20script.%0A%23%0A%3FNews%20%40LRRH%20%3A%20I%20want%20a%20way%20to%20use%20the%20theater%20so%20that%20even%20when%20a%20discussion%20has%20not%20ended%2C%20it%20can%20bring%20people%20up%20to%20speed%20to%20where%20the%20discussion%20is.%0A%3FNews%20%3ABut%20to%20include%20the%20past%20discussion%20points%20for%20the%20viewer%20to%20catch%20up%2C%20I%20think%20it%20still%20means%20that%20the%20script%20needs%20to%20refer%20to%20the%20content%20at%20GitHub.%20%0A%3FNews%20%3AMaybe%20what%20we%20need%20is%20a%20way%20for%20the%20theater%20to%20play%20any%20section%20in%20the%20Archive%20as%20a%20skit.%20And%20we%20specifically%20upgrade%20the%20sections%20to%20improve%20the%20wording%20for%20both%20reading%20and%20theater.%0A%23%0A%3FPriority%20%40Sasha%20%3AEven%20though%20this%20is%20not%20a%20daily%20quest%2C%20people%20work%20on%20it%20every%20day.%0A%23%0A%3FQuiz%20%40StarTree%20%3AQuiz%20mode%20needs%20Jump%20because%20the%20script%20stops%20at%20each%20choice%20bubble%20subjected%20to%20a%20conditional.%0A%3FQuiz%20%40LRRH%20%3AThe%20content%20of%20the%20quiz%20is%20random%20from%20a%20large%20pool%2C%20so%20it%20should%20not%20be%20part%20of%20the%20starter%20pack.%20The%20starter%20pack%20should%20just%20point%20to%20a%20script%20in%20GitHub.%0A%23",
+    "s": 0,
+    "x": 0,
+    "y": 0
   },
   {
     "n": "ADVENTURER_ELF_WITCH_ANGEL_CAMPFIRE",
@@ -942,9 +946,9 @@
     ],
     "p": "20260131130800",
     "u": "https://magicbakery.github.io/sprites/James_Listen_%7B20260131130800%7D.png",
-    "s": 760,
-    "x": -350,
-    "y": 69
+    "s": 760.0,
+    "x": -350.0,
+    "y": 69.0
   },
   {
     "n": "LRRH_TALK",
@@ -1098,10 +1102,7 @@
       "[STARTER PACK]"
     ],
     "p": "20260131212600",
-    "u": "https://substackcdn.com/image/fetch/$s_!MtTO!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Faa892c88-95b6-4487-b257-8d2bbc1e1b7c_1024x1024.jpeg",
-    "s": 0,
-    "x": 0,
-    "y": 0
+    "u": "https://substackcdn.com/image/fetch/$s_!MtTO!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Faa892c88-95b6-4487-b257-8d2bbc1e1b7c_1024x1024.jpeg"
   },
   {
     "n": "TOWN_STREET_WINTER_NIGHT",
@@ -1154,7 +1155,11 @@
       "[STARTER PACK]"
     ],
     "p": "20260201235200",
-    "u": "https://substackcdn.com/image/fetch/$s_!8eOI!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3b652e6a-a5a5-423e-baed-606ef847d751_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!8eOI!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F3b652e6a-a5a5-423e-baed-606ef847d751_1536x1024.jpeg",
+    "s": 0,
+    "x": 0,
+    "y": 0,
+    "c": "!Stage%20This%0AWheat%20Field%0A*%3E20260205*%20LRRH's%20Question%0A%23%0A%3F%3E20260205%20!Goto%2020260205%0A%23%2320260205%23%23%0A!Stage%20Mail%0ALRRH%3A%20At%20places%20like%20Twitter%2C%20people%20often%20argue%20over%20pointless%20topics.%20Is%20it%20okay%20if%20I%20ignore%20those%20and%20focus%20on%20replying%20to%20those%20likely%20to%20help%20make%20the%20world%20better%3F%0A!Stage%20This%0A%40Evelyn%20%3AI%20think%20it%20is%20fine%20for%20each%20person%20to%20decide%20what%20to%20skip.%20Someone%20else%20might%20have%20the%20skill%20to%20reply%20fruitfully.%20%0A%40Tanya%20%3AWhat%20kind%20of%20argument%20do%20you%20want%20to%20skip%3F%0A%23%0A"
   },
   {
     "n": "STUDY",
@@ -1164,7 +1169,11 @@
       "[STARTER PACK]"
     ],
     "p": "20260201235800",
-    "u": "https://substackcdn.com/image/fetch/$s_!NbW9!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F503c30ea-a8d8-436e-8995-6f34d78df7f8_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!NbW9!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F503c30ea-a8d8-436e-8995-6f34d78df7f8_1536x1024.jpeg",
+    "s": 0,
+    "x": 0,
+    "y": 0,
+    "c": "!Stage%20this%0AStudy%20Room%0A%40StarTree%20%0A%3A%20Would%20you%20like%20to%20study%20with%20StarTree%3F%0A!clear%20choices%0A*Y*%20Yes%0A*N*%20No%0A%3FN%20!END%0A%23%23YES%23%23%0A%3AWee~~!%0A%23%23Topic%23%23%0APlease%20pick%20a%20topic.%0A!clear%20choices%0A*PP*%20Peace%20Paradigms%0A*QS*%20Quest%20Society%0A%23%0A%3FPP%20!Goto%20PP%0A%3FQS%20!Goto%20QS%0A%23%23PP%23%23%0A!Stage%0AThe%20Peace%20Paradigms%20describe%20the%20evolution%20stages%20of%20how%20people%20envision%20peace.%20%0AFrom%20the%20lowest%20to%20the%20highest%2C%20they%20are%3A%20Conquest%2C%20Control%2C%20Competition%2C%20Coexistence%2C%20Cooperation%2C%20and%20Celebration.%0A!Clear%20choices%0A*min*%20Minimal%20Peace%0A*C6vC5*%20Difference%20between%20Celebration%20and%20Cooperation%0A%23%0A%3FC6vC5%20!Goto%20pp-c6vc5%0A%3Fmin%20!Goto%20PP-min%0A%23%23pp-C6vC5%23%23%0AWhat%20is%20the%20difference%20between%20Celebration%20Paradigm%20and%20Cooperation%20Paradigm%3F%0A*Reward*%20Reward%0A%3FReward%20%40Tanya%20%3AThere%20is%20a%20paradigm%20shift%20from%20cooperation%20paradigm%20to%20celebration%20paradigm%20where%20those%20in%20cooperation%20paradigm%20might%20oppose%20the%20notion%20of%20reward%20when%20a%20person%20chooses%20to%20be%20cooperative.%20%0A%3FReward%20%3AIn%20cooperation%20paradigm%2C%20there%20is%20a%20common%20belief%20that%20helping%20should%20not%20warrant%20any%20reward.%20They%20believe%20that%20the%20reward%20reduces%20the%20purity%20of%20the%20intent%20and%20could%20lead%20to%20unwanted%20consequences.%0A%3FReward%20%3ABut%20this%20belief%20could%20lead%20to%20a%20situation%20where%20while%20the%20society%20has%20the%20capacity%20to%20help%20victims%20more%2C%20those%20who%20would%20if%20reward%20are%20kept%20from%20helping%2C%20and%20those%20dedicated%20to%20help%20without%20reward%20become%20burnt%20out%20because%20their%20sacrifices%20are%20insufficient%20and%20unsustainable.%0A%3FReward%20%3AThe%20overall%20result%20is%20that%20the%20victims%20do%20not%20get%20the%20most%20help%20that%20they%20could%20have%20gotten%20compared%20to%20a%20society%20in%20Celebration%20Paradigm%20that%20does%20not%20discriminate%20against%20a%20person's%20reason%20to%20help%2C%20and%20reimburses%20and%20reward%20them%20for%20their%20deeds.%0A!Goto%20topic%0A%23%23pp-min%23%23%0AWhich%20peace%20paradigm%20is%20considered%20the%20minimum%20peaceful%20paradigm%3F%0A!Clear%20choices%0A*C6*%20Celebration%0A*C5*%20Cooperation%0A*C4*%20Coexistence%0A*C3*%20Competition%0A*C2*%20Control%0A*C1*%20Conquest%0A%3FC4%20%40StarTree%20%3AYou're%20correct!%0A%3FC4%20!Goto%20topic%0A%40StarTree%20%3AThe%20correct%20answer%20is%20coexistence!%0A%3FC6%20%3ACelebration%20is%20the%20most%20peaceful%20paradigm%2C%20because%20it%20keeps%20the%20world%20peaceful%20even%20when%20individuals%20try%20to%20do%20the%20opposite.%0A%3FC5%20%3ACooperation%20is%20ranked%20the%20second%20most%20peaceful%20because%20it%20facilitates%20those%20who%20want%20to%20help%20each%20other.%20%0A%3FC3%20%3ACompetition%20paradigm%20does%20not%20have%20a%20concept%20of%20opting%20out.%20You're%20forced%20to%20compete%20because%20the%20system%20doesn't%20have%20any%20alternatives.%0A%3FC3%20%3ACoexistence%20is%20the%20first%20paradigm%20where%20competition%20is%20optional%20because%20you%20start%20with%20your%20share%20of%20resources%20%20just%20like%20anyone%20else.%20So%20it%20is%20minimally%20peaceful.%0A%3FC3%20!Goto%20topic%0A%3FC2%20%3AControl%20is%20the%20paradigm%20where%20people%20or%20in%20particular%20politicians%20lies%20and%20control%20information%20to%20make%20people%20to%20believe%20and%20act%20according%20to%20an%20ideology.%20%0A%3FC2%20%3AIt%20aims%20to%20create%20a%20population%20with%20no%20dissent%20or%20diversity%20in%20thoughts%2C%20but%20at%20the%20expense%20of%20bullying%20free%20thinkers%20and%20violating%20autonomy.%20%0A%3FC2%20%3ASo%20this%20approach%20to%20peace%20is%20not%20considered%20minimally%20peaceful.%0A%3FC2%20!Goto%20topic%0A%3FC1%20%3AConquest%20means%20physically%2Fviolently%20eliminating%20anyone%20who%20opposes%20a%20vision%20that%20those%20in%20power%20consider%20to%20be%20ideal%20or%20peaceful.%20%0A%3FC1%20%3ASince%20it%20actively%20starts%20harm%2C%20it%20is%20not%20considered%20minimally%20peaceful%20and%20is%20at%20the%20bottom%20of%20the%20scale.%0A%3FC1%20%3AIt%20being%20at%20the%20bottom%20doesn't%20mean%20it%20is%20minimally%20peaceful%2C%20but%20more%20like%20being%20the%20opposite%20of%20peace.%0A%3FC1%20!Goto%20topic%0A%3ABut%20the%20threshold%20starts%20in%20the%20coexistence%20paradigm%20that%20includes%20the%20concepts%20of%20do%20no%20harm%2C%20resource%20equity%2C%20and%20decision%20equity.%20%0A!Goto%20topic%20%0A%23%23QS%23%23%0A!stage%0AQuest%20Society%20implements%20the%20Celebration%20rank%20Peace%20Paradigm%20by%20awarding%20quest%20credits%20to%20helpers.%20%0A!clear%20choices%0A*QS-6A*%20Peacemaker%20Archetypes%0A*QS-PC*%20Priority%20Currency%0A*QS-EPIC*%20What%20are%20helpful%20deed%3F%0A!Goto%20topic%0A%23%0A%23"
   },
   {
     "n": "IVY_LISTEN",
@@ -1218,5 +1227,17 @@
     "s": 760.0,
     "x": 221.0,
     "y": 64.0
+  },
+  {
+    "n": "BAKERY_CHOCLOATE_FEBRUARY",
+    "t": [
+      "BAKERY",
+      "CHOCLOATE",
+      "FEBRUARY",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260205225700",
+    "u": "https://substackcdn.com/image/fetch/$s_!IB88!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F72240ab0-9144-4a1e-b2b0-c9561ef2e04a_1536x1024.jpeg"
   }
 ]
