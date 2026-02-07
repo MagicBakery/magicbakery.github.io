@@ -551,7 +551,7 @@
 
 		.card-textarea {
 			width: 100%;
-			height: 172px;
+			min-height: 172px;
 			/* Adjust based on sidebar height */
 			background: rgba(255, 255, 255, 0.05);
 			border: 1px solid var(--border);
@@ -5015,6 +5015,9 @@
 			}
 			
 		}
+		function Stage(){
+			return document.querySelector('.stage-area');
+		}
 		function StageActorsOff() {
 			const stageEl = document.getElementById('stage-area');
 			// Deactivate all actors.
@@ -5061,26 +5064,41 @@
 			const stageEl = document.getElementById('stage-area');
 			// 20260125: Sasha: By default, the stage scene is the script card's cover image.
 			let scene = null;
-			args = args.toUpperCase().trim() || "SEASON";
+			args = args.trim();
+			const argsU = args.toUpperCase()|| "SEASON";
+			const prefix = args.charAt(0);
 
-			if (args === "THIS") {
+			if (argsU === "THIS") {
 				//scene = getActiveCardData();
 				scene = DATAByID(ScriptEngine().dataset.p);
-			} else if (args === "SEASON") {
+			} else if (argsU === "SEASON") {
 				const date = new Date();
 				const month = date.getMonth();
 				const seasons = ['WINTER', 'SPRING', 'SUMMER', "AUTUMN"];
 				const curSeason = seasons[Math.floor(((month + 1) % 12) / 3)];
 				const curMonthName = date.toLocaleString('en-US', { month: 'long' });
 				scene = DATABestMatch(["[SCENE]"], [curSeason, curMonthName]);
-			} else if (args === "USER") {
+			} else if (argsU === "USER") {
 				scene = FilterDraw();
 			} else if (args.isOnlyDigits()) {
 				// Assume it is the ID
 				scene = DATAByID(args);
+			}else if(args.includes("/")){
+				// if it contains /, assume that it is an URL.								
+				StageChange(args);
+				stageEl.classList.add('active');
+				return true;
+			}else if(prefix==='+'){
+				// Apply the remaining as a class.
+				Stage().classList.add(args.rightOf('+').trim());
+				return true;
+			}else if(prefix==='-'){
+				// Apply the remaining as a class.
+				Stage().classList.remove(args.rightOf('-').trim());
+				return true;
 			}else{
 				// 20260203: Evelyn: Interpret the rest as a comma separated list of tags.
-				const inlineTags = args.split(',');
+				const inlineTags = argsU.split(',');
 				scene = DATABestMatch([],inlineTags);
 			}
 			if (!scene) { scene = getActiveCardData(); }
