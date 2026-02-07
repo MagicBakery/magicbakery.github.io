@@ -291,7 +291,7 @@
 			/* Cinematic dark bar */
 			backdrop-filter: blur(10px);
 			color: white;
-			padding: 40px 10%;
+			padding: 30px 10% 60px 10%;
 			/* More breathing room for wide text */
 			border-left: none;
 			border-right: none;
@@ -3392,9 +3392,11 @@
 		function ChoiceCommit() {
 			const entry = document.querySelector('.choice-entry.selected');
 			if (!entry) return false;
-			// If the entry is not at the top, return.
-			//if (entry.parentNode.firstChild != entry) { return true; }
 			entry.classList.remove('selected');
+
+			// Reset the narration streak
+			const bubble = document.querySelector('.speech-bubble');
+			bubble.classList.remove('narrative-mode');
 
 			const code = entry.dataset.code;
 			const choiceList = document.getElementById('choice-container');
@@ -3535,7 +3537,7 @@
 			const randomIndex = Math.floor(Math.random() * candidates.length);
 			return candidates[randomIndex];
 		}
-		function DATAByID(id) {
+		function DATAByID(id) {			
 			return DATA.find(item => String(item.p) === String(id));
 		}
 		function DATAFullResURL(item) {
@@ -3727,7 +3729,7 @@
 			const code = bubble.dataset.code;
 			const text = bubble.dataset.choiceText;
 			const choiceEntry = ChoiceEntry(code, text);
-			choiceList.prepend(choiceEntry);
+			choiceList.append(choiceEntry);
 
 			ChoiceBubblePop(bubble);
 		}
@@ -4355,12 +4357,23 @@
 			const prefix = text.charAt(0);
 			const bubble = document.querySelector('.speech-bubble');
 			//if(StageLive() && prefix != ':'){
+			let continueNarration = bubble.classList.contains('narrative-mode');
 			if (prefix != ':') {
-				bubble.classList.add('narrative-mode');
+				bubble.classList.add('narrative-mode');				
 			} else {
 				bubble.classList.remove('narrative-mode');
 				text = text.substring(1).trim();
+				continueNarration = false;
 			}
+
+			// Set Text
+			if(continueNarration){
+				textField.innerHTML += "\n" + DialogFormat(text);
+			}else{
+				
+				textField.innerHTML = DialogFormat(text);
+			}
+			
 
 
 			// If choiceColors is blank, hide the container.
@@ -4370,8 +4383,7 @@
 				choiceContainer.style.display = "flex";
 			}
 
-			// Set Text
-			textField.innerHTML = DialogFormat(text);
+			
 
 			// Clear and Populate Buttons
 			choiceContainer.innerHTML = "";
@@ -4384,6 +4396,8 @@
 
 			SpeechBubbleShow(true);
 			document.querySelector('.speech-bubble').scrollTop = 0;
+
+			
 
 			// Reset the next button animation.
 			const nextBtn = document.querySelector('.stage-next-btn');
@@ -4401,8 +4415,9 @@
 			ChoiceCommit();
 			// 20260119: LRRH: If the engine is spawning bubbles and the prefix is not *, put the line back and return.
 
+			const se = ScriptEngine();
 			if (prefix != '*' && ScriptBubbleSpawning(null)) {
-				const se = ScriptEngine();
+				
 				se.dataset.script = line + "\n" + se.dataset.script;
 
 				// 20260119: Skyle: If the dialog overlay is hidden, show it back so the user can confirm their choice.
@@ -4421,7 +4436,11 @@
 				case '*': return ScriptBubbleSpawning(content);
 				case '@': return ActorSet(content);
 				case '>': createCard(getCardByPath(content)); return false;
-				default: return processScriptDialog(line);
+				default: 
+					processScriptDialog(line);
+					// Continue to the next line if the next line starts with a space.
+					const nextPrefix = se.dataset.script.charAt(0);
+					if(nextPrefix===" " || nextPrefix==="*"){return true;}
 			}
 			return false;
 		}
@@ -4557,10 +4576,21 @@
 
 			// 20260119: LRRH: When the script interpreter encounters a * command line it enters bubble spawning mode. During that mode, if it encounters a non * command line, it waits for the mode to be over. (The confirm button of a choice bubble allows the code to resume.
 			// Format of the * command line itself: *A* Text of choice A
+			// 20260207: StarTree: If 
+			
 			const parts = line.split('*');
-			const code = parts[0].trim();
-			const choiceText = line.substring(line.indexOf('*', 1) + 1).trim();
-			ChoiceBubbleSpawn(code, choiceText);
+			let code = parts[0].trim();
+			const prefix = code.charAt(0);
+			const choiceText = line.rightOf('*').trim();
+			if(prefix === "!"){
+				code = code.rightOf('!');
+				const choiceList = document.getElementById('choice-container');
+				choiceList.style.display = "block";
+				const choiceEntry = ChoiceEntry(code, choiceText);
+				choiceList.append(choiceEntry);
+			}else{
+				ChoiceBubbleSpawn(code, choiceText);
+			}			
 			return true;
 		}
 		function ScriptEnd() {
@@ -4577,7 +4607,25 @@
 			const SE = ScriptEngine();
 			let remainingScript = SE.dataset.scriptBackup;
 			remainingScript = remainingScript.rightOf(`#${label}#`,true);
-			remainingScript = remainingScript.rightOf('\n');
+			//remainingScript = remainingScript.rightOf('\n');
+			if(remainingScript == ""){
+				// 20260206: Koyo: If the label is not found in the current script, assume that it is a card id.
+				const data = DATAByID(label);
+				if(data){
+					if(data.c != undefined){
+						remainingScript = decodeURIComponent(data.c);
+					}else if (data.o !=undefined){
+						remainingScript = decodeURIComponent(data.o);
+					}
+					if(remainingScript.trim() !=""){
+						SE.dataset.p = label;
+						SE.dataset.scriptBackup = remainingScript;
+					}
+				}
+			}
+			if(remainingScript ==""){
+				remainingScript = SE.dataset.scriptBackup;
+			}
 			SE.dataset.script = remainingScript;
 		}
 		function ScriptIf(line) {
@@ -4604,7 +4652,7 @@
 			const collections = document.querySelectorAll('.path-entry:has([checked])');
 			let i = 1;
 			collections.forEach(c => {
-				const title = c.querySelector('.path-text').innerText;
+				const title = c.querySelector('.path-text').innerHTML;
 				strCollectionList += i + ") " + title + "\n";
 				i++;
 			});
@@ -4975,6 +5023,10 @@
 			await fadeLoadingScreen(true);
 			// 20260203: Auto hide all actors until they speak again.
 			StageActorsOff();
+			// Reset the narration streak
+			const bubble = document.querySelector('.speech-bubble');
+			bubble.classList.remove('narrative-mode');
+
 			const stageEl = document.getElementById('stage-area');
 			stageEl.style.backgroundImage = `url(${url})`;
 			await new Promise(r => setTimeout(r, 200));

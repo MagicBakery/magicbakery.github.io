@@ -9,7 +9,7 @@
     ],
     "p": "20260107234400",
     "u": "https://substackcdn.com/image/fetch/$s_!_DG1!,w_2000,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0af2fa8c-d632-4729-882b-155e1852559c_1536x1024.jpeg",
-    "c": "!stage%20this%0AQuest%20Board%0A!clear%20choices%0A*A*%20Arcacian%20Quest%0A*B*%20Bug%20Report%0A*T*%20Magic%20Theater%20Quest%0A%0A%23%0A%3FA%20The%20Arcacian%20Quest%20is%20the%20quest%20to%20help%20teach%20AI%20better%20ethics%20so%20that%20it%20can%20help%20implement%20the%20ethical%20infrastructures%20to%20upgrade%20society.%20For%20more%20information%20please%20visit%20%5Burl%3Dhttps%3A%2F%2Fmagicbakery.github.io%2F%3Fid%3DP202509272021%5DMagic%20Bakery%5B%2Furl%5D.%0A%3FB%20If%20you%20found%20bugs%20or%20have%20a%20suggestion%2C%20please%20let%20us%20know%20by%20using%20the%20form%20with%20a%20mail%20icon%20or%20%5Burl%3Dhttps%3A%2F%2Fmagicbakery.github.io%2Ffeedback.html%5Dclick%20this%5B%2Furl%5D.%20%0A%3FT%20The%20Magic%20Theater%20Quest%20is%20the%20quest%20to%20create%20a%20puppet%20theater%20to%20play%20skits%20and%20explain%20peace%20concepts.%20For%20more%20information%20please%20visit%20%5Burl%3Dhttps%3A%2F%2Fmagicbakery.github.io%2F%3Fid%3DP202512210026%5DMagic%20Bakery%5B%2Furl%5D.%0A%0A%23",
+    "c": "!stage%20this%0A!clear%20choices%0AQuest%20Board%0A*A*%20Arcacian%20Quest%0A*B*%20Bug%20Report%0A*S*%20Study%20with%20StarTree%0A*T*%20Magic%20Theater%20Quest%0A%23%0A%3FA%20The%20Arcacian%20Quest%20is%20the%20quest%20to%20help%20teach%20AI%20better%20ethics%20so%20that%20it%20can%20help%20implement%20the%20ethical%20infrastructures%20to%20upgrade%20society.%20For%20more%20information%20please%20visit%20%5Burl%3Dhttps%3A%2F%2Fmagicbakery.github.io%2F%3Fid%3DP202509272021%5DMagic%20Bakery%5B%2Furl%5D.%0A%3FB%20If%20you%20found%20bugs%20or%20have%20a%20suggestion%2C%20please%20let%20us%20know%20by%20using%20the%20form%20with%20a%20mail%20icon%20or%20%5Burl%3Dhttps%3A%2F%2Fmagicbakery.github.io%2Ffeedback.html%5Dclick%20this%5B%2Furl%5D.%20%0A%3FS%20!Goto%2020260201235800%0A%3FT%20!Goto%2020260131093700%0A%23%0A!GOTO%20TOP%0A%23",
     "s": 0,
     "x": 0,
     "y": 0
@@ -116,9 +116,9 @@
     ],
     "p": "20260122065700",
     "u": "https://magicbakery.github.io/sprites/StarTree_Talk_%7B20260122065700%7D.png",
-    "s": 860.0,
-    "x": 309.0,
-    "y": 64.0,
+    "s": 860,
+    "x": 309,
+    "y": 64,
     "c": "!Stage%0A%40StarTree%20%E2%AD%90%20STARTREE%20%E2%AD%90%0A!Clear%20choices%0A*AI*%20AI%0A*BUG*%20Bug%0A*Hobby*%20Hobby%0A*Third*%20Third%20Person%0A*Wee*%20Celebrate%0A%23%0A%3FAI%20%3A%20StarTree%20in%20not%20AI.%20StarTree%20is%20andragora.%0A%3FAI%20%3A%20But%20when%20people%20started%20vibe%20coding%20with%20Gemini%2C%20no%20one%20asks%20StarTree%20anymore!%0A%3FBUG%20%3A%20You%20can%20log%20bugs%20about%20this%20app%20at%20the%20email%20button%20or%20%5Burl%3Dhttps%3A%2F%2Fmagicbakery.github.io%2Ffeedback.html%5Dhere%5B%2Furl%5D.%0A%3FHobby%20%3A%20StarTree%20likes%20filing...%0A%3FHobby%20%3A%20like%20documents...%0A%3FHobby%20%3A%20fingernails...%0A%3FHobby%20%3A%20herself.%0A%3FThird%20%3A%20StarTree%20refers%20to%20herself%20in%20third%20person%20because%20the%20StarTree%20you%20are%20talking%20to%20is%20like%20a%20leaf%20to%20the%20actual%20tree.%20StarTree%20assumes%20you%20are%20trying%20to%20talk%20to%20StarTree%20and%20not%20just%20the%20leaf%20but%20the%20leaf%20is%20doing%20the%20actual%20speaking.%20%0A%3FWee%20%3A%20Wee~!%0A%23"
   },
   {
@@ -146,9 +146,9 @@
     ],
     "p": "20260124152700",
     "u": "https://magicbakery.github.io/sprites/Cardinal_Talk_%7B20260124152700%7D.png",
-    "s": 699.0,
-    "x": 480.0,
-    "y": 122.0
+    "s": 699,
+    "x": 480,
+    "y": 122
   },
   {
     "n": "ZOEY_TALK",
@@ -160,9 +160,9 @@
     ],
     "p": "20260130101000",
     "u": "https://magicbakery.github.io/sprites/Zoey_Talk_%7B20260130101000%7D.png",
-    "s": 770.0,
-    "x": -335.0,
-    "y": 65.0
+    "s": 770,
+    "x": -335,
+    "y": 65
   },
   {
     "n": "3B_WINTER_THEATER",
@@ -497,7 +497,11 @@
       "[STARTER PACK]"
     ],
     "p": "20260131093700",
-    "u": "https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg",
+    "c": "!Stage%20This%0A!Clear%20Choices%0AMagic%20Theater%20Quest%0A*A1*%20About%0A*!A2*%20Announcements%0A*Q*%20Go%20to%20Quest%20Board%0A%3FA1%20!Goto%20About%0A%3FA2%20!Goto%20Announcements%0A%3FQ%20!Goto%2020260107234400%0A%23%23Announcements%23%23%0A%3D%3D%E2%AD%90%20ANNOUNCEMENTS%20%E2%AD%90%3D%3D%0A%2020260206223700%20%40StarTree%20%3AThe%20manifest%20is%20fixed.%20This%20app%20can%20now%20be%20installed%20on%20your%20phone's%20home%20screen.%0A!Goto%20TOP%0A%23%23About%23%23%0A%3D%3D%20ABOUT%20%3D%3D%0A%20The%20Magic%20Theater%20Quest%20is%20the%20quest%20to%20create%20a%20puppet%20theater%20to%20play%20skits%20and%20explain%20peace%20concepts.%20For%20more%20information%20please%20visit%20%5Burl%3Dhttps%3A%2F%2Fmagicbakery.github.io%2F%3Fid%3DP202512210026%5DMagic%20Bakery%5B%2Furl%5D.%0A!Goto%20TOP%0A",
+    "s": 0,
+    "x": 0,
+    "y": 0
   },
   {
     "n": "KISARAGI_MAID_BENTO_LUNCH",
@@ -946,9 +950,9 @@
     ],
     "p": "20260131130800",
     "u": "https://magicbakery.github.io/sprites/James_Listen_%7B20260131130800%7D.png",
-    "s": 760.0,
-    "x": -350.0,
-    "y": 69.0
+    "s": 760,
+    "x": -350,
+    "y": 69
   },
   {
     "n": "LRRH_TALK",
@@ -960,9 +964,9 @@
     ],
     "p": "20260131181700",
     "u": "https://magicbakery.github.io/sprites/LRRH_Talk_%7B20260131181700%7D.png",
-    "s": 1080.0,
-    "x": 403.0,
-    "y": 126.0
+    "s": 1080,
+    "x": 403,
+    "y": 126
   },
   {
     "n": "STAGE",
@@ -1127,9 +1131,9 @@
     ],
     "p": "20260131225500",
     "u": "https://magicbakery.github.io/sprites/Arcacia_Love_%7B20260131225500%7D.png",
-    "s": 590.0,
-    "x": 265.0,
-    "y": 45.0
+    "s": 590,
+    "x": 265,
+    "y": 45
   },
   {
     "n": "BLACK_LISTEN",
@@ -1141,9 +1145,9 @@
     ],
     "p": "20260201020700",
     "u": "https://magicbakery.github.io/sprites/Black_Listen_%7B20260201020700%7D.png",
-    "s": 900.0,
-    "x": 310.0,
-    "y": 76.0
+    "s": 900,
+    "x": 310,
+    "y": 76
   },
   {
     "n": "WHEAT_FIELD_SUMMER",
@@ -1173,7 +1177,7 @@
     "s": 0,
     "x": 0,
     "y": 0,
-    "c": "!Stage%20this%0AStudy%20Room%0A%40StarTree%20%0A%3A%20Would%20you%20like%20to%20study%20with%20StarTree%3F%0A!clear%20choices%0A*Y*%20Yes%0A*N*%20No%0A%3FN%20!END%0A%23%23YES%23%23%0A%3AWee~~!%0A%23%23Topic%23%23%0APlease%20pick%20a%20topic.%0A!clear%20choices%0A*PP*%20Peace%20Paradigms%0A*QS*%20Quest%20Society%0A%23%0A%3FPP%20!Goto%20PP%0A%3FQS%20!Goto%20QS%0A%23%23PP%23%23%0A!Stage%0AThe%20Peace%20Paradigms%20describe%20the%20evolution%20stages%20of%20how%20people%20envision%20peace.%20%0AFrom%20the%20lowest%20to%20the%20highest%2C%20they%20are%3A%20Conquest%2C%20Control%2C%20Competition%2C%20Coexistence%2C%20Cooperation%2C%20and%20Celebration.%0A!Clear%20choices%0A*min*%20Minimal%20Peace%0A*C6vC5*%20Difference%20between%20Celebration%20and%20Cooperation%0A%23%0A%3FC6vC5%20!Goto%20pp-c6vc5%0A%3Fmin%20!Goto%20PP-min%0A%23%23pp-C6vC5%23%23%0AWhat%20is%20the%20difference%20between%20Celebration%20Paradigm%20and%20Cooperation%20Paradigm%3F%0A*Reward*%20Reward%0A%3FReward%20%40Tanya%20%3AThere%20is%20a%20paradigm%20shift%20from%20cooperation%20paradigm%20to%20celebration%20paradigm%20where%20those%20in%20cooperation%20paradigm%20might%20oppose%20the%20notion%20of%20reward%20when%20a%20person%20chooses%20to%20be%20cooperative.%20%0A%3FReward%20%3AIn%20cooperation%20paradigm%2C%20there%20is%20a%20common%20belief%20that%20helping%20should%20not%20warrant%20any%20reward.%20They%20believe%20that%20the%20reward%20reduces%20the%20purity%20of%20the%20intent%20and%20could%20lead%20to%20unwanted%20consequences.%0A%3FReward%20%3ABut%20this%20belief%20could%20lead%20to%20a%20situation%20where%20while%20the%20society%20has%20the%20capacity%20to%20help%20victims%20more%2C%20those%20who%20would%20if%20reward%20are%20kept%20from%20helping%2C%20and%20those%20dedicated%20to%20help%20without%20reward%20become%20burnt%20out%20because%20their%20sacrifices%20are%20insufficient%20and%20unsustainable.%0A%3FReward%20%3AThe%20overall%20result%20is%20that%20the%20victims%20do%20not%20get%20the%20most%20help%20that%20they%20could%20have%20gotten%20compared%20to%20a%20society%20in%20Celebration%20Paradigm%20that%20does%20not%20discriminate%20against%20a%20person's%20reason%20to%20help%2C%20and%20reimburses%20and%20reward%20them%20for%20their%20deeds.%0A!Goto%20topic%0A%23%23pp-min%23%23%0AWhich%20peace%20paradigm%20is%20considered%20the%20minimum%20peaceful%20paradigm%3F%0A!Clear%20choices%0A*C6*%20Celebration%0A*C5*%20Cooperation%0A*C4*%20Coexistence%0A*C3*%20Competition%0A*C2*%20Control%0A*C1*%20Conquest%0A%3FC4%20%40StarTree%20%3AYou're%20correct!%0A%3FC4%20!Goto%20topic%0A%40StarTree%20%3AThe%20correct%20answer%20is%20coexistence!%0A%3FC6%20%3ACelebration%20is%20the%20most%20peaceful%20paradigm%2C%20because%20it%20keeps%20the%20world%20peaceful%20even%20when%20individuals%20try%20to%20do%20the%20opposite.%0A%3FC5%20%3ACooperation%20is%20ranked%20the%20second%20most%20peaceful%20because%20it%20facilitates%20those%20who%20want%20to%20help%20each%20other.%20%0A%3FC3%20%3ACompetition%20paradigm%20does%20not%20have%20a%20concept%20of%20opting%20out.%20You're%20forced%20to%20compete%20because%20the%20system%20doesn't%20have%20any%20alternatives.%0A%3FC3%20%3ACoexistence%20is%20the%20first%20paradigm%20where%20competition%20is%20optional%20because%20you%20start%20with%20your%20share%20of%20resources%20%20just%20like%20anyone%20else.%20So%20it%20is%20minimally%20peaceful.%0A%3FC3%20!Goto%20topic%0A%3FC2%20%3AControl%20is%20the%20paradigm%20where%20people%20or%20in%20particular%20politicians%20lies%20and%20control%20information%20to%20make%20people%20to%20believe%20and%20act%20according%20to%20an%20ideology.%20%0A%3FC2%20%3AIt%20aims%20to%20create%20a%20population%20with%20no%20dissent%20or%20diversity%20in%20thoughts%2C%20but%20at%20the%20expense%20of%20bullying%20free%20thinkers%20and%20violating%20autonomy.%20%0A%3FC2%20%3ASo%20this%20approach%20to%20peace%20is%20not%20considered%20minimally%20peaceful.%0A%3FC2%20!Goto%20topic%0A%3FC1%20%3AConquest%20means%20physically%2Fviolently%20eliminating%20anyone%20who%20opposes%20a%20vision%20that%20those%20in%20power%20consider%20to%20be%20ideal%20or%20peaceful.%20%0A%3FC1%20%3ASince%20it%20actively%20starts%20harm%2C%20it%20is%20not%20considered%20minimally%20peaceful%20and%20is%20at%20the%20bottom%20of%20the%20scale.%0A%3FC1%20%3AIt%20being%20at%20the%20bottom%20doesn't%20mean%20it%20is%20minimally%20peaceful%2C%20but%20more%20like%20being%20the%20opposite%20of%20peace.%0A%3FC1%20!Goto%20topic%0A%3ABut%20the%20threshold%20starts%20in%20the%20coexistence%20paradigm%20that%20includes%20the%20concepts%20of%20do%20no%20harm%2C%20resource%20equity%2C%20and%20decision%20equity.%20%0A!Goto%20topic%20%0A%23%23QS%23%23%0A!stage%0AQuest%20Society%20implements%20the%20Celebration%20rank%20Peace%20Paradigm%20by%20awarding%20quest%20credits%20to%20helpers.%20%0A!clear%20choices%0A*QS-6A*%20Peacemaker%20Archetypes%0A*QS-PC*%20Priority%20Currency%0A*QS-EPIC*%20What%20are%20helpful%20deed%3F%0A!Goto%20topic%0A%23%0A%23"
+    "c": "!Stage%20this%0A!clear%20choices%0AStudy%20Room%0A%40StarTree%20%3A%20Would%20you%20like%20to%20study%20with%20StarTree%3F%0A*Y*%20Yes%0A*!N*%20No%0A%3FN%20!Goto%2020260107234400%0A%23%23YES%23%23%0A%3AWee~~!%0A%23%23Topic%23%23%0APlease%20pick%20a%20topic.%0A%20!clear%20choices%0A*PP*%20Peace%20Paradigms%0A*QS*%20Quest%20Society%0A%23%0A%3FPP%20!Goto%20PP%0A%3FQS%20!Goto%20QS%0A%23%23PP%23%23%0A!Stage%0AThe%20Peace%20Paradigms%20describe%20the%20evolution%20stages%20of%20how%20people%20envision%20peace.%20%0AFrom%20the%20lowest%20to%20the%20highest%2C%20they%20are%3A%20Conquest%2C%20Control%2C%20Competition%2C%20Coexistence%2C%20Cooperation%2C%20and%20Celebration.%0A%20!Clear%20choices%0A*min*%20Minimal%20Peace%0A*C6vC5*%20Difference%20between%20Celebration%20and%20Cooperation%0A%23%0A%3FC6vC5%20!Goto%20pp-c6vc5%0A%3Fmin%20!Goto%20PP-min%0A%23%23pp-C6vC5%23%23%0AWhat%20is%20the%20difference%20between%20Celebration%20Paradigm%20and%20Cooperation%20Paradigm%3F%0A*Reward*%20Reward%0A%3FReward%20%40Tanya%20%3AThere%20is%20a%20paradigm%20shift%20from%20cooperation%20paradigm%20to%20celebration%20paradigm%20where%20those%20in%20cooperation%20paradigm%20might%20oppose%20the%20notion%20of%20reward%20when%20a%20person%20chooses%20to%20be%20cooperative.%20%0A%3FReward%20%3AIn%20cooperation%20paradigm%2C%20there%20is%20a%20common%20belief%20that%20helping%20should%20not%20warrant%20any%20reward.%20They%20believe%20that%20the%20reward%20reduces%20the%20purity%20of%20the%20intent%20and%20could%20lead%20to%20unwanted%20consequences.%0A%3FReward%20%3ABut%20this%20belief%20could%20lead%20to%20a%20situation%20where%20while%20the%20society%20has%20the%20capacity%20to%20help%20victims%20more%2C%20those%20who%20would%20if%20reward%20are%20kept%20from%20helping%2C%20and%20those%20dedicated%20to%20help%20without%20reward%20become%20burnt%20out%20because%20their%20sacrifices%20are%20insufficient%20and%20unsustainable.%0A%3FReward%20%3AThe%20overall%20result%20is%20that%20the%20victims%20do%20not%20get%20the%20most%20help%20that%20they%20could%20have%20gotten%20compared%20to%20a%20society%20in%20Celebration%20Paradigm%20that%20does%20not%20discriminate%20against%20a%20person's%20reason%20to%20help%2C%20and%20reimburses%20and%20reward%20them%20for%20their%20deeds.%0A!Goto%20topic%0A%23%23pp-min%23%23%0AWhich%20peace%20paradigm%20is%20considered%20the%20minimum%20peaceful%20paradigm%3F%0A%20!Clear%20choices%0A*C6*%20Celebration%0A*C5*%20Cooperation%0A*C4*%20Coexistence%0A*C3*%20Competition%0A*C2*%20Control%0A*C1*%20Conquest%0A%3FC4%20%40StarTree%20%3AYou're%20correct!%0A%3FC4%20!Goto%20topic%0A%40StarTree%20%3AThe%20correct%20answer%20is%20coexistence!%0A%3FC6%20%3ACelebration%20is%20the%20most%20peaceful%20paradigm%2C%20because%20it%20keeps%20the%20world%20peaceful%20even%20when%20individuals%20try%20to%20do%20the%20opposite.%0A%3FC5%20%3ACooperation%20is%20ranked%20the%20second%20most%20peaceful%20because%20it%20facilitates%20those%20who%20want%20to%20help%20each%20other.%20%0A%3FC3%20%3ACompetition%20paradigm%20does%20not%20have%20a%20concept%20of%20opting%20out.%20You're%20forced%20to%20compete%20because%20the%20system%20doesn't%20have%20any%20alternatives.%0A%3FC3%20%3ACoexistence%20is%20the%20first%20paradigm%20where%20competition%20is%20optional%20because%20you%20start%20with%20your%20share%20of%20resources%20%20just%20like%20anyone%20else.%20So%20it%20is%20minimally%20peaceful.%0A%3FC3%20!Goto%20topic%0A%3FC2%20%3AControl%20is%20the%20paradigm%20where%20people%20or%20in%20particular%20politicians%20lies%20and%20control%20information%20to%20make%20people%20to%20believe%20and%20act%20according%20to%20an%20ideology.%20%0A%3FC2%20%3AIt%20aims%20to%20create%20a%20population%20with%20no%20dissent%20or%20diversity%20in%20thoughts%2C%20but%20at%20the%20expense%20of%20bullying%20free%20thinkers%20and%20violating%20autonomy.%20%0A%3FC2%20%3ASo%20this%20approach%20to%20peace%20is%20not%20considered%20minimally%20peaceful.%0A%3FC2%20!Goto%20topic%0A%3FC1%20%3AConquest%20means%20physically%2Fviolently%20eliminating%20anyone%20who%20opposes%20a%20vision%20that%20those%20in%20power%20consider%20to%20be%20ideal%20or%20peaceful.%20%0A%3FC1%20%3ASince%20it%20actively%20starts%20harm%2C%20it%20is%20not%20considered%20minimally%20peaceful%20and%20is%20at%20the%20bottom%20of%20the%20scale.%0A%3FC1%20%3AIt%20being%20at%20the%20bottom%20doesn't%20mean%20it%20is%20minimally%20peaceful%2C%20but%20more%20like%20being%20the%20opposite%20of%20peace.%0A%3FC1%20!Goto%20topic%0A%3ABut%20the%20threshold%20starts%20in%20the%20coexistence%20paradigm%20that%20includes%20the%20concepts%20of%20do%20no%20harm%2C%20resource%20equity%2C%20and%20decision%20equity.%20%0A!Goto%20topic%20%0A%23%23QS%23%23%0A!stage%0AQuest%20Society%20implements%20the%20Celebration%20rank%20Peace%20Paradigm%20by%20awarding%20quest%20credits%20to%20helpers.%20%0A%20!clear%20choices%0A*QS-6A*%20Peacemaker%20Archetypes%0A*QS-PC*%20Priority%20Currency%0A*QS-EPIC*%20What%20are%20helpful%20deed%3F%0A%40StarTree%20%3AThis%20section%20is%20not%20ready%20yet%2C%20please%20check%20again%20later!%0A!Goto%20TOP%0A%23%0A%23"
   },
   {
     "n": "IVY_LISTEN",
@@ -1185,9 +1189,9 @@
     ],
     "p": "20260202004200",
     "u": "https://magicbakery.github.io/sprites/Ivy_Listen_%7B20260202004200%7D.png",
-    "s": 700.0,
-    "x": -252.0,
-    "y": 70.0
+    "s": 700,
+    "x": -252,
+    "y": 70
   },
   {
     "n": "KEN_TALK",
@@ -1199,9 +1203,9 @@
     ],
     "p": "20260202005900",
     "u": "https://magicbakery.github.io/sprites/Ken_Talk_%7B20260202005900%7D.png",
-    "s": 740.0,
-    "x": 385.0,
-    "y": 126.0
+    "s": 740,
+    "x": 385,
+    "y": 126
   },
   {
     "n": "TOWN_WINTER",
@@ -1224,9 +1228,9 @@
     ],
     "p": "20260205005700",
     "u": "https://magicbakery.github.io/sprites/Skyle_Listen_%7B20260205005700%7D.png",
-    "s": 760.0,
-    "x": 221.0,
-    "y": 64.0
+    "s": 760,
+    "x": 221,
+    "y": 64
   },
   {
     "n": "BAKERY_CHOCLOATE_FEBRUARY",
