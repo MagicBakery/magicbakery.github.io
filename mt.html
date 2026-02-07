@@ -11,8 +11,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="/icons/star_192.png">
 	<script>
-		const APP_VERSION = "20260203003300"; //#Version
-		const APP_ANNOUNCEMENT = "20260203: Goto."
+		const APP_VERSION = "20260207024000"; //#Version
+		const APP_ANNOUNCEMENT = "20260207: Goto another card."
 	</script>
 	<style>
 		:root {
@@ -4588,6 +4588,7 @@
 				choiceList.style.display = "block";
 				const choiceEntry = ChoiceEntry(code, choiceText);
 				choiceList.append(choiceEntry);
+				ScriptEngine().setAttribute('SE-BubbleSpawning', '');
 			}else{
 				ChoiceBubbleSpawn(code, choiceText);
 			}			
