@@ -197,7 +197,7 @@
 		}
 
 		#choice-container {
-			display: block;
+			display: none;
 			/* Change from flex to block */
 			width: 100%;
 			max-height: 100%;
@@ -209,6 +209,9 @@
 			margin-top: 10px;
 			/*padding-right: 10px;*/
 			/* Space for the scrollbar */
+		}
+		#choice-container.active{
+			display:block;
 		}
 
 		/* Chrome/Safari Scrollbar styling */
@@ -291,12 +294,15 @@
 			/* Cinematic dark bar */
 			backdrop-filter: blur(10px);
 			color: white;
-			padding: 30px 10% 60px 10%;
+			padding: 30px 10% 30px 10%;
 			/* More breathing room for wide text */
 			border-left: none;
 			border-right: none;
 			border-top: 1px solid rgba(255, 255, 255, 0.2);
 			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+		}
+		.speech-bubble.narrative-mode:has(#choice-container.active){
+			padding: 30px 10% 40px 10%;
 		}
 
 		.speech-bubble::before {
@@ -488,8 +494,11 @@
 			padding: 2px 5px;
 			height: 24px;
 			width: 36px;
+			margin:0px -5px;
 		}
 
+		#command-panel.edit-size-3 .notes-btn,
+		#command-panel.edit-size-2 .notes-btn,
 		.notes-panel:focus-within .notes-btn {
 			display: inline-block;
 		}
@@ -503,7 +512,6 @@
 			padding: 5px 5px;
 			transition: color 0.3s;
 		}
-
 		.tab-btn.active {
 			color: var(--gold);
 			font-weight: bold;
@@ -551,7 +559,7 @@
 
 		.card-textarea {
 			width: 100%;
-			min-height: 172px;
+			min-height: 13vh;
 			/* Adjust based on sidebar height */
 			background: rgba(255, 255, 255, 0.05);
 			border: 1px solid var(--border);
@@ -565,8 +573,17 @@
 			outline: none;
 			overflow-y: auto;
 		}
+		#command-panel.edit-size-3 .card-textarea{
+			min-height: 80vh;
+		}
+		#command-panel.edit-size-2 .card-textarea{
+			min-height: 40vh;
+		}
+		#command-panel.edit-size-1 .card-textarea{
+			min-height: 13vh;
+		}
 
-		.card-textarea.active {
+		.card-textarea.infocus {
 			border: 1px solid gold;
 		}
 
@@ -1640,7 +1657,7 @@
 		.tabs-contents {
 			display: block;
 			/* Ensure it's a block container */
-			max-height: 30vh;
+			max-height: 90vh; 
 			/* The limit */
 			overflow-y: auto;
 			/* Enable vertical scroll */
@@ -1691,7 +1708,7 @@
 
 			width: 100vw;
 			/* You can now make it wider than the sidebar */
-			max-height: 50vh;
+			max-height: 100vh;
 			max-width: 792px;
 
 			background: rgba(0, 0, 0, 0.4);
@@ -2490,7 +2507,43 @@
 			background-color: gold;
 		}
 
+		#card-id,
+		#card-img-url,
+		#card-notes,
+		#card-script,
+		#card-path-url,
+		#card-sprite-parameters,
+		#card-title,
+		#card-tag-section{
+			display:none;
+		}
 
+		#card-id.active,
+		#card-img-url.active,
+		#card-notes.active,
+		#card-script.active,
+		#card-path-url.active,
+		#card-sprite-parameters.active,
+		#card-title.active,
+		#card-tag-section.active{
+			display:block;
+		}
+
+		.sec-btn {
+			background: rgba(0,0,0,0.0);
+			border-radius: 10px;
+			color: grey;
+			cursor: pointer;
+			font-size: 12px;
+			padding: 2px 0px;
+			height: 24px;
+			width: 32px;
+			margin:0px -5px;
+		}
+		.sec-btn.on{			
+			color:white;
+			display: inline-block;
+		}
 		/* #CSS END */
 	</style>
 </head>
@@ -2816,15 +2869,45 @@
 
 			<div id="tab-card-notes"
 				onkeydown="if (event.key.toLowerCase() === 's' && (event.ctrlKey || event.metaKey)) {event.preventDefault();saveCardNotes(event);}">
-				<div id="card-tag-list" class="tag-cloud" style="padding:5px 0px"></div>
-				<input type="text" id="assign-tag-input" placeholder="Add Tag" style="display:none" enterkeyhint="go"
-					inputmode="text" oninput="updateAssignmentUI()" onkeydown="handleTagKey(event)">
-				<input type="text" id="card-title" placeholder="Display Title" title="Title (n)">
+				<div id="card-tag-section" class="active">
+					<div id="card-tag-list" class="tag-cloud" style="padding:5px 0px"></div>
+					<input type="text" id="assign-tag-input" placeholder="Add Tag" style="display:none" enterkeyhint="go"
+						inputmode="text" oninput="updateAssignmentUI()" onkeydown="handleTagKey(event)">
+					
+				</div>				
+				<div style="display:flex">
+					<input type="text" id="card-title" class="active" placeholder="Display Title" title="Title (n)" style="flex:3">
+					<input type="text" id="card-id" class="active" placeholder="Unique ID" title="Card ID (p)" style="flex:1;text-align: right;">
+				</div>
+				<div class="card-details">
+					<input type="text" id="card-path-url" placeholder="URL / File Path" title="Path/URL (u)">
+					<input type="text" id="card-img-url" style="flex: 1;min-width:25%" placeholder="Image Path"
+							title="Image (i)">
+					<div id="card-sprite-parameters">
+						<div  style="display:flex">						
+							<button class="scale-btn" onclick="ImageScale()" title="Scale the image">s</button>
+							<input type="number" id="card-scale" placeholder="scale" title="scale (pixels per 1m)"
+								style="min-width:60px;max-width:34%;text-align: center;">
+							<button class="flip-btn" onclick="ImageFlip()" title="Flip the image">x</button>
+							<input type="number" id="card-x-offset" placeholder="x-offset"
+								title="x-offset from left edge to center for flipping (px)"
+								style="min-width:60px;max-width:34%;text-align: center;">
+							<button class="ground-btn" onclick="ImageGround()" title="Ground the image">y</button>
+							<input type="number" id="card-y-offset" placeholder="y-offset"
+								title="y-offset from bottom edge to ground (px)" style="min-width:60px;max-width:34%;text-align: center;">
+
+						</div>
+					</div>
+					
+				</div>
+				
 				<div class="notes-panel">
 					<div style="float:right;margin-bottom:2px">
 						<button class="notes-btn" onclick="ScriptStart()" title="Run as Script">Run</button>
 						<button class="notes-btn" onclick="PanelTextareaResize(this)"
 							title="Notes/Script Display Ratio">3:1</button>
+						<button class="notes-btn" onclick="PanelTextareaResizeH(this)"
+						title="Change Editor Height">H1</button>
 						<button class="notes-btn" style="width:55px" onclick="ScriptPublish(this)"
 							title="Publish Script">Publish</button>
 					</div>
@@ -2840,37 +2923,26 @@
 						</svg>
 					</button>
 					<button class="notes-btn" onclick="NoteInsertDTS()" title="Insert Timestamp">DTS</button>
-					<div style="display:flex;clear:right">
-						<textarea id="card-notes" class="card-textarea" onfocus="PanelTextareaActivate(this)"
+					<div id="card-textareas" style="display:flex;clear:right" class="active">
+						<textarea id="card-notes" class="card-textarea active" onfocus="PanelTextareaActivate(this)"
 							oninput="markDirty(this)" style="flex: 3 3 0%" placeholder="User Notes"></textarea>
-						<textarea id="card-script" class="card-textarea" onfocus="PanelTextareaActivate(this)"
-							oninput="markDirty(this)" style="flex: 1 1 0%" placeholder="Public Script"></textarea>
+						<textarea id="card-script" class="card-textarea active" onfocus="PanelTextareaActivate(this)"
+							oninput="markDirty(this)" style="flex: 1 1 0%;color:limegreen" placeholder="Public Script"></textarea>
 					</div>
 				</div>
-
-
-				<div class="card-details" style="display:none">
-					<div style="display:flex">
-						<input type="text" id="card-img-url" style="flex: 1;min-width:25%" placeholder="Image Path"
-							title="Image (i)">
-						<button class="scale-btn" onclick="ImageScale()" title="Scale the image">s</button>
-						<input type="number" id="card-scale" placeholder="scale" title="scale (pixels per 1m)"
-							style="min-width:60px;max-width:34%;text-align: center;">
-						<button class="flip-btn" onclick="ImageFlip()" title="Flip the image">x</button>
-						<input type="number" id="card-x-offset" placeholder="x-offset"
-							title="x-offset from left edge to center for flipping (px)"
-							style="min-width:60px;max-width:34%;text-align: center;">
-						<button class="ground-btn" onclick="ImageGround()" title="Ground the image">y</button>
-						<input type="number" id="card-y-offset" placeholder="y-offset"
-							title="y-offset from bottom edge to ground (px)" style="min-width:60px;max-width:34%;text-align: center;">
-
-					</div>
-					<input type="text" id="card-path-url" placeholder="URL / File Path" title="Path/URL (u)">
-					<input type="text" id="card-id" placeholder="Unique ID" title="Card ID (p)">
+				<div style="text-align:center;margin-top:5px">
+					<button class="sec-btn on" onclick="ToggleByID(this,'card-tag-section')"	title="Card Tags (t)">#</button>
+					<button class="sec-btn on" onclick="ToggleByID(this,'card-title')"	title="Card Title (n)">n</button>
+					<button class="sec-btn on" onclick="ToggleByID(this,'card-id')"	title="Card ID (p)">id</button>
+					<button class="sec-btn" onclick="ToggleByID(this,'card-path-url')"	title="Card URL (u)">u</button>
+					<button class="sec-btn" onclick="ToggleByID(this,'card-img-url')"	title="Card Cover Image (i)">i</button>
+					<button class="sec-btn" onclick="ToggleByID(this,'card-sprite-parameters')"	title="Card Sprite Parameters (s, x, y)">s</button>
+					<button class="sec-btn on" onclick="ToggleByID(this,'card-notes')"	title="Card Notes (o)">o</button>
+					<button class="sec-btn on" onclick="ToggleByID(this,'card-script')"	title="Card Script (c)">c</button>
 				</div>
-
-
-				<div onclick="toggleNodeDetails(this)" style="text-align: center;width:100%;height:40px;color:grey">▽</div>
+				
+				<!--<div onclick="toggleNodeDetails(this)" style="text-align: center;width:100%;height:40px;color:grey">▽</div>-->
+				
 
 			</div>
 			<div id="tab-card-tags" class="tab-content" style="display:none">
@@ -3054,7 +3126,7 @@
 				</div>
 				<input type="text" id="dev-command" class="unified-width" placeholder="Command..." oninput="memDEV()"
 					onkeydown="if (event.key === 'Enter' || event.keyCode === 13) {event.preventDefault(); processScriptLine(this.value)}">
-				<textarea id="user-note" class="unified-width"
+				<textarea id="user-note" class="unified-width card-textarea"
 					style="resize:none;height:172px; margin-bottom:5px;font-size:16px;overflow-y: auto;" placeholder="NOTES..."
 					oninput="saveNotes(this.value)"></textarea>
 
@@ -3400,7 +3472,7 @@
 
 			const code = entry.dataset.code;
 			const choiceList = document.getElementById('choice-container');
-			choiceList.style.display = "none";
+			choiceList.classList.remove('active');			
 			ChoiceAdd(code);
 			ChoiceBubblePop(null, true);
 			ScriptBubbleSpawning(null, true);
@@ -3502,6 +3574,18 @@
 			bubble.dataset.code = code;
 			bubble.dataset.choiceText = choiceText;
 			document.body.appendChild(bubble);
+		}
+		function ChoiceListAppend(code,choiceText,bPrepend){
+			const choiceList = document.getElementById('choice-container');
+			choiceList.classList.add('active');
+			const choiceEntry = ChoiceEntry(code, choiceText);
+			if(bPrepend){
+				choiceList.prepend(choiceEntry);
+			}else{
+				choiceList.append(choiceEntry);
+			}			
+			choiceEntry.scrollIntoView();
+			ScriptEngine().setAttribute('SE-BubbleSpawning', '');
 		}
 		function DATABestMatch(requiredTags, optionalTags) {
 			// 20260125: Sasha: Returns the best match in an array of items, where item.t has an array of tags in upper case.
@@ -3723,14 +3807,8 @@
 			const bubble = e.target.closest('.choice-bubble');
 			if (!bubble) return false;
 			e.stopPropagation();
-			// 20250119: Evelyn: If a bubble is clicked, add its choice to the main bubble and remove the bubble itself.
-			const choiceList = document.getElementById('choice-container');
-			choiceList.style.display = "block";
-			const code = bubble.dataset.code;
-			const text = bubble.dataset.choiceText;
-			const choiceEntry = ChoiceEntry(code, text);
-			choiceList.append(choiceEntry);
-
+			// 20250119: Evelyn: If a bubble is clicked, add its choice to the main bubble and remove the bubble itself.				
+			ChoiceListAppend(bubble.dataset.code,bubble.dataset.choiceText,true);
 			ChoiceBubblePop(bubble);
 		}
 		async function fairyRemovalCheck(e) {
@@ -4237,8 +4315,8 @@
 			const start = elFrame.selectionStart;
 			const end = elFrame.selectionEnd;
 			const timestamp = DTS();
-			elFrame.value = text.slice(0, start) + timestamp +' '+ text.slice(end);
-			elFrame.selectionStart = elFrame.selectionEnd = start + timestamp.length + 1;
+			elFrame.value = text.slice(0, start) + timestamp + text.slice(end);
+			elFrame.selectionStart = elFrame.selectionEnd = start + timestamp.length;
 			elFrame.focus();
 		}
 		function NoteLineSwap(bUp) {
@@ -4266,9 +4344,9 @@
 			// 20260125: Mark the current one active and the other one not active.
 			const elFrame = elThis.closest('.notes-panel');
 			elFrame.querySelectorAll('.card-textarea').forEach(n => {
-				n.classList.remove('active');
+				n.classList.remove('infocus');
 			});
-			elThis.classList.add('active');
+			elThis.classList.add('infocus');
 		}
 		function PanelTextareaResize(elThis) {
 			// 20260125: Cycles through the display ratios of the user notes and script areas.
@@ -4277,19 +4355,33 @@
 			let flexN = elNotes.style.flex;
 			let curRatio = elThis.innerText;
 			switch (curRatio) {
-				case '0:4': flexN = 1; break;
+				//case '0:4': flexN = 1; break;
 				case '1:3': flexN = 2; break;
 				case '2:2': flexN = 3; break;
-				case '3:1': flexN = 4; break;
-				case '4:0': flexN = 0; break;
+				case '3:1': flexN = 1; break;
+				//case '4:0': flexN = 0; break;
 				default: flexN = 3;
 			}
 			const flexS = 4 - flexN;
 			elNotes.style.flex = `${flexN} ${flexN} 0%`;
-			elScript.style.flex = `${flexS} ${flexS} 0%`;
-			elNotes.style.display = flexN == 0 ? 'none' : 'block';
-			elScript.style.display = flexS == 0 ? 'none' : 'block';
+			elScript.style.flex = `${flexS} ${flexS} 0%`;			
 			elThis.innerHTML = `${flexN}:${flexS}`;
+		}
+		function PanelTextareaResizeH(elThis){			
+			const CP = document.getElementById('command-panel');
+			let curH = 2
+			if(CP.classList.contains('edit-size-3')){
+				CP.classList.remove('edit-size-3');
+				curH = 1;
+			}else if(CP.classList.contains('edit-size-2')){
+				CP.classList.remove('edit-size-2');
+				curH = 3;
+			}else if(CP.classList.contains('edit-size-1')){
+				CP.classList.remove('edit-size-1');
+				curH = 2;
+			}
+			CP.classList.add('edit-size-' + curH)
+			elThis.innerHTML = "H"+curH;
 		}
 		function playSound(name, rate = 1.0, shouldLoop = false) {
 			if(rate==""){rate = 1};
@@ -4378,9 +4470,9 @@
 
 			// If choiceColors is blank, hide the container.
 			if (choiceColors.length == 0) {
-				choiceContainer.style.display = "none";
+				choiceContainer.classList.remove('active');
 			} else {
-				choiceContainer.style.display = "flex";
+				choiceContainer.classList.add('active');
 			}
 
 			
@@ -4581,14 +4673,18 @@
 			const parts = line.split('*');
 			let code = parts[0].trim();
 			const prefix = code.charAt(0);
-			const choiceText = line.rightOf('*').trim();
-			if(prefix === "!"){
+			let choiceText = line.rightOf('*').trim();
+			 if(!line.includes('*')){
+				// If the line does not have a second *, just make an inert list.
+				if(prefix==="!"){
+					choiceText = line.rightOf('!').trim();
+					ChoiceListAppend(null,choiceText);					
+				}else{
+					ChoiceBubbleSpawn(null, line.trim());
+				}
+			}else if(prefix === "!"){
 				code = code.rightOf('!');
-				const choiceList = document.getElementById('choice-container');
-				choiceList.style.display = "block";
-				const choiceEntry = ChoiceEntry(code, choiceText);
-				choiceList.append(choiceEntry);
-				ScriptEngine().setAttribute('SE-BubbleSpawning', '');
+				ChoiceListAppend(code,choiceText);
 			}else{
 				ChoiceBubbleSpawn(code, choiceText);
 			}			
@@ -4754,7 +4850,7 @@
 					const elNotes = document.getElementById("card-notes");
 					const elScript = document.getElementById("card-script");
 
-					if (elNotes.classList.contains('active')) {
+					if (elNotes.classList.contains('infocus')) {
 						scriptToRun = elNotes.value;
 					} else if (elScript.classList.contains('active')) {
 						scriptToRun = elScript.value;
@@ -5228,6 +5324,12 @@
 				}
 			});
 		}
+		function ToggleByID(elThis,aID){
+			// 20260207: StarTree: Toggle the display by element ID.
+			const el = document.getElementById(aID);
+			el.classList.toggle('active');
+			elThis.classList.toggle('on',el.classList.contains('active'));
+		}
 		function toggleAutoRandom(bTimer = false) {
 			// 20260111: Skyle: If Auto Flush is ON, toggle Auto Random mode.			
 			const isAutoRandom = document.body.classList.contains("auto-random");
@@ -5272,17 +5374,23 @@
 		}
 		function toggleNodeDetails(el) {
 			// 20260111: Skyle: Hide the advanced settings in card details.
+			const tagSec = document.getElementById('card-tag-section');
 			const fTitle = document.getElementById("card-title");
 			const details = document.querySelector('.card-details');
+			const cta = document.getElementById('card-textareas');
 
 			if (isHidden("card-id")) {
+				tagSec.style.display = "block";
 				fTitle.style.display = "block";
 				details.style.display = "block";
+				cta.style.display = "none";
 				el.innerHTML = "△";
 				el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
 			} else {
+				tagSec.style.display = "none";
 				fTitle.style.display = "none";
 				details.style.display = "none";
+				cta.style.display = "flex";
 				el.innerHTML = "▽";
 			}
 		}
