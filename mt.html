@@ -200,7 +200,7 @@
 			display: block;
 			/* Change from flex to block */
 			width: 100%;
-			max-height: 300px;
+			max-height: 100%;
 			/* Vertical limit */
 			overflow-y: auto;
 			/* Force vertical scroll */
@@ -409,7 +409,7 @@
 
 		.speech-content {
 			font-size: 20px;
-			line-height: 1;
+			/*line-height: 1;*/
 			color: #111;
 
 			max-height: 150px;
@@ -2839,8 +2839,7 @@
 							<polygon points="0,10 50,100 100,10" fill="currentColor" />
 						</svg>
 					</button>
-
-
+					<button class="notes-btn" onclick="NoteInsertDTS()" title="Insert Timestamp">DTS</button>
 					<div style="display:flex;clear:right">
 						<textarea id="card-notes" class="card-textarea" onfocus="PanelTextareaActivate(this)"
 							oninput="markDirty(this)" style="flex: 3 3 0%" placeholder="User Notes"></textarea>
@@ -3570,6 +3569,17 @@
 				showToast(`[${callerLine}] ${msg}`);
 			}
 		}
+		function DTS(){
+			// 20260206: StarTree: Returns the local DTS timestamp.
+			const now = new Date();
+			const timestamp = now.getFullYear().toString() +
+				(now.getMonth() + 1).toString().padStart(2, '0') +
+				now.getDate().toString().padStart(2, '0') +
+				now.getHours().toString().padStart(2, '0') +
+				now.getMinutes().toString().padStart(2, '0') +
+				now.getSeconds().toString().padStart(2, '0');
+			return timestamp;
+		}
 		function exportMultiTrack() {
 			// 20260104: Sasha: Export MultiTrack if it is not empty. If it is empty, import.
 			const multiTrackDOM = document.getElementById('multitrack'); // Adjust ID to match your container
@@ -4216,6 +4226,18 @@
 				multitrack = activeCard.closest('#multitrack');
 			}
 			return multitrack;
+		}
+		function NoteInsertDTS(){
+			// 20260206: StarTree: Inserts a local timestamp YYYYMMDDhhmmss to the edit textarea in focus.
+			const elFrame = document.querySelector('.card-textarea.active');
+			if (!elFrame || !elFrame.checkVisibility()) return;
+			const text = elFrame.value;
+			const start = elFrame.selectionStart;
+			const end = elFrame.selectionEnd;
+			const timestamp = DTS();
+			elFrame.value = text.slice(0, start) + timestamp +' '+ text.slice(end);
+			elFrame.selectionStart = elFrame.selectionEnd = start + timestamp.length + 1;
+			elFrame.focus();
 		}
 		function NoteLineSwap(bUp) {
 			// 20260125: Skyle: Moves the selected line up the notes if it is not already at the top.
