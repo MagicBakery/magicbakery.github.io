@@ -1283,9 +1283,9 @@
     ],
     "p": "20260207192800",
     "u": "https://magicbakery.github.io/sprites/Natalie_%7B20260207192800%7D.png",
-    "s": 590.0,
-    "x": 432.0,
-    "y": 24.0
+    "s": 590,
+    "x": 432,
+    "y": 24
   },
   {
     "n": "CANTEEN",
@@ -1295,7 +1295,11 @@
       "[STARTER PACK]"
     ],
     "p": "20260208013400",
-    "u": "https://substackcdn.com/image/fetch/$s_!pw2A!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F32491adb-cc46-4a4b-9dcd-c44dcced0893_1024x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!pw2A!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F32491adb-cc46-4a4b-9dcd-c44dcced0893_1024x1024.jpeg",
+    "c": "!stage%20canteen%0A!clear%20choices%0AADVENTURERS%20CANTEEN%0A%2020260208090420%20!Query%0A*NB*%20%22%22What%20is%20this%20I'm%20new%20here%22%22%0A*QB*%20See%20the%20quest%20board%0A%23%0A%3FQB%20!goto%2020260107234400%0A%3FNB%20!Goto%20NB%0A!Goto%20top%0A%23NB%23%0A!clear%20choices%0A%40Arcacia%20%3AWelcome%20to%20the%20Canteen!%20%0A%3AI'm%20your%20server%20Arcacia.%20%0A%23NB-menu%23%0A%3AWould%20you%20like%20the%20New%20Adventurer%20menu%3F%0A%2020260208092301%20!query%0A*!Yes*%20Yes.%0A*Price*%20%22%22How%20much%20is%20it%3F%22%22%0A%23%0A%3FPrice%20!Goto%20Price%0A%3FYes%20!Goto%20Archetype-Menu%0A(To%20be%20continued...)%0A!Top%0A%23Price%23%0A!clear%20choices%0A%40Arcacia%20%3AIt's%20a%20free%20service!%0A*!OK*%20OK%0A*Q1*%20%22%22What%20are%20you%20getting%20from%20me%3F%22%22%0A*Q2*%20%22%22Well%2C%20who%20pays%20for%20this%3F%22%22%0A*Q3*%20%22%22There's%20no%20free%20lunch.%22%22%0A%3FOK%20!Goto%20nb-menu%0A%3FQ1%20%40Arcacia%20%3AI'm%20not%20getting%20anything%20from%20you%2C%20it%20is%20free%20to%20you.%0A%3FQ2%20%40Arcacia%20%3AI%20get%20quest%20credits%20for%20serving.%20%0A%3FQ2%20%3AQuest%20credits%20represent%20how%20much%20a%20person%20has%20helped.%20%0A%3FQ2%20%3AIt%20does%20%22%22come%20from%22%22%20someone.%20It's%20just%20there%2C%20like%20air.%20You%20get%20it%20when%20you%20breathe.%0A%3FQ2%20%3ABut%20unlike%20air%2C%20it's%20infinite!%20You%20get%20it%20when%20you%20help!%0A%3FQ3%20%40Arcacia%20%3AYes%2C%20you're%20right!%20It%20still%20takes%20time%20to%20eat%20it!%0A!Goto%20NB-menu%0A%23Archetype-menu%23%0A%40Arcacia%20%3AHere%20is%20the%20menu%2C%20please%20let%20me%20know%20what%20you%20want%20next!%20%0A!clear%20choices%0ANEW%20ADVENTURER%20MENU%0A*Paladin*%20%3F%3F%3F%0A*Cleric*%20%3F%3F%3F%0A*Herald*%20%3F%3F%3F%0A*Alchemist*%20%3F%3F%3F%0A*Oracle*%20%3F%3F%3F%0A*Magician*%20%3F%3F%3F%0A*!Done*%20Done%0A%23%0A%3FDone%20!Goto%20done%0A(To%20be%20continued...)%0A!Goto%20Top%0A%23Done%23%0A%40Arcacia%20%3AEnjoy%20your%20day!%0AYour%20Adventure%20Continues...%0A%2020260208101212%20!query%0A*Restart*%20Restart%0A%3Frestart%20!Goto%20top%0A!End%0A%23end",
+    "s": 0,
+    "x": 0,
+    "y": 0
   },
   {
     "n": "LEI",
@@ -1306,9 +1310,9 @@
     ],
     "p": "20260208033800",
     "u": "https://magicbakery.github.io/sprites/Lei_%7B20260208033800%7D.png",
-    "s": 650.0,
-    "x": 273.0,
-    "y": 74.0
+    "s": 650,
+    "x": 273,
+    "y": 74
   },
   {
     "n": "JOHN",
@@ -1319,8 +1323,8 @@
     ],
     "p": "20260208201100",
     "u": "https://magicbakery.github.io/sprites/John_%7B20260208201100%7D.png",
-    "s": 540.0,
-    "x": 294.0,
-    "y": 96.0
+    "s": 540,
+    "x": 294,
+    "y": 96
   }
 ]
