@@ -2513,6 +2513,7 @@
 		#card-script,
 		#card-path-url,
 		#card-sprite-parameters,
+		#card-sec-btns,
 		#card-title,
 		#card-tag-section{
 			display:none;
@@ -2524,9 +2525,13 @@
 		#card-script.active,
 		#card-path-url.active,
 		#card-sprite-parameters.active,
+		
 		#card-title.active,
 		#card-tag-section.active{
 			display:block;
+		}
+		#card-sec-btns.active{
+			display:inline-block;
 		}
 
 		.sec-btn {
@@ -2902,7 +2907,7 @@
 				</div>
 				
 				<div class="notes-panel">
-					<div style="float:right;margin-bottom:2px">
+					<div style="float:right;margin-bottom:2px;margin-right:5px">
 						<button class="notes-btn" onclick="ScriptStart()" title="Run as Script">Run</button>
 						<button class="notes-btn" onclick="PanelTextareaResize(this)"
 							title="Notes/Script Display Ratio">3:1</button>
@@ -2911,18 +2916,19 @@
 						<button class="notes-btn" style="width:55px" onclick="ScriptPublish(this)"
 							title="Publish Script">Publish</button>
 					</div>
-
-					<button class="notes-btn" onclick="NoteLineSwap(true)" title="Move line up">
-						<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
-							<polygon points="0,100 50,10 100,100" fill="currentColor" />
-						</svg>
-					</button>
-					<button class="notes-btn" onclick="NoteLineSwap(false)" title="Move line down">
-						<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
-							<polygon points="0,10 50,100 100,10" fill="currentColor" />
-						</svg>
-					</button>
-					<button class="notes-btn" onclick="NoteInsertDTS()" title="Insert Timestamp">DTS</button>
+					<div style="margin-left:5px">
+						<button class="notes-btn" onclick="NoteLineSwap(true)" title="Move line up">
+							<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
+								<polygon points="0,100 50,10 100,100" fill="currentColor" />
+							</svg>
+						</button>
+						<button class="notes-btn" onclick="NoteLineSwap(false)" title="Move line down">
+							<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
+								<polygon points="0,10 50,100 100,10" fill="currentColor" />
+							</svg>
+						</button>
+						<button class="notes-btn" onclick="NoteInsertDTS()" title="Insert Timestamp">DTS</button>
+					</div>
 					<div id="card-textareas" style="display:flex;clear:right" class="active">
 						<textarea id="card-notes" class="card-textarea active" onfocus="PanelTextareaActivate(this)"
 							oninput="markDirty(this)" style="flex: 3 3 0%" placeholder="User Notes"></textarea>
@@ -2930,15 +2936,20 @@
 							oninput="markDirty(this)" style="flex: 1 1 0%;color:limegreen" placeholder="Public Script"></textarea>
 					</div>
 				</div>
-				<div style="text-align:center;margin-top:5px">
-					<button class="sec-btn on" onclick="ToggleByID(this,'card-tag-section')"	title="Card Tags (t)">#</button>
-					<button class="sec-btn on" onclick="ToggleByID(this,'card-title')"	title="Card Title (n)">n</button>
-					<button class="sec-btn on" onclick="ToggleByID(this,'card-id')"	title="Card ID (p)">id</button>
-					<button class="sec-btn" onclick="ToggleByID(this,'card-path-url')"	title="Card URL (u)">u</button>
-					<button class="sec-btn" onclick="ToggleByID(this,'card-img-url')"	title="Card Cover Image (i)">i</button>
-					<button class="sec-btn" onclick="ToggleByID(this,'card-sprite-parameters')"	title="Card Sprite Parameters (s, x, y)">s</button>
-					<button class="sec-btn on" onclick="ToggleByID(this,'card-notes')"	title="Card Notes (o)">o</button>
-					<button class="sec-btn on" onclick="ToggleByID(this,'card-script')"	title="Card Script (c)">c</button>
+				<div id="card-sec-bar" style="text-align:center;margin-top:5px;cursor:pointer" title="Display Selection">
+					&nbsp;
+					<div id="card-sec-btns" >
+						<button class="sec-btn on" onclick="ToggleByID(this,'card-tag-section')"	title="Card Tags (t)">#</button>
+						<button class="sec-btn on" onclick="ToggleByID(this,'card-title')"	title="Card Title (n)">n</button>
+						<button class="sec-btn on" onclick="ToggleByID(this,'card-id')"	title="Card ID (p)">id</button>
+						<button class="sec-btn" onclick="ToggleByID(this,'card-path-url')"	title="Card URL (u)">u</button>
+						<button class="sec-btn" onclick="ToggleByID(this,'card-img-url')"	title="Card Cover Image (i)">i</button>
+						<button class="sec-btn" onclick="ToggleByID(this,'card-sprite-parameters')"	title="Card Sprite Parameters (s, x, y)">s</button>
+						<button class="sec-btn on" onclick="ToggleByID(this,'card-notes')"	title="Card Notes (o)">o</button>
+						<button class="sec-btn on" onclick="ToggleByID(this,'card-script')"	title="Card Script (c)">c</button>
+					</div>
+					
+					&nbsp;
 				</div>
 				
 				<!--<div onclick="toggleNodeDetails(this)" style="text-align: center;width:100%;height:40px;color:grey">▽</div>-->
@@ -3453,8 +3464,6 @@
 				return;
 			}
 			Multitrack()?.setAttribute(ChoiceName(choice), '');
-
-			DEBUG('@@ChoiceAdd: ' + ChoiceName(choice), true);
 			memDOM();
 		}
 		function ChoiceCheck(choice) {
@@ -3630,6 +3639,34 @@
 			if (!imgURL || imgURL.trim() == "") { imgURL = item.u; }
 			if (!imgURL || imgURL.trim() == "") { imgURL = item.p; }
 			return getFullResURL(imgURL);
+		}
+		function DATAQueryScriptDTS(dts){
+			// Query all script lines in DATA that has ?dts and prepend to the current script.
+			// 20260207: StarTree: In the global item array DATA, item.o and item.c may have lines that start with ?{dts} {rest of the line}. Query and return all of the rest of the lines.
+			// Example: 
+			// DATA record A has: ?20260207150700 @StarTree :StarTree likes coconut!
+			// DATA record B has: ?20260207150700 @Lei :I like strawberries.
+			// When this function is called, the return should be:
+			// @StarTree :StarTree likes coconut!
+			// @Lei :I like strawberries.
+			let result = [];
+			const queryPrefix = `?${dts} `;
+			DATA.forEach(item => {
+				const fieldsToCheck = [item.c]; //[item.o, item.c];
+				fieldsToCheck.forEach(content => {
+				if (content && typeof content === 'string') {
+					const lines = decodeURIComponent(content).split('\n');
+					lines.forEach(line => {
+						const trimmedLine = line.trim();
+						if (trimmedLine.startsWith(queryPrefix)) {
+							const scriptLine = trimmedLine.slice(queryPrefix.length).trimStart();
+							result.push(scriptLine);
+						}
+					});
+				}
+			});
+			});
+			return result.join('\n');
 		}
 		function DialogFormat(text) {
 			text = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -4433,6 +4470,8 @@
 				return true;
 			} else if (command === 'PLAY') {
 				playSound(arg1, arg2, arg3); return true;
+			}else if(command === 'QUERY'){
+				return ScriptQueryResponses();
 			} else if (command === 'SOUND') {
 				handleSoundCommand(arg1, arg2, after3);
 				return true;
@@ -4440,13 +4479,17 @@
 			return false;
 		}
 		function processScriptDialog(text, choiceColors = []) {
+			// Display Elements
 			const overlay = document.getElementById('dialogue-overlay');
 			const textField = document.getElementById('speech-text');
 			const choiceContainer = document.getElementById('choice-container');
 
+			const SE = ScriptEngine();
+			const dts = SE.dataset.dts;
+			textField.title = dts;			
 
 			// 20260119: Skyle: If the stage is live and the text does not start with a colon, change to narrative mode.
-			const prefix = text.charAt(0);
+			const prefix = text.charAt(0);			
 			const bubble = document.querySelector('.speech-bubble');
 			//if(StageLive() && prefix != ':'){
 			let continueNarration = bubble.classList.contains('narrative-mode');
@@ -4458,25 +4501,18 @@
 				continueNarration = false;
 			}
 
-			// Set Text
+			// Set Text			
 			if(continueNarration){
 				textField.innerHTML += "\n" + DialogFormat(text);
 			}else{
-				
 				textField.innerHTML = DialogFormat(text);
 			}
-			
-
-
 			// If choiceColors is blank, hide the container.
 			if (choiceColors.length == 0) {
 				choiceContainer.classList.remove('active');
 			} else {
 				choiceContainer.classList.add('active');
 			}
-
-			
-
 			// Clear and Populate Buttons
 			choiceContainer.innerHTML = "";
 			choiceColors.forEach(color => {
@@ -4485,11 +4521,8 @@
 				btn.style.backgroundColor = color;
 				choiceContainer.appendChild(btn);
 			});
-
 			SpeechBubbleShow(true);
 			document.querySelector('.speech-bubble').scrollTop = 0;
-
-			
 
 			// Reset the next button animation.
 			const nextBtn = document.querySelector('.stage-next-btn');
@@ -4500,14 +4533,20 @@
 			return false;
 		}
 		async function processScriptLine(line) {
-			// 20260119: Arcacia: This function runs a line in the script. if it returns true, it means that the function calling this may run the next line immediately.
+			// 20260119: Arcacia: This function runs a line in the script. if it returns true, it means that the function calling this may run the next line immediately.			
+			line = line.trim();
+			// 20260207: StarTree: A line may start with a DTS.
+			const se = ScriptEngine();
+			const firstword = line.leftOf(' ');
+			if(firstword.isOnlyDigits()){
+				se.dataset.dts = firstword;
+				line = line.rightOf(' ').trim();
+			}
 			const prefix = line.charAt(0);
-
 			// 20260120: Natalie: If there is a selected choice, set bubble spawning to done.
 			ChoiceCommit();
 			// 20260119: LRRH: If the engine is spawning bubbles and the prefix is not *, put the line back and return.
-
-			const se = ScriptEngine();
+			
 			if (prefix != '*' && ScriptBubbleSpawning(null)) {
 				
 				se.dataset.script = line + "\n" + se.dataset.script;
@@ -4695,6 +4734,7 @@
 			const elSE = ScriptEngine();
 			elSE.dataset.script = "";
 			elSE.dataset.p = "";
+			elSE.dataset.dts="";
 		}
 		function ScriptEngine() {
 			return document.querySelector('.script-step-btn');
@@ -4703,7 +4743,9 @@
 			// 20260202: Fina: Go to a label encapsulated by '#' in the script.
 			const SE = ScriptEngine();
 			let remainingScript = SE.dataset.scriptBackup;
-			remainingScript = remainingScript.rightOf(`#${label}#`,true);
+			if(remainingScript){
+				remainingScript = remainingScript.rightOf(`#${label}#`,true);
+			}			
 			//remainingScript = remainingScript.rightOf('\n');
 			if(remainingScript == ""){
 				// 20260206: Koyo: If the label is not found in the current script, assume that it is a card id.
@@ -4797,12 +4839,30 @@
 			setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 
 		}
+		function ScriptQueryResponses(){
+			// 20260207: Lei: Query responses based on the SE's dts.
+			const SE = ScriptEngine();
+			const dts = SE.dataset.dts;
+			if(!dts){return true;}
+			// Query all script lines in DATA that has ?dts and prepend to the current script.
+			const queryResult = DATAQueryScriptDTS(dts);
+			SE.dataset.script = queryResult + "\n" + SE.dataset.script;			
+			return true;
+		}
 		async function ScriptRun(SE){
 			// 20260129: LRRH: Runs the script that is already in the script engine.
 			if(!SE) {SE = ScriptEngine();}
-			let scriptToRun = SE.dataset.script;			
+
+			// If there is dts, query the script.
+	
+			if(SE.dataset.dts){
+				ScriptQueryResponses(SE.dataset.dts);
+				SE.dataset.dts = "";
+			}
+			let  scriptToRun = SE.dataset.script;			
 			const lineRegex = /^(.*?)(?:\r?\n|$)/; // Pop the first line
 			const match = scriptToRun.match(lineRegex);
+
 			if (!match || match[0].length < 1) {
 				// Script finished.				
 				SE.dataset.p = "";
@@ -4811,6 +4871,7 @@
 				return false;
 			}
 			const currentLine = match[1].trim();
+			
 			SE.dataset.script = SE.dataset.script.replace(lineRegex, "");
 			if (!currentLine) {
 				ScriptRun(SE);
@@ -4820,6 +4881,9 @@
 			if (await processScriptLine(currentLine)) {
 				DEBUG("[ ] " + currentLine, true); //
 				ScriptRun(SE);
+			/*} else if(SE.dataset.dts){
+				DEBUG("[?] " + currentLine, true); //
+				ScriptRun(SE);*/
 			} else {
 				DEBUG("[>] " + currentLine, true); //
 			}
@@ -4834,6 +4898,7 @@
 			const SE = ScriptEngine();
 			SE.dataset.p = id;
 			SE.dataset.script = decodeURIComponent(data.c);
+			SE.dataset.scriptBackup = SE.dataset.backup;
 			ScriptRun(SE);
 		}
 		async function ScriptStart(SE) {
@@ -5237,6 +5302,11 @@
 			document.addEventListener('click', async (e) => {
 				if (await fairyRemovalCheck(e)) { return; }
 				if (await fairyBubblePopping(e)) { return; }
+				if(!e.target.closest('.sec-btn') && e.target.closest('#card-sec-bar')){
+					e.stopPropagation();
+					ToggleByID(null,'card-sec-btns');
+					return;
+				}
 				if (await fairyBlessCheck(e)) { return; }
 				if (await fairyActiveCardCheck(e)) { return; }
 				/*if (e.target.closest("#tab-card-notes")) {
@@ -5328,6 +5398,7 @@
 			// 20260207: StarTree: Toggle the display by element ID.
 			const el = document.getElementById(aID);
 			el.classList.toggle('active');
+			if(!elThis){return;}
 			elThis.classList.toggle('on',el.classList.contains('active'));
 		}
 		function toggleAutoRandom(bTimer = false) {
