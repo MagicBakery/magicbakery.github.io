@@ -1298,6 +1298,19 @@
     "u": "https://substackcdn.com/image/fetch/$s_!pw2A!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F32491adb-cc46-4a4b-9dcd-c44dcced0893_1024x1024.jpeg"
   },
   {
+    "n": "LEI",
+    "t": [
+      "LEI",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260208033800",
+    "u": "https://magicbakery.github.io/sprites/Lei_%7B20260208033800%7D.png",
+    "s": 650.0,
+    "x": 273.0,
+    "y": 74.0
+  },
+  {
     "n": "JOHN",
     "t": [
       "JOHN",
