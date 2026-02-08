@@ -1245,6 +1245,36 @@
     "u": "https://substackcdn.com/image/fetch/$s_!IB88!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F72240ab0-9144-4a1e-b2b0-c9561ef2e04a_1536x1024.jpeg"
   },
   {
+    "n": "CANTEEN",
+    "t": [
+      "CANTEEN",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260206010000",
+    "u": "https://substackcdn.com/image/fetch/$s_!y-Gm!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F46a41d34-2f1a-48a6-b89c-ccf9db4f5c9f_1536x1024.jpeg"
+  },
+  {
+    "n": "CANTEEN",
+    "t": [
+      "CANTEEN",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260206010001",
+    "u": "https://substackcdn.com/image/fetch/$s_!qcf-!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fecbf4762-81b9-4364-8f34-ac2acba055c4_1536x1024.jpeg"
+  },
+  {
+    "n": "CANTEEN",
+    "t": [
+      "CANTEEN",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260206010002",
+    "u": "https://substackcdn.com/image/fetch/$s_!mP6a!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7370d0a2-a5b4-4010-806a-da07a916519e_1536x1024.jpeg"
+  },
+  {
     "n": "NATALIE",
     "t": [
       "NATALIE",
@@ -1258,6 +1288,16 @@
     "y": 24.0
   },
   {
+    "n": "CANTEEN",
+    "t": [
+      "CANTEEN",
+      "[ALBUM]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260208013400",
+    "u": "https://substackcdn.com/image/fetch/$s_!pw2A!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F32491adb-cc46-4a4b-9dcd-c44dcced0893_1024x1024.jpeg"
+  },
+  {
     "n": "JOHN",
     "t": [
       "JOHN",
@@ -1266,8 +1306,8 @@
     ],
     "p": "20260208201100",
     "u": "https://magicbakery.github.io/sprites/John_%7B20260208201100%7D.png",
-    "s": 590.0,
-    "x": 288.0,
-    "y": 92.0
+    "s": 540.0,
+    "x": 294.0,
+    "y": 96.0
   }
 ]
