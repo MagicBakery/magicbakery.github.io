@@ -5260,7 +5260,7 @@
 			}else{
 				// 20260203: Evelyn: Interpret the rest as a comma separated list of tags.
 				const inlineTags = argsU.split(',');
-				scene = DATABestMatch([],inlineTags);
+				scene = DATABestMatch(["[SCENE]"],inlineTags);
 			}
 			if (!scene) { scene = getActiveCardData(); }
 			if (scene) {
