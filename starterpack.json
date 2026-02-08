@@ -1243,5 +1243,31 @@
     ],
     "p": "20260205225700",
     "u": "https://substackcdn.com/image/fetch/$s_!IB88!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F72240ab0-9144-4a1e-b2b0-c9561ef2e04a_1536x1024.jpeg"
+  },
+  {
+    "n": "NATALIE",
+    "t": [
+      "NATALIE",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260207192800",
+    "u": "https://magicbakery.github.io/sprites/Natalie_%7B20260207192800%7D.png",
+    "s": 590.0,
+    "x": 432.0,
+    "y": 24.0
+  },
+  {
+    "n": "JOHN",
+    "t": [
+      "JOHN",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260208201100",
+    "u": "https://magicbakery.github.io/sprites/John_%7B20260208201100%7D.png",
+    "s": 590.0,
+    "x": 288.0,
+    "y": 92.0
   }
 ]
