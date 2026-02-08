@@ -4538,7 +4538,7 @@
 			// 20260207: StarTree: A line may start with a DTS.
 			const se = ScriptEngine();
 			const firstword = line.leftOf(' ');
-			if(firstword.isOnlyDigits()){
+			if(firstword.isOnlyDigits() && firstword.length == 14){
 				se.dataset.dts = firstword;
 				line = line.rightOf(' ').trim();
 			}
