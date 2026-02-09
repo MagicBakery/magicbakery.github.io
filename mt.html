@@ -231,7 +231,7 @@
 			/* Fill the container */
 			margin-bottom: 12px;
 			/* Vertical spacing between items */
-			background: rgba(255, 255, 255, 0.08);
+			background: rgba(0, 0, 0, 0.15);
 			border: 1px solid rgba(255, 255, 255, 0.2);
 			border-radius: 50px;
 			padding: 15px;
@@ -240,12 +240,16 @@
 			/* For positioning internal buttons */
 			font-size: 18px;
 			text-align: center;
+		}		
+		.narrative-mode .choice-entry{
+			background: rgba(255, 255, 255, 0.1);
 		}
-
 		.choice-entry.selected {
 			border: 2px solid var(--gold);
-			background: rgba(255, 215, 0, 0.1);
+			background: rgba(96, 72, 0, 0.5);
 		}
+
+		
 
 		.choice-actions {
 			display: flex;
@@ -2565,7 +2569,7 @@
 				<div class="stats-clickable" onclick="toggleCollections(event)">Collections (<span
 						id="collection-count">0</span>)
 				</div>
-				<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" rel="noopener noreferrer"
+				<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" 
 					class="bakery-link" id="version-link">ⓘ</a>
 			</div>
 			<div style="padding:0px 5px">
@@ -2815,7 +2819,7 @@
 				<polyline points="22,6 12,13 2,6"></polyline>
 			</svg>
 		</a>
-		<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" rel="noopener noreferrer"
+		<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank"
 			class="tool-btn bakery-link" style="float: right;height:24px;width:24px;margin-right:5px" title="Visit Homepage">
 			<svg viewBox="-3 -3 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
 				stroke-linejoin="round">
@@ -3412,9 +3416,9 @@
 			let actor = elStage.querySelector(`.actor[data-name="${actorName}" i]`);
 			let filters = [];
 
-			// If the command is it get the actor off stage
+			// If the command is OFF, get the actor off stage
 			let arg1 = rest.toUpperCase();
-			if (rest === '!OFF') { if (actor) { actor.remove(); } return true; }
+			if (rest === 'OFF') { if (actor) { actor.remove(); } return true; }
 
 			if (!actor) {
 				actor = document.createElement('div');
@@ -3443,6 +3447,21 @@
 					// Enter from left and face right.
 					SpriteOnStage(img, -rndX, 0, true, false, true);
 				}
+			}else{
+				// 20260208: Arcacia: If the actor is already on stage, shift it a little bit.
+				const img = actor.querySelector("img");
+				let curX = parseFloat(actor.dataset.posX) || 0;
+
+				curX += Math.random()*10-5;
+				curX = Math.max(-40,Math.min(40,curX));
+				if (curX >= 0) {
+					// Enter from right and face left.
+					SpriteOnStage(img, curX, 0, true, true, true);
+				} else {
+					// Enter from left and face right.
+					SpriteOnStage(img, -curX, 0, true, false, true);
+				}
+
 			}
 
 
@@ -3481,7 +3500,8 @@
 
 			const code = entry.dataset.code;
 			const choiceList = document.getElementById('choice-container');
-			choiceList.classList.remove('active');			
+			choiceList.classList.remove('active');		
+			choiceList.innerHTML = "";	
 			ChoiceAdd(code);
 			ChoiceBubblePop(null, true);
 			ScriptBubbleSpawning(null, true);
@@ -3650,7 +3670,7 @@
 			// @StarTree :StarTree likes coconut!
 			// @Lei :I like strawberries.
 			let result = [];
-			const queryPrefix = `?${dts} `;
+			const queryPrefix = `?${dts}`;
 			DATA.forEach(item => {
 				const fieldsToCheck = [item.c]; //[item.o, item.c];
 				fieldsToCheck.forEach(content => {
@@ -3676,7 +3696,7 @@
 			});
 
 			// 20260127: StarTree: Format some of the text to avoid allowing full html.
-			//text = text.replaceAll("//","\n");
+			text = text.replaceAll("//","\n");
 
 			return text;
 		}
@@ -4471,6 +4491,8 @@
 			} else if (command === 'PLAY') {
 				playSound(arg1, arg2, arg3); return true;
 			}else if(command === 'QUERY'){
+				// 20260208: Natalie: The query will already happen at the next line. Need to redefine what this function means.
+				//return true;
 				return ScriptQueryResponses();
 			} else if (command === 'SOUND') {
 				handleSoundCommand(arg1, arg2, after3);
@@ -4853,13 +4875,14 @@
 			// 20260129: LRRH: Runs the script that is already in the script engine.
 			if(!SE) {SE = ScriptEngine();}
 
+
 			// If there is dts, query the script.
 	
 			if(SE.dataset.dts){
 				ScriptQueryResponses(SE.dataset.dts);
 				SE.dataset.dts = "";
 			}
-			let  scriptToRun = SE.dataset.script;			
+			let  scriptToRun = SE.dataset.script;
 			const lineRegex = /^(.*?)(?:\r?\n|$)/; // Pop the first line
 			const match = scriptToRun.match(lineRegex);
 
@@ -5084,6 +5107,10 @@
 			let shouldFaceRight = sprite.classList.contains('right');
 			let shouldGround = sprite.classList.contains('grounded');
 
+			// 20260208: Arcacia: Store the current posX and poxY for random drift while onstage. 
+			sprite.dataset.posX = posX;
+			sprite.dataset.posY = posY;
+
 			const frame = sprite.closest('.stage-area, .track') || sprite.parentElement;
 			const frameW = frame.clientWidth;
 			let frameH = frame.clientHeight;
@@ -5212,7 +5239,7 @@
 			if (!e.target.closest('.stage-next-btn')) return false;
 			e.stopPropagation();
 			if (StageLive()) {
-				if (await showConfirm('Quit this script?')) {
+				if (await showConfirm('Exit to Backstage?')) {
 					ScriptEnd();
 					SpeechBubbleShow(false);
 					ChoiceBubblePop(null,true);
