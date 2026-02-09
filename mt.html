@@ -200,13 +200,14 @@
 			display: none;
 			/* Change from flex to block */
 			width: 100%;
-			max-height: 100%;
+			max-height: calc(40vh - 85px);
 			/* Vertical limit */
 			overflow-y: auto;
 			/* Force vertical scroll */
 			overflow-x: hidden;
 			/* Kill horizontal scroll */
 			margin-top: 10px;
+			flex: 4 1 0%;
 			/*padding-right: 10px;*/
 			/* Space for the scrollbar */
 		}
@@ -306,7 +307,7 @@
 			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 		}
 		.speech-bubble.narrative-mode:has(#choice-container.active){
-			padding: 30px 10% 40px 10%;
+			padding: 30px 10% 30px 10%;
 		}
 
 		.speech-bubble::before {
@@ -392,10 +393,10 @@
 
 		.dialogue-overlay {
 			position: fixed;
-			bottom: 25vh;
+			bottom: 85px;
 			left: 50%;
 			width: 100%;
-			max-height: 50vh;
+			max-height: calc(100vh - 170px);
 			transform: translateX(-50%);
 			justify-content: center;
 			z-index: var(--z-SpeechBubble);
@@ -421,21 +422,23 @@
 			font-size: 20px;
 			/*line-height: 1;*/
 			color: #111;
-
-			max-height: 150px;
+			max-height: calc(50vh - 85px);
 			overflow-y: auto;
 			text-align: center;
 			word-wrap: break-word;
 			font-weight: bold;
 			white-space: pre-wrap;
-
+			flex: 6 1 0%;
+			min-height:0;
 			&::-webkit-scrollbar {
-				display: none;
+				width: 2px;
 			}
-
-			-ms-overflow-style: none;
-			scrollbar-width: none;
+			&::-webkit-scrollbar-thumb {
+				background: var(--gold);
+				border-radius: 10px;
+			}
 		}
+		
 
 		.speech-content a {
 			color: gold;
@@ -2553,6 +2556,14 @@
 			color:white;
 			display: inline-block;
 		}
+		.bubble-figure{
+			width:100%;
+			height:auto;
+			object-fit:fill;
+			cursor:zoom-in;
+			border:white solid 0px;
+			border-radius:20px;
+		}
 		/* #CSS END */
 	</style>
 </head>
@@ -3168,9 +3179,10 @@
 						stroke-linejoin="round" />
 				</svg>
 			</button>
-
-			<div id="speech-text" class="speech-content"></div>
-			<div id="choice-container" class="choice-row"></div>
+			<div style="display:flex;flex-direction: column;">
+				<div id="speech-text" class="speech-content"></div>
+				<div id="choice-container" class="choice-row"></div>
+			</div>
 		</div>
 	</div>
 	<div id="splash-screen" onclick="if(event.target === this) hideSplash()">
@@ -3770,7 +3782,7 @@
 		function fairyActiveCardCheck(e) {
 			// 20251226: StarTree: Set the card to be the active card if it is in multi track mode.
 			// 20260108: LRRH: Clicking on a tag toggles it.
-			const tagPill = e.target.closest('.tag-pill');
+			const tagPill = e.target.closest('.tag-pill');						
 			if (tagPill) {
 				e.stopPropagation();
 				const t = tagPill.firstChild.textContent.trim();
@@ -3806,6 +3818,12 @@
 				setActiveCard(card);
 
 				return true;
+			}
+			const figure = e.target.closest('.bubble-figure');
+			if(figure){
+				e.stopPropagation();
+				StageQuit(e);
+				showSplash(e);
 			}
 			return false;
 		}
@@ -4464,14 +4482,14 @@
 		function processScriptCommands(line) {
 			//if (!inputString.startsWith('!')) return false;
 			const command = line.leftOf(' ').trim().toUpperCase();
-			const after1 = line.trim().rightOf(' ').trim();
-			const arg1 = after1.leftOf(' ').trim().toUpperCase();
-			const after2 = after1.trim().rightOf(' ').trim();
-			const arg2 = after2.leftOf(' ').trim().toUpperCase();
-			const after3 = after2.trim().rightOf(' ').trim();
-			const arg3 = after3.leftOf(' ').trim().toUpperCase();
+			const tail1 = line.trim().rightOf(' ').trim();
+			const arg1 = tail1.leftOf(' ').trim().toUpperCase();
+			const tail2 = tail1.trim().rightOf(' ').trim();
+			const arg2 = tail2.leftOf(' ').trim().toUpperCase();
+			const tail3 = tail2.trim().rightOf(' ').trim();
+			const arg3 = tail3.leftOf(' ').trim().toUpperCase();
 		
-			if (command === 'BUTTON') { addButton(arg1, arg2, after3); return true; }
+			if (command === 'BUTTON') { addButton(arg1, arg2, tail3); return true; }
 			if (command === 'CHOOSE') { ChoiceAdd(arg1); return true; }
 			if (command === 'CLEAR') {
 				if (arg1 === 'CHOICES') { ChoiceRemove(null, true); return true; }
@@ -4480,11 +4498,13 @@
 				if (arg1 === 'SOUND') { flushSounds(); return true; }
 				return false;
 			} else if (command === 'CSS') {
-				injectCSS(after1.trim());
+				injectCSS(tail1.trim());
 				return true;
 			} else if (command === 'END') {
 				ScriptEnd();
 				return true;
+			} else if (command === 'IMAGE'){
+				return ScriptInsertImage(tail1);				
 			} else if (command === 'GOTO') {
 				ScriptGoto(arg1);
 				return true;
@@ -4495,9 +4515,9 @@
 				//return true;
 				return ScriptQueryResponses();
 			} else if (command === 'SOUND') {
-				handleSoundCommand(arg1, arg2, after3);
+				handleSoundCommand(arg1, arg2, tail3);
 				return true;
-			} else if (command === 'STAGE') { StageSet(after1); return true; }
+			} else if (command === 'STAGE') { StageSet(tail1); return true; }
 			return false;
 		}
 		function processScriptDialog(text, choiceColors = []) {
@@ -4799,6 +4819,30 @@
 			const remaining = line.substring(line.indexOf(' ', 1) + 1).trim();
 			return processScriptLine(remaining.trim());
 		}
+		function ScriptInsertImage(arg){
+			// 20260209: StarTree: Inserts an image to the speech bubble
+			let url = "";
+			if(arg.isOnlyDigits()){
+				// Assume that this is an Data ID
+				url = DATAFullResURL(DATAByID(arg));
+			}else if(arg.includes("/")){
+				url = arg;
+			}else{				
+				const data = DATABestMatch([],arg.split(','));
+				url = DATAFullResURL(DATABestMatch([],arg.split(',')));
+			}
+			if(!url){return true;}
+			const SB = SpeechBubble();
+			const el = SB.querySelector('#speech-text');
+			let html = `<img class="bubble-figure" src="${url}" loading="lazy">`;
+			if(SB.classList.contains('narrative=mode')){
+				el.innerHTML += html;
+			}else{
+				SB.classList.add('narrative-mode');
+				el.innerHTML = html;
+			}
+			return true;
+		}
 		async function ScriptPublish(elThis) {
 			// 20250125: StarTree: Save the data in "Publish" spec that does not include user notes. Show additional messages to inform the user what the button is for.
 
@@ -5058,8 +5102,11 @@
 			});
 		}
 		function SpeechBubbleShow(bShow) {
-			const bubble = document.getElementById('dialogue-overlay');
-			bubble.classList.toggle('active', bShow);
+			document.getElementById('dialogue-overlay').classList.toggle('active', bShow);
+		}
+		function SpeechBubble(){
+			// 20260209: StarTree: Returns the speech bubble
+			return document.querySelector('.speech-bubble');
 		}
 		function SpriteOnStage(sprite, posX = 0, posY = 0, bScale, bLeft, bGround) {
 			// 20260122: Skyle: This function sets the position of a sprite on stage (or in backstage during adjustment)
