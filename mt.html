@@ -197,19 +197,13 @@
 		}
 
 		#choice-container {
-			display: none;
-			/* Change from flex to block */
+			display: none;			
 			width: 100%;
-			max-height: calc(40vh - 85px);
-			/* Vertical limit */
+			max-height: none;
+			min-height: 0;
 			overflow-y: auto;
-			/* Force vertical scroll */
-			overflow-x: hidden;
-			/* Kill horizontal scroll */
-			margin-top: 10px;
-			flex: 4 1 0%;
-			/*padding-right: 10px;*/
-			/* Space for the scrollbar */
+			overflow-x: hidden;			
+			flex: 0 3 auto;
 		}
 		#choice-container.active{
 			display:block;
@@ -280,6 +274,7 @@
 			z-index: 1;
 			padding: 25px 25px;
 			/* Give it padding so the text doesn't touch the edges */
+			display:flex;
 			flex-direction: column;
 			gap: 20px;
 			background: rgba(255, 255, 255, 0.5);
@@ -288,7 +283,13 @@
 			width: auto;
 			min-width: 100px;
 			max-width: 800px;
+			max-height:calc(100vh - 170px);
 			pointer-events: auto;
+		}
+		.speech-bubble > div {			
+			flex-shrink: 0;
+			height: auto !important;
+			min-height: 0;      /* CRITICAL: Allows flex children to scroll */
 		}
 
 		.speech-bubble.narrative-mode {
@@ -402,6 +403,7 @@
 			z-index: var(--z-SpeechBubble);
 			pointer-events: none;
 			display: flex;
+			align-items: flex-end;
 			visibility: hidden;
 			opacity: 0;
 			transition: all 0.4s ease-out;
@@ -422,13 +424,14 @@
 			font-size: 20px;
 			/*line-height: 1;*/
 			color: #111;
-			max-height: calc(50vh - 85px);
+			min-height: 60px;
+			max-height: calc(100vh - 235px);
 			overflow-y: auto;
 			text-align: center;
 			word-wrap: break-word;
 			font-weight: bold;
 			white-space: pre-wrap;
-			flex: 6 1 0%;
+			flex: 0 1 auto;
 			min-height:0;
 			&::-webkit-scrollbar {
 				width: 2px;
@@ -438,6 +441,10 @@
 				border-radius: 10px;
 			}
 		}
+		.speech-bubble:has(#choice-container.active) .speech-content{
+			max-height:40vh;
+		}
+		
 		
 
 		.speech-content a {
@@ -3172,14 +3179,14 @@
 		</div>
 	</div>
 	<div id="dialogue-overlay" class="dialogue-overlay">
-		<div class="speech-bubble">
+		<div >
 			<button class="close-dialog-btn" onclick="SpeechBubbleShow(false)">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path d="M5 12L10 19L19 7" stroke="currentColor" stroke-width="5" stroke-linecap="round"
 						stroke-linejoin="round" />
 				</svg>
 			</button>
-			<div style="display:flex;flex-direction: column;">
+			<div class="speech-bubble">
 				<div id="speech-text" class="speech-content"></div>
 				<div id="choice-container" class="choice-row"></div>
 			</div>
