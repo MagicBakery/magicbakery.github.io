@@ -3180,7 +3180,7 @@
 	</div>
 	<div id="dialogue-overlay" class="dialogue-overlay">
 		
-			
+		<div>
 			<div class="speech-bubble">
 				<button class="close-dialog-btn" onclick="SpeechBubbleShow(false)">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -3191,7 +3191,7 @@
 				<div id="speech-text" class="speech-content"></div>
 				<div id="choice-container" class="choice-row"></div>
 			</div>
-		
+		</div>
 	</div>
 	<div id="splash-screen" onclick="if(event.target === this) hideSplash()">
 		<img id="splash-img" src="" alt="Enlarged View">
@@ -4968,7 +4968,6 @@
 		function ScriptRunID(id) {
 			// 20260127: StarTree: Run the script from the DATA with the ID.
 			//document.querySelector('.card.active').classList.Remove('active');
-			
 			const data = DATAByID(id);
 			if (!data) return;
 			const SE = ScriptEngine();
@@ -6453,7 +6452,9 @@
 				if (rawId) {
 					ScriptRunID(rawId);					
 				}else{
-					ScriptRunID("20260131093700"); // Auto Run Theater Main
+					//ScriptRunID("20260131093700"); // Auto Run Theater main
+					// There is a loading bug somehow for the script above.				
+					ScriptRunID("20260208013400");
 				}
 				firstLoad = false;
 			}
