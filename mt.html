@@ -11,8 +11,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="/icons/star_192.png">
 	<script>
-		const APP_VERSION = "20260207024000"; //#Version
-		const APP_ANNOUNCEMENT = "20260207: Goto another card."
+		const APP_VERSION = "20260210112000"; //#Version
+		const APP_ANNOUNCEMENT = "20260210: Magic Theater Presents."
 	</script>
 	<style>
 		:root {
@@ -3179,18 +3179,19 @@
 		</div>
 	</div>
 	<div id="dialogue-overlay" class="dialogue-overlay">
-		<div >
-			<button class="close-dialog-btn" onclick="SpeechBubbleShow(false)">
+		
+			
+			<div class="speech-bubble">
+				<button class="close-dialog-btn" onclick="SpeechBubbleShow(false)">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path d="M5 12L10 19L19 7" stroke="currentColor" stroke-width="5" stroke-linecap="round"
 						stroke-linejoin="round" />
 				</svg>
 			</button>
-			<div class="speech-bubble">
 				<div id="speech-text" class="speech-content"></div>
 				<div id="choice-container" class="choice-row"></div>
 			</div>
-		</div>
+		
 	</div>
 	<div id="splash-screen" onclick="if(event.target === this) hideSplash()">
 		<img id="splash-img" src="" alt="Enlarged View">
@@ -3626,6 +3627,7 @@
 		function ChoiceListAppend(code,choiceText,bPrepend){
 			const choiceList = document.getElementById('choice-container');
 			choiceList.classList.add('active');
+			choiceText=choiceText.replaceAll("//","<br>");
 			const choiceEntry = ChoiceEntry(code, choiceText);
 			if(bPrepend){
 				choiceList.prepend(choiceEntry);
@@ -6450,6 +6452,8 @@
 				const rawId = urlParams.get('id');
 				if (rawId) {
 					ScriptRunID(rawId);					
+				}else{
+					ScriptRunID("20260131093700"); // Auto Run Theater Main
 				}
 				firstLoad = false;
 			}
