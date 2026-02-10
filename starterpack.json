@@ -498,7 +498,7 @@
     ],
     "p": "20260131093700",
     "u": "https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg",
-    "c": "!Stage%20This%0A!Clear%20Choices%0AMagic%20Theater%20Quest%0A*A1*%20About%0A*!A2*%20Announcements%0A*Q*%20Go%20to%20Quest%20Board%0A%3FA1%20!Goto%20About%0A%3FA2%20!Goto%20Announcements%0A%3FQ%20!Goto%2020260107234400%0A%23%23Announcements%23%23%0A%3D%3D%E2%AD%90%20ANNOUNCEMENTS%20%E2%AD%90%3D%3D%0A%2020260206223700%20!Query%0A!Goto%20TOP%0A%23%23About%23%23%0A%3D%3D%20ABOUT%20%3D%3D%0A%20The%20Magic%20Theater%20Quest%20is%20the%20quest%20to%20create%20a%20puppet%20theater%20to%20play%20skits%20and%20explain%20peace%20concepts.%20For%20more%20information%20please%20visit%20%5Burl%3Dhttps%3A%2F%2Fmagicbakery.github.io%2F%3Fid%3DP202512210026%5DMagic%20Bakery%5B%2Furl%5D.%0A!Goto%20TOP%0A",
+    "c": "!Stage%20This%0A!Clear%20Choices%0AMagic%20Theater%20Quest%0A*A1*%20About%0A*!A2*%20Announcements%0A*Q*%20Go%20to%20Quest%20Board%0A%3FA1%20!Goto%20About%0A%3FA2%20!Goto%20Announcements%0A%3FQ%20!Goto%2020260107234400%0A%23%23Announcements%23%23%0A%3D%3D%E2%AD%90%20ANNOUNCEMENTS%20%E2%AD%90%3D%3D%0A%2020260206223700%20%23Query%0A!Goto%20TOP%0A%23%23About%23%23%0A%3D%3D%20ABOUT%20%3D%3D%0A%20The%20Magic%20Theater%20Quest%20is%20the%20quest%20to%20create%20a%20puppet%20theater%20to%20play%20skits%20and%20explain%20peace%20concepts.%20For%20more%20information%20please%20visit%20%5Burl%3Dhttps%3A%2F%2Fmagicbakery.github.io%2F%3Fid%3DP202512210026%5DMagic%20Bakery%5B%2Furl%5D.%0A!Goto%20TOP%0A",
     "s": 0,
     "x": 0,
     "y": 0
@@ -1340,5 +1340,25 @@
     ],
     "p": "20260209233400",
     "u": "https://substackcdn.com/image/fetch/$s_!x2tc!,w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F12a6bd7f-081f-4ee8-8772-627596e5e7b5_1536x1024.jpeg"
+  },
+  {
+    "n": "BARRACKS",
+    "t": [
+      "BARRACKS",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260210001800",
+    "u": "https://substackcdn.com/image/fetch/$s_!fNLB!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbaf7a8c4-be58-4ff8-ad66-4100e13a87b0_1536x1024.jpeg"
+  },
+  {
+    "n": "LIBRARY",
+    "t": [
+      "LIBRARY",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260210002100",
+    "u": "https://substackcdn.com/image/fetch/$s_!TsJo!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb56d45eb-2871-4ba6-83ca-9c94c8a134e7_1536x1024.jpeg"
   }
 ]
