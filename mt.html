@@ -4973,7 +4973,7 @@
 			const SE = ScriptEngine();
 			SE.dataset.p = id;
 			SE.dataset.script = decodeURIComponent(data.c);
-			SE.dataset.scriptBackup = SE.dataset.backup;
+			SE.dataset.scriptBackup = SE.dataset.script;
 			ScriptRun(SE);
 		}
 		async function ScriptStart(SE) {
@@ -6452,14 +6452,12 @@
 				if (rawId) {
 					ScriptRunID(rawId);					
 				}else{
-					//ScriptRunID("20260131093700"); // Auto Run Theater main
+					ScriptRunID("20260131093700"); // Auto Run Theater main
 					// There is a loading bug somehow for the script above.				
-					ScriptRunID("20260208013400");
+					//ScriptRunID("20260208013400");
 				}
 				firstLoad = false;
-			}
-			
-
+			}		
 			refreshAllUI();
 		}
 
