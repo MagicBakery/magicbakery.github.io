@@ -1131,9 +1131,9 @@
     ],
     "p": "20260131225500",
     "u": "https://magicbakery.github.io/sprites/Arcacia_Love_%7B20260131225500%7D.png",
-    "s": 860.0,
-    "x": 477.0,
-    "y": 45.0
+    "s": 860,
+    "x": 377,
+    "y": 45
   },
   {
     "n": "BLACK_LISTEN",
@@ -1325,9 +1325,9 @@
     ],
     "p": "20260208201100",
     "u": "https://magicbakery.github.io/sprites/John_%7B20260208201100%7D.png",
-    "s": 640.0,
-    "x": 294.0,
-    "y": 96.0
+    "s": 640,
+    "x": 294,
+    "y": 96
   },
   {
     "n": "THEATER_BASEMENT_PLANNING",
@@ -1370,8 +1370,8 @@
     ],
     "p": "20260210230000",
     "u": "https://magicbakery.github.io/sprites/Koyo_%7B20260210230000%7D.png",
-    "s": 510.0,
-    "x": 183.0,
-    "y": 48.0
+    "s": 510,
+    "x": 183,
+    "y": 48
   }
 ]
