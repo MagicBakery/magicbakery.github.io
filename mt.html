@@ -3184,7 +3184,9 @@
 			<div class="speech-bubble">
 				<button class="close-dialog-btn" onclick="SpeechBubbleShow(false)">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M5 12L10 19L19 7" stroke="currentColor" stroke-width="5" stroke-linecap="round"
+					<!--<path d="M5 12L10 19L19 7" stroke="currentColor" stroke-width="5" stroke-linecap="round"
+						stroke-linejoin="round" />-->
+					<path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="5" stroke-linecap="round"
 						stroke-linejoin="round" />
 				</svg>
 			</button>
@@ -3512,6 +3514,12 @@
 		function ChoiceCommit() {
 			const entry = document.querySelector('.choice-entry.selected');
 			if (!entry) return false;
+			// 20260212: Natalie: Don't commit when the choice is not shown.
+			const dia = document.getElementById('dialogue-overlay');
+			if(!dia.classList.contains('active')){
+				SpeechBubbleShow(true);
+				return false;
+			}
 			entry.classList.remove('selected');
 
 			// Reset the narration streak
