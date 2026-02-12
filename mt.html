@@ -2904,7 +2904,7 @@
 				</div>				
 				<div style="display:flex">
 					<input type="text" id="card-title" class="active" placeholder="Display Title" title="Title (n)" style="flex:3">
-					<input type="text" id="card-id" class="active" placeholder="Unique ID" title="Card ID (p)" style="flex:1;text-align: right;">
+					<input type="text" id="card-id" class="active" placeholder="Unique ID" title="Card ID (p)" style="flex:1;min-width:120px;text-align: right;">
 				</div>
 				<div class="card-details">
 					<input type="text" id="card-path-url" placeholder="URL / File Path" title="Path/URL (u)">
@@ -3172,7 +3172,7 @@
 	</div>
 
 	<div id="stage-ui" class="stage-ui">
-		<div class="stage-next-btn" onclick="ScriptRun()">
+		<div class="stage-next-btn" onclick="ScriptRun(null,true)">
 			<svg viewBox="0 0 24 24" width="40" fill="white">
 				<path d="M8 5v14l11-7z" />
 			</svg>
@@ -3517,12 +3517,12 @@
 			// Reset the narration streak
 			const bubble = document.querySelector('.speech-bubble');
 			bubble.classList.remove('narrative-mode');
-
 			const code = entry.dataset.code;
 			const choiceList = document.getElementById('choice-container');
 			choiceList.classList.remove('active');		
 			choiceList.innerHTML = "";	
 			ChoiceAdd(code);
+			ScriptPush(null,entry.dataset.script);
 			ChoiceBubblePop(null, true);
 			ScriptBubbleSpawning(null, true);
 
@@ -3613,7 +3613,6 @@
 			let b = Math.random() > 0.25 ? 255 : 0;
 			if (r + g + b === 0) { r = 255; g = 255; b = 255; }
 
-
 			//bubble.style.borderColor = `rgba(${r}, ${g}, ${b}, 0.15)`;
 			bubble.style.background = `rgba(${r}, ${g}, ${b}, 0.1)`;
 			bubble.style.width = `${size}px`;
@@ -3622,9 +3621,12 @@
 			bubble.style.left = `${left}vw`;
 			bubble.dataset.code = code;
 			bubble.dataset.choiceText = choiceText;
+			ScriptBubbleSaveScript(bubble);
 			document.body.appendChild(bubble);
+			return bubble;
 		}
 		function ChoiceListAppend(code,choiceText,bPrepend){
+			// 20260211: Tanya: Returns the added entry
 			const choiceList = document.getElementById('choice-container');
 			choiceList.classList.add('active');
 			choiceText=choiceText.replaceAll("//","<br>");
@@ -3636,6 +3638,7 @@
 			}			
 			choiceEntry.scrollIntoView();
 			ScriptEngine().setAttribute('SE-BubbleSpawning', '');
+			return choiceEntry;
 		}
 		function DATABestMatch(requiredTags, optionalTags) {
 			// 20260125: Sasha: Returns the best match in an array of items, where item.t has an array of tags in upper case.
@@ -3892,7 +3895,8 @@
 			if (!bubble) return false;
 			e.stopPropagation();
 			// 20250119: Evelyn: If a bubble is clicked, add its choice to the main bubble and remove the bubble itself.				
-			ChoiceListAppend(bubble.dataset.code,bubble.dataset.choiceText,true);
+			const choice = ChoiceListAppend(bubble.dataset.code,bubble.dataset.choiceText,true);
+			choice.dataset.script = bubble.dataset.script;
 			ChoiceBubblePop(bubble);
 		}
 		async function fairyRemovalCheck(e) {
@@ -4744,6 +4748,18 @@
 
 			
 		}
+		function ScriptBubbleSaveScript(elChoice){
+			// 20260211: Tanya: store the effect script of a choice
+			// elChoice could be a bubble or an entry on the choice list.
+			// STEP:  Scan the rest of the script and save the content.
+			const SE = ScriptEngine();			
+			let save = "";
+			while(SE.dataset.script.startsWith(' ')){
+				let line = ScriptPop(SE)[0];
+				save += line.slice(1).trimEnd();
+			}					
+			elChoice.dataset.script = save;
+		}
 		function ScriptBubbleSpawning(line, done) {
 			// 20260119: LRRH: if done, clear the bubble spawning mode.
 			// This is supposed to be called by the confirm button of a choice.
@@ -4764,17 +4780,21 @@
 			let code = parts[0].trim();
 			const prefix = code.charAt(0);
 			let choiceText = line.rightOf('*').trim();
+			let choice = "";
 			 if(!line.includes('*')){
 				// If the line does not have a second *, just make an inert list.
 				if(prefix==="!"){
 					choiceText = line.rightOf('!').trim();
-					ChoiceListAppend(null,choiceText);					
+					choice = ChoiceListAppend(null,choiceText);
+					ScriptBubbleSaveScript(choice);
+					
 				}else{
 					ChoiceBubbleSpawn(null, line.trim());
 				}
 			}else if(prefix === "!"){
 				code = code.rightOf('!');
-				ChoiceListAppend(code,choiceText);
+				choice = ChoiceListAppend(code,choiceText);
+				ScriptBubbleSaveScript(choice);
 			}else{
 				ChoiceBubbleSpawn(code, choiceText);
 			}			
@@ -4852,6 +4872,19 @@
 			}
 			return true;
 		}
+		function ScriptPop(SE){
+			if(!SE){SE = ScriptEngine();}
+			let  scriptToRun = SE.dataset.script;
+			const lineRegex = /^(.*?)(?:\r?\n|$)/; // Pop the first line
+			const match = scriptToRun.match(lineRegex);
+			SE.dataset.script = SE.dataset.script.replace(lineRegex, "");
+			return match;
+		}
+		function ScriptPush(SE,script){
+			if(!SE){SE = ScriptEngine();}
+			SE.dataset.script = script + "\n" + SE.dataset.script;
+			return SE.dataset.script;
+		}
 		async function ScriptPublish(elThis) {
 			// 20250125: StarTree: Save the data in "Publish" spec that does not include user notes. Show additional messages to inform the user what the button is for.
 
@@ -4924,31 +4957,35 @@
 			SE.dataset.script = queryResult + "\n" + SE.dataset.script;			
 			return true;
 		}
-		async function ScriptRun(SE){
+		async function ScriptRun(SE, bClicked=false){
 			// 20260129: LRRH: Runs the script that is already in the script engine.
 			if(!SE) {SE = ScriptEngine();}
-
-
 			// If there is dts, query the script.
 	
 			if(SE.dataset.dts){
 				ScriptQueryResponses(SE.dataset.dts);
 				SE.dataset.dts = "";
 			}
-			let  scriptToRun = SE.dataset.script;
-			const lineRegex = /^(.*?)(?:\r?\n|$)/; // Pop the first line
-			const match = scriptToRun.match(lineRegex);
-
+			match = ScriptPop(SE);
 			if (!match || match[0].length < 1) {
 				// Script finished.				
-				SE.dataset.p = "";
-				SpeechBubbleShow(false);
-				StageFade();
+				// 20260211: Sylvia: End the script only if this run is from a click
+				if(bClicked){ 
+					SE.dataset.p = "";
+					SpeechBubbleShow(false);
+					StageFade();
+					// Sylvia: Could change the icon back to Play.
+				}else{
+					// Sylvia: Could change the icon to a checkmark for completion, so the player knows this is the end.
+					SE.dataset.p = "";
+					SpeechBubbleShow(false);
+					StageFade();
+				}				
 				return false;
 			}
 			const currentLine = match[1].trim();
 			
-			SE.dataset.script = SE.dataset.script.replace(lineRegex, "");
+			
 			if (!currentLine) {
 				ScriptRun(SE);
 				return true;
@@ -5006,7 +5043,7 @@
 				}
 			}
 
-			ScriptRun(SE);
+			ScriptRun(SE,true);
 		}
 		async function setActiveCard(card) {
 			// 20260111: LRRH: Don't set active card if auto spawning with the notes tab open.
@@ -6392,7 +6429,8 @@
 			//updateCenteredCard();
 
 		}
-		function removePath(index) {
+		async function removePath(index) {
+			if(await showConfirm("Deleting a collection may prevent some content from loading next time. Keep it?")){return;}
 			savedPaths.splice(index, 1);
 			renderPathList();
 			loadActiveCollections();
@@ -6561,6 +6599,14 @@
 			if (!e || !e.target) return false;
 			const image = e.target.closest('img');
 			if (!image) return;
+			// 20260211: LRRH: If the image is on stage, react only if it is active.
+			const stage = e.target.closest('.stage-area');
+			if(stage){
+				const actor = image.closest('.actor');
+				if(actor && !actor.classList.contains('active')){return;}
+			}
+
+			//if(image.style.opacity==0){return;}
 
 			const splash = document.getElementById('splash-screen');
 			const splashImg = document.getElementById('splash-img');
