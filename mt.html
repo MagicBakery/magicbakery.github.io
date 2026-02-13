@@ -1181,19 +1181,20 @@
 			top: 20%;
 			left: 50%;
 			transform: translateX(-50%);
-			background: rgba(255, 215, 0, 0.6);
+			background: rgba(200, 180, 0, 0.5);
 			backdrop-filter: blur(8px);
-			color: #000;
+			color:white;
 			padding: 10px 20px;
-			border-radius: 8px;
-			font-weight: bold;
-			font-size: 16px;
+			border-radius: 20px;
+			font-weight: normal;
+			font-size: 18px;
 			z-index: var(--z-Notifications);
 			opacity: 0;
 			transition: opacity 0.3s ease;
 			pointer-events: none;
-			border: 1px solid rgba(255, 255, 255, 0.2);
+			border: 2px solid rgba(255, 255, 255, 0.5);
 			text-align: center;
+			font-style: italic;
 		}
 
 		#toast.show {
@@ -2403,7 +2404,7 @@
 			pointer-events: none;
 			/* Hidden by default */
 			opacity: 0;
-			transition: opacity 1s ease-in-out, visibility 1s;
+			transition: opacity 0.5s ease-in-out, visibility 1.0s;
 		}
 
 		.stage-area.active {
@@ -2480,6 +2481,12 @@
 			background-color: gold;
 			animation: invisiblePulse 5s infinite;
 		}
+		.stage-area.suspended,
+		body:has(.stage-area.suspended) .stage-next-btn,
+		body:has(.stage-area.suspended) .dialogue-overlay,
+		body:has(.stage-area.suspended) .choice-bubble  {
+			visibility:hidden;
+		}		
 
 		@keyframes invisiblePulse {
 
@@ -3779,6 +3786,11 @@
 
 			showToast("MultiTrack HTML exported!");
 		}
+		function CurtainBlink(delay=1000){
+			// 20260212: Arcacia: Shut the curtain then reopen.
+			fadeLoadingScreen(true);
+			setTimeout(() => { fadeLoadingScreen(false); }, delay);
+		}
 		function fadeLoadingScreen(bIn) {
 			// 20251225: Tanya: Remove the loading screen after z-index are initialized.
 			// 20251225: StarTree: bIn = false means fade out
@@ -4616,7 +4628,7 @@
 
 				// 20260119: Skyle: If the dialog overlay is hidden, show it back so the user can confirm their choice.
 				SpeechBubbleShow(true);
-				showToast('Please find and select a choice.')
+				//showToast('Please choose');
 				return false;
 			}
 			const content = line.substring(1).trim();
@@ -4974,6 +4986,7 @@
 				ScriptQueryResponses(SE.dataset.dts);
 				SE.dataset.dts = "";
 			}
+			const scriptStart = SE.dataset.script;
 			match = ScriptPop(SE);
 			if (!match || match[0].length < 1) {
 				// Script finished.				
@@ -5007,6 +5020,14 @@
 				ScriptRun(SE);*/
 			} else {
 				DEBUG("[>] " + currentLine, true); //
+			}
+
+			// 20260212: Arcacia: If no progress is made when the user clicked next, assume that the player needs to make a choice.
+			const scriptEnd = SE.dataset.script;
+			if(bClicked && scriptStart == scriptEnd){
+				// 20260212: Arcacia: When the choice list is empty but there is a bubble, the message should tell the user to click on a bubble to reveal a choice.
+				//showToast('Please choose.\n(You might need to find and click on a bubble first.)');
+				showToast('Please make a choice.');
 			}
 
 		}
@@ -5326,13 +5347,29 @@
 		}
 		function StageFade() {
 			// 20260119: Sasha: Fades the stage area away.
-			const stageEl = document.getElementById('stage-area');
+			const stageEl = document.getElementById('stage-area');			
 			StageActorsOff();
-			setTimeout(() => { stageEl.classList.remove('active'); }, 800);
+			
+			setTimeout(() => {
+				stageEl.classList.remove('active');
+				stageEL.classList.remove('suspended'); 
+			}, 800);
 		}
 		function StageLive() {
 			// 20260119: Skyle: Returns true if the stage is live.
-			return document.querySelector('.stage-area.active') ? true : false;
+			const stageIsShowing = document.querySelector('.stage-area.active') ? true : false;
+			const stageIsSuspended = document.querySelector('.stage-area.suspended') ? true : false;
+			return stageIsShowing || stageIsSuspended;
+		}
+		function StageSuspend() {
+			// 20260212: Arcacia: Suspend the stage to return to development view.
+			const stage = Stage();
+			CurtainBlink();
+			if(stage.classList.toggle('suspended')){
+				//showToast('Suspending Show');
+			}else{
+				//showToast('Resuming Show');
+			}
 		}
 		async function StageQuit(e) {
 			// 20260119: Skyle: When the stage play button is doubleclicked, let the user quit the stage after a modal choice.
@@ -5449,7 +5486,6 @@
 			});
 			// 20251226: StarTree: Double Click
 			document.addEventListener('dblclick', (e) => {
-				StageQuit(e);
 				showSplash(e);
 			});
 			// 20260110: Sasha: Resizing the main area when the command-panel is shown.
@@ -6343,7 +6379,8 @@
 
 				renderPathList();
 				loadActiveCollections();
-				showToast(`Loaded: ${pathName.split('/').pop()}`);
+				// 20260212: Don't show this toast unless the user clicked to load.
+				//showToast(`Loaded: ${pathName.split('/').pop()}`);
 			} catch (err) {
 				showToast("Web Import Failed: " + err.message);
 				// If web import fails, maybe the user actually wanted the file picker
@@ -7300,6 +7337,9 @@
 			toggleSidebar(true);   // Show the sidebar
 		}
 		function handleCornerClick(clickedSide) {
+			// 20260212: Arcacia: If the Stage is live, pause it to return to backstage.
+			if(StageLive()){StageSuspend(null);return;}
+
 			const bodyWrap = document.getElementById('body-wrap');
 			const isCollapsed = bodyWrap.classList.contains('collapsed');
 			if (currentDock !== clickedSide) {
