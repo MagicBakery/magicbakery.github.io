@@ -3621,7 +3621,11 @@
 					.map(attr => attr.name)
 					.filter(name => name.startsWith('choice-'));
 
-				toRemove?.forEach(name => multitrack.removeAttribute(name));
+				toRemove?.forEach(name =>{
+					if(!name.startsWith('choice-$')){
+						multitrack.removeAttribute(name);
+					}					
+				});
 			} else {
 				multitrack?.removeAttribute(ChoiceName(choice));
 			}
@@ -4847,7 +4851,8 @@
 			return true;
 		}
 		function ScriptEnd() {
-			// 20260125: Evelyn: Ends the script. (To keep tht engine from running the rest.)
+			// 20260125: Evelyn: Ends the script. (To keep the engine from running the rest.)
+			ChoiceBubblePop(null,true);
 			const elSE = ScriptEngine();
 			elSE.dataset.script = "";
 			elSE.dataset.p = "";
@@ -5078,11 +5083,12 @@
 				if(await showConfirm("There is a suspended story. Resume?")){
 					StageSuspend();
 					return false;
-				}else if(!await showConfirm("Do you want to end the suspended script.")){
-					return false; // Do nothing
-				}else{
+				}else if(await showConfirm("Do you want to end the suspended script and run this instead?")){
 					SE.dataset.script="";
 					stage.classList.remove('suspended');
+					ScriptEnd();
+				}else{
+					return false; // Do nothing
 				}
 			}
 			let scriptToRun = SE.dataset.script;
