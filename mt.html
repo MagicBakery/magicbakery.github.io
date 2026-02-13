@@ -289,7 +289,8 @@
 		.speech-bubble > div {			
 			flex-shrink: 0;
 			height: auto !important;
-			min-height: 0;      /* CRITICAL: Allows flex children to scroll */
+			min-height: 0;
+			/* CRITICAL: Allows flex children to scroll */
 		}
 
 		.speech-bubble.narrative-mode {
@@ -2456,8 +2457,8 @@
 			align-items: flex-end;
 			pointer-events: none;
 			opacity: 0;
-			visibility: none;
-			transition: opacity 0.5s ease-in-out, visibility 0.5s;
+			visibility: hidden;
+			transition: transform 2s ease;
 
 		}
 
@@ -2473,7 +2474,7 @@
 			/* Optional, since you are moving to 50% 50% logic */
 			max-width: none;
 			height: 100%;
-			/* Prevents the image from being squished */
+			transition: transform 5s ease;
 		}
 
 
@@ -2484,8 +2485,9 @@
 		.stage-area.suspended,
 		body:has(.stage-area.suspended) .stage-next-btn,
 		body:has(.stage-area.suspended) .dialogue-overlay,
-		body:has(.stage-area.suspended) .choice-bubble  {
-			visibility:hidden;
+		body:has(.stage-area.suspended) .choice-bubble,
+		body:has(.stage-area.suspended) .actor {
+			visibility: hidden !important;
 		}		
 
 		@keyframes invisiblePulse {
@@ -2594,8 +2596,8 @@
 				<div class="stats-clickable" onclick="toggleCollections(event)">Collections (<span
 						id="collection-count">0</span>)
 				</div>
-				<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" 
-					class="bakery-link" id="version-link">ⓘ</a>
+				<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" class="bakery-link"
+					id="version-link">ⓘ</a>
 			</div>
 			<div style="padding:0px 5px">
 				<input type="file" id="json-input" style="display:none" accept=".json" onchange="importJSON(this)">
@@ -2844,8 +2846,8 @@
 				<polyline points="22,6 12,13 2,6"></polyline>
 			</svg>
 		</a>
-		<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank"
-			class="tool-btn bakery-link" style="float: right;height:24px;width:24px;margin-right:5px" title="Visit Homepage">
+		<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" class="tool-btn bakery-link"
+			style="float: right;height:24px;width:24px;margin-right:5px" title="Visit Homepage">
 			<svg viewBox="-3 -3 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
 				stroke-linejoin="round">
 				<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -2855,8 +2857,8 @@
 
 		<div class="panel-tabs">
 			<div class="active-preview-container">
-				<img id="active-preview-thumb" class="save-notes-btn" src="" referrerpolicy="no-referrer" alt="" style="display: none;"
-					onclick="saveCardNotes(event)" title="Save changes to this card">
+				<img id="active-preview-thumb" class="save-notes-btn" src="" referrerpolicy="no-referrer" alt=""
+					style="display: none;" onclick="saveCardNotes(event)" title="Save changes to this card">
 				<button class="tab-btn" onclick="toggleTab(event,'tab-card-notes')" title="Details">
 					<svg width="24" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
 						stroke-linecap="round">
@@ -2910,13 +2912,14 @@
 					
 				</div>				
 				<div style="display:flex">
-					<input type="text" id="card-title" class="active" placeholder="Display Title" title="Title (n)" style="flex:3">
-					<input type="text" id="card-id" class="active" placeholder="Unique ID" title="Card ID (p)" style="flex:1;min-width:120px;text-align: right;">
+					<input type="text" id="card-title" class="active" placeholder="Display Title" title="Title (n)"
+						style="flex:3">
+					<input type="text" id="card-id" class="active" placeholder="Unique ID" title="Card ID (p)"
+						style="flex:1;min-width:120px;text-align: right;">
 				</div>
 				<div class="card-details">
 					<input type="text" id="card-path-url" placeholder="URL / File Path" title="Path/URL (u)">
-					<input type="text" id="card-img-url" style="flex: 1;min-width:25%" placeholder="Image Path"
-							title="Image (i)">
+					<input type="text" id="card-img-url" style="flex: 1;min-width:25%" placeholder="Image Path" title="Image (i)">
 					<div id="card-sprite-parameters">
 						<div  style="display:flex">						
 							<button class="scale-btn" onclick="ImageScale()" title="Scale the image">s</button>
@@ -2928,7 +2931,8 @@
 								style="min-width:60px;max-width:34%;text-align: center;">
 							<button class="ground-btn" onclick="ImageGround()" title="Ground the image">y</button>
 							<input type="number" id="card-y-offset" placeholder="y-offset"
-								title="y-offset from bottom edge to ground (px)" style="min-width:60px;max-width:34%;text-align: center;">
+								title="y-offset from bottom edge to ground (px)"
+								style="min-width:60px;max-width:34%;text-align: center;">
 
 						</div>
 					</div>
@@ -2940,8 +2944,7 @@
 						<button class="notes-btn" onclick="ScriptStart()" title="Run as Script">Run</button>
 						<button class="notes-btn" onclick="PanelTextareaResize(this)"
 							title="Notes/Script Display Ratio">3:1</button>
-						<button class="notes-btn" onclick="PanelTextareaResizeH(this)"
-						title="Change Editor Height">H1</button>
+						<button class="notes-btn" onclick="PanelTextareaResizeH(this)" title="Change Editor Height">H1</button>
 						<button class="notes-btn" style="width:55px" onclick="ScriptPublish(this)"
 							title="Publish Script">Publish</button>
 					</div>
@@ -2973,7 +2976,8 @@
 						<button class="sec-btn on" onclick="ToggleByID(this,'card-id')"	title="Card ID (p)">id</button>
 						<button class="sec-btn" onclick="ToggleByID(this,'card-path-url')"	title="Card URL (u)">u</button>
 						<button class="sec-btn" onclick="ToggleByID(this,'card-img-url')"	title="Card Cover Image (i)">i</button>
-						<button class="sec-btn" onclick="ToggleByID(this,'card-sprite-parameters')"	title="Card Sprite Parameters (s, x, y)">s</button>
+						<button class="sec-btn" onclick="ToggleByID(this,'card-sprite-parameters')"
+							title="Card Sprite Parameters (s, x, y)">s</button>
 						<button class="sec-btn on" onclick="ToggleByID(this,'card-notes')"	title="Card Notes (o)">o</button>
 						<button class="sec-btn on" onclick="ToggleByID(this,'card-script')"	title="Card Script (c)">c</button>
 					</div>
@@ -3393,6 +3397,26 @@
 			// 5. Add to the container
 			container.appendChild(newBtn);
 		}
+		/**
+		 * Makes an element invisible immediately, waits, 
+		 * then fades it back in over 0.5 seconds.
+		 */
+		async function ActorBlink(el, delay) {
+			// 1. Instant disappear (Only affecting visibility/opacity)
+			el.style.transition = 'opacity 0s, visibility 0s';
+			el.style.opacity = '0';
+			el.style.visibility = 'hidden';
+			// 2. Wait for the delay
+			await new Promise(resolve => setTimeout(resolve, delay));
+			// 3. Fade back in over 0.5s
+			el.style.transition = 'opacity 0.5s ease, visibility 0.5s';
+			el.style.opacity = '1';
+			el.style.visibility = 'visible';
+			// 4. Cleanup after fade-in to restore original CSS transitions
+			setTimeout(() => {
+				el.style.transition = '';
+			}, 1500);
+		}
 		function ActorData(name, filters) {
 			// 20260125: Tanya: Returns the DATA item that has the actor image data.
 			if (typeof filters === 'string') filters = filters.split(' ');
@@ -3432,7 +3456,7 @@
 			const randomIndex = Math.floor(Math.random() * topMatches.length);
 			return topMatches[randomIndex];
 		}
-		function ActorSet(command) {
+		async function ActorSet(command) {
 			// 20260125: Evelyn: Process a script command line that starts with @.
 			// Here the @ at the beginning is already removed.
 			// STEP: Get the name of the actor.
@@ -3476,6 +3500,7 @@
 					// Enter from left and face right.
 					SpriteOnStage(img, -rndX, 0, true, false, true);
 				}
+				await ActorBlink(actor,0);
 			}else{
 				// 20260208: Arcacia: If the actor is already on stage, shift it a little bit.
 				const img = actor.querySelector("img");
@@ -3502,6 +3527,7 @@
 				SpeechBubbleShow(false);
 				return false;
 			}
+			//await ActorBlink(actor, 0);
 			return processScriptLine(rest);
 		}
 		function ChoiceAdd(choice) {
@@ -5027,7 +5053,8 @@
 			if(bClicked && scriptStart == scriptEnd){
 				// 20260212: Arcacia: When the choice list is empty but there is a bubble, the message should tell the user to click on a bubble to reveal a choice.
 				//showToast('Please choose.\n(You might need to find and click on a bubble first.)');
-				showToast('Please make a choice.');
+				const toastMsg = ['Please choose.', 'Please make a choice.'];
+				showToast(toastMsg[Math.floor(Math.random() * toastMsg.length)]);
 			}
 
 		}
@@ -5046,6 +5073,18 @@
 			// 20260111: Sasha: Runs the next command in the script
 			// STEP 1: Store the node ID and the Script to the button if they are different from what the button has.
 			if (!SE) {SE = ScriptEngine();}
+			const stage = Stage();
+			if(stage.classList.contains('suspended')){
+				if(await showConfirm("There is a suspended story. Resume?")){
+					StageSuspend();
+					return false;
+				}else if(!await showConfirm("Do you want to end the suspended script.")){
+					return false; // Do nothing
+				}else{
+					SE.dataset.script="";
+					stage.classList.remove('suspended');
+				}
+			}
 			let scriptToRun = SE.dataset.script;
 			if (getActiveCard()) {
 				const nodeID = document.getElementById("card-id").value;
@@ -5313,6 +5352,8 @@
 
 			// Explicitly reset origin to center to ensure predictable behavior
 			sprite.style.scale = `${finalScale * finalFlip} ${finalScale}`;
+			sprite.style.translate = `${finalY}px`;
+			//ActorBlink(sprite,0);
 			sprite.style.translate = `${finalX}px ${finalY}px`;
 			// Shrink the margins in backstage
 			if(StageLive() || !shouldGround || !shouldScale){
