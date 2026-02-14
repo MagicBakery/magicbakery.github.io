@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<link rel="manifest" href="/mt_manifest.json">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -8,8 +9,8 @@
 	<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
 	<meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="apple-touch-icon" href="/icons/star_192.png">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+	<link rel="apple-touch-icon" href="/icons/star_192.png">
 	<script>
 		const APP_VERSION = "20260210112000"; //#Version
 		const APP_ANNOUNCEMENT = "20260210: Magic Theater Presents."
@@ -197,16 +198,17 @@
 		}
 
 		#choice-container {
-			display: none;			
+			display: none;
 			width: 100%;
 			max-height: none;
 			min-height: 0;
 			overflow-y: auto;
-			overflow-x: hidden;			
+			overflow-x: hidden;
 			flex: 0 3 auto;
 		}
-		#choice-container.active{
-			display:block;
+
+		#choice-container.active {
+			display: block;
 		}
 
 		/* Chrome/Safari Scrollbar styling */
@@ -235,16 +237,18 @@
 			/* For positioning internal buttons */
 			font-size: 18px;
 			text-align: center;
-		}		
-		.narrative-mode .choice-entry{
+		}
+
+		.narrative-mode .choice-entry {
 			background: rgba(255, 255, 255, 0.1);
 		}
+
 		.choice-entry.selected {
 			border: 2px solid var(--gold);
 			background: rgba(96, 72, 0, 0.5);
 		}
 
-		
+
 
 		.choice-actions {
 			display: flex;
@@ -274,7 +278,7 @@
 			z-index: 1;
 			padding: 25px 25px;
 			/* Give it padding so the text doesn't touch the edges */
-			display:flex;
+			display: flex;
 			flex-direction: column;
 			gap: 20px;
 			background: rgba(255, 255, 255, 0.5);
@@ -283,10 +287,11 @@
 			width: auto;
 			min-width: 100px;
 			max-width: 800px;
-			max-height:calc(100vh - 170px);
+			max-height: calc(100vh - 170px);
 			pointer-events: auto;
 		}
-		.speech-bubble > div {			
+
+		.speech-bubble>div {
 			flex-shrink: 0;
 			height: auto !important;
 			min-height: 0;
@@ -308,7 +313,8 @@
 			border-top: 1px solid rgba(255, 255, 255, 0.2);
 			border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 		}
-		.speech-bubble.narrative-mode:has(#choice-container.active){
+
+		.speech-bubble.narrative-mode:has(#choice-container.active) {
 			padding: 30px 10% 30px 10%;
 		}
 
@@ -433,20 +439,23 @@
 			font-weight: bold;
 			white-space: pre-wrap;
 			flex: 0 1 auto;
-			min-height:0;
+			min-height: 0;
+
 			&::-webkit-scrollbar {
 				width: 2px;
 			}
+
 			&::-webkit-scrollbar-thumb {
 				background: var(--gold);
 				border-radius: 10px;
 			}
 		}
-		.speech-bubble:has(#choice-container.active) .speech-content{
-			max-height:40vh;
+
+		.speech-bubble:has(#choice-container.active) .speech-content {
+			max-height: 40vh;
 		}
-		
-		
+
+
 
 		.speech-content a {
 			color: gold;
@@ -509,8 +518,21 @@
 			padding: 2px 5px;
 			height: 24px;
 			width: 36px;
-			margin:0px -5px;
+			margin: 0px -5px;
+			text-align: center;
 		}
+
+		.stop-script-btn {
+			/*border: 2px solid rgba(255, 0, 0, 0.5) !important;*/
+			background-color: rgba(139, 0, 0, 0.5) !important;
+		}
+
+		.resume-script-btn {
+			/*border: 2px solid rgba(0, 255, 0, 0.5) !important;*/
+			background-color: rgba(0, 139, 0, 0.5) !important;
+		}
+
+
 
 		#command-panel.edit-size-3 .notes-btn,
 		#command-panel.edit-size-2 .notes-btn,
@@ -524,12 +546,39 @@
 			color: var(--text-dim);
 			cursor: pointer;
 			font-size: 0.9rem;
-			padding: 5px 5px;
+			padding: 5px 2px;
 			transition: color 0.3s;
 		}
+
 		.tab-btn.active {
 			color: var(--gold);
 			font-weight: bold;
+		}
+
+		body:has(#stage-area.suspended) .run-script-btn {
+			border: 1px solid darkgreen;
+			background-color: rgba(0, 96, 0, 0.25);
+			animation: pulse-resume 5s ease-in-out infinite;
+		}
+
+		@keyframes pulse-resume {
+
+			0%,
+			100% {
+				color: darkgreen;
+				border-color: darkgreen;
+			}
+
+			50% {
+				border-color: rgba(0, 255, 0, 0.75);
+				color: rgba(0, 255, 0, 0.75);
+			}
+		}
+
+
+		body:has(#stage-area.suspended) .resume-script-btn,
+		body:has(#stage-area.suspended) .stop-script-btn {
+			display: inline-block;
 		}
 
 		#tab-card-notes {
@@ -588,18 +637,23 @@
 			outline: none;
 			overflow-y: auto;
 		}
-		#command-panel.edit-size-3 .card-textarea{
+
+		#command-panel.edit-size-3 .card-textarea {
 			min-height: 80vh;
 		}
-		#command-panel.edit-size-2 .card-textarea{
+
+		#command-panel.edit-size-2 .card-textarea {
 			min-height: 40vh;
 		}
-		#command-panel.edit-size-1 .card-textarea{
+
+		#command-panel.edit-size-1 .card-textarea {
 			min-height: 13vh;
 		}
 
 		.card-textarea.infocus {
 			border: 1px solid gold;
+			background-color: rgba(0, 0, 0, 0.7);
+			color: white;
 		}
 
 		#command-panel:has(.unsaved) .card-textarea:focus {
@@ -1184,7 +1238,7 @@
 			transform: translateX(-50%);
 			background: rgba(200, 180, 0, 0.5);
 			backdrop-filter: blur(8px);
-			color:white;
+			color: white;
 			padding: 10px 20px;
 			border-radius: 20px;
 			font-weight: normal;
@@ -1343,8 +1397,9 @@
 			object-fit: contain;
 			display: block;
 		}
-		.card:hover{
-			background-color: rgba(255,215,0,0.25);
+
+		.card:hover {
+			background-color: rgba(255, 215, 0, 0.25);
 		}
 
 
@@ -1673,7 +1728,7 @@
 		.tabs-contents {
 			display: block;
 			/* Ensure it's a block container */
-			max-height: 90vh; 
+			max-height: 90vh;
 			/* The limit */
 			overflow-y: auto;
 			/* Enable vertical scroll */
@@ -2459,7 +2514,6 @@
 			opacity: 0;
 			visibility: hidden;
 			transition: transform 2s ease;
-
 		}
 
 		.stage-area.active .actor.active {
@@ -2482,13 +2536,14 @@
 			background-color: gold;
 			animation: invisiblePulse 5s infinite;
 		}
+
 		.stage-area.suspended,
 		body:has(.stage-area.suspended) .stage-next-btn,
 		body:has(.stage-area.suspended) .dialogue-overlay,
 		body:has(.stage-area.suspended) .choice-bubble,
 		body:has(.stage-area.suspended) .actor {
 			visibility: hidden !important;
-		}		
+		}
 
 		@keyframes invisiblePulse {
 
@@ -2538,8 +2593,8 @@
 		#card-sprite-parameters,
 		#card-sec-btns,
 		#card-title,
-		#card-tag-section{
-			display:none;
+		#card-tag-section {
+			display: none;
 		}
 
 		#card-id.active,
@@ -2548,17 +2603,18 @@
 		#card-script.active,
 		#card-path-url.active,
 		#card-sprite-parameters.active,
-		
+
 		#card-title.active,
-		#card-tag-section.active{
-			display:block;
+		#card-tag-section.active {
+			display: block;
 		}
-		#card-sec-btns.active{
-			display:inline-block;
+
+		#card-sec-btns.active {
+			display: inline-block;
 		}
 
 		.sec-btn {
-			background: rgba(0,0,0,0.0);
+			background: rgba(0, 0, 0, 0.0);
 			border-radius: 10px;
 			color: grey;
 			cursor: pointer;
@@ -2566,25 +2622,46 @@
 			padding: 2px 0px;
 			height: 24px;
 			width: 32px;
-			margin:0px -5px;
+			margin: 0px -5px;
 		}
-		.sec-btn.on{			
-			color:white;
+
+		.sec-btn.on {
+			color: white;
 			display: inline-block;
 		}
-		.bubble-figure{
-			width:100%;
-			height:auto;
-			object-fit:fill;
-			cursor:zoom-in;
-			border:white solid 0px;
-			border-radius:20px;
+
+		.bubble-figure {
+			width: 100%;
+			height: auto;
+			object-fit: fill;
+			cursor: zoom-in;
+			border: white solid 0px;
+			border-radius: 20px;
 		}
+		
+		.script-run-btn{
+			background-color: rgba(0, 128, 0, 0.75);
+			color:white;
+			width:45px;			
+		}
+		body:has(#stage-area.suspended) .script-run-btn{
+			display:none;
+		}
+		.script-stop-btn{
+			background-color: rgba(128, 0, 0, 0.75);
+			color:white;
+			width:45px;
+		}
+		body:not(:has(#stage-area.suspended)) .script-stop-btn{
+			display:none;
+		}
+
+
 		/* #CSS END */
 	</style>
 </head>
 
-<body id="body-wrap" contenteditable="false">
+<body id="body-wrap" contenteditable="false" class="collapsed">
 	<div id="multitrack">
 		<div class="track"></div>
 	</div>
@@ -2835,7 +2912,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="command-panel" class="hidden" style="display:none">
+	<div id="command-panel">
 		<!--Float Right Elements-->
 		<button class="tool-btn settings-close" onclick="toggleCommandPanel(event)" style="float:right">×</button>
 		<a class="tool-btn" target="_blank" title="Log Bugs" style="float: right;height:24px;width:24px;margin-right:5px"
@@ -2867,8 +2944,6 @@
 						<line x1="3" y1="18" x2="11" y2="18"></line>
 					</svg>
 				</button>
-
-
 				<!--<button class="tab-btn save-notes-btn" onclick="saveCardNotes(event)" title="Save">
 					<svg viewBox="0 0 100 100" style="width:16px; height:16px;">
 					<path d="M20,15 H70 L85,30 V85 H20 Z" fill="none" stroke="currentColor" stroke-width="6" />
@@ -2900,17 +2975,21 @@
 					<path d="M12 8l-1 4-4 1 4 1 1 4 1-4 4-1-4-1-1-4z" />
 				</svg>
 			</button>
+
+
+
+
 		</div>
 		<div class="tabs-contents">
 
-			<div id="tab-card-notes"
+			<div id="tab-card-notes" class="tab-content" style="display:none"
 				onkeydown="if (event.key.toLowerCase() === 's' && (event.ctrlKey || event.metaKey)) {event.preventDefault();saveCardNotes(event);}">
 				<div id="card-tag-section" class="active">
 					<div id="card-tag-list" class="tag-cloud" style="padding:5px 0px"></div>
 					<input type="text" id="assign-tag-input" placeholder="Add Tag" style="display:none" enterkeyhint="go"
 						inputmode="text" oninput="updateAssignmentUI()" onkeydown="handleTagKey(event)">
-					
-				</div>				
+
+				</div>
 				<div style="display:flex">
 					<input type="text" id="card-title" class="active" placeholder="Display Title" title="Title (n)"
 						style="flex:3">
@@ -2921,7 +3000,7 @@
 					<input type="text" id="card-path-url" placeholder="URL / File Path" title="Path/URL (u)">
 					<input type="text" id="card-img-url" style="flex: 1;min-width:25%" placeholder="Image Path" title="Image (i)">
 					<div id="card-sprite-parameters">
-						<div  style="display:flex">						
+						<div style="display:flex">
 							<button class="scale-btn" onclick="ImageScale()" title="Scale the image">s</button>
 							<input type="number" id="card-scale" placeholder="scale" title="scale (pixels per 1m)"
 								style="min-width:60px;max-width:34%;text-align: center;">
@@ -2936,17 +3015,19 @@
 
 						</div>
 					</div>
-					
+
 				</div>
-				
+
 				<div class="notes-panel">
 					<div style="float:right;margin-bottom:2px;margin-right:5px">
-						<button class="notes-btn" onclick="ScriptStart()" title="Run as Script">Run</button>
+
 						<button class="notes-btn" onclick="PanelTextareaResize(this)"
 							title="Notes/Script Display Ratio">3:1</button>
 						<button class="notes-btn" onclick="PanelTextareaResizeH(this)" title="Change Editor Height">H1</button>
 						<button class="notes-btn" style="width:55px" onclick="ScriptPublish(this)"
 							title="Publish Script">Publish</button>
+						<button class="notes-btn script-run-btn" onclick="ScriptStart(null,false,true)" title="Run Script">Run</button>
+							<button class="notes-btn script-stop-btn" onclick="ScriptStart(null,false,true)"title="Stop Script">Stop</button>
 					</div>
 					<div style="margin-left:5px">
 						<button class="notes-btn" onclick="NoteLineSwap(true)" title="Move line up">
@@ -2965,40 +3046,46 @@
 						<textarea id="card-notes" class="card-textarea active" onfocus="PanelTextareaActivate(this)"
 							oninput="markDirty(this)" style="flex: 3 3 0%" placeholder="User Notes"></textarea>
 						<textarea id="card-script" class="card-textarea active" onfocus="PanelTextareaActivate(this)"
-							oninput="markDirty(this)" style="flex: 1 1 0%;color:limegreen" placeholder="Public Script"></textarea>
+							oninput="markDirty(this)" style="flex: 1 1 0%;" placeholder="Public Script"></textarea>
 					</div>
 				</div>
 				<div id="card-sec-bar" style="text-align:center;margin-top:5px;cursor:pointer" title="Display Selection">
 					&nbsp;
-					<div id="card-sec-btns" >
-						<button class="sec-btn on" onclick="ToggleByID(this,'card-tag-section')"	title="Card Tags (t)">#</button>
-						<button class="sec-btn on" onclick="ToggleByID(this,'card-title')"	title="Card Title (n)">n</button>
-						<button class="sec-btn on" onclick="ToggleByID(this,'card-id')"	title="Card ID (p)">id</button>
-						<button class="sec-btn" onclick="ToggleByID(this,'card-path-url')"	title="Card URL (u)">u</button>
-						<button class="sec-btn" onclick="ToggleByID(this,'card-img-url')"	title="Card Cover Image (i)">i</button>
+					<div id="card-sec-btns">
+						<button class="sec-btn on" onclick="ToggleByID(this,'card-tag-section')" title="Card Tags (t)">#</button>
+						<button class="sec-btn on" onclick="ToggleByID(this,'card-title')" title="Card Title (n)">n</button>
+						<button class="sec-btn on" onclick="ToggleByID(this,'card-id')" title="Card ID (p)">id</button>
+						<button class="sec-btn" onclick="ToggleByID(this,'card-path-url')" title="Card URL (u)">u</button>
+						<button class="sec-btn" onclick="ToggleByID(this,'card-img-url')" title="Card Cover Image (i)">i</button>
 						<button class="sec-btn" onclick="ToggleByID(this,'card-sprite-parameters')"
 							title="Card Sprite Parameters (s, x, y)">s</button>
-						<button class="sec-btn on" onclick="ToggleByID(this,'card-notes')"	title="Card Notes (o)">o</button>
-						<button class="sec-btn on" onclick="ToggleByID(this,'card-script')"	title="Card Script (c)">c</button>
+						<button class="sec-btn on" onclick="ToggleByID(this,'card-notes')" title="Card Notes (o)">o</button>
+						<button class="sec-btn on" onclick="ToggleByID(this,'card-script')" title="Card Script (c)">c</button>
 					</div>
-					
+
 					&nbsp;
 				</div>
-				
+
 				<!--<div onclick="toggleNodeDetails(this)" style="text-align: center;width:100%;height:40px;color:grey">▽</div>-->
-				
+
 
 			</div>
 			<div id="tab-card-tags" class="tab-content" style="display:none">
 
-
-
 			</div>
-			<div id="tab-controls" class="tab-content" style="display:none">
+			<div id="tab-controls" class="tab-content">
 
 				<div style="display:flex;">
 					<div class="button-pad left"
 						style="flex:1;display:flex;flex-wrap:wrap-reverse;justify-content: flex-start;flex-direction:column;height:108px;overflow-x:auto;box-sizing: content-box;align-items: flex-end;align-content: flex-start;scrollbar-width: none; -ms-overflow-style: none;">
+						<!--<button class="tool-btn full stop-script-btn" onClick="ScriptStart(null,false,true)"
+							title="Resume Script">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+								style="transform: scale(3)">
+								<rect x="5" y="3" width="14" height="14" rx="1" fill="rgba(255,0,0,0.75)" />
+							</svg>
+						</button>-->
+
 						<!--Random Draw-->
 						<button class="tool-btn half auto-random-btn" onclick="toggleAutoRandom()" title="Random Draw">
 							<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -3128,15 +3215,25 @@
 					<div class="button-pad right custom-buttons"
 						style="flex:1;display:flex;flex-wrap:wrap;justify-content: center;flex-direction:column;height:108px;overflow-x:auto;box-sizing: content-box;align-items: flex-start; scrollbar-width: none; -ms-overflow-style: none;align-content: flex-start">
 						<!--Next Button-->
-						<button class="tool-btn full script-step-btn" onClick="ScriptStart(this)" title="Play Script">
+						<button class="tool-btn full script-step-btn run-script-btn" onClick="ScriptStart(this,true,false)"
+							title="Play Script">
 							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-								style="transform: scale(3)" title="Next">
-								<rect x="17" y="5" width="2" height="14" rx="1" fill="currentColor" />
-								<polygon points="5,5 15,12 5,19" fill="currentColor" />
+								style="transform: scale(3)">
+								<rect x="17" y="4" width="2" height="14" rx="1" fill="currentColor" />
+								<polygon points="5,4 15,11 5,18" fill="currentColor" />
 							</svg>
 						</button>
+						<!--<button class="tool-btn full resume-script-btn" onClick="ScriptStart(null,true,false)"
+							title="Resume Script">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+								style="transform: scale(3)">
+								<rect x="17" y="3" width="2" height="14" rx="1" fill="rgba(0,255,0,0.75)" />
+								<polygon points="5,4 15,11 5,18" fill="rgba(0,255,0,0.75)" />
+							</svg>
+						</button>-->
 
-						<!--<button class="tool-btn full">R1</button>-->
+
+						<!--<button class="tool-btn full">R1</button>
 						<button class="tool-btn half">R2</button>
 						<button class="tool-btn half">R3</button>
 						<button class="tool-btn half">R4</button>
@@ -3154,7 +3251,7 @@
 						<button class="tool-btn half">R16</button>
 						<button class="tool-btn half">R17</button>
 						<button class="tool-btn half">R18</button>
-						<button class="tool-btn full" onClink="getActiveCard()?.classList.toggle('2s');">R19</button>
+						<button class="tool-btn full">R19</button>-->
 					</div>
 				</div>
 
@@ -3190,17 +3287,17 @@
 		</div>
 	</div>
 	<div id="dialogue-overlay" class="dialogue-overlay">
-		
+
 		<div>
 			<div class="speech-bubble">
 				<button class="close-dialog-btn" onclick="SpeechBubbleShow(false)">
-				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<!--<path d="M5 12L10 19L19 7" stroke="currentColor" stroke-width="5" stroke-linecap="round"
+					<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<!--<path d="M5 12L10 19L19 7" stroke="currentColor" stroke-width="5" stroke-linecap="round"
 						stroke-linejoin="round" />-->
-					<path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="5" stroke-linecap="round"
-						stroke-linejoin="round" />
-				</svg>
-			</button>
+						<path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="5" stroke-linecap="round"
+							stroke-linejoin="round" />
+					</svg>
+				</button>
 				<div id="speech-text" class="speech-content"></div>
 				<div id="choice-container" class="choice-row"></div>
 			</div>
@@ -3353,7 +3450,7 @@
 		/* #ALPHABETICALLY SORTED CODE */
 		const zLayers = ['Notifications', 'LoadingScreen', 'TransparentControls', 'ExamineScreen', 'SpeechBubble', 'StageGUI', 'Stage', 'GUIControls', 'Listings', 'Gallery', 'AppWallpaper'];
 		const assetLibrary = {}; // { "key1": AudioObject }
-		
+
 
 		let autoRandomTimer = null;
 		let autoRandomTrack = null;
@@ -3405,13 +3502,18 @@
 			// 1. Instant disappear (Only affecting visibility/opacity)
 			el.style.transition = 'opacity 0s, visibility 0s';
 			el.style.opacity = '0';
-			el.style.visibility = 'hidden';
+			//el.style.visibility = 'hidden';
+			el.classList.remove('active');
+
 			// 2. Wait for the delay
 			await new Promise(resolve => setTimeout(resolve, delay));
+
 			// 3. Fade back in over 0.5s
 			el.style.transition = 'opacity 0.5s ease, visibility 0.5s';
 			el.style.opacity = '1';
-			el.style.visibility = 'visible';
+			//el.style.visibility = 'visible';
+			el.classList.add('active');
+
 			// 4. Cleanup after fade-in to restore original CSS transitions
 			setTimeout(() => {
 				el.style.transition = '';
@@ -3491,8 +3593,9 @@
 				// Make the img code inside the actor div, and run SpriteOnStage for the img.
 				actor.append(img);
 				elStage.append(actor);
-				let rndX =0;
-				if(actorData.s > 0){rndX= Math.random()*40;	}
+
+				let rndX = 0;
+				if (actorData.s > 0) { rndX = Math.random() * 40; }
 				if (actorData.x >= 0) {
 					// Enter from right and face left.
 					SpriteOnStage(img, rndX, 0, true, true, true);
@@ -3500,14 +3603,14 @@
 					// Enter from left and face right.
 					SpriteOnStage(img, -rndX, 0, true, false, true);
 				}
-				await ActorBlink(actor,0);
-			}else{
+				await ActorBlink(actor, 0);
+			} else {
 				// 20260208: Arcacia: If the actor is already on stage, shift it a little bit.
 				const img = actor.querySelector("img");
 				let curX = parseFloat(actor.dataset.posX) || 0;
 
-				curX += Math.random()*10-5;
-				curX = Math.max(-40,Math.min(40,curX));
+				curX += Math.random() * 10 - 5;
+				curX = Math.max(-40, Math.min(40, curX));
 				if (curX >= 0) {
 					// Enter from right and face left.
 					SpriteOnStage(img, curX, 0, true, true, true);
@@ -3517,13 +3620,11 @@
 				}
 
 			}
-
-
 			// STEP: Clear the active status of all other actors on stage, and set this to be active.
 			elStage.querySelectorAll('.actor').forEach(a => { a.classList.remove('active'); });
 			actor.classList.add('active');
 			// STEP: Process the rest of the command		
-			if(rest == '')	{
+			if (rest == '') {
 				SpeechBubbleShow(false);
 				return false;
 			}
@@ -3549,7 +3650,7 @@
 			if (!entry) return false;
 			// 20260212: Natalie: Don't commit when the choice is not shown.
 			const dia = document.getElementById('dialogue-overlay');
-			if(!dia.classList.contains('active')){
+			if (!dia.classList.contains('active')) {
 				SpeechBubbleShow(true);
 				return false;
 			}
@@ -3560,10 +3661,10 @@
 			bubble.classList.remove('narrative-mode');
 			const code = entry.dataset.code;
 			const choiceList = document.getElementById('choice-container');
-			choiceList.classList.remove('active');		
-			choiceList.innerHTML = "";	
+			choiceList.classList.remove('active');
+			choiceList.innerHTML = "";
 			ChoiceAdd(code);
-			ScriptPush(null,entry.dataset.script);
+			ScriptPush(null, entry.dataset.script);
 			ChoiceBubblePop(null, true);
 			ScriptBubbleSpawning(null, true);
 
@@ -3621,10 +3722,10 @@
 					.map(attr => attr.name)
 					.filter(name => name.startsWith('choice-'));
 
-				toRemove?.forEach(name =>{
-					if(!name.startsWith('choice-$')){
+				toRemove?.forEach(name => {
+					if (!name.startsWith('choice-$')) {
 						multitrack.removeAttribute(name);
-					}					
+					}
 				});
 			} else {
 				multitrack?.removeAttribute(ChoiceName(choice));
@@ -3670,17 +3771,17 @@
 			document.body.appendChild(bubble);
 			return bubble;
 		}
-		function ChoiceListAppend(code,choiceText,bPrepend){
+		function ChoiceListAppend(code, choiceText, bPrepend) {
 			// 20260211: Tanya: Returns the added entry
 			const choiceList = document.getElementById('choice-container');
 			choiceList.classList.add('active');
-			choiceText=choiceText.replaceAll("//","<br>");
+			choiceText = choiceText.replaceAll("//", "<br>");
 			const choiceEntry = ChoiceEntry(code, choiceText);
-			if(bPrepend){
+			if (bPrepend) {
 				choiceList.prepend(choiceEntry);
-			}else{
+			} else {
 				choiceList.append(choiceEntry);
-			}			
+			}
 			choiceEntry.scrollIntoView();
 			ScriptEngine().setAttribute('SE-BubbleSpawning', '');
 			return choiceEntry;
@@ -3719,7 +3820,7 @@
 			const randomIndex = Math.floor(Math.random() * candidates.length);
 			return candidates[randomIndex];
 		}
-		function DATAByID(id) {			
+		function DATAByID(id) {
 			return DATA.find(item => String(item.p) === String(id));
 		}
 		function DATAFullResURL(item) {
@@ -3729,7 +3830,7 @@
 			if (!imgURL || imgURL.trim() == "") { imgURL = item.p; }
 			return getFullResURL(imgURL);
 		}
-		function DATAQueryScriptDTS(dts){
+		function DATAQueryScriptDTS(dts) {
 			// Query all script lines in DATA that has ?dts and prepend to the current script.
 			// 20260207: StarTree: In the global item array DATA, item.o and item.c may have lines that start with ?{dts} {rest of the line}. Query and return all of the rest of the lines.
 			// Example: 
@@ -3743,17 +3844,17 @@
 			DATA.forEach(item => {
 				const fieldsToCheck = [item.c]; //[item.o, item.c];
 				fieldsToCheck.forEach(content => {
-				if (content && typeof content === 'string') {
-					const lines = decodeURIComponent(content).split('\n');
-					lines.forEach(line => {
-						const trimmedLine = line.trim();
-						if (trimmedLine.startsWith(queryPrefix)) {
-							const scriptLine = trimmedLine.slice(queryPrefix.length).trimStart();
-							result.push(scriptLine);
-						}
-					});
-				}
-			});
+					if (content && typeof content === 'string') {
+						const lines = decodeURIComponent(content).split('\n');
+						lines.forEach(line => {
+							const trimmedLine = line.trim();
+							if (trimmedLine.startsWith(queryPrefix)) {
+								const scriptLine = trimmedLine.slice(queryPrefix.length).trimStart();
+								result.push(scriptLine);
+							}
+						});
+					}
+				});
 			});
 			return result.join('\n');
 		}
@@ -3765,7 +3866,7 @@
 			});
 
 			// 20260127: StarTree: Format some of the text to avoid allowing full html.
-			text = text.replaceAll("//","\n");
+			text = text.replaceAll("//", "\n");
 
 			return text;
 		}
@@ -3781,7 +3882,7 @@
 				showToast(`[${callerLine}] ${msg}`);
 			}
 		}
-		function DTS(){
+		function DTS() {
 			// 20260206: StarTree: Returns the local DTS timestamp.
 			const now = new Date();
 			const timestamp = now.getFullYear().toString() +
@@ -3816,7 +3917,7 @@
 
 			showToast("MultiTrack HTML exported!");
 		}
-		function CurtainBlink(delay=1000){
+		function CurtainBlink(delay = 1000) {
 			// 20260212: Arcacia: Shut the curtain then reopen.
 			fadeLoadingScreen(true);
 			setTimeout(() => { fadeLoadingScreen(false); }, delay);
@@ -3844,7 +3945,7 @@
 		function fairyActiveCardCheck(e) {
 			// 20251226: StarTree: Set the card to be the active card if it is in multi track mode.
 			// 20260108: LRRH: Clicking on a tag toggles it.
-			const tagPill = e.target.closest('.tag-pill');						
+			const tagPill = e.target.closest('.tag-pill');
 			if (tagPill) {
 				e.stopPropagation();
 				const t = tagPill.firstChild.textContent.trim();
@@ -3882,7 +3983,7 @@
 				return true;
 			}
 			const figure = e.target.closest('.bubble-figure');
-			if(figure){
+			if (figure) {
 				e.stopPropagation();
 				StageQuit(e);
 				showSplash(e);
@@ -3945,7 +4046,7 @@
 			if (!bubble) return false;
 			e.stopPropagation();
 			// 20250119: Evelyn: If a bubble is clicked, add its choice to the main bubble and remove the bubble itself.				
-			const choice = ChoiceListAppend(bubble.dataset.code,bubble.dataset.choiceText,true);
+			const choice = ChoiceListAppend(bubble.dataset.code, bubble.dataset.choiceText, true);
 			choice.dataset.script = bubble.dataset.script;
 			ChoiceBubblePop(bubble);
 		}
@@ -4088,7 +4189,7 @@
 		function getImageURL(item) {
 			// 20260103: Lei: Returns the image path for thumbnail when the item is not an image file.
 			const imageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'avif', 'url'];
-			const nonimageExtensions = ['pdf','doc','docx','html','json'];
+			const nonimageExtensions = ['pdf', 'doc', 'docx', 'html', 'json'];
 			// Priority 1: If the item has an image, use it.			
 			if (item.i && item.i.trim() !== "") return item.i;
 
@@ -4131,7 +4232,7 @@
 					}
 				}
 			}
-			
+
 			const fileName = item.n;
 			if (fileName.trim() == "") {
 				fileName = cleanPath.split(/[/\\]/).pop().split(/[?#]/)[0];
@@ -4445,7 +4546,7 @@
 			}
 			return multitrack;
 		}
-		function NoteInsertDTS(){
+		function NoteInsertDTS() {
 			// 20260206: StarTree: Inserts a local timestamp YYYYMMDDhhmmss to the edit textarea in focus.
 			const elFrame = document.querySelector('.card-textarea.active');
 			if (!elFrame || !elFrame.checkVisibility()) return;
@@ -4502,28 +4603,28 @@
 			}
 			const flexS = 4 - flexN;
 			elNotes.style.flex = `${flexN} ${flexN} 0%`;
-			elScript.style.flex = `${flexS} ${flexS} 0%`;			
+			elScript.style.flex = `${flexS} ${flexS} 0%`;
 			elThis.innerHTML = `${flexN}:${flexS}`;
 		}
-		function PanelTextareaResizeH(elThis){			
+		function PanelTextareaResizeH(elThis) {
 			const CP = document.getElementById('command-panel');
 			let curH = 2
-			if(CP.classList.contains('edit-size-3')){
+			if (CP.classList.contains('edit-size-3')) {
 				CP.classList.remove('edit-size-3');
 				curH = 1;
-			}else if(CP.classList.contains('edit-size-2')){
+			} else if (CP.classList.contains('edit-size-2')) {
 				CP.classList.remove('edit-size-2');
 				curH = 3;
-			}else if(CP.classList.contains('edit-size-1')){
+			} else if (CP.classList.contains('edit-size-1')) {
 				CP.classList.remove('edit-size-1');
 				curH = 2;
 			}
 			CP.classList.add('edit-size-' + curH)
-			elThis.innerHTML = "H"+curH;
+			elThis.innerHTML = "H" + curH;
 		}
 		function playSound(name, rate = 1.0, shouldLoop = false) {
-			if(rate==""){rate = 1};
-			if(shouldLoop==""){shouldLoop = false;}			
+			if (rate == "") { rate = 1 };
+			if (shouldLoop == "") { shouldLoop = false; }
 			const keys = soundMap[name];
 			if (!keys || keys.size === 0) return;
 
@@ -4551,7 +4652,7 @@
 			const arg2 = tail2.leftOf(' ').trim().toUpperCase();
 			const tail3 = tail2.trim().rightOf(' ').trim();
 			const arg3 = tail3.leftOf(' ').trim().toUpperCase();
-		
+
 			if (command === 'BUTTON') { addButton(arg1, arg2, tail3); return true; }
 			if (command === 'CHOOSE') { ChoiceAdd(arg1); return true; }
 			if (command === 'CLEAR') {
@@ -4566,14 +4667,14 @@
 			} else if (command === 'END') {
 				ScriptEnd();
 				return true;
-			} else if (command === 'IMAGE'){
-				return ScriptInsertImage(tail1);				
+			} else if (command === 'IMAGE') {
+				return ScriptInsertImage(tail1);
 			} else if (command === 'GOTO') {
 				ScriptGoto(arg1);
 				return true;
 			} else if (command === 'PLAY') {
 				playSound(arg1, arg2, arg3); return true;
-			}else if(command === 'QUERY'){
+			} else if (command === 'QUERY') {
 				// 20260208: Natalie: The query will already happen at the next line. Need to redefine what this function means.
 				//return true;
 				return ScriptQueryResponses();
@@ -4591,15 +4692,15 @@
 
 			const SE = ScriptEngine();
 			const dts = SE.dataset.dts;
-			textField.title = dts;			
+			textField.title = dts;
 
 			// 20260119: Skyle: If the stage is live and the text does not start with a colon, change to narrative mode.
-			const prefix = text.charAt(0);			
+			const prefix = text.charAt(0);
 			const bubble = document.querySelector('.speech-bubble');
 			//if(StageLive() && prefix != ':'){
 			let continueNarration = bubble.classList.contains('narrative-mode');
 			if (prefix != ':') {
-				bubble.classList.add('narrative-mode');				
+				bubble.classList.add('narrative-mode');
 			} else {
 				bubble.classList.remove('narrative-mode');
 				text = text.substring(1).trim();
@@ -4607,9 +4708,9 @@
 			}
 
 			// Set Text			
-			if(continueNarration){
+			if (continueNarration) {
 				textField.innerHTML += "\n" + DialogFormat(text);
-			}else{
+			} else {
 				textField.innerHTML = DialogFormat(text);
 			}
 			// If choiceColors is blank, hide the container.
@@ -4643,7 +4744,7 @@
 			// 20260207: StarTree: A line may start with a DTS.
 			const se = ScriptEngine();
 			const firstword = line.leftOf(' ');
-			if(firstword.isOnlyDigits() && firstword.length == 14){
+			if (firstword.isOnlyDigits() && firstword.length == 14) {
 				se.dataset.dts = firstword;
 				line = line.rightOf(' ').trim();
 			}
@@ -4651,9 +4752,9 @@
 			// 20260120: Natalie: If there is a selected choice, set bubble spawning to done.
 			ChoiceCommit();
 			// 20260119: LRRH: If the engine is spawning bubbles and the prefix is not *, put the line back and return.
-			
+
 			if (prefix != '*' && ScriptBubbleSpawning(null)) {
-				
+
 				se.dataset.script = line + "\n" + se.dataset.script;
 
 				// 20260119: Skyle: If the dialog overlay is hidden, show it back so the user can confirm their choice.
@@ -4672,11 +4773,11 @@
 				case '*': return ScriptBubbleSpawning(content);
 				case '@': return ActorSet(content);
 				case '>': createCard(getCardByPath(content)); return false;
-				default: 
+				default:
 					processScriptDialog(line);
 					// Continue to the next line if the next line starts with a space.
 					const nextPrefix = se.dataset.script.charAt(0);
-					if(nextPrefix===" " || nextPrefix==="*"){return true;}
+					if (nextPrefix === " " || nextPrefix === "*") { return true; }
 			}
 			return false;
 		}
@@ -4740,7 +4841,7 @@
 			// 20251230: Cardinal			
 			e?.stopPropagation();
 			const activeCard = document.querySelector(".card.is-active");
-			if (!activeCard) { return; }			
+			if (!activeCard) { return; }
 			activeCard.dataset.c = encodeURIComponent(document.getElementById('card-script').value);
 			activeCard.dataset.i = document.getElementById('card-img-url').value.trim();
 			activeCard.dataset.n = document.getElementById('card-title').value.trim();
@@ -4755,7 +4856,7 @@
 			cardNotes.dataset.original = activeCard.dataset.o;
 			cardNotes.classList.remove("unsaved");
 
-			const cardScript = document.getElementById("card-script");			
+			const cardScript = document.getElementById("card-script");
 			cardScript.dataset.original = activeCard.dataset.c;
 			cardScript.classList.remove("unsaved");
 
@@ -4796,18 +4897,18 @@
 			//if(activeCardData.c==0){delete activeCardData.c;}
 			//if(activeCardData.y==0){delete activeCardData.y;}
 
-			
+
 		}
-		function ScriptBubbleSaveScript(elChoice){
+		function ScriptBubbleSaveScript(elChoice) {
 			// 20260211: Tanya: store the effect script of a choice
 			// elChoice could be a bubble or an entry on the choice list.
 			// STEP:  Scan the rest of the script and save the content.
-			const SE = ScriptEngine();			
+			const SE = ScriptEngine();
 			let save = "";
-			while(SE.dataset.script.startsWith(' ')){
+			while (SE.dataset.script.startsWith(' ')) {
 				let line = ScriptPop(SE)[0];
 				save += line.slice(1).trimEnd();
-			}					
+			}
 			elChoice.dataset.script = save;
 		}
 		function ScriptBubbleSpawning(line, done) {
@@ -4825,69 +4926,70 @@
 			// 20260119: LRRH: When the script interpreter encounters a * command line it enters bubble spawning mode. During that mode, if it encounters a non * command line, it waits for the mode to be over. (The confirm button of a choice bubble allows the code to resume.
 			// Format of the * command line itself: *A* Text of choice A
 			// 20260207: StarTree: If 
-			
+
 			const parts = line.split('*');
 			let code = parts[0].trim();
 			const prefix = code.charAt(0);
 			let choiceText = line.rightOf('*').trim();
 			let choice = "";
-			 if(!line.includes('*')){
+			if (!line.includes('*')) {
 				// If the line does not have a second *, just make an inert list.
-				if(prefix==="!"){
+				if (prefix === "!") {
 					choiceText = line.rightOf('!').trim();
-					choice = ChoiceListAppend(null,choiceText);
+					choice = ChoiceListAppend(null, choiceText);
 					ScriptBubbleSaveScript(choice);
-					
-				}else{
+
+				} else {
 					ChoiceBubbleSpawn(null, line.trim());
 				}
-			}else if(prefix === "!"){
+			} else if (prefix === "!") {
 				code = code.rightOf('!');
-				choice = ChoiceListAppend(code,choiceText);
+				choice = ChoiceListAppend(code, choiceText);
 				ScriptBubbleSaveScript(choice);
-			}else{
+			} else {
 				ChoiceBubbleSpawn(code, choiceText);
-			}			
+			}
 			return true;
 		}
 		function ScriptEnd() {
 			// 20260125: Evelyn: Ends the script. (To keep the engine from running the rest.)
-			ChoiceBubblePop(null,true);
+			ChoiceBubblePop(null, true);
 			const elSE = ScriptEngine();
 			elSE.dataset.script = "";
 			elSE.dataset.p = "";
-			elSE.dataset.dts="";
+			elSE.dataset.dts = "";
 		}
 		function ScriptEngine() {
 			return document.querySelector('.script-step-btn');
 		}
-		function ScriptGoto(label){
+		function ScriptGoto(label) {
 			// 20260202: Fina: Go to a label encapsulated by '#' in the script.
 			const SE = ScriptEngine();
 			let remainingScript = SE.dataset.scriptBackup;
-			if(remainingScript){
-				remainingScript = remainingScript.rightOf(`#${label}#`,true);
-			}			
+			if (remainingScript) {
+				remainingScript = remainingScript.rightOf(`#${label}#`, true);
+			}
 			//remainingScript = remainingScript.rightOf('\n');
-			if(remainingScript == ""){
+			if (remainingScript == "") {
 				// 20260206: Koyo: If the label is not found in the current script, assume that it is a card id.
 				const data = DATAByID(label);
-				if(data){
-					if(data.c != undefined){
+				if (data) {
+					if (data.c != undefined) {
 						remainingScript = decodeURIComponent(data.c);
-					}else if (data.o !=undefined){
+					} else if (data.o != undefined) {
 						remainingScript = decodeURIComponent(data.o);
 					}
-					if(remainingScript.trim() !=""){
+					if (remainingScript.trim() != "") {
 						SE.dataset.p = label;
 						SE.dataset.scriptBackup = remainingScript;
 					}
 				}
 			}
-			if(remainingScript ==""){
+			if (remainingScript == "") {
 				remainingScript = SE.dataset.scriptBackup;
 			}
 			SE.dataset.script = remainingScript;
+			StageActorsOff();
 		}
 		function ScriptIf(line) {
 			// 20260119: Arcacia: The line interpreter calls this if the first character is ?
@@ -4899,40 +5001,40 @@
 			const remaining = line.substring(line.indexOf(' ', 1) + 1).trim();
 			return processScriptLine(remaining.trim());
 		}
-		function ScriptInsertImage(arg){
+		function ScriptInsertImage(arg) {
 			// 20260209: StarTree: Inserts an image to the speech bubble
 			let url = "";
-			if(arg.isOnlyDigits()){
+			if (arg.isOnlyDigits()) {
 				// Assume that this is an Data ID
 				url = DATAFullResURL(DATAByID(arg));
-			}else if(arg.includes("/")){
+			} else if (arg.includes("/")) {
 				url = arg;
-			}else{				
-				const data = DATABestMatch([],arg.split(','));
-				url = DATAFullResURL(DATABestMatch([],arg.split(',')));
+			} else {
+				const data = DATABestMatch([], arg.split(','));
+				url = DATAFullResURL(DATABestMatch([], arg.split(',')));
 			}
-			if(!url){return true;}
+			if (!url) { return true; }
 			const SB = SpeechBubble();
 			const el = SB.querySelector('#speech-text');
 			let html = `<img class="bubble-figure" src="${url}" loading="lazy">`;
-			if(SB.classList.contains('narrative=mode')){
+			if (SB.classList.contains('narrative=mode')) {
 				el.innerHTML += html;
-			}else{
+			} else {
 				SB.classList.add('narrative-mode');
 				el.innerHTML = html;
 			}
 			return true;
 		}
-		function ScriptPop(SE){
-			if(!SE){SE = ScriptEngine();}
-			let  scriptToRun = SE.dataset.script;
+		function ScriptPop(SE) {
+			if (!SE) { SE = ScriptEngine(); }
+			let scriptToRun = SE.dataset.script;
 			const lineRegex = /^(.*?)(?:\r?\n|$)/; // Pop the first line
 			const match = scriptToRun.match(lineRegex);
 			SE.dataset.script = SE.dataset.script.replace(lineRegex, "");
 			return match;
 		}
-		function ScriptPush(SE,script){
-			if(!SE){SE = ScriptEngine();}
+		function ScriptPush(SE, script) {
+			if (!SE) { SE = ScriptEngine(); }
 			SE.dataset.script = script + "\n" + SE.dataset.script;
 			return SE.dataset.script;
 		}
@@ -4998,22 +5100,22 @@
 			setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 
 		}
-		function ScriptQueryResponses(){
+		function ScriptQueryResponses() {
 			// 20260207: Lei: Query responses based on the SE's dts.
 			const SE = ScriptEngine();
 			const dts = SE.dataset.dts;
-			if(!dts){return true;}
+			if (!dts) { return true; }
 			// Query all script lines in DATA that has ?dts and prepend to the current script.
 			const queryResult = DATAQueryScriptDTS(dts);
-			SE.dataset.script = queryResult + "\n" + SE.dataset.script;			
+			SE.dataset.script = queryResult + "\n" + SE.dataset.script;
 			return true;
 		}
-		async function ScriptRun(SE, bClicked=false){
+		async function ScriptRun(SE, bClicked = false) {
 			// 20260129: LRRH: Runs the script that is already in the script engine.
-			if(!SE) {SE = ScriptEngine();}
+			if (!SE) { SE = ScriptEngine(); }
 			// If there is dts, query the script.
-	
-			if(SE.dataset.dts){
+
+			if (SE.dataset.dts) {
 				ScriptQueryResponses(SE.dataset.dts);
 				SE.dataset.dts = "";
 			}
@@ -5022,22 +5124,22 @@
 			if (!match || match[0].length < 1) {
 				// Script finished.				
 				// 20260211: Sylvia: End the script only if this run is from a click
-				if(bClicked){ 
+				if (bClicked) {
 					SE.dataset.p = "";
 					SpeechBubbleShow(false);
 					StageFade();
 					// Sylvia: Could change the icon back to Play.
-				}else{
+				} else {
 					// Sylvia: Could change the icon to a checkmark for completion, so the player knows this is the end.
 					SE.dataset.p = "";
 					SpeechBubbleShow(false);
 					StageFade();
-				}				
+				}
 				return false;
 			}
 			const currentLine = match[1].trim();
-			
-			
+
+
 			if (!currentLine) {
 				ScriptRun(SE);
 				return true;
@@ -5046,19 +5148,20 @@
 			if (await processScriptLine(currentLine)) {
 				DEBUG("[ ] " + currentLine, true); //
 				ScriptRun(SE);
-			/*} else if(SE.dataset.dts){
-				DEBUG("[?] " + currentLine, true); //
-				ScriptRun(SE);*/
+				/*} else if(SE.dataset.dts){
+					DEBUG("[?] " + currentLine, true); //
+					ScriptRun(SE);*/
 			} else {
 				DEBUG("[>] " + currentLine, true); //
 			}
 
 			// 20260212: Arcacia: If no progress is made when the user clicked next, assume that the player needs to make a choice.
 			const scriptEnd = SE.dataset.script;
-			if(bClicked && scriptStart == scriptEnd){
+			if (bClicked && scriptStart == scriptEnd) {
 				// 20260212: Arcacia: When the choice list is empty but there is a bubble, the message should tell the user to click on a bubble to reveal a choice.
 				//showToast('Please choose.\n(You might need to find and click on a bubble first.)');
 				const toastMsg = ['Please choose.', 'Please make a choice.'];
+
 				showToast(toastMsg[Math.floor(Math.random() * toastMsg.length)]);
 			}
 
@@ -5074,23 +5177,28 @@
 			SE.dataset.scriptBackup = SE.dataset.script;
 			ScriptRun(SE);
 		}
-		async function ScriptStart(SE) {
+		async function ScriptStart(SE, bResume, bStop) {
 			// 20260111: Sasha: Runs the next command in the script
 			// STEP 1: Store the node ID and the Script to the button if they are different from what the button has.
-			if (!SE) {SE = ScriptEngine();}
+			if (!SE) { SE = ScriptEngine(); }
 			const stage = Stage();
-			if(stage.classList.contains('suspended')){
-				if(await showConfirm("There is a suspended story. Resume?")){
+			if (stage.classList.contains('suspended')) {
+				if (bResume) {
 					StageSuspend();
-					return false;
-				}else if(await showConfirm("Do you want to end the suspended script and run this instead?")){
-					SE.dataset.script="";
-					stage.classList.remove('suspended');
+					return false
+				}
+				if (bStop) {
+					SE.dataset.script = "";
 					ScriptEnd();
-				}else{
-					return false; // Do nothing
+					StageQuit(null, true);
+					//					CurtainBlink();	
+					return false;
+				} else {
+					showToast("The stage is already running a script.")
+					return false;
 				}
 			}
+
 			let scriptToRun = SE.dataset.script;
 			if (getActiveCard()) {
 				const nodeID = document.getElementById("card-id").value;
@@ -5117,7 +5225,7 @@
 				}
 			}
 
-			ScriptRun(SE,true);
+			ScriptRun(SE, true);
 		}
 		async function setActiveCard(card) {
 			// 20260111: LRRH: Don't set active card if auto spawning with the notes tab open.
@@ -5139,16 +5247,16 @@
 			const cardScript = document.getElementById("card-script");
 			// 20260123: Evelyn: Just use the data in the card if it is not found in DATA.
 			//if(!data){
-				document.getElementById("card-img-url").value = card.dataset.i || "";
-				document.getElementById("card-title").value = card.dataset.n || "";
-				document.getElementById("card-id").value = card.dataset.p || "";
-				document.getElementById("card-scale").value = card.dataset.s || "";
-				document.getElementById("card-path-url").value = card.dataset.u || "";
-				cardNotes.value = card.dataset.o? decodeURIComponent(card.dataset.o) : "";
-				cardScript.value = card.dataset.c? decodeURIComponent(card.dataset.c) : "";
-				cardNotes.dataset.original = card.dataset.o || "";
-				cardScript.dataset.original = card.dataset.c || "";
-				
+			document.getElementById("card-img-url").value = card.dataset.i || "";
+			document.getElementById("card-title").value = card.dataset.n || "";
+			document.getElementById("card-id").value = card.dataset.p || "";
+			document.getElementById("card-scale").value = card.dataset.s || "";
+			document.getElementById("card-path-url").value = card.dataset.u || "";
+			cardNotes.value = card.dataset.o ? decodeURIComponent(card.dataset.o) : "";
+			cardScript.value = card.dataset.c ? decodeURIComponent(card.dataset.c) : "";
+			cardNotes.dataset.original = card.dataset.o || "";
+			cardScript.dataset.original = card.dataset.c || "";
+
 			//}
 			if (data) {
 				document.getElementById("card-img-url").value = data.i || "";
@@ -5156,19 +5264,19 @@
 				document.getElementById("card-id").value = data.p || "";
 				document.getElementById("card-scale").value = data.s || "";
 				document.getElementById("card-path-url").value = data.u || "";
-				if(cardNotes.value == ""){
-					cardNotes.value = data.o? decodeURIComponent(data.o) : "";
+				if (cardNotes.value == "") {
+					cardNotes.value = data.o ? decodeURIComponent(data.o) : "";
 					cardNotes.dataset.original = data.o || "";
 				}
-				if(cardScript.value == ""){
-					cardScript.value = data.c? decodeURIComponent(data.c) : "";
+				if (cardScript.value == "") {
+					cardScript.value = data.c ? decodeURIComponent(data.c) : "";
 					cardScript.dataset.original = data.c || "";
 				}
-				
+
 				if (data.p != document.querySelector(".script-step-btn").dataset.p) {
 					SpeechBubbleShow(false);
 				};
-				
+
 				/*
 				if ('notes' in card.dataset) {
 					cardNotes.dataset.original = card.dataset.o;
@@ -5223,7 +5331,7 @@
 		function SpeechBubbleShow(bShow) {
 			document.getElementById('dialogue-overlay').classList.toggle('active', bShow);
 		}
-		function SpeechBubble(){
+		function SpeechBubble() {
 			// 20260209: StarTree: Returns the speech bubble
 			return document.querySelector('.speech-bubble');
 		}
@@ -5232,8 +5340,8 @@
 			// Treat bScale, bLeft, and bGround as three-way switches: true, false, undefined=toggle.
 			// If the sprite is specified, assume that the frame is the stage.
 			// If the sprite is not specified, assume that the frame is the active card at backstage.			
-			const card = sprite? sprite.closest('.card') : getActiveCard(); 
-			const track = card? card.closest('.track') : null;
+			const card = sprite ? sprite.closest('.card') : getActiveCard();
+			const track = card ? card.closest('.track') : null;
 			if (!sprite) {
 				if (!card) return;
 				const data = getActiveCardData();
@@ -5283,23 +5391,21 @@
 			const naturalW = sprite.naturalWidth;
 			const naturalH = sprite.naturalHeight;
 
-			if(StageLive() || !shouldGround || !shouldScale){
-				if(card){
+			if (StageLive() || !shouldGround || !shouldScale) {
+				if (card) {
 					card.style.height = "100%";
 					card.style.marginTop = "0%";
 					card.style.marginBottom = "0%";
 				}
-			}else{
-				if(card){
+			} else {
+				if (card) {
 					card.style.height = "90%";
 					card.style.marginTop = "3%";
 					card.style.marginBottom = "7%";
-					frameH = frameH*0.90;
+					frameH = frameH * 0.90;
 				}
 			}
 
-
-			
 
 			// STEP 1: Compute the final scaling needed considering if bScale is true.
 			// Assume that the frame is in fit to 100% height. 
@@ -5307,8 +5413,8 @@
 			const autoScale = frameH / naturalH; // This is the scale ALREADY applied.
 			// The 0.7 is an adjustable parameter for how many meter is shown per frameH.
 			// targetScale = (0.7screen/meter)*(pixel/screen)*(meter/pixels)
-			const screenScale = StageLive()? 0.7 : 0.5;
-			const targetScale = screenScale * frameH / parseFloat(sprite.dataset.s);			
+			const screenScale = StageLive() ? 0.7 : 0.5;
+			const targetScale = screenScale * frameH / parseFloat(sprite.dataset.s);
 			const finalScale = shouldScale ? (targetScale / autoScale) : 1;
 
 			// STEP 2: Compute the final X translation needed, consider the final scale, data.x, bLeft and the commanded posX. PosX is measured in percentage where 0 means center of the screen, 50 means the center of the right side of the screen. 
@@ -5332,9 +5438,9 @@
 			let finalY = 0;
 			if (shouldGround) {
 				// scaleShift is the amount the sprite should shift down (+Y) when the sprite is scaled
-				const scaleShift = (frameH * (1 - finalScale)) / 2; 
+				const scaleShift = (frameH * (1 - finalScale)) / 2;
 				// groundShift is the amount to shift when the ground line is not the bottom of the track.
-				const groundShift = frameH *0.30;
+				const groundShift = frameH * 0.30;
 				// liftPx is the amount to shift up when the sprite is supposed to be above ground line.
 				const liftPx = (posY / 100) * frameH;
 
@@ -5345,11 +5451,11 @@
 				// The math is scaledYOffset = dataY * finalScale * autoScale = dataY * targetScale.		
 				const scaledYOffset = dataY * targetScale;
 
-				if(!StageLive()){
+				if (!StageLive()) {
 					// If showing in backstage, use the bottom edge of the track as the ground line.
-					finalY = scaleShift + scaledYOffset - liftPx;	
-				}else{
-					finalY = scaleShift + scaledYOffset - liftPx + groundShift ;
+					finalY = scaleShift + scaledYOffset - liftPx;
+				} else {
+					finalY = scaleShift + scaledYOffset - liftPx + groundShift;
 				}
 			}
 
@@ -5362,16 +5468,16 @@
 			//ActorBlink(sprite,0);
 			sprite.style.translate = `${finalX}px ${finalY}px`;
 			// Shrink the margins in backstage
-			if(StageLive() || !shouldGround || !shouldScale){
+			if (StageLive() || !shouldGround || !shouldScale) {
 				sprite.style.marginLeft = 0;
-				sprite.style.marginRight = 0;	
-			}else{
-				sprite.style.marginLeft = `-${autoScale * naturalW/5}px`;
-				sprite.style.marginRight = `-${autoScale * naturalW/5}px`;	
+				sprite.style.marginRight = 0;
+			} else {
+				sprite.style.marginLeft = `-${autoScale * naturalW / 5}px`;
+				sprite.style.marginRight = `-${autoScale * naturalW / 5}px`;
 			}
-			
+
 		}
-		function Stage(){
+		function Stage() {
 			return document.querySelector('.stage-area');
 		}
 		function StageActorsOff() {
@@ -5394,12 +5500,12 @@
 		}
 		function StageFade() {
 			// 20260119: Sasha: Fades the stage area away.
-			const stageEl = document.getElementById('stage-area');			
+			const stageEl = document.getElementById('stage-area');
 			StageActorsOff();
-			
+
 			setTimeout(() => {
 				stageEl.classList.remove('active');
-				stageEL.classList.remove('suspended'); 
+				stageEl.classList.remove('suspended');
 			}, 800);
 		}
 		function StageLive() {
@@ -5411,23 +5517,29 @@
 		function StageSuspend() {
 			// 20260212: Arcacia: Suspend the stage to return to development view.
 			const stage = Stage();
+			const btn = document.getElementById('script-run-btn');
 			CurtainBlink();
-			if(stage.classList.toggle('suspended')){
-				//showToast('Suspending Show');
-			}else{
-				//showToast('Resuming Show');
+
+			if (stage.classList.toggle('suspended')) {
+			} else {
 			}
 		}
-		async function StageQuit(e) {
+		async function StageQuit(e, bFromBackStage) {
 			// 20260119: Skyle: When the stage play button is doubleclicked, let the user quit the stage after a modal choice.
-			if (!e.target.closest('.stage-next-btn')) return false;
-			e.stopPropagation();
+			if (e) {
+				if (!e.target.closest('.stage-next-btn')) return false;
+				e.stopPropagation();
+			}
 			if (StageLive()) {
-				if (await showConfirm('Exit to Backstage?')) {
+				if (Stage().classList.contains('suspended') || await showConfirm('Exit to Backstage?')) {
 					ScriptEnd();
+					if (!bFromBackStage) { StageFade(); }
 					SpeechBubbleShow(false);
-					ChoiceBubblePop(null,true);
-					StageFade();
+					ChoiceBubblePop(null, true);
+					Stage().classList.remove('suspended');
+					Stage().classList.remove('active');
+					Stage().innerHTML = "";
+
 				}
 			}
 		}
@@ -5437,7 +5549,7 @@
 			// 20260125: Sasha: By default, the stage scene is the script card's cover image.
 			let scene = null;
 			args = args.trim();
-			const argsU = args.toUpperCase()|| "SEASON";
+			const argsU = args.toUpperCase() || "SEASON";
 			const prefix = args.charAt(0);
 
 			if (argsU === "THIS") {
@@ -5455,23 +5567,23 @@
 			} else if (args.isOnlyDigits()) {
 				// Assume it is the ID
 				scene = DATAByID(args);
-			}else if(args.includes("/")){
+			} else if (args.includes("/")) {
 				// if it contains /, assume that it is an URL.								
 				StageChange(args);
 				stageEl.classList.add('active');
 				return true;
-			}else if(prefix==='+'){
+			} else if (prefix === '+') {
 				// Apply the remaining as a class.
 				Stage().classList.add(args.rightOf('+').trim());
 				return true;
-			}else if(prefix==='-'){
+			} else if (prefix === '-') {
 				// Apply the remaining as a class.
 				Stage().classList.remove(args.rightOf('-').trim());
 				return true;
-			}else{
+			} else {
 				// 20260203: Evelyn: Interpret the rest as a comma separated list of tags.
 				const inlineTags = argsU.split(',');
-				scene = DATABestMatch(["[SCENE]"],inlineTags);
+				scene = DATABestMatch(["[SCENE]"], inlineTags);
 			}
 			if (!scene) { scene = getActiveCardData(); }
 			if (scene) {
@@ -5513,9 +5625,9 @@
 			document.addEventListener('click', async (e) => {
 				if (await fairyRemovalCheck(e)) { return; }
 				if (await fairyBubblePopping(e)) { return; }
-				if(!e.target.closest('.sec-btn') && e.target.closest('#card-sec-bar')){
+				if (!e.target.closest('.sec-btn') && e.target.closest('#card-sec-bar')) {
 					e.stopPropagation();
-					ToggleByID(null,'card-sec-btns');
+					ToggleByID(null, 'card-sec-btns');
 					return;
 				}
 				if (await fairyBlessCheck(e)) { return; }
@@ -5566,8 +5678,8 @@
 			}
 			String.prototype.rightOf = function (substring, bInsensitive) {
 				// 20260125: Evelyn: Returns the remaining string after the first instance of substring.
-				const strcc = bInsensitive? this.toUpperCase(): this;
-				const substringcc = bInsensitive? substring.toUpperCase():substring
+				const strcc = bInsensitive ? this.toUpperCase() : this;
+				const substringcc = bInsensitive ? substring.toUpperCase() : substring
 				const index = strcc.indexOf(substringcc);
 				if (index === -1) return "";
 				return this.substring(index + substring.length);
@@ -5604,12 +5716,12 @@
 				}
 			});
 		}
-		function ToggleByID(elThis,aID){
+		function ToggleByID(elThis, aID) {
 			// 20260207: StarTree: Toggle the display by element ID.
 			const el = document.getElementById(aID);
 			el.classList.toggle('active');
-			if(!elThis){return;}
-			elThis.classList.toggle('on',el.classList.contains('active'));
+			if (!elThis) { return; }
+			elThis.classList.toggle('on', el.classList.contains('active'));
 		}
 		function toggleAutoRandom(bTimer = false) {
 			// 20260111: Skyle: If Auto Flush is ON, toggle Auto Random mode.			
@@ -5781,13 +5893,13 @@
 				//setTimeout(() => track.classList.remove('moving'), 300);
 			}
 		}
-		function URLHotLink(url){
+		function URLHotLink(url) {
 			// 20260205: LRRH: Converts a google drive link to a hotlink
 			// Doesn't work. Use Google Photo instead.
 			url = url.trim();
 			const idMatch = url.match(/\/d\/([^/]+)/);
 			if (idMatch && idMatch[1]) {
-				const fileId = idMatch[1];				
+				const fileId = idMatch[1];
 				return `https://drive.usercontent.google.com/download?id=${fileId}`;
 			}
 			return url;
@@ -6522,7 +6634,7 @@
 
 		}
 		async function removePath(index) {
-			if(await showConfirm("Deleting a collection may prevent some content from loading next time. Keep it?")){return;}
+			if (await showConfirm("Deleting a collection may prevent some content from loading next time. Keep it?")) { return; }
 			savedPaths.splice(index, 1);
 			renderPathList();
 			loadActiveCollections();
@@ -6576,17 +6688,17 @@
 			ALL_TAGS = Array.from(tags).sort(); // Update the cloud source
 
 			// URLParam
-			if(firstLoad){
+			if (firstLoad) {
 				urlParams = new URLSearchParams(window.location.search);
 				const rawId = urlParams.get('id');
 				if (rawId) {
-					ScriptRunID(rawId);					
-				}else{
+					ScriptRunID(rawId);
+				} else {
 					ScriptRunID("20260131093700"); // Auto Run Theater main
 					//ScriptRunID("20260208013400"); //Adventurers Diner
 				}
 				firstLoad = false;
-			}		
+			}
 			refreshAllUI();
 		}
 
@@ -6693,9 +6805,9 @@
 			if (!image) return;
 			// 20260211: LRRH: If the image is on stage, react only if it is active.
 			const stage = e.target.closest('.stage-area');
-			if(stage){
+			if (stage) {
 				const actor = image.closest('.actor');
-				if(actor && !actor.classList.contains('active')){return;}
+				if (actor && !actor.classList.contains('active')) { return; }
 			}
 
 			//if(image.style.opacity==0){return;}
@@ -6882,7 +6994,7 @@
 				};
 				DATA.push(newItem);
 				item = DATA.find(i => i.p === pid);
-				
+
 			}
 			// If the item is null, choose a random one from the file list.			
 			if (!item) {
@@ -7385,7 +7497,7 @@
 		}
 		function handleCornerClick(clickedSide) {
 			// 20260212: Arcacia: If the Stage is live, pause it to return to backstage.
-			if(StageLive()){StageSuspend(null);return;}
+			if (StageLive() && !Stage().classList.contains('suspended')) { StageSuspend(null); return; }
 
 			const bodyWrap = document.getElementById('body-wrap');
 			const isCollapsed = bodyWrap.classList.contains('collapsed');
