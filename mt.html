@@ -1233,7 +1233,7 @@
 
 		#toast {
 			position: fixed;
-			top: 20%;
+			top: 85px;
 			left: 50%;
 			transform: translateX(-50%);
 			background: rgba(200, 180, 0, 0.5);
@@ -2642,7 +2642,7 @@
 		.script-run-btn{
 			background-color: rgba(0, 128, 0, 0.75);
 			color:white;
-			width:45px;			
+			width:30px;			
 		}
 		body:has(#stage-area.suspended) .script-run-btn{
 			display:none;
@@ -2650,7 +2650,7 @@
 		.script-stop-btn{
 			background-color: rgba(128, 0, 0, 0.75);
 			color:white;
-			width:45px;
+			width:30px;
 		}
 		body:not(:has(#stage-area.suspended)) .script-stop-btn{
 			display:none;
@@ -2994,7 +2994,7 @@
 					<input type="text" id="card-title" class="active" placeholder="Display Title" title="Title (n)"
 						style="flex:3">
 					<input type="text" id="card-id" class="active" placeholder="Unique ID" title="Card ID (p)"
-						style="flex:1;min-width:120px;text-align: right;">
+						style="flex:1;min-width:130px;text-align: right;">
 				</div>
 				<div class="card-details">
 					<input type="text" id="card-path-url" placeholder="URL / File Path" title="Path/URL (u)">
@@ -3026,8 +3026,19 @@
 						<button class="notes-btn" onclick="PanelTextareaResizeH(this)" title="Change Editor Height">H1</button>
 						<button class="notes-btn" style="width:55px" onclick="ScriptPublish(this)"
 							title="Publish Script">Publish</button>
-						<button class="notes-btn script-run-btn" onclick="ScriptStart(null,false,true)" title="Run Script">Run</button>
-							<button class="notes-btn script-stop-btn" onclick="ScriptStart(null,false,true)"title="Stop Script">Stop</button>
+						<button class="notes-btn script-run-btn" onclick="ScriptStart(this,false,true)" title="Run Script">
+							<svg width="24" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+								style="transform: scale(1.5)">
+								<rect x="10" y="6" width="2" height="15" rx="1" fill="currentColor" />
+								<polygon points="-2,6 8,13 -2,20" fill="currentColor" />
+							</svg>
+						</button>
+							<button class="notes-btn script-stop-btn" onclick="ScriptStart(this,false,true)"title="Stop Script">
+								<svg width="24" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+									style="transform: scale(1.5)">
+									<rect x="-2" y="6" width="15" height="15" rx="1" fill="currentColor" />
+								</svg>
+							</button>
 					</div>
 					<div style="margin-left:5px">
 						<button class="notes-btn" onclick="NoteLineSwap(true)" title="Move line up">
@@ -3562,7 +3573,11 @@
 			// 20260125: Evelyn: Process a script command line that starts with @.
 			// Here the @ at the beginning is already removed.
 			// STEP: Get the name of the actor.
-			let actorName = command.leftOf(' ').trim();
+			// 20260214: Natalie: The actor's name could be delimited by a space of a colon.
+			const match1 = command.leftOf(' ').trim();
+			const match2 = command.leftOf(':').trim();
+			let actorName = match1.length > match2.length? match2 : match1;
+									
 			let rest = command.rightOf(actorName).trim();
 
 			if (!actorName) { DEBUG("Actor is missing in: @" + command); }
@@ -3866,7 +3881,8 @@
 			});
 
 			// 20260127: StarTree: Format some of the text to avoid allowing full html.
-			text = text.replaceAll("//", "\n");
+			SPEC("20260214112800","Natalie","In the script, // is interpreted as newline unless it starts with a colon or ends with a space.");
+			text = text.replace(/(?<!:)\/\//g, "\n");
 
 			return text;
 		}
@@ -4291,6 +4307,7 @@
 			return H - groundY;
 
 		}
+		
 		function ImageFlip(img, xOffset, faceLeft) {
 			const curImg = getActiveCard().querySelector('img');
 			const curScaled = curImg.classList.contains('scaled');
@@ -5039,9 +5056,9 @@
 			return SE.dataset.script;
 		}
 		async function ScriptPublish(elThis) {
-			// 20250125: StarTree: Save the data in "Publish" spec that does not include user notes. Show additional messages to inform the user what the button is for.
-
-			if (!await showConfirm("This will save a copy of the data with the scripts without your user notes. Continue?")) return;
+			SPEC("20250125","StarTree","The [Publish] button saves changes to the public script section and exports it to a file without user notes, so that it can be shared as a pack.");
+			saveCardNotes();
+			//if (!await showConfirm("This will save a copy of the data with the scripts without your user notes. Continue?")) return;
 			// Check for unsaved script box
 			const elScript = document.getElementById('card-script');
 			if (elScript.classList.contains('unsaved')) {
@@ -5177,11 +5194,13 @@
 			SE.dataset.scriptBackup = SE.dataset.script;
 			ScriptRun(SE);
 		}
-		async function ScriptStart(SE, bResume, bStop) {
+		async function ScriptStart(elButton, bResume, bStop) {
 			// 20260111: Sasha: Runs the next command in the script
 			// STEP 1: Store the node ID and the Script to the button if they are different from what the button has.
-			if (!SE) { SE = ScriptEngine(); }
+			const SE = ScriptEngine();
 			const stage = Stage();
+			
+			
 			if (stage.classList.contains('suspended')) {
 				if (bResume) {
 					StageSuspend();
@@ -5192,6 +5211,7 @@
 					ScriptEnd();
 					StageQuit(null, true);
 					//					CurtainBlink();	
+					document.querySelector('.card-textarea.infocus').focus();
 					return false;
 				} else {
 					showToast("The stage is already running a script.")
@@ -5208,19 +5228,32 @@
 					// 20260125: StarTree: Prioritize running the side that is selected. 				
 					const elNotes = document.getElementById("card-notes");
 					const elScript = document.getElementById("card-script");
-
+					let elSource = null;
 					if (elNotes.classList.contains('infocus')) {
 						scriptToRun = elNotes.value;
+						elSource = elNotes;
 					} else if (elScript.classList.contains('active')) {
 						scriptToRun = elScript.value;
+						elSource = elScript;
 					} else if (elScript.value.trim() != '') {
 						// If neither is selected, prioritize the official script.
 						scriptToRun = elScript.value;
+						elSource = elScript;
 					} else {
 						scriptToRun = elNotes.value;
+						elSource = elNotes;
 					}
-					SE.dataset.script = scriptToRun;
-					SE.dataset.scriptBackup = scriptToRun;
+					if(elButton){elSource.focus();}
+					SPEC("20260214105600","Natalie","If the user has text selected, start the run at that line.");
+					if(elSource.selectionStart !== elSource.selectionEnd){
+						const startIndex = elSource.value.lastIndexOf('\n', elSource.selectionStart - 1);
+						const lineStart = startIndex === -1 ? 0 : startIndex + 1;
+						SE.dataset.script = "!Stage THIS\n== Airdrop Start ==\n" + elSource.value.slice(lineStart);
+						SE.dataset.scriptBackup = scriptToRun;
+					}else{
+						SE.dataset.script = scriptToRun;
+						SE.dataset.scriptBackup = scriptToRun;
+					}
 					SE.removeAttribute('SE-BubbleSpawning');
 				}
 			}
@@ -5327,6 +5360,9 @@
 				t.style.padding = "";    // Restore original spacing
 				t.style.margin = "";
 			});
+		}
+		function SPEC(dts,name,msg){
+
 		}
 		function SpeechBubbleShow(bShow) {
 			document.getElementById('dialogue-overlay').classList.toggle('active', bShow);
