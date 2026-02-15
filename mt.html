@@ -12,7 +12,7 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 	<link rel="apple-touch-icon" href="/icons/star_192.png">
 	<script>
-		const APP_VERSION = "20260210112000"; //#Version
+		const APP_VERSION = "20260214165700"; //#Version
 		const APP_ANNOUNCEMENT = "20260210: Magic Theater Presents."
 	</script>
 	<style>
@@ -1236,9 +1236,9 @@
 			top: 85px;
 			left: 50%;
 			transform: translateX(-50%);
-			background: rgba(200, 180, 0, 0.5);
+			background: rgba(0, 0, 0, 0.35);
 			backdrop-filter: blur(8px);
-			color: white;
+			color: gold;
 			padding: 10px 20px;
 			border-radius: 20px;
 			font-weight: normal;
@@ -1247,9 +1247,8 @@
 			opacity: 0;
 			transition: opacity 0.3s ease;
 			pointer-events: none;
-			border: 2px solid rgba(255, 255, 255, 0.5);
+			border: 2px solid gold;
 			text-align: center;
-			font-style: italic;
 		}
 
 		#toast.show {
@@ -1697,24 +1696,24 @@
 		}
 
 		.active-preview-container {
-			display: flex;
-			align-items: center;
+			display: inline-flex;
+			/*align-items: center;*/
 			gap: 0px;
 			padding-right: 4px;
 			/*background: rgba(255, 255, 255, 0.05);*/
 			border-radius: 8px;
-			border: 1px solid rgba(255, 255, 255, 0.1);
+			/*border: 1px solid rgba(255, 255, 255, 0.1);*/
 			box-sizing: border-box;
 		}
 
 		#active-preview-thumb {
-			width: 32px;
-			height: 32px;
+			width: 30px;
+			height: 30px;
 			object-fit: contain;
 			border-radius: 4px;
 			/*border: 1px solid #ffd700;*/
 			/* A little gold border to match the star theme */
-			box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);
+			/*box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);*/
 		}
 
 		#active-preview-label {
@@ -1737,7 +1736,7 @@
 			/* Prevent horizontal shifting */
 			box-sizing: border-box;
 			/* CRITICAL: Includes padding in the 30vh calculation */
-			padding-bottom: 10px;
+			padding-bottom: 5px;
 			/* Gives the inputs some breathing room at the bottom */
 		}
 
@@ -1852,8 +1851,8 @@
 			display: flex;
 			flex-wrap: wrap;
 			gap: 4px;
-			padding: 5px 15px;
-			max-height: 25vh;
+			padding: 5px 5px;
+			max-height: 20vh;
 			overflow-y: auto;
 		}
 
@@ -1864,7 +1863,7 @@
 			border: 1px solid var(--border);
 			font-size: 10px;
 			cursor: pointer;
-			border-radius: 4px;
+			border-radius: 10px;
 		}
 
 		.tag-pill.active {
@@ -2622,8 +2621,7 @@
 			font-size: 12px;
 			padding: 2px 0px;
 			height: 24px;
-			width: 32px;
-			margin: 0px -5px;
+			flex:1;
 		}
 
 		.sec-btn.on {
@@ -2675,6 +2673,39 @@
 				drop-shadow(-1px 0px 0 rgba(255, 255, 255, 0.25)) drop-shadow(-1px 2px 0 rgba(0, 0, 0, 0.25)) drop-shadow(1px 0px 0 rgba(255, 255, 255, 0.25)) drop-shadow(1px 2px 0 rgba(0, 0, 0, 0.25));
 			font-size: 24px;
 			cursor: pointer;
+			background-color: darkgreen;
+		}
+
+		.icon-check {
+			display: inline-block;
+			width: 24px;
+			height: 24px;
+			background-color: currentColor;
+			/* Inherits the text color */
+			/* The SVG converted to a Data URI */
+			-webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M5 12L10 19L19 7' stroke='black' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+			mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M5 12L10 19L19 7' stroke='black' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+			-webkit-mask-repeat: no-repeat;
+			mask-repeat: no-repeat;
+			-webkit-mask-size: contain;
+			mask-size: contain;
+		}
+		#card-sec-bar{
+			display:none;
+		}
+		#card-sec-bar.active{
+			display:block;
+		}
+		#command-panel .stats-bar{
+			background: none;
+			border-top:1px solid var(--border);
+			border-bottom: none;
+			padding: 5px;
+		}
+		hide {
+			display: none;
+			
 		}
 
 		/* #CSS END */
@@ -2688,7 +2719,7 @@
 
 
 	<div id="sidebar">
-		<div id="collapsible-collections">
+		<div id="collapsible-collections" style="flex: 1;display:none">
 			<div class="stats-bar">
 				<div class="stats-clickable" onclick="toggleCollections(event)">Collections (<span
 						id="collection-count">0</span>)
@@ -2714,7 +2745,7 @@
 			</div>
 		</div>
 		<div id="collapsible-images" class="sidebar-upper"
-			style="flex: 1; display: flex; flex-direction: column; overflow: hidden; background: rgba(0,0,0,0.2);">
+			style="flex: 2; display: flex; flex-direction: column; overflow: hidden; background: rgba(0,0,0,0.2);">
 			<div class="stats-bar">
 				<div class="stats-clickable" onclick="toggleImages(event)">Images (<span id="img-count">0</span>)</div>
 				<div id="grid-slider-container">
@@ -2731,21 +2762,15 @@
 			</div>
 			<div id="file-list" class="file-list"></div>
 		</div>
-		<div id="collapsible-tags" class="sidebar-upper">
-			<div id="tag-cloud" class="tag-cloud"></div>
-			<div class="stats-bar tags-bar">
-				<span class="stats-clickable" onclick="toggleTagCloud(event)">Tags (<span id="tag-count">0</span>)</span>
-				<input type="text" id="master-search" class="unified-width" style="width:100px; text-align:center"
-					placeholder="SEARCH..." oninput="refreshAllUI()">
-				<button class="inline-toggle" id="tag-sort-btn" onclick="toggleTagSort()">A-Z</button>
-			</div>
+		<div id="collapsible-tags" class="sidebar-upper" style="flex: 1">
+			
 
 
 
 		</div>
 
 		<div class="header-bar">
-			<div id="button-palette" style="display:block;"><!--@@Stage-->
+			<div id="button-palette" style="display:none;"><!--@@Stage-->
 				<div class="button-grid">
 					<!--Star Button-->
 					<button class="sq-btn dimmer star-btn" onclick="togglePinActiveCard(event)" title="Star Active Card">
@@ -2798,7 +2823,8 @@
 
 
 					<button class="sq-btn dimmer"></button>
-					<button class="sq-btn dimmer" onclick="createCard()" title="Random Draw">
+					<button class="sq-btn dimmer"></button>
+					<!--<button class="sq-btn dimmer" onclick="createCard()" title="Random Draw">
 						<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M12 3L19 7L12 11L5 7L12 3Z" fill="currentColor" fill-opacity="0.3" stroke="currentColor"
 								stroke-width="1.5" stroke-linejoin="round" />
@@ -2812,7 +2838,7 @@
 							<circle cx="15.5" cy="13" r="1" fill="currentColor" />
 							<circle cx="17" cy="11" r="1" fill="currentColor" />
 						</svg>
-					</button>
+					</button>-->
 
 					<!--Auto Flush Mode Button ↻-->
 					<button id="auto-flush-btn" class="sq-btn action-btn auto-flush-btn" onclick="toggleAutoFlush(event)">
@@ -2852,7 +2878,7 @@
 						</svg>
 					</button>
 					<!--Set Wallpaper Button-->
-					<button class="sq-btn dimmer" onclick="setCenteredAsWallpaper(event)" title="Set Active Card as Wallpaper">
+					<!--<button class="sq-btn dimmer" onclick="setCenteredAsWallpaper(event)" title="Set Active Card as Wallpaper">
 						<svg viewBox="0 0 100 100" class="icon-svg">
 
 							<rect x="15" y="20" width="70" height="60" rx="5" fill="none" stroke="currentColor" stroke-width="6" />
@@ -2860,8 +2886,9 @@
 								fill="none" stroke-linejoin="round" />
 							<circle cx="65" cy="40" r="6" fill="currentColor" />
 						</svg>
-						<!--<div class="css-wall"></div>-->
-					</button>
+						
+					</button>-->
+					<button class="sq-btn dimmer"></button>
 					<!--Remove Mode Button-->
 					<button id="remove-mode-btn" class="sq-btn action-btn removal-mode-btn" onclick="toggleRemovalMode(this)"
 						ondblclick="clearWorkspace(event)" title="Toggle Removal Mode">
@@ -2934,88 +2961,8 @@
 	</div>
 	<div id="command-panel">
 		<!--Float Right Elements-->
-		<button class="tool-btn settings-close" onclick="toggleCommandPanel(event)" style="float:right">×</button>
-		<a class="tool-btn" target="_blank" title="Log Bugs" style="float: right;height:24px;width:24px;margin-right:5px"
-			href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">
-			<svg viewBox="-3 -3 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-				stroke-linejoin="round">
-				<path d="M4 4h16c1.1 0 2 0.9 2 2v12c0 1.1-0.9 2-2 2H4c-1.1 0-2-0.9-2-2V6c0-1.1 0.9-2 2-2z"></path>
-				<polyline points="22,6 12,13 2,6"></polyline>
-			</svg>
-		</a>
-		<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" class="tool-btn bakery-link"
-			style="float: right;height:24px;width:24px;margin-right:5px" title="Visit Homepage">
-			<svg viewBox="-3 -3 30 30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-				stroke-linejoin="round">
-				<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-				<polyline points="9 22 9 12 15 12 15 22"></polyline>
-			</svg>
-		</a>
+		
 
-		<div class="panel-tabs">
-			<div class="active-preview-container">
-				<img id="active-preview-thumb" class="save-notes-btn" src="" referrerpolicy="no-referrer" alt=""
-					style="display: none;" onclick="saveCardNotes(event)" title="Save changes to this card">
-				<button class="tab-btn" onclick="toggleTab(event,'tab-card-notes')" title="Details">
-					<svg width="24" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
-						stroke-linecap="round">
-						<line x1="3" y1="6" x2="21" y2="6"></line>
-						<line x1="3" y1="12" x2="15" y2="12"></line>
-						<line x1="3" y1="18" x2="11" y2="18"></line>
-					</svg>
-				</button>
-				<button class="tab-btn daily-quest-reg-btn" onclick="DailyQuestReg()" title="Daily Quest">
-					<svg width="24" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"
-						stroke-linecap="round">
-						<circle cx="10" cy="10" r="3.5" fill="currentColor"></circle>
-						<g fill="currentColor" stroke="currentColor">
-							<polygon points="10,3 8,6 12,6" />
-							<polygon points="10,3 8,6 12,6" transform="rotate(45 10 10)" />
-							<polygon points="10,3 8,6 12,6" transform="rotate(90 10 10)" />
-							<polygon points="10,3 8,6 12,6" transform="rotate(135 10 10)" />
-							<polygon points="10,3 8,6 12,6" transform="rotate(180 10 10)" />
-							<polygon points="10,3 8,6 12,6" transform="rotate(225 10 10)" />
-							<polygon points="10,3 8,6 12,6" transform="rotate(270 10 10)" />
-							<polygon points="10,3 8,6 12,6" transform="rotate(315 10 10)" />
-						</g>
-					</svg>
-				</button>
-				<!--<button class="tab-btn save-notes-btn" onclick="saveCardNotes(event)" title="Save">
-					<svg viewBox="0 0 100 100" style="width:16px; height:16px;">
-					<path d="M20,15 H70 L85,30 V85 H20 Z" fill="none" stroke="currentColor" stroke-width="6" />
-
-					<rect x="35" y="15" width="30" height="25" fill="none" stroke="currentColor" stroke-width="4" />
-
-					<rect x="30" y="55" width="40" height="30" fill="none" stroke="currentColor" stroke-width="4" />
-					<rect x="55" y="60" width="10" height="20" fill="currentColor" />
-				</svg>
-				</button>-->
-			</div>
-			<!--<button class="tab-btn" onclick="toggleTab(event,'tab-card-tags')">Tags</button>-->
-			<button class="tab-btn" onclick="toggleTab(event,'tab-controls')" title="Controls">
-				<svg width="24" height="18" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
-					style="transform: scale(1.4);">
-					<path d="M12 9.5L9 6.5V3H15V6.5L12 9.5Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" />
-					<path d="M12 14.5L15 17.5V21H9V17.5L12 14.5Z" stroke="currentColor" stroke-width="1"
-						stroke-linejoin="round" />
-					<path d="M9.5 12L6.5 15H3V9H6.5L9.5 12Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" />
-					<path d="M14.5 12L17.5 9H21V15H17.5L14.5 12Z" stroke="currentColor" stroke-width="1"
-						stroke-linejoin="round" />
-				</svg>
-			</button>
-			<button class="tab-btn" onclick="toggleTab(event,'tab-dev-notes')">
-				<svg width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-					stroke-linecap="round" stroke-linejoin="round" style="transform: scale(1.1);">
-					<path d="M12 3v3m0 12v3M5.3 5.3l2.1 2.1m9.2 9.2l2.1 2.1M3 12h3m12 0h3m-15.7 6.7l2.1-2.1m9.2-9.2l2.1-2.1"
-						opacity="0.5" />
-					<path d="M12 8l-1 4-4 1 4 1 1 4 1-4 4-1-4-1-1-4z" />
-				</svg>
-			</button>
-
-
-
-
-		</div>
 		<div class="tabs-contents">
 
 			<div id="tab-card-notes" class="tab-content" style="display:none"
@@ -3097,8 +3044,7 @@
 					</div>
 				</div>
 				<div id="card-sec-bar" style="text-align:center;margin-top:5px;cursor:pointer" title="Display Selection">
-					&nbsp;
-					<div id="card-sec-btns">
+					<div id="card-sec-btns" style="display:flex;text-align:center">
 						<button class="sec-btn on" onclick="ToggleByID(this,'card-tag-section')" title="Card Tags (t)">#</button>
 						<button class="sec-btn on" onclick="ToggleByID(this,'card-title')" title="Card Title (n)">n</button>
 						<button class="sec-btn on" onclick="ToggleByID(this,'card-id')" title="Card ID (p)">id</button>
@@ -3108,17 +3054,22 @@
 							title="Card Sprite Parameters (s, x, y)">s</button>
 						<button class="sec-btn on" onclick="ToggleByID(this,'card-notes')" title="Card Notes (o)">o</button>
 						<button class="sec-btn on" onclick="ToggleByID(this,'card-script')" title="Card Script (c)">c</button>
-					</div>
-
-					&nbsp;
+					</div>					
 				</div>
 
 				<!--<div onclick="toggleNodeDetails(this)" style="text-align: center;width:100%;height:40px;color:grey">▽</div>-->
 
 
 			</div>
-			<div id="tab-card-tags" class="tab-content" style="display:none">
-
+			<div id="tab-tag-cloud" class="tab-content" style="display:none">
+				<div id="tag-cloud" class="tag-cloud"></div>
+				<div class="stats-bar tags-bar">
+					<span class="stats-clickable">Tags (<span id="tag-count">0</span>)</span>
+					<input type="text" id="master-search" class="unified-width" style="width:100px; text-align:center"
+						placeholder="SEARCH..." oninput="refreshAllUI()">
+					<button class="inline-toggle" id="tag-sort-btn" onclick="toggleTagSort()">A-Z</button>
+				</div>
+				
 			</div>
 			<div id="tab-controls" class="tab-content">
 
@@ -3174,6 +3125,15 @@
 								<path d="M20,20 L80,80 M80,20 L20,80" fill="none" stroke="currentColor" stroke-width="8" />
 							</svg>
 						</button>
+						<!--Daily Quest Button-->
+						<!--<button class="tool-btn half" onclick="DailyQuestReg()" title="Mark for Daily Quest">
+							<svg width="48" height="36" viewBox="1 1 18 18" fill="none" stroke="currentColor" stroke-width="1.5"
+								stroke-linecap="round">
+								<path
+									d="M10 3L11.41 6.46L14.95 5.05L14 8L17 10L14 12L14.95 14.95L11.41 13.54L10 17L8.59 13.54L5.05 14.95L6 12L3 10L6 8L5.05 5.05L8.59 6.46Z"
+									fill="currentColor" />
+							</svg>
+						</button>-->
 						<button class="tool-btn half" title="Create a blank card" onClick="createCard(null,true)">C+</button>
 						<button class="tool-btn half" title="Toggle Speech Bubble" onClick="SpeechBubbleShow()">SB</button>
 						<button class="tool-btn half" title="Focus on this Track" onClick="TrackFocus(this)">TF</button>
@@ -3307,7 +3267,7 @@
 
 
 			</div>
-			<div id="tab-dev-notes" style="display:none;padding-bottom:40px">
+			<div id="tab-dev-notes" style="display:none;">
 				<div style="display:flex; gap:5px; align-items:center;">
 					<a id="add-btn" href="#" target="_blank" class="sq-btn action-btn" onclick="handleLinkAction(event)">+</a>
 					<input type="text" id="add-url-input" class="unified-width" placeholder="URL for + button..."
@@ -3322,6 +3282,54 @@
 
 			</div>
 
+		</div>
+		<div class="search-container" style="display:flex;text-align:center;margin:0 40px">
+			<div style="flex:1;text-align: right;">
+				<div class="active-preview-container">
+					<img id="active-preview-thumb" class="save-notes-btn" src="" referrerpolicy="no-referrer" alt=""
+						style="display: none;" onclick="saveCardNotes(event)" title="Save changes to this card">
+					<button class="tab-btn" onclick="toggleTab(event,'tab-card-notes')" title="Details">
+						<svg width="24" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
+							stroke-linecap="round">
+							<line x1="3" y1="6" x2="21" y2="6"></line>
+							<line x1="3" y1="12" x2="15" y2="12"></line>
+							<line x1="3" y1="18" x2="11" y2="18"></line>
+						</svg>
+					</button>
+				</div>
+
+			</div>
+			<input list="dropdown-options" id="dropdown" placeholder="" oninput="Dropdown(event,this)"
+				onkeydown="Dropdown(event,this)" style="width:108px;margin:0 5px">
+			<datalist id="dropdown-options">
+				<option value="📂 Asset List">Show/hide the list/grid of assets (images, files, etc...)</option>
+				<option value="🎮 Button Panel">Show the button panel</option>
+				<option value="🪪 Card Fields">Toggle visibility of card fields</option>
+				<option value="❌ Close Panel">Close this panel. (Click somewhere to bring this back up.)</option>
+				<option value="🗃️ Collections">Show/hide the collections section</option>
+				<option value="☀️ Daily Quest">Mark the active card for daily quest</option>
+				<option value="📝 Development Notes">Notepad not associated to a card</option>
+				<option value="🎩 Magic Theater">Visit Magic Theater webpage</option>
+				<option value="🎲 Random Card">Add a random card to backstage</option>
+				<option value="✉️ Send Message">Send feedback, give suggestion, or log bugs</option>
+				<option value="🐣 Starter Pack">Reload the default content</option>
+				<option value="🏷️ Tag Cloud">Show/hide the tag cloud</option>
+				<option value="🖼️ Wallpaper">Set the active card image as the wallpaper of the app</option>
+
+			</datalist>
+			<div style="flex:1;text-align: left;">
+				<button class="tab-btn" onclick="toggleTab(event,'tab-controls')" title="Controls">
+					<svg width="24" height="18" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+						style="transform: scale(1.4);">
+						<path d="M12 9.5L9 6.5V3H15V6.5L12 9.5Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" />
+						<path d="M12 14.5L15 17.5V21H9V17.5L12 14.5Z" stroke="currentColor" stroke-width="1"
+							stroke-linejoin="round" />
+						<path d="M9.5 12L6.5 15H3V9H6.5L9.5 12Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" />
+						<path d="M14.5 12L17.5 9H21V15H17.5L14.5 12Z" stroke="currentColor" stroke-width="1"
+							stroke-linejoin="round" />
+					</svg>
+				</button>				
+			</div>
 		</div>
 	</div>
 	<div id="stage-area" class="stage-area">
@@ -3854,7 +3862,7 @@
 				}
 				iconDTS = Number(daily.dataset.dts.slice(0, 8));
 				if (now - iconDTS < 1) { return; }
-				if (daily.innerText === "✅") {
+				if (daily.innerText === `<span class="icon-check" style="color: green;"></span>`) {
 					daily.innerText = "☀️";
 				}
 			});
@@ -3988,6 +3996,62 @@
 			// Show Toast if the callierLine contains "file:///"
 			if (callerLine.indexOf('file:///') > -1) {
 				showToast(`[${callerLine}] ${msg}`);
+			}
+		}
+		function Dropdown(e, el) {
+			let onEnter = (e.key === 'Enter' || e.keyCode === 13);
+			let choice = el.value;
+
+			if (onEnter) {
+
+				e.stopPropagation();
+				e.preventDefault();
+				processScriptLine(choice);
+				return;
+			}
+			let hit = false;
+			if (choice.startsWith("📂")) { // Asset List
+				toggleImages(e); hit = true;	
+			}else if (choice.startsWith("🎮")) { // Card Fields
+				toggleTab(e, 'tab-controls'); 		hit = true;
+			}else if (choice.startsWith("🪪")) { // Card Fields
+				ToggleByID(null,'card-sec-bar'); hit=true;
+			}else if (choice.startsWith("❌")) { // Close Panel
+				toggleCommandPanel(e); hit = true;
+			}else if (choice.startsWith("🗃️")) { // Collections
+				toggleCollections(e); hit = true;	
+			}else if (choice.startsWith("☀️")) { // Daily Quest
+				DailyQuestReg(); hit = true;
+			} else if (choice.startsWith("📝")) { // Development Notes
+				toggleTab(e, 'tab-dev-notes'); 		hit = true;
+			} else if (choice.startsWith("🎩")) { // Magic Theater
+				window.open('https://magicbakery.github.io/?id=P202512210026', '_blank');
+				hit = true;
+			} else if (choice.startsWith("🎲")) { // Random Card
+				createCard(); 				hit = true;
+			} else if (choice.startsWith("✉️")) { // Send Message
+				window.open('https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform', '_blank');
+				hit = true;
+			} else if (choice.startsWith("🐣")) { // Starter Pack
+				importFromURL("https://magicbakery.github.io/starterpack.json");
+				hit = true;
+			} else if (choice.startsWith("🏷️")) { // Tag Cloud
+				toggleTab(e, 'tab-tag-cloud'); 	hit = true;
+				//toggleTagCloud(e); 	
+			} else if (choice.startsWith("🖼️")) { // Wallpaper
+				setCenteredAsWallpaper(null); 	hit = true;
+			}
+
+			if (hit) {
+				el.value = "";
+				// Move the option to the bottom of the list #dropdown-options
+				const datalist = document.getElementById('dropdown-options');
+				const selectedOption = Array.from(datalist.options).find(opt =>
+					opt.value.startsWith(choice)
+				);
+				datalist.appendChild(selectedOption);
+				el.blur();
+				setTimeout(() => el.focus(), 10);
 			}
 		}
 		function DTS() {
@@ -4258,7 +4322,7 @@
 			e.stopPropagation();
 			SPEC("20260214151000", "LRRH", "If the icon is already the checkmark, change it to a random weather icon.");
 			if (daily.innerText !== "✅") {
-				daily.innerText = "✅";
+				daily.innerHTML = `✅`;
 				daily.dataset.dts = DTS();
 			} else {
 				daily.innerHTML = RandomWeather();
@@ -4596,7 +4660,7 @@
 		function isHidden(elID) {
 			const el = document.getElementById(elID);
 			if (!el) return true;
-			return !el.checkVisibility();
+			return !el.checkVisibility() || el.style.display==="none";
 		}
 		function isMobile() {
 			const isSmallScreen = (window.innerWidth <= 768 || window.innerHeight <= 768);
@@ -4925,27 +4989,7 @@
 		}
 		function RandomWeather() {
 			SPEC("20260214143500", "Evelyn", "Returns a random weather emoji.");
-			const weathers = [
-				"&#x1F308;",
-				"&#x1F320;",
-				"&#x2600;&#xFE0F;",
-				"&#x1F324;&#xFE0F;",
-				"&#x26C5;",
-				"&#x1F325;&#xFE0F;",
-				"&#x2601;&#xFE0F;",
-				"&#x1F32B;&#xFE0F;",
-				"&#x1F326;&#xFE0F;",
-				"&#x1F4A7;",
-				"&#x1F327;&#xFE0F;",
-				"&#x26C8;&#xFE0F;",
-				"&#x1F329;&#xFE0F;",
-				"&#x1F32A;&#xFE0F;",
-				"&#x1F4A8;",
-				"&#x1F343;",
-				"&#x1F328;&#xFE0F;",
-				"&#x2744;&#xFE0F;",
-				"&#x1F9CA;"
-			];
+			const weathers = ["🌈", "🌠", "☀️", "🌤️", "⛅", "🌥️", "☁️", "🌫️", "🌦️", "💧", "🌧️", "⛈️", "🌩️", "🌪️", "💨", "🍃", "🌨️", "❄️", "🧊"];
 
 
 			return weathers[Math.floor(Math.random() * weathers.length)];
@@ -5797,11 +5841,11 @@
 			document.addEventListener('click', async (e) => {
 				if (await fairyRemovalCheck(e)) { return; }
 				if (await fairyBubblePopping(e)) { return; }
-				if (!e.target.closest('.sec-btn') && e.target.closest('#card-sec-bar')) {
+				/*if (!e.target.closest('.sec-btn') && e.target.closest('#card-sec-bar')) {
 					e.stopPropagation();
 					ToggleByID(null, 'card-sec-btns');
 					return;
-				}
+				}*/
 				if (await fairyBlessCheck(e)) { return; }
 				if (await fairyStatusCheck(e)) { return; }
 				if (await fairyActiveCardCheck(e)) { return; }
@@ -6394,9 +6438,9 @@
 			}
 		}
 		function setCenteredAsWallpaper(e) {
-			e.stopPropagation();
+			if (e) { e.stopPropagation(); }
 			const body = document.body;
-			const activeCard = document.querySelector('.card.is-active img');
+			const activeCard = document.querySelector('#active-preview-thumb');
 			if (!activeCard) {
 				body.style.backgroundImage = 'none';
 				localStorage.removeItem('gallery_wallpaper'); // Remove from storage
@@ -6726,8 +6770,7 @@
 			if (isHidden('command-panel')) {
 				panel.style.display = 'block';
 
-			} else {
-
+			}else{
 				setTimeout(() => {
 					// Double check it's still supposed to be hidden 
 					// (in case the user clicked 'open' again quickly)
@@ -7379,6 +7422,8 @@
 			return `${year}${month}${day}${hour}${min}${sec}`;
 		}
 		function getActiveCard() {
+			const panelCard = document.querySelector('#active-preview-thumb');
+			if(panelCard.style.display==="none"){return false;}
 			const card = document.querySelector(".card.is-active");
 			if (!card) { return null; }
 			return card;
@@ -7683,6 +7728,10 @@
 				toggleSidebar(isCollapsed);
 			}
 		}
+		function SidebarVisible(){
+			const bodyWrap = document.getElementById('body-wrap');
+			return !bodyWrap.classList.contains('collapsed');
+		}
 		function toggleSidebar(show) {
 			const splash = document.getElementById('splash-screen');
 
@@ -7798,12 +7847,13 @@
 		function toggleSidebarUpper(e, aID) {
 			e.stopPropagation();
 			const c = document.getElementById(aID);
-			if (c.checkVisibility()) {
+			if (c.style.display!=='none' && SidebarVisible()) {
 				c.style.display = "none";
 				c.classList.remove("sidebar-upper");
 			} else {
 				c.style.display = "flex";
 				c.classList.add("sidebar-upper");
+				toggleSidebar(true);
 			}
 		}
 
@@ -7813,12 +7863,13 @@
 		function toggleTagCloud(e) {
 			e.stopPropagation();
 			const c = document.getElementById('collapsible-tags');
-			if (c.checkVisibility()) {
+			if (c.checkVisibility() && SidebarVisible()) {
 				c.style.display = "none";
 				c.classList.remove("sidebar-upper");
 			} else {
 				c.style.display = "block";
 				c.classList.add("sidebar-upper");
+				toggleSidebar(true);
 			}
 		}
 		function cycleViewMode() {
