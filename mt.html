@@ -1700,10 +1700,11 @@
 			display: flex;
 			align-items: center;
 			gap: 0px;
-			padding: 0px;
+			padding-right: 4px;
 			/*background: rgba(255, 255, 255, 0.05);*/
 			border-radius: 8px;
 			border: 1px solid rgba(255, 255, 255, 0.1);
+			box-sizing: border-box;
 		}
 
 		#active-preview-thumb {
@@ -2638,24 +2639,43 @@
 			border: white solid 0px;
 			border-radius: 20px;
 		}
-		
-		.script-run-btn{
+
+		.script-run-btn {
 			background-color: rgba(0, 128, 0, 0.75);
-			color:white;
-			width:30px;			
-		}
-		body:has(#stage-area.suspended) .script-run-btn{
-			display:none;
-		}
-		.script-stop-btn{
-			background-color: rgba(128, 0, 0, 0.75);
-			color:white;
-			width:30px;
-		}
-		body:not(:has(#stage-area.suspended)) .script-stop-btn{
-			display:none;
+			color: white;
+			width: 30px;
 		}
 
+		body:has(#stage-area.suspended) .script-run-btn {
+			display: none;
+		}
+
+		.script-stop-btn {
+			background-color: rgba(128, 0, 0, 0.75);
+			color: white;
+			width: 30px;
+		}
+
+		body:not(:has(#stage-area.suspended)) .script-stop-btn {
+			display: none;
+		}
+
+		.status-icons {
+			position: absolute;
+			top: 0;
+			/* Offset from bottom */
+			right: 0;
+			/*transform: translateX(-50%);*/
+			display: flex;
+			gap: 4px;
+		}
+
+		.daily-status-icon {
+			filter:
+				drop-shadow(-1px 0px 0 rgba(255, 255, 255, 0.25)) drop-shadow(-1px 2px 0 rgba(0, 0, 0, 0.25)) drop-shadow(1px 0px 0 rgba(255, 255, 255, 0.25)) drop-shadow(1px 2px 0 rgba(0, 0, 0, 0.25));
+			font-size: 24px;
+			cursor: pointer;
+		}
 
 		/* #CSS END */
 	</style>
@@ -2944,6 +2964,22 @@
 						<line x1="3" y1="18" x2="11" y2="18"></line>
 					</svg>
 				</button>
+				<button class="tab-btn daily-quest-reg-btn" onclick="DailyQuestReg()" title="Daily Quest">
+					<svg width="24" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"
+						stroke-linecap="round">
+						<circle cx="10" cy="10" r="3.5" fill="currentColor"></circle>
+						<g fill="currentColor" stroke="currentColor">
+							<polygon points="10,3 8,6 12,6" />
+							<polygon points="10,3 8,6 12,6" transform="rotate(45 10 10)" />
+							<polygon points="10,3 8,6 12,6" transform="rotate(90 10 10)" />
+							<polygon points="10,3 8,6 12,6" transform="rotate(135 10 10)" />
+							<polygon points="10,3 8,6 12,6" transform="rotate(180 10 10)" />
+							<polygon points="10,3 8,6 12,6" transform="rotate(225 10 10)" />
+							<polygon points="10,3 8,6 12,6" transform="rotate(270 10 10)" />
+							<polygon points="10,3 8,6 12,6" transform="rotate(315 10 10)" />
+						</g>
+					</svg>
+				</button>
 				<!--<button class="tab-btn save-notes-btn" onclick="saveCardNotes(event)" title="Save">
 					<svg viewBox="0 0 100 100" style="width:16px; height:16px;">
 					<path d="M20,15 H70 L85,30 V85 H20 Z" fill="none" stroke="currentColor" stroke-width="6" />
@@ -3033,12 +3069,12 @@
 								<polygon points="-2,6 8,13 -2,20" fill="currentColor" />
 							</svg>
 						</button>
-							<button class="notes-btn script-stop-btn" onclick="ScriptStart(this,false,true)"title="Stop Script">
-								<svg width="24" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-									style="transform: scale(1.5)">
-									<rect x="-2" y="6" width="15" height="15" rx="1" fill="currentColor" />
-								</svg>
-							</button>
+						<button class="notes-btn script-stop-btn" onclick="ScriptStart(this,false,true)" title="Stop Script">
+							<svg width="24" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+								style="transform: scale(1.5)">
+								<rect x="-2" y="6" width="15" height="15" rx="1" fill="currentColor" />
+							</svg>
+						</button>
 					</div>
 					<div style="margin-left:5px">
 						<button class="notes-btn" onclick="NoteLineSwap(true)" title="Move line up">
@@ -3122,6 +3158,7 @@
 								<polygon points="30,88 12,72 32,60" fill="currentColor" />
 							</svg>
 						</button>
+
 						<!--Star Button-->
 						<button class="tool-btn half star-btn" onclick="togglePinActiveCard(event)" title="Star Active Card">
 							<svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor" stroke="currentColor" stroke-width="2"
@@ -3576,8 +3613,8 @@
 			// 20260214: Natalie: The actor's name could be delimited by a space of a colon.
 			const match1 = command.leftOf(' ').trim();
 			const match2 = command.leftOf(':').trim();
-			let actorName = match1.length > match2.length? match2 : match1;
-									
+			let actorName = match1.length > match2.length ? match2 : match1;
+
 			let rest = command.rightOf(actorName).trim();
 
 			if (!actorName) { DEBUG("Actor is missing in: @" + command); }
@@ -3645,6 +3682,11 @@
 			}
 			//await ActorBlink(actor, 0);
 			return processScriptLine(rest);
+		}
+		function Backstage() {
+			SPEC("20260214", "Skyle", "This is true when the view is backstage.");
+			const stage = Stage();
+			return !stage.classList.contains('active') || stage.classList.contains('suspended');
 		}
 		function ChoiceAdd(choice) {
 			// 20260118: StarTree: Adds a choice to the multitrack DOM so that it is easy to debug, save and load.
@@ -3801,6 +3843,56 @@
 			ScriptEngine().setAttribute('SE-BubbleSpawning', '');
 			return choiceEntry;
 		}
+		function DailyQuestCheck() {
+			SPEC("20260214152700", "Skyle", "Reset all the checked daily quest icons.");
+			const now = Number(DTS().slice(0, 8));
+			let iconDTS = "";
+			document.querySelectorAll(".daily-status-icon").forEach(daily => {
+				if (!daily.dataset.dts) {
+					if (daily.innerText !== "✅") { return; }
+					daily.innerHTML = RandomWeather();
+				}
+				iconDTS = Number(daily.dataset.dts.slice(0, 8));
+				if (now - iconDTS < 1) { return; }
+				if (daily.innerText === "✅") {
+					daily.innerText = "☀️";
+				}
+			});
+		}
+		function DailyQuestReg() {
+			SPEC("20260214125500", "Natalie", "The Daily Quest Sun button toggles and shows whether the active card is set for daily quest.");
+			const card = getActiveCard();
+			if (!card) { showToast("Please choose a card first."); return; }
+			const isDaily = card.classList.toggle('daily');
+			// If the card does not have a div with class 'status-icons', add a div with that class anchored to the bottom center of the card.
+			let statusIcons = card.querySelector('.status-icons');
+			if (!statusIcons) {
+				statusIcons = document.createElement('div');
+				statusIcons.className = 'status-icons';
+				// Note: CSS should handle the 'bottom center' anchoring via absolute positioning
+				card.appendChild(statusIcons);
+			}
+			// Then add an icon button in the status-icons div.
+			let sunBtn = statusIcons.querySelector('.daily-status-icon');
+			if (isDaily) {
+				// If it's a daily quest and the icon doesn't exist, create it
+				if (!sunBtn) {
+					sunBtn = document.createElement('button');
+					sunBtn.className = 'daily-status-icon';
+					sunBtn.style.background = 'none';
+					sunBtn.style.border = 'none';
+					sunBtn.style.padding = '0';
+					sunBtn.innerHTML = RandomWeather();
+					statusIcons.appendChild(sunBtn);
+				}
+			} else {
+				// If it's no longer a daily quest, remove the icon
+				if (sunBtn) {
+					sunBtn.remove();
+				}
+			}
+			memDOM();
+		}
 		function DATABestMatch(requiredTags, optionalTags) {
 			// 20260125: Sasha: Returns the best match in an array of items, where item.t has an array of tags in upper case.
 			// Scoring: The candidate must have the required tags given in an array to have a score of 0. Then for each optional tag it has, add 1 point.
@@ -3881,7 +3973,7 @@
 			});
 
 			// 20260127: StarTree: Format some of the text to avoid allowing full html.
-			SPEC("20260214112800","Natalie","In the script, // is interpreted as newline unless it starts with a colon or ends with a space.");
+			SPEC("20260214112800", "Natalie", "In the script, // is interpreted as newline unless it starts with a colon or ends with a space.");
 			text = text.replace(/(?<!:)\/\//g, "\n");
 
 			return text;
@@ -4159,6 +4251,22 @@
 			}
 			return false;
 		}
+		async function fairyStatusCheck(e) {
+			SPEC("20260214150700", "LRRH", "Change the icon to a checkmark and log the time for daily quest.");
+			const daily = e.target.closest(".daily-status-icon");
+			if (!daily) { return false; }
+			e.stopPropagation();
+			SPEC("20260214151000", "LRRH", "If the icon is already the checkmark, change it to a random weather icon.");
+			if (daily.innerText !== "✅") {
+				daily.innerText = "✅";
+				daily.dataset.dts = DTS();
+			} else {
+				daily.innerHTML = RandomWeather();
+			}
+			memDOM();
+			return true;
+
+		}
 		function FilterDraw() {
 			// 20260119: StarTree: Returns a DATA entry from the current filtered list.
 			const choices = document.querySelectorAll(".file-item:not(.active-item)");
@@ -4307,7 +4415,7 @@
 			return H - groundY;
 
 		}
-		
+
 		function ImageFlip(img, xOffset, faceLeft) {
 			const curImg = getActiveCard().querySelector('img');
 			const curScaled = curImg.classList.contains('scaled');
@@ -4526,6 +4634,7 @@
 				memDOM(isLoad, "multitrack");
 				return;
 			}
+			DailyQuestCheck();
 			const mSection = document.getElementById(aID);
 			if (isLoad) {
 				const mSavedHTML = localStorage.getItem(aID + '_snapshot');
@@ -4814,6 +4923,33 @@
 			refreshAllUI(); // Trigger the UI update
 			return true;
 		}
+		function RandomWeather() {
+			SPEC("20260214143500", "Evelyn", "Returns a random weather emoji.");
+			const weathers = [
+				"&#x1F308;",
+				"&#x1F320;",
+				"&#x2600;&#xFE0F;",
+				"&#x1F324;&#xFE0F;",
+				"&#x26C5;",
+				"&#x1F325;&#xFE0F;",
+				"&#x2601;&#xFE0F;",
+				"&#x1F32B;&#xFE0F;",
+				"&#x1F326;&#xFE0F;",
+				"&#x1F4A7;",
+				"&#x1F327;&#xFE0F;",
+				"&#x26C8;&#xFE0F;",
+				"&#x1F329;&#xFE0F;",
+				"&#x1F32A;&#xFE0F;",
+				"&#x1F4A8;",
+				"&#x1F343;",
+				"&#x1F328;&#xFE0F;",
+				"&#x2744;&#xFE0F;",
+				"&#x1F9CA;"
+			];
+
+
+			return weathers[Math.floor(Math.random() * weathers.length)];
+		}
 		function registerAsset(key, source) {
 			if (assetLibrary[key]) return; // Key already exists
 
@@ -5056,7 +5192,7 @@
 			return SE.dataset.script;
 		}
 		async function ScriptPublish(elThis) {
-			SPEC("20250125","StarTree","The [Publish] button saves changes to the public script section and exports it to a file without user notes, so that it can be shared as a pack.");
+			SPEC("20250125", "StarTree", "The [Publish] button saves changes to the public script section and exports it to a file without user notes, so that it can be shared as a pack.");
 			saveCardNotes();
 			//if (!await showConfirm("This will save a copy of the data with the scripts without your user notes. Continue?")) return;
 			// Check for unsaved script box
@@ -5199,8 +5335,8 @@
 			// STEP 1: Store the node ID and the Script to the button if they are different from what the button has.
 			const SE = ScriptEngine();
 			const stage = Stage();
-			
-			
+
+
 			if (stage.classList.contains('suspended')) {
 				if (bResume) {
 					StageSuspend();
@@ -5243,14 +5379,14 @@
 						scriptToRun = elNotes.value;
 						elSource = elNotes;
 					}
-					if(elButton){elSource.focus();}
-					SPEC("20260214105600","Natalie","If the user has text selected, start the run at that line.");
-					if(elSource.selectionStart !== elSource.selectionEnd){
+					if (elButton) { elSource.focus(); }
+					SPEC("20260214105600", "Natalie", "If the user has text selected, start the run at that line.");
+					if (elSource.selectionStart !== elSource.selectionEnd) {
 						const startIndex = elSource.value.lastIndexOf('\n', elSource.selectionStart - 1);
 						const lineStart = startIndex === -1 ? 0 : startIndex + 1;
 						SE.dataset.script = "!Stage THIS\n== Airdrop Start ==\n" + elSource.value.slice(lineStart);
 						SE.dataset.scriptBackup = scriptToRun;
-					}else{
+					} else {
 						SE.dataset.script = scriptToRun;
 						SE.dataset.scriptBackup = scriptToRun;
 					}
@@ -5361,7 +5497,7 @@
 				t.style.margin = "";
 			});
 		}
-		function SPEC(dts,name,msg){
+		function SPEC(dts, name, msg) {
 
 		}
 		function SpeechBubbleShow(bShow) {
@@ -5427,7 +5563,7 @@
 			const naturalW = sprite.naturalWidth;
 			const naturalH = sprite.naturalHeight;
 
-			if (StageLive() || !shouldGround || !shouldScale) {
+			if (!Backstage() || !shouldGround || !shouldScale) {
 				if (card) {
 					card.style.height = "100%";
 					card.style.marginTop = "0%";
@@ -5449,7 +5585,7 @@
 			const autoScale = frameH / naturalH; // This is the scale ALREADY applied.
 			// The 0.7 is an adjustable parameter for how many meter is shown per frameH.
 			// targetScale = (0.7screen/meter)*(pixel/screen)*(meter/pixels)
-			const screenScale = StageLive() ? 0.7 : 0.5;
+			const screenScale = !Backstage() ? 0.7 : 0.5;
 			const targetScale = screenScale * frameH / parseFloat(sprite.dataset.s);
 			const finalScale = shouldScale ? (targetScale / autoScale) : 1;
 
@@ -5487,7 +5623,7 @@
 				// The math is scaledYOffset = dataY * finalScale * autoScale = dataY * targetScale.		
 				const scaledYOffset = dataY * targetScale;
 
-				if (!StageLive()) {
+				if (Backstage()) {
 					// If showing in backstage, use the bottom edge of the track as the ground line.
 					finalY = scaleShift + scaledYOffset - liftPx;
 				} else {
@@ -5504,7 +5640,7 @@
 			//ActorBlink(sprite,0);
 			sprite.style.translate = `${finalX}px ${finalY}px`;
 			// Shrink the margins in backstage
-			if (StageLive() || !shouldGround || !shouldScale) {
+			if (!Backstage() || !shouldGround || !shouldScale) {
 				sprite.style.marginLeft = 0;
 				sprite.style.marginRight = 0;
 			} else {
@@ -5667,6 +5803,7 @@
 					return;
 				}
 				if (await fairyBlessCheck(e)) { return; }
+				if (await fairyStatusCheck(e)) { return; }
 				if (await fairyActiveCardCheck(e)) { return; }
 				/*if (e.target.closest("#tab-card-notes")) {
 					e.stopPropagation();
