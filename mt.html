@@ -1708,7 +1708,13 @@
 
 		#active-preview-thumb {
 			object-fit: contain;
-			border-radius: 4px;
+			border-radius: 8px;
+			border:1px solid lightgray;
+			background-color: rgba(0,0,0,0.25);
+			/*
+			border:2px solid #0096FF;
+			background-color: rgba(0,0,96,0.25); 
+			/*Bright Blue #0096FF*/
 		}
 
 		#active-preview-label {
@@ -2720,7 +2726,15 @@
 		.button-pad::-webkit-scrollbar {
 			display: none;
 		}
-
+		.chkbox-btn{
+			width: 2em;
+			height: 2em;
+			background-color: rgba(0, 0, 0, 0.5);
+			border: 2px solid gray;
+			border-radius: 8px;
+			text-align: center;
+			padding: 0;
+		}
 		/* #CSS END */
 	</style>
 </head>
@@ -3027,6 +3041,7 @@
 							</svg>
 						</button>-->
 					</div>
+					
 				</div>
 				<div id="card-sec-bar" style="text-align:center;margin-top:5px;cursor:pointer" title="Display Selection">
 					<div id="card-sec-btns" style="display:flex;text-align:center">
@@ -3047,10 +3062,6 @@
 							title="Card Script (c)">c</button>
 					</div>
 				</div>
-
-				<!--<div onclick="toggleNodeDetails(this)" style="text-align: center;width:100%;height:40px;color:grey">▽</div>-->
-
-
 			</div>
 			<div id="tab-collections" class="tab-content" style="display:none">
 				<div class="stats-bar">
@@ -3232,17 +3243,15 @@
 					</div>
 					<div class="button-pad right custom-buttons"
 						style="flex:1;display:flex;flex-wrap:wrap;justify-content: center;flex-direction:column;height:108px;overflow-x:auto;box-sizing: content-box;align-items: flex-start; scrollbar-width: none; -ms-overflow-style: none;align-content: flex-start">
-						<!--Next Button-->
-
-						<!--<button class="tool-btn full resume-script-btn" onClick="ScriptStart(null,true,false)"
-							title="Resume Script">
-							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-								style="transform: scale(3)">
-								<rect x="17" y="3" width="2" height="14" rx="1" fill="rgba(0,255,0,0.75)" />
-								<polygon points="5,4 15,11 5,18" fill="rgba(0,255,0,0.75)" />
+												
+						<!--SEND MESSAGE BUTTON-->
+						<button class="tool-btn half" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform', '_blank')" title="Send Message">
+							<svg viewBox="0 0 100 100" style="width: 60%; height: 60%;" stroke="currentColor" stroke-width="12" fill="none">
+								<polygon points="0,10 100,10 100,90 0,90"/>
+								<path d="M0,10 L50,50 L100,10"/>
 							</svg>
-						</button>-->
-
+						</button>
+						
 
 						<!--<button class="tool-btn full">R1</button>
 						<button class="tool-btn half">R2</button>
@@ -3279,10 +3288,8 @@
 				<input type="text" id="dev-command" class="unified-width" placeholder="Command..." oninput="memDEV()"
 					onkeydown="if (event.key === 'Enter' || event.keyCode === 13) {event.preventDefault(); processScriptLine(this.value)}">
 				<textarea id="user-note" class="unified-width card-textarea"
-					style="resize:none;height:172px; margin-bottom:5px;font-size:16px;overflow-y: auto;" placeholder="NOTES..."
+					style="resize:none;height:100px; font-size:16px;overflow-y: auto;" placeholder="Quester Notes..."
 					oninput="saveNotes(this.value)"></textarea>
-
-
 			</div>
 
 		</div>
@@ -3299,11 +3306,6 @@
 						<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
 					</svg>
 				</button>
-
-				<!--<button class="tool-btn">
-					<img id="active-preview-thumb" class="save-notes-btn" src="" referrerpolicy="no-referrer" alt=""
-						style="display: none;" onclick="saveCardNotes(event)" title="Save changes to this card">
-				</button>-->
 				<!--<button class="tool-btn" onclick="toggleTab(event,'tab-card-notes')" title="Details">
 					<svg width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
 						stroke-linecap="round">
@@ -3312,6 +3314,15 @@
 						<line x1="3" y1="18" x2="11" y2="18"></line>
 					</svg>
 				</button>-->
+				<!--DEV NOTES BUTTON-->
+			<button class="tool-btn" id="settings-btn" onclick="toggleTab(event, 'tab-dev-notes')" title="Developer Notes">
+				<svg viewBox="0 0 100 100">
+					<rect x="20" y="15" width="60" height="70" rx="5" fill="none" stroke="currentColor" stroke-width="6" />
+					<line x1="35" y1="35" x2="65" y2="35" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+					<line x1="35" y1="50" x2="65" y2="50" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+					<line x1="35" y1="65" x2="55" y2="65" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+				</svg>
+			</button>
 				<button class="tool-btn" onclick="toggleSidebar()" title="Asset List">
 					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 						<rect x="3" y="3" width="7" height="7"></rect>
@@ -3334,6 +3345,7 @@
 
 			</div>
 
+			<!--#Dropdown-->
 			<input list="dropdown-options" id="dropdown" placeholder="" oninput="Dropdown(event,this)"
 				onkeydown="Dropdown(event,this)" style="flex:1 1 72px;min-width: 72px;width:100%">
 			<datalist id="dropdown-options">
@@ -4020,6 +4032,7 @@
 			return result.join('\n');
 		}
 		function DialogFormat(text) {
+			SPEC("20260216110900","Tanya","The source is first made inert as HTML.");
 			text = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 			text = text.replace(/\[url\]([^\[]+)\[\/url\]/gi, '<a href="$1" target="_blank">$1</a>');
 			text = text.replace(/\[url=([^\]]+)\]([^\[]+)\[\/url\]/gi, (match, url, label) => {
@@ -4030,7 +4043,23 @@
 			SPEC("20260214112800", "Natalie", "In the script, // is interpreted as newline unless it starts with a colon or ends with a space.");
 			text = text.replace(/(?<!:)\/\//g, "\n");
 
+			text = DialogFormatCheckbox(text);
 			return text;
+		}
+		function DialogFormatCheckbox(multilineText){
+			SPEC("20260216044931","Tanya","The notation [] at the start of a line is an emoji button ⬜. If it has content, then it is checked as ✅. When the user clicks on that button, the function called should be DialogCheckbox.");
+			const checkboxRegex = /^\[([^\]]*)\]/gm;
+			return multilineText.replace(checkboxRegex, (match, content) => {
+				
+				const isChecked = content.trim().length > 0;
+				const emoji = isChecked ? "✅" : "";
+				
+				// Return a button string that calls DialogCheckbox(this)
+				// We can store the current state or content in a data attribute if needed
+				return `<button class="chkbox-btn" onclick="DialogCheckbox(this)" data-content="${content}">${emoji}</button>`;
+			});
+
+			return multilineText;
 		}
 		function DEBUG(msg, bCompact) {
 			// 20260125: Evelyn: Help locate where all the console log are and where they are called.
@@ -5058,7 +5087,7 @@
 			} else if (command === 'STAGE') { StageSet(tail1); return true; }
 			return false;
 		}
-		function processScriptDialog(text, choiceColors = []) {
+		function ScriptDialog(text, choiceColors = []) {
 			// Display Elements
 			const overlay = document.getElementById('dialogue-overlay');
 			const textField = document.getElementById('speech-text');
@@ -5148,7 +5177,7 @@
 				case '@': return ActorSet(content);
 				case '>': createCard(getCardByPath(content)); return false;
 				default:
-					processScriptDialog(line);
+					ScriptDialog(line);
 					// Continue to the next line if the next line starts with a space.
 					const nextPrefix = se.dataset.script.charAt(0);
 					if (nextPrefix === " " || nextPrefix === "*") { return true; }
@@ -6262,7 +6291,7 @@
 		function toggleTab(e, aID) {
 			SPEC("202602151723", "Patricia", "If the tab is already shown, hide it.")
 			// 20251230: Cardinal: A generic reusable function to show one tab and hide the rest.
-			e.stopPropagation();
+			e?.stopPropagation();
 			const targetTab = document.getElementById(aID);
 			if (!targetTab) return;
 			const oriStatus = targetTab.style.display;
