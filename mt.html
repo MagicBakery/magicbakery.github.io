@@ -508,19 +508,6 @@
 			transform: scale(0.8) rotate(-10deg);
 		}
 
-		.notes-btn {
-			background: none;
-			border-radius: 10px;
-			color: var(--text-dim);
-			cursor: pointer;
-			display: none;
-			font-size: 12px;
-			padding: 2px 5px;
-			height: 24px;
-			width: 36px;
-			margin: 0px -5px;
-			text-align: center;
-		}
 
 		.stop-script-btn {
 			/*border: 2px solid rgba(255, 0, 0, 0.5) !important;*/
@@ -530,14 +517,6 @@
 		.resume-script-btn {
 			/*border: 2px solid rgba(0, 255, 0, 0.5) !important;*/
 			background-color: rgba(0, 139, 0, 0.5) !important;
-		}
-
-
-
-		#command-panel.edit-size-3 .notes-btn,
-		#command-panel.edit-size-2 .notes-btn,
-		.notes-panel:focus-within .notes-btn {
-			display: inline-block;
 		}
 
 		.tab-btn {
@@ -636,7 +615,9 @@
 			line-height: 1.5;
 			outline: none;
 			overflow-y: auto;
+
 		}
+
 
 		#command-panel.edit-size-3 .card-textarea {
 			min-height: 80vh;
@@ -662,7 +643,6 @@
 
 		/* The Save Button Styling */
 		.save-notes-btn {
-			align-self: flex-end;
 			background: transparent;
 			border: 1px solid #888;
 			color: #888;
@@ -1268,7 +1248,7 @@
 			width: 50px;
 			height: 50px;
 			z-index: var(--z-TransparentControls);
-			display: flex;
+			display: none;
 			align-items: center;
 			justify-content: center;
 			background: rgba(255, 255, 255, 0.05);
@@ -1298,8 +1278,15 @@
 			/* Adjusted for bottom right */
 		}
 
-		/* Ensure triggers only appear when collapsed */
-		body.collapsed .hover-trigger {
+		body:has(#stage-area.active) .hover-trigger {
+			display: flex;
+		}
+
+		body:has(#stage-area.suspended) .hover-trigger {
+			display: none;
+		}
+
+		body:has(#splash-screen.active) .hover-trigger {
 			display: flex;
 		}
 
@@ -1504,6 +1491,7 @@
 			transition: opacity 0.3s ease;
 		}
 
+		.notes-btn,
 		.tool-btn {
 			background: rgba(0, 0, 0, 0.1);
 			color: rgba(255, 255, 255, 0.1);
@@ -1517,6 +1505,29 @@
 			justify-content: center;
 			font-size: 16px;
 			text-decoration: none;
+			flex-shrink: 0;
+			aspect-ratio: 1;
+		}
+
+		.recent .tool-btn {
+			color: white;
+		}
+
+		.notes-btn {
+			color: rgba(255, 255, 255, 0.5);
+			height: 36px;
+			flex: 1;
+			font-size: 12px;
+		}
+
+		#editor-btns {
+			display: none;
+			margin-top: 5px;
+			flex-shrink: 0;
+		}
+
+		.notes-panel:has(.card-textarea.active) #editor-btns {
+			display: flex;
 		}
 
 		.tool-btn.half {
@@ -1695,25 +1706,9 @@
 			/* Slightly larger for the sidebar */
 		}
 
-		.active-preview-container {
-			display: inline-flex;
-			/*align-items: center;*/
-			gap: 0px;
-			padding-right: 4px;
-			/*background: rgba(255, 255, 255, 0.05);*/
-			border-radius: 8px;
-			/*border: 1px solid rgba(255, 255, 255, 0.1);*/
-			box-sizing: border-box;
-		}
-
 		#active-preview-thumb {
-			width: 30px;
-			height: 30px;
 			object-fit: contain;
 			border-radius: 4px;
-			/*border: 1px solid #ffd700;*/
-			/* A little gold border to match the star theme */
-			/*box-shadow: 0 0 5px rgba(255, 215, 0, 0.3);*/
 		}
 
 		#active-preview-label {
@@ -1727,17 +1722,14 @@
 
 		.tabs-contents {
 			display: block;
-			/* Ensure it's a block container */
 			max-height: 90vh;
-			/* The limit */
 			overflow-y: auto;
-			/* Enable vertical scroll */
 			overflow-x: hidden;
-			/* Prevent horizontal shifting */
 			box-sizing: border-box;
-			/* CRITICAL: Includes padding in the 30vh calculation */
+		}
+
+		.tab-content {
 			padding-bottom: 5px;
-			/* Gives the inputs some breathing room at the bottom */
 		}
 
 		/* Width of the scrollbar */
@@ -1786,7 +1778,7 @@
 			backdrop-filter: blur(20px);
 			border: 2px solid rgba(255, 255, 255, 0.4);
 			border-radius: 15px;
-			padding: 10px;
+			padding: 5px;
 
 			z-index: var(--z-GUIControls);
 			/* Keeps it above the sidebar */
@@ -1902,7 +1894,6 @@
 			justify-content: space-between;
 			padding: 8px 15px;
 			background: rgba(0, 0, 0, 0.3);
-			border-bottom: 1px solid var(--border);
 			font-size: 14px;
 		}
 
@@ -2613,7 +2604,7 @@
 			display: inline-block;
 		}
 
-		.sec-btn {
+		.sec-btnpp {
 			background: rgba(0, 0, 0, 0.0);
 			border-radius: 10px;
 			color: grey;
@@ -2621,7 +2612,11 @@
 			font-size: 12px;
 			padding: 2px 0px;
 			height: 24px;
-			flex:1;
+			flex: 1;
+		}
+
+		.sec-btn {
+			flex: 1;
 		}
 
 		.sec-btn.on {
@@ -2649,9 +2644,9 @@
 		}
 
 		.script-stop-btn {
-			background-color: rgba(128, 0, 0, 0.75);
-			color: white;
-			width: 30px;
+			background-color: rgba(96, 0, 0.25);
+			border: 1px solid rgba(255, 0, 0.25);
+			color: rgba(255, 0, 0.25) !important;
 		}
 
 		body:not(:has(#stage-area.suspended)) .script-stop-btn {
@@ -2661,10 +2656,8 @@
 		.status-icons {
 			position: absolute;
 			top: 0;
-			/* Offset from bottom */
-			right: 0;
-			/*transform: translateX(-50%);*/
 			display: flex;
+			right: 0;
 			gap: 4px;
 		}
 
@@ -2691,21 +2684,41 @@
 			-webkit-mask-size: contain;
 			mask-size: contain;
 		}
-		#card-sec-bar{
-			display:none;
+
+		#card-sec-bar {
+			display: none;
 		}
-		#card-sec-bar.active{
-			display:block;
+
+		#card-sec-bar.active {
+			display: block;
 		}
-		#command-panel .stats-bar{
+
+		#command-panel .stats-bar {
 			background: none;
-			border-top:1px solid var(--border);
-			border-bottom: none;
 			padding: 5px;
 		}
+
+		.dropdown-list::-webkit-scrollbar-thumb {
+			background: transparent;
+		}
+
+		.dropdown-list:hover::-webkit-scrollbar-thumb {
+			background: #fc0;
+		}
+
 		hide {
 			display: none;
-			
+
+		}
+
+		.button-pad {
+			display: flex;
+			scrollbar-width: none;
+			-ms-overflow-style: none;
+		}
+
+		.button-pad::-webkit-scrollbar {
+			display: none;
 		}
 
 		/* #CSS END */
@@ -2719,35 +2732,10 @@
 
 
 	<div id="sidebar">
-		<div id="collapsible-collections" style="flex: 1;display:none">
-			<div class="stats-bar">
-				<div class="stats-clickable" onclick="toggleCollections(event)">Collections (<span
-						id="collection-count">0</span>)
-				</div>
-				<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" class="bakery-link"
-					id="version-link">ⓘ</a>
-			</div>
-			<div style="padding:0px 5px">
-				<input type="file" id="json-input" style="display:none" accept=".json" onchange="importJSON(this)">
-				<div style="display:flex; gap:4px;">
-					<input type="file" id="mobile-file-input" style="display:none" accept="image/*">
-					<button class="import-btn action-btn" style="width: 32px;" onclick="smartImport()">+</button>
-					<button class="import-btn action-btn" style="flex: 1;" onclick="exportFilteredData('path')"
-						title="Export Path">PATH</button>
-					<button class="import-btn action-btn" style="flex: 1;" onclick="exportFilteredData('base64')"
-						title="Export Base64">BASE64</button>
-					<button class="import-btn action-btn" style="flex: 1;" onclick="exportMultiTrack()"
-						title="Export or Import Multitrack DOM">DOM</button>
-					<button class="import-btn action-btn" style="flex: 1;" onclick="exportGallery()"
-						title="Export HTML">HTML</button>
-				</div>
-				<div id="path-list-container"></div>
-			</div>
-		</div>
 		<div id="collapsible-images" class="sidebar-upper"
 			style="flex: 2; display: flex; flex-direction: column; overflow: hidden; background: rgba(0,0,0,0.2);">
 			<div class="stats-bar">
-				<div class="stats-clickable" onclick="toggleImages(event)">Images (<span id="img-count">0</span>)</div>
+				<div class="stats-clickable" onclick="updateDock()">Images (<span id="img-count">0</span>)</div>
 				<div id="grid-slider-container">
 					<input type="range" id="col-slider" min="1" max="5" value="3" oninput="updateGridCols(this.value)">
 				</div>
@@ -2763,7 +2751,7 @@
 			<div id="file-list" class="file-list"></div>
 		</div>
 		<div id="collapsible-tags" class="sidebar-upper" style="flex: 1">
-			
+
 
 
 
@@ -2961,7 +2949,7 @@
 	</div>
 	<div id="command-panel">
 		<!--Float Right Elements-->
-		
+
 
 		<div class="tabs-contents">
 
@@ -3002,64 +2990,92 @@
 				</div>
 
 				<div class="notes-panel">
-					<div style="float:right;margin-bottom:2px;margin-right:5px">
 
-						<button class="notes-btn" onclick="PanelTextareaResize(this)"
-							title="Notes/Script Display Ratio">3:1</button>
-						<button class="notes-btn" onclick="PanelTextareaResizeH(this)" title="Change Editor Height">H1</button>
-						<button class="notes-btn" style="width:55px" onclick="ScriptPublish(this)"
-							title="Publish Script">Publish</button>
-						<button class="notes-btn script-run-btn" onclick="ScriptStart(this,false,true)" title="Run Script">
-							<svg width="24" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-								style="transform: scale(1.5)">
-								<rect x="10" y="6" width="2" height="15" rx="1" fill="currentColor" />
-								<polygon points="-2,6 8,13 -2,20" fill="currentColor" />
-							</svg>
-						</button>
-						<button class="notes-btn script-stop-btn" onclick="ScriptStart(this,false,true)" title="Stop Script">
-							<svg width="24" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-								style="transform: scale(1.5)">
-								<rect x="-2" y="6" width="15" height="15" rx="1" fill="currentColor" />
-							</svg>
-						</button>
+					<div id="card-textareas" style="display:flex;clear:right" class="active">
+						<textarea id="card-notes" class="card-textarea active" onfocus="PanelTextareaActivate(this)"
+							oninput="markDirty(this)" style="flex: 2 2 0%" placeholder="User Notes"></textarea>
+
+						<textarea id="card-script" class="card-textarea active" onfocus="PanelTextareaActivate(this)"
+							oninput="markDirty(this)" style="flex: 2 2 0%" placeholder="Public Script"></textarea>
+
 					</div>
-					<div style="margin-left:5px">
+					<div id="editor-btns">
 						<button class="notes-btn" onclick="NoteLineSwap(true)" title="Move line up">
-							<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
+							<svg viewBox="0 0 100 100" style="width: 50%; height: 50%;">
 								<polygon points="0,100 50,10 100,100" fill="currentColor" />
 							</svg>
 						</button>
 						<button class="notes-btn" onclick="NoteLineSwap(false)" title="Move line down">
-							<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
+							<svg viewBox="0 0 100 100" style="width: 50%; height: 50%;">
 								<polygon points="0,10 50,100 100,10" fill="currentColor" />
 							</svg>
 						</button>
 						<button class="notes-btn" onclick="NoteInsertDTS()" title="Insert Timestamp">DTS</button>
-					</div>
-					<div id="card-textareas" style="display:flex;clear:right" class="active">
-						<textarea id="card-notes" class="card-textarea active" onfocus="PanelTextareaActivate(this)"
-							oninput="markDirty(this)" style="flex: 3 3 0%" placeholder="User Notes"></textarea>
-						<textarea id="card-script" class="card-textarea active" onfocus="PanelTextareaActivate(this)"
-							oninput="markDirty(this)" style="flex: 1 1 0%;" placeholder="Public Script"></textarea>
+						<button class="notes-btn" onclick="PanelTextareaResize(this)"
+							title="Notes/Script Display Ratio">2:2</button>
+						<button class="notes-btn" onclick="PanelTextareaResizeH(this)" title="Change Editor Height">H1</button>
+						<button class="notes-btn" style="width:55px" onclick="ScriptPublish(this)"
+							title="Publish Script">Publish</button>
+						<!--<button class="notes-btn script-run-btn" onclick="ScriptStart(this,false,true)" title="Run Script">
+							<svg viewBox="0 0 100 100" style="width: 50%; height: 50%;">
+								<polygon points="0,0 0,100 100,50" fill="currentColor" />
+							</svg>
+						</button>
+						<button class="notes-btn script-stop-btn" onclick="ScriptStart(this,false,true)" title="Stop Script">
+							<svg viewBox="0 0 100 100" style="width: 50%; height: 50%;">
+								<polygon points="0,0 0,100 100,100 100,0" fill="currentColor" />
+							</svg>
+						</button>-->
 					</div>
 				</div>
 				<div id="card-sec-bar" style="text-align:center;margin-top:5px;cursor:pointer" title="Display Selection">
 					<div id="card-sec-btns" style="display:flex;text-align:center">
-						<button class="sec-btn on" onclick="ToggleByID(this,'card-tag-section')" title="Card Tags (t)">#</button>
-						<button class="sec-btn on" onclick="ToggleByID(this,'card-title')" title="Card Title (n)">n</button>
-						<button class="sec-btn on" onclick="ToggleByID(this,'card-id')" title="Card ID (p)">id</button>
-						<button class="sec-btn" onclick="ToggleByID(this,'card-path-url')" title="Card URL (u)">u</button>
-						<button class="sec-btn" onclick="ToggleByID(this,'card-img-url')" title="Card Cover Image (i)">i</button>
-						<button class="sec-btn" onclick="ToggleByID(this,'card-sprite-parameters')"
+
+						<button class="tool-btn sec-btn on" onclick="ToggleByID(this,'card-tag-section')"
+							title="Card Tags (t)">#</button>
+						<button class="tool-btn sec-btn on" onclick="ToggleByID(this,'card-title')"
+							title="Card Title (n)">n</button>
+						<button class="tool-btn sec-btn on" onclick="ToggleByID(this,'card-id')" title="Card ID (p)">id</button>
+						<button class="tool-btn sec-btn" onclick="ToggleByID(this,'card-path-url')" title="Card URL (u)">u</button>
+						<button class="tool-btn sec-btn" onclick="ToggleByID(this,'card-img-url')"
+							title="Card Cover Image (i)">i</button>
+						<button class="tool-btn sec-btn" onclick="ToggleByID(this,'card-sprite-parameters')"
 							title="Card Sprite Parameters (s, x, y)">s</button>
-						<button class="sec-btn on" onclick="ToggleByID(this,'card-notes')" title="Card Notes (o)">o</button>
-						<button class="sec-btn on" onclick="ToggleByID(this,'card-script')" title="Card Script (c)">c</button>
-					</div>					
+						<button class="tool-btn sec-btn on" onclick="ToggleByID(this,'card-notes')"
+							title="Card Notes (o)">o</button>
+						<button class="tool-btn sec-btn on" onclick="ToggleByID(this,'card-script')"
+							title="Card Script (c)">c</button>
+					</div>
 				</div>
 
 				<!--<div onclick="toggleNodeDetails(this)" style="text-align: center;width:100%;height:40px;color:grey">▽</div>-->
 
 
+			</div>
+			<div id="tab-collections" class="tab-content" style="display:none">
+				<div class="stats-bar">
+					<div class="stats-clickable" onclick="toggleCollections(event)">Collections (<span
+							id="collection-count">0</span>)
+					</div>
+					<a href="https://magicbakery.github.io/?id=P202512210026" target="_blank" class="bakery-link"
+						id="version-link">ⓘ</a>
+				</div>
+				<div style="padding:0px 5px">
+					<input type="file" id="json-input" style="display:none" accept=".json" onchange="importJSON(this)">
+					<div style="display:flex; gap:4px;">
+						<input type="file" id="mobile-file-input" style="display:none" accept="image/*">
+						<button class="import-btn action-btn" style="width: 32px;" onclick="smartImport()">+</button>
+						<button class="import-btn action-btn" style="flex: 1;" onclick="exportFilteredData('path')"
+							title="Export Path">PATH</button>
+						<button class="import-btn action-btn" style="flex: 1;" onclick="exportFilteredData('base64')"
+							title="Export Base64">BASE64</button>
+						<button class="import-btn action-btn" style="flex: 1;" onclick="exportMultiTrack()"
+							title="Export or Import Multitrack DOM">DOM</button>
+						<button class="import-btn action-btn" style="flex: 1;" onclick="exportGallery()"
+							title="Export HTML">HTML</button>
+					</div>
+					<div id="path-list-container"></div>
+				</div>
 			</div>
 			<div id="tab-tag-cloud" class="tab-content" style="display:none">
 				<div id="tag-cloud" class="tag-cloud"></div>
@@ -3069,13 +3085,12 @@
 						placeholder="SEARCH..." oninput="refreshAllUI()">
 					<button class="inline-toggle" id="tag-sort-btn" onclick="toggleTagSort()">A-Z</button>
 				</div>
-				
+
 			</div>
 			<div id="tab-controls" class="tab-content">
-
 				<div style="display:flex;">
 					<div class="button-pad left"
-						style="flex:1;display:flex;flex-wrap:wrap-reverse;justify-content: flex-start;flex-direction:column;height:108px;overflow-x:auto;box-sizing: content-box;align-items: flex-end;align-content: flex-start;scrollbar-width: none; -ms-overflow-style: none;">
+						style="flex:1;flex-wrap:wrap-reverse;justify-content: flex-start;flex-direction:column;height:108px;overflow-x:auto;box-sizing: content-box;align-items: flex-end;align-content: flex-start;">
 						<!--<button class="tool-btn full stop-script-btn" onClick="ScriptStart(null,false,true)"
 							title="Resume Script">
 							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -3101,7 +3116,7 @@
 							</svg>
 						</button>
 						<!--Auto Flush Mode Button ↻-->
-						<button class="tool-btn half auto-flush-btn" onclick="toggleAutoFlush(event)">
+						<button class="tool-btn half auto-flush-btn" onclick="toggleAutoFlush(event)" title="Auto Flush">
 							<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
 								<path d="M75,30 C65,15 35,15 25,30 M25,70 C35,85 65,85 75,70" fill="none" stroke="currentColor"
 									stroke-width="8" stroke-linecap="round" />
@@ -3109,15 +3124,18 @@
 								<polygon points="30,88 12,72 32,60" fill="currentColor" />
 							</svg>
 						</button>
-
-						<!--Star Button-->
-						<button class="tool-btn half star-btn" onclick="togglePinActiveCard(event)" title="Star Active Card">
-							<svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor" stroke="currentColor" stroke-width="2"
-								stroke-linejoin="round">
+						<!--Daily Quest Button-->
+						<button class="tool-btn half" onclick="DailyQuestReg()" title="Mark for Daily Quest">
+							<svg width="48" height="36" viewBox="1 1 18 18" fill="none" stroke="currentColor" stroke-width="1.5"
+								stroke-linecap="round">
 								<path
-									d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+									d="M10 3L11.41 6.46L14.95 5.05L14 8L17 10L14 12L14.95 14.95L11.41 13.54L10 17L8.59 13.54L5.05 14.95L6 12L3 10L6 8L5.05 5.05L8.59 6.46Z"
+									fill="currentColor" />
+								<circle cx="10" cy="10" r="4" stroke-width="3" fill="currentColor" />
+								<circle cx="10" cy="10" r="5" stroke-width="2" fill="currentColor" />
 							</svg>
 						</button>
+
 						<!--Removal Mode Button-->
 						<button class="tool-btn half removal-mode-btn" onclick="toggleRemovalMode(this)"
 							ondblclick="clearWorkspace(event)" title="Toggle Removal Mode">
@@ -3125,15 +3143,7 @@
 								<path d="M20,20 L80,80 M80,20 L20,80" fill="none" stroke="currentColor" stroke-width="8" />
 							</svg>
 						</button>
-						<!--Daily Quest Button-->
-						<!--<button class="tool-btn half" onclick="DailyQuestReg()" title="Mark for Daily Quest">
-							<svg width="48" height="36" viewBox="1 1 18 18" fill="none" stroke="currentColor" stroke-width="1.5"
-								stroke-linecap="round">
-								<path
-									d="M10 3L11.41 6.46L14.95 5.05L14 8L17 10L14 12L14.95 14.95L11.41 13.54L10 17L8.59 13.54L5.05 14.95L6 12L3 10L6 8L5.05 5.05L8.59 6.46Z"
-									fill="currentColor" />
-							</svg>
-						</button>-->
+
 						<button class="tool-btn half" title="Create a blank card" onClick="createCard(null,true)">C+</button>
 						<button class="tool-btn half" title="Toggle Speech Bubble" onClick="SpeechBubbleShow()">SB</button>
 						<button class="tool-btn half" title="Focus on this Track" onClick="TrackFocus(this)">TF</button>
@@ -3223,14 +3233,7 @@
 					<div class="button-pad right custom-buttons"
 						style="flex:1;display:flex;flex-wrap:wrap;justify-content: center;flex-direction:column;height:108px;overflow-x:auto;box-sizing: content-box;align-items: flex-start; scrollbar-width: none; -ms-overflow-style: none;align-content: flex-start">
 						<!--Next Button-->
-						<button class="tool-btn full script-step-btn run-script-btn" onClick="ScriptStart(this,true,false)"
-							title="Play Script">
-							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-								style="transform: scale(3)">
-								<rect x="17" y="4" width="2" height="14" rx="1" fill="currentColor" />
-								<polygon points="5,4 15,11 5,18" fill="currentColor" />
-							</svg>
-						</button>
+
 						<!--<button class="tool-btn full resume-script-btn" onClick="ScriptStart(null,true,false)"
 							title="Resume Script">
 							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -3283,24 +3286,56 @@
 			</div>
 
 		</div>
-		<div class="search-container" style="display:flex;text-align:center;margin:0 40px">
-			<div style="flex:1;text-align: right;">
-				<div class="active-preview-container">
+		<div class="search-container" style="display:flex;text-align:center">
+			<div style="text-align: right;display:flex;">
+				<button class="tool-btn">
+					<img id="active-preview-thumb" class="save-notes-btn tool-btn" src="" referrerpolicy="no-referrer" alt=""
+						style="display: none;" title="Save changes to this card">
+				</button>
+				<!--Star Button-->
+				<button class="tool-btn star-btn" onclick="togglePinActiveCard(event)" title="Star Active Card">
+					<svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor" stroke="currentColor" stroke-width="2"
+						stroke-linejoin="round">
+						<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+					</svg>
+				</button>
+
+				<!--<button class="tool-btn">
 					<img id="active-preview-thumb" class="save-notes-btn" src="" referrerpolicy="no-referrer" alt=""
 						style="display: none;" onclick="saveCardNotes(event)" title="Save changes to this card">
-					<button class="tab-btn" onclick="toggleTab(event,'tab-card-notes')" title="Details">
-						<svg width="24" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2"
-							stroke-linecap="round">
-							<line x1="3" y1="6" x2="21" y2="6"></line>
-							<line x1="3" y1="12" x2="15" y2="12"></line>
-							<line x1="3" y1="18" x2="11" y2="18"></line>
-						</svg>
-					</button>
-				</div>
+				</button>-->
+				<!--<button class="tool-btn" onclick="toggleTab(event,'tab-card-notes')" title="Details">
+					<svg width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+						stroke-linecap="round">
+						<line x1="3" y1="6" x2="21" y2="6"></line>
+						<line x1="3" y1="12" x2="15" y2="12"></line>
+						<line x1="3" y1="18" x2="11" y2="18"></line>
+					</svg>
+				</button>-->
+				<button class="tool-btn" onclick="toggleSidebar()" title="Asset List">
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<rect x="3" y="3" width="7" height="7"></rect>
+						<rect x="14" y="3" width="7" height="7"></rect>
+						<rect x="14" y="14" width="7" height="7"></rect>
+						<rect x="3" y="14" width="7" height="7"></rect>
+					</svg>
+				</button>
+				<button class="tool-btn" onclick="toggleTab(event,'tab-controls')" title="Controls Tab">
+					<svg width="24" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+						style="transform: scale(1.4);">
+						<path d="M12 9.5L9 6.5V3H15V6.5L12 9.5Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" />
+						<path d="M12 14.5L15 17.5V21H9V17.5L12 14.5Z" stroke="currentColor" stroke-width="1"
+							stroke-linejoin="round" />
+						<path d="M9.5 12L6.5 15H3V9H6.5L9.5 12Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" />
+						<path d="M14.5 12L17.5 9H21V15H17.5L14.5 12Z" stroke="currentColor" stroke-width="1"
+							stroke-linejoin="round" />
+					</svg>
+				</button>
 
 			</div>
+
 			<input list="dropdown-options" id="dropdown" placeholder="" oninput="Dropdown(event,this)"
-				onkeydown="Dropdown(event,this)" style="width:108px;margin:0 5px">
+				onkeydown="Dropdown(event,this)" style="flex:1 1 72px;min-width: 72px;width:100%">
 			<datalist id="dropdown-options">
 				<option value="📂 Asset List">Show/hide the list/grid of assets (images, files, etc...)</option>
 				<option value="🎮 Button Panel">Show the button panel</option>
@@ -3311,24 +3346,28 @@
 				<option value="📝 Development Notes">Notepad not associated to a card</option>
 				<option value="🎩 Magic Theater">Visit Magic Theater webpage</option>
 				<option value="🎲 Random Card">Add a random card to backstage</option>
+				<option value="⏯️ Script Resume">Resume playing the stage script</option>
+				<option value="⏹️ Script Stop">Stop the current stage script</option>
 				<option value="✉️ Send Message">Send feedback, give suggestion, or log bugs</option>
 				<option value="🐣 Starter Pack">Reload the default content</option>
 				<option value="🏷️ Tag Cloud">Show/hide the tag cloud</option>
-				<option value="🖼️ Wallpaper">Set the active card image as the wallpaper of the app</option>
-
+				<option value="🖼️ Wallpaper">Set the active card image as the wallpaper of the app
+					<button class="tool-btn" onclick="setCenteredAsWallpaper(null)">WP</button>
+				</option>
 			</datalist>
-			<div style="flex:1;text-align: left;">
-				<button class="tab-btn" onclick="toggleTab(event,'tab-controls')" title="Controls">
-					<svg width="24" height="18" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
-						style="transform: scale(1.4);">
-						<path d="M12 9.5L9 6.5V3H15V6.5L12 9.5Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" />
-						<path d="M12 14.5L15 17.5V21H9V17.5L12 14.5Z" stroke="currentColor" stroke-width="1"
-							stroke-linejoin="round" />
-						<path d="M9.5 12L6.5 15H3V9H6.5L9.5 12Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" />
-						<path d="M14.5 12L17.5 9H21V15H17.5L14.5 12Z" stroke="currentColor" stroke-width="1"
-							stroke-linejoin="round" />
+			<div class="button-pad recent" style="overflow-x: auto;display:flex;min-width:36px;flex-direction: row-reverse;">
+				<button class="tool-btn script-step-btn run-script-btn" onClick="ScriptStart(this,true,false)"
+					title="Play Script">
+					<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
+						<polygon points="0,0 0,100 100,50" fill="currentColor" />
 					</svg>
-				</button>				
+				</button>
+				<button class="tool-btn script-stop-btn" onclick="ScriptStart(this,false,true)" title="Stop Script">
+					<svg viewBox="0 0 100 100" style="width: 50%; height: 50%;">
+						<polygon points="0,0 0,100 100,100 100,0" fill="currentColor" />
+					</svg>
+				</button>
+				<!--<button class="tool-btn">🖼️</button>-->
 			</div>
 		</div>
 	</div>
@@ -3386,7 +3425,7 @@
 	<div id="loading-screen" onclick="fadeLoadingScreen(false)"></div>
 	<div id="trigger-left" class="hover-trigger" onclick="handleCornerClick('left')">☰</div>
 	<div id="trigger-right" class="hover-trigger" onclick="handleCornerClick('right')">☰</div>
-	<div id="ghost-restore" onclick="toggleSidebar(true)">☰</div>
+	<!--<div id="ghost-restore" onclick="toggleSidebar(true)">☰</div>-->
 	<div id="custom-confirm" class="modal-overlay" style="display:none;">
 		<div class="modal-content">
 			<p id="confirm-text" style="color: white; margin-bottom: 20px;font-size:20px"></p>
@@ -3488,7 +3527,9 @@
 				}];
 			}
 
+
 			renderPathList();
+
 			// Load data for all checked paths
 			savedPaths.forEach((item, index) => {
 				if (item.checked && (item.path.startsWith('http'))) {
@@ -3501,7 +3542,8 @@
 			summonFairyQueen();
 			summonGateGuardian();
 
-
+			const loadedAC = document.querySelector(".card.is-active");
+			if (loadedAC) { setActiveCard(loadedAC); }
 		};
 		/* #ALPHABETICALLY SORTED CODE */
 		const zLayers = ['Notifications', 'LoadingScreen', 'TransparentControls', 'ExamineScreen', 'SpeechBubble', 'StageGUI', 'Stage', 'GUIControls', 'Listings', 'Gallery', 'AppWallpaper'];
@@ -3510,6 +3552,9 @@
 
 		let autoRandomTimer = null;
 		let autoRandomTrack = null;
+		let dragstartCard = null;
+		let dragstartCardX = null;
+		let dragstartCardY = null;
 		let firstLoad = true; // 20260203: To process URL param just once.
 		const injectedCSS = new Set();
 		let isRemovalMode = false; /* 20251226: StarTree: Used for the Removal button */
@@ -3853,17 +3898,18 @@
 		}
 		function DailyQuestCheck() {
 			SPEC("20260214152700", "Skyle", "Reset all the checked daily quest icons.");
-			const now = Number(DTS().slice(0, 8));
+			const digit = 8;
+			const now = Number(DTS().slice(0, digit));
 			let iconDTS = "";
 			document.querySelectorAll(".daily-status-icon").forEach(daily => {
 				if (!daily.dataset.dts) {
 					if (daily.innerText !== "✅") { return; }
-					daily.innerHTML = RandomWeather();
+					daily.innerHTML = "⬜";//RandomWeather();
 				}
-				iconDTS = Number(daily.dataset.dts.slice(0, 8));
+				iconDTS = Number(daily.dataset.dts.slice(0, digit));
 				if (now - iconDTS < 1) { return; }
-				if (daily.innerText === `<span class="icon-check" style="color: green;"></span>`) {
-					daily.innerText = "☀️";
+				if (daily.innerText === `✅`) {
+					daily.innerText = "⬜"; //☀️
 				}
 			});
 		}
@@ -3890,7 +3936,7 @@
 					sunBtn.style.background = 'none';
 					sunBtn.style.border = 'none';
 					sunBtn.style.padding = '0';
-					sunBtn.innerHTML = RandomWeather();
+					sunBtn.innerHTML = "⬜";//RandomWeather();
 					statusIcons.appendChild(sunBtn);
 				}
 			} else {
@@ -4011,24 +4057,28 @@
 			}
 			let hit = false;
 			if (choice.startsWith("📂")) { // Asset List
-				toggleImages(e); hit = true;	
-			}else if (choice.startsWith("🎮")) { // Card Fields
-				toggleTab(e, 'tab-controls'); 		hit = true;
-			}else if (choice.startsWith("🪪")) { // Card Fields
-				ToggleByID(null,'card-sec-bar'); hit=true;
-			}else if (choice.startsWith("❌")) { // Close Panel
+				toggleSidebar(); hit = true;
+			} else if (choice.startsWith("🎮")) { // Card Fields
+				toggleTab(e, 'tab-controls'); hit = true;
+			} else if (choice.startsWith("🪪")) { // Card Fields
+				ToggleByID(null, 'card-sec-bar'); hit = true;
+			} else if (choice.startsWith("❌")) { // Close Panel
 				toggleCommandPanel(e); hit = true;
-			}else if (choice.startsWith("🗃️")) { // Collections
-				toggleCollections(e); hit = true;	
-			}else if (choice.startsWith("☀️")) { // Daily Quest
+			} else if (choice.startsWith("🗃️")) { // Collections
+				toggleTab(e, 'tab-collections'); hit = true;
+			} else if (choice.startsWith("☀️")) { // Daily Quest
 				DailyQuestReg(); hit = true;
 			} else if (choice.startsWith("📝")) { // Development Notes
-				toggleTab(e, 'tab-dev-notes'); 		hit = true;
+				toggleTab(e, 'tab-dev-notes'); hit = true;
 			} else if (choice.startsWith("🎩")) { // Magic Theater
 				window.open('https://magicbakery.github.io/?id=P202512210026', '_blank');
 				hit = true;
 			} else if (choice.startsWith("🎲")) { // Random Card
-				createCard(); 				hit = true;
+				createCard(); hit = true;
+			} else if (choice.startsWith("⏯️")) { // Script Resume
+				ScriptStart(null, true, false); hit = true;
+			} else if (choice.startsWith("⏹️")) { // Script Stop
+				ScriptStart(null, false, true); hit = true;
 			} else if (choice.startsWith("✉️")) { // Send Message
 				window.open('https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform', '_blank');
 				hit = true;
@@ -4036,10 +4086,10 @@
 				importFromURL("https://magicbakery.github.io/starterpack.json");
 				hit = true;
 			} else if (choice.startsWith("🏷️")) { // Tag Cloud
-				toggleTab(e, 'tab-tag-cloud'); 	hit = true;
+				toggleTab(e, 'tab-tag-cloud'); hit = true;
 				//toggleTagCloud(e); 	
 			} else if (choice.startsWith("🖼️")) { // Wallpaper
-				setCenteredAsWallpaper(null); 	hit = true;
+				setCenteredAsWallpaper(null); hit = true;
 			}
 
 			if (hit) {
@@ -4053,6 +4103,73 @@
 				el.blur();
 				setTimeout(() => el.focus(), 10);
 			}
+		}
+		function DropCardOnCard(elSrc, elTar) {
+			SPEC("20260215232500", "Evelyn", "Drops the source before or after the target based on position.");
+			const isHorizontalMode = !document.body.classList.contains('max-width');
+			const rect = elTar.getBoundingClientRect();
+			const track = elTar.closest('.track');
+
+			if (elSrc !== elTar) {
+				if (isHorizontalMode) {
+					// Horizontal check: Compare mouse X to card's horizontal center
+					const horizontalCenter = rect.left + (rect.width / 2);
+					event.clientX < horizontalCenter ? elTar.before(elSrc) : elTar.after(elSrc);
+				} else {
+					// Vertical check: Compare mouse Y to card's vertical center
+					const verticalCenter = rect.top + (rect.height / 2);
+					event.clientY < verticalCenter ? elTar.before(elSrc) : elTar.after(elSrc);
+				}
+			} else {
+				SPEC("20260215232800", "Evelyn", "If the target and the source are the same, drop to the start or end of the track instead depending which side the card is dropped onto itself.");
+
+				if (isHorizontalMode) {
+					const horizontalCenter = rect.left + (rect.width / 2);
+					if (Math.abs(event.clientX - dragstartCardX) > rect.height / 4) {
+						event.clientX < dragstartCardX ? track.prepend(elSrc) : track.append(elSrc);
+					}
+
+				} else {
+					const verticalCenter = rect.top + (rect.height / 2);
+					if (Math.abs(event.clientY - dragstartCardY) > rect.width / 4) {
+						event.clientY < dragstartCardY ? track.prepend(elSrc) : track.append(elSrc);
+					}
+				}
+			}
+			// Cleanup visual state
+			elSrc.classList.remove('dragging');
+			memDOM();
+		}
+		function DropCardOnTrack(elSrc, elTar) {
+			SPEC("20260215232700", "Evelyn", "Drops the source before or after the target based on position.");
+
+			// STEP 1: Determine layout mode
+			const isHorizontalMode = !document.body.classList.contains('max-width');
+			const rect = elTar.getBoundingClientRect();
+
+			// STEP 2: Decide placement based on track mid-point
+			if (isHorizontalMode) {
+				const horizontalCenter = rect.left + (rect.width / 2);
+				// Drop on left side of track -> Start; Drop on right side -> End
+				if (event.clientX < horizontalCenter) {
+					elTar.prepend(elSrc);
+				} else {
+					elTar.append(elSrc);
+				}
+			} else {
+				const verticalCenter = rect.top + (rect.height / 2);
+				// Drop on top half of track -> Start; Drop on bottom half -> End
+				if (event.clientY < verticalCenter) {
+					elTar.prepend(elSrc);
+				} else {
+					elTar.append(elSrc);
+				}
+			}
+
+			// Cleanup visual state
+			elSrc.classList.remove('dragging');
+			memDOM();
+
 		}
 		function DTS() {
 			// 20260206: StarTree: Returns the local DTS timestamp.
@@ -4108,6 +4225,16 @@
 				} else {
 					curtain.style.visibility = 'hidden';
 					curtain.style.opacity = '0';
+
+					const icons = document.querySelectorAll('.status-icons');
+					icons.forEach(el => {
+						const originalDisplay = el.style.display;
+						el.style.display = 'none';
+						// This tiny delay ensures the browser registers the removal
+						requestAnimationFrame(() => {
+							el.style.display = originalDisplay;
+						});
+					});
 					// Wait for the transition to finish (time defined in CSS)
 					// then remove it from the layout entirely
 					setTimeout(() => { curtain.style.display = 'none'; }, 1000);
@@ -4117,6 +4244,21 @@
 		function fairyActiveCardCheck(e) {
 			// 20251226: StarTree: Set the card to be the active card if it is in multi track mode.
 			// 20260108: LRRH: Clicking on a tag toggles it.
+			SPEC("20260215201300", "Casey", "if the card panel is collapsed, clicking this shows the tab. Otherwise, clicking this saves the edit. If there is nothing to save, it collapses the tab.");
+			const acthumb = e.target.closest('#active-preview-thumb');
+			const cp = document.getElementById('command-panel');
+			let el = null;
+			if (acthumb) {
+				e.stopPropagation();
+				el = document.getElementById('tab-card-notes');
+				if (!el.classList.contains('active')) { toggleTab(e, 'tab-card-notes'); return true; }
+				if (cp.querySelector('.unsaved')) { saveCardNotes(e); return true; }
+				saveCardNotes(e);
+				toggleTab(e, 'tab-card-notes');
+				return true;
+			}
+
+
 			const tagPill = e.target.closest('.tag-pill');
 			if (tagPill) {
 				e.stopPropagation();
@@ -4325,7 +4467,7 @@
 				daily.innerHTML = `✅`;
 				daily.dataset.dts = DTS();
 			} else {
-				daily.innerHTML = RandomWeather();
+				daily.innerHTML = "⬜";//RandomWeather();
 			}
 			memDOM();
 			return true;
@@ -4660,7 +4802,7 @@
 		function isHidden(elID) {
 			const el = document.getElementById(elID);
 			if (!el) return true;
-			return !el.checkVisibility() || el.style.display==="none";
+			return !el.checkVisibility() || el.style.display === "none";
 		}
 		function isMobile() {
 			const isSmallScreen = (window.innerWidth <= 768 || window.innerHeight <= 768);
@@ -4748,9 +4890,9 @@
 			elFrame.selectionStart = elFrame.selectionEnd = start + timestamp.length;
 			elFrame.focus();
 		}
-		function NoteLineSwap(bUp) {
+		function NoteLineSwapOriginal(bUp) {
 			// 20260125: Skyle: Moves the selected line up the notes if it is not already at the top.
-			const elFrame = document.querySelector('.card-textarea.active');
+			const elFrame = document.querySelector('.card-textarea.infocus');
 			if (!elFrame || !elFrame.checkVisibility()) return;
 			const text = elFrame.value;
 			const start = elFrame.selectionStart;
@@ -4769,6 +4911,46 @@
 			elFrame.classList.add('unsaved');
 			elFrame.focus();
 		}
+		function NoteLineSwap(bUp) {
+			// 20260125: Skyle: Move the selected line up the notes if it is not already at the top.
+			SPEC("202602151556", "Natalie", "Shift the selected line(s) up or down.");
+			const elFrame = document.querySelector('.card-textarea.infocus');
+			if (!elFrame || !elFrame.checkVisibility()) return;
+
+			const text = elFrame.value;
+			const selectionStart = elFrame.selectionStart;
+			const selectionEnd = elFrame.selectionEnd;
+			const lines = text.split('\n');
+
+			// Identify the range of lines currently selected
+			const startLineIndex = text.substring(0, selectionStart).split('\n').length - 1;
+			const endLineIndex = text.substring(0, selectionEnd).split('\n').length - 1;
+
+			// Boundary checks: Can't move up if at the top, or down if at the bottom
+			if (bUp && startLineIndex === 0) return;
+			if (!bUp && endLineIndex === lines.length - 1) return;
+
+			// Extract the lines being moved
+			const numLinesToMove = endLineIndex - startLineIndex + 1;
+			const selectedLines = lines.splice(startLineIndex, numLinesToMove);
+
+			// Determine where to re-insert the block
+			const insertIndex = bUp ? startLineIndex - 1 : startLineIndex + 1;
+			lines.splice(insertIndex, 0, ...selectedLines);
+
+			// Update text and maintain focus/state
+			elFrame.value = lines.join('\n');
+			elFrame.classList.toggle('active', true);
+			elFrame.classList.add('unsaved');
+
+			// Recalculate selection range to follow the moved block
+			// We calculate the character offset of the start of the new block
+			const newStartOffset = lines.slice(0, insertIndex).join('\n').length + (insertIndex > 0 ? 1 : 0);
+			const selectionLength = selectionEnd - selectionStart;
+
+			elFrame.setSelectionRange(newStartOffset, newStartOffset + selectionLength);
+			elFrame.focus();
+		}
 		function PanelTextareaActivate(elThis) {
 			// 20260125: Mark the current one active and the other one not active.
 			const elFrame = elThis.closest('.notes-panel');
@@ -4784,17 +4966,19 @@
 			let flexN = elNotes.style.flex;
 			let curRatio = elThis.innerText;
 			switch (curRatio) {
-				//case '0:4': flexN = 1; break;
+				case '0:4': flexN = 1; break;
 				case '1:3': flexN = 2; break;
 				case '2:2': flexN = 3; break;
-				case '3:1': flexN = 1; break;
-				//case '4:0': flexN = 0; break;
+				case '3:1': flexN = 4; break;
+				case '4:0': flexN = 0; break;
 				default: flexN = 3;
 			}
 			const flexS = 4 - flexN;
 			elNotes.style.flex = `${flexN} ${flexN} 0%`;
 			elScript.style.flex = `${flexS} ${flexS} 0%`;
 			elThis.innerHTML = `${flexN}:${flexS}`;
+			elNotes.classList.toggle('active', flexN > 0);
+			elScript.classList.toggle('active', flexS > 0);
 		}
 		function PanelTextareaResizeH(elThis) {
 			const CP = document.getElementById('command-panel');
@@ -4881,7 +5065,7 @@
 			const choiceContainer = document.getElementById('choice-container');
 
 			const SE = ScriptEngine();
-			const dts = SE.dataset.dts;
+			const dts = SE.dataset.dts || "";
 			textField.title = dts;
 
 			// 20260119: Skyle: If the stage is live and the text does not start with a colon, change to narrative mode.
@@ -5034,11 +5218,23 @@
 			});
 			toggleAddTag(true);
 		}
-		function saveCardNotes(e) {
+		async function saveCardNotes(e) {
 			// 20251230: Cardinal			
 			e?.stopPropagation();
 			const activeCard = document.querySelector(".card.is-active");
 			if (!activeCard) { return; }
+
+			SPEC("202602151038", "Arcacia", "If your public script section is blank but DATA has content, ask the user whether to revert the content in DATA.");
+			const elPanelScript = document.getElementById('card-script');
+
+			if (elPanelScript.value == "") {
+				const DATAcard = DATAByID(activeCard.dataset.id);
+				if (DATAcard && DATAcard.c) {
+					if (await showConfirm('Reload public script from DATA?')) {
+						elPanelScript.value = decodeURIComponent(DATAcard.c || "");
+					}
+				}
+			}
 			activeCard.dataset.c = encodeURIComponent(document.getElementById('card-script').value);
 			activeCard.dataset.i = document.getElementById('card-img-url').value.trim();
 			activeCard.dataset.n = document.getElementById('card-title').value.trim();
@@ -5067,8 +5263,7 @@
 			}
 			refreshAllUI(); // So that if the p code has changed the grid view or file list button is still functional.
 
-
-			activeCard.classList.add("pinned");
+			//activeCard.classList.add("pinned");
 			saveMetadata();
 			memDOM();
 		}
@@ -5391,7 +5586,7 @@
 					ScriptEnd();
 					StageQuit(null, true);
 					//					CurtainBlink();	
-					document.querySelector('.card-textarea.infocus').focus();
+					document.querySelector('.card-textarea.infocus')?.focus();
 					return false;
 				} else {
 					showToast("The stage is already running a script.")
@@ -5450,7 +5645,6 @@
 				dirt.classList.remove('unsaved');
 			}
 
-
 			// 20260108: LRRH: Remove the active attribute from all cards then set this card to be active
 			document.querySelectorAll('.card').forEach(card => card.classList.remove('is-active'));
 			card.classList.add('is-active');
@@ -5470,6 +5664,7 @@
 			cardNotes.dataset.original = card.dataset.o || "";
 			cardScript.dataset.original = card.dataset.c || "";
 
+
 			//}
 			if (data) {
 				document.getElementById("card-img-url").value = data.i || "";
@@ -5479,11 +5674,11 @@
 				document.getElementById("card-path-url").value = data.u || "";
 				if (cardNotes.value == "") {
 					cardNotes.value = data.o ? decodeURIComponent(data.o) : "";
-					cardNotes.dataset.original = data.o || "";
+					cardNotes.dataset.original = cardNotes.value;
 				}
 				if (cardScript.value == "") {
 					cardScript.value = data.c ? decodeURIComponent(data.c) : "";
-					cardScript.dataset.original = data.c || "";
+					cardScript.dataset.original = cardScript.value;
 				}
 
 				if (data.p != document.querySelector(".script-step-btn").dataset.p) {
@@ -5864,6 +6059,41 @@
 			document.addEventListener('dblclick', (e) => {
 				showSplash(e);
 			});
+			SPEC("20260215230100", "Evelyn", "For moving cards around in backstage.");
+			document.addEventListener('dragstart', (e) => {
+				e.stopPropagation();
+				const el = e.target.closest('.card');
+				if (el) {
+					dragstartCard = el;
+					dragstartCardX = e.clientX;
+					dragstartCardY = e.clientY;
+					DEBUG("DragStart");
+					return;
+				} else {
+					dragstartCard = null;
+				}
+			});
+			document.addEventListener('dragover', (e) => {
+				if (dragstartCard) {
+					e.preventDefault(); // This "unlocks" the drop event
+				}
+			});
+			document.addEventListener('drop', (e) => {
+				e.stopPropagation();
+				if (!dragstartCard) { return; }
+				let el = e.target.closest('.card');
+				if (el) {
+					DropCardOnCard(dragstartCard, el);
+					dragstartCard = null;
+					return;
+				}
+				el = e.target.closest('.track');
+				if (el) {
+					DropCardOnTrack(dragstartCard, el);
+					dragstartCard = null;
+					return;
+				}
+			});
 			// 20260110: Sasha: Resizing the main area when the command-panel is shown.
 			const cp = document.getElementById('command-panel');
 			new ResizeObserver(() => {
@@ -6031,17 +6261,25 @@
 			showToast(isRemovalMode ? "REMOVAL MODE: ON" : "REMOVAL MODE: OFF");
 		}
 		function toggleTab(e, aID) {
+			SPEC("202602151723", "Patricia", "If the tab is already shown, hide it.")
 			// 20251230: Cardinal: A generic reusable function to show one tab and hide the rest.
 			e.stopPropagation();
 			const targetTab = document.getElementById(aID);
 			if (!targetTab) return;
+			const oriStatus = targetTab.style.display;
 			const tabFrame = targetTab.parentElement;
 			Array.from(tabFrame.children).forEach(child => {
 				child.style.display = 'none';
 				child.classList.remove('active-tab-content');
+				child.classList.remove('active');
 			});
-			targetTab.style.display = 'block';
-			targetTab.classList.add('active-tab-content');
+
+			if (oriStatus == "none") {
+
+				targetTab.style.display = 'block';
+				targetTab.classList.add('active-tab-content');
+				targetTab.classList.add('active');
+			}
 		}
 		function Track() {
 			const activeCard = getActiveCard();
@@ -6770,7 +7008,7 @@
 			if (isHidden('command-panel')) {
 				panel.style.display = 'block';
 
-			}else{
+			} else {
 				setTimeout(() => {
 					// Double check it's still supposed to be hidden 
 					// (in case the user clicked 'open' again quickly)
@@ -6816,7 +7054,7 @@
 			loadActiveCollections();
 		}
 		function toggleScrollMode(e) {
-			e.stopPropagation();
+			e?.stopPropagation();
 			const body = document.getElementById('body-wrap');
 			const btn = document.getElementById('mode-toggle');
 			const iconContainer = btn.querySelector('div'); // Targets the icon-h or icon-v div
@@ -7043,11 +7281,13 @@
 			// 3. Show the screen
 			splash.style.display = 'flex';
 			document.body.style.overflow = 'hidden';
+			splash.classList.add('active');
 		}
 
 		function hideSplash() {
 			const splash = document.getElementById('splash-screen');
 			splash.style.display = 'none';
+			splash.classList.remove('active');
 			document.body.style.overflow = '';
 
 			// Clear image to save memory
@@ -7422,8 +7662,8 @@
 			return `${year}${month}${day}${hour}${min}${sec}`;
 		}
 		function getActiveCard() {
-			const panelCard = document.querySelector('#active-preview-thumb');
-			if(panelCard.style.display==="none"){return false;}
+			//const panelCard = document.querySelector('#active-preview-thumb');
+			//if(panelCard.style.display==="none"){return false;}
 			const card = document.querySelector(".card.is-active");
 			if (!card) { return null; }
 			return card;
@@ -7728,7 +7968,7 @@
 				toggleSidebar(isCollapsed);
 			}
 		}
-		function SidebarVisible(){
+		function SidebarVisible() {
 			const bodyWrap = document.getElementById('body-wrap');
 			return !bodyWrap.classList.contains('collapsed');
 		}
@@ -7743,12 +7983,21 @@
 			}
 
 			const bodyWrap = document.getElementById('body-wrap');
-			bodyWrap.classList.toggle('collapsed', !show);
+			if (show == null) {
+				bodyWrap.classList.toggle('collapsed');
+			} else {
+				bodyWrap.classList.toggle('collapsed', !show);
+			}
+
 		}
 		function updateDock(side) {
 			currentDock = side;
 			// Add/Remove class to handle the layout direction
-			document.body.classList.toggle('dock-left', side === 'left');
+			if (side === undefined) {
+				document.body.classList.toggle('dock-left');
+			} else {
+				document.body.classList.toggle('dock-left', side === 'left');
+			}
 
 
 			// Save preference
@@ -7830,6 +8079,7 @@
 		function hideSplash() {
 			const splash = document.getElementById('splash-screen');
 			splash.style.display = 'none';
+			splash.classList.remove('active');
 			document.body.style.overflow = '';
 
 			// Reset state for next time
@@ -7847,7 +8097,7 @@
 		function toggleSidebarUpper(e, aID) {
 			e.stopPropagation();
 			const c = document.getElementById(aID);
-			if (c.style.display!=='none' && SidebarVisible()) {
+			if (c.style.display !== 'none' && SidebarVisible()) {
 				c.style.display = "none";
 				c.classList.remove("sidebar-upper");
 			} else {
