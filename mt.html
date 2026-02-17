@@ -212,7 +212,7 @@
 		}
 
 		/* Chrome/Safari Scrollbar styling */
-		
+
 		#choice-container::-webkit-scrollbar {
 			width: 2px;
 		}
@@ -1375,14 +1375,17 @@
 			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 			display: inline-block;
 
-			
+
 		}
-		
-		body.no-contextmenu .card{
+
+		body.no-contextmenu .card {
 			/* For Drag and Drop on Mobile */
-			-webkit-touch-callout: none; /* Prevents the iOS "save image" / "copy" menu */
-  		-webkit-user-select: none;   /* Prevents text selection while dragging */
-  		touch-action: none;          /* Critical: stops the browser from handling scrolls/zooms */
+			-webkit-touch-callout: none;
+			/* Prevents the iOS "save image" / "copy" menu */
+			-webkit-user-select: none;
+			/* Prevents text selection while dragging */
+			touch-action: none;
+			/* Critical: stops the browser from handling scrolls/zooms */
 		}
 
 		.card:has(.scaled) {
@@ -2684,7 +2687,7 @@
 			font-family: inherit;
 			font-size: 18px;
 			overflow-y: auto;
-			opacity:0.7;
+			opacity: 0.7;
 		}
 
 		.status-icons {
@@ -2755,7 +2758,7 @@
 			-ms-overflow-style: none;
 		}
 
-		.hide-scrollbar::-webkit-scrollbar, 
+		.hide-scrollbar::-webkit-scrollbar,
 		.button-pad::-webkit-scrollbar {
 			display: none;
 		}
@@ -2769,13 +2772,14 @@
 			border-radius: 8px;
 			text-align: center;
 			padding: 0;
-			overflow:visible;
+			overflow: visible;
 			vertical-align: middle;
 		}
-		body.no-contextmenu .context-menu-btn{
-			color:palevioletred;
+
+		body.no-contextmenu .context-menu-btn {
+			color: palevioletred;
 			border-color: palevioletred;
-			opacity:0.75;
+			opacity: 0.75;
 		}
 
 		.block-when-active,
@@ -2783,9 +2787,10 @@
 			display: none;
 		}
 
-		.border-when-active.active{
-			border:1px solid gold;
+		.border-when-active.active {
+			border: 1px solid gold;
 		}
+
 		.block-when-active.active {
 			display: block;
 		}
@@ -2809,11 +2814,12 @@
 			border: none !important;
 			background-color: rgba(0, 0, 0, 0) !important;
 		}
-		.centering{
-			display:block;
-			text-align:center;
-			margin:0;
-			padding:0;
+
+		.centering {
+			display: block;
+			text-align: center;
+			margin: 0;
+			padding: 0;
 		}
 
 
@@ -3218,9 +3224,9 @@
 								<polygon points="30,88 12,72 32,60" fill="currentColor" />
 							</svg>
 						</button>
-						
 
-						
+
+
 
 						<button class="tool-btn half" title="Create a blank card" onClick="createCard(null,true)">C+</button>
 						<button class="tool-btn half" title="Toggle Speech Bubble" onClick="SpeechBubbleShow()">SB</button>
@@ -3317,7 +3323,7 @@
 							<svg viewBox="0 0 100 100" style="width: 60%; height: 60%;" stroke="currentColor" stroke-width="12"
 								fill="none">
 								<path d="M0,0 L100,0 L100,10 L0,10Z" />
-								<polygon points="0,100 50,20 100,100" fill="currentColor"/>
+								<polygon points="0,100 50,20 100,100" fill="currentColor" />
 							</svg>
 						</button>
 						<!--Bump to End-->
@@ -3326,7 +3332,7 @@
 							<svg viewBox="0 0 100 100" style="width: 60%; height: 60%;" stroke="currentColor" stroke-width="12"
 								fill="none">
 								<path d="M0,90 L100,90 L100,100 L0,100Z" />
-								<polygon points="0,0 50,80 100,0" fill="currentColor"/>
+								<polygon points="0,0 50,80 100,0" fill="currentColor" />
 							</svg>
 						</button>
 
@@ -3350,9 +3356,11 @@
 						<!--Context Menu-->
 						<button class="tool-btn half context-menu-btn" onclick="document.body.classList.toggle('no-contextmenu');"
 							title="Disable the Context Menu to allow drag and drop on mobile.">
-							<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;" >
-								<rect x="20" y="0" width="80" height="80" rx="20" ry="20" fill="none" stroke="currentColor" stroke-width="8"/>
-								<rect x="0" y="20" width="80" height="80" rx="20" ry="20" fill="currentColor" stroke="currentColor" stroke-width="8"/>
+							<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
+								<rect x="20" y="0" width="80" height="80" rx="20" ry="20" fill="none" stroke="currentColor"
+									stroke-width="8" />
+								<rect x="0" y="20" width="80" height="80" rx="20" ry="20" fill="currentColor" stroke="currentColor"
+									stroke-width="8" />
 							</svg>
 						</button>
 
@@ -3416,50 +3424,51 @@
 				</svg>
 			</button>
 			<!--Urgency Squares / Caption-->
-			<button class="tool-btn none" onclick="StatusReg('none')" title="Add Caption" style="color:rgba(0,0,0,0);">
-					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor"/>
-						<path d="M30 10L70 10M30 90L70 90 M50 10L50 90" stroke="grey" stroke-width="4"/>
-					</svg>
-				</button>
+			<button class="tool-btn none" onclick="StatusReg('none')" title="Add Caption" >
+				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+					
+					<path d="M30 20L70 20M30 80L70 80 M50 20L50 80" stroke="currentColor" stroke-width="4" />
+				</svg>
+			</button>
+			<button class="tool-btn none" onclick="StatusReg('remove')" title="Remove Caption">
+				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+					
+					<path d="M30 30L70 70M30 70L70 30" stroke="currentColor" stroke-width="4" />
+				</svg>
+			</button>
 			<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y:auto;height:36px;">
 				<button class="tool-btn black" onclick="StatusReg('black')" title="TPK" style="color:black;">
 					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
 						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
 					</svg>
 				</button>
-				<button class="tool-btn grey" onclick="StatusReg('grey')" title="Strengthen"
-					style="color:grey;">
+				<button class="tool-btn grey" onclick="StatusReg('grey')" title="Strengthen" style="color:grey;">
 					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
 						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
 					</svg>
 				</button>
-				<button class="tool-btn pink" onclick="StatusReg('pink')" title="Gratitude"
-					style="color:pink;">
+				<button class="tool-btn pink" onclick="StatusReg('pink')" title="Gratitude" style="color:pink;">
 					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
 						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
 					</svg>
 				</button>
-				<button class="tool-btn brown" onclick="StatusReg('brown')" title="Pending"
-					style="color:saddlebrown;">
+				<button class="tool-btn brown" onclick="StatusReg('brown')" title="Pending" style="color:saddlebrown;">
 					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
 						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
 					</svg>
 				</button>
-				
+
 				<button class="tool-btn red" onclick="StatusReg('red')" title="Urgent" style="color:red;">
 					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
 						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
 					</svg>
 				</button>
-				<button class="tool-btn orange" onclick="StatusReg('orange')" title="Important"
-					style="color:orange;">
+				<button class="tool-btn orange" onclick="StatusReg('orange')" title="Important" style="color:orange;">
 					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
 						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
 					</svg>
 				</button>
-				<button class="tool-btn yellow" onclick="StatusReg('yellow')" title="Daily"
-					style="color:yellow;">
+				<button class="tool-btn yellow" onclick="StatusReg('yellow')" title="Daily" style="color:yellow;">
 					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
 						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
 					</svg>
@@ -3469,14 +3478,12 @@
 						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
 					</svg>
 				</button>
-				<button class="tool-btn green" onclick="StatusReg('green')" title="Archive"
-					style="color:green;">
+				<button class="tool-btn green" onclick="StatusReg('green')" title="Archive" style="color:green;">
 					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
 						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
 					</svg>
 				</button>
-				<button class="tool-btn teal" onclick="StatusReg('teal')" title="Maintenance"
-					style="color:teal;">
+				<button class="tool-btn teal" onclick="StatusReg('teal')" title="Maintenance" style="color:teal;">
 					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
 						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
 					</svg>
@@ -3486,16 +3493,15 @@
 						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
 					</svg>
 				</button>
-				<button class="tool-btn purple" onclick="StatusReg('purple')" title="Upgrade"
-					style="color:Purple;">
+				<button class="tool-btn purple" onclick="StatusReg('purple')" title="Upgrade" style="color:Purple;">
 					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
 						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
 					</svg>
 				</button>
 
-				
-				
-				
+
+
+
 			</div>
 		</div>
 		<div class="search-container" style="display:flex;text-align:center">
@@ -3757,7 +3763,7 @@
 				}
 			});
 
-			if(isMobile()){
+			if (isMobile()) {
 				//document.body.classList.toggle('no-contextmenu',true);
 			}
 
@@ -4171,7 +4177,7 @@
 					sunBtn.innerHTML = '⬜';//RandomWeather();//
 					sunBtn.style.width = '33px';
 					sunBtn.style.marginTop = "2px";
-					
+
 					statusIcons.appendChild(sunBtn);
 				}
 			} else {
@@ -4254,19 +4260,19 @@
 			});
 			return result.join('\n');
 		}
-		function DialogCheckbox(elBox){
-			SPEC("20260216044936","Tanya","Allow the user to check and uncheck.");
+		function DialogCheckbox(elBox) {
+			SPEC("20260216044936", "Tanya", "Allow the user to check and uncheck.");
 			elBox.classList.toggle('checked');
-			if(elBox.classList.contains('checked')){
+			if (elBox.classList.contains('checked')) {
 				elBox.innerHTML = SVG("✔️");
-			}else{
+			} else {
 				elBox.innerHTML = ""
 			}
 		}
 		function DialogFormat(text) {
 			SPEC("20260216110900", "Tanya", "The source is first made inert as HTML.");
 			text = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-			
+
 			text = text.replace(/\[url\]([^\[]+)\[\/url\]/gi, '<a href="$1" target="_blank">$1</a>');
 			text = text.replace(/\[url=([^\]]+)\]([^\[]+)\[\/url\]/gi, (match, url, label) => {
 				return `<a href="${url.trim()}" target="_blank" rel="noopener">${label}</a>`;
@@ -4281,7 +4287,7 @@
 			html = DialogFormatCheckbox(html);
 			return html;
 		}
-		
+
 		function DialogFormatCheckbox(multilineText) {
 			SPEC("20260216044931", "Tanya", "The notation [] at the start of a line is an emoji button ⬜. If it has content, then it is checked as ✅. When the user clicks on that button, the function called should be DialogCheckbox.");
 			const checkboxRegex = /^\[([^\]]*)\]/gm;
@@ -4292,19 +4298,19 @@
 
 				// Return a button string that calls DialogCheckbox(this)
 				// We can store the current state or content in a data attribute if needed
-				return `<button class="chkbox-btn ${isChecked?"checked":""}" onclick="DialogCheckbox(this)" data-content="${content}">${emoji}</button>`;
+				return `<button class="chkbox-btn ${isChecked ? "checked" : ""}" onclick="DialogCheckbox(this)" data-content="${content}">${emoji}</button>`;
 			});
 
 			return multilineText;
 		}
-		function DialogFormatEqual(line){
-			SPEC("20260216044943","Tanya","Let narration be normally left justified except when a line starts and ends with =. In that case center the line.");
+		function DialogFormatEqual(line) {
+			SPEC("20260216044943", "Tanya", "Let narration be normally left justified except when a line starts and ends with =. In that case center the line.");
 			line = line.trim()
 
-			if(line.startsWith("=")){
-				if(line==="==="){return "<hr>"}
-				if(line.endsWith("=")){
-					return `<span class='centering'>${line.slice(1,-1)}</span>`;
+			if (line.startsWith("=")) {
+				if (line === "===") { return "<hr>" }
+				if (line.endsWith("=")) {
+					return `<span class='centering'>${line.slice(1, -1)}</span>`;
 				}
 			}
 			return line;
@@ -4563,8 +4569,8 @@
 			}
 
 			const caption = e.target.closest('.status-banner');
-			if(caption){
-				SPEC("20260216203500","LRRH","Don't try to run script when user clicked on the banner.");
+			if (caption) {
+				SPEC("20260216203500", "LRRH", "Don't try to run script when user clicked on the banner.");
 				return true
 			}
 
@@ -6293,12 +6299,24 @@
 			stageEl.classList.add('active');
 			return true;
 		}
-		function StatusReg(color) {
+		async function StatusReg(color) {
 			SPEC("20260216151947", "Natalie", "Toggle the individual color status associated with a card by storing each at its dataset.color. Assign the color for the banner.")
 			const card = getActiveCard();
 			if (!card) { return; }
-			const colors = ['none','red', 'orange', 'yellow', 'white', 'green', 'teal', 'blue', 'purple', 'pink', 'brown', 'black'];
-			const RGBAs = ['rgba(0,0,0,0)','darkred', 'orange', 'gold', 'white', 'darkgreen', 'teal', 'navy', 'indigo', 'hotpink', 'saddlebrown', 'black']; // The actual rgba value for color: can be adjusted here as needed.
+			let statusBanner = card.querySelector('.status-banner');
+			let caption = statusBanner?.innerHTML || "";
+			if(color==='remove'){
+				if(!caption || !await showConfirm('This card has a caption "'+caption+'". Keep it?')){
+					statusBanner.remove();
+					memDOM();
+				}
+				return;
+			}
+
+			const colors = ['remove','none', 'red', 'orange', 'yellow', 'white', 'green', 'teal', 'blue', 'purple', 'pink', 'brown', 'black'];
+			const RGBAs = ['rgba(0,0,0,0)','rgba(0,0,0,0)', 'darkred', 'orange', 'gold', 'white', 'darkgreen', 'teal', 'navy', 'indigo', 'hotpink', 'saddlebrown', 'black']; // The actual rgba value for color: can be adjusted here as needed.
+
+
 
 			// STEP 1: Determine if the card has that color.
 			const hasColor = (color in card.dataset);
@@ -6343,8 +6361,7 @@
 					</svg>
 				</button>
 			*/
-			let statusBanner = card.querySelector('.status-banner');
-			let caption = "";
+
 			if (!statusBanner) {
 				statusBanner = document.createElement('div');
 				statusBanner.className = 'status-banner';
@@ -6357,7 +6374,7 @@
 					card.appendChild(statusBanner);
 				}
 
-			}else{
+			} else {
 				caption = statusBanner.innerHTML;
 			}
 
@@ -6381,10 +6398,10 @@
 			} else {
 				// If no banner color remains, remove the banner
 				//statusBanner?.remove();
-				statusBanner.style.backgroundColor = rgba(0,0,0,0);
+				statusBanner.style.backgroundColor = rgba(0, 0, 0, 0);
 				statusBanner.focus();
 			}
-
+			memDOM();
 		}
 		function summonGateGuardian() {
 			// 20251225: LRRH, StarTree: On mobile it is too easy to accidentally refresh the page and lose the arrangement.
@@ -6412,20 +6429,20 @@
 			fadeLoadingScreen(false);
 		}
 		function getCoords(e) {
-  // If it's a touch event, use the first finger's coordinates
-  if (e.touches && e.touches.length > 0) {
-    return { x: e.touches[0].clientX, y: e.touches[0].clientY };
-  }
-  // Otherwise, use standard mouse coordinates
-  return { x: e.clientX, y: e.clientY };
-}
+			// If it's a touch event, use the first finger's coordinates
+			if (e.touches && e.touches.length > 0) {
+				return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+			}
+			// Otherwise, use standard mouse coordinates
+			return { x: e.clientX, y: e.clientY };
+		}
 		function summonFairyQueen() {
 			// 20251226: StarTree: This is supposed to handle all clicks on staging areas.
-			document.addEventListener('contextmenu', (e) =>{
-				if(document.body.classList.contains('no-contextmenu')){
+			document.addEventListener('contextmenu', (e) => {
+				if (document.body.classList.contains('no-contextmenu')) {
 					e.preventDefault();
 				}
-			});			
+			});
 			document.addEventListener('click', async (e) => {
 				if (await fairyRemovalCheck(e)) { return; }
 				if (await fairyBubblePopping(e)) { return; }
@@ -6481,7 +6498,7 @@
 				}
 				el = e.target.closest('.track');
 				if (el) {
-					DropCardOnTrack(dragstartCard, el,e);
+					DropCardOnTrack(dragstartCard, el, e);
 					dragstartCard = null;
 					return;
 				}
@@ -6514,7 +6531,7 @@
 				}
 				el = e.target.closest('.track');
 				if (el) {
-					DropCardOnTrack(dragstartCard, el,e);
+					DropCardOnTrack(dragstartCard, el, e);
 					dragstartCard = null;
 					return;
 				}
@@ -6557,20 +6574,20 @@
 				return this.substring(index + substring.length);
 			}
 		}
-		function SVG(emoji){
-			SPEC("20260216082446","StarTree","Give the SVG code to take the place of the Emoji.");
+		function SVG(emoji) {
+			SPEC("20260216082446", "StarTree", "Give the SVG code to take the place of the Emoji.");
 			let top = `<svg viewBox="-10 -10 110 110" style="width: 1.5em; height: 1.5em;">`;
-			let middle="";
-			switch(emoji){
+			let middle = "";
+			switch (emoji) {
 				case "✔️":
 					middle = `<path d="M0 50L30 100L100 0" stroke="green" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />`;
-				break;
+					break;
 				case "⬜":
 					middle = `<path d="M0 0L100 0L100 100L0 100Z" stroke="grey" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />`;
-					middle="";
+					middle = "";
 					break;
 			}
-			if(middle){
+			if (middle) {
 				return top + middle + "</svg>";
 			}
 			return emoji;
@@ -7009,7 +7026,7 @@
 				if (direction === 'up' || direction === 'down') isCrossTrackMove = true;
 			}
 
-			
+
 			if (isCrossTrackMove) {
 				// --- LOGIC FOR MOVING TO ANOTHER TRACK ---
 				// 20251227: Cardinal: If there is no next track, create the track.
@@ -7050,39 +7067,39 @@
 				}
 			} else {
 				// --- LOGIC FOR MOVING WITHIN THE SAME TRACK ---
-				
-				if (direction === 'start'){
+
+				if (direction === 'start') {
 					currentTrack.prepend(activeCard);
-				}else if(direction === 'end'){
+				} else if (direction === 'end') {
 					currentTrack.append(activeCard);
-				}else if (direction === 'left' || direction === 'up') {
+				} else if (direction === 'left' || direction === 'up') {
 					const prev = activeCard.previousElementSibling;
-					if (prev){
+					if (prev) {
 						prev.before(activeCard);
-					}else{
+					} else {
 						currentTrack.append(activeCard);
 						setActiveCard(currentTrack.firstElementChild);
 						bFollow = false;
 					}
 				} else {
 					const next = activeCard.nextElementSibling;
-					if (next){
-					next.after(activeCard);
-					}else{
+					if (next) {
+						next.after(activeCard);
+					} else {
 						currentTrack.prepend(activeCard);
 						setActiveCard(currentTrack.lastElementChild);
 						bFollow = false;
 					}
 				}
 				// Keep focus on the card after it moves
-				if(bFollow){
+				if (bFollow) {
 					activeCard.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
 				}
-				
+
 			}
 			// Refresh overlays in case position-based logic (like theater mode) needs to update
 			updateAllCardOverlays();
-			if(bFollow){
+			if (bFollow) {
 				memDOM();
 			}
 		}
@@ -8276,18 +8293,20 @@
 
 			const multitrack = document.querySelector("#multitrack");
 			const numCards = document.querySelectorAll(".card").length;
-			const numPinned = document.querySelectorAll(".card.pinned").length;
+			const numPinned = document.querySelectorAll(
+				".card.pinned, .card:has(.daily), .card:has(.status-banner)"
+			).length;
 
 			let msg = "This will wipe the multitrack area. Keep it?"
 			if (numCards != numPinned && numPinned > 0) {
-				msg = "This will remove " + (numCards - numPinned) + " card(s) without ⭐. Keep them?";
+				msg = "This will remove " + (numCards - numPinned) + " unmarked card(s). Keep them?";
 				if (await showConfirm(msg)) { return; }
 				document.querySelectorAll('.card').forEach(c => {
 					if (!c.classList.contains('pinned')) c.remove();
 				});
 				return;
 			} else if (numCards == numPinned && numCards > 0) {
-				msg = "The multitrack only has ⭐ card(s). Keep them?"
+				msg = "The multitrack only has card(s) with ⭐, ⬜, ✅, or with caption enabled. Keep them?"
 				if (await showConfirm(msg)) { return; }
 			}
 			multitrack.innerHTML = "<div class='track'></div>";
