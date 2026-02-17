@@ -3203,13 +3203,7 @@
 						</button>
 						
 
-						<!--Removal Mode Button-->
-						<button class="tool-btn half removal-mode-btn" onclick="toggleRemovalMode(this)"
-							ondblclick="clearWorkspace(event)" title="Toggle Removal Mode">
-							<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-								<path d="M20,20 L80,80 M80,20 L20,80" fill="none" stroke="currentColor" stroke-width="8" />
-							</svg>
-						</button>
+						
 
 						<button class="tool-btn half" title="Create a blank card" onClick="createCard(null,true)">C+</button>
 						<button class="tool-btn half" title="Toggle Speech Bubble" onClick="SpeechBubbleShow()">SB</button>
@@ -3300,6 +3294,25 @@
 					<div class="button-pad right custom-buttons"
 						style="flex:1;display:flex;flex-wrap:wrap;justify-content: center;flex-direction:column;height:108px;overflow-x:auto;box-sizing: content-box;align-items: flex-start; scrollbar-width: none; -ms-overflow-style: none;align-content: flex-start">
 
+						<!--Bump to Start-->
+						<button class="tool-btn half" onclick="moveActiveCard(event,'start')"
+							title="Move card to the start of track">
+							<svg viewBox="0 0 100 100" style="width: 60%; height: 60%;" stroke="currentColor" stroke-width="12"
+								fill="none">
+								<path d="M0,0 L100,0 L100,10 L0,10Z" />
+								<polygon points="0,100 50,20 100,100" fill="currentColor"/>
+							</svg>
+						</button>
+						<!--Bump to End-->
+						<button class="tool-btn half" onclick="moveActiveCard(event,'end')"
+							title="Send the card to the end of track">
+							<svg viewBox="0 0 100 100" style="width: 60%; height: 60%;" stroke="currentColor" stroke-width="12"
+								fill="none">
+								<path d="M0,90 L100,90 L100,100 L0,100Z" />
+								<polygon points="0,0 50,80 100,0" fill="currentColor"/>
+							</svg>
+						</button>
+
 						<!--SEND MESSAGE BUTTON-->
 						<button class="tool-btn half"
 							onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform', '_blank')"
@@ -3310,7 +3323,13 @@
 								<path d="M0,10 L50,50 L100,10" />
 							</svg>
 						</button>
-
+						<!--Removal Mode Button-->
+						<button class="tool-btn half removal-mode-btn" onclick="toggleRemovalMode(this)"
+							ondblclick="clearWorkspace(event)" title="Toggle Removal Mode">
+							<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+								<path d="M20,20 L80,80 M80,20 L20,80" fill="none" stroke="currentColor" stroke-width="8" />
+							</svg>
+						</button>
 
 						<!--<button class="tool-btn full">R1</button>
 						<button class="tool-btn half">R2</button>
@@ -6878,14 +6897,14 @@
 		 * @param {string} direction - 'up', 'down', 'left', or 'right'
 		 */
 		function moveActiveCard(e, direction) {
-			e.stopPropagation();
+			e?.stopPropagation();
 			const activeCard = document.querySelector('.card.is-active');
 			if (!activeCard) return;
 
 			const bodyWrap = document.getElementById('body-wrap');
 			const isVerticalMode = bodyWrap.classList.contains('max-width');
 			const currentTrack = activeCard.closest('.track');
-
+			let bFollow = true;
 			// 1. Determine if we are moving WITHIN the track or BETWEEN tracks
 			let isCrossTrackMove = false;
 			if (isVerticalMode) {
@@ -6896,6 +6915,7 @@
 				if (direction === 'up' || direction === 'down') isCrossTrackMove = true;
 			}
 
+			
 			if (isCrossTrackMove) {
 				// --- LOGIC FOR MOVING TO ANOTHER TRACK ---
 				// 20251227: Cardinal: If there is no next track, create the track.
@@ -6936,21 +6956,41 @@
 				}
 			} else {
 				// --- LOGIC FOR MOVING WITHIN THE SAME TRACK ---
-				if (direction === 'left' || direction === 'up') {
+				
+				if (direction === 'start'){
+					currentTrack.prepend(activeCard);
+				}else if(direction === 'end'){
+					currentTrack.append(activeCard);
+				}else if (direction === 'left' || direction === 'up') {
 					const prev = activeCard.previousElementSibling;
-					if (prev) activeCard.parentNode.insertBefore(activeCard, prev);
+					if (prev){
+						prev.before(activeCard);
+					}else{
+						currentTrack.append(activeCard);
+						setActiveCard(currentTrack.firstElementChild);
+						bFollow = false;
+					}
 				} else {
 					const next = activeCard.nextElementSibling;
-					if (next) activeCard.parentNode.insertBefore(activeCard, next.nextElementSibling);
+					if (next){
+					next.after(activeCard);
+					}else{
+						currentTrack.prepend(activeCard);
+						setActiveCard(currentTrack.lastElementChild);
+						bFollow = false;
+					}
 				}
-
 				// Keep focus on the card after it moves
-				activeCard.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+				if(bFollow){
+					activeCard.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+				}
+				
 			}
-
 			// Refresh overlays in case position-based logic (like theater mode) needs to update
 			updateAllCardOverlays();
-			memDOM();
+			if(bFollow){
+				memDOM();
+			}
 		}
 		function moveCurrentCard(direction) {
 			const track = document.querySelector('.track');
