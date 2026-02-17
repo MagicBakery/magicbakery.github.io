@@ -4511,8 +4511,8 @@
 					curtain.style.visibility = 'hidden';
 					curtain.style.opacity = '0';
 
-					const icons = document.querySelectorAll('.status-icons');
-					icons.forEach(el => {
+					const cards = document.querySelectorAll('.card.pinned,.card:has(.status-icons),.card:has(.status-banner)');
+					cards.forEach(el => {
 						const originalDisplay = el.style.display;
 						el.style.display = 'none';
 						// This tiny delay ensures the browser registers the removal
