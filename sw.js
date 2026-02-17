@@ -1,5 +1,5 @@
 // Change this version number whenever you make a big update to mt.html
-const CACHE_NAME = 'mt-app-20260216';
+const CACHE_NAME = 'mt-app-202602170728';
 const ASSETS_TO_CACHE = [
   '/',           // The root URL
   '/mt.html'     // Your main app file

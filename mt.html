@@ -212,6 +212,7 @@
 		}
 
 		/* Chrome/Safari Scrollbar styling */
+		
 		#choice-container::-webkit-scrollbar {
 			width: 2px;
 		}
@@ -1374,10 +1375,14 @@
 			box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 			display: inline-block;
 
-/* For Drag and Drop on Mobile */
+			
+		}
+		
+		body.no-contextmenu .card{
+			/* For Drag and Drop on Mobile */
 			-webkit-touch-callout: none; /* Prevents the iOS "save image" / "copy" menu */
-  -webkit-user-select: none;   /* Prevents text selection while dragging */
-  touch-action: none;          /* Critical: stops the browser from handling scrolls/zooms */
+  		-webkit-user-select: none;   /* Prevents text selection while dragging */
+  		touch-action: none;          /* Critical: stops the browser from handling scrolls/zooms */
 		}
 
 		.card:has(.scaled) {
@@ -2750,9 +2755,11 @@
 			-ms-overflow-style: none;
 		}
 
+		.hide-scrollbar::-webkit-scrollbar, 
 		.button-pad::-webkit-scrollbar {
 			display: none;
 		}
+
 
 		.chkbox-btn {
 			width: 2em;
@@ -3385,7 +3392,7 @@
 			</div>
 
 		</div>
-		<div id="card-status-bar" class="flex-when-active button-pad" style="overflow-y:auto">
+		<div id="card-status-bar" class="flex-when-active">
 			<!--Archetype Button-->
 			<button class="tool-btn" title="Archetype (WIP)">
 
@@ -3409,76 +3416,87 @@
 				</svg>
 			</button>
 			<!--Urgency Squares / Caption-->
-			<button class="tool-btn opaque-when-active black" onclick="StatusReg('black')" title="TPK" style="color:black;">
-				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
-				</svg>
-			</button>
-			<button class="tool-btn opaque-when-active red" onclick="StatusReg('red')" title="Urgent" style="color:red;">
-				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
-				</svg>
-			</button>
-			<button class="tool-btn opaque-when-active orange" onclick="StatusReg('orange')" title="Important"
-				style="color:orange;">
-				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
-				</svg>
-			</button>
-			<button class="tool-btn opaque-when-active yellow" onclick="StatusReg('yellow')" title="Daily"
-				style="color:yellow;">
-				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
-				</svg>
-			</button>
-			<button class="tool-btn opaque-when-active white" onclick="StatusReg('white')" title="Todo" style="color:white;">
-				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
-				</svg>
-			</button>
-			<button class="tool-btn opaque-when-active green" onclick="StatusReg('green')" title="Archive"
-				style="color:green;">
-				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
-				</svg>
-			</button>
-			<button class="tool-btn opaque-when-active teal" onclick="StatusReg('teal')" title="Maintenance"
-				style="color:teal;">
-				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
-				</svg>
-			</button>
-			<button class="tool-btn opaque-when-active blue" onclick="StatusReg('blue')" title="Training" style="color:blue;">
-				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
-				</svg>
-			</button>
-			<button class="tool-btn opaque-when-active purple" onclick="StatusReg('purple')" title="Upgrade"
-				style="color:Purple;">
-				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
-				</svg>
-			</button>
+			<button class="tool-btn none" onclick="StatusReg('none')" title="Add Caption" style="color:rgba(0,0,0,0);">
+					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor"/>
+						<path d="M30 10L70 10M30 90L70 90 M50 10L50 90" stroke="grey" stroke-width="4"/>
+					</svg>
+				</button>
+			<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y:auto;height:36px;">
+				<button class="tool-btn black" onclick="StatusReg('black')" title="TPK" style="color:black;">
+					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+					</svg>
+				</button>
+				<button class="tool-btn grey" onclick="StatusReg('grey')" title="Strengthen"
+					style="color:grey;">
+					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+					</svg>
+				</button>
+				<button class="tool-btn pink" onclick="StatusReg('pink')" title="Gratitude"
+					style="color:pink;">
+					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+					</svg>
+				</button>
+				<button class="tool-btn brown" onclick="StatusReg('brown')" title="Pending"
+					style="color:saddlebrown;">
+					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+					</svg>
+				</button>
+				
+				<button class="tool-btn red" onclick="StatusReg('red')" title="Urgent" style="color:red;">
+					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+					</svg>
+				</button>
+				<button class="tool-btn orange" onclick="StatusReg('orange')" title="Important"
+					style="color:orange;">
+					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+					</svg>
+				</button>
+				<button class="tool-btn yellow" onclick="StatusReg('yellow')" title="Daily"
+					style="color:yellow;">
+					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+					</svg>
+				</button>
+				<button class="tool-btn white" onclick="StatusReg('white')" title="Todo" style="color:white;">
+					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+					</svg>
+				</button>
+				<button class="tool-btn green" onclick="StatusReg('green')" title="Archive"
+					style="color:green;">
+					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+					</svg>
+				</button>
+				<button class="tool-btn teal" onclick="StatusReg('teal')" title="Maintenance"
+					style="color:teal;">
+					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+					</svg>
+				</button>
+				<button class="tool-btn blue" onclick="StatusReg('blue')" title="Training" style="color:blue;">
+					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+					</svg>
+				</button>
+				<button class="tool-btn purple" onclick="StatusReg('purple')" title="Upgrade"
+					style="color:Purple;">
+					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+					</svg>
+				</button>
 
-			<button class="tool-btn opaque-when-active brown" onclick="StatusReg('brown')" title="Pending"
-				style="color:saddlebrown;">
-				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
-				</svg>
-			</button>
-			<button class="tool-btn opaque-when-active pink" onclick="StatusReg('pink')" title="Gratitude"
-				style="color:pink;">
-				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
-				</svg>
-			</button>
-			<button class="tool-btn opaque-when-active grey" onclick="StatusReg('grey')" title="Strengthen"
-				style="color:grey;">
-				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
-				</svg>
-			</button>
-			
+				
+				
+				
+			</div>
 		</div>
 		<div class="search-container" style="display:flex;text-align:center">
 			<div style="text-align: right;display:flex;">
@@ -3740,7 +3758,7 @@
 			});
 
 			if(isMobile()){
-				document.body.classList.toggle('no-contextmenu',true);
+				//document.body.classList.toggle('no-contextmenu',true);
 			}
 
 			// STEP: Content ready to be shown			
@@ -6279,8 +6297,8 @@
 			SPEC("20260216151947", "Natalie", "Toggle the individual color status associated with a card by storing each at its dataset.color. Assign the color for the banner.")
 			const card = getActiveCard();
 			if (!card) { return; }
-			const colors = ['red', 'orange', 'yellow', 'white', 'green', 'teal', 'blue', 'purple', 'pink', 'brown', 'black'];
-			const RGBAs = ['darkred', 'orange', 'gold', 'white', 'darkgreen', 'teal', 'navy', 'indigo', 'hotpink', 'saddlebrown', 'black']; // The actual rgba value for color: can be adjusted here as needed.
+			const colors = ['none','red', 'orange', 'yellow', 'white', 'green', 'teal', 'blue', 'purple', 'pink', 'brown', 'black'];
+			const RGBAs = ['rgba(0,0,0,0)','darkred', 'orange', 'gold', 'white', 'darkgreen', 'teal', 'navy', 'indigo', 'hotpink', 'saddlebrown', 'black']; // The actual rgba value for color: can be adjusted here as needed.
 
 			// STEP 1: Determine if the card has that color.
 			const hasColor = (color in card.dataset);
@@ -6292,8 +6310,11 @@
 				// STEP 3: If the color already exists, remove it from dataset.
 				delete card.dataset[color];
 			}
+			// UPDATE: Just set the caption color. Don't remember the color in dataset.
+			delete card.dataset[color];
 
 			// STEP 4: If the color to remove is also the banner color, use the colors array to get the first color that the card has, and set that for the banner. If there is no match, remove the banner attribute.
+			/*
 			if (hasColor && card.dataset.banner === color) {
 				const nextColor = colors.find(c => c in card.dataset);
 				if (nextColor) {
@@ -6302,12 +6323,14 @@
 					delete card.dataset.banner;
 				}
 			}
+				*/
 
 			// STEP 5: Set the .active status of the button.
 			const csbar = document.getElementById('card-status-bar');
 			const btn = csbar?.querySelector('.' + color);
 			const isNowActive = color in card.dataset;
-			btn?.classList.toggle('active', isNowActive);
+			//UPDATE: Don't:
+			// btn?.classList.toggle('active', isNowActive);
 
 
 			// STEP 6: Render the display of the status banner at the div .status-icons of the card.
@@ -6334,7 +6357,6 @@
 					card.appendChild(statusBanner);
 				}
 
-
 			}else{
 				caption = statusBanner.innerHTML;
 			}
@@ -6358,7 +6380,9 @@
 
 			} else {
 				// If no banner color remains, remove the banner
-				statusBanner?.remove();
+				//statusBanner?.remove();
+				statusBanner.style.backgroundColor = rgba(0,0,0,0);
+				statusBanner.focus();
 			}
 
 		}
@@ -6401,8 +6425,7 @@
 				if(document.body.classList.contains('no-contextmenu')){
 					e.preventDefault();
 				}
-			});
-			
+			});			
 			document.addEventListener('click', async (e) => {
 				if (await fairyRemovalCheck(e)) { return; }
 				if (await fairyBubblePopping(e)) { return; }
@@ -6463,6 +6486,39 @@
 					return;
 				}
 			});
+			document.addEventListener('touchstart', (e) => {
+				e.stopPropagation();
+				const el = e.target.closest('.card');
+				if (el) {
+					dragstartCard = el;
+					dragstartCardX = e.clientX;
+					dragstartCardY = e.clientY;
+					return;
+				} else {
+					dragstartCard = null;
+				}
+			});
+			document.addEventListener('touchmove', (e) => {
+				if (dragstartCard && document.body.classList.contains('no-contextmenu')) {
+					e.preventDefault(); // This "unlocks" the drop event
+				}
+			});
+			document.addEventListener('touchend', (e) => {
+				e.stopPropagation();
+				if (!dragstartCard) { return; }
+				let el = e.target.closest('.card');
+				if (el) {
+					DropCardOnCard(dragstartCard, el, e);
+					dragstartCard = null;
+					return;
+				}
+				el = e.target.closest('.track');
+				if (el) {
+					DropCardOnTrack(dragstartCard, el,e);
+					dragstartCard = null;
+					return;
+				}
+			});
 			// 20260110: Sasha: Resizing the main area when the command-panel is shown.
 			const cp = document.getElementById('command-panel');
 			new ResizeObserver(() => {
@@ -6507,7 +6563,7 @@
 			let middle="";
 			switch(emoji){
 				case "✔️":
-					middle = `<path d="M00 50L30 100L100 0" stroke="green" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />`;
+					middle = `<path d="M0 50L30 100L100 0" stroke="green" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />`;
 				break;
 				case "⬜":
 					middle = `<path d="M0 0L100 0L100 100L0 100Z" stroke="grey" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />`;
