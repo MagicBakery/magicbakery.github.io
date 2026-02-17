@@ -306,7 +306,7 @@
 			/* Cinematic dark bar */
 			backdrop-filter: blur(10px);
 			color: white;
-			padding: 30px 10% 30px 10%;
+			padding: 30px;
 			/* More breathing room for wide text */
 			border-left: none;
 			border-right: none;
@@ -463,6 +463,7 @@
 
 		.speech-bubble.narrative-mode .speech-content {
 			color: #CCC;
+			text-align: left;
 		}
 
 		/* The New Button Row */
@@ -561,7 +562,6 @@
 		}
 
 		#tab-card-notes {
-			display: block;
 			/* Hidden by default */
 			flex-direction: column;
 			gap: 10px;
@@ -905,8 +905,8 @@
 		body:has(.card.is-active.pinned) .star-btn,
 		body:has(.card.is-active.pinned) .pin-btn {
 			color: var(--gold) !important;
-			background: rgba(255, 215, 0, 0.1) !important;
-			border-color: var(--gold) !important;
+			background: rgba(255, 215, 0, 0.1);
+			border-color: var(--gold);
 		}
 
 		#multitrack {
@@ -1169,7 +1169,7 @@
 		body.auto-random .auto-random-btn {
 			color: var(--green);
 			border-color: var(--green);
-			background-color: rgba(0, 0, 0, 0.25);
+			background-color: rgba(0, 96, 0, 0.25);
 		}
 
 		body.auto-random .auto-random-btn {
@@ -1178,16 +1178,18 @@
 
 		@keyframes pulse-green {
 			0% {
-				color: darkgreen
+				color: darkgreen;
+				border-color: darkgreen;
 			}
 
-			25% {
-				color: var(--green)
+			95% {
+				color: rgba(0, 255, 0, 1);
+				border-color: rgba(0, 255, 0, 1);
 			}
 
 			100% {
 				color: white;
-				border-color: white
+				border-color: white;
 			}
 		}
 
@@ -1709,8 +1711,8 @@
 		#active-preview-thumb {
 			object-fit: contain;
 			border-radius: 8px;
-			border:1px solid lightgray;
-			background-color: rgba(0,0,0,0.25);
+			border: 2px solid lightgray;
+			background-color: rgba(0, 0, 0, 0.25);
 			/*
 			border:2px solid #0096FF;
 			background-color: rgba(0,0,96,0.25); 
@@ -2659,20 +2661,40 @@
 			display: none;
 		}
 
+		.status-banner {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			gap: 4px;
+			width: 100%;
+			min-height: 24px;
+			max-height: 100%;
+			color: white;
+			text-align: center;
+			font-family: inherit;
+			font-size: 18px;
+			overflow-y: auto;
+			opacity:0.7;
+		}
+
 		.status-icons {
 			position: absolute;
 			top: 0;
 			display: flex;
+			flex-direction: column;
 			right: 0;
 			gap: 4px;
+			padding: 0;
 		}
 
-		.daily-status-icon {
+		.status-icon {
 			filter:
 				drop-shadow(-1px 0px 0 rgba(255, 255, 255, 0.25)) drop-shadow(-1px 2px 0 rgba(0, 0, 0, 0.25)) drop-shadow(1px 0px 0 rgba(255, 255, 255, 0.25)) drop-shadow(1px 2px 0 rgba(0, 0, 0, 0.25));
 			font-size: 24px;
 			cursor: pointer;
-			background-color: darkgreen;
+			background-color: rgba(0, 0, 0, 0);
+			border: none;
+			margin-left: 6px;
 		}
 
 		.icon-check {
@@ -2726,7 +2748,8 @@
 		.button-pad::-webkit-scrollbar {
 			display: none;
 		}
-		.chkbox-btn{
+
+		.chkbox-btn {
 			width: 2em;
 			height: 2em;
 			background-color: rgba(0, 0, 0, 0.5);
@@ -2734,7 +2757,50 @@
 			border-radius: 8px;
 			text-align: center;
 			padding: 0;
+			overflow:visible;
+			vertical-align: middle;
 		}
+
+		.block-when-active,
+		.flex-when-active {
+			display: none;
+		}
+
+		.border-when-active.active{
+			border:1px solid gold;
+		}
+		.block-when-active.active {
+			display: block;
+		}
+
+		.flex-when-active.active {
+			display: flex;
+		}
+
+		.opaque-when-active {
+			opacity: 0.05;
+		}
+
+		.opaque-when-active:hover,
+		.opaque-when-active.active {
+			opacity: 1;
+		}
+
+		#card-status-bar .tool-btn {
+			/*flex: 1;*/
+			min-width: 0px;
+			border: none !important;
+			background-color: rgba(0, 0, 0, 0) !important;
+		}
+		.centering{
+			display:block;
+			text-align:center;
+			margin:0;
+			padding:0;
+		}
+
+
+
 		/* #CSS END */
 	</style>
 </head>
@@ -2967,7 +3033,7 @@
 
 		<div class="tabs-contents">
 
-			<div id="tab-card-notes" class="tab-content" style="display:none"
+			<div id="tab-card-notes" class="tab-content block-when-active"
 				onkeydown="if (event.key.toLowerCase() === 's' && (event.ctrlKey || event.metaKey)) {event.preventDefault();saveCardNotes(event);}">
 				<div id="card-tag-section" class="active">
 					<div id="card-tag-list" class="tag-cloud" style="padding:5px 0px"></div>
@@ -3041,7 +3107,7 @@
 							</svg>
 						</button>-->
 					</div>
-					
+
 				</div>
 				<div id="card-sec-bar" style="text-align:center;margin-top:5px;cursor:pointer" title="Display Selection">
 					<div id="card-sec-btns" style="display:flex;text-align:center">
@@ -3063,7 +3129,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="tab-collections" class="tab-content" style="display:none">
+			<div id="tab-collections" class="tab-content block-when-active">
 				<div class="stats-bar">
 					<div class="stats-clickable" onclick="toggleCollections(event)">Collections (<span
 							id="collection-count">0</span>)
@@ -3088,7 +3154,7 @@
 					<div id="path-list-container"></div>
 				</div>
 			</div>
-			<div id="tab-tag-cloud" class="tab-content" style="display:none">
+			<div id="tab-tag-cloud" class="tab-content block-when-active">
 				<div id="tag-cloud" class="tag-cloud"></div>
 				<div class="stats-bar tags-bar">
 					<span class="stats-clickable">Tags (<span id="tag-count">0</span>)</span>
@@ -3098,7 +3164,7 @@
 				</div>
 
 			</div>
-			<div id="tab-controls" class="tab-content">
+			<div id="tab-controls" class="tab-content block-when-active">
 				<div style="display:flex;">
 					<div class="button-pad left"
 						style="flex:1;flex-wrap:wrap-reverse;justify-content: flex-start;flex-direction:column;height:108px;overflow-x:auto;box-sizing: content-box;align-items: flex-end;align-content: flex-start;">
@@ -3135,17 +3201,7 @@
 								<polygon points="30,88 12,72 32,60" fill="currentColor" />
 							</svg>
 						</button>
-						<!--Daily Quest Button-->
-						<button class="tool-btn half" onclick="DailyQuestReg()" title="Mark for Daily Quest">
-							<svg width="48" height="36" viewBox="1 1 18 18" fill="none" stroke="currentColor" stroke-width="1.5"
-								stroke-linecap="round">
-								<path
-									d="M10 3L11.41 6.46L14.95 5.05L14 8L17 10L14 12L14.95 14.95L11.41 13.54L10 17L8.59 13.54L5.05 14.95L6 12L3 10L6 8L5.05 5.05L8.59 6.46Z"
-									fill="currentColor" />
-								<circle cx="10" cy="10" r="4" stroke-width="3" fill="currentColor" />
-								<circle cx="10" cy="10" r="5" stroke-width="2" fill="currentColor" />
-							</svg>
-						</button>
+						
 
 						<!--Removal Mode Button-->
 						<button class="tool-btn half removal-mode-btn" onclick="toggleRemovalMode(this)"
@@ -3243,15 +3299,18 @@
 					</div>
 					<div class="button-pad right custom-buttons"
 						style="flex:1;display:flex;flex-wrap:wrap;justify-content: center;flex-direction:column;height:108px;overflow-x:auto;box-sizing: content-box;align-items: flex-start; scrollbar-width: none; -ms-overflow-style: none;align-content: flex-start">
-												
+
 						<!--SEND MESSAGE BUTTON-->
-						<button class="tool-btn half" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform', '_blank')" title="Send Message">
-							<svg viewBox="0 0 100 100" style="width: 60%; height: 60%;" stroke="currentColor" stroke-width="12" fill="none">
-								<polygon points="0,10 100,10 100,90 0,90"/>
-								<path d="M0,10 L50,50 L100,10"/>
+						<button class="tool-btn half"
+							onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform', '_blank')"
+							title="Send Message">
+							<svg viewBox="0 0 100 100" style="width: 60%; height: 60%;" stroke="currentColor" stroke-width="12"
+								fill="none">
+								<polygon points="0,10 100,10 100,90 0,90" />
+								<path d="M0,10 L50,50 L100,10" />
 							</svg>
 						</button>
-						
+
 
 						<!--<button class="tool-btn full">R1</button>
 						<button class="tool-btn half">R2</button>
@@ -3274,12 +3333,8 @@
 						<button class="tool-btn full">R19</button>-->
 					</div>
 				</div>
-
-
-
-
 			</div>
-			<div id="tab-dev-notes" style="display:none;">
+			<div id="tab-dev-notes" class="block-when-active">
 				<div style="display:flex; gap:5px; align-items:center;">
 					<a id="add-btn" href="#" target="_blank" class="sq-btn action-btn" onclick="handleLinkAction(event)">+</a>
 					<input type="text" id="add-url-input" class="unified-width" placeholder="URL for + button..."
@@ -3293,36 +3348,135 @@
 			</div>
 
 		</div>
+		<div id="card-status-bar" class="flex-when-active button-pad" style="overflow-y:auto">
+			<!--Archetype Button-->
+			<button class="tool-btn" title="Archetype (WIP)">
+
+			</button>
+			<!--Star Button-->
+			<button class="tool-btn star-btn" onclick="togglePinActiveCard(event)" title="Star Rating">
+				<svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor" stroke="currentColor" stroke-width="2"
+					stroke-linejoin="round">
+					<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+				</svg>
+			</button>
+			<!--Daily Quest Button-->
+			<button class="tool-btn daily" onclick="DailyQuestReg()" title="Mark for Daily Quest">
+				<svg width="48" height="36" viewBox="1 1 18 18" fill="none" stroke="currentColor" stroke-width="1.5"
+					stroke-linecap="round">
+					<path
+						d="M10 3L11.41 6.46L14.95 5.05L14 8L17 10L14 12L14.95 14.95L11.41 13.54L10 17L8.59 13.54L5.05 14.95L6 12L3 10L6 8L5.05 5.05L8.59 6.46Z"
+						fill="currentColor" />
+					<circle cx="10" cy="10" r="4" stroke-width="3" fill="currentColor" />
+					<circle cx="10" cy="10" r="5" stroke-width="2" fill="currentColor" />
+				</svg>
+			</button>
+			<!--Urgency Squares / Caption-->
+			<button class="tool-btn opaque-when-active black" onclick="StatusReg('black')" title="TPK" style="color:black;">
+				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+				</svg>
+			</button>
+			<button class="tool-btn opaque-when-active red" onclick="StatusReg('red')" title="Urgent" style="color:red;">
+				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+				</svg>
+			</button>
+			<button class="tool-btn opaque-when-active orange" onclick="StatusReg('orange')" title="Important"
+				style="color:orange;">
+				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+				</svg>
+			</button>
+			<button class="tool-btn opaque-when-active yellow" onclick="StatusReg('yellow')" title="Daily"
+				style="color:yellow;">
+				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+				</svg>
+			</button>
+			<button class="tool-btn opaque-when-active white" onclick="StatusReg('white')" title="Todo" style="color:white;">
+				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+				</svg>
+			</button>
+			<button class="tool-btn opaque-when-active green" onclick="StatusReg('green')" title="Archive"
+				style="color:green;">
+				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+				</svg>
+			</button>
+			<button class="tool-btn opaque-when-active teal" onclick="StatusReg('teal')" title="Maintenance"
+				style="color:teal;">
+				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+				</svg>
+			</button>
+			<button class="tool-btn opaque-when-active blue" onclick="StatusReg('blue')" title="Training" style="color:blue;">
+				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+				</svg>
+			</button>
+			<button class="tool-btn opaque-when-active purple" onclick="StatusReg('purple')" title="Upgrade"
+				style="color:Purple;">
+				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+				</svg>
+			</button>
+
+			<button class="tool-btn opaque-when-active brown" onclick="StatusReg('brown')" title="Pending"
+				style="color:saddlebrown;">
+				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+				</svg>
+			</button>
+			<button class="tool-btn opaque-when-active pink" onclick="StatusReg('pink')" title="Gratitude"
+				style="color:pink;">
+				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+				</svg>
+			</button>
+			<button class="tool-btn opaque-when-active grey" onclick="StatusReg('grey')" title="Strengthen"
+				style="color:grey;">
+				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+					<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
+				</svg>
+			</button>
+			
+		</div>
 		<div class="search-container" style="display:flex;text-align:center">
 			<div style="text-align: right;display:flex;">
 				<button class="tool-btn">
 					<img id="active-preview-thumb" class="save-notes-btn tool-btn" src="" referrerpolicy="no-referrer" alt=""
 						style="display: none;" title="Save changes to this card">
 				</button>
-				<!--Star Button-->
-				<button class="tool-btn star-btn" onclick="togglePinActiveCard(event)" title="Star Active Card">
-					<svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor" stroke="currentColor" stroke-width="2"
+				<!--Status Tab Button-->
+				<button id="status-bar-btn-1" class="tool-btn star-btn active flex-when-active"
+					onclick="ToggleByID(this,'card-status-bar');ToggleByID(this,'status-bar-btn-1');ToggleByID(this,'status-bar-btn-2')"
+					title="Star Active Card">
+					<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2"
 						stroke-linejoin="round">
 						<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
 					</svg>
 				</button>
-				<!--<button class="tool-btn" onclick="toggleTab(event,'tab-card-notes')" title="Details">
+				<button id="status-bar-btn-2" class="tool-btn flex-when-active"
+					onclick="ToggleByID(this,'card-status-bar');ToggleByID(this,'status-bar-btn-1');ToggleByID(this,'status-bar-btn-2')"
+					title="Details">
 					<svg width="24" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
 						stroke-linecap="round">
 						<line x1="3" y1="6" x2="21" y2="6"></line>
 						<line x1="3" y1="12" x2="15" y2="12"></line>
 						<line x1="3" y1="18" x2="11" y2="18"></line>
 					</svg>
-				</button>-->
+				</button>
 				<!--DEV NOTES BUTTON-->
-			<button class="tool-btn" id="settings-btn" onclick="toggleTab(event, 'tab-dev-notes')" title="Developer Notes">
-				<svg viewBox="0 0 100 100">
-					<rect x="20" y="15" width="60" height="70" rx="5" fill="none" stroke="currentColor" stroke-width="6" />
-					<line x1="35" y1="35" x2="65" y2="35" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
-					<line x1="35" y1="50" x2="65" y2="50" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
-					<line x1="35" y1="65" x2="55" y2="65" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
-				</svg>
-			</button>
+				<button class="tool-btn" id="settings-btn" onclick="toggleTab(event, 'tab-dev-notes')" title="Developer Notes">
+					<svg viewBox="0 0 100 100">
+						<rect x="20" y="15" width="60" height="70" rx="5" fill="none" stroke="currentColor" stroke-width="6" />
+						<line x1="35" y1="35" x2="65" y2="35" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+						<line x1="35" y1="50" x2="65" y2="50" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+						<line x1="35" y1="65" x2="55" y2="65" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+					</svg>
+				</button>
 				<button class="tool-btn" onclick="toggleSidebar()" title="Asset List">
 					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 						<rect x="3" y="3" width="7" height="7"></rect>
@@ -3379,7 +3533,6 @@
 						<polygon points="0,0 0,100 100,100 100,0" fill="currentColor" />
 					</svg>
 				</button>
-				<!--<button class="tool-btn">🖼️</button>-->
 			</div>
 		</div>
 	</div>
@@ -3913,7 +4066,7 @@
 			const digit = 8;
 			const now = Number(DTS().slice(0, digit));
 			let iconDTS = "";
-			document.querySelectorAll(".daily-status-icon").forEach(daily => {
+			document.querySelectorAll(".daily.status-icon").forEach(daily => {
 				if (!daily.dataset.dts) {
 					if (daily.innerText !== "✅") { return; }
 					daily.innerHTML = "⬜";//RandomWeather();
@@ -3936,19 +4089,30 @@
 				statusIcons = document.createElement('div');
 				statusIcons.className = 'status-icons';
 				// Note: CSS should handle the 'bottom center' anchoring via absolute positioning
+
+
+
 				card.appendChild(statusIcons);
+			} else {
+				const banner = card.querySelector(".status-banner");
+				if (banner) {
+					banner.after(statusIcons);
+				}
 			}
 			// Then add an icon button in the status-icons div.
-			let sunBtn = statusIcons.querySelector('.daily-status-icon');
+			let sunBtn = statusIcons.querySelector('.daily.status-icon');
 			if (isDaily) {
 				// If it's a daily quest and the icon doesn't exist, create it
 				if (!sunBtn) {
 					sunBtn = document.createElement('button');
-					sunBtn.className = 'daily-status-icon';
+					sunBtn.className = 'daily status-icon';
 					sunBtn.style.background = 'none';
 					sunBtn.style.border = 'none';
 					sunBtn.style.padding = '0';
-					sunBtn.innerHTML = "⬜";//RandomWeather();
+					sunBtn.innerHTML = '⬜';//RandomWeather();//
+					sunBtn.style.width = '33px';
+					sunBtn.style.marginTop = "2px";
+					
 					statusIcons.appendChild(sunBtn);
 				}
 			} else {
@@ -4031,9 +4195,19 @@
 			});
 			return result.join('\n');
 		}
+		function DialogCheckbox(elBox){
+			SPEC("20260216044936","Tanya","Allow the user to check and uncheck.");
+			elBox.classList.toggle('checked');
+			if(elBox.classList.contains('checked')){
+				elBox.innerHTML = SVG("✔️");
+			}else{
+				elBox.innerHTML = ""
+			}
+		}
 		function DialogFormat(text) {
-			SPEC("20260216110900","Tanya","The source is first made inert as HTML.");
+			SPEC("20260216110900", "Tanya", "The source is first made inert as HTML.");
 			text = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+			
 			text = text.replace(/\[url\]([^\[]+)\[\/url\]/gi, '<a href="$1" target="_blank">$1</a>');
 			text = text.replace(/\[url=([^\]]+)\]([^\[]+)\[\/url\]/gi, (match, url, label) => {
 				return `<a href="${url.trim()}" target="_blank" rel="noopener">${label}</a>`;
@@ -4043,23 +4217,38 @@
 			SPEC("20260214112800", "Natalie", "In the script, // is interpreted as newline unless it starts with a colon or ends with a space.");
 			text = text.replace(/(?<!:)\/\//g, "\n");
 
-			text = DialogFormatCheckbox(text);
-			return text;
+			let html = text;
+			html = DialogFormatEqual(html);
+			html = DialogFormatCheckbox(html);
+			return html;
 		}
-		function DialogFormatCheckbox(multilineText){
-			SPEC("20260216044931","Tanya","The notation [] at the start of a line is an emoji button ⬜. If it has content, then it is checked as ✅. When the user clicks on that button, the function called should be DialogCheckbox.");
+		
+		function DialogFormatCheckbox(multilineText) {
+			SPEC("20260216044931", "Tanya", "The notation [] at the start of a line is an emoji button ⬜. If it has content, then it is checked as ✅. When the user clicks on that button, the function called should be DialogCheckbox.");
 			const checkboxRegex = /^\[([^\]]*)\]/gm;
 			return multilineText.replace(checkboxRegex, (match, content) => {
-				
+
 				const isChecked = content.trim().length > 0;
-				const emoji = isChecked ? "✅" : "";
-				
+				const emoji = isChecked ? SVG("✔️") : "";
+
 				// Return a button string that calls DialogCheckbox(this)
 				// We can store the current state or content in a data attribute if needed
-				return `<button class="chkbox-btn" onclick="DialogCheckbox(this)" data-content="${content}">${emoji}</button>`;
+				return `<button class="chkbox-btn ${isChecked?"checked":""}" onclick="DialogCheckbox(this)" data-content="${content}">${emoji}</button>`;
 			});
 
 			return multilineText;
+		}
+		function DialogFormatEqual(line){
+			SPEC("20260216044943","Tanya","Let narration be normally left justified except when a line starts and ends with =. In that case center the line.");
+			line = line.trim()
+
+			if(line.startsWith("=")){
+				if(line==="==="){return "<hr>"}
+				if(line.endsWith("=")){
+					return `<span class='centering'>${line.slice(1,-1)}</span>`;
+				}
+			}
+			return line;
 		}
 		function DEBUG(msg, bCompact) {
 			// 20260125: Evelyn: Help locate where all the console log are and where they are called.
@@ -4311,6 +4500,13 @@
 				}
 				return true;
 			}
+
+			const caption = e.target.closest('.status-banner');
+			if(caption){
+				SPEC("20260216203500","LRRH","Don't try to run script when user clicked on the banner.");
+				return true
+			}
+
 			const card = e.target.closest('.card');
 			if (card) {
 				e.stopPropagation();
@@ -4488,7 +4684,7 @@
 		}
 		async function fairyStatusCheck(e) {
 			SPEC("20260214150700", "LRRH", "Change the icon to a checkmark and log the time for daily quest.");
-			const daily = e.target.closest(".daily-status-icon");
+			const daily = e.target.closest(".daily .status-icon");
 			if (!daily) { return false; }
 			e.stopPropagation();
 			SPEC("20260214151000", "LRRH", "If the icon is already the checkmark, change it to a random weather icon.");
@@ -5087,60 +5283,6 @@
 			} else if (command === 'STAGE') { StageSet(tail1); return true; }
 			return false;
 		}
-		function ScriptDialog(text, choiceColors = []) {
-			// Display Elements
-			const overlay = document.getElementById('dialogue-overlay');
-			const textField = document.getElementById('speech-text');
-			const choiceContainer = document.getElementById('choice-container');
-
-			const SE = ScriptEngine();
-			const dts = SE.dataset.dts || "";
-			textField.title = dts;
-
-			// 20260119: Skyle: If the stage is live and the text does not start with a colon, change to narrative mode.
-			const prefix = text.charAt(0);
-			const bubble = document.querySelector('.speech-bubble');
-			//if(StageLive() && prefix != ':'){
-			let continueNarration = bubble.classList.contains('narrative-mode');
-			if (prefix != ':') {
-				bubble.classList.add('narrative-mode');
-			} else {
-				bubble.classList.remove('narrative-mode');
-				text = text.substring(1).trim();
-				continueNarration = false;
-			}
-
-			// Set Text			
-			if (continueNarration) {
-				textField.innerHTML += "\n" + DialogFormat(text);
-			} else {
-				textField.innerHTML = DialogFormat(text);
-			}
-			// If choiceColors is blank, hide the container.
-			if (choiceColors.length == 0) {
-				choiceContainer.classList.remove('active');
-			} else {
-				choiceContainer.classList.add('active');
-			}
-			// Clear and Populate Buttons
-			choiceContainer.innerHTML = "";
-			choiceColors.forEach(color => {
-				const btn = document.createElement('button');
-				btn.className = 'choice-btn';
-				btn.style.backgroundColor = color;
-				choiceContainer.appendChild(btn);
-			});
-			SpeechBubbleShow(true);
-			document.querySelector('.speech-bubble').scrollTop = 0;
-
-			// Reset the next button animation.
-			const nextBtn = document.querySelector('.stage-next-btn');
-			nextBtn.classList.remove('stage-next-btn');
-			void nextBtn.offsetWidth;
-			nextBtn.classList.add('stage-next-btn');
-
-			return false;
-		}
 		async function processScriptLine(line) {
 			// 20260119: Arcacia: This function runs a line in the script. if it returns true, it means that the function calling this may run the next line immediately.			
 			line = line.trim();
@@ -5371,6 +5513,61 @@
 				ChoiceBubbleSpawn(code, choiceText);
 			}
 			return true;
+		}
+		function ScriptDialog(text, choiceColors = []) {
+			// Display Elements
+			const overlay = document.getElementById('dialogue-overlay');
+			const textField = document.getElementById('speech-text');
+			const choiceContainer = document.getElementById('choice-container');
+
+			const SE = ScriptEngine();
+			const dts = SE.dataset.dts || "";
+			textField.title = dts;
+
+			// 20260119: Skyle: If the stage is live and the text does not start with a colon, change to narrative mode.
+			const prefix = text.charAt(0);
+			const bubble = document.querySelector('.speech-bubble');
+			//if(StageLive() && prefix != ':'){
+			let continueNarration = bubble.classList.contains('narrative-mode');
+			if (prefix != ':') {
+				bubble.classList.add('narrative-mode');
+			} else {
+				bubble.classList.remove('narrative-mode');
+				text = text.substring(1).trim();
+				continueNarration = false;
+			}
+
+			// Set Text			
+			if (continueNarration) {
+				textField.innerHTML += "<div></div>" + DialogFormat(text);
+			} else {
+				textField.innerHTML = DialogFormat(text);
+			}
+			textField.scrollTop = textField.scrollHeight;
+			// If choiceColors is blank, hide the container.
+			if (choiceColors.length == 0) {
+				choiceContainer.classList.remove('active');
+			} else {
+				choiceContainer.classList.add('active');
+			}
+			// Clear and Populate Buttons
+			choiceContainer.innerHTML = "";
+			choiceColors.forEach(color => {
+				const btn = document.createElement('button');
+				btn.className = 'choice-btn';
+				btn.style.backgroundColor = color;
+				choiceContainer.appendChild(btn);
+			});
+			SpeechBubbleShow(true);
+			document.querySelector('.speech-bubble').scrollTop = 0;
+
+			// Reset the next button animation.
+			const nextBtn = document.querySelector('.stage-next-btn');
+			nextBtn.classList.remove('stage-next-btn');
+			void nextBtn.offsetWidth;
+			nextBtn.classList.add('stage-next-btn');
+
+			return false;
 		}
 		function ScriptEnd() {
 			// 20260125: Evelyn: Ends the script. (To keep the engine from running the rest.)
@@ -6035,6 +6232,93 @@
 			stageEl.classList.add('active');
 			return true;
 		}
+		function StatusReg(color) {
+			SPEC("20260216151947", "Natalie", "Toggle the individual color status associated with a card by storing each at its dataset.color. Assign the color for the banner.")
+			const card = getActiveCard();
+			if (!card) { return; }
+			const colors = ['red', 'orange', 'yellow', 'white', 'green', 'teal', 'blue', 'purple', 'pink', 'brown', 'black'];
+			const RGBAs = ['darkred', 'orange', 'gold', 'white', 'darkgreen', 'teal', 'navy', 'indigo', 'hotpink', 'saddlebrown', 'black']; // The actual rgba value for color: can be adjusted here as needed.
+
+			// STEP 1: Determine if the card has that color.
+			const hasColor = (color in card.dataset);
+			if (!hasColor) {
+				// STEP 2: If not, set the add the dataset and also set dataset.banner=color. 
+				card.dataset[color] = "true";
+				card.dataset.banner = color;
+			} else {
+				// STEP 3: If the color already exists, remove it from dataset.
+				delete card.dataset[color];
+			}
+
+			// STEP 4: If the color to remove is also the banner color, use the colors array to get the first color that the card has, and set that for the banner. If there is no match, remove the banner attribute.
+			if (hasColor && card.dataset.banner === color) {
+				const nextColor = colors.find(c => c in card.dataset);
+				if (nextColor) {
+					card.dataset.banner = nextColor;
+				} else {
+					delete card.dataset.banner;
+				}
+			}
+
+			// STEP 5: Set the .active status of the button.
+			const csbar = document.getElementById('card-status-bar');
+			const btn = csbar?.querySelector('.' + color);
+			const isNowActive = color in card.dataset;
+			btn?.classList.toggle('active', isNowActive);
+
+
+			// STEP 6: Render the display of the status banner at the div .status-icons of the card.
+			// If there is a banner, update (create if needed) a button with the class status-icon.
+			// Use this graphics: 
+			/*
+				<button class="daily status-icon opaque-when-active unchecked {BANNER COLOR}"  style="color:{BANNER RGBA};" data-dts>
+					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" stroke="black" stroke-width="10"/>
+					</svg>
+				</button>
+			*/
+			let statusBanner = card.querySelector('.status-banner');
+			let caption = "";
+			if (!statusBanner) {
+				statusBanner = document.createElement('div');
+				statusBanner.className = 'status-banner';
+				statusBanner.contentEditable = true;
+
+				const si = card.querySelector(".status-icons");
+				if (si) {
+					si.before(statusBanner);
+				} else {
+					card.appendChild(statusBanner);
+				}
+
+
+			}else{
+				caption = statusBanner.innerHTML;
+			}
+
+			const bannerColor = card.dataset.banner;
+
+			if (bannerColor) {
+				// Get the RGBA value based on the index of the color
+				const colorIndex = colors.indexOf(bannerColor);
+				const rgbaValue = RGBAs[colorIndex] || bannerColor;
+
+				// Create the icon if it doesn't exist
+
+
+				// Update classes and styles
+
+				statusBanner.style.backgroundColor = rgbaValue;
+
+				// Inject the SVG
+				statusBanner.innerHTML = caption;
+
+			} else {
+				// If no banner color remains, remove the banner
+				statusBanner?.remove();
+			}
+
+		}
 		function summonGateGuardian() {
 			// 20251225: LRRH, StarTree: On mobile it is too easy to accidentally refresh the page and lose the arrangement.
 			if (true) {
@@ -6159,6 +6443,24 @@
 				if (index === -1) return "";
 				return this.substring(index + substring.length);
 			}
+		}
+		function SVG(emoji){
+			SPEC("20260216082446","StarTree","Give the SVG code to take the place of the Emoji.");
+			let top = `<svg viewBox="-10 -10 110 110" style="width: 1.5em; height: 1.5em;">`;
+			let middle="";
+			switch(emoji){
+				case "✔️":
+					middle = `<path d="M00 50L30 100L100 0" stroke="green" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" />`;
+				break;
+				case "⬜":
+					middle = `<path d="M0 0L100 0L100 100L0 100Z" stroke="grey" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />`;
+					middle="";
+					break;
+			}
+			if(middle){
+				return top + middle + "</svg>";
+			}
+			return emoji;
 		}
 		function toggleAddTag(bInit) {
 			// 20260110: V: Toggle the visibility, but don't hide it if is not blank.
@@ -6294,20 +6596,12 @@
 			e?.stopPropagation();
 			const targetTab = document.getElementById(aID);
 			if (!targetTab) return;
-			const oriStatus = targetTab.style.display;
+			const oriStatus = targetTab.classList.contains('active');
 			const tabFrame = targetTab.parentElement;
 			Array.from(tabFrame.children).forEach(child => {
-				child.style.display = 'none';
-				child.classList.remove('active-tab-content');
 				child.classList.remove('active');
 			});
-
-			if (oriStatus == "none") {
-
-				targetTab.style.display = 'block';
-				targetTab.classList.add('active-tab-content');
-				targetTab.classList.add('active');
-			}
+			targetTab.classList.toggle('active', !oriStatus);
 		}
 		function Track() {
 			const activeCard = getActiveCard();
@@ -7085,17 +7379,17 @@
 			e?.stopPropagation();
 			const body = document.getElementById('body-wrap');
 			const btn = document.getElementById('mode-toggle');
-			const iconContainer = btn.querySelector('div'); // Targets the icon-h or icon-v div
+			const statusBanner = btn.querySelector('div'); // Targets the icon-h or icon-v div
 
 			if (body.classList.contains('max-width')) {
 				// Switch to Horizontal
 				body.classList.remove('max-width');
-				iconContainer.className = 'icon-h';
+				statusBanner.className = 'icon-h';
 				localStorage.setItem('scrollDirection', 'horizontal'); // Save state
 			} else {
 				// Switch to Vertical
 				body.classList.add('max-width');
-				iconContainer.className = 'icon-v';
+				statusBanner.className = 'icon-v';
 				localStorage.setItem('scrollDirection', 'vertical'); // Save state
 			}
 
@@ -7188,15 +7482,15 @@
 			const savedDirection = localStorage.getItem('scrollDirection');
 			const body = document.getElementById('body-wrap');
 			const btn = document.getElementById('mode-toggle');
-			const iconContainer = btn?.querySelector('div');
+			const statusBanner = btn?.querySelector('div');
 
 			if (savedDirection === 'vertical') {
 				body.classList.add('max-width');
-				if (iconContainer) iconContainer.className = 'icon-v';
+				if (statusBanner) statusBanner.className = 'icon-v';
 			} else {
 				// Default to horizontal
 				body.classList.remove('max-width');
-				if (iconContainer) iconContainer.className = 'icon-h';
+				if (statusBanner) statusBanner.className = 'icon-h';
 			}
 		}
 
@@ -8215,7 +8509,6 @@
 				} else {
 					buttonPad.scrollLeft += e.deltaY;
 				}
-
 				return; // Stop here so we don't trigger the track logic below
 			}
 
