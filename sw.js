@@ -1,8 +1,9 @@
-// Change this version number whenever you make a big update to mt.html
-const CACHE_NAME = 'mt-app-20260217105300';
+// Change this every time you deploy new assets
+const CACHE_NAME = 'mt-app-20260218112300';
 const ASSETS_TO_CACHE = [
   '/',           // The root URL
-  '/mt.html'     // Your main app file
+  '/mt.html',     // Your main app file
+  '/starterpack.json'
 ];
 
 // 1. Install Event: Saves the app shell into the browser's storage
