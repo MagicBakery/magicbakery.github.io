@@ -137,9 +137,11 @@
 			color: #ccc;
 		}
 
-		.confirm-no:hover {
-			background-color: #cc0000;
-			color: white;
+		@media (hover: hover) {
+			.confirm-no:hover {
+				background-color: #cc0000;
+				color: white;
+			}
 		}
 
 		#custom-confirm:has(.confirm-no:hover) .confirm-yes {
@@ -169,9 +171,11 @@
 		}
 
 		/* Hover state: It glows and expands slightly */
-		.choice-bubble:hover {
-			background: rgba(255, 255, 255, 0.5);
-			border-color: rgba(255, 255, 255, 0.6);
+		@media (hover: hover) {
+			.choice-bubble:hover {
+				background: rgba(255, 255, 255, 0.5);
+				border-color: rgba(255, 255, 255, 0.6);
+			}
 		}
 
 		/* When it's been "seen" but not chosen, we change the color */
@@ -266,12 +270,16 @@
 			cursor: pointer;
 		}
 
-		.confirm-btn:hover {
-			background: var(--green);
+		@media (hover: hover) {
+			.confirm-btn:hover {
+				background: var(--green);
+			}
 		}
 
-		.dismiss-btn:hover {
-			background: #d9534f;
+		@media (hover: hover) {
+			.dismiss-btn:hover {
+				background: #d9534f;
+			}
 		}
 
 		.speech-bubble {
@@ -289,6 +297,7 @@
 			min-width: 100px;
 			max-width: 800px;
 			max-height: calc(100vh - 170px);
+			max-height: calc(100dvh - 170px);
 			pointer-events: auto;
 		}
 
@@ -395,9 +404,11 @@
 			opacity: 1;
 		}
 
-		.close-dialog-btn:hover {
-			background: darkgreen;
-			color: white;
+		@media (hover: hover) {
+			.close-dialog-btn:hover {
+				background: darkgreen;
+				color: white;
+			}
 		}
 
 		.dialogue-overlay {
@@ -406,6 +417,7 @@
 			left: 50%;
 			width: 100%;
 			max-height: calc(100vh - 170px);
+			max-height: calc(100dvh - 170px);
 			transform: translateX(-50%);
 			justify-content: center;
 			z-index: var(--z-SpeechBubble);
@@ -434,6 +446,7 @@
 			color: #111;
 			min-height: 60px;
 			max-height: calc(100vh - 235px);
+			max-height: calc(100dvh - 235px);
 			overflow-y: auto;
 			text-align: center;
 			word-wrap: break-word;
@@ -488,11 +501,12 @@
 			transition: transform 0.2s, box-shadow 0.2s;
 		}
 
-		.choice-btn:hover {
-			transform: scale(1.15) translateY(-2px);
-			box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+		@media (hover: hover) {
+			.choice-btn:hover {
+				transform: scale(1.15) translateY(-2px);
+				box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+			}
 		}
-
 
 		/* Container for the Tab Buttons */
 		.panel-tabs {
@@ -596,9 +610,12 @@
 		}
 
 		/* Highlight items on hover when a tag is ready to be assigned */
-		.tag-assign-active .card:hover,
-		.tag-assign-active .file-item:hover {
-			outline: 2px solid #00ff00;
+		@media (hover: hover) {
+
+			.tag-assign-active .card:hover,
+			.tag-assign-active .file-item:hover {
+				outline: 2px solid #00ff00;
+			}
 		}
 
 		.card-textarea {
@@ -1012,7 +1029,7 @@
 			border-radius: 30px;
 			bottom: 0;
 			top: auto;
-			width: var(--sidebar-w);
+			width: 100vw;
 			max-height: 100vh;
 			max-height: 100dvh;
 			height: auto;
@@ -1484,6 +1501,7 @@
 		.max-width .track .card:has(embed),
 		.max-width .track .card:has(iframe) {
 			height: 100vh !important;
+			height: 100dvh !important;
 			/* Spans 80% of the screen height */
 			width: 100%;
 			/* Takes full width of the vertical track */
@@ -1793,6 +1811,7 @@
 			width: 100vw;
 			/* You can now make it wider than the sidebar */
 			max-height: 100vh;
+			max-height: 100dvh;
 			max-width: 792px;
 
 			background: rgba(0, 0, 0, 0.4);
@@ -1865,7 +1884,7 @@
 			flex-wrap: wrap;
 			gap: 4px;
 			padding: 5px 5px;
-			max-height: 20vh;
+			max-height: 10vh;
 			overflow-y: auto;
 		}
 
@@ -2000,10 +2019,12 @@
 		}
 
 		#file-list {
-			flex: 1;
+			
 			overflow-y: auto;
 			width: 100%;
 			min-height: 0;
+			max-height:20vh;
+			background-color: rgba(0,0,0,0.2);
 		}
 
 
@@ -2014,6 +2035,7 @@
 			grid-template-columns: repeat(7, 1fr);
 			/* 6 buttons per row */
 			height: auto;
+			
 			padding: 2px 2px;
 			width: 100%;
 		}
@@ -2153,6 +2175,9 @@
 			grid-auto-rows: min-content;
 			gap: 6px;
 			padding: 8px;
+		}
+		.block-when-active.grid-view:not(.active){
+			display: none !important;
 		}
 
 		.grid-view .file-item {
@@ -2461,6 +2486,7 @@
 			left: 0;
 			width: 100vw;
 			height: 100vh;
+			height: 100dvh;
 			z-index: 40;
 			/* Above Backstage (30), below Dialog (60) */
 			background-color: #000;
@@ -2839,19 +2865,8 @@
 			style="flex: 2; display: flex; flex-direction: column; overflow: hidden; background: rgba(0,0,0,0.2);">
 			<div class="stats-bar">
 				<div class="stats-clickable" onclick="updateDock()">Images (<span id="img-count">0</span>)</div>
-				<div id="grid-slider-container">
-					<input type="range" id="col-slider" min="1" max="5" value="3" oninput="updateGridCols(this.value)">
-				</div>
-				<button class="inline-toggle" id="grid-toggle-btn" onclick="toggleSidebarView()">
-					<div class="css-grid" id="toggle-icon">
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-					</div>
-				</button>
 			</div>
-			<div id="file-list" class="file-list"></div>
+			
 		</div>
 		<div id="collapsible-tags" class="sidebar-upper" style="flex: 1">
 
@@ -3058,12 +3073,7 @@
 
 			<div id="tab-card-notes" class="tab-content block-when-active"
 				onkeydown="if (event.key.toLowerCase() === 's' && (event.ctrlKey || event.metaKey)) {event.preventDefault();saveCardNotes(event);}">
-				<div id="card-tag-section" class="active">
-					<div id="card-tag-list" class="tag-cloud" style="padding:5px 0px"></div>
-					<input type="text" id="assign-tag-input" placeholder="Add Tag" style="display:none" enterkeyhint="go"
-						inputmode="text" oninput="updateAssignmentUI()" onkeydown="handleTagKey(event)">
-
-				</div>
+				
 				<div style="display:flex">
 					<input type="text" id="card-title" class="active" placeholder="Display Title" title="Title (n)"
 						style="flex:3">
@@ -3089,7 +3099,7 @@
 
 						</div>
 					</div>
-
+					
 				</div>
 
 				<div class="notes-panel">
@@ -3151,6 +3161,11 @@
 							title="Card Script (c)">c</button>
 					</div>
 				</div>
+				<div id="card-tag-section" class="active">	
+					<input type="text" id="assign-tag-input" placeholder="Add Tag" style="display:none" enterkeyhint="go"
+						inputmode="text" oninput="updateAssignmentUI()" onkeydown="handleTagKey(event)">
+					<div id="card-tag-list" class="tag-cloud" style="padding:5px 0px"></div>
+				</div>
 			</div>
 			<div id="tab-collections" class="tab-content block-when-active">
 				<div class="stats-bar">
@@ -3181,8 +3196,7 @@
 				<div id="tag-cloud" class="tag-cloud"></div>
 				<div class="stats-bar tags-bar">
 					<span class="stats-clickable">Tags (<span id="tag-count">0</span>)</span>
-					<input type="text" id="master-search" class="unified-width" style="width:100px; text-align:center"
-						placeholder="SEARCH..." oninput="refreshAllUI()">
+					
 					<button class="inline-toggle" id="tag-sort-btn" onclick="toggleTagSort()">A-Z</button>
 				</div>
 
@@ -3397,9 +3411,35 @@
 				<textarea id="user-note" class="unified-width card-textarea"
 					style="resize:none;height:100px; font-size:16px;overflow-y: auto;" placeholder="Quester Notes..."
 					oninput="saveNotes(this.value)"></textarea>
+
+				<!--#Dropdown-->
+			<input list="dropdown-options" id="dropdown" placeholder="" oninput="Dropdown(event,this)"
+				onkeydown="Dropdown(event,this)" style="flex:1 1 72px;min-width: 72px;width:100%">
+			<datalist id="dropdown-options">
+				<option value="📂 Asset List">Show/hide the list/grid of assets (images, files, etc...)</option>
+				<option value="🎮 Button Panel">Show the button panel</option>
+				<option value="🪪 Card Fields">Toggle visibility of card fields</option>
+				<option value="❌ Close Panel">Close this panel. (Click somewhere to bring this back up.)</option>
+				<option value="🗃️ Collections">Show/hide the collections section</option>
+				<option value="☀️ Daily Quest">Mark the active card for daily quest</option>
+				<option value="📝 Development Notes">Notepad not associated to a card</option>
+				<option value="🎩 Magic Theater">Visit Magic Theater webpage</option>
+				<option value="🎲 Random Card">Add a random card to backstage</option>
+				<option value="⏯️ Script Resume">Resume playing the stage script</option>
+				<option value="⏹️ Script Stop">Stop the current stage script</option>
+				<option value="✉️ Send Message">Send feedback, give suggestion, or log bugs</option>
+				<option value="🐣 Starter Pack">Reload the default content</option>
+				<option value="🏷️ Tag Cloud">Show/hide the tag cloud</option>
+				<option value="💼 Translate to Google Sheet">(Temp) Guild Utility that translate a text record to Google Sheet
+					entries.</option>
+				<option value="🖼️ Wallpaper">Set the active card image as the wallpaper of the app
+					<button class="tool-btn" onclick="setCenteredAsWallpaper(null)">WP</button>
+				</option>
+			</datalist>
 			</div>
 
 		</div>
+		<div id="file-list" class="file-list block-when-active"></div>
 		<div id="card-status-bar" class="flex-when-active">
 			<!--Archetype Button-->
 			<button class="tool-btn" title="Archetype (WIP)">
@@ -3424,15 +3464,15 @@
 				</svg>
 			</button>
 			<!--Urgency Squares / Caption-->
-			<button class="tool-btn none" onclick="StatusReg('none')" title="Add Caption" >
+			<button class="tool-btn none" onclick="StatusReg('none')" title="Add Caption">
 				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-					
+
 					<path d="M30 20L70 20M30 80L70 80 M50 20L50 80" stroke="currentColor" stroke-width="4" />
 				</svg>
 			</button>
 			<button class="tool-btn none" onclick="StatusReg('remove')" title="Remove Caption">
 				<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-					
+
 					<path d="M30 30L70 70M30 70L70 30" stroke="currentColor" stroke-width="4" />
 				</svg>
 			</button>
@@ -3498,14 +3538,22 @@
 						<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
 					</svg>
 				</button>
-
-
-
-
 			</div>
+			<div style="flex:0"></div>
+			<div id="grid-slider-container">
+					<input type="range" id="col-slider" min="1" max="15" value="5" oninput="updateGridCols(this.value)">
+				</div>
+			<button class="tool-btn" id="grid-toggle-btn" onclick="toggleSidebarView()">
+					<div class="css-grid" id="toggle-icon">
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+					</div>
+				</button>
 		</div>
-		<div class="search-container" style="display:flex;text-align:center">
-			<div style="text-align: right;display:flex;">
+		<div class="bottom-bar" style="display:flex;text-align:center">
+			<div style="display:flex;">
 				<button class="tool-btn">
 					<img id="active-preview-thumb" class="save-notes-btn tool-btn" src="" referrerpolicy="no-referrer" alt=""
 						style="display: none;" title="Save changes to this card">
@@ -3538,7 +3586,7 @@
 						<line x1="35" y1="65" x2="55" y2="65" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
 					</svg>
 				</button>
-				<button class="tool-btn" onclick="toggleSidebar()" title="Asset List">
+				<button class="tool-btn" onclick="ToggleByID(this,'file-list')" title="Asset List">
 					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 						<rect x="3" y="3" width="7" height="7"></rect>
 						<rect x="14" y="3" width="7" height="7"></rect>
@@ -3559,29 +3607,9 @@
 				</button>
 
 			</div>
+			<input type="text" id="master-search" class="unified-width" style="width:100px; text-align:center;flex: 1"
+						placeholder="SEARCH..." oninput="refreshAllUI()">
 
-			<!--#Dropdown-->
-			<input list="dropdown-options" id="dropdown" placeholder="" oninput="Dropdown(event,this)"
-				onkeydown="Dropdown(event,this)" style="flex:1 1 72px;min-width: 72px;width:100%">
-			<datalist id="dropdown-options">
-				<option value="📂 Asset List">Show/hide the list/grid of assets (images, files, etc...)</option>
-				<option value="🎮 Button Panel">Show the button panel</option>
-				<option value="🪪 Card Fields">Toggle visibility of card fields</option>
-				<option value="❌ Close Panel">Close this panel. (Click somewhere to bring this back up.)</option>
-				<option value="🗃️ Collections">Show/hide the collections section</option>
-				<option value="☀️ Daily Quest">Mark the active card for daily quest</option>
-				<option value="📝 Development Notes">Notepad not associated to a card</option>
-				<option value="🎩 Magic Theater">Visit Magic Theater webpage</option>
-				<option value="🎲 Random Card">Add a random card to backstage</option>
-				<option value="⏯️ Script Resume">Resume playing the stage script</option>
-				<option value="⏹️ Script Stop">Stop the current stage script</option>
-				<option value="✉️ Send Message">Send feedback, give suggestion, or log bugs</option>
-				<option value="🐣 Starter Pack">Reload the default content</option>
-				<option value="🏷️ Tag Cloud">Show/hide the tag cloud</option>
-				<option value="🖼️ Wallpaper">Set the active card image as the wallpaper of the app
-					<button class="tool-btn" onclick="setCenteredAsWallpaper(null)">WP</button>
-				</option>
-			</datalist>
 			<div class="button-pad recent" style="overflow-x: auto;display:flex;min-width:36px;flex-direction: row-reverse;">
 				<button class="tool-btn script-step-btn run-script-btn" onClick="ScriptStart(this,true,false)"
 					title="Play Script">
@@ -4315,9 +4343,10 @@
 			}
 			return line;
 		}
-		function DEBUG(msg, bCompact) {
+		function DEBUG(msg, bCompact, aerr) {
 			// 20260125: Evelyn: Help locate where all the console log are and where they are called.
-			if (bCompact) { console.log(msg); return; }
+			if (bCompact && !aerr) { console.log(msg); return; }
+			if (aerr) { console.err(msg, aerr); return; }
 			const err = new Error();
 			const stack = err.stack.split('\n');
 			const callerLine = stack[2].trim();
@@ -4371,6 +4400,9 @@
 			} else if (choice.startsWith("🏷️")) { // Tag Cloud
 				toggleTab(e, 'tab-tag-cloud'); hit = true;
 				//toggleTagCloud(e); 	
+			} else if (choice.startsWith("💼")) { // Translate from clipboard to Google Sheet
+				TranslateFieldLogToGuildLogFromClipboard();
+				hit = true;
 			} else if (choice.startsWith("🖼️")) { // Wallpaper
 				setCenteredAsWallpaper(null); hit = true;
 			}
@@ -6305,16 +6337,16 @@
 			if (!card) { return; }
 			let statusBanner = card.querySelector('.status-banner');
 			let caption = statusBanner?.innerHTML || "";
-			if(color==='remove'){
-				if(!caption || !await showConfirm('This card has a caption "'+caption+'". Keep it?')){
+			if (color === 'remove') {
+				if (!caption || !await showConfirm('This card has a caption "' + caption + '". Keep it?')) {
 					statusBanner.remove();
 					memDOM();
 				}
 				return;
 			}
 
-			const colors = ['remove','none', 'red', 'orange', 'yellow', 'white', 'green', 'teal', 'blue', 'purple', 'pink', 'brown', 'black'];
-			const RGBAs = ['rgba(0,0,0,0)','rgba(0,0,0,0)', 'darkred', 'orange', 'gold', 'white', 'darkgreen', 'teal', 'navy', 'indigo', 'hotpink', 'saddlebrown', 'black']; // The actual rgba value for color: can be adjusted here as needed.
+			const colors = ['remove', 'none', 'red', 'orange', 'yellow', 'white', 'green', 'teal', 'blue', 'purple', 'pink', 'brown', 'black'];
+			const RGBAs = ['rgba(0,0,0,0)', 'rgba(0,0,0,0)', 'darkred', 'orange', 'gold', 'white', 'darkgreen', 'teal', 'navy', 'indigo', 'hotpink', 'saddlebrown', 'black']; // The actual rgba value for color: can be adjusted here as needed.
 
 
 
@@ -6798,6 +6830,58 @@
 				// Optional: Visual polish to show the move happened
 				//track.classList.add('moving');
 				//setTimeout(() => track.classList.remove('moving'), 300);
+			}
+		}
+		async function TranslateFieldLogToGuildLogFromClipboard() {
+			SPEC("20260217214700", "Evelyn", "This translates the content from clipboard to entries that can be pasted to Google Sheet");
+			try {
+				const rawData = await navigator.clipboard.readText();
+				// Split by newlines, then filter out any truly empty strings
+				const lines = rawData.split(/\r?\n/).filter(line => line.trim().length > 0);
+
+				let outputRows = [];
+
+				lines.forEach(line => {
+					// UPDATED REGEX: 
+					// 1. Matches 14 digits anywhere
+					// 2. Captures Name until the FIRST colon
+					// 3. Captures everything else as the message (handles end of line properly)
+					const match = line.match(/(\d{14})\s+([^:]+):\s*(.*)$/);
+
+					if (match) {
+						const [_, ts, name, message] = match;
+
+						// Date Formatting
+						const month = parseInt(ts.substring(4, 6), 10);
+						const day = parseInt(ts.substring(6, 8), 10);
+						const year = ts.substring(0, 4);
+						const timeStr = `${ts.substring(8, 10)}:${ts.substring(10, 12)}:${ts.substring(12, 14)}`;
+						const formattedDate = `${month}/${day}/${year} ${timeStr}`;
+
+						// Column Mapping for Google Sheets:
+						// Col 1: Date | Col 2: (empty) | Col 3: Name | Col 4-7: (empty) | Col 8: Message
+						const row = [
+							formattedDate,
+							"",
+							name.trim(),
+							"", "", "", "",
+							message.trim()
+						];
+
+						outputRows.push(row.join('\t'));
+					}
+				});
+
+				if (outputRows.length === 0) {
+					alert("No data found. Ensure you have the 'Timestamp Name: Message' format copied.");
+					return;
+				}
+
+				await navigator.clipboard.writeText(outputRows.join('\n'));
+				alert(`Successfully processed ${outputRows.length} lines!`);
+
+			} catch (err) {
+				alert("Error accessing clipboard: " + err.message);
 			}
 		}
 		function URLHotLink(url) {
@@ -8212,7 +8296,8 @@
 			const q = document.getElementById('master-search').value.toLowerCase();
 			const list = document.getElementById('file-list');
 			list.innerHTML = "";
-			list.className = "file-list" + (sidebarIsGrid ? " grid-view" : "");
+			//list.className = "file-list block-when-active" + (sidebarIsGrid ? " grid-view" : "");
+			list.classList.toggle('grid-view',sidebarIsGrid);
 
 			const filtered = DATA.filter(i => {
 				const matchesActive = Array.from(activeTags).every(at => i.t.includes(at));
@@ -8620,6 +8705,7 @@
 				icon.className = 'css-list';
 				icon.innerHTML = '<div></div><div></div><div></div>';
 				if (container) container.style.display = 'flex'; // Show slider
+				
 			} else {
 				icon.className = 'css-grid';
 				icon.innerHTML = '<div></div><div></div><div></div><div></div>';
