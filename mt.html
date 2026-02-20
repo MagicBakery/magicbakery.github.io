@@ -13,8 +13,8 @@
 	<link rel="apple-touch-icon" href="/icons/star_192.png">
 	<link rel="manifest" href="/mt_manifest.json">
 	<script>
-		const APP_VERSION = "20260214165700"; //#Version
-		const APP_ANNOUNCEMENT = "20260210: Magic Theater Presents."
+		const APP_VERSION = "20260220101100"; //#Version
+		const APP_ANNOUNCEMENT = "20260220: Removal Protections."
 		const APP_DEFAULTPACK = "https://magicbakery.github.io/starterpack.json";
 		const APP_DEFAULTWALLPAPER = "https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg";
 		const APP_HOMEURL = "https://magicbakery.github.io/?id=P202512210026";
@@ -3885,6 +3885,23 @@
 			const loadedAC = document.querySelector(".card.is-active");
 			if (loadedAC) { setActiveCard(loadedAC); }
 		};
+		class Card {
+			constructor(element) {
+				this.el = element;
+			}
+			seemsImportant() {
+				SPEC("20260220212300", "Skyle", "Returns a reason string if the card should be protected from accidental deletion.");
+				if (this.el.classList.contains("pinned")) { return "This card has a ⭐."; }
+				if (this.el.dataset.o && this.el.dataset.o.trim() != "") { return "This card has user notes."; }
+				if (this.el.dataset.v && this.el.dataset.v.trim() != "") { return "This card has a last modified UTC version stamp " + this.el.dataset.v + ", which is " + UTCshowLocal(this.el.dataset.v) + " in your local time."; }
+				if (this.el.querySelector(".daily")) {
+					const icons = this.el.querySelector(".status-icons").innerText;
+					return "This card has quest status: " + icons + ".";
+				}
+				if (this.el.querySelector(".status-banner")) { return "This card has a caption."; }
+				return "";
+			}
+		}
 		/* #ALPHABETICALLY SORTED CODE */
 		const zLayers = ['Notifications', 'LoadingScreen', 'TransparentControls', 'ExamineScreen', 'SpeechBubble', 'StageGUI', 'Stage', 'GUIControls', 'Listings', 'Gallery', 'AppWallpaper'];
 		const assetLibrary = {}; // { "key1": AudioObject }
@@ -4840,9 +4857,14 @@
 			}
 			if (card) {
 				e.stopPropagation();
-				if (card.classList.contains('pinned')) {
-					if (await showConfirm("This card has a ⭐. Keep it?")) { return true; }
+				const castCard = new Card(card);
+				const msg = castCard.seemsImportant();
+				if (msg != "") {
+					if (await showConfirm(msg + " Keep it?")) { return true; }
 				}
+				/*if (card.classList.contains('pinned')) {
+					if (await showConfirm("This card has a ⭐. Keep it?")) { return true; }
+				}*/
 				// Perform the removal
 				card.style.transform = "scale(0.8) translateY(20px)";
 				card.style.opacity = "0";
@@ -5614,8 +5636,8 @@
 			e?.stopPropagation();
 			const activeCard = document.querySelector(".card.is-active");
 			if (!activeCard) { return; }
-			SPEC("20260218082357", "Evelyn", "Set the card to pinned when saving.")
-			if (bByUser) { activeCard.classList.toggle("pinned", true); }
+			//SPEC("20260218082357", "Evelyn", "Set the card to pinned when saving.")
+			//if (bByUser) { activeCard.classList.toggle("pinned", true); }
 
 			SPEC("202602151038", "Arcacia", "If your public script section is blank but DATA has content, ask the user whether to revert the content in DATA.");
 			const elPanelScript = document.getElementById('card-script');
@@ -5676,7 +5698,7 @@
 			if (Number(b) < Number(data.a)) {
 				if (await showConfirm("The base version of what you modified is older than the current version on the stream. Resolve by yourself first?")) {
 					// 20260220: StarTree: Need to implement a stream copy before it can show the difference.
-					TextAreaHLFirstDiff("card-script",decodeURIComponent(data.c));
+					TextAreaHLFirstDiff("card-script", decodeURIComponent(data.c));
 					return;
 				}
 			}
@@ -5899,22 +5921,22 @@
 		}
 		async function ScriptPublish(elThis) {
 			SPEC("20250125", "StarTree", "The [Publish] button saves changes to the public script section and exports it to a file without user notes, so that it can be shared as a pack.");
-			
+
 			// 20260220: Arcacia: Sync all modified on backstage to DATA first.
 			const beeCards = document.querySelectorAll(".card[data-b]");
-			if (!await showConfirm(`This will first save ${beeCards.length} modified card(s) in the work area. Continue?`)){return;}
+			if (!await showConfirm(`This will first save ${beeCards.length} modified card(s) in the work area. Continue?`)) { return; }
 
 			beeCards.forEach(bItem => {
 				setActiveCard(bItem);
 				saveCardNotes();
 			});
-			
+
 			// Check for unsaved script box
 			const elScript = document.getElementById('card-script');
 			if (elScript.classList.contains('unsaved')) {
 				if (!await showConfirm("You have unsaved changes at the script edit box. Continue?")) { return; }
 			}
-			
+
 
 			// Confirm the collection selection
 			let strCollectionList = "";
@@ -5974,7 +5996,7 @@
 					countMissingUTC++;
 				}
 				if (record.b) {
-					countWithB++; 
+					countWithB++;
 
 				}
 				if (record.b && record.a && Number(record.b) < Number(record.a)) {
@@ -6163,11 +6185,11 @@
 			const cardScript = document.getElementById("card-script");
 			// 20260123: Evelyn: Just use the data in the card if it is not found in DATA.
 			//if(!data){
-			if(data?.a){
+			if (data?.a) {
 				document.getElementById("card-stream").value = data.a || "";
 				document.getElementById("card-base").value = card.dataset.b || "";
 			}
-			
+
 			document.getElementById("card-ver").value = card.dataset.v || "";
 			document.getElementById("card-img-url").value = card.dataset.i || "";
 			document.getElementById("card-title").value = card.dataset.n || "";
@@ -6794,6 +6816,7 @@
 				if (index === -1) return "";
 				return this.substring(index + substring.length);
 			}
+
 		}
 		function SVG(emoji) {
 			SPEC("20260216082446", "StarTree", "Give the SVG code to take the place of the Emoji.");
@@ -6827,7 +6850,7 @@
 			for (let i = 0; i < maxLength; i++) {
 				if (text1[i] !== text2[i]) {
 					firstDiffIndex = i;
-			
+
 					break;
 				}
 			}
@@ -6835,10 +6858,10 @@
 			if (firstDiffIndex !== -1) {
 				textarea.setSelectionRange(firstDiffIndex, firstDiffIndex + 1);
 				textarea.blur();
-      textarea.focus();
-			const linesBefore = text1.substring(0, firstDiffIndex).split('\n').length;
-			const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight) || 20;
-			textarea.scrollTop = (linesBefore * lineHeight) - (textarea.clientHeight / 2);
+				textarea.focus();
+				const linesBefore = text1.substring(0, firstDiffIndex).split('\n').length;
+				const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight) || 20;
+				textarea.scrollTop = (linesBefore * lineHeight) - (textarea.clientHeight / 2);
 
 				return firstDiffIndex;
 			} else {
@@ -7139,6 +7162,32 @@
 				elThis.classList.remove('unsaved');
 			}
 			elThis.classList.add('active');
+		}
+		function UTCshowLocal(utcTimeStamp) {
+			// 1. Extract parts using match or substring
+			// Pattern: (YYYY)(MM)(DD)(hh)(mm)(ss)
+			const parts = utcTimeStamp.match(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/);
+
+			if (!parts) return "Invalid Timestamp";
+
+			// 2. Reconstruct into an ISO 8601 string in UTC (adding the 'Z')
+			const [, year, month, day, hour, minute, second] = parts;
+			const isoString = `${year}-${month}-${day}T${hour}:${minute}:${second}Z`;
+
+			// 3. Create a Date object (this will be in UTC because of the 'Z')
+			const dateObj = new Date(isoString);
+
+			// 4. Return as a local string
+			// Use 'toLocaleString' to automatically adjust to the user's timezone
+			return dateObj.toLocaleString(undefined, {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric',
+				hour: '2-digit',
+				minute: '2-digit',
+				second: '2-digit',
+				hour12: true
+			});
 		}
 		function showConfirm(message) {
 			const modal = document.getElementById('custom-confirm');
@@ -8590,21 +8639,31 @@
 			// 20260105: Sasha: If the multitrack area has pinned cards, but not all of them are pinned, remove only the unpinned cards.
 
 			const multitrack = document.querySelector("#multitrack");
-			const numCards = document.querySelectorAll(".card").length;
+			const cards = document.querySelectorAll(".card");
+			const numCards = cards.length;
+			let numImportant = 0;
+			cards.forEach(c => {
+				const cc = new Card(c);
+				if (cc.seemsImportant()) { numImportant++; }
+			});
+
 			const numPinned = document.querySelectorAll(
 				".card.pinned, .card:has(.daily), .card:has(.status-banner)"
 			).length;
 
-			let msg = "This will wipe the multitrack area. Keep it?"
-			if (numCards != numPinned && numPinned > 0) {
-				msg = "This will remove " + (numCards - numPinned) + " unmarked card(s). Keep them?";
+			let msg = "This will wipe the multitrack area. Keep it?";
+			if (numImportant < numCards) {
+				msg = "This will remove " + (numCards - numImportant) + " card(s) that don't seem important. Keep them?";
 				if (await showConfirm(msg)) { return; }
-				document.querySelectorAll('.card').forEach(c => {
-					if (!c.classList.contains('pinned')) c.remove();
+				cards.forEach(c => {
+					const cc = new Card(c);
+					if (!cc.seemsImportant()) {
+						cc.el.remove();
+					}
 				});
 				return;
-			} else if (numCards == numPinned && numCards > 0) {
-				msg = "The multitrack only has card(s) with ⭐, ⬜, ✅, or with caption enabled. Keep them?"
+			} else if (numCards == numImportant && numCards > 0) {
+				msg = "The work area only has card(s) that seem important. Keep them?"
 				if (await showConfirm(msg)) { return; }
 			}
 			multitrack.innerHTML = "<div class='track'></div>";
