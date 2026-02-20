@@ -2882,9 +2882,7 @@
 	<div id="sidebar">
 		<div id="collapsible-images" class="sidebar-upper"
 			style="flex: 2; display: flex; flex-direction: column; overflow: hidden; background: rgba(0,0,0,0.2);">
-			<div class="stats-bar">
-				<div class="stats-clickable" onclick="updateDock()">Images (<span id="img-count">0</span>)</div>
-			</div>
+
 		</div>
 		<div id="collapsible-tags" class="sidebar-upper" style="flex: 1">
 
@@ -3195,6 +3193,14 @@
 					<input type="text" id="card-id" class="active" placeholder="Unique ID" title="Card ID (p)"
 						style="flex:1;min-width:130px;text-align: right;">
 				</div>
+				<div class="flex-when-active active">
+					<input type="text" id="card-stream" class="active" placeholder="Stream version" title="UTC Stream Version (a)"
+						style="flex:1;min-width:130px;text-align: center;">
+					<input type="text" id="card-base" class="active" placeholder="Base version" title="UTC Base Version (b)"
+						style="flex:1;min-width:130px;text-align: center;">
+					<input type="text" id="card-ver" class="active" placeholder="User modified" title="UTC Version (v)"
+						style="flex:1;min-width:130px;text-align: center;">
+				</div>
 				<div class="card-details">
 					<input type="text" id="card-path-url" placeholder="URL / File Path" title="Path/URL (u)">
 					<input type="text" id="card-img-url" style="flex: 1;min-width:25%" placeholder="Image Path" title="Image (i)">
@@ -3391,7 +3397,7 @@
 						<div></div>
 					</div>
 				</button>
-				
+
 
 
 
@@ -3406,20 +3412,20 @@
 				<div class="hide-scrollbar" style="display:flex;flex-direction: column;height:36px;overflow-y:auto">
 					<!--Random Draw-->
 					<button class="tool-btn" onclick="createCard()">
-					<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M12 3L19 7L12 11L5 7L12 3Z" fill="currentColor" fill-opacity="0.3" stroke="currentColor"
-							stroke-width="1.5" stroke-linejoin="round" />
-						<path d="M12 11L19 7V15L12 19V11Z" fill="currentColor" fill-opacity="0.1" stroke="currentColor"
-							stroke-width="1.5" stroke-linejoin="round" />
-						<path d="M5 7L12 11V19L5 15V7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
-						<circle cx="12" cy="7" r="1" fill="currentColor" />
-						<circle cx="7" cy="11" r="1" fill="currentColor" />
-						<circle cx="10" cy="15" r="1" fill="currentColor" />
-						<circle cx="14" cy="15" r="1" fill="currentColor" />
-						<circle cx="15.5" cy="13" r="1" fill="currentColor" />
-						<circle cx="17" cy="11" r="1" fill="currentColor" />
-					</svg>
-				</button>
+						<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M12 3L19 7L12 11L5 7L12 3Z" fill="currentColor" fill-opacity="0.3" stroke="currentColor"
+								stroke-width="1.5" stroke-linejoin="round" />
+							<path d="M12 11L19 7V15L12 19V11Z" fill="currentColor" fill-opacity="0.1" stroke="currentColor"
+								stroke-width="1.5" stroke-linejoin="round" />
+							<path d="M5 7L12 11V19L5 15V7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+							<circle cx="12" cy="7" r="1" fill="currentColor" />
+							<circle cx="7" cy="11" r="1" fill="currentColor" />
+							<circle cx="10" cy="15" r="1" fill="currentColor" />
+							<circle cx="14" cy="15" r="1" fill="currentColor" />
+							<circle cx="15.5" cy="13" r="1" fill="currentColor" />
+							<circle cx="17" cy="11" r="1" fill="currentColor" />
+						</svg>
+					</button>
 					<button class="tool-btn  auto-random-btn" onclick="toggleAutoRandom()" title="Random Draw">
 						<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path d="M12 3L19 7L12 11L5 7L12 3Z" fill="currentColor" fill-opacity="0.3" stroke="currentColor"
@@ -3435,7 +3441,7 @@
 							<circle cx="17" cy="11" r="1" fill="currentColor" />
 						</svg>
 					</button>
-					</div>
+				</div>
 
 				<!--Auto Flush Mode Button ↻-->
 				<button class="tool-btn  auto-flush-btn" onclick="toggleAutoFlush(event)" title="Auto Flush">
@@ -3447,7 +3453,7 @@
 					</svg>
 				</button>
 			</div>
-			
+
 
 		</div>
 		<div id="tab-controls" class="tab-content block-when-active">
@@ -4915,7 +4921,7 @@
 		function getImageURL(item) {
 			// 20260103: Lei: Returns the image path for thumbnail when the item is not an image file.
 			const imageExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'avif', 'url'];
-			const nonimageExtensions = ['pdf', 'doc', 'docx', 'html', 'json'];
+			const nonImageExtensions = ['pdf', 'doc', 'docx', 'html', 'json'];
 			// Priority 1: If the item has an image, use it.			
 			if (item.i && item.i.trim() !== "") return item.i;
 
@@ -4935,7 +4941,7 @@
 				if (parts.length > 1) {
 					const extension = parts.pop().toLowerCase();
 
-					if (!nonimageExtensions.includes(extension)) {
+					if (!nonImageExtensions.includes(extension)) {
 						return cleanPath;
 					}
 				}
@@ -5638,6 +5644,11 @@
 
 			const cardScript = document.getElementById("card-script");
 			cardScript.dataset.original = activeCard.dataset.c;
+			SPEC("20260219223100", "StarTree", "If the public script was unsaved, set dataset.v.")
+			if (cardScript.classList.contains("unsaved")) {
+				activeCard.dataset.v = UTC();
+				document.getElementById("card-ver").value = activeCard.dataset.v;
+			}
 			cardScript.classList.remove("unsaved");
 
 			// Update the visual card immediately if the image changed
@@ -5654,10 +5665,28 @@
 			saveMetadata();
 			memDOM();
 		}
-		function saveMetadata() {
-			const card = getActiveCard();
+		async function saveMetadata() {
 			activeCardData = getActiveCardData();
 			if (!activeCardData) return;
+
+			// 202602200011: Skyle: Update the stream version.
+			const data = DATAByID(document.getElementById("card-id").value);
+			document.getElementById('card-stream').value = data.a;
+			const b = document.getElementById('card-base').value;
+			if (Number(b) < Number(data.a)) {
+				if (await showConfirm("The base version of what you modified is older than the current version on the stream. Resolve by yourself first?")) {
+					// 20260220: StarTree: Need to implement a stream copy before it can show the difference.
+					TextAreaHLFirstDiff("card-script",decodeURIComponent(data.c));
+					return;
+				}
+			}
+
+			// 20260219223500: StarTree: Save b and v only if the card's v is not blank.
+			const version = document.getElementById('card-ver').value.trim()
+			if (version) {
+				activeCardData.b = document.getElementById('card-base').value.trim();
+				activeCardData.v = document.getElementById('card-ver').value.trim();
+			}
 			activeCardData.c = encodeURIComponent(document.getElementById('card-script').value);
 			activeCardData.i = document.getElementById('card-img-url').value.trim();
 			activeCardData.n = document.getElementById('card-title').value.trim();
@@ -5668,15 +5697,11 @@
 			activeCardData.x = Number(document.getElementById('card-x-offset').value.trim());
 			activeCardData.y = Number(document.getElementById('card-y-offset').value.trim());
 
-			const fields = ['c', 'i', 'n', 'o', 'p', 's', 'u', 'x', 'y'];
+			const fields = ['b', 'c', 'i', 'n', 'o', 'p', 's', 'u', 'v', 'x', 'y'];
 			fields.forEach(field => {
 				const val = activeCardData[field];
 				if (val === "") { delete activeCardData[field]; }
 			});
-			//if(activeCardData.c==0){delete activeCardData.c;}
-			//if(activeCardData.y==0){delete activeCardData.y;}
-
-
 		}
 		function ScriptBubbleSaveScript(elChoice) {
 			// 20260211: Tanya: store the effect script of a choice
@@ -5874,13 +5899,23 @@
 		}
 		async function ScriptPublish(elThis) {
 			SPEC("20250125", "StarTree", "The [Publish] button saves changes to the public script section and exports it to a file without user notes, so that it can be shared as a pack.");
-			saveCardNotes();
-			//if (!await showConfirm("This will save a copy of the data with the scripts without your user notes. Continue?")) return;
+			
+			// 20260220: Arcacia: Sync all modified on backstage to DATA first.
+			const beeCards = document.querySelectorAll(".card[data-b]");
+			if (!await showConfirm(`This will first save ${beeCards.length} modified card(s) in the work area. Continue?`)){return;}
+
+			beeCards.forEach(bItem => {
+				setActiveCard(bItem);
+				saveCardNotes();
+			});
+			
 			// Check for unsaved script box
 			const elScript = document.getElementById('card-script');
 			if (elScript.classList.contains('unsaved')) {
 				if (!await showConfirm("You have unsaved changes at the script edit box. Continue?")) { return; }
 			}
+			
+
 			// Confirm the collection selection
 			let strCollectionList = "";
 			const collections = document.querySelectorAll('.path-entry:has([checked])');
@@ -5903,6 +5938,9 @@
 			const fileList = document.getElementById('file-list');
 			const files = fileList.querySelectorAll('.file-item');
 
+
+
+
 			if (!await showConfirm(`This will export the data of ${files.length} card(s) from ${collections.length} collection(s):\n${strCollectionList}filtered with ${tags.length} tag(s): ${strTags} containing tag keyword "${q}". Continue?`)) { return; }
 
 			const filtered = DATA
@@ -5921,6 +5959,35 @@
 
 			document.body.style.cursor = 'wait';
 			let dataToExport = filtered;
+
+			// 202602192326: Natalie: Count the number of records where v is not empty, and number of records where b is smaller that DATA v.
+
+			let countMissingUTC = 0;
+			let countWithB = 0;
+			let countOldBase = 0;
+			let oldBase = [];
+
+			// 20260219: StarTree: If the record doesn't already have a v field, set it to the UTC.
+			dataToExport.forEach(record => {
+				if (!record.v) {
+					record.v = UTC();
+					countMissingUTC++;
+				}
+				if (record.b) {
+					countWithB++; 
+
+				}
+				if (record.b && record.a && Number(record.b) < Number(record.a)) {
+					countOldBase++;
+					oldBase.push(record.p + ":" + record.n + "\n");
+					DEBUG("Old Base: " + record.p + ": " + record.n);
+				}
+				if (record.a) { delete record['a']; }
+			});
+			if (!await showConfirm(`Your content has:\n${countWithB} visited\n${countMissingUTC} without version\n${countOldBase} with old base:\n${oldBase}Continue?`)) {
+
+				return;
+			}
 
 			// standard Download Logic
 			const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
@@ -6096,6 +6163,12 @@
 			const cardScript = document.getElementById("card-script");
 			// 20260123: Evelyn: Just use the data in the card if it is not found in DATA.
 			//if(!data){
+			if(data?.a){
+				document.getElementById("card-stream").value = data.a || "";
+				document.getElementById("card-base").value = card.dataset.b || "";
+			}
+			
+			document.getElementById("card-ver").value = card.dataset.v || "";
 			document.getElementById("card-img-url").value = card.dataset.i || "";
 			document.getElementById("card-title").value = card.dataset.n || "";
 			document.getElementById("card-id").value = card.dataset.p || "";
@@ -6740,6 +6813,38 @@
 			}
 			return emoji;
 		}
+		function TextAreaHLFirstDiff(textareaId, comparisonString) {
+			const textarea = document.getElementById(textareaId);
+			const text1 = textarea.value;
+			const text2 = comparisonString;
+
+			//DEBUG(text1 +"|" + text2);
+
+			// 1. Find the first index where the characters don't match
+			let firstDiffIndex = -1;
+			const maxLength = Math.max(text1.length, text2.length);
+
+			for (let i = 0; i < maxLength; i++) {
+				if (text1[i] !== text2[i]) {
+					firstDiffIndex = i;
+			
+					break;
+				}
+			}
+			// 2. If a difference is found, highlight it
+			if (firstDiffIndex !== -1) {
+				textarea.setSelectionRange(firstDiffIndex, firstDiffIndex + 1);
+				textarea.blur();
+      textarea.focus();
+			const linesBefore = text1.substring(0, firstDiffIndex).split('\n').length;
+			const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight) || 20;
+			textarea.scrollTop = (linesBefore * lineHeight) - (textarea.clientHeight / 2);
+
+				return firstDiffIndex;
+			} else {
+				return -1;
+			}
+		}
 		function toggleAddTag(bInit) {
 			// 20260110: V: Toggle the visibility, but don't hide it if is not blank.
 			const addTagInputBox = document.getElementById("assign-tag-input");
@@ -7010,6 +7115,10 @@
 				return `https://drive.usercontent.google.com/download?id=${fileId}`;
 			}
 			return url;
+		}
+		function UTC() {
+			SPEC("20260219215800", "StarTree", "Returns the UTC timestamp in YYYYMMDDhhmmss format");
+			return new Date().toISOString().replace(/[^0-9]/g, '').slice(0, 14);
 		}
 		/* UNSORTED CODE */
 
@@ -7805,6 +7914,9 @@
 
 			const tags = new Set();
 			DATA.forEach(item => {
+				if (!item.a) {
+					item.a = item.v;
+				}
 				if (item.t && Array.isArray(item.t)) {
 					item.t.forEach(tag => tags.add(tag));
 				}
@@ -8117,6 +8229,7 @@
 					p: pid,
 					n: "P" + pid,
 					t: ["NEW"],
+					v: UTC(),
 				};
 				DATA.push(newItem);
 				item = DATA.find(i => i.p === pid);
@@ -8181,13 +8294,12 @@
 				activeCard = document.querySelector('.card.is-active');
 			}
 
-
-
-
 			const c = document.createElement('div');
 			c.className = 'card';
 			c.dataset.id = item.p;
-			updateStarButtonState();
+			c.dataset.b = item.v ? item.v : UTC();
+			// 20260219: StarTree: A card newly placed on backstage does not have a v number.
+			// Having no v number means that the card is still in not modified and can be discarded without loss.
 
 			// 20250103: Lei: using iFrame to show PDF
 			const isPDF = item.p.toLowerCase().endsWith('.pdf');
@@ -8264,8 +8376,6 @@
 						c.classList.add('is-active');
 					}
 
-					updateStarButtonState();
-
 
 				}
 
@@ -8285,16 +8395,6 @@
 			if (autoRandomTrack && !isHidden('tab-card-notes')) { return; }
 			setActiveCard(c);
 			saveCardNotes();
-		}
-		function updateStarButtonState() {
-			const activeCard = document.querySelector('.card.is-active');
-			const starBtn = document.querySelector('.star-btn'); // or .pin-btn
-
-			/*if (activeCard && activeCard.classList.contains('pinned')) {
-				starBtn.classList.add('active-gold');
-			} else {
-				starBtn.classList.remove('active-gold');
-			}*/
 		}
 		function updateAllCardOverlays() {
 			// 20251226: StarTree: To be changed to so the tags don't show on the card itself.
