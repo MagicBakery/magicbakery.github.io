@@ -2866,7 +2866,10 @@
 		body:not(:has(#asset-panel.active)) .tag-cloud {
 			display: none;
 		}
-
+		#storage,
+		#storage.track{
+			display:none !important;
+		}
 
 
 		/* #CSS END */
@@ -2874,11 +2877,10 @@
 </head>
 
 <body id="body-wrap" contenteditable="false" class="collapsed">
+	<div id="storage"></div>
 	<div id="multitrack">
 		<div class="track"></div>
 	</div>
-
-
 	<div id="sidebar">
 		<div id="collapsible-images" class="sidebar-upper"
 			style="flex: 2; display: flex; flex-direction: column; overflow: hidden; background: rgba(0,0,0,0.2);">
@@ -3889,6 +3891,18 @@
 			constructor(element) {
 				this.el = element;
 			}
+			inStorage(){
+				const sh = new Storage();
+				return sh.el.contains(this.el);
+			}
+			redraw(){
+				this.el.classList.remove('active');
+				requestAnimationFrame(() => {
+					requestAnimationFrame(() => {
+						this.el.classList.add('active');
+					});
+				});
+			}
 			seemsImportant() {
 				SPEC("20260220212300", "Skyle", "Returns a reason string if the card should be protected from accidental deletion.");
 				if (this.el.classList.contains("pinned")) { return "This card has a ⭐."; }
@@ -3900,6 +3914,27 @@
 				}
 				if (this.el.querySelector(".status-banner")) { return "This card has a caption."; }
 				return "";
+			}
+			sendToStorage(){
+				SPEC("20260220184600","Arcacia","Place a card from the mat to the storage.");
+				const sh = new Storage();
+				sh.el.prepend(this.el);
+				this.el.classList.remove('is-active');
+				this.el.classList.remove('active');
+			}
+		}
+		class Storage{
+			constructor(element){
+				if(!element){
+					element = document.querySelector("#storage");
+				}
+				if(!element){
+					element = document.createElement('div');
+					element.id = "storage";
+					element.classList.add('track');
+					document.body.prepend(element);
+				}
+				this.el = element;
 			}
 		}
 		/* #ALPHABETICALLY SORTED CODE */
@@ -4641,11 +4676,15 @@
 					curtain.style.opacity = '0';
 					const cards = document.querySelectorAll('.card.pinned,.card:has(.status-icons),.card:has(.status-banner)');
 					cards.forEach(el => {
-						el.classList.remove('active');
+						const cc = new Card(el);
+						cc.redraw();
 						// This tiny delay ensures the browser registers the removal
+						/*el.classList.remove('active');
 						requestAnimationFrame(() => {
-							el.classList.add('active');
-						});
+							requestAnimationFrame(() => {
+								el.classList.add('active');
+							});
+						});*/
 					});
 					// Wait for the transition to finish (time defined in CSS)
 					// then remove it from the layout entirely
@@ -4860,11 +4899,10 @@
 				const castCard = new Card(card);
 				const msg = castCard.seemsImportant();
 				if (msg != "") {
-					if (await showConfirm(msg + " Keep it?")) { return true; }
+					//if (await showConfirm(msg + " Keep it?")) { return true; }
+					castCard.sendToStorage();
+					return;
 				}
-				/*if (card.classList.contains('pinned')) {
-					if (await showConfirm("This card has a ⭐. Keep it?")) { return true; }
-				}*/
 				// Perform the removal
 				card.style.transform = "scale(0.8) translateY(20px)";
 				card.style.opacity = "0";
@@ -5274,10 +5312,13 @@
 			if (!aID) {
 				// if aID is not defined, save everything.
 				memDOM(isLoad, "multitrack");
+				memDOM(isLoad, "storage");
 				return;
 			}
 			DailyQuestCheck();
 			const mSection = document.getElementById(aID);
+			
+
 			if (isLoad) {
 				const mSavedHTML = localStorage.getItem(aID + '_snapshot');
 				if (!mSavedHTML) { return; }
@@ -5287,7 +5328,6 @@
 				localStorage.setItem(aID + '_snapshot', mSection.innerHTML);
 				localStorage.setItem(aID + '_snapshot_version', APP_VERSION);
 			}
-
 		}
 		async function MigrationChecks() {
 			// 20260118: Tanya: Temporary code to transit from #track to .track
@@ -5634,7 +5674,8 @@
 		async function saveCardNotes(e, bByUser) {
 			// 20251230: Cardinal			
 			e?.stopPropagation();
-			const activeCard = document.querySelector(".card.is-active");
+
+			const activeCard = Multitrack().querySelector(".card.is-active");
 			if (!activeCard) { return; }
 			//SPEC("20260218082357", "Evelyn", "Set the card to pinned when saving.")
 			//if (bByUser) { activeCard.classList.toggle("pinned", true); }
@@ -5650,6 +5691,7 @@
 					}
 				}
 			}
+			activeCard.dataset.b = document.getElementById('card-base').value;
 			activeCard.dataset.c = encodeURIComponent(document.getElementById('card-script').value);
 			activeCard.dataset.i = document.getElementById('card-img-url').value.trim();
 			activeCard.dataset.n = document.getElementById('card-title').value.trim();
@@ -6169,6 +6211,10 @@
 		async function setActiveCard(card) {
 			// 20260111: LRRH: Don't set active card if auto spawning with the notes tab open.
 			if (!card) return;
+			const cCard = new Card(card);
+			if(cCard.inStorage()){return;}
+
+
 			// 20260123: Natalie: Don't set another active card if the current command panel is dirty.
 			const dirt = document.querySelector('#command-panel .unsaved');
 			if (dirt) {
@@ -6689,19 +6735,9 @@
 			document.addEventListener('click', async (e) => {
 				if (await fairyRemovalCheck(e)) { return; }
 				if (await fairyBubblePopping(e)) { return; }
-				/*if (!e.target.closest('.sec-btn') && e.target.closest('#card-sec-bar')) {
-					e.stopPropagation();
-					ToggleByID(null, 'card-sec-btns');
-					return;
-				}*/
 				if (await fairyBlessCheck(e)) { return; }
 				if (await fairyStatusCheck(e)) { return; }
 				if (await fairyActiveCardCheck(e)) { return; }
-				/*if (e.target.closest("#tab-card-notes")) {
-					e.stopPropagation();
-					toggleNodeDetails(e);
-					return;
-				}*/
 				if (e.target.closest("#multitrack")) {
 					e.stopPropagation();
 					toggleCommandPanel(e);
@@ -6974,7 +7010,7 @@
 			e.stopPropagation();
 			// 1. Find the active card. 
 			// This assumes you add an 'active' class when hovering or clicking.
-			const activeCard = document.querySelector('.card.is-active');
+			const activeCard = Multitrack().querySelector('.card.is-active');
 			if (activeCard) {
 				// 2. Toggle the 'pinned' class
 				const isPinned = activeCard.classList.toggle('pinned');
@@ -7240,7 +7276,7 @@
 		function addTrackRelative(e, direction) {
 			e.stopPropagation();
 			const multitrack = document.getElementById('multitrack');
-			const activeCard = document.querySelector('.card.is-active');
+			const activeCard = multitrack.querySelector('.card.is-active');
 
 			// 1. Identify the reference track
 			// If no card is active, we default to the first track or create one if none exist
@@ -7307,13 +7343,14 @@
 		}
 		function removeTrackRelative(e, direction) {
 			e.stopPropagation();
-			const activeCard = document.querySelector('.card.is-active');
+			const multitrack = document.getElementById('multitrack');
+			const activeCard = multitrack.querySelector('.card.is-active');
 			if (!activeCard) {
 				showToast("Please select a card first.");
 				return;
 			}
 			const currentTrack = activeCard.closest('.track');
-			const multitrack = document.getElementById('multitrack');
+			
 
 			// Logic: direction -1 targets the track ABOVE the current one, 1 targets BELOW.
 			// 0 (if you wanted) would target the current track itself.
@@ -7359,6 +7396,7 @@
 		 */
 		function moveActiveCard(e, direction) {
 			e?.stopPropagation();
+			const multitrack = Multitrack();
 			const activeCard = document.querySelector('.card.is-active');
 			if (!activeCard) return;
 
@@ -8297,33 +8335,40 @@
 			}
 
 			// 1. Change: Target the active track or the default track
-			const multitrack = document.getElementById('multitrack');
-			let activeCard = document.querySelector('.card.is-active');
-			let activeTrack = activeCard ? activeCard.parentElement : document.querySelector('.track');
+			const multitrack = Multitrack();
+			let activeCard = multitrack.querySelector('.card.is-active');
+			let activeTrack = activeCard ? activeCard.parentElement : multitrack.querySelector('.track');
 			if (autoRandomTrack) {
 				activeTrack = autoRandomTrack;
 			}
 			if (document.body.classList.contains("auto-random")) { autoRandomTrack = activeTrack; }
-			const isVertical = document.getElementById('body-wrap').classList.contains('max-width');
+			const isVertical = document.body.classList.contains('max-width');
 
 			// Duplicate check
-			const existing = Array.from(document.querySelectorAll('.card')).find(c => c.dataset.id === item.p);
-			if (existing) {
-				const bSameTrack = (activeTrack == existing.closest('.track'));
-				if (existing.classList.contains('pinned')) {
-					existing.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
-					if (autoRandomTrack && !isHidden('tab-card-notes')) { return; }
-					setActiveCard(existing);
+			const existing = new Card(Array.from(document.querySelectorAll('.card')).find(c => c.dataset.id === item.p));
+			if (existing.el) {
+				const bSameTrack = (activeTrack == existing.el.closest('.track'));
+				if(existing.inStorage()){
+					activeTrack.prepend(existing.el);	
+					setActiveCard(existing.el);
 					return;
-				} else {
-					existing.remove();
+				}else if (existing.seemsImportant()) {
+					existing.sendToStorage();
+					return;
+
+					/*
+					existing.el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+					if (autoRandomTrack && !isHidden('tab-card-notes')) { return; }
+					setActiveCard(existing.el);
+					return;*/
+				}else {
+					existing.el.remove();
 					if (bSameTrack) {
 						syncSidebarHighlights();
 						return;
 					}
 				}
 			}
-
 			if (autoFlush) {
 				// 20251227: Cardinal: First count the number of cards in the track.
 				const cardsInTrack = activeTrack.querySelectorAll('.card:not(.pinned)');
@@ -8639,7 +8684,7 @@
 			// 20260105: Sasha: If the multitrack area has pinned cards, but not all of them are pinned, remove only the unpinned cards.
 
 			const multitrack = document.querySelector("#multitrack");
-			const cards = document.querySelectorAll(".card");
+			const cards = Multitrack().querySelectorAll(".card");
 			const numCards = cards.length;
 			let numImportant = 0;
 			cards.forEach(c => {
