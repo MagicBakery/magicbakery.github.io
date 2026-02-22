@@ -13,8 +13,8 @@
 	<link rel="apple-touch-icon" href="/icons/star_192.png">
 	<link rel="manifest" href="/mt_manifest.json">
 	<script>
-		const APP_VERSION = "20260220101100"; //#Version
-		const APP_ANNOUNCEMENT = "20260220: Removal Protections."
+		const APP_VERSION = "20260221204700"; //#Version
+		const APP_ANNOUNCEMENT = "20260221: Basic Comparison"
 		const APP_DEFAULTPACK = "https://magicbakery.github.io/starterpack.json";
 		const APP_DEFAULTWALLPAPER = "https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg";
 		const APP_HOMEURL = "https://magicbakery.github.io/?id=P202512210026";
@@ -649,7 +649,7 @@
 
 		.card-textarea.infocus {
 			border: 1px solid rgba(255, 215, 0, 0.5);
-			background-color: rgba(0, 0, 0, 0.7);
+			background-color: rgba(0, 0, 0, 0.5);
 			color: white;
 		}
 
@@ -2218,12 +2218,6 @@
 			left: 0;
 		}
 
-		.grid-view .active-item {
-			border: 5px solid var(--gold) !important;
-			z-index: var(--z-Listings);
-			transform: scale(1.02);
-		}
-
 		.file-item {
 			padding: 10px 15px;
 			border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -2236,25 +2230,23 @@
 			transition: all 0.2s ease;
 		}
 
-		.file-item.active-item {
-			color: var(--gold) !important;
-			font-weight: bold;
-			background: rgba(255, 215, 0, 0.15) !important;
-			/* Visible highlight */
-		}
-
-		.grid-view .file-item.active-item {
-			border: 3px solid var(--gold) !important;
-			transform: scale(1.05);
+		.grid-view .file-item {
 			z-index: var(--z-Listings);
 			background: transparent !important;
-			/* Hide list bg in grid mode */
 		}
 
 		.active-item {
+			border: 3px solid var(--gold) !important;
 			color: var(--gold) !important;
 			font-weight: bold;
 			background: rgba(255, 215, 0, 0.1);
+		}
+
+		.storage-item {
+			border: 3px solid darkgoldenrod !important;
+			color: darkgoldenrod !important;
+			font-weight: bold;
+			background: rgba(184, 134, 11, 0.1);
 		}
 
 		.card-tag-overlay {
@@ -2639,8 +2631,6 @@
 
 		#card-id,
 		#card-img-url,
-		#card-notes,
-		#card-script,
 		#card-path-url,
 		#card-sprite-parameters,
 		#card-sec-btns,
@@ -2866,9 +2856,10 @@
 		body:not(:has(#asset-panel.active)) .tag-cloud {
 			display: none;
 		}
+
 		#storage,
-		#storage.track{
-			display:none !important;
+		#storage.track {
+			display: none !important;
 		}
 
 
@@ -3196,12 +3187,12 @@
 						style="flex:1;min-width:130px;text-align: right;">
 				</div>
 				<div class="flex-when-active active">
-					<input type="text" id="card-stream" class="active" placeholder="Stream version" title="UTC Stream Version (a)"
+					<input type="text" id="card-ver" class="active" placeholder="User modified" title="UTC Version (v)"
 						style="flex:1;min-width:130px;text-align: center;">
 					<input type="text" id="card-base" class="active" placeholder="Base version" title="UTC Base Version (b)"
 						style="flex:1;min-width:130px;text-align: center;">
-					<input type="text" id="card-ver" class="active" placeholder="User modified" title="UTC Version (v)"
-						style="flex:1;min-width:130px;text-align: center;">
+					<input type="text" id="card-stream" class="active" placeholder="Cosmic Stream version"
+						title="UTC Stream Version (a)" style="flex:1;min-width:130px;text-align: center;">
 				</div>
 				<div class="card-details">
 					<input type="text" id="card-path-url" placeholder="URL / File Path" title="Path/URL (u)">
@@ -3228,20 +3219,31 @@
 				<div class="notes-panel">
 
 					<div id="card-textareas" style="display:flex;clear:right" class="active">
-						<textarea id="card-notes" class="card-textarea active" onfocus="PanelTextareaActivate(this)"
-							oninput="markDirty(this)" style="flex: 2 2 0%" placeholder="User Notes"></textarea>
+						<textarea id="card-notes" class="card-textarea flex-when-active active"
+							onfocus="PanelTextareaActivate(this)" oninput="markDirty(this)" style="flex: 2 2 0%"
+							placeholder="User Notes"></textarea>
 
-						<textarea id="card-script" class="card-textarea active" onfocus="PanelTextareaActivate(this)"
-							oninput="markDirty(this)" style="flex: 2 2 0%" placeholder="Public Script"></textarea>
+						<textarea id="card-script" class="card-textarea flex-when-active active"
+							onfocus="PanelTextareaActivate(this)" oninput="markDirty(this)" style="flex: 2 2 0%"
+							placeholder="Public Script"></textarea>
+						<textarea id="card-cosmic-script" class="card-textarea flex-when-active"
+							onfocus="PanelTextareaActivate(this)" readonly oninput="markDirty(this)"
+							style="flex: 2 2 0%;background-color:rgba(64,0,64,0.5)" placeholder="Cosmic Script"></textarea>
 
 					</div>
+					<div class="flex-when-active active">
+						<button class="notes-btn" onclick="TextAreaScrollTo('card-cosmic-script');TextAreaScrollTo('card-script');">Scroll To Selection</button>
+						<button class="notes-btn" onclick="TextAreaScrollBoth()">Scroll Both</button>
+						<button class="notes-btn" onclick="CosmicCompare()">Compare</button>
+						<button class="notes-btn" onclick="CosmicAlignment()">Align</button>
+					</div>
 					<div id="editor-btns">
-						<button class="notes-btn save-notes-btn" onclick="saveCardNotes(event,true)" title="Save Changes">
+						<button class="tool-btn save-notes-btn" onclick="saveCardNotes(event,true)" title="Save Changes">
 							<svg viewBox="0 0 100 100" style="width:90%; height:90%;">
 								<path d="M20,15 H70 L85,30 V85 H20 Z" fill="none" stroke="currentColor" stroke-width="6" />
 								<rect x="35" y="15" width="30" height="25" fill="none" stroke="currentColor" stroke-width="4" />
 								<rect x="30" y="55" width="40" height="30" fill="none" stroke="currentColor" stroke-width="4" />
-								<rect x="55" y="60" width="10" height="20" fill="currentColor" />
+								<!--<rect x="55" y="60" width="10" height="20" fill="currentColor" />-->
 							</svg>
 						</button>
 						<button class="notes-btn" onclick="NoteLineSwap(true)" title="Move line up">
@@ -3891,11 +3893,11 @@
 			constructor(element) {
 				this.el = element;
 			}
-			inStorage(){
+			inStorage() {
 				const sh = new Storage();
 				return sh.el.contains(this.el);
 			}
-			redraw(){
+			redraw() {
 				this.el.classList.remove('active');
 				requestAnimationFrame(() => {
 					requestAnimationFrame(() => {
@@ -3915,24 +3917,32 @@
 				if (this.el.querySelector(".status-banner")) { return "This card has a caption."; }
 				return "";
 			}
-			sendToStorage(){
-				SPEC("20260220184600","Arcacia","Place a card from the mat to the storage.");
+			sendToStorage() {
+				SPEC("20260220184600", "Arcacia", "Place a card from the mat to the storage.");
 				const sh = new Storage();
 				sh.el.prepend(this.el);
 				this.el.classList.remove('is-active');
 				this.el.classList.remove('active');
+				this.updateAssetListStatus(true);
+				memDOM();
+			}
+			updateAssetListStatus(bInStorage) {
+				const fi = document.querySelector(`.file-item[data-id="${this.el.dataset.id}"]`);
+				if (!fi) { return; }
+				fi.classList.toggle('storage-item', bInStorage);
 			}
 		}
-		class Storage{
-			constructor(element){
-				if(!element){
+		class Storage {
+			constructor(element) {
+				if (!element) {
 					element = document.querySelector("#storage");
 				}
-				if(!element){
+				if (!element) {
 					element = document.createElement('div');
 					element.id = "storage";
 					element.classList.add('track');
 					document.body.prepend(element);
+
 				}
 				this.el = element;
 			}
@@ -4283,6 +4293,85 @@
 			choiceEntry.scrollIntoView();
 			ScriptEngine().setAttribute('SE-BubbleSpawning', '');
 			return choiceEntry;
+		}
+		function CosmicAlignment(bNoToast, bReverse) {
+			SPEC("20260221122200", "Natalie", "Based on the current selection position of the script and cosmic textareas, align the cosmic to the script's line. Wrap araound the search if needed.")
+			let scriptTA = document.getElementById('card-script');
+			let cosmicTA = document.getElementById('card-cosmic-script');
+			if (bReverse) {
+				scriptTA = document.getElementById('card-cosmic-script');
+				cosmicTA = document.getElementById('card-script');
+			}
+			let bAligned = false;
+			// 1. Get Line Info and Visual Position from Script TA
+			const cursorPos = scriptTA.selectionStart;
+			const textBefore = scriptTA.value.substring(0, cursorPos);
+			const linesBefore = textBefore.split('\n');
+			const lineIndexScript = linesBefore.length - 1;
+			const currentLineText = scriptTA.value.split('\n')[lineIndexScript].trim();
+
+			if (currentLineText.length > 0) {
+				const fullContent = cosmicTA.value;
+				const searchStart = cosmicTA.selectionStart;
+
+				// 2. Find Match with Wrap-Around
+				let targetIndex = fullContent.indexOf(currentLineText, searchStart);
+				if (targetIndex === -1) targetIndex = fullContent.indexOf(currentLineText);
+
+				if (targetIndex !== -1) {
+					// 3. Calculate Visual Metrics
+					const styleS = getComputedStyle(scriptTA);
+					const styleC = getComputedStyle(cosmicTA);
+
+					const lineHeight = parseFloat(styleS.lineHeight) || 20; // Fallback to 20px
+
+					// How far down the Script TA is the current line?
+					const linePixelTopS = lineIndexScript * lineHeight;
+					const visualOffset = linePixelTopS - scriptTA.scrollTop;
+
+					// 4. Position the Cosmic TA
+					const lineIndexCosmic = fullContent.substring(0, targetIndex).split('\n').length - 1;
+					const linePixelTopC = lineIndexCosmic * lineHeight;
+
+					cosmicTA.focus();
+					cosmicTA.setSelectionRange(targetIndex, targetIndex + currentLineText.length);
+
+					// Set scroll so the line sits at the same visual height as in the Script TA
+					cosmicTA.scrollTop = linePixelTopC - visualOffset;
+					scriptTA.focus();
+
+					bAligned = true;
+				}
+			}
+			if (!bAligned && !bNoToast) {
+				showToast("That line is not in the cosmic script.");
+				return false;
+			}
+			
+
+			return true;
+		}
+		function CosmicCompare(bStart) {
+			SPEC("20260221123500", "Natalie", "Based on the current selection position of Script and Cosmic, highlight the next difference with 1-character padding, wrap around as needed, and line up the two sides at the difference.");
+
+			const scriptTA = document.getElementById('card-script');
+			const cosmicTA = document.getElementById('card-cosmic-script');
+			let si1, si2;
+			let bStartedFromTop = !!bStart;
+			if (bStartedFromTop) {
+				si1 = 0;
+				si2 = 0;
+			} else {
+				const nextLineIdx1 = scriptTA.value.indexOf('\n', scriptTA.selectionEnd);
+				si1 = (nextLineIdx1 !== -1) ? nextLineIdx1 + 1 : scriptTA.value.length;
+				scriptTA.selectionStart = si1;
+				
+				// Find the next newline in the cosmic script
+				const nextLineIdx2 = cosmicTA.value.indexOf('\n', cosmicTA.selectionEnd);
+				si2 = (nextLineIdx2 !== -1) ? nextLineIdx2 + 1 : cosmicTA.value.length;
+			}
+
+			TextAreaHLFirstDiff('card-script', 'card-cosmic-script', si1, si2);
 		}
 		function DailyQuestCheck() {
 			SPEC("20260214152700", "Skyle", "Reset all the checked daily quest icons.");
@@ -5317,7 +5406,7 @@
 			}
 			DailyQuestCheck();
 			const mSection = document.getElementById(aID);
-			
+
 
 			if (isLoad) {
 				const mSavedHTML = localStorage.getItem(aID + '_snapshot');
@@ -5451,8 +5540,9 @@
 			SPEC("20260215190446", "Natalie", "Expand the side in focus.")
 			const elNotes = document.getElementById('card-notes');
 			const elScript = document.getElementById('card-script');
+			const elCosmic = document.getElementById('card-cosmic-script');
 			const focusN = elNotes.classList.contains('infocus');
-			const focusS = elScript.classList.contains('infocus');
+			const focusS = elScript.classList.contains('infocus') || elCosmic.classList.contains('infocus');
 			let flexN = Number(elNotes.style.flex.slice(0, 1));
 			let flexS = Number(elScript.style.flex.slice(0, 1));
 			if (!focusN && !focusS) {
@@ -5474,9 +5564,13 @@
 			flexS = 4 - flexN;
 			elNotes.style.flex = `${flexN} ${flexN} 0%`;
 			elScript.style.flex = `${flexS} ${flexS} 0%`;
+			elCosmic.style.flex = `${flexS} ${flexS} 0%`;
 			elThis.innerHTML = `${flexN}:${flexS}`;
 			elNotes.classList.toggle('active', flexN > 0);
 			elScript.classList.toggle('active', flexS > 0);
+			if (flexS == 0) {
+				elCosmic.classList.toggle('active', false);
+			}
 		}
 		function PanelTextareaResizeH(elThis) {
 			const CP = document.getElementById('command-panel');
@@ -5687,7 +5781,7 @@
 				const DATAcard = DATAByID(activeCard.dataset.id);
 				if (DATAcard && DATAcard.c) {
 					if (await showConfirm('Reload public script from DATA?')) {
-						elPanelScript.value = decodeURIComponent(DATAcard.c || "");
+						elPanelScript.value = decodeURIComponent(DATAcard.cosmic || "");
 					}
 				}
 			}
@@ -5737,12 +5831,15 @@
 			const data = DATAByID(document.getElementById("card-id").value);
 			document.getElementById('card-stream').value = data.a;
 			const b = document.getElementById('card-base').value;
-			if (Number(b) < Number(data.a)) {
-				if (await showConfirm("The base version of what you modified is older than the current version on the stream. Resolve by yourself first?")) {
-					// 20260220: StarTree: Need to implement a stream copy before it can show the difference.
-					TextAreaHLFirstDiff("card-script", decodeURIComponent(data.c));
+			const panelScript = document.getElementById('card-script').value;
+			const cosmicScript = decodeURIComponent(data.cosmic) || "";
+			if (Number(b) < Number(data.a) && panelScript != cosmicScript) {
+				if (await showConfirm("Your changes are saved locally, but it seems that you modified an older version of the script.<hr>Your:  " + UTCshowLocal(b) + "<br>Latest:" + UTCshowLocal(data.a) + "<hr>[Yes] to see the differences<br>[No] to  update the base number.")) {
+					document.getElementById('card-cosmic-script').value = cosmicScript || "";
+					TextAreaHLFirstDiff("card-script", 'card-cosmic-script');
 					return;
 				}
+				document.getElementById('card-base').value = data.a.trim();
 			}
 
 			// 20260219223500: StarTree: Save b and v only if the card's v is not blank.
@@ -6017,7 +6114,7 @@
 				.map(item => {
 					// 3. Create a copy WITHOUT 'o'
 					// This pulls 'o' out and puts everything else into a new object called 'cleanItem'
-					const { o, ...cleanItem } = item;
+					const { b, cosmic, o, ...cleanItem } = item;
 					return cleanItem;
 				});
 
@@ -6041,10 +6138,9 @@
 					countWithB++;
 
 				}
-				if (record.b && record.a && Number(record.b) < Number(record.a)) {
+				if (record.b && record.a && Number(record.b) < Number(record.a) && record.cosmic != record.c) {
 					countOldBase++;
 					oldBase.push(record.p + ":" + record.n + "\n");
-					DEBUG("Old Base: " + record.p + ": " + record.n);
 				}
 				if (record.a) { delete record['a']; }
 			});
@@ -6212,7 +6308,7 @@
 			// 20260111: LRRH: Don't set active card if auto spawning with the notes tab open.
 			if (!card) return;
 			const cCard = new Card(card);
-			if(cCard.inStorage()){return;}
+			if (cCard.inStorage()) { return; }
 
 
 			// 20260123: Natalie: Don't set another active card if the current command panel is dirty.
@@ -6229,6 +6325,7 @@
 			const data = getActiveCardData();
 			const cardNotes = document.getElementById("card-notes");
 			const cardScript = document.getElementById("card-script");
+			const cardCosmic = document.getElementById("card-cosmic-script");
 			// 20260123: Evelyn: Just use the data in the card if it is not found in DATA.
 			//if(!data){
 			if (data?.a) {
@@ -6244,12 +6341,14 @@
 			document.getElementById("card-path-url").value = card.dataset.u || "";
 			cardNotes.value = card.dataset.o ? decodeURIComponent(card.dataset.o) : "";
 			cardScript.value = card.dataset.c ? decodeURIComponent(card.dataset.c) : "";
+			cardCosmic.value = "";
 			cardNotes.dataset.original = card.dataset.o || "";
 			cardScript.dataset.original = card.dataset.c || "";
 
 
 			//}
 			if (data) {
+				cardCosmic.value = decodeURIComponent(data.cosmic) || "";
 				document.getElementById("card-img-url").value = data.i || "";
 				document.getElementById("card-title").value = data.n || "";
 				document.getElementById("card-id").value = data.p || "";
@@ -6297,7 +6396,7 @@
 				mirrorImg.style.display = "block";
 				//mirrorLabel.innerText = cardName;
 			}
-			// Mirror 
+			cCard.redraw();
 			memDOM();
 		}
 		function showAllTracks() {
@@ -6597,7 +6696,7 @@
 			let caption = statusBanner?.innerHTML || "";
 			if (color === 'remove') {
 				if (!caption || !await showConfirm('This card has a caption "' + caption + '". Keep it?')) {
-					statusBanner.remove();
+					statusBanner?.remove();
 					memDOM();
 				}
 				return;
@@ -6872,37 +6971,80 @@
 			}
 			return emoji;
 		}
-		function TextAreaHLFirstDiff(textareaId, comparisonString) {
-			const textarea = document.getElementById(textareaId);
-			const text1 = textarea.value;
-			const text2 = comparisonString;
+		async function TextAreaHLFirstDiff(textareaId1, textareaId2, si1 = 0, si2 = 0) {
+			const ta1 = document.getElementById(textareaId1);
+			const ta2 = document.getElementById(textareaId2);
+			ta1.classList.add('active');
+			ta2.classList.add('active');
+			const text1 = ta1.value;
+			const text2 = ta2.value;
 
-			//DEBUG(text1 +"|" + text2);
+			let bStart = (si1 == 0 && si2 == 0);
+			ta1.selectionStart = si1;
+			ta2.selectionStart = si2;
+			
 
 			// 1. Find the first index where the characters don't match
-			let firstDiffIndex = -1;
-			const maxLength = Math.max(text1.length, text2.length);
+			const lengthToCheck = Math.max(text1.length - si1, text2.length - si2);
+			let relativeDiffIndex = -1;
+			let lastLB1 = 0;
+			let lastLB2 = 0;
+			//let i = text1.length-1;			
+			let i = 0;			
+			for (; i < lengthToCheck; i++) {
+			//for (; i >=0; i--) {
+				const char1 = text1[si1 + i];
+				const char2 = text2[si2 + i];
 
-			for (let i = 0; i < maxLength; i++) {
-				if (text1[i] !== text2[i]) {
-					firstDiffIndex = i;
-
+				if (char1 !== char2) {
+					relativeDiffIndex = i;
 					break;
+				} else if (char1 == "\n") {
+					lastLB1 = si1 + i;
+					lastLB2 = si2 + i;
 				}
-			}
-			// 2. If a difference is found, highlight it
-			if (firstDiffIndex !== -1) {
-				textarea.setSelectionRange(firstDiffIndex, firstDiffIndex + 1);
-				textarea.blur();
-				textarea.focus();
-				const linesBefore = text1.substring(0, firstDiffIndex).split('\n').length;
-				const lineHeight = parseFloat(getComputedStyle(textarea).lineHeight) || 20;
-				textarea.scrollTop = (linesBefore * lineHeight) - (textarea.clientHeight / 2);
 
-				return firstDiffIndex;
-			} else {
-				return -1;
 			}
+			ta1.selectionStart = lastLB1;
+			ta2.selectionStart = lastLB1;
+			TextAreaScrollTo("card-cosmic-script");
+			TextAreaScrollTo("card-script");
+			CosmicAlignment(true);
+			
+			//TextAreaScrollTo("card-script");
+			ta2.selectionStart = si2 + i;
+			ta2.selectionEnd = si2 + i+1;
+			ta1.selectionStart = si1 + i;
+			ta1.selectionEnd = si1 + i + 1;
+			ta1.focus();
+			if (relativeDiffIndex !== -1) {
+				return relativeDiffIndex;
+			}
+			if (!bStart) {
+				return TextAreaHLFirstDiff(textareaId1, textareaId2, 0, 0);
+			}
+		}
+		function TextAreaScrollBoth() {
+			let scriptTA = document.getElementById('card-script');
+			let cosmicTA = document.getElementById('card-cosmic-script');
+			const lineHeight = scriptTA.style.lineHeight || 24;
+			scriptTA.blur();
+			cosmicTA.blur();
+			scriptTA.scrollTo(0, scriptTA.scrollTop + lineHeight);
+			cosmicTA.scrollTo(0, cosmicTA.scrollTop + lineHeight);
+			
+
+		}
+		function TextAreaScrollTo(taid) {
+			const el = document.getElementById(taid);
+			if (!el) return;
+			//const endPos = el.selectionEnd;
+			el.selectionEnd = el.selectionStart;
+			const selected = el.value.slice(el.selectionStart,el.selectionEnd)
+			el.setRangeText(selected);
+			//el.selectionEnd = endPos;
+			el.focus();
+			return;
 		}
 		function toggleAddTag(bInit) {
 			// 20260110: V: Toggle the visibility, but don't hide it if is not blank.
@@ -7179,6 +7321,27 @@
 			SPEC("20260219215800", "StarTree", "Returns the UTC timestamp in YYYYMMDDhhmmss format");
 			return new Date().toISOString().replace(/[^0-9]/g, '').slice(0, 14);
 		}
+		function UTCshowLocal(utcTimeStamp) {
+			const parts = utcTimeStamp.match(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/);
+			if (!parts) return "Invalid Timestamp";
+
+			const [, year, month, day, hour, minute, second] = parts;
+			const isoString = `${year}-${month}-${day}T${hour}:${minute}:${second}Z`;
+			const dateObj = new Date(isoString);
+
+			// Helper function to ensure two digits (e.g., 9 becomes 09)
+			const pad = (num) => String(num).padStart(2, '0');
+
+			// Extract Local Parts
+			const LYear = dateObj.getFullYear();
+			const LMonth = pad(dateObj.getMonth() + 1); // Months are 0-indexed
+			const LDay = pad(dateObj.getDate());
+			const LHour = pad(dateObj.getHours());
+			const LMin = pad(dateObj.getMinutes());
+			const LSec = pad(dateObj.getSeconds());
+
+			return `${LYear}-${LMonth}-${LDay} ${LHour}:${LMin}:${LSec}`;
+		}
 		/* UNSORTED CODE */
 
 		function openChoicePreview(code, text, el) {
@@ -7199,38 +7362,13 @@
 			}
 			elThis.classList.add('active');
 		}
-		function UTCshowLocal(utcTimeStamp) {
-			// 1. Extract parts using match or substring
-			// Pattern: (YYYY)(MM)(DD)(hh)(mm)(ss)
-			const parts = utcTimeStamp.match(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/);
 
-			if (!parts) return "Invalid Timestamp";
-
-			// 2. Reconstruct into an ISO 8601 string in UTC (adding the 'Z')
-			const [, year, month, day, hour, minute, second] = parts;
-			const isoString = `${year}-${month}-${day}T${hour}:${minute}:${second}Z`;
-
-			// 3. Create a Date object (this will be in UTC because of the 'Z')
-			const dateObj = new Date(isoString);
-
-			// 4. Return as a local string
-			// Use 'toLocaleString' to automatically adjust to the user's timezone
-			return dateObj.toLocaleString(undefined, {
-				year: 'numeric',
-				month: 'long',
-				day: 'numeric',
-				hour: '2-digit',
-				minute: '2-digit',
-				second: '2-digit',
-				hour12: true
-			});
-		}
 		function showConfirm(message) {
 			const modal = document.getElementById('custom-confirm');
 			const text = modal.querySelector('#confirm-text');
 			const btnYes = document.getElementById('btn-yes');
 			const btnNo = document.getElementById('btn-no');
-			text.innerText = message;
+			text.innerHTML = message;
 			modal.style.display = 'flex';
 			return new Promise((resolve) => {
 				resolveConfirm = resolve;
@@ -7350,7 +7488,7 @@
 				return;
 			}
 			const currentTrack = activeCard.closest('.track');
-			
+
 
 			// Logic: direction -1 targets the track ABOVE the current one, 1 targets BELOW.
 			// 0 (if you wanted) would target the current track itself.
@@ -8003,6 +8141,7 @@
 			DATA.forEach(item => {
 				if (!item.a) {
 					item.a = item.v;
+					item.cosmic = item.c || "";
 				}
 				if (item.t && Array.isArray(item.t)) {
 					item.t.forEach(tag => tags.add(tag));
@@ -8295,10 +8434,17 @@
 			document.getElementById('stage-count').innerText = count;
 		}
 		function syncSidebarHighlights() {
-			const activePaths = Array.from(document.querySelectorAll('.card')).map(c => c.dataset.id);
+			const activeCardIDs = new Set(
+				Array.from(document.querySelectorAll('.card')).map(c => c.dataset.id)
+			);
+			const storage = new Storage();
+			const storedCardsIDs = new Set(
+				storage?.el ? Array.from(storage.el.querySelectorAll('.card')).map(c => c.dataset.id) : []
+			);
 			document.querySelectorAll('.file-item').forEach(item => {
-				const itemPath = item.dataset.id;
-				item.classList.toggle('active-item', activePaths.includes(itemPath));
+				const itemID = item.dataset.id;
+				item.classList.toggle('active-item', activeCardIDs.has(itemID));
+				item.classList.toggle('storage-item', storedCardsIDs.has(itemID));
 			});
 			updateStageCount();
 		}
@@ -8324,12 +8470,6 @@
 			}
 			// If the item is null, choose a random one from the file list.			
 			if (!item) {
-				/*const choices = document.querySelectorAll(".file-item:not(.active-item)");
-				const numChoices = choices.length;
-				if (choices.length < 1) { return; }
-				const file = choices[Math.floor(Math.random() * choices.length)];
-				const id = file.dataset.id;
-				item = DATA.find(i => i.p === id);*/
 				item = FilterDraw();
 				if (!item) { return; }
 			}
@@ -8348,11 +8488,16 @@
 			const existing = new Card(Array.from(document.querySelectorAll('.card')).find(c => c.dataset.id === item.p));
 			if (existing.el) {
 				const bSameTrack = (activeTrack == existing.el.closest('.track'));
-				if(existing.inStorage()){
-					activeTrack.prepend(existing.el);	
+				if (existing.inStorage()) {
+					if (activeCard) {
+						activeCard.after(existing.el);
+					} else {
+						activeTrack.prepend(existing.el);
+					}
+					existing.updateAssetListStatus(false);
 					setActiveCard(existing.el);
 					return;
-				}else if (existing.seemsImportant()) {
+				} else if (existing.seemsImportant()) {
 					existing.sendToStorage();
 					return;
 
@@ -8361,7 +8506,7 @@
 					if (autoRandomTrack && !isHidden('tab-card-notes')) { return; }
 					setActiveCard(existing.el);
 					return;*/
-				}else {
+				} else {
 					existing.el.remove();
 					if (bSameTrack) {
 						syncSidebarHighlights();
@@ -8698,7 +8843,7 @@
 
 			let msg = "This will wipe the multitrack area. Keep it?";
 			if (numImportant < numCards) {
-				msg = "This will remove " + (numCards - numImportant) + " card(s) that don't seem important. Keep them?";
+				msg = "This will remove " + (numCards - numImportant) + " card(s) without changes. Keep them instead?";
 				if (await showConfirm(msg)) { return; }
 				cards.forEach(c => {
 					const cc = new Card(c);
@@ -8708,7 +8853,7 @@
 				});
 				return;
 			} else if (numCards == numImportant && numCards > 0) {
-				msg = "The work area only has card(s) that seem important. Keep them?"
+				msg = "The work area only has card(s) that have user changes. Keep them?"
 				if (await showConfirm(msg)) { return; }
 			}
 			multitrack.innerHTML = "<div class='track'></div>";
