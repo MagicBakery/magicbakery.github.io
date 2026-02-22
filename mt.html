@@ -6246,8 +6246,8 @@
 
 			if (stage.classList.contains('suspended')) {
 				if (bResume) {
-					StageSuspend();
 					document.querySelector('.card-textarea.infocus')?.blur();
+					StageSuspend();
 					return false
 				}
 				if (bStop) {
