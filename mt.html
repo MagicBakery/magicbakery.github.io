@@ -5670,8 +5670,7 @@
 				line = line.rightOf(' ').trim();
 			}
 			const prefix = line.charAt(0);
-			// 20260120: Natalie: If there is a selected choice, set bubble spawning to done.
-			ChoiceCommit();
+			
 			// 20260119: LRRH: If the engine is spawning bubbles and the prefix is not *, put the line back and return.
 
 			if (prefix != '*' && ScriptBubbleSpawning(null)) {
@@ -5872,7 +5871,7 @@
 			let save = "";
 			while (SE.dataset.script.startsWith(' ')) {
 				let line = ScriptPop(SE)[0];
-				save += line.slice(1).trimEnd();
+				save += line.slice(1);
 			}
 			elChoice.dataset.script = save;
 		}
@@ -6179,6 +6178,8 @@
 				ScriptQueryResponses(SE.dataset.dts);
 				SE.dataset.dts = "";
 			}
+			// 20260120: Natalie: If there is a selected choice, set bubble spawning to done.
+			ChoiceCommit();
 			const scriptStart = SE.dataset.script;
 			match = ScriptPop(SE);
 			if (!match || match[0].length < 1) {
@@ -6243,18 +6244,17 @@
 			const SE = ScriptEngine();
 			const stage = Stage();
 
-
 			if (stage.classList.contains('suspended')) {
 				if (bResume) {
 					StageSuspend();
+					document.querySelector('.card-textarea.infocus')?.blur();
 					return false
 				}
 				if (bStop) {
 					SE.dataset.script = "";
 					ScriptEnd();
 					StageQuit(null, true);
-					//					CurtainBlink();	
-					document.querySelector('.card-textarea.infocus')?.focus();
+					document.querySelector('.card-textarea.infocus')?.blur();
 					return false;
 				} else {
 					showToast("The stage is already running a script.")
