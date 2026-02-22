@@ -6083,7 +6083,7 @@
 			let i = 1;
 			collections.forEach(c => {
 				const title = c.querySelector('.path-text').innerHTML;
-				strCollectionList += i + ") " + title + "\n";
+				strCollectionList += i + ") " + title + "<br>";
 				i++;
 			});
 			// Confirm the filter selections 
@@ -6102,7 +6102,7 @@
 
 
 
-			if (!await showConfirm(`This will export the data of ${files.length} card(s) from ${collections.length} collection(s):\n${strCollectionList}filtered with ${tags.length} tag(s): ${strTags} containing tag keyword "${q}". Continue?`)) { return; }
+			if (!await showConfirm(`This will export the data of ${files.length} card(s) from ${collections.length} collection(s):<br>${strCollectionList}filtered with ${tags.length} tag(s): ${strTags} containing tag keyword "${q}". Continue?`)) { return; }
 
 			const filtered = DATA
 				.filter(i => {
@@ -6124,7 +6124,7 @@
 			// 202602192326: Natalie: Count the number of records where v is not empty, and number of records where b is smaller that DATA v.
 
 			let countMissingUTC = 0;
-			let countWithB = 0;
+			let countVisited = 0;
 			let countOldBase = 0;
 			let oldBase = [];
 
@@ -6134,17 +6134,16 @@
 					record.v = UTC();
 					countMissingUTC++;
 				}
-				if (record.b) {
-					countWithB++;
-
+				if (record.b || (record.v && (record.v != record.a))) {
+					countVisited++;
 				}
 				if (record.b && record.a && Number(record.b) < Number(record.a) && record.cosmic != record.c) {
 					countOldBase++;
-					oldBase.push(record.p + ":" + record.n + "\n");
+					oldBase.push(record.p + ":" + record.n + "<br>");
 				}
 				if (record.a) { delete record['a']; }
 			});
-			if (!await showConfirm(`Your content has:\n${countWithB} visited\n${countMissingUTC} without version\n${countOldBase} with old base:\n${oldBase}Continue?`)) {
+			if (!await showConfirm(`Your content has:<br>${countVisited} visited,<br>${countMissingUTC} without version,<br>${countOldBase} with old base:<br>${oldBase}Continue?`)) {
 
 				return;
 			}
