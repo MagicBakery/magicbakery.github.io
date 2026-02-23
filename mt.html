@@ -2861,7 +2861,35 @@
 		#storage.track {
 			display: none !important;
 		}
+		#dialogue-timer-charge-bar-frame{
+			border-radius:40px;
+			border:1px solid rgba(255,255,255,0.5);
+			background-color: rgba(255,255,255,0.05);
+			height:80px;
+			width:100%;
+			overflow:hidden;
+		}
+		.charge-bar{
+			height:80px;
+			margin-bottom:10px;
+		}
+		.charge-bar.paused{
+			opacity:0.5;
+		}
 
+		.timer-text{
+			text-align:center;
+			color: rgba(255,255,255,0.75);
+			font-size: 56px;	
+			margin-top:-84px;
+		}
+		#dialogue-timer .tool-btn{
+			border-radius:40px;
+			flex:1;
+			color: rgba(255,255,255,0.75);
+			height:64px;
+			font-size:20px;
+		}
 
 		/* #CSS END */
 	</style>
@@ -3735,6 +3763,17 @@
 					</svg>
 				</button>
 				<div id="speech-text" class="speech-content"></div>
+				<div id="dialogue-timer" class="flex-when-active" style="flex-direction: column;width:100%;text-align: center;">
+					<div id="dialogue-timer-charge-bar-frame">
+						<div class="charge-bar" ></div>
+						<div class="timer-text" ></div>
+					</div>					
+					<div id="dialogue-timer-buttons" style="justify-content: center;gap:10px;padding:10px;" class="flex-when-active">
+						<button class="tool-btn flex-when-active active" onclick="tmrDialog.start(this,true)">Start</button>
+						<button class="tool-btn flex-when-active active" onclick="tmrDialog.pause(this)">Pause</button>
+						<button class="tool-btn flex-when-active active" onclick="tmrDialog.stop(this)">Stop</button>
+					</div>
+				</div>
 				<div id="choice-container" class="choice-row"></div>
 			</div>
 		</div>
@@ -3783,7 +3822,209 @@
 		let ALL_TAGS = [];
 		let activeTags = new Set(), sidebarIsGrid = false, currentDock = 'right', autoFlush = false;
 		let tagSortMode = 'alpha', savedPaths = [];
+		
 
+		class Card {
+			constructor(element) {
+				this.el = element;
+			}
+			inStorage() {
+				const sh = new Storage();
+				return sh.el.contains(this.el);
+			}
+			redraw() {
+				this.el.classList.remove('active');
+				requestAnimationFrame(() => {
+					requestAnimationFrame(() => {
+						this.el.classList.add('active');
+					});
+				});
+			}
+			seemsImportant() {
+				SPEC("20260220212300", "Skyle", "Returns a reason string if the card should be protected from accidental deletion.");
+				if (this.el.classList.contains("pinned")) { return "This card has a ⭐."; }
+				if (this.el.dataset.o && this.el.dataset.o.trim() != "") { return "This card has user notes."; }
+				if (this.el.dataset.v && this.el.dataset.v.trim() != "") { return "This card has a last modified UTC version stamp " + this.el.dataset.v + ", which is " + UTCshowLocal(this.el.dataset.v) + " in your local time."; }
+				if (this.el.querySelector(".daily")) {
+					const icons = this.el.querySelector(".status-icons").innerText;
+					return "This card has quest status: " + icons + ".";
+				}
+				if (this.el.querySelector(".status-banner")) { return "This card has a caption."; }
+				return "";
+			}
+			sendToStorage() {
+				SPEC("20260220184600", "Arcacia", "Place a card from the mat to the storage.");
+				const sh = new Storage();
+				sh.el.prepend(this.el);
+				this.el.classList.remove('is-active');
+				this.el.classList.remove('active');
+				this.updateAssetListStatus(true);
+				memDOM();
+			}
+			updateAssetListStatus(bInStorage) {
+				const fi = document.querySelector(`.file-item[data-id="${this.el.dataset.id}"]`);
+				if (!fi) { return; }
+				fi.classList.toggle('storage-item', bInStorage);
+			}
+		}
+		class Storage {
+			constructor(element) {
+				if (!element) {
+					element = document.querySelector("#storage");
+				}
+				if (!element) {
+					element = document.createElement('div');
+					element.id = "storage";
+					element.classList.add('track');
+					document.body.prepend(element);
+
+				}
+				this.el = element;
+			}
+		}
+		class Timer{			
+			constructor(elCacheDisplayID){
+				this.elCacheDisplay = document.getElementById(elCacheDisplayID);
+				this.elChargeBar = this.elCacheDisplay.querySelector(".charge-bar");
+				this.elTimerText = this.elCacheDisplay.querySelector(".timer-text");
+				this.timeBanked = 0;
+				this.timeCached = 0;
+				this.lastStartTime = -1;
+				this.isRunning = false;
+				this.isPaused = false;
+				this.requireFullAttention = false;
+				this.updateDisplay = this.updateDisplay.bind(this);
+			}
+			formatTime(ms) {
+				let uuu = Math.floor(ms % 1000);
+				let totalSeconds = Math.floor(ms / 1000);
+				let ss = totalSeconds % 60;
+				let totalMinutes = Math.floor(totalSeconds / 60);
+				let mm = totalMinutes % 60;
+				let totalHours = Math.floor(totalMinutes / 60);
+				let hh = totalHours % 24;
+				let totalDays = Math.floor(totalHours / 24);
+				/*let DD = totalDays % 30;
+				let totalMonths = Math.floor(totalDays / 30);
+				let MM = totalMonths % 12;
+				let YY = Math.floor(totalMonths / 12);*/
+
+				let pad = (n) => n.toString().padStart(2, '0');
+				let pad3 = (n) => n.toString().padStart(3, '0');
+				let parts = [];
+				if (totalDays > 0){
+					return `${totalDays}d${pad(hh)}:${pad(mm)}`;
+				}else if (totalHours > 0){
+					return `${hh}:${pad(mm)}:${pad(ss)}`;
+				}else if (totalMinutes > 0){
+					return `${mm}:${pad(ss)}`;	
+				}else{
+					return `${ss}.${pad(uuu)}`;					
+				}				
+				return parts.join(':');
+			}
+			pause(elBtn){
+				if (!this.isRunning) return;
+				this.isRunning = false;
+				this.isPaused = true;
+				const now = performance.now();
+				this.timeCached += now-this.lastStartTime;
+				this.lastTimeCached = this.timeCached
+				this.lastPauseTime = now;
+				this.elChargeBar?.classList.add("paused");
+			}
+			reset(){
+				this.isRunning = false;
+				this.isPaused = false;
+				this.timeCached = 0;;
+			}
+			start(elBtn, bFullAttention){
+				if (this.isRunning) return;
+				if(this.isPaused){
+					this.isPaused = false;
+					this.timeCached -= performance.now() - this.lastPauseTime;
+				}
+				this.isRunning = true;
+				this.lastStartTime = performance.now();		
+				this.requireFullAttention = bFullAttention;
+				this.elChargeBar?.classList.toggle("blink",!!bFullAttention);
+				this.elChargeBar?.classList.remove("paused");
+				requestAnimationFrame(this.updateDisplay);
+			}
+			stop(elBtn){
+				if(this.isRunning){
+					this.timeCached += performance.now()-this.lastStartTime;
+				}
+				this.isRunning = false;
+				this.isPaused = false
+				this.timeBanked += this.timeCached;
+				this.lastTimeCached = this.timeCached;
+				this.timeCached = 0;				
+			}
+			updateChargeBar(ms){
+				if(!this.elChargeBar){return;}
+				const ONE_MINUTE = 60000;
+				const FIVE_MINUTES = 300000;
+				const FIFTEEN_MINUTES = 900000;
+				const HALF_HOUR = 1800000;
+				const ONE_HOUR = 3600000;
+				const TWO_HOURS = 7200000;
+				const FOUR_HOURS = 14400000;
+				let frameSize = 0;
+				let color = "#000";
+
+				if(ms >= FOUR_HOURS ){ 
+					color = "rgba(128,0,128,0.5)"; // Purple
+					frameSize = TWO_HOURS;
+				}else if(ms >= ONE_HOUR ){ 					
+					color = "rgba(128,0,0,0.5)"; // RED
+					frameSize = TWO_HOURS;
+				}else if(ms >= HALF_HOUR){
+					color = "rgba(128,82,0,0.5)"; // ORANGE
+					frameSize = ONE_HOUR;
+				}else if(ms >= FIFTEEN_MINUTES){
+					color = "rgba(128,128,0,0.5)"; // YELLOW
+					frameSize = HALF_HOUR;
+				}else if(ms >= FIVE_MINUTES){
+					color = "rgba(0,128,0,0.5)"; // GREEN
+					frameSize = FIFTEEN_MINUTES;
+				}else if(ms >= ONE_MINUTE){					
+					color = "rgba(0,128,128,0.5)"; // Teal
+					frameSize = FIVE_MINUTES;
+				}else{
+					color = "rgba(0,0,128,0.5)"; // Blue
+					frameSize = ONE_MINUTE;
+				}
+				this.elChargeBar.style.backgroundColor = color;
+				this.elChargeBar.style.width = `${(ms % frameSize) *100/frameSize}%`;
+			}
+			updateDisplay(){
+				if(!this.elCacheDisplay)return;
+				if(!this.isRunning && !this.isPaused){
+					this.elTimerText.textContent = this.formatTime(this.lastTimeCached);
+					return;
+				}
+				let displayMs = this.timeCached;
+				
+				if(this.isRunning){
+					displayMs += (performance.now()-this.lastStartTime);					
+				}else if(this.isPaused){
+					displayMs = Math.max(0, displayMs - (performance.now()-this.lastPauseTime));
+					if(displayMs == 0){
+						this.isPaused = false;
+						this.timeCached -= Math.min(performance.now()-this.lastPauseTime,900000);
+						this.updateChargeBar(displayMs);
+						this.elTimerText.textContent = this.formatTime(displayMs);
+						return;
+					}
+				}
+				this.updateChargeBar(displayMs);
+				this.elTimerText.textContent = this.formatTime(displayMs);
+
+				requestAnimationFrame(this.updateDisplay);
+			}			
+		}
+		const tmrDialog = new Timer('dialogue-timer-charge-bar-frame');
 		window.onload = () => {
 			initZLayers();
 
@@ -3889,64 +4130,7 @@
 			const loadedAC = document.querySelector(".card.is-active");
 			if (loadedAC) { setActiveCard(loadedAC); }
 		};
-		class Card {
-			constructor(element) {
-				this.el = element;
-			}
-			inStorage() {
-				const sh = new Storage();
-				return sh.el.contains(this.el);
-			}
-			redraw() {
-				this.el.classList.remove('active');
-				requestAnimationFrame(() => {
-					requestAnimationFrame(() => {
-						this.el.classList.add('active');
-					});
-				});
-			}
-			seemsImportant() {
-				SPEC("20260220212300", "Skyle", "Returns a reason string if the card should be protected from accidental deletion.");
-				if (this.el.classList.contains("pinned")) { return "This card has a ⭐."; }
-				if (this.el.dataset.o && this.el.dataset.o.trim() != "") { return "This card has user notes."; }
-				if (this.el.dataset.v && this.el.dataset.v.trim() != "") { return "This card has a last modified UTC version stamp " + this.el.dataset.v + ", which is " + UTCshowLocal(this.el.dataset.v) + " in your local time."; }
-				if (this.el.querySelector(".daily")) {
-					const icons = this.el.querySelector(".status-icons").innerText;
-					return "This card has quest status: " + icons + ".";
-				}
-				if (this.el.querySelector(".status-banner")) { return "This card has a caption."; }
-				return "";
-			}
-			sendToStorage() {
-				SPEC("20260220184600", "Arcacia", "Place a card from the mat to the storage.");
-				const sh = new Storage();
-				sh.el.prepend(this.el);
-				this.el.classList.remove('is-active');
-				this.el.classList.remove('active');
-				this.updateAssetListStatus(true);
-				memDOM();
-			}
-			updateAssetListStatus(bInStorage) {
-				const fi = document.querySelector(`.file-item[data-id="${this.el.dataset.id}"]`);
-				if (!fi) { return; }
-				fi.classList.toggle('storage-item', bInStorage);
-			}
-		}
-		class Storage {
-			constructor(element) {
-				if (!element) {
-					element = document.querySelector("#storage");
-				}
-				if (!element) {
-					element = document.createElement('div');
-					element.id = "storage";
-					element.classList.add('track');
-					document.body.prepend(element);
-
-				}
-				this.el = element;
-			}
-		}
+		
 		/* #ALPHABETICALLY SORTED CODE */
 		const zLayers = ['Notifications', 'LoadingScreen', 'TransparentControls', 'ExamineScreen', 'SpeechBubble', 'StageGUI', 'Stage', 'GUIControls', 'Listings', 'Gallery', 'AppWallpaper'];
 		const assetLibrary = {}; // { "key1": AudioObject }
@@ -5656,7 +5840,11 @@
 			} else if (command === 'SOUND') {
 				handleSoundCommand(arg1, arg2, tail3);
 				return true;
-			} else if (command === 'STAGE') { StageSet(tail1); return true; }
+			} else if (command === 'STAGE') {
+				StageSet(tail1); return true; 
+			}else if(command === 'TIMER'){
+				ScriptTimer(arg1, arg2, arg3);return true;
+			}
 			return false;
 		}
 		async function processScriptLine(line) {
@@ -6302,6 +6490,33 @@
 			}
 
 			ScriptRun(SE, true);
+		}
+		function ScriptTimer(mode,bFocus){						
+			const dialogTimer = document.getElementById('dialogue-timer');
+			const timerButtons = document.getElementById('dialogue-timer-buttons');
+			if(mode==="HIDE"){
+				if(bFocus==="BUTTONS"){
+					timerButtons.classList.toggle("active",false);
+				}else{
+					dialogTimer.classList.toggle("active",false);
+				}
+			}else if(mode==="SHOW"){
+				if(bFocus==="BUTTONS"){
+					timerButtons.classList.toggle("active",true);
+				}else{
+					dialogTimer.classList.toggle("active",true);
+				}
+				dialogTimer.classList.toggle("active",true);
+			}else if(mode==="PAUSE"){
+				tmrDialog.pause();
+			}else if(mode === "RESET"){
+				tmrDialog.reset();
+			}else if(mode=== "START"){
+				tmrDialog.start(null,bFocus==="FOCUS");
+			}else if(mode=== "STOP"){
+				tmrDialog.stop();
+			}
+			return true;
 		}
 		async function setActiveCard(card) {
 			// 20260111: LRRH: Don't set active card if auto spawning with the notes tab open.
