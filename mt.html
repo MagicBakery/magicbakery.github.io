@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 	<meta charset="UTF‑8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -3259,11 +3258,12 @@
 							style="flex: 2 2 0%;background-color:rgba(64,0,64,0.5)" placeholder="Cosmic Script"></textarea>
 
 					</div>
-					<div class="flex-when-active active">
+					<div id="card-comparison-btns" class="flex-when-active">
 						<button class="notes-btn" onclick="TextAreaScrollTo('card-cosmic-script');TextAreaScrollTo('card-script');">Scroll To Selection</button>
 						<button class="notes-btn" onclick="TextAreaScrollBoth()">Scroll Both</button>
 						<button class="notes-btn" onclick="CosmicCompare()">Compare</button>
 						<button class="notes-btn" onclick="CosmicAlignment()">Align</button>
+						<button class="notes-btn" onclick="CosmicComparisonView(false)" style="flex:0">X</button>
 					</div>
 					<div id="editor-btns">
 						<button class="tool-btn save-notes-btn" onclick="saveCardNotes(event,true)" title="Save Changes">
@@ -4556,6 +4556,10 @@
 			}
 
 			TextAreaHLFirstDiff('card-script', 'card-cosmic-script', si1, si2);
+		}
+		function CosmicComparisonView(bShow){
+			document.getElementById('card-cosmic-script').classList.toggle('active',bShow);
+			document.getElementById('card-comparison-btns').classList.toggle('active',bShow);
 		}
 		function DailyQuestCheck() {
 			SPEC("20260214152700", "Skyle", "Reset all the checked daily quest icons.");
@@ -6019,10 +6023,12 @@
 			document.getElementById('card-stream').value = data.a;
 			const b = document.getElementById('card-base').value;
 			const panelScript = document.getElementById('card-script').value;
+			const elCosmicTA = document.getElementById('card-cosmic-script');
 			const cosmicScript = decodeURIComponent(data.cosmic) || "";
 			if (Number(b) < Number(data.a) && panelScript != cosmicScript) {
-				if (await showConfirm("Your changes are saved locally, but it seems that you modified an older version of the script.<hr>Your:  " + UTCshowLocal(b) + "<br>Latest:" + UTCshowLocal(data.a) + "<hr>[Yes] to see the differences<br>[No] to  update the base number.")) {
-					document.getElementById('card-cosmic-script').value = cosmicScript || "";
+				if (await showConfirm("Your changes are saved locally, but it seems that you modified an older version of the script.<hr>Your:  " + UTCshowLocal(b) + "<br>Latest:" + UTCshowLocal(data.a) + "<hr>[Yes] to see the differences<br>[No] to  update the base number.")) {					
+					elCosmicTA.value = cosmicScript || "";
+					CosmicComparisonView(true);
 					TextAreaHLFirstDiff("card-script", 'card-cosmic-script');
 					return;
 				}
@@ -7485,7 +7491,8 @@
 					const match = line.match(/(\d{14})\s+([^:]+):\s*(.*)$/);
 
 					if (match) {
-						const [_, ts, name, message] = match;
+						let [_, ts, name, message] = match;
+						if(name.slice(0,1)==="@"){name=name.slice(1);}
 
 						// Date Formatting
 						const month = parseInt(ts.substring(4, 6), 10);
