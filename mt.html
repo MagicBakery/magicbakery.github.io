@@ -12,8 +12,8 @@
 	<link rel="apple-touch-icon" href="/icons/star_192.png">
 	<link rel="manifest" href="/mt_manifest.json">
 	<script>
-		const APP_VERSION = "20260221204700"; //#Version
-		const APP_ANNOUNCEMENT = "20260221: Basic Comparison"
+		const APP_VERSION = "20260225011200"; //#Version
+		const APP_ANNOUNCEMENT = "20260225: Script TOC"
 		const APP_DEFAULTPACK = "https://magicbakery.github.io/starterpack.json";
 		const APP_DEFAULTWALLPAPER = "https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg";
 		const APP_HOMEURL = "https://magicbakery.github.io/?id=P202512210026";
@@ -1813,7 +1813,7 @@
 		/* For Firefox support */
 		.tabs-contents {
 			scrollbar-width: thin;
-			scrollbar-color: rgba(155, 155, 155, 0.5) transparent;
+			/*scrollbar-color: rgba(155, 155, 155, 0.5) transparent;*/
 		}
 
 		#command-panel {
@@ -3249,13 +3249,14 @@
 						<textarea id="card-notes" class="card-textarea flex-when-active active"
 							onfocus="PanelTextareaActivate(this)" oninput="markDirty(this)" style="flex: 2 2 0%"
 							placeholder="User Notes"></textarea>
-
+						<div id="card-toc" class="block-when-active hide-scrollbar" style="flex:1;overflow-x:hidden;overflow-y:auto;min-height:60px;background-color: rgba(64,32,0,0.25);font-size:14px;justify-items: center">
+						</div>
 						<textarea id="card-script" class="card-textarea flex-when-active active"
 							onfocus="PanelTextareaActivate(this)" oninput="markDirty(this)" style="flex: 2 2 0%"
 							placeholder="Public Script"></textarea>
 						<textarea id="card-cosmic-script" class="card-textarea flex-when-active"
 							onfocus="PanelTextareaActivate(this)" readonly oninput="markDirty(this)"
-							style="flex: 2 2 0%;background-color:rgba(64,0,64,0.5)" placeholder="Cosmic Script"></textarea>
+							style="flex: 2 2 0%;background-color:rgba(64,0,64,0.2)" placeholder="Cosmic Script"></textarea>
 
 					</div>
 					<div id="card-comparison-btns" class="flex-when-active">
@@ -3274,35 +3275,32 @@
 								<!--<rect x="55" y="60" width="10" height="20" fill="currentColor" />-->
 							</svg>
 						</button>
-						<button class="notes-btn" onclick="NoteLineSwap(true)" title="Move line up">
-							<svg viewBox="0 0 100 100" style="width: 50%; height: 50%;">
-								<polygon points="0,100 50,10 100,100" fill="currentColor" />
+						<button class="tool-btn" onclick="Bookmarks()" title="Table of Contents">
+							<svg viewBox="0 0 100 100" style="width:90%; height:90%;">
+								<path d="M10,0 L90,0 L90,100 L50,70 L10,100 Z" fill="none" stroke="currentColor" stroke-width="6" />
 							</svg>
 						</button>
-						<button class="notes-btn" onclick="NoteLineSwap(false)" title="Move line down">
-							<svg viewBox="0 0 100 100" style="width: 50%; height: 50%;">
-								<polygon points="0,10 50,100 100,10" fill="currentColor" />
-							</svg>
-						</button>
-						<button class="notes-btn" onclick="NoteInsertTodo()" title="Insert a Todo item">TODO</button>
-						<button class="notes-btn" onclick="NoteInsertDTS()" title="Insert Timestamp">DTS</button>
-						<button class="notes-btn" onclick="PanelTextareaResize(this)"
-							title="Notes/Script Display Ratio">2:2</button>
-						<button class="notes-btn" onclick="PanelTextareaResizeH(this)" title="Change Editor Height">H1</button>
-						<button class="notes-btn" style="width:55px" onclick="ScriptPublish(this)"
+						<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
+							<button class="tool-btn" onclick="NoteLineSwap(true)" title="Move line up">
+								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
+									<polygon points="0,100 50,10 100,100" fill="none" stroke="currentColor" stroke-width="6"/>
+								</svg>
+							</button>
+							<button class="tool-btn" onclick="NoteLineSwap(false)" title="Move line down">
+								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
+									<polygon points="0,10 50,100 100,10" fill="none" stroke="currentColor" stroke-width="6" />
+								</svg>
+							</button>
+						</div>
+						<div class="hide-scrollbar" style="flex:1;display:flex;flex-direction: column;overflow-y: auto;height:36px;">
+							<button class="notes-btn" style="width:100%" onclick="NoteInsertTodo()" title="Insert a Todo item">TODO</button>
+							<button class="notes-btn" style="width:100%" onclick="NoteInsertDTS()" title="Insert Timestamp">DTS</button>
+						</div>						
+						<button class="notes-btn" style="flex:0" onwheel="PanelTextareaResize(this,undefined,event)" onclick="PanelTextareaResize(this,undefined,undefined)" 	title="Notes/Script Display Ratio">2:2</button>
+						<button class="notes-btn" style="flex:0" onwheel="PanelTextareaResizeH(this,undefined,event)" onclick="PanelTextareaResizeH(this)"  title="Editor Height">H15</button>	
+						<button class="notes-btn" style="flex:0;min-width:55px" onclick="ScriptPublish(this)"
 							title="Publish Script">Publish</button>
-						<!--<button class="notes-btn script-run-btn" onclick="ScriptStart(this,false,true)" title="Run Script">
-							<svg viewBox="0 0 100 100" style="width: 50%; height: 50%;">
-								<polygon points="0,0 0,100 100,50" fill="currentColor" />
-							</svg>
-						</button>
-						<button class="notes-btn script-stop-btn" onclick="ScriptStart(this,false,true)" title="Stop Script">
-							<svg viewBox="0 0 100 100" style="width: 50%; height: 50%;">
-								<polygon points="0,0 0,100 100,100 100,0" fill="currentColor" />
-							</svg>
-						</button>-->
 					</div>
-
 				</div>
 				<div id="card-sec-bar" style="text-align:center;margin-top:5px;cursor:pointer" title="Display Selection">
 					<div id="card-sec-btns" style="display:flex;text-align:center">
@@ -4326,6 +4324,41 @@
 			SPEC("20260214", "Skyle", "This is true when the view is backstage.");
 			const stage = Stage();
 			return !stage.classList.contains('active') || stage.classList.contains('suspended');
+		}
+		function BookmarkGo(elThis){
+			SPEC("20260225003600","StarTree","Jump to the next line of the label.");
+			const label = `#${elThis.innerText}#`;
+			const ta = document.querySelector('.card-textarea.infocus');
+			if(!ta){return}
+			let targetIndex = ta.value.indexOf(label);
+			if(targetIndex === -1){return}
+			let endLine = ta.value.indexOf('\n',targetIndex);
+			if(endLine == -1){
+				endLine = ta.value.length-1;
+			}
+			ta.selectionStart = ta.selectionEnd = endLine + 1;
+			TextAreaScrollTo(ta.id);
+		}
+		function Bookmarks(){
+			const bm = document.getElementById('card-toc');
+			const isActive = bm.classList.toggle('active');
+			if(!isActive){return;}
+			SPEC("20260224232842","Evelyn","When shown, make a jump button for each bookmark of the textarea in focus.");
+			const elSrc = document.querySelector(".card-textarea.infocus");
+			if(!elSrc){return}
+			let html = "";
+			const lines = elSrc.value.split('\n');
+			lines.forEach( line => {
+				line = line.trim();
+				const fc = line.slice(0,1);
+				const lc = line.slice(line.length-1);
+				if(fc==="#" && lc==="#"){
+					line = line.replaceAll('#','').trim();
+					if(line.length==0){return;}
+					html+= "<button class='notes-btn' onclick='BookmarkGo(this)'>" + line + "</button>";
+				}
+			});
+			bm.innerHTML = html;
 		}
 		function ChoiceAdd(choice) {
 			// 20260118: StarTree: Adds a choice to the multitrack DOM so that it is easy to debug, save and load.
@@ -5724,66 +5757,64 @@
 			});
 			elThis.classList.add('infocus');
 		}
-		function PanelTextareaResize(elThis) {
+		function PanelTextareaResize(elThis,flexN,e) {
 			SPEC("20260215190446", "Natalie", "Expand the side in focus.")
 			const elNotes = document.getElementById('card-notes');
 			const elScript = document.getElementById('card-script');
 			const elCosmic = document.getElementById('card-cosmic-script');
 			const focusN = elNotes.classList.contains('infocus');
-			const focusS = elScript.classList.contains('infocus') || elCosmic.classList.contains('infocus');
-			let flexN = Number(elNotes.style.flex.slice(0, 1));
-			let flexS = Number(elScript.style.flex.slice(0, 1));
-			if (!focusN && !focusS) {
-				flexN = 2;
-				flexS = 2;
-			} else if (focusN) {
-				if (flexN == 4) {
-					flexN = 3;
-				} else {
-					flexN++;
+			const focusS = elScript.classList.contains('infocus') || elCosmic.classList.contains('infocus');			
+			let flexS = 0;			
+			if(flexN===undefined){
+				flexN = Number(elThis.innerHTML.slice(0, 1));
+				if(e){
+					if(e.deltaY > 0){
+						flexN = Math.min(4,flexN+1);
+					}else{
+						flexN = Math.max(0,flexN-1);
+					}
+				}else{
+					if (!focusN && !focusS) {
+						flexN = 2;
+					} else if (focusN) {
+						flexN = (flexN==4)? 3 : flexN+1;
+					} else {
+						flexN = (flexN==0)? 1 : flexN-1;						
+					}
 				}
-			} else {
-				if (flexN == 0) {
-					flexN = 1;
-				} else {
-					flexN--;
-				}
-			}
+				flexS = 4 - flexN;
+				elThis.innerHTML = `${flexN}:${flexS}`;
+			}			
 			flexS = 4 - flexN;
 			elNotes.style.flex = `${flexN} ${flexN} 0%`;
 			elScript.style.flex = `${flexS} ${flexS} 0%`;
-			elCosmic.style.flex = `${flexS} ${flexS} 0%`;
-			elThis.innerHTML = `${flexN}:${flexS}`;
+			elCosmic.style.flex = `${flexS} ${flexS} 0%`;			
 			elNotes.classList.toggle('active', flexN > 0);
 			elScript.classList.toggle('active', flexS > 0);
 			if (flexS == 0) {
 				elCosmic.classList.toggle('active', false);
 			}
 		}
-		function PanelTextareaResizeH(elThis) {
+		function PanelTextareaResizeH(elThis,targetH,e) {
 			const CP = document.getElementById('command-panel');
 
+			CP.classList.remove('edit-size-1');
+			CP.classList.remove('edit-size-2');
+			CP.classList.remove('edit-size-3');
+			CP.classList.remove('edit-size-4');
+			CP.classList.remove('edit-size-5');
 
-
-			let curH = 2
-			if (CP.classList.contains('edit-size-5')) {
-				CP.classList.remove('edit-size-5');
-				curH = 1;
-			} else if (CP.classList.contains('edit-size-4')) {
-				CP.classList.remove('edit-size-4');
-				curH = 5;
-			} else if (CP.classList.contains('edit-size-3')) {
-				CP.classList.remove('edit-size-3');
-				curH = 4;
-			} else if (CP.classList.contains('edit-size-2')) {
-				CP.classList.remove('edit-size-2');
-				curH = 3;
-			} else if (CP.classList.contains('edit-size-1')) {
-				CP.classList.remove('edit-size-1');
-				curH = 2;
-			}
-			CP.classList.add('edit-size-' + curH)
-			elThis.innerHTML = "H" + curH * 15;
+			if(!targetH){
+				let curH = Number(elThis.innerHTML.slice(1)) / 15 -1;
+				if(!e){
+					targetH = (curH +1)%5 + 1;
+				}else{
+					const delta = e.deltaY >0? -1: 1;
+					targetH = Math.min(4,Math.max(0,(curH +delta))) +1;
+				}
+				elThis.innerHTML = "H" + targetH * 15;
+			}			
+			CP.classList.add('edit-size-' + targetH);			
 		}
 		function playSound(name, rate = 1.0, shouldLoop = false) {
 			if (rate == "") { rate = 1 };
@@ -7493,7 +7524,6 @@
 					if (match) {
 						let [_, ts, name, message] = match;
 						if(name.slice(0,1)==="@"){name=name.slice(1);}
-
 						// Date Formatting
 						const month = parseInt(ts.substring(4, 6), 10);
 						const day = parseInt(ts.substring(6, 8), 10);
