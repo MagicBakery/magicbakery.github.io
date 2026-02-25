@@ -620,32 +620,39 @@
 			overflow-y: auto;
 
 		}
-		#card-toc{
-			height:15vh;
+
+		#card-toc {
+			height: 15vh;
 		}
-		#card-toc .notes-btn{
+
+		#card-toc .notes-btn {
 			aspect-ratio: unset;
-			font-size:12px;
-			height:auto;
-			padding:5px;
-			width:100%;
+			font-size: 12px;
+			height: auto;
+			padding: 5px;
+			width: 100%;
 		}
+
 		#command-panel.edit-size-5 #card-toc,
 		#command-panel.edit-size-5 .card-textarea {
 			height: 75vh;
 		}
+
 		#command-panel.edit-size-4 #card-toc,
 		#command-panel.edit-size-4 .card-textarea {
 			height: 60vh;
 		}
-		#command-panel.edit-size-3 #card-toc,	
+
+		#command-panel.edit-size-3 #card-toc,
 		#command-panel.edit-size-3 .card-textarea {
 			height: 45vh;
 		}
+
 		#command-panel.edit-size-2 #card-toc,
 		#command-panel.edit-size-2 .card-textarea {
 			height: 30vh;
 		}
+
 		#command-panel.edit-size-1 #card-toc,
 		#command-panel.edit-size-1 .card-textarea {
 			height: 15vh;
@@ -2869,34 +2876,38 @@
 		#storage.track {
 			display: none !important;
 		}
-		#dialogue-timer-charge-bar-frame{
-			border-radius:40px;
-			border:1px solid rgba(255,255,255,0.5);
-			background-color: rgba(255,255,255,0.05);
-			height:80px;
-			width:100%;
-			overflow:hidden;
-		}
-		.charge-bar{
-			height:80px;
-			margin-bottom:10px;
-		}
-		.charge-bar.paused{
-			opacity:0.5;
+
+		#dialogue-timer-charge-bar-frame {
+			border-radius: 40px;
+			border: 1px solid rgba(255, 255, 255, 0.5);
+			background-color: rgba(255, 255, 255, 0.05);
+			height: 80px;
+			width: 100%;
+			overflow: hidden;
 		}
 
-		.timer-text{
-			text-align:center;
-			color: rgba(255,255,255,0.75);
-			font-size: 56px;	
-			margin-top:-84px;
+		.charge-bar {
+			height: 80px;
+			margin-bottom: 10px;
 		}
-		#dialogue-timer .tool-btn{
-			border-radius:40px;
-			flex:1;
-			color: rgba(255,255,255,0.75);
-			height:64px;
-			font-size:20px;
+
+		.charge-bar.paused {
+			opacity: 0.5;
+		}
+
+		.timer-text {
+			text-align: center;
+			color: rgba(255, 255, 255, 0.75);
+			font-size: 56px;
+			margin-top: -84px;
+		}
+
+		#dialogue-timer .tool-btn {
+			border-radius: 40px;
+			flex: 1;
+			color: rgba(255, 255, 255, 0.75);
+			height: 64px;
+			font-size: 20px;
 		}
 
 		/* #CSS END */
@@ -3258,7 +3269,8 @@
 						<textarea id="card-notes" class="card-textarea flex-when-active active"
 							onfocus="PanelTextareaActivate(this)" oninput="markDirty(this)" style="flex: 2 2 0%"
 							placeholder="User Notes"></textarea>
-						<div id="card-toc" class="block-when-active hide-scrollbar" style="flex:1;overflow-x:hidden;overflow-y:auto;min-height:60px;background-color: rgba(64,32,0,0.25);font-size:14px;justify-items: center">
+						<div id="card-toc" class="block-when-active hide-scrollbar"
+							style="overflow-x:hidden;overflow-y:auto;min-height:60px;background-color: rgba(64,32,0,0.25);font-size:14px;justify-items: center;max-width:25vw">
 						</div>
 						<textarea id="card-script" class="card-textarea flex-when-active active"
 							onfocus="PanelTextareaActivate(this)" oninput="markDirty(this)" style="flex: 2 2 0%"
@@ -3269,7 +3281,9 @@
 
 					</div>
 					<div id="card-comparison-btns" class="flex-when-active">
-						<button class="notes-btn" onclick="TextAreaScrollTo('card-cosmic-script');TextAreaScrollTo('card-script');">Scroll To Selection</button>
+						<button class="notes-btn"
+							onclick="TextAreaScrollTo('card-cosmic-script');TextAreaScrollTo('card-script');">Scroll To
+							Selection</button>
 						<button class="notes-btn" onclick="TextAreaScrollBoth()">Scroll Both</button>
 						<button class="notes-btn" onclick="CosmicCompare()">Compare</button>
 						<button class="notes-btn" onclick="CosmicAlignment()">Align</button>
@@ -3292,23 +3306,47 @@
 						<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
 							<button class="tool-btn" onclick="NoteLineSwap(true)" title="Move line up">
 								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
-									<polygon points="0,100 50,10 100,100" fill="none" stroke="currentColor" stroke-width="6"/>
+									<polygon points="0,100 0,50 50,10 100,50 100,100 50,60" fill="none" stroke="currentColor" stroke-width="10" />
 								</svg>
 							</button>
 							<button class="tool-btn" onclick="NoteLineSwap(false)" title="Move line down">
 								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
-									<polygon points="0,10 50,100 100,10" fill="none" stroke="currentColor" stroke-width="6" />
+									<polygon points="0,10 50,50 100,10 100,60 50,100 0,60" fill="none" stroke="currentColor" stroke-width="10" />
 								</svg>
 							</button>
 						</div>
-						<div class="hide-scrollbar" style="flex:1;display:flex;flex-direction: column;overflow-y: auto;height:36px;">
-							<button class="notes-btn" style="width:100%" onclick="NoteInsertTodo()" title="Insert a Todo item">TODO</button>
-							<button class="notes-btn" style="width:100%" onclick="NoteInsertDTS()" title="Insert Timestamp">DTS</button>
-						</div>						
-						<button class="notes-btn" style="flex:0" onwheel="PanelTextareaResize(this,undefined,event)" onclick="PanelTextareaResize(this,undefined,undefined)" 	title="Notes/Script Display Ratio">2:2</button>
-						<button class="notes-btn" style="flex:0" onwheel="PanelTextareaResizeH(this,undefined,event)" onclick="PanelTextareaResizeH(this)"  title="Editor Height">H15</button>	
-						<button class="notes-btn" style="flex:0;min-width:55px" onclick="ScriptPublish(this)"
-							title="Publish Script">Publish</button>
+						<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
+							<button class="tool-btn" onclick="TextAreaMoveBlock(true)" title="Move line to start of section">
+								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
+									<polygon points="0,100 0,60 50,20 100,60 100,100 50,60" fill="none" stroke="currentColor" stroke-width="10" />
+									<path d="M0,10 L100,10" stroke="currentColor" stroke-width="20" />
+								</svg>
+							</button>
+							<button class="tool-btn" onclick="TextAreaMoveBlock(false)" title="Move line to end of section">
+								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
+									<polygon points="0,10 50,50 100,10 100,50 50,90 0,50" fill="none" stroke="currentColor" stroke-width="10" />
+									<path d="M0,100 L100,100" stroke="currentColor" stroke-width="20" />
+								</svg>
+							</button>
+						</div>
+						<div class="hide-scrollbar"
+							style="flex:1;display:flex;flex-direction: column;overflow-y: auto;height:36px;">
+							<button class="notes-btn" style="width:100%" onclick="NoteInsertTodo()"
+								title="Insert a Todo item">TODO</button>
+							<button class="notes-btn" style="width:100%" onclick="NoteInsertDTS()"
+								title="Insert Timestamp">DTS</button>
+						</div>
+						<button class="notes-btn" style="flex:0" onwheel="PanelTextareaResize(this,undefined,event)"
+							onclick="PanelTextareaResize(this,undefined,undefined)" title="Notes/Script Display Ratio">2:2</button>
+						<button class="notes-btn" style="flex:0" onwheel="PanelTextareaResizeH(this,undefined,event)"
+							onclick="PanelTextareaResizeH(this)" title="Editor Height">H15</button>
+						<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
+							<button class="notes-btn" style="min-width:55px" onclick="ScriptPublish(this)"
+								title="Publish Script">Publish</button>
+							<button class="notes-btn" style="min-width:55px" onclick="TranslateFieldLogToGuildLogFromClipboard()"
+								title="Transcribe for Guild Log">Xscribe</button>
+						</div>
+
 					</div>
 				</div>
 				<div id="card-sec-bar" style="text-align:center;margin-top:5px;cursor:pointer" title="Display Selection">
@@ -3772,10 +3810,11 @@
 				<div id="speech-text" class="speech-content"></div>
 				<div id="dialogue-timer" class="flex-when-active" style="flex-direction: column;width:100%;text-align: center;">
 					<div id="dialogue-timer-charge-bar-frame">
-						<div class="charge-bar" ></div>
-						<div class="timer-text" ></div>
-					</div>					
-					<div id="dialogue-timer-buttons" style="justify-content: center;gap:10px;padding:10px;" class="flex-when-active">
+						<div class="charge-bar"></div>
+						<div class="timer-text"></div>
+					</div>
+					<div id="dialogue-timer-buttons" style="justify-content: center;gap:10px;padding:10px;"
+						class="flex-when-active">
 						<button class="tool-btn flex-when-active active" onclick="tmrDialog.start(this,true)">Start</button>
 						<button class="tool-btn flex-when-active active" onclick="tmrDialog.pause(this)">Pause</button>
 						<button class="tool-btn flex-when-active active" onclick="tmrDialog.stop(this)">Stop</button>
@@ -3829,7 +3868,7 @@
 		let ALL_TAGS = [];
 		let activeTags = new Set(), sidebarIsGrid = false, currentDock = 'right', autoFlush = false;
 		let tagSortMode = 'alpha', savedPaths = [];
-		
+
 
 		class Card {
 			constructor(element) {
@@ -3889,8 +3928,8 @@
 				this.el = element;
 			}
 		}
-		class Timer{			
-			constructor(elCacheDisplayID){
+		class Timer {
+			constructor(elCacheDisplayID) {
 				this.elCacheDisplay = document.getElementById(elCacheDisplayID);
 				this.elChargeBar = this.elCacheDisplay.querySelector(".charge-bar");
 				this.elTimerText = this.elCacheDisplay.querySelector(".timer-text");
@@ -3919,57 +3958,57 @@
 				let pad = (n) => n.toString().padStart(2, '0');
 				let pad3 = (n) => n.toString().padStart(3, '0');
 				let parts = [];
-				if (totalDays > 0){
+				if (totalDays > 0) {
 					return `${totalDays}d${pad(hh)}:${pad(mm)}`;
-				}else if (totalHours > 0){
+				} else if (totalHours > 0) {
 					return `${hh}:${pad(mm)}:${pad(ss)}`;
-				}else if (totalMinutes > 0){
-					return `${mm}:${pad(ss)}`;	
-				}else{
-					return `${ss}.${pad(uuu)}`;					
-				}				
+				} else if (totalMinutes > 0) {
+					return `${mm}:${pad(ss)}`;
+				} else {
+					return `${ss}.${pad(uuu)}`;
+				}
 				return parts.join(':');
 			}
-			pause(elBtn){
+			pause(elBtn) {
 				if (!this.isRunning) return;
 				this.isRunning = false;
 				this.isPaused = true;
 				const now = performance.now();
-				this.timeCached += now-this.lastStartTime;
+				this.timeCached += now - this.lastStartTime;
 				this.lastTimeCached = this.timeCached
 				this.lastPauseTime = now;
 				this.elChargeBar?.classList.add("paused");
 			}
-			reset(){
+			reset() {
 				this.isRunning = false;
 				this.isPaused = false;
 				this.timeCached = 0;;
 			}
-			start(elBtn, bFullAttention){
+			start(elBtn, bFullAttention) {
 				if (this.isRunning) return;
-				if(this.isPaused){
+				if (this.isPaused) {
 					this.isPaused = false;
 					this.timeCached -= performance.now() - this.lastPauseTime;
 				}
 				this.isRunning = true;
-				this.lastStartTime = performance.now();		
+				this.lastStartTime = performance.now();
 				this.requireFullAttention = bFullAttention;
-				this.elChargeBar?.classList.toggle("blink",!!bFullAttention);
+				this.elChargeBar?.classList.toggle("blink", !!bFullAttention);
 				this.elChargeBar?.classList.remove("paused");
 				requestAnimationFrame(this.updateDisplay);
 			}
-			stop(elBtn){
-				if(this.isRunning){
-					this.timeCached += performance.now()-this.lastStartTime;
+			stop(elBtn) {
+				if (this.isRunning) {
+					this.timeCached += performance.now() - this.lastStartTime;
 				}
 				this.isRunning = false;
 				this.isPaused = false
 				this.timeBanked += this.timeCached;
 				this.lastTimeCached = this.timeCached;
-				this.timeCached = 0;				
+				this.timeCached = 0;
 			}
-			updateChargeBar(ms){
-				if(!this.elChargeBar){return;}
+			updateChargeBar(ms) {
+				if (!this.elChargeBar) { return; }
 				const ONE_MINUTE = 60000;
 				const FIVE_MINUTES = 300000;
 				const FIFTEEN_MINUTES = 900000;
@@ -3980,46 +4019,46 @@
 				let frameSize = 0;
 				let color = "#000";
 
-				if(ms >= FOUR_HOURS ){ 
+				if (ms >= FOUR_HOURS) {
 					color = "rgba(128,0,128,0.5)"; // Purple
 					frameSize = TWO_HOURS;
-				}else if(ms >= ONE_HOUR ){ 					
+				} else if (ms >= ONE_HOUR) {
 					color = "rgba(128,0,0,0.5)"; // RED
 					frameSize = TWO_HOURS;
-				}else if(ms >= HALF_HOUR){
+				} else if (ms >= HALF_HOUR) {
 					color = "rgba(128,82,0,0.5)"; // ORANGE
 					frameSize = ONE_HOUR;
-				}else if(ms >= FIFTEEN_MINUTES){
+				} else if (ms >= FIFTEEN_MINUTES) {
 					color = "rgba(128,128,0,0.5)"; // YELLOW
 					frameSize = HALF_HOUR;
-				}else if(ms >= FIVE_MINUTES){
+				} else if (ms >= FIVE_MINUTES) {
 					color = "rgba(0,128,0,0.5)"; // GREEN
 					frameSize = FIFTEEN_MINUTES;
-				}else if(ms >= ONE_MINUTE){					
+				} else if (ms >= ONE_MINUTE) {
 					color = "rgba(0,128,128,0.5)"; // Teal
 					frameSize = FIVE_MINUTES;
-				}else{
+				} else {
 					color = "rgba(0,0,128,0.5)"; // Blue
 					frameSize = ONE_MINUTE;
 				}
 				this.elChargeBar.style.backgroundColor = color;
-				this.elChargeBar.style.width = `${(ms % frameSize) *100/frameSize}%`;
+				this.elChargeBar.style.width = `${(ms % frameSize) * 100 / frameSize}%`;
 			}
-			updateDisplay(){
-				if(!this.elCacheDisplay)return;
-				if(!this.isRunning && !this.isPaused){
+			updateDisplay() {
+				if (!this.elCacheDisplay) return;
+				if (!this.isRunning && !this.isPaused) {
 					this.elTimerText.textContent = this.formatTime(this.lastTimeCached);
 					return;
 				}
 				let displayMs = this.timeCached;
-				
-				if(this.isRunning){
-					displayMs += (performance.now()-this.lastStartTime);					
-				}else if(this.isPaused){
-					displayMs = Math.max(0, displayMs - (performance.now()-this.lastPauseTime));
-					if(displayMs == 0){
+
+				if (this.isRunning) {
+					displayMs += (performance.now() - this.lastStartTime);
+				} else if (this.isPaused) {
+					displayMs = Math.max(0, displayMs - (performance.now() - this.lastPauseTime));
+					if (displayMs == 0) {
 						this.isPaused = false;
-						this.timeCached -= Math.min(performance.now()-this.lastPauseTime,900000);
+						this.timeCached -= Math.min(performance.now() - this.lastPauseTime, 900000);
 						this.updateChargeBar(displayMs);
 						this.elTimerText.textContent = this.formatTime(displayMs);
 						return;
@@ -4029,7 +4068,7 @@
 				this.elTimerText.textContent = this.formatTime(displayMs);
 
 				requestAnimationFrame(this.updateDisplay);
-			}			
+			}
 		}
 		const tmrDialog = new Timer('dialogue-timer-charge-bar-frame');
 		window.onload = () => {
@@ -4137,7 +4176,7 @@
 			const loadedAC = document.querySelector(".card.is-active");
 			if (loadedAC) { setActiveCard(loadedAC); }
 		};
-		
+
 		/* #ALPHABETICALLY SORTED CODE */
 		const zLayers = ['Notifications', 'LoadingScreen', 'TransparentControls', 'ExamineScreen', 'SpeechBubble', 'StageGUI', 'Stage', 'GUIControls', 'Listings', 'Gallery', 'AppWallpaper'];
 		const assetLibrary = {}; // { "key1": AudioObject }
@@ -4334,37 +4373,38 @@
 			const stage = Stage();
 			return !stage.classList.contains('active') || stage.classList.contains('suspended');
 		}
-		function BookmarkGo(elThis){
-			SPEC("20260225003600","StarTree","Jump to the next line of the label.");
+		function BookmarkGo(elThis) {
+			SPEC("20260225003600", "StarTree", "Jump to the next line of the label.");
 			const label = `#${elThis.innerText}#`;
 			const ta = document.querySelector('.card-textarea.infocus');
-			if(!ta){return}
+			if (!ta) { return }
 			let targetIndex = ta.value.indexOf(label);
-			if(targetIndex === -1){return}
-			let endLine = ta.value.indexOf('\n',targetIndex);
-			if(endLine == -1){
-				endLine = ta.value.length-1;
+			if (targetIndex === -1) { return }
+			let endLine = ta.value.indexOf('\n', targetIndex);
+			if (endLine == -1) {
+				endLine = ta.value.length - 1;
 			}
 			ta.selectionStart = ta.selectionEnd = endLine + 1;
 			TextAreaScrollTo(ta.id);
 		}
-		function Bookmarks(){
+		function Bookmarks() {
 			const bm = document.getElementById('card-toc');
 			const isActive = bm.classList.toggle('active');
-			if(!isActive){return;}
-			SPEC("20260224232842","Evelyn","When shown, make a jump button for each bookmark of the textarea in focus.");
+			if (!isActive) { return; }
+			SPEC("20260224232842", "Evelyn", "When shown, make a jump button for each bookmark of the textarea in focus.");
 			const elSrc = document.querySelector(".card-textarea.infocus");
-			if(!elSrc){return}
+			if (!elSrc) { return }
 			let html = "";
 			const lines = elSrc.value.split('\n');
-			lines.forEach( line => {
+			lines.forEach(line => {
 				line = line.trim();
-				const fc = line.slice(0,1);
-				const lc = line.slice(line.length-1);
-				if(fc==="#" && lc==="#"){
-					line = line.replaceAll('#','').trim();
-					if(line.length==0){return;}
-					html+= "<button class='notes-btn' onclick='BookmarkGo(this)'>" + line + "</button>";
+				const fc = line.slice(0, 1);
+				const lc = line.slice(line.length - 1);
+				if ((fc === "#" && lc === "#") || (line.startsWith('=#') && line.endsWith('#='))) {
+					line = line.replaceAll('#', '').trim();
+					line = line.replaceAll('=', '').trim();
+					if (line.length == 0) { return; }
+					html += "<button class='notes-btn' onclick='BookmarkGo(this)'>" + line + "</button>";
 				}
 			});
 			bm.innerHTML = html;
@@ -4573,7 +4613,7 @@
 				showToast("That line is not in the cosmic script.");
 				return false;
 			}
-			
+
 
 			return true;
 		}
@@ -4591,7 +4631,7 @@
 				const nextLineIdx1 = scriptTA.value.indexOf('\n', scriptTA.selectionEnd);
 				si1 = (nextLineIdx1 !== -1) ? nextLineIdx1 + 1 : scriptTA.value.length;
 				scriptTA.selectionStart = si1;
-				
+
 				// Find the next newline in the cosmic script
 				const nextLineIdx2 = cosmicTA.value.indexOf('\n', cosmicTA.selectionEnd);
 				si2 = (nextLineIdx2 !== -1) ? nextLineIdx2 + 1 : cosmicTA.value.length;
@@ -4599,9 +4639,9 @@
 
 			TextAreaHLFirstDiff('card-script', 'card-cosmic-script', si1, si2);
 		}
-		function CosmicComparisonView(bShow){
-			document.getElementById('card-cosmic-script').classList.toggle('active',bShow);
-			document.getElementById('card-comparison-btns').classList.toggle('active',bShow);
+		function CosmicComparisonView(bShow) {
+			document.getElementById('card-cosmic-script').classList.toggle('active', bShow);
+			document.getElementById('card-comparison-btns').classList.toggle('active', bShow);
 		}
 		function DailyQuestCheck() {
 			SPEC("20260214152700", "Skyle", "Reset all the checked daily quest icons.");
@@ -5766,45 +5806,45 @@
 			});
 			elThis.classList.add('infocus');
 		}
-		function PanelTextareaResize(elThis,flexN,e) {
+		function PanelTextareaResize(elThis, flexN, e) {
 			SPEC("20260215190446", "Natalie", "Expand the side in focus.")
 			const elNotes = document.getElementById('card-notes');
 			const elScript = document.getElementById('card-script');
 			const elCosmic = document.getElementById('card-cosmic-script');
 			const focusN = elNotes.classList.contains('infocus');
-			const focusS = elScript.classList.contains('infocus') || elCosmic.classList.contains('infocus');			
-			let flexS = 0;			
-			if(flexN===undefined){
+			const focusS = elScript.classList.contains('infocus') || elCosmic.classList.contains('infocus');
+			let flexS = 0;
+			if (flexN === undefined) {
 				flexN = Number(elThis.innerHTML.slice(0, 1));
-				if(e){
-					if(e.deltaY > 0){
-						flexN = Math.min(4,flexN+1);
-					}else{
-						flexN = Math.max(0,flexN-1);
+				if (e) {
+					if (e.deltaY > 0) {
+						flexN = Math.min(4, flexN + 1);
+					} else {
+						flexN = Math.max(0, flexN - 1);
 					}
-				}else{
+				} else {
 					if (!focusN && !focusS) {
 						flexN = 2;
 					} else if (focusN) {
-						flexN = (flexN==4)? 3 : flexN+1;
+						flexN = (flexN == 4) ? 3 : flexN + 1;
 					} else {
-						flexN = (flexN==0)? 1 : flexN-1;						
+						flexN = (flexN == 0) ? 1 : flexN - 1;
 					}
 				}
 				flexS = 4 - flexN;
 				elThis.innerHTML = `${flexN}:${flexS}`;
-			}			
+			}
 			flexS = 4 - flexN;
 			elNotes.style.flex = `${flexN} ${flexN} 0%`;
 			elScript.style.flex = `${flexS} ${flexS} 0%`;
-			elCosmic.style.flex = `${flexS} ${flexS} 0%`;			
+			elCosmic.style.flex = `${flexS} ${flexS} 0%`;
 			elNotes.classList.toggle('active', flexN > 0);
 			elScript.classList.toggle('active', flexS > 0);
 			if (flexS == 0) {
 				elCosmic.classList.toggle('active', false);
 			}
 		}
-		function PanelTextareaResizeH(elThis,targetH,e) {
+		function PanelTextareaResizeH(elThis, targetH, e) {
 			const CP = document.getElementById('command-panel');
 
 			CP.classList.remove('edit-size-1');
@@ -5813,17 +5853,17 @@
 			CP.classList.remove('edit-size-4');
 			CP.classList.remove('edit-size-5');
 
-			if(!targetH){
-				let curH = Number(elThis.innerHTML.slice(1)) / 15 -1;
-				if(!e){
-					targetH = (curH +1)%5 + 1;
-				}else{
-					const delta = e.deltaY >0? -1: 1;
-					targetH = Math.min(4,Math.max(0,(curH +delta))) +1;
+			if (!targetH) {
+				let curH = Number(elThis.innerHTML.slice(1)) / 15 - 1;
+				if (!e) {
+					targetH = (curH + 1) % 5 + 1;
+				} else {
+					const delta = e.deltaY > 0 ? -1 : 1;
+					targetH = Math.min(4, Math.max(0, (curH + delta))) + 1;
 				}
 				elThis.innerHTML = "H" + targetH * 15;
-			}			
-			CP.classList.add('edit-size-' + targetH);			
+			}
+			CP.classList.add('edit-size-' + targetH);
 		}
 		function playSound(name, rate = 1.0, shouldLoop = false) {
 			if (rate == "") { rate = 1 };
@@ -5885,9 +5925,9 @@
 				handleSoundCommand(arg1, arg2, tail3);
 				return true;
 			} else if (command === 'STAGE') {
-				StageSet(tail1); return true; 
-			}else if(command === 'TIMER'){
-				ScriptTimer(arg1, arg2, arg3);return true;
+				StageSet(tail1); return true;
+			} else if (command === 'TIMER') {
+				ScriptTimer(arg1, arg2, arg3); return true;
 			}
 			return false;
 		}
@@ -5902,7 +5942,7 @@
 				line = line.rightOf(' ').trim();
 			}
 			const prefix = line.charAt(0);
-			
+
 			// 20260119: LRRH: If the engine is spawning bubbles and the prefix is not *, put the line back and return.
 
 			if (prefix != '*' && ScriptBubbleSpawning(null)) {
@@ -6066,7 +6106,7 @@
 			const elCosmicTA = document.getElementById('card-cosmic-script');
 			const cosmicScript = decodeURIComponent(data.cosmic) || "";
 			if (Number(b) < Number(data.a) && panelScript != cosmicScript) {
-				if (await showConfirm("Your changes are saved locally, but it seems that you modified an older version of the script.<hr>Your:  " + UTCshowLocal(b) + "<br>Latest:" + UTCshowLocal(data.a) + "<hr>[Yes] to see the differences<br>[No] to  update the base number.")) {					
+				if (await showConfirm("Your changes are saved locally, but it seems that you modified an older version of the script.<hr>Your:  " + UTCshowLocal(b) + "<br>Latest:" + UTCshowLocal(data.a) + "<hr>[Yes] to see the differences<br>[No] to  update the base number.")) {
 					elCosmicTA.value = cosmicScript || "";
 					CosmicComparisonView(true);
 					TextAreaHLFirstDiff("card-script", 'card-cosmic-script');
@@ -6537,29 +6577,29 @@
 
 			ScriptRun(SE, true);
 		}
-		function ScriptTimer(mode,bFocus){						
+		function ScriptTimer(mode, bFocus) {
 			const dialogTimer = document.getElementById('dialogue-timer');
 			const timerButtons = document.getElementById('dialogue-timer-buttons');
-			if(mode==="HIDE"){
-				if(bFocus==="BUTTONS"){
-					timerButtons.classList.toggle("active",false);
-				}else{
-					dialogTimer.classList.toggle("active",false);
+			if (mode === "HIDE") {
+				if (bFocus === "BUTTONS") {
+					timerButtons.classList.toggle("active", false);
+				} else {
+					dialogTimer.classList.toggle("active", false);
 				}
-			}else if(mode==="SHOW"){
-				if(bFocus==="BUTTONS"){
-					timerButtons.classList.toggle("active",true);
-				}else{
-					dialogTimer.classList.toggle("active",true);
+			} else if (mode === "SHOW") {
+				if (bFocus === "BUTTONS") {
+					timerButtons.classList.toggle("active", true);
+				} else {
+					dialogTimer.classList.toggle("active", true);
 				}
-				dialogTimer.classList.toggle("active",true);
-			}else if(mode==="PAUSE"){
+				dialogTimer.classList.toggle("active", true);
+			} else if (mode === "PAUSE") {
 				tmrDialog.pause();
-			}else if(mode === "RESET"){
+			} else if (mode === "RESET") {
 				tmrDialog.reset();
-			}else if(mode=== "START"){
-				tmrDialog.start(null,bFocus==="FOCUS");
-			}else if(mode=== "STOP"){
+			} else if (mode === "START") {
+				tmrDialog.start(null, bFocus === "FOCUS");
+			} else if (mode === "STOP") {
 				tmrDialog.stop();
 			}
 			return true;
@@ -7242,7 +7282,7 @@
 			let bStart = (si1 == 0 && si2 == 0);
 			ta1.selectionStart = si1;
 			ta2.selectionStart = si2;
-			
+
 
 			// 1. Find the first index where the characters don't match
 			const lengthToCheck = Math.max(text1.length - si1, text2.length - si2);
@@ -7250,9 +7290,9 @@
 			let lastLB1 = 0;
 			let lastLB2 = 0;
 			//let i = text1.length-1;			
-			let i = 0;			
+			let i = 0;
 			for (; i < lengthToCheck; i++) {
-			//for (; i >=0; i--) {
+				//for (; i >=0; i--) {
 				const char1 = text1[si1 + i];
 				const char2 = text2[si2 + i];
 
@@ -7270,10 +7310,10 @@
 			TextAreaScrollTo("card-cosmic-script");
 			TextAreaScrollTo("card-script");
 			CosmicAlignment(true);
-			
+
 			//TextAreaScrollTo("card-script");
 			ta2.selectionStart = si2 + i;
-			ta2.selectionEnd = si2 + i+1;
+			ta2.selectionEnd = si2 + i + 1;
 			ta1.selectionStart = si1 + i;
 			ta1.selectionEnd = si1 + i + 1;
 			ta1.focus();
@@ -7284,6 +7324,83 @@
 				return TextAreaHLFirstDiff(textareaId1, textareaId2, 0, 0);
 			}
 		}
+		function TextAreaMoveBlock(bUp) {
+			const ta = document.querySelector('.card-textarea.infocus');
+			if (!ta) return;
+			const text = ta.value;
+			const start = ta.selectionStart;
+			const end = ta.selectionEnd;
+
+			// Split text into lines and find which line indices are selected
+			const lines = text.split('\n');
+			let charCount = 0;
+			let selLineStart = -1;
+			let selLineEnd = -1;
+
+			// Map character offsets to line indices
+			lines.forEach((line, i) => {
+				const lineEndCount = charCount + line.length;
+				if (selLineStart === -1 && start <= lineEndCount) selLineStart = i;
+				if (selLineEnd === -1 && end <= lineEndCount) selLineEnd = i;
+				charCount += line.length + 1; // +1 for the newline
+			});
+
+			const isBoundary = (line) => line.trim().startsWith('#') || line.trim().startsWith('=') || line.trim() === '';
+
+			// Identify current section boundaries
+			let topBoundary = -1;
+			for (let i = selLineStart - 1; i >= 0; i--) {
+				if (isBoundary(lines[i])) { topBoundary = i; break; }
+			}
+
+			let bottomBoundary = lines.length;
+			for (let i = selLineEnd + 1; i < lines.length; i++) {
+				if (isBoundary(lines[i])) { bottomBoundary = i; break; }
+			}
+
+			const selectedLines = lines.splice(selLineStart, selLineEnd - selLineStart + 1);
+			let targetIndex;
+
+			if (bUp) {
+				// Is it already at the top of the current section?
+				if (selLineStart === topBoundary + 1) {
+					// Move to previous section (above current boundary)
+					targetIndex = Math.max(0, topBoundary);
+				} else {
+					// Move to just below top boundary
+					targetIndex = topBoundary + 1;
+				}
+			} else { // Direction "Down"
+				// Is it already at the bottom of the current section?
+				if (selLineEnd === bottomBoundary - 1) {
+					// Move to next section (below the current bottom boundary)
+					targetIndex = Math.min(lines.length, bottomBoundary - selectedLines.length + 1);
+				} else {
+					// Move to just above bottom boundary
+					targetIndex = bottomBoundary - selectedLines.length;
+				}
+			}
+
+			// Insert lines at target
+			lines.splice(targetIndex, 0, ...selectedLines);
+			ta.value = lines.join('\n');
+
+			// Restore selection (optional but recommended for UX)
+			TextAreaMoveBlockUpdateSel(ta, targetIndex, targetIndex + selectedLines.length - 1);
+
+		}
+		function TextAreaMoveBlockUpdateSel(ta, startLine, endLine) {
+			const lines = ta.value.split('\n');
+			let startChar = 0;
+			for (let i = 0; i < startLine; i++) startChar += lines[i].length + 1;
+
+			let endChar = startChar;
+			for (let i = startLine; i <= endLine; i++) endChar += lines[i].length + 1;
+
+			ta.setSelectionRange(startChar, endChar - 1);
+			ta.focus();
+			//TextAreaScrollTo(ta.id);
+		}
 		function TextAreaScrollBoth() {
 			let scriptTA = document.getElementById('card-script');
 			let cosmicTA = document.getElementById('card-cosmic-script');
@@ -7292,7 +7409,7 @@
 			cosmicTA.blur();
 			scriptTA.scrollTo(0, scriptTA.scrollTop + lineHeight);
 			cosmicTA.scrollTo(0, cosmicTA.scrollTop + lineHeight);
-			
+
 
 		}
 		function TextAreaScrollTo(taid) {
@@ -7300,7 +7417,7 @@
 			if (!el) return;
 			//const endPos = el.selectionEnd;
 			el.selectionEnd = el.selectionStart;
-			const selected = el.value.slice(el.selectionStart,el.selectionEnd)
+			const selected = el.value.slice(el.selectionStart, el.selectionEnd)
 			el.setRangeText(selected);
 			//el.selectionEnd = endPos;
 			el.focus();
@@ -7522,6 +7639,7 @@
 				const lines = rawData.split(/\r?\n/).filter(line => line.trim().length > 0);
 
 				let outputRows = [];
+				let badRows = [];
 
 				lines.forEach(line => {
 					// UPDATED REGEX: 
@@ -7530,9 +7648,15 @@
 					// 3. Captures everything else as the message (handles end of line properly)
 					const match = line.match(/(\d{14})\s+([^:]+):\s*(.*)$/);
 
+
 					if (match) {
 						let [_, ts, name, message] = match;
-						if(name.slice(0,1)==="@"){name=name.slice(1);}
+						let status = line.leftOf(ts).trim();
+						let done = "";
+						if (status.toLowerCase().includes('[x]')) {
+							done = "Done";
+						}
+						if (name.slice(0, 1) === "@") { name = name.slice(1); }
 						// Date Formatting
 						const month = parseInt(ts.substring(4, 6), 10);
 						const day = parseInt(ts.substring(6, 8), 10);
@@ -7541,22 +7665,30 @@
 						const formattedDate = `${month}/${day}/${year} ${timeStr}`;
 
 						// Column Mapping for Google Sheets:
-						// Col 1: Date | Col 2: (empty) | Col 3: Name | Col 4-7: (empty) | Col 8: Message
+						// Col 1: Date | Col 2: (empty) | Col 3: Name | Col 4-5: (empty) | Col 6: Done Flag | Col 7: (empty) | Col 8: Message
 						const row = [
 							formattedDate,
 							"",
 							name.trim(),
-							"", "", "", "",
+							"", "", done, "",
 							message.trim()
 						];
 
 						outputRows.push(row.join('\t'));
+					} else {
+						badRows.push(line);
 					}
 				});
 
 				if (outputRows.length === 0) {
 					alert("No data found. Ensure you have the 'Timestamp Name: Message' format copied.");
 					return;
+				} else if (badRows.length > 0) {
+					if (await showConfirm(`${badRows.length} line(s) cannot be transcribed. Copy them instead?`)) {
+						await navigator.clipboard.writeText(badRows.join('\n'));
+						showToast("Untranscribable line(s) copied to clipboard.");
+						return;
+					}
 				}
 
 				await navigator.clipboard.writeText(outputRows.join('\n'));
