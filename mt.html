@@ -4421,12 +4421,11 @@
 			const stage = Stage();
 			return !stage.classList.contains('active') || stage.classList.contains('suspended');
 		}
-		function BookmarkGo(elThis) {
+		function BookmarkGo(rawLine) {
 			SPEC("20260225003600", "StarTree", "Jump to the next line of the label.");
-			const label = `#${elThis.innerText}#`;
 			const ta = document.querySelector('.card-textarea.infocus');
 			if (!ta) { return }
-			let targetIndex = ta.value.indexOf(label);
+			let targetIndex = ta.value.indexOf(rawLine);
 			if (targetIndex === -1) { return }
 			let endLine = ta.value.indexOf('\n', targetIndex);
 			if (endLine == -1) {
@@ -4435,27 +4434,34 @@
 			ta.selectionStart = ta.selectionEnd = endLine + 1;
 			TextAreaScrollTo(ta.id);
 		}
-		function Bookmarks() {
+		function Bookmarks(bPermitEqual) {
 			const bm = document.getElementById('card-toc');
-			const isActive = bm.classList.toggle('active');
-			if (!isActive) { return; }
+			if(bm.innerHTML=="" || !bm.classList.contains('active')){
+				bm.classList.add('active');
+			}else{
+				bm.classList.remove('active');
+			}			
 			SPEC("20260224232842", "Evelyn", "When shown, make a jump button for each bookmark of the textarea in focus.");
 			const elSrc = document.querySelector(".card-textarea.infocus");
-			if (!elSrc) { return }
+			if (!elSrc) { showToast("Please first select a textarea.");return;}
 			let html = "";
 			const lines = elSrc.value.split('\n');
 			lines.forEach(line => {
 				line = line.trim();
+				const rawLine = line;
 				const fc = line.slice(0, 1);
 				const lc = line.slice(line.length - 1);
-				if ((fc === "#" && lc === "#") || (line.startsWith('=') && line.endsWith('='))) {
+				if ((fc === "#" && lc === "#") ||(line.startsWith('=#') && line.endsWith('#=')) || (bPermitEqual && (fc === "=" && lc === "="))) {
 					line = line.replaceAll('#', '').trim();
 					line = line.replaceAll('=', '').trim();
 					if (line.length == 0) { return; }
-					html += "<button class='notes-btn' onclick='BookmarkGo(this)'>" + line + "</button>";
+					html += `<button class='notes-btn' onclick='BookmarkGo("${rawLine}")'>${line}</button>`;
 				}
 			});
 			bm.innerHTML = html;
+			if(!bPermitEqual && html==""){
+				Bookmarks(true);
+			}
 		}
 		function ChoiceAdd(choice) {
 			// 20260118: StarTree: Adds a choice to the multitrack DOM so that it is easy to debug, save and load.
