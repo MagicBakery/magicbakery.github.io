@@ -3332,11 +3332,26 @@
 								<!--<rect x="55" y="60" width="10" height="20" fill="currentColor" />-->
 							</svg>
 						</button>
-						<button class="tool-btn" onclick="Bookmarks()" title="Table of Contents">
-							<svg viewBox="0 0 100 100" style="width:90%; height:90%;">
-								<path d="M10,0 L90,0 L90,100 L50,70 L10,100 Z" fill="none" stroke="currentColor" stroke-width="6" />
-							</svg>
-						</button>
+						<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
+							<button class="tool-btn" onclick="Bookmarks(true,false)" title="Table of Contents">
+								<svg viewBox="0 0 100 100" style="width:90%; height:90%;">
+									<path d="M10,0 L90,0 L90,100 L50,70 L10,100 Z" fill="none" stroke="currentColor" stroke-width="6" />
+									<path d="M20,30 L80,30 M20,50 L80,50" fill="none" stroke="currentColor" stroke-width="6" />
+								</svg>
+							</button>
+							<button class="tool-btn" onclick="Bookmarks(true,true)" title="Table of Contents">
+								<svg viewBox="0 0 100 100" style="width:90%; height:90%;">
+									<path d="M10,0 L90,0 L90,100 L50,70 L10,100 Z" fill="none" stroke="currentColor" stroke-width="6" />
+								</svg>
+							</button>
+							<button class="tool-btn" onclick="Bookmarks(false,true)" title="Table of Contents">
+								<svg viewBox="0 0 100 100" style="width:90%; height:90%;">
+									<path d="M10,0 L90,0 L90,100 L50,70 L10,100 Z" fill="none" stroke="currentColor" stroke-width="6" />
+									<path d="M20,30 L80,30 M20,50 L80,50 M45,10 L35,70 M65,10 L55,70 " fill="none" stroke="currentColor" stroke-width="6" />
+								</svg>
+							</button>
+						</div>
+						
 						<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
 							<button class="tool-btn" onclick="NoteLineSwap(true)" title="Move line up">
 								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
@@ -4434,13 +4449,16 @@
 			ta.selectionStart = ta.selectionEnd = endLine + 1;
 			TextAreaScrollTo(ta.id);
 		}
-		function Bookmarks(bPermitEqual) {
+		function Bookmarks(bUseEqual,bUsePond) {
 			const bm = document.getElementById('card-toc');
-			if(bm.innerHTML=="" || !bm.classList.contains('active')){
+			if(bm.innerHTML=="" || !bm.classList.contains('active') || (bm.dataset.useEqual != bUseEqual) || (bm.dataset.usePond != bUsePond)){
 				bm.classList.add('active');
 			}else{
 				bm.classList.remove('active');
-			}			
+			}
+			bm.dataset.useEqual = bUseEqual;
+			bm.dataset.usePond = bUsePond;
+
 			SPEC("20260224232842", "Evelyn", "When shown, make a jump button for each bookmark of the textarea in focus.");
 			const elSrc = document.querySelector(".card-textarea.infocus");
 			if (!elSrc) { showToast("Please first select a textarea.");return;}
@@ -4451,7 +4469,7 @@
 				const rawLine = line;
 				const fc = line.slice(0, 1);
 				const lc = line.slice(line.length - 1);
-				if ((fc === "#" && lc === "#") ||(line.startsWith('=#') && line.endsWith('#=')) || (bPermitEqual && (fc === "=" && lc === "="))) {
+				if ((line.startsWith('=#') && line.endsWith('#=')) ||  (bUsePond&&(fc === "#" && lc === "#")) || (bUseEqual && (fc === "=" && lc === "="))) {
 					line = line.replaceAll('#', '').trim();
 					line = line.replaceAll('=', '').trim();
 					if (line.length == 0) { return; }
@@ -4459,9 +4477,6 @@
 				}
 			});
 			bm.innerHTML = html;
-			if(!bPermitEqual && html==""){
-				Bookmarks(true);
-			}
 		}
 		function ChoiceAdd(choice) {
 			// 20260118: StarTree: Adds a choice to the multitrack DOM so that it is easy to debug, save and load.
