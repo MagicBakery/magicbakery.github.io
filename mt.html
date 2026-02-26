@@ -3381,6 +3381,8 @@
 						<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
 							<button class="notes-btn" style="min-width:55px" onclick="ScriptPublish(this)"
 								title="Publish Script">Publish</button>
+							<button class="notes-btn" style="min-width:55px" onclick="CosmicComparisonView(true)"
+								title="See the Cosmic version">Cosmic</button>
 							<button class="notes-btn" style="min-width:55px" onclick="TranslateFieldLogToGuildLogFromClipboard()"
 								title="Transcribe for Guild Log">Xscribe</button>
 						</div>
@@ -3924,12 +3926,24 @@
 				SPEC("20260220212300", "Skyle", "Returns a reason string if the card should be protected from accidental deletion.");
 				if (this.el.classList.contains("pinned")) { return "This card has a ⭐."; }
 				if (this.el.dataset.o && this.el.dataset.o.trim() != "") { return "This card has user notes."; }
-				if (this.el.dataset.v && this.el.dataset.v.trim() != "") { return "This card has a last modified UTC version stamp " + this.el.dataset.v + ", which is " + UTCshowLocal(this.el.dataset.v) + " in your local time."; }
+				if (this.el.querySelector(".status-banner")) { return "This card has a caption."; }
 				if (this.el.querySelector(".daily")) {
 					const icons = this.el.querySelector(".status-icons").innerText;
 					return "This card has quest status: " + icons + ".";
 				}
-				if (this.el.querySelector(".status-banner")) { return "This card has a caption."; }
+				const data = DATAByID(this.el.dataset.id)
+				DEBUG("@@ is P the same as ID? " + this.el.dataset.id + " " + this.el.dataset.p);
+				if(data){
+					if( (data.cosmic ||"")== this.el.dataset.c){return "";}
+				}
+				
+				DEBUG(this.el.dataset.cosmic);
+				DEBUG(this.el.dataset.c);
+				if (this.el.dataset.v && this.el.dataset.v.trim() != "") {
+					 return "This card has a last modified UTC version stamp " + this.el.dataset.v + ", which is " + UTCshowLocal(this.el.dataset.v) + " in your local time."; 
+				}
+				
+				
 				return "";
 			}
 			sendToStorage() {
@@ -4434,7 +4448,7 @@
 				line = line.trim();
 				const fc = line.slice(0, 1);
 				const lc = line.slice(line.length - 1);
-				if ((fc === "#" && lc === "#") || (line.startsWith('=#') && line.endsWith('#='))) {
+				if ((fc === "#" && lc === "#") || (line.startsWith('=') && line.endsWith('='))) {
 					line = line.replaceAll('#', '').trim();
 					line = line.replaceAll('=', '').trim();
 					if (line.length == 0) { return; }
@@ -5292,9 +5306,9 @@
 				const castCard = new Card(card);
 				const msg = castCard.seemsImportant();
 				if (msg != "") {
-					//if (await showConfirm(msg + " Keep it?")) { return true; }
-					castCard.sendToStorage();
-					return;
+					if (await showConfirm(msg + " Keep it?")) { return true; }
+					//castCard.sendToStorage();
+					//return;
 				}
 				// Perform the removal
 				card.style.transform = "scale(0.8) translateY(20px)";
@@ -6131,22 +6145,36 @@
 		async function saveMetadata() {
 			const activeCardData = getActiveCardData();
 			if (!activeCardData) return;
+			const card = getActiveCard();
 
 			// 202602200011: Skyle: Update the stream version.
 			const data = DATAByID(document.getElementById("card-id").value);
 			document.getElementById('card-stream').value = data.a;
-			const b = document.getElementById('card-base').value;
+			let b = document.getElementById('card-base').value;
 			const panelScript = document.getElementById('card-script').value;
 			const elCosmicTA = document.getElementById('card-cosmic-script');
 			const cosmicScript = decodeURIComponent(data.cosmic) || "";
-			if (Number(b) < Number(data.a) && panelScript != cosmicScript) {
-				if (await showConfirm("Your changes are saved locally, but it seems that you modified an older version of the script.<hr>Your:  " + UTCshowLocal(b) + "<br>Latest:" + UTCshowLocal(data.a) + "<hr>[Yes] to see the differences<br>[No] to  update the base number.")) {
+
+			if(panelScript == cosmicScript){
+				// If the script is the same as cosmic, update the b number and clear the v number.
+				b = "";
+				document.getElementById('card-base').value = data.a;
+				document.getElementById('card-ver').value = ""
+				activeCardData.b = "";
+				activeCardData.v = data.a;
+				if(card){
+					card.dataset.b = data.a.trim();
+					card.dataset.v = "";
+				}
+			}else if (Number(b) < Number(data.a) && panelScript != cosmicScript) {
+				
+					if (await showConfirm("Your changes are saved locally, but it seems that you modified an older version of the script.<hr>Your:  " + UTCshowLocal(b) + "<br>Latest:" + UTCshowLocal(data.a) + "<hr>[Yes] to see the differences<br>[No] to  update the base number.")) {
 					elCosmicTA.value = cosmicScript || "";
 					CosmicComparisonView(true);
 					TextAreaHLFirstDiff("card-script", 'card-cosmic-script');
 					return;
 				}
-				const card = getActiveCard();
+				
 				if (card) {
 					card.dataset.b = data.a.trim();
 				}
