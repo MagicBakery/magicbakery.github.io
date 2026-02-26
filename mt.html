@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF‑8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -28,6 +29,7 @@
 			--text: #fff;
 			--text-dim: #CCC;
 			--grid-cols: 3;
+			--scroll-height: calc(100vw / var(--grid-cols));
 			--sidebar-w: 300px;
 			--gold: #ffd700;
 			--h-dir: row;
@@ -622,7 +624,14 @@
 		}
 
 		#card-toc {
+			background-color: rgba(0, 0, 0, 0.25);
+			font-size: 14px;
 			height: 15vh;
+			justify-items: center;
+			max-width: 25vw;
+			min-height: 60px;
+			overflow-x: hidden;
+			overflow-y: auto;
 		}
 
 		#card-toc .notes-btn {
@@ -2206,9 +2215,9 @@
 			display: grid !important;
 			grid-template-columns: repeat(var(--grid-cols), 1fr) !important;
 			grid-auto-rows: min-content;
-
-
 		}
+
+		
 
 		.block-when-active.grid-view:not(.active) {
 			display: none !important;
@@ -2223,7 +2232,6 @@
 			overflow: hidden;
 			display: block;
 		}
-
 		.grid-view .file-item img {
 			width: 100%;
 			height: 100%;
@@ -2249,6 +2257,34 @@
 			z-index: var(--z-Listings);
 			background: transparent !important;
 		}
+
+		.side-scroll-view {
+			display: flex;
+			flex-direction: row;
+			overflow-x: auto;
+			overflow-y: hidden;
+			gap: 2px;
+			height: var(--scroll-height);
+			scroll-snap-type: x mandatory;
+		}
+		.side-scroll-view .file-item {
+			border: 1px solid var(--border);
+			border-radius: 6px;
+			flex: 0 0 auto;
+			width: auto;
+			height: 100%;
+			aspect-ratio: unset;
+			padding: 0;
+			overflow: visible;
+			background: transparent;
+		}
+		.side-scroll-view img {
+			height: 100%;
+			width: auto;
+			object-fit: contain;
+			display: block;
+		}
+
 
 		.active-item {
 			border: 3px solid var(--gold) !important;
@@ -3269,9 +3305,7 @@
 						<textarea id="card-notes" class="card-textarea flex-when-active active"
 							onfocus="PanelTextareaActivate(this)" oninput="markDirty(this)" style="flex: 2 2 0%"
 							placeholder="User Notes"></textarea>
-						<div id="card-toc" class="block-when-active hide-scrollbar"
-							style="overflow-x:hidden;overflow-y:auto;min-height:60px;background-color: rgba(64,32,0,0.25);font-size:14px;justify-items: center;max-width:25vw">
-						</div>
+						<div id="card-toc" class="block-when-active hide-scrollbar"></div>
 						<textarea id="card-script" class="card-textarea flex-when-active active"
 							onfocus="PanelTextareaActivate(this)" oninput="markDirty(this)" style="flex: 2 2 0%"
 							placeholder="Public Script"></textarea>
@@ -3306,25 +3340,29 @@
 						<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
 							<button class="tool-btn" onclick="NoteLineSwap(true)" title="Move line up">
 								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
-									<polygon points="0,100 0,50 50,10 100,50 100,100 50,60" fill="none" stroke="currentColor" stroke-width="10" />
+									<polygon points="0,100 0,50 50,10 100,50 100,100 50,60" fill="none" stroke="currentColor"
+										stroke-width="10" />
 								</svg>
 							</button>
 							<button class="tool-btn" onclick="NoteLineSwap(false)" title="Move line down">
 								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
-									<polygon points="0,10 50,50 100,10 100,60 50,100 0,60" fill="none" stroke="currentColor" stroke-width="10" />
+									<polygon points="0,10 50,50 100,10 100,60 50,100 0,60" fill="none" stroke="currentColor"
+										stroke-width="10" />
 								</svg>
 							</button>
 						</div>
 						<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
 							<button class="tool-btn" onclick="TextAreaMoveBlock(true)" title="Move line to start of section">
 								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
-									<polygon points="0,100 0,60 50,20 100,60 100,100 50,60" fill="none" stroke="currentColor" stroke-width="10" />
+									<polygon points="0,100 0,60 50,20 100,60 100,100 50,60" fill="none" stroke="currentColor"
+										stroke-width="10" />
 									<path d="M0,10 L100,10" stroke="currentColor" stroke-width="20" />
 								</svg>
 							</button>
 							<button class="tool-btn" onclick="TextAreaMoveBlock(false)" title="Move line to end of section">
 								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
-									<polygon points="0,10 50,50 100,10 100,50 50,90 0,50" fill="none" stroke="currentColor" stroke-width="10" />
+									<polygon points="0,10 50,50 100,10 100,50 50,90 0,50" fill="none" stroke="currentColor"
+										stroke-width="10" />
 									<path d="M0,100 L100,100" stroke="currentColor" stroke-width="20" />
 								</svg>
 							</button>
@@ -3466,18 +3504,14 @@
 				</button>
 
 				<button class="tool-btn" id="tag-sort-btn" style="font-size:12px" onclick="toggleTagSort()">A-Z</button>
-				<button class="tool-btn" id="grid-toggle-btn" onclick="toggleSidebarView()">
-					<div class="css-grid" id="toggle-icon">
+				<button class="tool-btn" id="grid-toggle-btn" onclick="toggleAssetListView()">
+					<div class="css-list" id="toggle-icon">
 						<div></div>
 						<div></div>
 						<div></div>
 						<div></div>
 					</div>
 				</button>
-
-
-
-
 				<div id="grid-slider-container">
 					<input type="range" id="col-slider" min="1" max="12" value="5" oninput="updateGridCols(this.value)">
 				</div>
@@ -6095,7 +6129,7 @@
 			memDOM();
 		}
 		async function saveMetadata() {
-			activeCardData = getActiveCardData();
+			const activeCardData = getActiveCardData();
 			if (!activeCardData) return;
 
 			// 202602200011: Skyle: Update the stream version.
@@ -6111,6 +6145,10 @@
 					CosmicComparisonView(true);
 					TextAreaHLFirstDiff("card-script", 'card-cosmic-script');
 					return;
+				}
+				const card = getActiveCard();
+				if (card) {
+					card.dataset.b = data.a.trim();
 				}
 				document.getElementById('card-base').value = data.a.trim();
 			}
@@ -9140,8 +9178,10 @@
 			const q = document.getElementById('master-search').value.toLowerCase();
 			const list = document.getElementById('file-list');
 			list.innerHTML = "";
+			const sidebarIsGrid = list.classList.contains('grid-view');
+			const bSideView = list.classList.contains('side-scroll-view');
 			//list.className = "file-list block-when-active" + (sidebarIsGrid ? " grid-view" : "");
-			list.classList.toggle('grid-view', sidebarIsGrid);
+			//list.classList.toggle('grid-view', sidebarIsGrid);
 
 			const filtered = DATA.filter(i => {
 				const matchesActive = Array.from(activeTags).every(at => i.t.includes(at));
@@ -9198,7 +9238,7 @@
 				d.className = 'file-item';
 				d.dataset.id = item.p;
 				d.id = 'f-' + idx;
-				if (sidebarIsGrid) {
+				if (sidebarIsGrid || bSideView) {
 					// Wrap the thumbnail in a link pointing to the real source
 					d.innerHTML = `
       <a href="${getURL(item)}" target="_blank" class="file-link" onclick="return false;">
@@ -9547,20 +9587,32 @@
 			//setTimeout(updateCenteredCard, 100);
 		}
 
-		function toggleSidebarView() {
-			sidebarIsGrid = !sidebarIsGrid;
+		function toggleAssetListView() {
+			const fl = document.getElementById('file-list');
 			const icon = document.getElementById('toggle-icon');
-			const container = document.getElementById('grid-slider-container'); // Get the slider container
+			const container = document.getElementById('grid-slider-container'); // Get the slider 
+			const bGridView = fl.classList.contains('grid-view');
+			const bSideView = fl.classList.contains('side-scroll-view');
 
-			if (sidebarIsGrid) {
+			if (!bSideView && !bGridView) {
+				fl.classList.add('side-scroll-view');
+				fl.classList.add('button-pad');
 				icon.className = 'css-list';
-				icon.innerHTML = '<div></div><div></div><div></div>';
-				if (container) container.opacity = '1'; // Show slider
-
-			} else {
+				icon.innerHTML = `<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+						<polygon points="0,20 100,20 100,80 0,80" fill="none" stroke="currentColor" stroke-width="20"></polygon>
+					</svg>`;
+			} else if (bSideView) {
+				fl.classList.remove('side-scroll-view');
+				fl.classList.remove('button-pad');
+				fl.classList.add('grid-view');
 				icon.className = 'css-grid';
 				icon.innerHTML = '<div></div><div></div><div></div><div></div>';
 				if (container) container.opacity = '0.2'; // Hide slider
+			} else {
+				fl.classList.remove('grid-view');
+				icon.className = 'css-list';
+				icon.innerHTML = '<div></div><div></div><div></div>';
+				if (container) container.opacity = '1'; // Show slider
 			}
 
 			refreshAllUI();
@@ -9584,8 +9636,8 @@
 
 		// Call this inside your showSpeech() function
 		function updateGridCols(v) {
-			document.documentElement.style.setProperty('--grid-cols', v);
-			// document.getElementById('col-val').innerText = v; // REMOVE OR COMMENT OUT THIS LINE
+			document.documentElement.style.setProperty('--grid-cols', v);			
+			//document.documentElement.style.setProperty('--scroll-height', v + 'px');
 			localStorage.setItem('gallery_cols', v);
 		}
 
