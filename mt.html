@@ -2217,7 +2217,7 @@
 			grid-auto-rows: min-content;
 		}
 
-		
+
 
 		.block-when-active.grid-view:not(.active) {
 			display: none !important;
@@ -2232,6 +2232,7 @@
 			overflow: hidden;
 			display: block;
 		}
+
 		.grid-view .file-item img {
 			width: 100%;
 			height: 100%;
@@ -2267,6 +2268,7 @@
 			height: var(--scroll-height);
 			scroll-snap-type: x mandatory;
 		}
+
 		.side-scroll-view .file-item {
 			border: 1px solid var(--border);
 			border-radius: 6px;
@@ -2278,6 +2280,7 @@
 			overflow: visible;
 			background: transparent;
 		}
+
 		.side-scroll-view img {
 			height: 100%;
 			width: auto;
@@ -3173,6 +3176,7 @@
 					</svg>
 				</button>
 				<!--Daily Quest Button-->
+				
 				<button class="tool-btn daily" onclick="DailyQuestReg()" title="Mark for Daily Quest">
 					<svg width="48" height="36" viewBox="1 1 18 18" fill="none" stroke="currentColor" stroke-width="1.5"
 						stroke-linecap="round">
@@ -3183,19 +3187,21 @@
 						<circle cx="10" cy="10" r="5" stroke-width="2" fill="currentColor" />
 					</svg>
 				</button>
+
 				<!--Urgency Squares / Caption-->
-				<button class="tool-btn none" onclick="StatusReg('none')" title="Add Caption">
-					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+				<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y:auto;height:36px;">
+					<button class="tool-btn none" onclick="StatusReg('none')" title="Add Caption">
+						<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+							<path d="M30 20L70 20M30 80L70 80 M50 20L50 80" stroke="currentColor" stroke-width="10" />
+						</svg>
+					</button>
+					<button class="tool-btn none" onclick="StatusReg('remove')" title="Remove Caption">
+						<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
 
-						<path d="M30 20L70 20M30 80L70 80 M50 20L50 80" stroke="currentColor" stroke-width="4" />
-					</svg>
-				</button>
-				<button class="tool-btn none" onclick="StatusReg('remove')" title="Remove Caption">
-					<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-
-						<path d="M30 30L70 70M30 70L70 30" stroke="currentColor" stroke-width="4" />
-					</svg>
-				</button>
+							<path d="M20 20L78 80M20 80L80 20" stroke="currentColor" stroke-width="10" />
+						</svg>
+					</button>
+				</div>
 				<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y:auto;height:36px;">
 					<button class="tool-btn black" onclick="StatusReg('black')" title="TPK" style="color:black;">
 						<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
@@ -3260,6 +3266,7 @@
 					</button>
 				</div>
 				<div style="flex:1"></div>
+
 			</div>
 			<div id="tab-card-notes" class="block-when-active"
 				onkeydown="if (event.key.toLowerCase() === 's' && (event.ctrlKey || event.metaKey)) {event.preventDefault();saveCardNotes(event,true);}">
@@ -3347,11 +3354,12 @@
 							<button class="tool-btn" onclick="Bookmarks(false,true)" title="Table of Contents">
 								<svg viewBox="0 0 100 100" style="width:90%; height:90%;">
 									<path d="M10,0 L90,0 L90,100 L50,70 L10,100 Z" fill="none" stroke="currentColor" stroke-width="6" />
-									<path d="M20,30 L80,30 M20,50 L80,50 M45,10 L35,70 M65,10 L55,70 " fill="none" stroke="currentColor" stroke-width="6" />
+									<path d="M20,30 L80,30 M20,50 L80,50 M45,10 L35,70 M65,10 L55,70 " fill="none" stroke="currentColor"
+										stroke-width="6" />
 								</svg>
 							</button>
 						</div>
-						
+
 						<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
 							<button class="tool-btn" onclick="NoteLineSwap(true)" title="Move line up">
 								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
@@ -3759,6 +3767,7 @@
 						style="display: none;" title="Save changes to this card">
 				</button>
 				<!--Status Tab Button-->
+
 				<button id="status-bar-btn-1" class="tool-btn star-btn active flex-when-active"
 					onclick="ToggleByID(this,'card-status-bar');ToggleByID(this,'status-bar-btn-1');ToggleByID(this,'status-bar-btn-2')"
 					title="Star Active Card">
@@ -3767,6 +3776,8 @@
 						<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
 					</svg>
 				</button>
+
+
 				<button id="status-bar-btn-2" class="tool-btn flex-when-active"
 					onclick="ToggleByID(this,'card-status-bar');ToggleByID(this,'status-bar-btn-1');ToggleByID(this,'status-bar-btn-2')"
 					title="Details">
@@ -3777,8 +3788,8 @@
 						<line x1="3" y1="18" x2="11" y2="18"></line>
 					</svg>
 				</button>
-
-				<button class="tool-btn" onclick="toggleTab(event,'asset-panel')" title="Asset List">
+				<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y:auto;height:36px;">
+					<button class="tool-btn" onclick="toggleTab(event,'asset-panel')" title="Asset List">
 					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 						<rect x="3" y="3" width="7" height="7"></rect>
 						<rect x="14" y="3" width="7" height="7"></rect>
@@ -3786,6 +3797,14 @@
 						<rect x="3" y="14" width="7" height="7"></rect>
 					</svg>
 				</button>
+					<button class="tool-btn" title="Show all daily quests" onclick="DailyQuestRnd()">
+						<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
+							<path d="M0 0L100 0L100 100L0 100 Z" fill="none" stroke="currentColor" stroke-width="10"></path>
+						</svg>
+					</button>
+				</div>
+
+				
 				<!--DEV NOTES BUTTON-->
 				<button class="tool-btn" id="settings-btn" onclick="toggleTab(event, 'tab-dev-notes')" title="Developer Notes">
 					<svg viewBox="0 0 100 100">
@@ -3801,7 +3820,7 @@
 			<input type="text" id="master-search" class="unified-width" style="width:100px; text-align:center;flex: 1"
 				placeholder="SEARCH..." oninput="refreshAllUI()" onkeydown="MasterSearchOnKeyDown(event,this)">
 
-			<div class="button-pad recent" style="overflow-x: auto;display:flex;min-width:36px;flex-direction: row-reverse;">
+			<div style="overflow-x: auto;display:flex;min-width:36px;flex-direction: row-reverse;">
 
 
 				<button class="tool-btn script-step-btn run-script-btn" onClick="ScriptStart(this,true,false)"
@@ -3815,13 +3834,29 @@
 						<polygon points="0,0 0,100 100,100 100,0" fill="currentColor" />
 					</svg>
 				</button>
-				<!--Removal Mode Button-->
-				<button class="tool-btn removal-mode-btn" onclick="toggleRemovalMode(this)" ondblclick="clearWorkspace(event)"
-					title="Toggle Removal Mode">
-					<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-						<path d="M20,20 L80,80 M80,20 L20,80" fill="none" stroke="currentColor" stroke-width="8" />
-					</svg>
-				</button>
+
+				<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y:auto;height:36px;">
+					<button class="tool-btn" title="Put Away" onclick="ActiveCardStow()">
+						<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+							<path d="M50 0L50 70M20 40L50 70 L80 40M0 50L0 100L100 100L100 50" fill="none" stroke="currentColor"
+								stroke-width="10" />
+						</svg>
+					</button>
+					<button class="tool-btn" title="Put Away" onclick="ActiveCardStow()">
+						<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+							<path d="M50 0L50 70M20 40L50 70 L80 40M0 50L0 100L100 100L100 50" fill="red" stroke="red"
+								stroke-width="10" />
+						</svg>
+					</button>
+					<!--Removal Mode Button-->
+					<button class="tool-btn removal-mode-btn" onclick="toggleRemovalMode(this)" ondblclick="clearWorkspace(event)"
+						title="Toggle Removal Mode">
+						<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+							<path d="M20,20 L80,80 M80,20 L20,80" fill="none" stroke="currentColor" stroke-width="8" />
+						</svg>
+					</button>
+				</div>
+
 				<button class="tool-btn" onclick="toggleTab(event,'tab-controls')" title="Controls Tab">
 					<svg width="24" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
 						style="transform: scale(1.4);">
@@ -3947,18 +3982,14 @@
 					return "This card has quest status: " + icons + ".";
 				}
 				const data = DATAByID(this.el.dataset.id)
-				DEBUG("@@ is P the same as ID? " + this.el.dataset.id + " " + this.el.dataset.p);
-				if(data){
-					if( (data.cosmic ||"")== this.el.dataset.c){return "";}
+				if (data) {
+					if ((data.cosmic || "") == this.el.dataset.c) { return ""; }
 				}
-				
-				DEBUG(this.el.dataset.cosmic);
-				DEBUG(this.el.dataset.c);
 				if (this.el.dataset.v && this.el.dataset.v.trim() != "") {
-					 return "This card has a last modified UTC version stamp " + this.el.dataset.v + ", which is " + UTCshowLocal(this.el.dataset.v) + " in your local time."; 
+					return "This card has a last modified UTC version stamp " + this.el.dataset.v + ", which is " + UTCshowLocal(this.el.dataset.v) + " in your local time.";
 				}
-				
-				
+
+
 				return "";
 			}
 			sendToStorage() {
@@ -3974,6 +4005,13 @@
 				const fi = document.querySelector(`.file-item[data-id="${this.el.dataset.id}"]`);
 				if (!fi) { return; }
 				fi.classList.toggle('storage-item', bInStorage);
+			}
+			updateU(u) {
+				if (u === this.el.dataset.u) { return; }
+				this.el.dataset.u = u;
+				const aLink = this.el.querySelector("a.file-link");
+				if (!aLink) { return; }
+				aLink.href = u;
 			}
 		}
 		class Storage {
@@ -4291,6 +4329,17 @@
 			// 5. Add to the container
 			container.appendChild(newBtn);
 		}
+		function ActiveCardStow() {
+			SPEC("20260226231900", "P4", "Puts the active card away. Put it to storage if it seems important.")
+			const ac = getActiveCard();
+			if (!ac) { return; }
+			const card = new Card(ac);
+			if (card.seemsImportant()) {
+				card.sendToStorage();
+			} else {
+				card.el.remove();
+			}
+		}
 		/**
 		 * Makes an element invisible immediately, waits, 
 		 * then fades it back in over 0.5 seconds.
@@ -4449,11 +4498,13 @@
 			ta.selectionStart = ta.selectionEnd = endLine + 1;
 			TextAreaScrollTo(ta.id);
 		}
-		function Bookmarks(bUseEqual,bUsePond) {
+		function Bookmarks(bUseEqual, bUsePond) {
 			const bm = document.getElementById('card-toc');
-			if(bm.innerHTML=="" || !bm.classList.contains('active') || (bm.dataset.useEqual != bUseEqual) || (bm.dataset.usePond != bUsePond)){
+			const curUseEqual = (bm.dataset.useEqual === "true");
+			const curUsePond = (bm.dataset.usePond === "true");
+			if (bm.innerHTML == "" || !bm.classList.contains('active') || (curUseEqual != bUseEqual) || (curUsePond != bUsePond)) {
 				bm.classList.add('active');
-			}else{
+			} else {
 				bm.classList.remove('active');
 			}
 			bm.dataset.useEqual = bUseEqual;
@@ -4461,7 +4512,7 @@
 
 			SPEC("20260224232842", "Evelyn", "When shown, make a jump button for each bookmark of the textarea in focus.");
 			const elSrc = document.querySelector(".card-textarea.infocus");
-			if (!elSrc) { showToast("Please first select a textarea.");return;}
+			if (!elSrc) { showToast("Please first select a textarea."); return; }
 			let html = "";
 			const lines = elSrc.value.split('\n');
 			lines.forEach(line => {
@@ -4469,7 +4520,7 @@
 				const rawLine = line;
 				const fc = line.slice(0, 1);
 				const lc = line.slice(line.length - 1);
-				if ((line.startsWith('=#') && line.endsWith('#=')) ||  (bUsePond&&(fc === "#" && lc === "#")) || (bUseEqual && (fc === "=" && lc === "="))) {
+				if ((line.startsWith('=#') && line.endsWith('#=')) || (bUsePond && (fc === "#" && lc === "#")) || (bUseEqual && (fc === "=" && lc === "="))) {
 					line = line.replaceAll('#', '').trim();
 					line = line.replaceAll('=', '').trim();
 					if (line.length == 0) { return; }
@@ -4712,6 +4763,7 @@
 			document.getElementById('card-cosmic-script').classList.toggle('active', bShow);
 			document.getElementById('card-comparison-btns').classList.toggle('active', bShow);
 		}
+
 		function DailyQuestCheck() {
 			SPEC("20260214152700", "Skyle", "Reset all the checked daily quest icons.");
 			const digit = 8;
@@ -4773,6 +4825,36 @@
 				}
 			}
 			memDOM();
+		}
+		async function DailyQuestRnd(bAny) {
+			SPEC("20260227001900", "P4", "Draw a random card with unchecked daily mark from storage.");
+			const sr = document.getElementById('storage');
+			if (!sr) { 
+				//showToast("Your storage area is empty. A random card is drawn"); 
+				createCard();
+			return; 
+		}
+			const cards = sr.querySelectorAll(".card");
+			if (cards.length==0) { 
+				//showToast("Your storage area is empty. A random card is drawn"); 
+				createCard();
+				return;
+			}
+			let list = [];
+			cards.forEach(c => {
+				const d = c.querySelector(".status-icon.daily")
+				if (d && d.innerText != "✅") {					
+					list.push(c);
+				}
+			});
+			if (list.length == 0) {
+				//showToast("Your storage area has no daily quest card. A random card there is drawn");
+				list = cards;				
+			}
+			const rndCard = list[Math.floor(Math.random() * list.length)];
+			const data = DATAByID(rndCard.dataset.id);
+			if (!data) { showToast("Your storage area has a card with an id not found in the current collection(s)."); return; }
+			createCard(data);
 		}
 		function DATABestMatch(requiredTags, optionalTags) {
 			// 20260125: Sasha: Returns the best match in an array of items, where item.t has an array of tags in upper case.
@@ -5336,7 +5418,7 @@
 				card.style.opacity = "0";
 				setTimeout(() => {
 					card.remove();
-					refreshAllUI(); // Update your "Stage (X)" count in the sidebar
+					//refreshAllUI(); // Update your "Stage (X)" count in the sidebar
 					memDOM();   // Ensure the deletion is saved to localStorage
 				}, 300);
 				return true;
@@ -6111,6 +6193,7 @@
 
 			const activeCard = Multitrack().querySelector(".card.is-active");
 			if (!activeCard) { return; }
+			const card = new Card(activeCard);
 			//SPEC("20260218082357", "Evelyn", "Set the card to pinned when saving.")
 			//if (bByUser) { activeCard.classList.toggle("pinned", true); }
 
@@ -6132,9 +6215,11 @@
 			activeCard.dataset.o = encodeURIComponent(document.getElementById('card-notes').value);
 			activeCard.dataset.p = document.getElementById('card-id').value.trim();
 			activeCard.dataset.s = Number(document.getElementById('card-scale').value.trim());
-			activeCard.dataset.u = document.getElementById('card-path-url').value.trim();
+			card.updateU(document.getElementById('card-path-url').value.trim());
 			activeCard.dataset.x = Number(document.getElementById('card-x-offset').value.trim());
 			activeCard.dataset.y = Number(document.getElementById('card-y-offset').value.trim());
+
+
 
 			const cardNotes = document.getElementById("card-notes");
 			cardNotes.dataset.original = activeCard.dataset.o;
@@ -6176,26 +6261,26 @@
 			const elCosmicTA = document.getElementById('card-cosmic-script');
 			const cosmicScript = decodeURIComponent(data.cosmic) || "";
 
-			if(panelScript == cosmicScript){
+			if (panelScript == cosmicScript) {
 				// If the script is the same as cosmic, update the b number and clear the v number.
 				b = "";
 				document.getElementById('card-base').value = data.a;
 				document.getElementById('card-ver').value = ""
 				activeCardData.b = "";
 				activeCardData.v = data.a;
-				if(card){
+				if (card) {
 					card.dataset.b = data.a.trim();
 					card.dataset.v = "";
 				}
-			}else if (Number(b) < Number(data.a) && panelScript != cosmicScript) {
-				
-					if (await showConfirm("Your changes are saved locally, but it seems that you modified an older version of the script.<hr>Your:  " + UTCshowLocal(b) + "<br>Latest:" + UTCshowLocal(data.a) + "<hr>[Yes] to see the differences<br>[No] to  update the base number.")) {
+			} else if (Number(b) < Number(data.a) && panelScript != cosmicScript) {
+
+				if (await showConfirm("Your changes are saved locally, but it seems that you modified an older version of the script.<hr>Your:  " + UTCshowLocal(b) + "<br>Latest:" + UTCshowLocal(data.a) + "<hr>[Yes] to see the differences<br>[No] to  update the base number.")) {
 					elCosmicTA.value = cosmicScript || "";
 					CosmicComparisonView(true);
 					TextAreaHLFirstDiff("card-script", 'card-cosmic-script');
 					return;
 				}
-				
+
 				if (card) {
 					card.dataset.b = data.a.trim();
 				}
@@ -7779,7 +7864,7 @@
 				}
 
 				await navigator.clipboard.writeText(outputRows.join('\n'));
-				alert(`Successfully processed ${outputRows.length} lines!`);
+				showToast(`Successfully processed ${outputRows.length} lines!`);
 
 			} catch (err) {
 				alert("Error accessing clipboard: " + err.message);
@@ -9616,11 +9701,7 @@
 		function toggleTagCloud(e) {
 			e.stopPropagation();
 			const c = document.getElementById('tag-cloud');
-			if (c.checkVisibility() && SidebarVisible()) {
-				c.classList.remove("active");
-			} else {
-				c.classList.add("active");
-			}
+			c.classList.toggle('active');
 		}
 		function cycleViewMode() {
 			const bodyWrap = document.getElementById('body-wrap');
@@ -9685,7 +9766,7 @@
 
 		// Call this inside your showSpeech() function
 		function updateGridCols(v) {
-			document.documentElement.style.setProperty('--grid-cols', v);			
+			document.documentElement.style.setProperty('--grid-cols', v);
 			//document.documentElement.style.setProperty('--scroll-height', v + 'px');
 			localStorage.setItem('gallery_cols', v);
 		}

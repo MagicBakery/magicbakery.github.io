@@ -444,7 +444,10 @@
     ],
     "p": "20260131093500",
     "u": "https://substackcdn.com/image/fetch/$s_!GHzq!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F18af1032-922d-44e2-b842-4f8d7dcbdc08_1536x1024.jpeg",
-    "v": "20260220060511"
+    "v": "20260220060511",
+    "s": 0,
+    "x": 0,
+    "y": 0
   },
   {
     "n": "HELEN_HOMESTEAD_KIDS_FARMING_AUTUMN",
@@ -519,11 +522,11 @@
     ],
     "p": "20260131093602",
     "u": "https://substackcdn.com/image/fetch/$s_!qCWv!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F45c43f2d-c438-419e-a2a3-f03b1279eefd_1536x1024.jpeg",
-    "c": "!END%0A%23Analytics%23%0A%5B%5D%2020260217140519%20Black%3A%20impact%20credit%20chain%0A%0A%23Backend%23%0A%5B%5D%2020260216082754%20%40Ivy%3A%20Windows%20file%20system%20upgrade%0A%0A%23Console%23%0A%5B%5D%2020260216082631%20%40Ivy%3A%20Command%20console%0A%5B%5D%2020260216082712%20%40Ivy%3A%20Memory%20usage%20check%0A%0A%23Diagnostics%23%0A*%5B%5D%2020260223184147%20%40Sylvia%3A%20Gemini's%20code%20can%20finish.%0A*%5B%5D%2020260223182212%20%40Evelyn%3A%20Add%20a%20way%20to%20show%20how%20much%20local%20storage%20memory%20is%20left%20for%20the%20user.%0A%0A%23IndexedDB%23%0A*%5B%5D20260226000458%20%40Sylvia%3A%20Should%20the%20app%20use%20IndexedDB%20for%20something%3F%0A*%5B%5D%2020260212161737%20%40Natalie%3A%20Upgrade%20the%20Google%20sheet%20form%20to%20an%20App%20Script%20form%20to%20change%20how%20it%20looks.%0A*%5B%5D%2020260223185623%20%40Sylvia%3A%20Gemini%3A%20Localstorage%20counts%20UTF-16%20characters%20instead%20of%20bytes%2C%205MB%20left%20means%205%20million%20UTF-16%20characters%20left.%0A%0A%0A%23Query%23%0A*%5B%5D%2020260208035425%20%40LRRH%3A%20A%20choice%20query%20where%20each%20response%20is%20shown%20first%20as%20a%20notice.%0A*%5B%5D%2020260220174937%20%40Ivy%3A%20I'm%20glad%20that%20people%20understand%20they%20are%20misusing%20a%20notepad%20for%20a%20proper%20query%20list.%0A*%5B%5D%2020260220175126%20%40Natalie%3A%20I%20don't%20think%20it%20is%20misuse%2C%20but%20to%20make%20sure%20that%20something%20is%20working%20before%20making%20the%20next%20change.%20We%20can%20use%20query%20on%20the%20button%20search%20list.%0A*%5B%5D%2020260220175253%20%40Ivy%3A%20You%20are%20spending%20time%20trying%20to%20sharpen%20a%20fork%20into%20a%20knife%20when%20you%20could%20just%20spend%20the%20same%20time%20making%20a%20proper%20knife.%0A*%5B%5D%2020260220171501%20%40Tanya%3A%20Message%20array%20-based%20editor%20so%20that%20by%20default%20each%20%22line%22%20is%20collapsible.%0A%0A%23Refactoring%23%0A*%5B%5D%2020260209155650%20%40Evelyn%3A%20Need%20a%20quest%20to%20remove%20from%20CSS%20the%20parts%20that%20are%20not%20needed%20to%20distill%20the%20code%20so%20that%20it%20is%20easier%20to%20debug%20and%20modify.%0A",
+    "c": "!END%0A%23Analytics%23%0A%5B%5D%2020260217140519%20Black%3A%20impact%20credit%20chain%0A%0A%23Backend%23%0A%5B%5D%2020260216082754%20%40Ivy%3A%20Windows%20file%20system%20upgrade%0A%0A%23Console%23%0A%5B%5D%2020260216082631%20%40Ivy%3A%20Command%20console%0A%5B%5D%2020260216082712%20%40Ivy%3A%20Memory%20usage%20check%0A%0A%23Diagnostics%23%0A*%5B%5D%2020260223184147%20%40Sylvia%3A%20Gemini's%20code%20can%20finish.%0A*%5B%5D%2020260223182212%20%40Evelyn%3A%20Add%20a%20way%20to%20show%20how%20much%20local%20storage%20memory%20is%20left%20for%20the%20user.%0A%0A%23IndexedDB%23%0A*%5B%5D20260226120524%20%40Evelyn%3A%20Implement%20IndexedDB%20for%20entries%20so%20that%20merging%20becomes%20more%20seamless.%0A*%5B%5D20260226121532%20%40Skyle%3A%20Store%20collections%20in%20IndexedDB%20so%20the%20user%20doesn't%20need%20to%20attach%20local%20packs%20every%20refresh.%0A*%5B%5D20260226000458%20%40Sylvia%3A%20Should%20the%20app%20use%20IndexedDB%20for%20something%3F%0A*%5B%5D%2020260212161737%20%40Natalie%3A%20Upgrade%20the%20Google%20sheet%20form%20to%20an%20App%20Script%20form%20to%20change%20how%20it%20looks.%0A*%5B%5D%2020260223185623%20%40Sylvia%3A%20Gemini%3A%20Localstorage%20counts%20UTF-16%20characters%20instead%20of%20bytes%2C%205MB%20left%20means%205%20million%20UTF-16%20characters%20left.%0A%0A%0A%23Query%23%0A*%5B%5D%2020260208035425%20%40LRRH%3A%20A%20choice%20query%20where%20each%20response%20is%20shown%20first%20as%20a%20notice.%0A*%5B%5D%2020260220174937%20%40Ivy%3A%20I'm%20glad%20that%20people%20understand%20they%20are%20misusing%20a%20notepad%20for%20a%20proper%20query%20list.%0A*%5B%5D%2020260220175126%20%40Natalie%3A%20I%20don't%20think%20it%20is%20misuse%2C%20but%20to%20make%20sure%20that%20something%20is%20working%20before%20making%20the%20next%20change.%20We%20can%20use%20query%20on%20the%20button%20search%20list.%0A*%5B%5D%2020260220175253%20%40Ivy%3A%20You%20are%20spending%20time%20trying%20to%20sharpen%20a%20fork%20into%20a%20knife%20when%20you%20could%20just%20spend%20the%20same%20time%20making%20a%20proper%20knife.%0A*%5B%5D%2020260220171501%20%40Tanya%3A%20Message%20array%20-based%20editor%20so%20that%20by%20default%20each%20%22line%22%20is%20collapsible.%0A%0A%23Refactoring%23%0A*%5B%5D%2020260209155650%20%40Evelyn%3A%20Need%20a%20quest%20to%20remove%20from%20CSS%20the%20parts%20that%20are%20not%20needed%20to%20distill%20the%20code%20so%20that%20it%20is%20easier%20to%20debug%20and%20modify.%0A",
     "s": 0,
     "x": 0,
     "y": 0,
-    "v": "20260226081611"
+    "v": "20260227061349"
   },
   {
     "n": "JAO_LUNCH",
@@ -900,7 +903,10 @@
     ],
     "p": "20260131093903",
     "u": "https://substackcdn.com/image/fetch/$s_!E2m3!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe5b094ce-00e4-4e91-b4ab-a412e04b54f0_1024x1024.jpeg",
-    "v": "20260220060511"
+    "v": "20260220060511",
+    "s": 0,
+    "x": 0,
+    "y": 0
   },
   {
     "n": "SASHA_DETECTIVE_OFFICE_NIGHT",
@@ -1120,7 +1126,10 @@
     ],
     "p": "20260131113000",
     "u": "https://substackcdn.com/image/fetch/$s_!xsGy!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F61b68ab6-5828-4406-9996-fa1e5554773c_1536x1024.jpeg",
-    "v": "20260220060511"
+    "v": "20260220060511",
+    "s": 0,
+    "x": 0,
+    "y": 0
   },
   {
     "n": "JAMES_LISTEN",
@@ -1161,7 +1170,10 @@
     ],
     "p": "20260131194100",
     "u": "https://substackcdn.com/image/fetch/$s_!FM-1!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F905ed34a-099f-40a7-a686-a818256643e9_1280x853.png",
-    "v": "20260220060511"
+    "v": "20260220060511",
+    "s": 0,
+    "x": 0,
+    "y": 0
   },
   {
     "n": "FOREST_HALL",
@@ -1295,7 +1307,10 @@
     ],
     "p": "20260131212200",
     "u": "https://substackcdn.com/image/fetch/$s_!M4cn!,w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F973249e7-7c57-4451-b6c3-8939b27a5b5e_1024x1024.jpeg",
-    "v": "20260220060511"
+    "v": "20260220060511",
+    "s": 0,
+    "x": 0,
+    "y": 0
   },
   {
     "n": "LRRH_FIRE_DRAGON_HATCHLING",
