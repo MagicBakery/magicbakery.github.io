@@ -3842,11 +3842,6 @@
 								stroke-width="10" />
 						</svg>
 					</button>
-					<button class="tool-btn" title="Put Away" onclick="ActiveCardStow()">
-						<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-							<path d="M50 0L50 70M20 40L50 70 L80 40M0 50L0 100L100 100L100 50" fill="red" stroke="red"
-								stroke-width="10" />
-						</svg>
 					</button>
 					<!--Removal Mode Button-->
 					<button class="tool-btn removal-mode-btn" onclick="toggleRemovalMode(this)" ondblclick="clearWorkspace(event)"
@@ -4334,10 +4329,13 @@
 			const ac = getActiveCard();
 			if (!ac) { return; }
 			const card = new Card(ac);
-			if (card.seemsImportant()) {
+			const reason = card.seemsImportant();
+			if (reason) {
+				showToast(reason + " It is put in storage.")
 				card.sendToStorage();
 			} else {
 				card.el.remove();
+				card.updateAssetListStatus(false);
 			}
 		}
 		/**
@@ -4853,8 +4851,12 @@
 			}
 			const rndCard = list[Math.floor(Math.random() * list.length)];
 			const data = DATAByID(rndCard.dataset.id);
-			if (!data) { showToast("Your storage area has a card with an id not found in the current collection(s)."); return; }
-			createCard(data);
+			if (data) { 
+				//showToast("Your storage area has a card with an id not found in the current collection(s)."); return; }
+				createCard(rndCard);
+			}else{
+				createCard(data);
+			}
 		}
 		function DATABestMatch(requiredTags, optionalTags) {
 			// 20260125: Sasha: Returns the best match in an array of items, where item.t has an array of tags in upper case.
