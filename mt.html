@@ -2232,7 +2232,6 @@
 			overflow: hidden;
 			display: block;
 		}
-
 		.grid-view .file-item img {
 			width: 100%;
 			height: 100%;
@@ -2268,7 +2267,6 @@
 			height: var(--scroll-height);
 			scroll-snap-type: x mandatory;
 		}
-
 		.side-scroll-view .file-item {
 			border: 1px solid var(--border);
 			border-radius: 6px;
@@ -2280,7 +2278,6 @@
 			overflow: visible;
 			background: transparent;
 		}
-
 		.side-scroll-view img {
 			height: 100%;
 			width: auto;
@@ -3091,7 +3088,7 @@
 					</button>-->
 					<button class="sq-btn dimmer"></button>
 					<!--Remove Mode Button-->
-					<button id="remove-mode-btn" class="sq-btn action-btn removal-mode-btn" onclick="toggleRemovalMode(this)"
+					<button id="remove-mode-btn" class="sq-btn action-btn removal-mode-btn" onclick="RemovalButton()"
 						ondblclick="clearWorkspace(event)" title="Toggle Removal Mode">
 						<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
 							<path d="M20,20 L80,80 M80,20 L20,80" fill="none" stroke="currentColor" stroke-width="8" />
@@ -3176,7 +3173,6 @@
 					</svg>
 				</button>
 				<!--Daily Quest Button-->
-				
 				<button class="tool-btn daily" onclick="DailyQuestReg()" title="Mark for Daily Quest">
 					<svg width="48" height="36" viewBox="1 1 18 18" fill="none" stroke="currentColor" stroke-width="1.5"
 						stroke-linecap="round">
@@ -3187,7 +3183,6 @@
 						<circle cx="10" cy="10" r="5" stroke-width="2" fill="currentColor" />
 					</svg>
 				</button>
-
 				<!--Urgency Squares / Caption-->
 				<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y:auto;height:36px;">
 					<button class="tool-btn none" onclick="StatusReg('none')" title="Add Caption">
@@ -3266,7 +3261,6 @@
 					</button>
 				</div>
 				<div style="flex:1"></div>
-
 			</div>
 			<div id="tab-card-notes" class="block-when-active"
 				onkeydown="if (event.key.toLowerCase() === 's' && (event.ctrlKey || event.metaKey)) {event.preventDefault();saveCardNotes(event,true);}">
@@ -3359,7 +3353,7 @@
 								</svg>
 							</button>
 						</div>
-
+						
 						<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
 							<button class="tool-btn" onclick="NoteLineSwap(true)" title="Move line up">
 								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
@@ -3767,7 +3761,6 @@
 						style="display: none;" title="Save changes to this card">
 				</button>
 				<!--Status Tab Button-->
-
 				<button id="status-bar-btn-1" class="tool-btn star-btn active flex-when-active"
 					onclick="ToggleByID(this,'card-status-bar');ToggleByID(this,'status-bar-btn-1');ToggleByID(this,'status-bar-btn-2')"
 					title="Star Active Card">
@@ -3776,8 +3769,6 @@
 						<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
 					</svg>
 				</button>
-
-
 				<button id="status-bar-btn-2" class="tool-btn flex-when-active"
 					onclick="ToggleByID(this,'card-status-bar');ToggleByID(this,'status-bar-btn-1');ToggleByID(this,'status-bar-btn-2')"
 					title="Details">
@@ -3844,7 +3835,7 @@
 					</button>
 					</button>
 					<!--Removal Mode Button-->
-					<button class="tool-btn removal-mode-btn" onclick="toggleRemovalMode(this)" ondblclick="clearWorkspace(event)"
+					<button class="tool-btn removal-mode-btn" onclick="RemovalButton(event)" ondblclick="clearWorkspace(event)"
 						title="Toggle Removal Mode">
 						<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
 							<path d="M20,20 L80,80 M80,20 L20,80" fill="none" stroke="currentColor" stroke-width="8" />
@@ -3917,7 +3908,7 @@
 		</button>
 	</div>
 	<div id="bottom-menu-items" class="bottom-menu-panel">		
-		<button class="sq-btn dim" onclick="toggleRemovalMode(this)" title="Removal Mode">✕</button>	
+		<button class="sq-btn dim" onclick="RemovalButton()" title="Removal Mode">✕</button>	
 		<button id="mode-toggle" class="sq-btn active-gold" onclick="toggleScrollMode()" title="Scroll Wheel Direction">
 					<div class="icon-h"></div>
 				</button>	
@@ -3983,8 +3974,8 @@
 				if (this.el.dataset.v && this.el.dataset.v.trim() != "") {
 					return "This card has a last modified UTC version stamp " + this.el.dataset.v + ", which is " + UTCshowLocal(this.el.dataset.v) + " in your local time.";
 				}
-
-
+				
+				
 				return "";
 			}
 			sendToStorage() {
@@ -4000,6 +3991,7 @@
 				const fi = document.querySelector(`.file-item[data-id="${this.el.dataset.id}"]`);
 				if (!fi) { return; }
 				fi.classList.toggle('storage-item', bInStorage);
+				refreshAllUI();
 			}
 			updateU(u) {
 				if (u === this.el.dataset.u) { return; }
@@ -4496,13 +4488,13 @@
 			ta.selectionStart = ta.selectionEnd = endLine + 1;
 			TextAreaScrollTo(ta.id);
 		}
-		function Bookmarks(bUseEqual, bUsePond) {
+		function Bookmarks(bUseEqual,bUsePond) {
 			const bm = document.getElementById('card-toc');
-			const curUseEqual = (bm.dataset.useEqual === "true");
-			const curUsePond = (bm.dataset.usePond === "true");
-			if (bm.innerHTML == "" || !bm.classList.contains('active') || (curUseEqual != bUseEqual) || (curUsePond != bUsePond)) {
+			const curUseEqual = (bm.dataset.useEqual==="true");
+			const curUsePond  = (bm.dataset.usePond ==="true");
+			if(bm.innerHTML=="" || !bm.classList.contains('active') || (curUseEqual != bUseEqual) || (curUsePond != bUsePond)){
 				bm.classList.add('active');
-			} else {
+			}else{
 				bm.classList.remove('active');
 			}
 			bm.dataset.useEqual = bUseEqual;
@@ -4510,7 +4502,7 @@
 
 			SPEC("20260224232842", "Evelyn", "When shown, make a jump button for each bookmark of the textarea in focus.");
 			const elSrc = document.querySelector(".card-textarea.infocus");
-			if (!elSrc) { showToast("Please first select a textarea."); return; }
+			if (!elSrc) { showToast("Please first select a textarea.");return;}
 			let html = "";
 			const lines = elSrc.value.split('\n');
 			lines.forEach(line => {
@@ -4518,7 +4510,7 @@
 				const rawLine = line;
 				const fc = line.slice(0, 1);
 				const lc = line.slice(line.length - 1);
-				if ((line.startsWith('=#') && line.endsWith('#=')) || (bUsePond && (fc === "#" && lc === "#")) || (bUseEqual && (fc === "=" && lc === "="))) {
+				if ((line.startsWith('=#') && line.endsWith('#=')) ||  (bUsePond&&(fc === "#" && lc === "#")) || (bUseEqual && (fc === "=" && lc === "="))) {
 					line = line.replaceAll('#', '').trim();
 					line = line.replaceAll('=', '').trim();
 					if (line.length == 0) { return; }
@@ -4761,7 +4753,6 @@
 			document.getElementById('card-cosmic-script').classList.toggle('active', bShow);
 			document.getElementById('card-comparison-btns').classList.toggle('active', bShow);
 		}
-
 		function DailyQuestCheck() {
 			SPEC("20260214152700", "Skyle", "Reset all the checked daily quest icons.");
 			const digit = 8;
@@ -4830,8 +4821,8 @@
 			if (!sr) { 
 				//showToast("Your storage area is empty. A random card is drawn"); 
 				createCard();
-			return; 
-		}
+				return; 
+			}
 			const cards = sr.querySelectorAll(".card");
 			if (cards.length==0) { 
 				//showToast("Your storage area is empty. A random card is drawn"); 
@@ -4992,7 +4983,6 @@
 			const err = new Error();
 			const stack = err.stack.split('\n');
 			const callerLine = stack[2].trim();
-			console.log(`[${callerLine}]`, msg);
 			// Show Toast if the callierLine contains "file:///"
 			if (callerLine.indexOf('file:///') > -1) {
 				showToast(`[${callerLine}] ${msg}`);
@@ -5337,7 +5327,12 @@
 		async function fairyRemovalCheck(e) {
 			// 20251226: StarTree: Handle element removal
 			// Returns true if the click is processed.
-			if (!isRemovalMode) return false;
+			const rMode = document.body.dataset.removalMode;
+			if(!rMode || rMode<1){return false;}
+			if(rMode==1){
+				RemovalButton(null,true);
+			}
+			
 			const tagPill = e.target.closest('.tag-pill');
 			if (tagPill) {
 				e.stopPropagation();
@@ -5366,7 +5361,7 @@
 						showToast(`Bulk removed tag: ${t}`);
 					}
 				}
-
+				
 				refreshAllUI();
 				renderCardTags(); // Sync the command panel
 				memDOM();
@@ -5420,7 +5415,7 @@
 				card.style.opacity = "0";
 				setTimeout(() => {
 					card.remove();
-					//refreshAllUI(); // Update your "Stage (X)" count in the sidebar
+					refreshAllUI(); // Update your "Stage (X)" count in the sidebar
 					memDOM();   // Ensure the deletion is saved to localStorage
 				}, 300);
 				return true;
@@ -6169,6 +6164,22 @@
 			soundMap[name].add(key);
 			DEBUG(`Mapping added: ${name} -> ${key}`, true);
 		}
+		function RemovalButton(e,bReset){
+			// 20251226: StarTree, Gemini
+			e?.stopPropagation();
+			SPEC("20260227151310","LRRH","Cycle between single and multiple removal mode");
+			// The first time the button is clicked, it goes to single removal mode where it exits the mode when one item is removed.
+			// While in single removal mode, if the user clicks on the button again, it goes to multi-removal mode where the button stays in that mode until it is clicked again.
+			let rMode = 0;
+			if(!bReset){rMode = (Number(document.body.dataset.removalMode || 0) + 1)%3;}
+			document.body.dataset.removalMode = rMode;
+			document.body.classList.toggle('removal-mode', rMode > 0);
+			switch(rMode){
+				case 0: showToast("Removal mode OFF"); break;
+				case 1: showToast("Single removal mode ON"); break;
+				case 2: showToast("Multi removal mode ON"); break;
+			}
+		}
 		function renderCardTags() {
 			const container = document.getElementById('card-tag-list');
 			if (!container) return;
@@ -6221,8 +6232,6 @@
 			activeCard.dataset.x = Number(document.getElementById('card-x-offset').value.trim());
 			activeCard.dataset.y = Number(document.getElementById('card-y-offset').value.trim());
 
-
-
 			const cardNotes = document.getElementById("card-notes");
 			cardNotes.dataset.original = activeCard.dataset.o;
 			cardNotes.classList.remove("unsaved");
@@ -6263,26 +6272,26 @@
 			const elCosmicTA = document.getElementById('card-cosmic-script');
 			const cosmicScript = decodeURIComponent(data.cosmic) || "";
 
-			if (panelScript == cosmicScript) {
+			if(panelScript == cosmicScript){
 				// If the script is the same as cosmic, update the b number and clear the v number.
 				b = "";
 				document.getElementById('card-base').value = data.a;
 				document.getElementById('card-ver').value = ""
 				activeCardData.b = "";
 				activeCardData.v = data.a;
-				if (card) {
+				if(card){
 					card.dataset.b = data.a.trim();
 					card.dataset.v = "";
 				}
-			} else if (Number(b) < Number(data.a) && panelScript != cosmicScript) {
-
+			}else if (Number(b) < Number(data.a) && panelScript != cosmicScript) {
+				
 				if (await showConfirm("Your changes are saved locally, but it seems that you modified an older version of the script.<hr>Your:  " + UTCshowLocal(b) + "<br>Latest:" + UTCshowLocal(data.a) + "<hr>[Yes] to see the differences<br>[No] to  update the base number.")) {
 					elCosmicTA.value = cosmicScript || "";
 					CosmicComparisonView(true);
 					TextAreaHLFirstDiff("card-script", 'card-cosmic-script');
 					return;
 				}
-
+				
 				if (card) {
 					card.dataset.b = data.a.trim();
 				}
@@ -6669,7 +6678,7 @@
 			if (bClicked && scriptStart == scriptEnd) {
 				// 20260212: Arcacia: When the choice list is empty but there is a bubble, the message should tell the user to click on a bubble to reveal a choice.
 				//showToast('Please choose.\n(You might need to find and click on a bubble first.)');
-				const toastMsg = ['Please choose.', 'Please make a choice.'];
+				const toastMsg = ['Please choose an option then click the play button.', 'Please make a choice then click the play button.'];
 
 				showToast(toastMsg[Math.floor(Math.random() * toastMsg.length)]);
 			}
@@ -7715,15 +7724,6 @@
 			} else {
 				console.warn("No active card ;found to pin.");
 			}
-		}
-		function toggleRemovalMode(btn) {
-			// 20251226: StarTree, Gemini
-			isRemovalMode = !isRemovalMode;
-			// Toggle visual state of the button
-			btn.classList.toggle('removal-active', isRemovalMode);
-			// Toggle a class on the body so CSS can change card appearances
-			document.body.classList.toggle('removal-mode', isRemovalMode);
-			showToast(isRemovalMode ? "REMOVAL MODE: ON" : "REMOVAL MODE: OFF");
 		}
 		function toggleTab(e, aID) {
 			SPEC("202602151723", "Patricia", "If the tab is already shown, hide it.")
