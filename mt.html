@@ -8705,8 +8705,12 @@
 
 			const tags = new Set();
 			DATA.forEach(item => {
+				if(!item.v){
+					item.v = item.p;
+				}
 				if (!item.a) {
 					item.a = item.v;
+					
 					item.cosmic = item.c || "";
 				}
 				if (item.t && Array.isArray(item.t)) {
