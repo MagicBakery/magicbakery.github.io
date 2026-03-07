@@ -1757,5 +1757,19 @@
     "x": 301,
     "y": 30,
     "v": "20260306225400"
+  },
+  {
+    "n": "VLADANYA",
+    "t": [
+      "VLADANYA",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260307000100",
+    "u": "https://magicbakery.github.io/sprites/Vladanya_%7B20260307000100%7D.png",
+    "v": "20260307000100",
+    "s": 530,
+    "x": 284,
+    "y": 59
   }
 ]
