@@ -1457,7 +1457,7 @@
     ],
     "p": "20260205005700",
     "u": "https://magicbakery.github.io/sprites/Skyle_Listen_%7B20260205005700%7D.png",
-    "s": 760,
+    "s": 750,
     "x": 221,
     "y": 64,
     "v": "20260220060511"
@@ -1626,7 +1626,7 @@
     ],
     "p": "20260210230000",
     "u": "https://magicbakery.github.io/sprites/Koyo_%7B20260210230000%7D.png",
-    "s": 510,
+    "s": 520,
     "x": 183,
     "y": 48,
     "v": "20260210230000"
@@ -1655,7 +1655,8 @@
       "[STARTER PACK]"
     ],
     "p": "20260306212600",
-    "u": "https://substackcdn.com/image/fetch/$s_!f80W!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5fcc2a03-5ed4-4b0f-81c2-61100fecf7cf_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!f80W!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5fcc2a03-5ed4-4b0f-81c2-61100fecf7cf_1536x1024.jpeg",
+    "v": "20260306212600"
   },
   {
     "n": "GAIA_COUNCIL",
@@ -1666,7 +1667,8 @@
       "[STARTER PACK]"
     ],
     "p": "20260306212700",
-    "u": "https://substackcdn.com/image/fetch/$s_!OlPp!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffccf024c-b98c-4504-97f8-a7500ac0b38d_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!OlPp!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffccf024c-b98c-4504-97f8-a7500ac0b38d_1536x1024.jpeg",
+    "v": "20260306212700"
   },
   {
     "n": "GAIA_COUNCIL",
@@ -1677,7 +1679,8 @@
       "[STARTER PACK]"
     ],
     "p": "20260306212900",
-    "u": "https://substackcdn.com/image/fetch/$s_!6Uy_!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe34a51dc-54e2-4a71-b80d-13cb447935f2_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!6Uy_!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe34a51dc-54e2-4a71-b80d-13cb447935f2_1536x1024.jpeg",
+    "v": "20260306212900"
   },
   {
     "n": "GAIA_COUNCIL",
@@ -1688,7 +1691,8 @@
       "[STARTER PACK]"
     ],
     "p": "20260306213000",
-    "u": "https://substackcdn.com/image/fetch/$s_!P0nR!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd8d7f37f-d0d3-4fb5-a552-1fdf57e9d404_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!P0nR!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd8d7f37f-d0d3-4fb5-a552-1fdf57e9d404_1536x1024.jpeg",
+    "v": "20260306213000"
   },
   {
     "n": "GUILD_HALL",
@@ -1699,7 +1703,8 @@
       "[STARTER PACK]"
     ],
     "p": "20260306213800",
-    "u": "https://substackcdn.com/image/fetch/$s_!H89Z!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0e820440-059e-447b-8d5d-8c1af14d8b6f_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!H89Z!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0e820440-059e-447b-8d5d-8c1af14d8b6f_1536x1024.jpeg",
+    "v": "20260306213800"
   },
   {
     "n": "GUILD_HALL",
@@ -1710,7 +1715,8 @@
       "[STARTER PACK]"
     ],
     "p": "20260306213801",
-    "u": "https://substackcdn.com/image/fetch/$s_!Zc_h!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F974efadc-880b-4fed-84b3-7f1f64f42d51_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!Zc_h!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F974efadc-880b-4fed-84b3-7f1f64f42d51_1536x1024.jpeg",
+    "v": "20260306213801"
   },
   {
     "n": "GUILD_HALL",
@@ -1721,7 +1727,8 @@
       "[STARTER PACK]"
     ],
     "p": "20260306213802",
-    "u": "https://substackcdn.com/image/fetch/$s_!RSNP!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F598925af-4f64-4d7d-8d7f-128aa6a7b3dd_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!RSNP!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F598925af-4f64-4d7d-8d7f-128aa6a7b3dd_1536x1024.jpeg",
+    "v": "20260306213802"
   },
   {
     "n": "PATRICIA",
@@ -1732,8 +1739,23 @@
     ],
     "p": "20260306215800",
     "u": "https://magicbakery.github.io/sprites/Patricia_%7B20260306215800%7D.png",
-    "s": 545.0,
-    "x": 164.0,
-    "y": 38.0
+    "s": 660,
+    "x": 310,
+    "y": 48,
+    "v": "20260306215800"
+  },
+  {
+    "n": "SYLVIA",
+    "t": [
+      "SYLVIA",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260306225400",
+    "u": "https://magicbakery.github.io/sprites/Sylvia_%7B20260306225400%7D.png",
+    "s": 690,
+    "x": 301,
+    "y": 30,
+    "v": "20260306225400"
   }
 ]
