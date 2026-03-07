@@ -1643,6 +1643,98 @@
     "s": 545,
     "x": 164,
     "y": 38,
-    "v": "20260305232400"
+    "v": "20260306181125",
+    "c": "!End%0APrompt%3A%20Entertaining%20attractive%20stunning%20whimsical%20Isekai%20medieval%20vibrant%20anime%20digital%20illustration.%20kid%20safe.%20brown%20long%20hair%2C%20squirrel%20ears%2C%20squirrel%20tail%2C%20eye%20glasses.%20guild%20girl.%20smiling.%20holding%20a%20small%20stack%20of%20paperwork."
+  },
+  {
+    "n": "GAIA_COUNCIL",
+    "t": [
+      "COUNCIL",
+      "GAIA",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260306212600",
+    "u": "https://substackcdn.com/image/fetch/$s_!f80W!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5fcc2a03-5ed4-4b0f-81c2-61100fecf7cf_1536x1024.jpeg"
+  },
+  {
+    "n": "GAIA_COUNCIL",
+    "t": [
+      "COUNCIL",
+      "GAIA",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260306212700",
+    "u": "https://substackcdn.com/image/fetch/$s_!OlPp!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffccf024c-b98c-4504-97f8-a7500ac0b38d_1536x1024.jpeg"
+  },
+  {
+    "n": "GAIA_COUNCIL",
+    "t": [
+      "COUNCIL",
+      "GAIA",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260306212900",
+    "u": "https://substackcdn.com/image/fetch/$s_!6Uy_!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe34a51dc-54e2-4a71-b80d-13cb447935f2_1536x1024.jpeg"
+  },
+  {
+    "n": "GAIA_COUNCIL",
+    "t": [
+      "COUNCIL",
+      "GAIA",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260306213000",
+    "u": "https://substackcdn.com/image/fetch/$s_!P0nR!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd8d7f37f-d0d3-4fb5-a552-1fdf57e9d404_1536x1024.jpeg"
+  },
+  {
+    "n": "GUILD_HALL",
+    "t": [
+      "GUILD",
+      "HALL",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260306213800",
+    "u": "https://substackcdn.com/image/fetch/$s_!H89Z!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0e820440-059e-447b-8d5d-8c1af14d8b6f_1536x1024.jpeg"
+  },
+  {
+    "n": "GUILD_HALL",
+    "t": [
+      "GUILD",
+      "HALL",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260306213801",
+    "u": "https://substackcdn.com/image/fetch/$s_!Zc_h!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F974efadc-880b-4fed-84b3-7f1f64f42d51_1536x1024.jpeg"
+  },
+  {
+    "n": "GUILD_HALL",
+    "t": [
+      "GUILD",
+      "HALL",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260306213802",
+    "u": "https://substackcdn.com/image/fetch/$s_!RSNP!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F598925af-4f64-4d7d-8d7f-128aa6a7b3dd_1536x1024.jpeg"
+  },
+  {
+    "n": "PATRICIA",
+    "t": [
+      "PATRICIA",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260306215800",
+    "u": "https://magicbakery.github.io/sprites/Patricia_%7B20260306215800%7D.png",
+    "s": 545.0,
+    "x": 164.0,
+    "y": 38.0
   }
+]
 ]
