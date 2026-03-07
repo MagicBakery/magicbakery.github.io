@@ -6743,7 +6743,8 @@
 						scriptToRun = elNotes.value;
 						elSource = elNotes;
 					}
-					if (elButton) { elSource.focus(); }
+					//if (elButton) { elSource.blur(); }
+					
 					SPEC("20260214105600", "Natalie", "If the user has text selected, start the run at that line.");
 					if (elSource.selectionStart !== elSource.selectionEnd) {
 						const startIndex = elSource.value.lastIndexOf('\n', elSource.selectionStart - 1);
@@ -8710,7 +8711,6 @@
 				}
 				if (!item.a) {
 					item.a = item.v;
-					
 					item.cosmic = item.c || "";
 				}
 				if (item.t && Array.isArray(item.t)) {
