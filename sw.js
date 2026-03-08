@@ -1,5 +1,5 @@
 // Change this every time you deploy new assets
-const CACHE_NAME = 'mt-app-20260227-0121';
+const CACHE_NAME = 'mt-app-20260308-0411';
 const ASSETS_TO_CACHE = [
   '/',           // The root URL
   '/mt.html',     // Your main app file
