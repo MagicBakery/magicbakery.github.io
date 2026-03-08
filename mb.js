@@ -1515,13 +1515,13 @@ function PanelToggleServe(el){
     aIcon=mPanelList[i].firstElementChild.lastElementChild.previousElementSibling;
     
     // STEP: If the target panel's icon is not a plate, change it to plate.
-    if((mPanelList[i]==mTargetPanel) && (aIcon.innerHTML != "🥞")){
+    if((mPanelList[i]==mTargetPanel) && (!aIcon.innerHTML.includes("🥞"))){
       mPanelList[i].setAttribute('serve',"");
-      aIcon.innerHTML = "🥞";
+      aIcon.innerHTML = MacroIcons(null,"🥞");
     }else{
       // STEP: Else, set the icon back to bread.
       mPanelList[i].removeAttribute('serve');
-      aIcon.innerHTML = "🍞";
+      aIcon.innerHTML = MacroIcons(null,"🍞");
     }
   }
 }
