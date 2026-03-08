@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 
 <head>
@@ -2232,6 +2231,7 @@
 			overflow: hidden;
 			display: block;
 		}
+
 		.grid-view .file-item img {
 			width: 100%;
 			height: 100%;
@@ -2267,6 +2267,7 @@
 			height: var(--scroll-height);
 			scroll-snap-type: x mandatory;
 		}
+
 		.side-scroll-view .file-item {
 			border: 1px solid var(--border);
 			border-radius: 6px;
@@ -2278,6 +2279,7 @@
 			overflow: visible;
 			background: transparent;
 		}
+
 		.side-scroll-view img {
 			height: 100%;
 			width: auto;
@@ -3157,7 +3159,8 @@
 			</div>
 		</div>
 	</div>
-	<div id="command-panel">
+	<div id="command-panel"
+		onkeydown="if (event?.key?.toLowerCase() === 's' && (event.ctrlKey || event.metaKey)) {event.preventDefault();saveCardNotes(event,true);}">
 		<!--Float Right Elements-->
 		<div class="tabs-contents">
 			<div id="card-status-bar" class="flex-when-active">
@@ -3262,8 +3265,7 @@
 				</div>
 				<div style="flex:1"></div>
 			</div>
-			<div id="tab-card-notes" class="block-when-active"
-				onkeydown="if (event.key.toLowerCase() === 's' && (event.ctrlKey || event.metaKey)) {event.preventDefault();saveCardNotes(event,true);}">
+			<div id="tab-card-notes" class="block-when-active">
 				<div style="display:flex">
 					<input type="text" id="card-title" class="active" placeholder="Display Title" title="Title (n)"
 						style="flex:3">
@@ -3353,7 +3355,7 @@
 								</svg>
 							</button>
 						</div>
-						
+
 						<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
 							<button class="tool-btn" onclick="NoteLineSwap(true)" title="Move line up">
 								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
@@ -3462,7 +3464,7 @@
 
 				<textarea id="user-note" class="unified-width card-textarea"
 					style="resize:none;height:95px; font-size:14px;overflow-y: auto;" placeholder="Quester Notes..."
-					oninput="saveNotes(this.value)"></textarea>
+					onfocus="PanelTextareaActivate(this)" oninput="saveNotes(this.value)"></textarea>
 				<input type="text" id="dev-command" class="unified-width" style="display:none" placeholder="Command..."
 					oninput="memDEV()"
 					onkeydown="if (event.key === 'Enter' || event.keyCode === 13) {event.preventDefault(); processScriptLine(this.value)}">
@@ -3477,8 +3479,9 @@
 					</button>
 					<button class="tool-btn" onclick="smartImport(null)" title="Import">+</button>
 					<a id="add-btn" href="#" target="_blank" class="tool-btn" style="display:none" onclick="smartImport()">+</a>
-					<input type="text" id="add-url-input" class="unified-width" placeholder="Function TBD"
-						oninput="updateAddUrl(this.value)">
+					<input type="text" id="quester-dd" list="quester-dd-list" placeholder="Quester" style="flex:1"
+						onchange="QuesterDDOnChange(this,event)" onkeydown="QuesterDDOnKeydown(this,event)">
+					<datalist id="quester-dd-list"></datalist>
 					<!--#Dropdown-->
 					<input list="dropdown-options" id="dropdown" placeholder="" oninput="Dropdown(event,this)"
 						onkeydown="Dropdown(event,this)" style="flex:1 1 72px;min-width: 72px;width:100%">
@@ -3490,8 +3493,10 @@
 						<option value="🗃️ Collections">Show/hide the collections section</option>
 						<option value="☀️ Daily Quest">Mark the active card for daily quest</option>
 						<option value="📝 Development Notes">Notepad not associated to a card</option>
+						<option value="📋 Get Todo">Get the list of undone quests</option>
 						<option value="🍔 HTML Minify">Output a minified version to this</option>
 						<option value="🎩 Magic Theater">Visit Magic Theater webpage</option>
+						<option value="💎 Merge to IDB">Merge cache to IDB.</option>
 						<option value="🎲 Random Card">Add a random card to backstage</option>
 						<option value="⏯️ Script Resume">Resume playing the stage script</option>
 						<option value="⏹️ Script Stop">Stop the current stage script</option>
@@ -3781,13 +3786,13 @@
 				</button>
 				<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y:auto;height:36px;">
 					<button class="tool-btn" onclick="toggleTab(event,'asset-panel')" title="Asset List">
-					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<rect x="3" y="3" width="7" height="7"></rect>
-						<rect x="14" y="3" width="7" height="7"></rect>
-						<rect x="14" y="14" width="7" height="7"></rect>
-						<rect x="3" y="14" width="7" height="7"></rect>
-					</svg>
-				</button>
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<rect x="3" y="3" width="7" height="7"></rect>
+							<rect x="14" y="3" width="7" height="7"></rect>
+							<rect x="14" y="14" width="7" height="7"></rect>
+							<rect x="3" y="14" width="7" height="7"></rect>
+						</svg>
+					</button>
 					<button class="tool-btn" title="Show all daily quests" onclick="DailyQuestRnd()">
 						<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
 							<path d="M0 0L100 0L100 100L0 100 Z" fill="none" stroke="currentColor" stroke-width="10"></path>
@@ -3795,7 +3800,7 @@
 					</button>
 				</div>
 
-				
+
 				<!--DEV NOTES BUTTON-->
 				<button class="tool-btn" id="settings-btn" onclick="toggleTab(event, 'tab-dev-notes')" title="Developer Notes">
 					<svg viewBox="0 0 100 100">
@@ -3974,8 +3979,8 @@
 				if (this.el.dataset.v && this.el.dataset.v.trim() != "") {
 					return "This card has a last modified UTC version stamp " + this.el.dataset.v + ", which is " + UTCshowLocal(this.el.dataset.v) + " in your local time.";
 				}
-				
-				
+
+
 				return "";
 			}
 			sendToStorage() {
@@ -3999,6 +4004,159 @@
 				const aLink = this.el.querySelector("a.file-link");
 				if (!aLink) { return; }
 				aLink.href = u;
+			}
+		}
+		class IDB {
+			static instance = null;
+			static get() { return this.instance ??= new IDB(); }
+			constructor() {
+				this.ready = new Promise(res => {
+					const r = indexedDB.open("DB", 6);
+					r.onerror = e => console.error("OPEN ERROR:", e.target.error);
+
+					r.onupgradeneeded = e => {
+						const db = e.target.result;
+						let store;
+						if (!db.objectStoreNames.contains("log")) {
+							store = db.createObjectStore("log", { keyPath: "id" });
+						}else{
+							store = e.target.transaction.objectStore("log");
+						}
+						if (!store.indexNames.contains("quester")) {
+								store.createIndex("quester", "quester", { unique: false });
+						}
+						if (!store.indexNames.contains("done")) {
+								store.createIndex("done", "done", { unique: false });
+						}
+						if (!store.indexNames.contains("version")) {
+								store.createIndex("version", "version", { unique: false });
+						}
+						if (!db.objectStoreNames.contains("misc")) {
+							db.createObjectStore("misc");
+						}
+					}
+					r.onsuccess = e => {
+						this.db = e.target.result; res();
+					};
+				});
+			}
+			
+			async getLogObjByID(id) {
+				SPEC("20260307223400", "Evelyn", "Get the log object by id");
+				await this.ready;
+				return new Promise(res => {
+					const r = this.db.transaction("log").objectStore("log").get(id);
+					r.onsuccess = () => res(r.result);
+				});
+			}
+			async getTodo(){
+				await this.ready;
+				return new Promise((resolve, reject) => {
+						const tx = this.db.transaction("log", "readonly");
+						const store = tx.objectStore("log");
+						const idx = store.index("done");
+						const req = idx.getAll(0);
+						req.onsuccess = () => {
+							const qn = document.getElementById('user-note');
+							let html = "";
+							req.result.forEach(r=>{
+								html += `[]${r.id}|${r.version} @${r.quester}: ${r.comments}\n`
+							});
+							qn.value = html + qn.value;
+							resolve(req.result);
+						}
+						req.onerror = e => reject(e.target.error);
+						
+				});
+			}
+			async saveCache() {
+				SPEC("20260308002600", "Evelyn", "Save the content of quester log.");
+				await this.ready;
+				this.db.onerror = e => console.error("IDB ERROR:", e.target.error);
+
+				const qn = document.getElementById('user-note');
+				const lines = qn.value.split('\n');
+				for (const line of lines) {
+					await this.saveLogLine(line);
+				}
+			}
+			async saveLogLine(line) {
+				SPEC("20260307223700", "Evelyn", "Interpret the line an a log line, and save it.");
+				// Typical line format: [x]id_dts|version_dts @quester: comments				
+				line = line.trim();
+				let done = line.toLowerCase().includes('[x]')?1:0;
+				let idDTS = UTC();
+				let verDTS = idDTS;
+				let quester = line.between('@', ':').trim();
+				let comments = line.rightOf(':').trim();
+
+				let mId = line.match(/(\d{14})/);
+				if (mId) { idDTS = mId[1]; }
+				mId = line.between('|', '@').trim();
+				if (mId.isOnlyDigits()) { verDTS = mId; }
+
+				const obj = {
+					id: idDTS,
+					version: verDTS,
+					done: done,
+					quester: quester,
+					comments: comments
+				};
+				/*DEBUG('@@' + obj.id);
+				DEBUG('@@' + obj.version);
+				DEBUG('@@' + obj.done);
+				DEBUG('@@' + obj.quester);
+				DEBUG('@@' + obj.comments);*/
+				this.saveLogObj(obj);
+				return;
+			}
+			async saveLogObj(iObj) {
+				SPEC("20260307223100", "Evelyn", "Conditional save based on version.");
+
+				await this.ready;
+
+				return new Promise((resolve, reject) => {
+					const tx = this.db.transaction("log", "readwrite");
+					const store = tx.objectStore("log");
+
+					// Step 1: read existing record (if any)
+					const getReq = store.get(iObj.id);
+
+					getReq.onsuccess = () => {
+						const existing = getReq.result;
+
+						// If no existing record → always save
+						if (!existing) {
+							store.put(iObj);
+							return;
+						}
+
+						// Compare versions as strings (your timestamps are lexicographically sortable)
+						if (iObj.version >= existing.version) {
+							store.put(iObj);
+						} else {
+							// Skip write
+							console.log("Skipped write: version too old", iObj);
+						}
+					};
+
+					getReq.onerror = e => reject(e.target.error);
+
+					//tx.oncomplete = () => resolve(true);
+					tx.onerror = e => reject(e.target.error);
+				});
+			}
+
+			async saveMisc(key, val) {
+				await this.ready;
+				this.db.transaction("misc", "readwrite").objectStore("misc").put(val, key);
+			}
+			async loadMisc(key) {
+				await this.ready;
+				return new Promise(res => {
+					const r = this.db.transaction("misc").objectStore("misc").get(key);
+					r.onsuccess = () => res(r.result);
+				});
 			}
 		}
 		class Storage {
@@ -4225,7 +4383,7 @@
 
 			const savedAddUrl = localStorage.getItem('gallery_add_url');
 			if (savedAddUrl) {
-				document.getElementById('add-url-input').value = savedAddUrl;
+				//document.getElementById('add-url-input').value = savedAddUrl;
 				document.getElementById('add-btn').href = savedAddUrl;
 			}
 
@@ -4488,13 +4646,13 @@
 			ta.selectionStart = ta.selectionEnd = endLine + 1;
 			TextAreaScrollTo(ta.id);
 		}
-		function Bookmarks(bUseEqual,bUsePond) {
+		function Bookmarks(bUseEqual, bUsePond) {
 			const bm = document.getElementById('card-toc');
-			const curUseEqual = (bm.dataset.useEqual==="true");
-			const curUsePond  = (bm.dataset.usePond ==="true");
-			if(bm.innerHTML=="" || !bm.classList.contains('active') || (curUseEqual != bUseEqual) || (curUsePond != bUsePond)){
+			const curUseEqual = (bm.dataset.useEqual === "true");
+			const curUsePond = (bm.dataset.usePond === "true");
+			if (bm.innerHTML == "" || !bm.classList.contains('active') || (curUseEqual != bUseEqual) || (curUsePond != bUsePond)) {
 				bm.classList.add('active');
-			}else{
+			} else {
 				bm.classList.remove('active');
 			}
 			bm.dataset.useEqual = bUseEqual;
@@ -4502,7 +4660,7 @@
 
 			SPEC("20260224232842", "Evelyn", "When shown, make a jump button for each bookmark of the textarea in focus.");
 			const elSrc = document.querySelector(".card-textarea.infocus");
-			if (!elSrc) { showToast("Please first select a textarea.");return;}
+			if (!elSrc) { showToast("Please first select a textarea."); return; }
 			let html = "";
 			const lines = elSrc.value.split('\n');
 			lines.forEach(line => {
@@ -4510,7 +4668,7 @@
 				const rawLine = line;
 				const fc = line.slice(0, 1);
 				const lc = line.slice(line.length - 1);
-				if ((line.startsWith('=#') && line.endsWith('#=')) ||  (bUsePond&&(fc === "#" && lc === "#")) || (bUseEqual && (fc === "=" && lc === "="))) {
+				if ((line.startsWith('=#') && line.endsWith('#=')) || (bUsePond && (fc === "#" && lc === "#")) || (bUseEqual && (fc === "=" && lc === "="))) {
 					line = line.replaceAll('#', '').trim();
 					line = line.replaceAll('=', '').trim();
 					if (line.length == 0) { return; }
@@ -4818,13 +4976,13 @@
 		async function DailyQuestRnd(bAny) {
 			SPEC("20260227001900", "P4", "Draw a random card with unchecked daily mark from storage.");
 			const sr = document.getElementById('storage');
-			if (!sr) { 
+			if (!sr) {
 				//showToast("Your storage area is empty. A random card is drawn"); 
 				createCard();
-				return; 
+				return;
 			}
 			const cards = sr.querySelectorAll(".card");
-			if (cards.length==0) { 
+			if (cards.length == 0) {
 				//showToast("Your storage area is empty. A random card is drawn"); 
 				createCard();
 				return;
@@ -4832,20 +4990,20 @@
 			let list = [];
 			cards.forEach(c => {
 				const d = c.querySelector(".status-icon.daily")
-				if (d && d.innerText != "✅") {					
+				if (d && d.innerText != "✅") {
 					list.push(c);
 				}
 			});
 			if (list.length == 0) {
 				//showToast("Your storage area has no daily quest card. A random card there is drawn");
-				list = cards;				
+				list = cards;
 			}
 			const rndCard = list[Math.floor(Math.random() * list.length)];
 			const data = DATAByID(rndCard.dataset.id);
-			if (data) { 
+			if (data) {
 				//showToast("Your storage area has a card with an id not found in the current collection(s)."); return; }
 				createCard(rndCard);
-			}else{
+			} else {
 				createCard(data);
 			}
 		}
@@ -4980,6 +5138,7 @@
 			// 20260125: Evelyn: Help locate where all the console log are and where they are called.
 			if (bCompact && !aerr) { console.log(msg); return; }
 			if (aerr) { console.err(msg, aerr); return; }
+			console.log(msg);
 			const err = new Error();
 			const stack = err.stack.split('\n');
 			const callerLine = stack[2].trim();
@@ -5014,11 +5173,17 @@
 				DailyQuestReg(); hit = true;
 			} else if (choice.startsWith("📝")) { // Development Notes
 				toggleTab(e, 'tab-dev-notes'); hit = true;
+			} else if (choice.startsWith("📋")) { // Get Todo
+				hit = true;
+				const idb = new IDB(); idb.getTodo(); 
 			} else if (choice.startsWith("🍔")) { // HTML Minify
 				HTMLMinify(); hit = true;
 			} else if (choice.startsWith("🎩")) { // Magic Theater
 				window.open(APP_HOMEURL, '_blank');
 				hit = true;
+			} else if (choice.startsWith("💎")) { // Merge to IDB
+				const idb = new IDB();
+				idb.saveCache(); hit = true;
 			} else if (choice.startsWith("🎲")) { // Random Card
 				createCard(); hit = true;
 			} else if (choice.startsWith("⏯️")) { // Script Resume
@@ -5044,11 +5209,11 @@
 			if (hit) {
 				el.value = "";
 				// Move the option to the bottom of the list #dropdown-options
-				const datalist = document.getElementById('dropdown-options');
+				/*const datalist = document.getElementById('dropdown-options');
 				const selectedOption = Array.from(datalist.options).find(opt =>
 					opt.value.startsWith(choice)
 				);
-				datalist.appendChild(selectedOption);
+				datalist.appendChild(selectedOption);*/
 				el.blur();
 				setTimeout(() => el.focus(), 10);
 			}
@@ -5328,11 +5493,11 @@
 			// 20251226: StarTree: Handle element removal
 			// Returns true if the click is processed.
 			const rMode = document.body.dataset.removalMode;
-			if(!rMode || rMode<1){return false;}
-			if(rMode==1){
-				RemovalButton(null,true);
+			if (!rMode || rMode < 1) { return false; }
+			if (rMode == 1) {
+				RemovalButton(null, true);
 			}
-			
+
 			const tagPill = e.target.closest('.tag-pill');
 			if (tagPill) {
 				e.stopPropagation();
@@ -5361,7 +5526,7 @@
 						showToast(`Bulk removed tag: ${t}`);
 					}
 				}
-				
+
 				refreshAllUI();
 				renderCardTags(); // Sync the command panel
 				memDOM();
@@ -5948,7 +6113,8 @@
 		}
 		function PanelTextareaActivate(elThis) {
 			// 20260125: Mark the current one active and the other one not active.
-			const elFrame = elThis.closest('.notes-panel');
+			//const elFrame = elThis.closest('.notes-panel');
+			const elFrame = elThis.closest('#command-panel');
 			elFrame.querySelectorAll('.card-textarea').forEach(n => {
 				n.classList.remove('infocus');
 			});
@@ -6137,6 +6303,29 @@
 			refreshAllUI(); // Trigger the UI update
 			return true;
 		}
+		function QuesterDDOnChange(elInput, e) {
+			e.stopPropagation();
+			const qdl = document.getElementById('quester-dd-list');
+			const quester = elInput.value.trim();
+			if (quester) {
+				const current = qdl.querySelector(`option[value="${quester}" i]`);
+				if (!current) {
+					const opt = document.createElement('option');
+					opt.value = quester;
+					qdl.appendChild(opt);
+				} else {
+					current.value = quester;
+				}
+				elInput.value = "";
+				elInput.placeholder = quester;
+				activeQuester = quester;
+			}
+		}
+		function QuesterDDOnKeydown(elInput, e) {
+			SPEC("20260307185200", "StarTree", "Add the entered name to the quester list.");
+			if (!(e.key === 'Enter' || e.keyCode === 13)) { return; }
+			QuesterDDOnChange(elInput, e);
+		}
 		function RandomWeather() {
 			SPEC("20260214143500", "Evelyn", "Returns a random weather emoji.");
 			const weathers = ["🌈", "🌠", "☀️", "🌤️", "⛅", "🌥️", "☁️", "🌫️", "🌦️", "💧", "🌧️", "⛈️", "🌩️", "🌪️", "💨", "🍃", "🌨️", "❄️", "🧊"];
@@ -6164,17 +6353,17 @@
 			soundMap[name].add(key);
 			DEBUG(`Mapping added: ${name} -> ${key}`, true);
 		}
-		function RemovalButton(e,bReset){
+		function RemovalButton(e, bReset) {
 			// 20251226: StarTree, Gemini
 			e?.stopPropagation();
-			SPEC("20260227151310","LRRH","Cycle between single and multiple removal mode");
+			SPEC("20260227151310", "LRRH", "Cycle between single and multiple removal mode");
 			// The first time the button is clicked, it goes to single removal mode where it exits the mode when one item is removed.
 			// While in single removal mode, if the user clicks on the button again, it goes to multi-removal mode where the button stays in that mode until it is clicked again.
 			let rMode = 0;
-			if(!bReset){rMode = (Number(document.body.dataset.removalMode || 0) + 1)%3;}
+			if (!bReset) { rMode = (Number(document.body.dataset.removalMode || 0) + 1) % 3; }
 			document.body.dataset.removalMode = rMode;
 			document.body.classList.toggle('removal-mode', rMode > 0);
-			switch(rMode){
+			switch (rMode) {
 				case 0: showToast("Removal mode OFF"); break;
 				case 1: showToast("Single removal mode ON"); break;
 				case 2: showToast("Multi removal mode ON"); break;
@@ -6272,26 +6461,26 @@
 			const elCosmicTA = document.getElementById('card-cosmic-script');
 			const cosmicScript = decodeURIComponent(data.cosmic) || "";
 
-			if(panelScript == cosmicScript){
+			if (panelScript == cosmicScript) {
 				// If the script is the same as cosmic, update the b number and clear the v number.
 				b = "";
 				document.getElementById('card-base').value = data.a;
 				document.getElementById('card-ver').value = ""
 				activeCardData.b = "";
 				activeCardData.v = data.a;
-				if(card){
+				if (card) {
 					card.dataset.b = data.a.trim();
 					card.dataset.v = "";
 				}
-			}else if (Number(b) < Number(data.a) && panelScript != cosmicScript) {
-				
+			} else if (Number(b) < Number(data.a) && panelScript != cosmicScript) {
+
 				if (await showConfirm("Your changes are saved locally, but it seems that you modified an older version of the script.<hr>Your:  " + UTCshowLocal(b) + "<br>Latest:" + UTCshowLocal(data.a) + "<hr>[Yes] to see the differences<br>[No] to  update the base number.")) {
 					elCosmicTA.value = cosmicScript || "";
 					CosmicComparisonView(true);
 					TextAreaHLFirstDiff("card-script", 'card-cosmic-script');
 					return;
 				}
-				
+
 				if (card) {
 					card.dataset.b = data.a.trim();
 				}
@@ -6718,11 +6907,12 @@
 					return false;
 				}
 			}
-
 			let scriptToRun = SE.dataset.script;
 			if (getActiveCard()) {
 				const nodeID = document.getElementById("card-id").value;
-				if (!nodeID) { return false; }
+				if (!nodeID) {
+					ScriptRunID(APP_STARTSCRIPTID); return false;
+				}
 				if (nodeID != SE.dataset.p) {
 					SE.dataset.p = nodeID;
 					// 20260125: StarTree: Prioritize running the side that is selected. 				
@@ -6744,7 +6934,7 @@
 						elSource = elNotes;
 					}
 					//if (elButton) { elSource.blur(); }
-					
+
 					SPEC("20260214105600", "Natalie", "If the user has text selected, start the run at that line.");
 					if (elSource.selectionStart !== elSource.selectionEnd) {
 						const startIndex = elSource.value.lastIndexOf('\n', elSource.selectionStart - 1);
@@ -6759,7 +6949,9 @@
 				}
 			}
 
-			ScriptRun(SE, true);
+			if (!scriptToRun || !ScriptRun(SE, true)) {
+				ScriptRunID(APP_STARTSCRIPTID);
+			}
 		}
 		function ScriptTimer(mode, bFocus) {
 			const dialogTimer = document.getElementById('dialogue-timer');
@@ -6912,6 +7104,18 @@
 			// 20260209: StarTree: Returns the speech bubble
 			return document.querySelector('.speech-bubble');
 		}
+		function SpriteOnBackstageRefresh() {
+			SPEC("20260308155300", "LRRH", "Refresh all sprites on backstage");
+			const mt = Multitrack();
+			const sprites = mt.querySelectorAll(".card img");
+			sprites.forEach(c => {
+				const bScale = c.classList.contains('scaled');
+				const bLeft = c.classList.contains('left');
+				const bGround = c.classList.contains('grounded');
+				if (!(bScale || bLeft || bGround)) { return; }
+				SpriteOnStage(c, 0, 0, bScale, bLeft, bGround);
+			});
+		}
 		function SpriteOnStage(sprite, posX = 0, posY = 0, bScale, bLeft, bGround) {
 			// 20260122: Skyle: This function sets the position of a sprite on stage (or in backstage during adjustment)
 			// Treat bScale, bLeft, and bGround as three-way switches: true, false, undefined=toggle.
@@ -7054,6 +7258,7 @@
 			}
 
 		}
+
 		function Stage() {
 			return document.querySelector('.stage-area');
 		}
@@ -7415,6 +7620,7 @@
 					if (multitrack) multitrack.style.paddingBottom = "0px";
 					if (sidebar) sidebar.style.paddingBottom = "0px";
 				}
+				SpriteOnBackstageRefresh();
 			}).observe(cp);
 		}
 		function summonQuickCast() {
@@ -8706,7 +8912,7 @@
 
 			const tags = new Set();
 			DATA.forEach(item => {
-				if(!item.v){
+				if (!item.v) {
 					item.v = item.p;
 				}
 				if (!item.a) {
