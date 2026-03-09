@@ -12,8 +12,8 @@
 	<link rel="apple-touch-icon" href="/icons/star_192.png">
 	<link rel="manifest" href="/mt_manifest.json">
 	<script>
-		const APP_VERSION = "20260225011200"; //#Version
-		const APP_ANNOUNCEMENT = "20260225: Script TOC"
+		const APP_VERSION = "20260308011200"; //#Version
+		const APP_ANNOUNCEMENT = "20260308: IDB WIP"
 		const APP_DEFAULTPACK = "https://magicbakery.github.io/starterpack.json";
 		const APP_DEFAULTWALLPAPER = "https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg";
 		const APP_HOMEURL = "https://magicbakery.github.io/?id=P202512210026";
@@ -3390,8 +3390,8 @@
 							style="flex:1;display:flex;flex-direction: column;overflow-y: auto;height:36px;">
 							<button class="notes-btn" style="width:100%" onclick="NoteInsertTodo()"
 								title="Insert a Todo item">TODO</button>
-							<button class="notes-btn" style="width:100%" onclick="NoteInsertDTS()"
-								title="Insert Timestamp">DTS</button>
+							<button class="notes-btn" style="width:100%" onclick="NoteInsertUTC()"
+								title="Insert Timestamp">UTC</button>
 						</div>
 						<button class="notes-btn" style="flex:0" onwheel="PanelTextareaResize(this,undefined,event)"
 							onclick="PanelTextareaResize(this,undefined,undefined)" title="Notes/Script Display Ratio">2:2</button>
@@ -3462,13 +3462,13 @@
 			<div id="tab-dev-notes" class="block-when-active tab-content">
 
 
-				<textarea id="user-note" class="unified-width card-textarea"
+				<textarea id="user-note" class="unified-width card-textarea auto-save"
 					style="resize:none;height:95px; font-size:14px;overflow-y: auto;" placeholder="Quester Notes..."
 					onfocus="PanelTextareaActivate(this)" oninput="saveNotes(this.value)"></textarea>
 				<input type="text" id="dev-command" class="unified-width" style="display:none" placeholder="Command..."
 					oninput="memDEV()"
 					onkeydown="if (event.key === 'Enter' || event.keyCode === 13) {event.preventDefault(); processScriptLine(this.value)}">
-				<div style="display:flex; gap:5px; align-items:center;">
+				<div class="flex-when-active active">
 					<!--Collections Button-->
 					<button class="tool-btn" onclick="toggleTab(event, 'tab-collections')" title="Collections">
 						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -3478,7 +3478,9 @@
 						</svg>
 					</button>
 					<button class="tool-btn" onclick="smartImport(null)" title="Import">+</button>
-					<a id="add-btn" href="#" target="_blank" class="tool-btn" style="display:none" onclick="smartImport()">+</a>
+					<button id="add-btn" href="#" target="_blank" class="tool-btn" style="display:none"
+						onclick="smartImport()">+</button>
+
 					<input type="text" id="quester-dd" list="quester-dd-list" placeholder="Quester" style="flex:1"
 						onchange="QuesterDDOnChange(this,event)" onkeydown="QuesterDDOnKeydown(this,event)">
 					<datalist id="quester-dd-list"></datalist>
@@ -3510,6 +3512,35 @@
 							<button class="tool-btn" onclick="setCenteredAsWallpaper(null)">WP</button>
 						</option>
 					</datalist>
+					<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
+						<div class="flex-when-active active">
+							<button class="tool-btn" title="Save to IDB" onclick="IDB.get().saveCache()">
+								<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+									<path
+										d="M30 10L70 10L100 40L50 90L0 40L30 10L30 20L70 20L70 10M0 40L20 50L80 50L100 40M30 20L20 50L50 90L80 50L70 20"
+										fill="none" stroke="currentColor" stroke-width="8" />
+								</svg>
+							</button>
+							<button class="tool-btn" title="Clear cache and load Todo list" onclick="IDB.get().getTodo()">
+								<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+									<path d="M10 10L30 10L30 30L10 30Z" fill="none" stroke="currentColor" stroke-width="8" />
+									<path d="M10 40L30 40L30 60L10 60Z" fill="none" stroke="currentColor" stroke-width="8" />
+									<path d="M10 70L30 70L30 90L10 90Z" fill="none" stroke="currentColor" stroke-width="8" />
+									<path d="M40 20L90 20M40 50L90 50M40 80L90 80" fill="none" stroke="currentColor" stroke-width="8" />
+								</svg>
+							</button>
+						</div>
+						<div class="flex-when-active active">
+							<button class="tool-btn" title="Export IDB to JSON" onclick="IDB.get().exportToJSON()">
+								EX
+							</button>
+							<button class="tool-btn" title="Import IDB from JSON" onclick="IDB.get().importFromJSON()">
+								IM
+							</button>
+						</div>
+						
+					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -4019,17 +4050,17 @@
 						let store;
 						if (!db.objectStoreNames.contains("log")) {
 							store = db.createObjectStore("log", { keyPath: "id" });
-						}else{
+						} else {
 							store = e.target.transaction.objectStore("log");
 						}
 						if (!store.indexNames.contains("quester")) {
-								store.createIndex("quester", "quester", { unique: false });
+							store.createIndex("quester", "quester", { unique: false });
 						}
 						if (!store.indexNames.contains("done")) {
-								store.createIndex("done", "done", { unique: false });
+							store.createIndex("done", "done", { unique: false });
 						}
 						if (!store.indexNames.contains("version")) {
-								store.createIndex("version", "version", { unique: false });
+							store.createIndex("version", "version", { unique: false });
 						}
 						if (!db.objectStoreNames.contains("misc")) {
 							db.createObjectStore("misc");
@@ -4040,7 +4071,47 @@
 					};
 				});
 			}
-			
+			async exportToJSON() {
+				await this.ready;
+
+				const db = this.db;
+				const exportObj = {};
+				const storeNames = Array.from(db.objectStoreNames);
+
+				// Step 1: read all stores
+				const readAllStores = () => {
+					return Promise.all(storeNames.map(storeName => {
+						return new Promise((resolve, reject) => {
+							const tx = db.transaction(storeName, "readonly");
+							const store = tx.objectStore(storeName);
+							const req = store.getAll();
+
+							req.onsuccess = () => {
+								exportObj[storeName] = req.result;
+								resolve();
+							};
+							req.onerror = e => reject(e.target.error);
+						});
+					}));
+				};
+
+				// Step 2: after reading, trigger download
+				await readAllStores();
+
+				const jsonStr = JSON.stringify(exportObj, null, 2);
+				const blob = new Blob([jsonStr], { type: "application/json" });
+
+				// Step 3: create a download link the user can choose
+				const url = URL.createObjectURL(blob);
+				const a = document.createElement("a");
+
+				const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+				a.download = `IDB-backup-${timestamp}.json`;
+				a.href = url;
+				a.click();
+
+				URL.revokeObjectURL(url);
+			}
 			async getLogObjByID(id) {
 				SPEC("20260307223400", "Evelyn", "Get the log object by id");
 				await this.ready;
@@ -4049,26 +4120,91 @@
 					r.onsuccess = () => res(r.result);
 				});
 			}
-			async getTodo(){
+			async getTodo() {
 				await this.ready;
+				const qn = document.getElementById('user-note');
+				if (qn.value) {
+					if (await showConfirm("Your quester note area is not blank. Keep it?")) { return }
+					qn.value = "";
+				}
 				return new Promise((resolve, reject) => {
-						const tx = this.db.transaction("log", "readonly");
-						const store = tx.objectStore("log");
-						const idx = store.index("done");
-						const req = idx.getAll(0);
-						req.onsuccess = () => {
-							const qn = document.getElementById('user-note');
-							let html = "";
-							req.result.forEach(r=>{
-								html += `[]${r.id}|${r.version} @${r.quester}: ${r.comments}\n`
-							});
-							qn.value = html + qn.value;
-							resolve(req.result);
-						}
-						req.onerror = e => reject(e.target.error);
-						
+					const tx = this.db.transaction("log", "readonly");
+					const store = tx.objectStore("log");
+					const idx = store.index("done");
+					const req = idx.getAll(0);
+					req.onsuccess = () => {
+						const qn = document.getElementById('user-note');
+						let html = "";
+						req.result.forEach(r => {
+							html += `[]${r.id}|${r.version} @${r.quester}: ${r.comments}\n`
+						});
+						qn.value = html + qn.value;
+						resolve(req.result);
+					}
+					req.onerror = e => reject(e.target.error);
+
 				});
 			}
+			async importFromJSON() {
+				await this.ready;
+
+				return new Promise((resolve, reject) => {
+					// Step 1: create a file picker
+					const input = document.createElement("input");
+					input.type = "file";
+					input.accept = "application/json";
+
+					input.onchange = async () => {
+						const file = input.files[0];
+						if (!file) return reject("No file selected");
+
+						try {
+							// Step 2: read the file
+							const text = await file.text();
+							const data = JSON.parse(text);
+
+							const db = this.db;
+							const storeNames = Object.keys(data);
+
+							// Step 3: restore each store
+							for (const storeName of storeNames) {
+								if (!db.objectStoreNames.contains(storeName)) {
+									console.warn(`Store '${storeName}' does not exist in DB, skipping`);
+									continue;
+								}
+
+								await new Promise((res2, rej2) => {
+									const tx = db.transaction(storeName, "readwrite");
+									const store = tx.objectStore(storeName);
+
+									// Clear existing data
+									const clearReq = store.clear();
+
+									clearReq.onsuccess = () => {
+										// Insert new data
+										const items = data[storeName];
+										for (const item of items) {
+											store.put(item);
+										}
+									};
+
+									tx.oncomplete = () => res2();
+									tx.onerror = e => rej2(e.target.error);
+								});
+							}
+
+							resolve(true);
+
+						} catch (err) {
+							reject(err);
+						}
+					};
+
+					// Trigger the file picker
+					input.click();
+				});
+			}
+
 			async saveCache() {
 				SPEC("20260308002600", "Evelyn", "Save the content of quester log.");
 				await this.ready;
@@ -4084,7 +4220,10 @@
 				SPEC("20260307223700", "Evelyn", "Interpret the line an a log line, and save it.");
 				// Typical line format: [x]id_dts|version_dts @quester: comments				
 				line = line.trim();
-				let done = line.toLowerCase().includes('[x]')?1:0;
+				if (line == "") { return }
+				if (!line.includes('@')) { return }
+				if (!line.includes(':')) { return }
+				let done = line.toLowerCase().includes('[x]') ? 1 : 0;
 				let idDTS = UTC();
 				let verDTS = idDTS;
 				let quester = line.between('@', ':').trim();
@@ -4426,8 +4565,6 @@
 		/* #ALPHABETICALLY SORTED CODE */
 		const zLayers = ['Notifications', 'LoadingScreen', 'TransparentControls', 'ExamineScreen', 'SpeechBubble', 'StageGUI', 'Stage', 'GUIControls', 'Listings', 'Gallery', 'AppWallpaper'];
 		const assetLibrary = {}; // { "key1": AudioObject }
-
-
 		let autoRandomTimer = null;
 		let autoRandomTrack = null;
 		let activeQuester = "";
@@ -5174,16 +5311,14 @@
 			} else if (choice.startsWith("📝")) { // Development Notes
 				toggleTab(e, 'tab-dev-notes'); hit = true;
 			} else if (choice.startsWith("📋")) { // Get Todo
-				hit = true;
-				const idb = new IDB(); idb.getTodo(); 
+				hit = true; IDBGetTodo();
 			} else if (choice.startsWith("🍔")) { // HTML Minify
 				HTMLMinify(); hit = true;
 			} else if (choice.startsWith("🎩")) { // Magic Theater
 				window.open(APP_HOMEURL, '_blank');
 				hit = true;
 			} else if (choice.startsWith("💎")) { // Merge to IDB
-				const idb = new IDB();
-				idb.saveCache(); hit = true;
+				hit = true; IDBSaveCache();
 			} else if (choice.startsWith("🎲")) { // Random Card
 				createCard(); hit = true;
 			} else if (choice.startsWith("⏯️")) { // Script Resume
@@ -5755,7 +5890,6 @@
 			return H - groundY;
 
 		}
-
 		function ImageFlip(img, xOffset, faceLeft) {
 			const curImg = getActiveCard().querySelector('img');
 			const curScaled = curImg.classList.contains('scaled');
@@ -6044,31 +6178,22 @@
 			const text = elFrame.value;
 			const start = elFrame.selectionStart;
 			const end = elFrame.selectionEnd;
-			const timestamp = DTS();
-			const textToAdd = "*[]" + timestamp + " @" + activeQuester + ": ";
+			const timestamp = UTC();
+			const textToAdd = "[]" + timestamp + " @" + activeQuester + ": ";
 			elFrame.value = text.slice(0, start) + textToAdd + text.slice(end);
 			elFrame.selectionStart = elFrame.selectionEnd = start + textToAdd.length;
 			elFrame.focus();
 		}
-		function NoteLineSwapOriginal(bUp) {
-			// 20260125: Skyle: Moves the selected line up the notes if it is not already at the top.
+		function NoteInsertUTC() {
+			// 20260206: StarTree: Inserts a local timestamp YYYYMMDDhhmmss to the edit textarea in focus.
 			const elFrame = document.querySelector('.card-textarea.infocus');
 			if (!elFrame || !elFrame.checkVisibility()) return;
 			const text = elFrame.value;
 			const start = elFrame.selectionStart;
-			const lines = text.split('\n');
-			const currentLineIndex = text.substring(0, start).split('\n').length - 1;
-			const targetIndex = bUp ? currentLineIndex - 1 : currentLineIndex + 1;
-			if (targetIndex < 0 || targetIndex >= lines.length) return;
-			elFrame.classList.toggle('active', true);
-			const temp = lines[currentLineIndex];
-			lines[currentLineIndex] = lines[targetIndex];
-			lines[targetIndex] = temp;
-			elFrame.value = lines.join('\n');
-			const lineToJump = lines[currentLineIndex];
-			const shift = (lineToJump.length + 1) * (bUp ? -1 : 1);
-			elFrame.selectionStart = elFrame.selectionEnd = start + shift;
-			elFrame.classList.add('unsaved');
+			const end = elFrame.selectionEnd;
+			const timestamp = UTC();
+			elFrame.value = text.slice(0, start) + timestamp + text.slice(end);
+			elFrame.selectionStart = elFrame.selectionEnd = start + timestamp.length;
 			elFrame.focus();
 		}
 		function NoteLineSwap(bUp) {
@@ -6101,8 +6226,9 @@
 			// Update text and maintain focus/state
 			elFrame.value = lines.join('\n');
 			elFrame.classList.toggle('active', true);
-			elFrame.classList.add('unsaved');
-
+			if (!elFrame.classList.contains('auto-save')) {
+				elFrame.classList.add('unsaved');
+			}
 			// Recalculate selection range to follow the moved block
 			// We calculate the character offset of the start of the new block
 			const newStartOffset = lines.slice(0, insertIndex).join('\n').length + (insertIndex > 0 ? 1 : 0);
