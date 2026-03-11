@@ -1803,7 +1803,8 @@
       "[STARTER PACK]"
     ],
     "p": "20260309045500",
-    "u": "https://substackcdn.com/image/fetch/$s_!m-Mz!,w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5899e422-e544-4993-bb96-d05969a4bdcd_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!m-Mz!,w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5899e422-e544-4993-bb96-d05969a4bdcd_1536x1024.jpeg",
+    "v": "20260309045500"
   },
   {
     "n": "MELODY",
@@ -1814,8 +1815,9 @@
     ],
     "p": "20260310224300",
     "u": "https://magicbakery.github.io/sprites/Melody_%7B20260310224300%7D.png",
-    "s": 645.0,
-    "x": 164.0,
-    "y": 38.0
+    "s": 690,
+    "x": 249,
+    "y": 50,
+    "v": "20260310224300"
   }
 ]

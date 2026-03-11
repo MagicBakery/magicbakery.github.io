@@ -6631,7 +6631,7 @@
 			e?.stopPropagation();
 			SPEC("20260310162800","Lei","If quester notes is in focus, save to IDB.");
 			const taInFocus = document.querySelector('.card-textarea.infocus');
-			if(taInFocus.id=='user-note'){
+			if(taInFocus?.id=='user-note'){
 				IDB.get().saveCache();
 				return;
 			}
@@ -7608,7 +7608,8 @@
 			} else {
 				// 20260203: Evelyn: Interpret the rest as a comma separated list of tags.
 				const inlineTags = argsU.split(',');
-				scene = DATABestMatch(["[SCENE]"], inlineTags);
+				//inlineTags.push("[SCENE]");
+				scene = DATABestMatch([], inlineTags);
 			}
 			if (!scene) { scene = getActiveCardData(); }
 			if (scene) {
