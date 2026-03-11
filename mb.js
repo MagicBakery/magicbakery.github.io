@@ -2237,6 +2237,7 @@ function MacroIcons(el,iHTMLInner){
     ["BlackCat","🐈‍⬛"],
     ["Mushroom","🍄‍🟫"],
     ["Phoenix",":Phoenix:"],
+    ["Abacus","🧮"],
     ["Apple","🍎"],
     ["Alarm","🚨"],
     ["Archive",":Archive:"],

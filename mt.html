@@ -12,8 +12,8 @@
 	<link rel="apple-touch-icon" href="/icons/star_192.png">
 	<link rel="manifest" href="/mt_manifest.json">
 	<script>
-		const APP_VERSION = "20260308011200"; //#Version
-		const APP_ANNOUNCEMENT = "20260308: IDB WIP"
+		const APP_VERSION = "20260310194500"; //#Version
+		const APP_ANNOUNCEMENT = "20260310: Tweaks"
 		const APP_DEFAULTPACK = "https://magicbakery.github.io/starterpack.json";
 		const APP_DEFAULTWALLPAPER = "https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg";
 		const APP_HOMEURL = "https://magicbakery.github.io/?id=P202512210026";
@@ -2973,16 +2973,18 @@
 			<div id="button-palette" style="display:none;"><!--@@Stage-->
 				<div class="button-grid">
 					<!--Star Button-->
-					<button class="sq-btn dimmer star-btn" onclick="togglePinActiveCard(event)" title="Star Active Card">
-						<svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor" stroke="currentColor" stroke-width="2"
-							stroke-linejoin="round">
-							<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+					<button class="sq-btn dimmer star-btn" onclick="togglePinActiveCard(event)"
+						title="Star Active Card">
+						<svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor" stroke="currentColor"
+							stroke-width="2" stroke-linejoin="round">
+							<path
+								d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
 						</svg>
 					</button>
 					<!--Collections Button-->
 					<button class="sq-btn dimmer" onclick="toggleCollections(event)" title="Collections">
-						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-							stroke-linecap="round" stroke-linejoin="round">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 							<rect x="7" y="7" width="14" height="14" rx="2" ry="2"></rect>
 							<path d="M3 15v-8c0-1.1.9-2 2-2h8"></path>
 						</svg>
@@ -3002,7 +3004,8 @@
 
 					</button>-->
 					<!--Remove Track Button ◸-->
-					<button class="sq-btn dimmer" onclick="removeTrackRelative(event,+1)" title="Remove Track Above/Left">
+					<button class="sq-btn dimmer" onclick="removeTrackRelative(event,+1)"
+						title="Remove Track Above/Left">
 						<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
 							<path d="M100,50 L50,50 L50,100 Z" fill="none" stroke="currentColor" stroke-width="6" />
 						</svg>
@@ -3041,18 +3044,19 @@
 					</button>-->
 
 					<!--Auto Flush Mode Button ↻-->
-					<button id="auto-flush-btn" class="sq-btn action-btn auto-flush-btn" onclick="toggleAutoFlush(event)">
+					<button id="auto-flush-btn" class="sq-btn action-btn auto-flush-btn"
+						onclick="toggleAutoFlush(event)">
 						<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-							<path d="M75,30 C65,15 35,15 25,30 M25,70 C35,85 65,85 75,70" fill="none" stroke="currentColor"
-								stroke-width="8" stroke-linecap="round" />
+							<path d="M75,30 C65,15 35,15 25,30 M25,70 C35,85 65,85 75,70" fill="none"
+								stroke="currentColor" stroke-width="8" stroke-linecap="round" />
 							<polygon points="70,12 88,28 68,40" fill="currentColor" />
 							<polygon points="30,88 12,72 32,60" fill="currentColor" />
 						</svg>
 					</button>
 					<!--Tags Button-->
 					<button class="sq-btn dimmer " onclick="toggleTagCloud(event)" title="Tags">
-						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-							stroke-linecap="round" stroke-linejoin="round">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 							<line x1="4" y1="9" x2="20" y2="9"></line>
 							<line x1="4" y1="15" x2="20" y2="15"></line>
 							<line x1="10" y1="3" x2="8" y2="21"></line>
@@ -3068,7 +3072,8 @@
 						</svg>
 					</button>
 					<!--Scroll Orientation Button-->
-					<button id="mode-toggle" class="sq-btn dimmer" onclick="toggleScrollMode(event)" title="Scroll Direction">
+					<button id="mode-toggle" class="sq-btn dimmer" onclick="toggleScrollMode(event)"
+						title="Scroll Direction">
 						<div class="icon-h"></div>
 					</button>
 					<!--RIGHT BUTTON-->
@@ -3103,7 +3108,8 @@
 						title="Toggle custom buttons"></button>
 					<!--Listing Button-->
 					<button class="sq-btn dimmer" onclick="toggleImages(event)" title="Listing">
-						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2">
 							<rect x="3" y="3" width="7" height="7"></rect>
 							<rect x="14" y="3" width="7" height="7"></rect>
 							<rect x="14" y="14" width="7" height="7"></rect>
@@ -3131,11 +3137,15 @@
 					<!--NOTES BUTTON-->
 					<button class="sq-btn dimmer" id="settings-btn" onclick="toggleCommandPanel(event)">
 						<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-							<rect x="20" y="15" width="60" height="70" rx="5" fill="none" stroke="currentColor" stroke-width="6" />
+							<rect x="20" y="15" width="60" height="70" rx="5" fill="none" stroke="currentColor"
+								stroke-width="6" />
 
-							<line x1="35" y1="35" x2="65" y2="35" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
-							<line x1="35" y1="50" x2="65" y2="50" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
-							<line x1="35" y1="65" x2="55" y2="65" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+							<line x1="35" y1="35" x2="65" y2="35" stroke="currentColor" stroke-width="6"
+								stroke-linecap="round" />
+							<line x1="35" y1="50" x2="65" y2="50" stroke="currentColor" stroke-width="6"
+								stroke-linecap="round" />
+							<line x1="35" y1="65" x2="55" y2="65" stroke="currentColor" stroke-width="6"
+								stroke-linecap="round" />
 						</svg>
 					</button>
 
@@ -3170,9 +3180,10 @@
 				</button>
 				<!--Star Button-->
 				<button class="tool-btn star-btn" onclick="togglePinActiveCard(event)" title="Star Rating">
-					<svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor" stroke="currentColor" stroke-width="2"
-						stroke-linejoin="round">
-						<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+					<svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor" stroke="currentColor"
+						stroke-width="2" stroke-linejoin="round">
+						<path
+							d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
 					</svg>
 				</button>
 				<!--Daily Quest Button-->
@@ -3216,7 +3227,8 @@
 							<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
 						</svg>
 					</button>
-					<button class="tool-btn brown" onclick="StatusReg('brown')" title="Pending" style="color:saddlebrown;">
+					<button class="tool-btn brown" onclick="StatusReg('brown')" title="Pending"
+						style="color:saddlebrown;">
 						<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
 							<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
 						</svg>
@@ -3227,7 +3239,8 @@
 							<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
 						</svg>
 					</button>
-					<button class="tool-btn orange" onclick="StatusReg('orange')" title="Important" style="color:orange;">
+					<button class="tool-btn orange" onclick="StatusReg('orange')" title="Important"
+						style="color:orange;">
 						<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
 							<rect x="0" y="0" width="100" height="100" rx="20" ry="20" fill="currentColor" />
 						</svg>
@@ -3275,14 +3288,15 @@
 				<div class="flex-when-active active">
 					<input type="text" id="card-ver" class="active" placeholder="User modified" title="UTC Version (v)"
 						style="flex:1;min-width:130px;text-align: center;">
-					<input type="text" id="card-base" class="active" placeholder="Base version" title="UTC Base Version (b)"
-						style="flex:1;min-width:130px;text-align: center;">
+					<input type="text" id="card-base" class="active" placeholder="Base version"
+						title="UTC Base Version (b)" style="flex:1;min-width:130px;text-align: center;">
 					<input type="text" id="card-stream" class="active" placeholder="Cosmic Stream version"
 						title="UTC Stream Version (a)" style="flex:1;min-width:130px;text-align: center;">
 				</div>
 				<div class="card-details">
 					<input type="text" id="card-path-url" placeholder="URL / File Path" title="Path/URL (u)">
-					<input type="text" id="card-img-url" style="flex: 1;min-width:25%" placeholder="Image Path" title="Image (i)">
+					<input type="text" id="card-img-url" style="flex: 1;min-width:25%" placeholder="Image Path"
+						title="Image (i)">
 					<div id="card-sprite-parameters">
 						<div style="display:flex">
 							<button class="scale-btn" onclick="ImageScale()" title="Scale the image">s</button>
@@ -3314,7 +3328,8 @@
 							placeholder="Public Script"></textarea>
 						<textarea id="card-cosmic-script" class="card-textarea flex-when-active"
 							onfocus="PanelTextareaActivate(this)" readonly oninput="markDirty(this)"
-							style="flex: 2 2 0%;background-color:rgba(64,0,64,0.2)" placeholder="Cosmic Script"></textarea>
+							style="flex: 2 2 0%;background-color:rgba(64,0,64,0.2)"
+							placeholder="Cosmic Script"></textarea>
 
 					</div>
 					<div id="card-comparison-btns" class="flex-when-active">
@@ -3327,61 +3342,74 @@
 						<button class="notes-btn" onclick="CosmicComparisonView(false)" style="flex:0">X</button>
 					</div>
 					<div id="editor-btns">
-						<button class="tool-btn save-notes-btn" onclick="saveCardNotes(event,true)" title="Save Changes">
+						<button class="tool-btn save-notes-btn" onclick="saveCardNotes(event,true)"
+							title="Save Changes">
 							<svg viewBox="0 0 100 100" style="width:90%; height:90%;">
-								<path d="M20,15 H70 L85,30 V85 H20 Z" fill="none" stroke="currentColor" stroke-width="6" />
-								<rect x="35" y="15" width="30" height="25" fill="none" stroke="currentColor" stroke-width="4" />
-								<rect x="30" y="55" width="40" height="30" fill="none" stroke="currentColor" stroke-width="4" />
+								<path d="M20,15 H70 L85,30 V85 H20 Z" fill="none" stroke="currentColor"
+									stroke-width="6" />
+								<rect x="35" y="15" width="30" height="25" fill="none" stroke="currentColor"
+									stroke-width="4" />
+								<rect x="30" y="55" width="40" height="30" fill="none" stroke="currentColor"
+									stroke-width="4" />
 								<!--<rect x="55" y="60" width="10" height="20" fill="currentColor" />-->
 							</svg>
 						</button>
-						<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
+						<div class="hide-scrollbar"
+							style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
 							<button class="tool-btn" onclick="Bookmarks(true,false)" title="Table of Contents">
 								<svg viewBox="0 0 100 100" style="width:90%; height:90%;">
-									<path d="M10,0 L90,0 L90,100 L50,70 L10,100 Z" fill="none" stroke="currentColor" stroke-width="6" />
-									<path d="M20,30 L80,30 M20,50 L80,50" fill="none" stroke="currentColor" stroke-width="6" />
+									<path d="M10,0 L90,0 L90,100 L50,70 L10,100 Z" fill="none" stroke="currentColor"
+										stroke-width="6" />
+									<path d="M20,30 L80,30 M20,50 L80,50" fill="none" stroke="currentColor"
+										stroke-width="6" />
 								</svg>
 							</button>
 							<button class="tool-btn" onclick="Bookmarks(true,true)" title="Table of Contents">
 								<svg viewBox="0 0 100 100" style="width:90%; height:90%;">
-									<path d="M10,0 L90,0 L90,100 L50,70 L10,100 Z" fill="none" stroke="currentColor" stroke-width="6" />
+									<path d="M10,0 L90,0 L90,100 L50,70 L10,100 Z" fill="none" stroke="currentColor"
+										stroke-width="6" />
 								</svg>
 							</button>
 							<button class="tool-btn" onclick="Bookmarks(false,true)" title="Table of Contents">
 								<svg viewBox="0 0 100 100" style="width:90%; height:90%;">
-									<path d="M10,0 L90,0 L90,100 L50,70 L10,100 Z" fill="none" stroke="currentColor" stroke-width="6" />
-									<path d="M20,30 L80,30 M20,50 L80,50 M45,10 L35,70 M65,10 L55,70 " fill="none" stroke="currentColor"
+									<path d="M10,0 L90,0 L90,100 L50,70 L10,100 Z" fill="none" stroke="currentColor"
 										stroke-width="6" />
+									<path d="M20,30 L80,30 M20,50 L80,50 M45,10 L35,70 M65,10 L55,70 " fill="none"
+										stroke="currentColor" stroke-width="6" />
 								</svg>
 							</button>
 						</div>
 
-						<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
+						<div class="hide-scrollbar"
+							style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
 							<button class="tool-btn" onclick="NoteLineSwap(true)" title="Move line up">
 								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
-									<polygon points="0,100 0,50 50,10 100,50 100,100 50,60" fill="none" stroke="currentColor"
-										stroke-width="10" />
+									<polygon points="0,100 0,50 50,10 100,50 100,100 50,60" fill="none"
+										stroke="currentColor" stroke-width="10" />
 								</svg>
 							</button>
 							<button class="tool-btn" onclick="NoteLineSwap(false)" title="Move line down">
 								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
-									<polygon points="0,10 50,50 100,10 100,60 50,100 0,60" fill="none" stroke="currentColor"
-										stroke-width="10" />
+									<polygon points="0,10 50,50 100,10 100,60 50,100 0,60" fill="none"
+										stroke="currentColor" stroke-width="10" />
 								</svg>
 							</button>
 						</div>
-						<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
-							<button class="tool-btn" onclick="TextAreaMoveBlock(true)" title="Move line to start of section">
+						<div class="hide-scrollbar"
+							style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
+							<button class="tool-btn" onclick="TextAreaMoveBlock(true)"
+								title="Move line to start of section">
 								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
-									<polygon points="0,100 0,60 50,20 100,60 100,100 50,60" fill="none" stroke="currentColor"
-										stroke-width="10" />
+									<polygon points="0,100 0,60 50,20 100,60 100,100 50,60" fill="none"
+										stroke="currentColor" stroke-width="10" />
 									<path d="M0,10 L100,10" stroke="currentColor" stroke-width="20" />
 								</svg>
 							</button>
-							<button class="tool-btn" onclick="TextAreaMoveBlock(false)" title="Move line to end of section">
+							<button class="tool-btn" onclick="TextAreaMoveBlock(false)"
+								title="Move line to end of section">
 								<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
-									<polygon points="0,10 50,50 100,10 100,50 50,90 0,50" fill="none" stroke="currentColor"
-										stroke-width="10" />
+									<polygon points="0,10 50,50 100,10 100,50 50,90 0,50" fill="none"
+										stroke="currentColor" stroke-width="10" />
 									<path d="M0,100 L100,100" stroke="currentColor" stroke-width="20" />
 								</svg>
 							</button>
@@ -3394,29 +3422,35 @@
 								title="Insert Timestamp">UTC</button>
 						</div>
 						<button class="notes-btn" style="flex:0" onwheel="PanelTextareaResize(this,undefined,event)"
-							onclick="PanelTextareaResize(this,undefined,undefined)" title="Notes/Script Display Ratio">2:2</button>
+							onclick="PanelTextareaResize(this,undefined,undefined)"
+							title="Notes/Script Display Ratio">2:2</button>
 						<button class="notes-btn" style="flex:0" onwheel="PanelTextareaResizeH(this,undefined,event)"
 							onclick="PanelTextareaResizeH(this)" title="Editor Height">H15</button>
-						<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
+						<div class="hide-scrollbar"
+							style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
 							<button class="notes-btn" style="min-width:55px" onclick="ScriptPublish(this)"
 								title="Publish Script">Publish</button>
 							<button class="notes-btn" style="min-width:55px" onclick="CosmicComparisonView(true)"
 								title="See the Cosmic version">Cosmic</button>
-							<button class="notes-btn" style="min-width:55px" onclick="TranslateFieldLogToGuildLogFromClipboard()"
+							<button class="notes-btn" style="min-width:55px"
+								onclick="TranslateFieldLogToGuildLogFromClipboard()"
 								title="Transcribe for Guild Log">Xscribe</button>
 						</div>
 
 					</div>
 				</div>
-				<div id="card-sec-bar" style="text-align:center;margin-top:5px;cursor:pointer" title="Display Selection">
+				<div id="card-sec-bar" style="text-align:center;margin-top:5px;cursor:pointer"
+					title="Display Selection">
 					<div id="card-sec-btns" style="display:flex;text-align:center">
 
 						<button class="tool-btn sec-btn on" onclick="ToggleByID(this,'card-tag-section')"
 							title="Card Tags (t)">#</button>
 						<button class="tool-btn sec-btn on" onclick="ToggleByID(this,'card-title')"
 							title="Card Title (n)">n</button>
-						<button class="tool-btn sec-btn on" onclick="ToggleByID(this,'card-id')" title="Card ID (p)">id</button>
-						<button class="tool-btn sec-btn" onclick="ToggleByID(this,'card-path-url')" title="Card URL (u)">u</button>
+						<button class="tool-btn sec-btn on" onclick="ToggleByID(this,'card-id')"
+							title="Card ID (p)">id</button>
+						<button class="tool-btn sec-btn" onclick="ToggleByID(this,'card-path-url')"
+							title="Card URL (u)">u</button>
 						<button class="tool-btn sec-btn" onclick="ToggleByID(this,'card-img-url')"
 							title="Card Cover Image (i)">i</button>
 						<button class="tool-btn sec-btn" onclick="ToggleByID(this,'card-sprite-parameters')"
@@ -3428,8 +3462,9 @@
 					</div>
 				</div>
 				<div id="card-tag-section" class="active">
-					<input type="text" id="assign-tag-input" placeholder="Add Tag" style="display:none" enterkeyhint="go"
-						inputmode="text" oninput="updateAssignmentUI()" onkeydown="handleTagKey(event)">
+					<input type="text" id="assign-tag-input" placeholder="Add Tag" style="display:none"
+						enterkeyhint="go" inputmode="text" oninput="updateAssignmentUI()"
+						onkeydown="handleTagKey(event)">
 					<div id="card-tag-list" class="tag-cloud" style="padding:5px 0px"></div>
 				</div>
 			</div>
@@ -3471,8 +3506,8 @@
 				<div class="flex-when-active active">
 					<!--Collections Button-->
 					<button class="tool-btn" onclick="toggleTab(event, 'tab-collections')" title="Collections">
-						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-							stroke-linecap="round" stroke-linejoin="round">
+						<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 							<rect x="7" y="7" width="14" height="14" rx="2" ry="2"></rect>
 							<path d="M3 15v-8c0-1.1.9-2 2-2h8"></path>
 						</svg>
@@ -3491,7 +3526,9 @@
 						<option value="📂 Asset List">Show/hide the list/grid of assets (images, files, etc...)</option>
 						<option value="🎮 Button Panel">Show the button panel</option>
 						<option value="🪪 Card Fields">Toggle visibility of card fields</option>
-						<option value="❌ Close Panel">Close this panel. (Click somewhere to bring this back up.)</option>
+						<option value="🧮 Check Memory Usage">Check memory usage.</option>
+						<option value="❌ Close Panel">Close this panel. (Click somewhere to bring this back up.)
+						</option>
 						<option value="🗃️ Collections">Show/hide the collections section</option>
 						<option value="☀️ Daily Quest">Mark the active card for daily quest</option>
 						<option value="📝 Development Notes">Notepad not associated to a card</option>
@@ -3505,14 +3542,16 @@
 						<option value="✉️ Send Message">Send feedback, give suggestion, or log bugs</option>
 						<option value="🐣 Starter Pack">Reload the default content</option>
 						<option value="🏷️ Tag Cloud">Show/hide the tag cloud</option>
-						<option value="💼 Translate to Google Sheet">(Temp) Guild Utility that translate a text record to Google
+						<option value="💼 Translate to Google Sheet">(Temp) Guild Utility that translate a text record
+							to Google
 							Sheet
 							entries.</option>
 						<option value="🖼️ Wallpaper">Set the active card image as the wallpaper of the app
 							<button class="tool-btn" onclick="setCenteredAsWallpaper(null)">WP</button>
 						</option>
 					</datalist>
-					<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
+					<div class="hide-scrollbar"
+						style="display:flex;flex-direction: column;overflow-y: auto;height:36px;">
 						<div class="flex-when-active active">
 							<button class="tool-btn" title="Save to IDB" onclick="IDB.get().saveCache()">
 								<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
@@ -3521,12 +3560,17 @@
 										fill="none" stroke="currentColor" stroke-width="8" />
 								</svg>
 							</button>
-							<button class="tool-btn" title="Clear cache and load Todo list" onclick="IDB.get().getTodo()">
+							<button class="tool-btn" title="Clear cache and load Todo list"
+								onclick="IDB.get().getTodo()">
 								<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-									<path d="M10 10L30 10L30 30L10 30Z" fill="none" stroke="currentColor" stroke-width="8" />
-									<path d="M10 40L30 40L30 60L10 60Z" fill="none" stroke="currentColor" stroke-width="8" />
-									<path d="M10 70L30 70L30 90L10 90Z" fill="none" stroke="currentColor" stroke-width="8" />
-									<path d="M40 20L90 20M40 50L90 50M40 80L90 80" fill="none" stroke="currentColor" stroke-width="8" />
+									<path d="M10 10L30 10L30 30L10 30Z" fill="none" stroke="currentColor"
+										stroke-width="8" />
+									<path d="M10 40L30 40L30 60L10 60Z" fill="none" stroke="currentColor"
+										stroke-width="8" />
+									<path d="M10 70L30 70L30 90L10 90Z" fill="none" stroke="currentColor"
+										stroke-width="8" />
+									<path d="M40 20L90 20M40 50L90 50M40 80L90 80" fill="none" stroke="currentColor"
+										stroke-width="8" />
 								</svg>
 							</button>
 						</div>
@@ -3538,9 +3582,9 @@
 								IM
 							</button>
 						</div>
-						
+
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
@@ -3579,11 +3623,12 @@
 					<!--Random Draw-->
 					<button class="tool-btn" onclick="createCard()">
 						<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path d="M12 3L19 7L12 11L5 7L12 3Z" fill="currentColor" fill-opacity="0.3" stroke="currentColor"
-								stroke-width="1.5" stroke-linejoin="round" />
-							<path d="M12 11L19 7V15L12 19V11Z" fill="currentColor" fill-opacity="0.1" stroke="currentColor"
-								stroke-width="1.5" stroke-linejoin="round" />
-							<path d="M5 7L12 11V19L5 15V7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+							<path d="M12 3L19 7L12 11L5 7L12 3Z" fill="currentColor" fill-opacity="0.3"
+								stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+							<path d="M12 11L19 7V15L12 19V11Z" fill="currentColor" fill-opacity="0.1"
+								stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+							<path d="M5 7L12 11V19L5 15V7Z" stroke="currentColor" stroke-width="1.5"
+								stroke-linejoin="round" />
 							<circle cx="12" cy="7" r="1" fill="currentColor" />
 							<circle cx="7" cy="11" r="1" fill="currentColor" />
 							<circle cx="10" cy="15" r="1" fill="currentColor" />
@@ -3594,11 +3639,12 @@
 					</button>
 					<button class="tool-btn  auto-random-btn" onclick="toggleAutoRandom()" title="Random Draw">
 						<svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-							<path d="M12 3L19 7L12 11L5 7L12 3Z" fill="currentColor" fill-opacity="0.3" stroke="currentColor"
-								stroke-width="1.5" stroke-linejoin="round" />
-							<path d="M12 11L19 7V15L12 19V11Z" fill="currentColor" fill-opacity="0.1" stroke="currentColor"
-								stroke-width="1.5" stroke-linejoin="round" />
-							<path d="M5 7L12 11V19L5 15V7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+							<path d="M12 3L19 7L12 11L5 7L12 3Z" fill="currentColor" fill-opacity="0.3"
+								stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+							<path d="M12 11L19 7V15L12 19V11Z" fill="currentColor" fill-opacity="0.1"
+								stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+							<path d="M5 7L12 11V19L5 15V7Z" stroke="currentColor" stroke-width="1.5"
+								stroke-linejoin="round" />
 							<circle cx="12" cy="7" r="1" fill="currentColor" />
 							<circle cx="7" cy="11" r="1" fill="currentColor" />
 							<circle cx="10" cy="15" r="1" fill="currentColor" />
@@ -3639,7 +3685,8 @@
 
 
 
-					<button class="tool-btn half" title="Create a blank card" onClick="createCard(null,true)">C+</button>
+					<button class="tool-btn half" title="Create a blank card"
+						onClick="createCard(null,true)">C+</button>
 					<button class="tool-btn half" title="Toggle Speech Bubble" onClick="SpeechBubbleShow()">SB</button>
 					<button class="tool-btn half" title="Focus on this Track" onClick="TrackFocus(this)">TF</button>
 					<button class="tool-btn half" title="Show Tracks" onClick="showAllTracks()">TR</button>
@@ -3669,7 +3716,8 @@
 					<button class="tool-btn half">L18</button>
 					<button class="tool-btn full">L19</button>
 				</div>
-				<div style="display:flex;flex-wrap:wrap;flex:0 0 auto;justify-content: center;width:120px;height:108px;">
+				<div
+					style="display:flex;flex-wrap:wrap;flex:0 0 auto;justify-content: center;width:120px;height:108px;">
 					<!--Remove Track Button ◸-->
 					<button class="tool-btn" onclick="removeTrackRelative(event,+1)" title="Remove Track Above/Left">
 						<svg viewBox="0 0 100 100" style="width: 80%; height: 80%;">
@@ -3696,7 +3744,8 @@
 						</svg>
 					</button>
 					<!--Scroll Orientation Button-->
-					<button id="mode-toggle" class="tool-btn" onclick="toggleScrollMode(event)" title="Scroll Direction">
+					<button id="mode-toggle" class="tool-btn" onclick="toggleScrollMode(event)"
+						title="Scroll Direction">
 						<div class="icon-h"></div>
 					</button>
 					<!--RIGHT BUTTON-->
@@ -3729,17 +3778,19 @@
 					style="flex:1;display:flex;flex-wrap:wrap;justify-content: center;flex-direction:column;height:108px;overflow-x:auto;box-sizing: content-box;align-items: flex-start; scrollbar-width: none; -ms-overflow-style: none;align-content: flex-start">
 
 					<!--Bump to Start-->
-					<button class="tool-btn half" onclick="moveActiveCard(event,'start')" title="Move card to the start of track">
-						<svg viewBox="0 0 100 100" style="width: 60%; height: 60%;" stroke="currentColor" stroke-width="12"
-							fill="none">
+					<button class="tool-btn half" onclick="moveActiveCard(event,'start')"
+						title="Move card to the start of track">
+						<svg viewBox="0 0 100 100" style="width: 60%; height: 60%;" stroke="currentColor"
+							stroke-width="12" fill="none">
 							<path d="M0,0 L100,0 L100,10 L0,10Z" />
 							<polygon points="0,100 50,20 100,100" fill="currentColor" />
 						</svg>
 					</button>
 					<!--Bump to End-->
-					<button class="tool-btn half" onclick="moveActiveCard(event,'end')" title="Send the card to the end of track">
-						<svg viewBox="0 0 100 100" style="width: 60%; height: 60%;" stroke="currentColor" stroke-width="12"
-							fill="none">
+					<button class="tool-btn half" onclick="moveActiveCard(event,'end')"
+						title="Send the card to the end of track">
+						<svg viewBox="0 0 100 100" style="width: 60%; height: 60%;" stroke="currentColor"
+							stroke-width="12" fill="none">
 							<path d="M0,90 L100,90 L100,100 L0,100Z" />
 							<polygon points="0,0 50,80 100,0" fill="currentColor" />
 						</svg>
@@ -3749,21 +3800,22 @@
 					<button class="tool-btn half"
 						onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform', '_blank')"
 						title="Send Message">
-						<svg viewBox="0 0 100 100" style="width: 60%; height: 60%;" stroke="currentColor" stroke-width="12"
-							fill="none">
+						<svg viewBox="0 0 100 100" style="width: 60%; height: 60%;" stroke="currentColor"
+							stroke-width="12" fill="none">
 							<polygon points="0,10 100,10 100,90 0,90" />
 							<path d="M0,10 L50,50 L100,10" />
 						</svg>
 					</button>
 
 					<!--Context Menu-->
-					<button class="tool-btn half context-menu-btn" onclick="document.body.classList.toggle('no-contextmenu');"
+					<button class="tool-btn half context-menu-btn"
+						onclick="document.body.classList.toggle('no-contextmenu');"
 						title="Disable the Context Menu to allow drag and drop on mobile.">
 						<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
 							<rect x="20" y="0" width="80" height="80" rx="20" ry="20" fill="none" stroke="currentColor"
 								stroke-width="8" />
-							<rect x="0" y="20" width="80" height="80" rx="20" ry="20" fill="currentColor" stroke="currentColor"
-								stroke-width="8" />
+							<rect x="0" y="20" width="80" height="80" rx="20" ry="20" fill="currentColor"
+								stroke="currentColor" stroke-width="8" />
 						</svg>
 					</button>
 
@@ -3793,16 +3845,17 @@
 		<div class="bottom-bar" style="display:flex;text-align:center">
 			<div style="display:flex;">
 				<button class="tool-btn">
-					<img id="active-preview-thumb" class="save-notes-btn tool-btn" src="" referrerpolicy="no-referrer" alt=""
-						style="display: none;" title="Save changes to this card">
+					<img id="active-preview-thumb" class="save-notes-btn tool-btn" src="" referrerpolicy="no-referrer"
+						alt="" style="display: none;" title="Save changes to this card">
 				</button>
 				<!--Status Tab Button-->
 				<button id="status-bar-btn-1" class="tool-btn star-btn active flex-when-active"
 					onclick="ToggleByID(this,'card-status-bar');ToggleByID(this,'status-bar-btn-1');ToggleByID(this,'status-bar-btn-2')"
 					title="Star Active Card">
-					<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2"
-						stroke-linejoin="round">
-						<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+					<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" stroke="currentColor"
+						stroke-width="2" stroke-linejoin="round">
+						<path
+							d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
 					</svg>
 				</button>
 				<button id="status-bar-btn-2" class="tool-btn flex-when-active"
@@ -3817,7 +3870,8 @@
 				</button>
 				<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y:auto;height:36px;">
 					<button class="tool-btn" onclick="toggleTab(event,'asset-panel')" title="Asset List">
-						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2">
 							<rect x="3" y="3" width="7" height="7"></rect>
 							<rect x="14" y="3" width="7" height="7"></rect>
 							<rect x="14" y="14" width="7" height="7"></rect>
@@ -3826,19 +3880,25 @@
 					</button>
 					<button class="tool-btn" title="Show all daily quests" onclick="DailyQuestRnd()">
 						<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
-							<path d="M0 0L100 0L100 100L0 100 Z" fill="none" stroke="currentColor" stroke-width="10"></path>
+							<path d="M0 0L100 0L100 100L0 100 Z" fill="none" stroke="currentColor" stroke-width="10">
+							</path>
 						</svg>
 					</button>
 				</div>
 
 
 				<!--DEV NOTES BUTTON-->
-				<button class="tool-btn" id="settings-btn" onclick="toggleTab(event, 'tab-dev-notes')" title="Developer Notes">
+				<button class="tool-btn" id="settings-btn" onclick="toggleTab(event, 'tab-dev-notes')"
+					title="Developer Notes">
 					<svg viewBox="0 0 100 100">
-						<rect x="20" y="15" width="60" height="70" rx="5" fill="none" stroke="currentColor" stroke-width="6" />
-						<line x1="35" y1="35" x2="65" y2="35" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
-						<line x1="35" y1="50" x2="65" y2="50" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
-						<line x1="35" y1="65" x2="55" y2="65" stroke="currentColor" stroke-width="6" stroke-linecap="round" />
+						<rect x="20" y="15" width="60" height="70" rx="5" fill="none" stroke="currentColor"
+							stroke-width="6" />
+						<line x1="35" y1="35" x2="65" y2="35" stroke="currentColor" stroke-width="6"
+							stroke-linecap="round" />
+						<line x1="35" y1="50" x2="65" y2="50" stroke="currentColor" stroke-width="6"
+							stroke-linecap="round" />
+						<line x1="35" y1="65" x2="55" y2="65" stroke="currentColor" stroke-width="6"
+							stroke-linecap="round" />
 					</svg>
 				</button>
 
@@ -3846,51 +3906,56 @@
 			</div>
 			<input type="text" id="master-search" class="unified-width" style="width:100px; text-align:center;flex: 1"
 				placeholder="SEARCH..." oninput="refreshAllUI()" onkeydown="MasterSearchOnKeyDown(event,this)">
-
-			<div style="overflow-x: auto;display:flex;min-width:36px;flex-direction: row-reverse;">
-
-
-				<button class="tool-btn script-step-btn run-script-btn" onClick="ScriptStart(this,true,false)"
-					title="Play Script">
-					<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
-						<polygon points="0,0 0,100 100,50" fill="currentColor" />
+			<div class="hide-scrollbar" style="display:flex;flex-direction: column-reverse;overflow-y:auto;height:36px;">
+				<button class="tool-btn" onclick="toggleTab(event,'tab-controls')" title="Controls Tab">
+					<svg width="24" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+						style="transform: scale(1.4);">
+						<path d="M12 9.5L9 6.5V3H15V6.5L12 9.5Z" stroke="currentColor" stroke-width="1"
+							stroke-linejoin="round" />
+						<path d="M12 14.5L15 17.5V21H9V17.5L12 14.5Z" stroke="currentColor" stroke-width="1"
+							stroke-linejoin="round" />
+						<path d="M9.5 12L6.5 15H3V9H6.5L9.5 12Z" stroke="currentColor" stroke-width="1"
+							stroke-linejoin="round" />
+						<path d="M14.5 12L17.5 9H21V15H17.5L14.5 12Z" stroke="currentColor" stroke-width="1"
+							stroke-linejoin="round" />
 					</svg>
 				</button>
-				<button class="tool-btn script-stop-btn" onclick="ScriptStart(this,false,true)" title="Stop Script">
-					<svg viewBox="0 0 100 100" style="width: 50%; height: 50%;">
-						<polygon points="0,0 0,100 100,100 100,0" fill="currentColor" />
+				<button class="tool-btn" onclick="moveActiveCard(event,'start')"
+					title="Move card to the start of track">
+					<svg viewBox="0 0 100 100" style="width: 60%; height: 60%;" stroke="currentColor"
+						stroke-width="12" fill="none">
+						<path d="M0,0 L100,0 L100,10 L0,10Z" />
+						<polygon points="0,100 50,20 100,100" fill="currentColor" />
 					</svg>
 				</button>
-
+			</div>			
 				<div class="hide-scrollbar" style="display:flex;flex-direction: column;overflow-y:auto;height:36px;">
 					<button class="tool-btn" title="Put Away" onclick="ActiveCardStow()">
 						<svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
-							<path d="M50 0L50 70M20 40L50 70 L80 40M0 50L0 100L100 100L100 50" fill="none" stroke="currentColor"
-								stroke-width="10" />
+							<path d="M50 0L50 70M20 40L50 70 L80 40M0 50L0 100L100 100L100 50" fill="none"
+								stroke="currentColor" stroke-width="10" />
 						</svg>
 					</button>
 					</button>
 					<!--Removal Mode Button-->
-					<button class="tool-btn removal-mode-btn" onclick="RemovalButton(event)" ondblclick="clearWorkspace(event)"
-						title="Toggle Removal Mode">
+					<button class="tool-btn removal-mode-btn" onclick="RemovalButton(event)"
+						ondblclick="clearWorkspace(event)" title="Toggle Removal Mode">
 						<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
 							<path d="M20,20 L80,80 M80,20 L20,80" fill="none" stroke="currentColor" stroke-width="8" />
 						</svg>
 					</button>
 				</div>
-
-				<button class="tool-btn" onclick="toggleTab(event,'tab-controls')" title="Controls Tab">
-					<svg width="24" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-						style="transform: scale(1.4);">
-						<path d="M12 9.5L9 6.5V3H15V6.5L12 9.5Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" />
-						<path d="M12 14.5L15 17.5V21H9V17.5L12 14.5Z" stroke="currentColor" stroke-width="1"
-							stroke-linejoin="round" />
-						<path d="M9.5 12L6.5 15H3V9H6.5L9.5 12Z" stroke="currentColor" stroke-width="1" stroke-linejoin="round" />
-						<path d="M14.5 12L17.5 9H21V15H17.5L14.5 12Z" stroke="currentColor" stroke-width="1"
-							stroke-linejoin="round" />
+			<button class="tool-btn script-stop-btn" onclick="ScriptStart(this,false,true)" title="Stop Script">
+				<svg viewBox="0 0 100 100" style="width: 50%; height: 50%;">
+					<polygon points="0,0 0,100 100,100 100,0" fill="currentColor" />
+				</svg>
+			</button>
+			<button class="tool-btn script-step-btn run-script-btn" onClick="ScriptStart(this,true,false)"
+				title="Play Script">
+				<svg viewBox="0 0 100 100" style="width: 75%; height: 75%;">
+					<polygon points="0,0 0,100 100,50" fill="currentColor" />
 					</svg>
 				</button>
-			</div>
 		</div>
 	</div>
 	<div id="stage-area" class="stage-area">
@@ -3916,14 +3981,16 @@
 					</svg>
 				</button>
 				<div id="speech-text" class="speech-content"></div>
-				<div id="dialogue-timer" class="flex-when-active" style="flex-direction: column;width:100%;text-align: center;">
+				<div id="dialogue-timer" class="flex-when-active"
+					style="flex-direction: column;width:100%;text-align: center;">
 					<div id="dialogue-timer-charge-bar-frame">
 						<div class="charge-bar"></div>
 						<div class="timer-text"></div>
 					</div>
 					<div id="dialogue-timer-buttons" style="justify-content: center;gap:10px;padding:10px;"
 						class="flex-when-active">
-						<button class="tool-btn flex-when-active active" onclick="tmrDialog.start(this,true)">Start</button>
+						<button class="tool-btn flex-when-active active"
+							onclick="tmrDialog.start(this,true)">Start</button>
 						<button class="tool-btn flex-when-active active" onclick="tmrDialog.pause(this)">Pause</button>
 						<button class="tool-btn flex-when-active active" onclick="tmrDialog.stop(this)">Stop</button>
 					</div>
@@ -4204,7 +4271,29 @@
 					input.click();
 				});
 			}
-
+			async originEstimate() {
+				let out = "";
+				if (!('storage' in navigator) || !('estimate' in navigator.storage)) {
+					out = 'StorageManager API not supported on this browser.';
+					return;
+				}
+				try {
+					const { usage, quota, usageDetails } = await navigator.storage.estimate();
+					const remaining = (typeof usage === 'number' && typeof quota === 'number') ? Math.max(0, quota - usage) : null;
+					out = [
+						`usage:     ${usage ?? '-'} (${fmtBytes(usage)})`,
+						`quota:     ${quota ?? '-'} (${fmtBytes(quota)})`,
+						`remaining: ${remaining ?? '-'} (${fmtBytes(remaining)})`,
+						usageDetails ? `usageDetails: ${JSON.stringify(usageDetails, null, 2)}` : '(no usageDetails)'
+					].join('<br>');
+				} catch (e) {
+					out = 'Failed to estimate: ' + (e && e.message || e);
+				}
+				out = "Memory Usage estimation<hr>" + out + "<hr>Rerun?";
+				if(await showConfirm(out)){
+					this.originEstimate();
+				}
+			}
 			async saveCache() {
 				SPEC("20260308002600", "Evelyn", "Save the content of quester log.");
 				await this.ready;
@@ -4856,7 +4945,7 @@
 		function ChoiceEntry(code, choiceText) {
 			const div = document.createElement('div');
 			div.className = 'choice-entry';
-			div.dataset.code = code;
+			
 			const content = `
 				<span class="choice-label">${choiceText}</span>
 				<div class="choice-actions"></div>`;
@@ -4886,7 +4975,6 @@
 
 				}
 			};
-
 			return div;
 		}
 		function ChoiceName(choice) {
@@ -4944,8 +5032,16 @@
 			bubble.style.height = `${size}px`;
 			bubble.style.top = `${top}vh`;
 			bubble.style.left = `${left}vw`;
-			bubble.dataset.code = code;
 			bubble.dataset.choiceText = choiceText;
+
+			SPEC("20260310155600","Evelyn","If the code starts with >, add that as script instead.")
+			
+			if(code?.startsWith('>')){
+				bubble.dataset.script=`!Goto ${code.slice(1)}`;
+				bubble.dataset.code = "";
+			}else{
+			bubble.dataset.code = code;
+			}
 			ScriptBubbleSaveScript(bubble);
 			document.body.appendChild(bubble);
 			return bubble;
@@ -4956,6 +5052,12 @@
 			choiceList.classList.add('active');
 			choiceText = choiceText.replaceAll("//", "<br>");
 			const choiceEntry = ChoiceEntry(code, choiceText);
+			if(code?.startsWith('>')){
+				choiceEntry.dataset.script = `!Goto ${code.slice(1)}`;
+				choiceEntry.dataset.code = "";
+			}else{
+				choiceEntry.dataset.code = code;
+			}
 			if (bPrepend) {
 				choiceList.prepend(choiceEntry);
 			} else {
@@ -5302,6 +5404,8 @@
 				toggleTab(e, 'tab-controls'); hit = true;
 			} else if (choice.startsWith("🪪")) { // Card Fields
 				ToggleByID(null, 'card-sec-bar'); hit = true;
+			} else if (choice.startsWith("🧮")) { // Check Memory Usage
+				IDB.get().originEstimate(); hit = true;
 			} else if (choice.startsWith("❌")) { // Close Panel
 				toggleCommandPanel(e); hit = true;
 			} else if (choice.startsWith("🗃️")) { // Collections
@@ -5778,6 +5882,13 @@
 				delete soundLibrary[key];
 			}
 			DEBUG("Sound library cleared.", true);
+		}
+		function fmtBytes(n) {
+			if (n == null || isNaN(n)) return '—';
+			const units = ['B', 'KB', 'MB', 'GB', 'TB'];
+			let i = 0, v = Math.max(0, Number(n));
+			while (v >= 1024 && i < units.length - 1) { v /= 1024; i++; }
+			return `${v.toFixed(v < 10 && i > 0 ? 2 : 0)} ${units[i]}`;
 		}
 		function getFullResURL(url) {
 			// 20260110: Sasha: Given the url, get the full resolution URL.
@@ -6518,6 +6629,13 @@
 		async function saveCardNotes(e, bByUser) {
 			// 20251230: Cardinal			
 			e?.stopPropagation();
+			SPEC("20260310162800","Lei","If quester notes is in focus, save to IDB.");
+			const taInFocus = document.querySelector('.card-textarea.infocus');
+			if(taInFocus.id=='user-note'){
+				IDB.get().saveCache();
+				return;
+			}
+
 
 			const activeCard = Multitrack().querySelector(".card.is-active");
 			if (!activeCard) { return; }
@@ -6640,7 +6758,7 @@
 			// elChoice could be a bubble or an entry on the choice list.
 			// STEP:  Scan the rest of the script and save the content.
 			const SE = ScriptEngine();
-			let save = "";
+			let save = elChoice.dataset.script || "";
 			while (SE.dataset.script.startsWith(' ')) {
 				let line = ScriptPop(SE)[0];
 				save += line.slice(1);
@@ -6674,7 +6792,6 @@
 					choiceText = line.rightOf('!').trim();
 					choice = ChoiceListAppend(null, choiceText);
 					ScriptBubbleSaveScript(choice);
-
 				} else {
 					ChoiceBubbleSpawn(null, line.trim());
 				}
@@ -8450,8 +8567,6 @@
 				// In Horizontal, Up/Down jumps tracks
 				if (direction === 'up' || direction === 'down') isCrossTrackMove = true;
 			}
-
-
 			if (isCrossTrackMove) {
 				// --- LOGIC FOR MOVING TO ANOTHER TRACK ---
 				// 20251227: Cardinal: If there is no next track, create the track.
@@ -8492,28 +8607,31 @@
 				}
 			} else {
 				// --- LOGIC FOR MOVING WITHIN THE SAME TRACK ---
-
+				const prev = activeCard.previousElementSibling;
+				const next = activeCard.nextElementSibling;
 				if (direction === 'start') {
+					if(prev){
 					currentTrack.prepend(activeCard);
-				} else if (direction === 'end') {
-					currentTrack.append(activeCard);
-				} else if (direction === 'left' || direction === 'up') {
-					const prev = activeCard.previousElementSibling;
-					if (prev) {
-						prev.before(activeCard);
-					} else {
+					}else{
 						currentTrack.append(activeCard);
 						setActiveCard(currentTrack.firstElementChild);
 						bFollow = false;
-					}
-				} else {
-					const next = activeCard.nextElementSibling;
-					if (next) {
-						next.after(activeCard);
-					} else {
+					}					
+				} else if (direction === 'end') {
+					if(next){
+					currentTrack.append(activeCard);
+					}else{
 						currentTrack.prepend(activeCard);
 						setActiveCard(currentTrack.lastElementChild);
 						bFollow = false;
+					}
+				} else if (direction === 'left' || direction === 'up') {
+					if (prev) {
+						prev.before(activeCard);
+					}
+				} else {
+					if (next) {
+						next.after(activeCard);
 					}
 				}
 				// Keep focus on the card after it moves
