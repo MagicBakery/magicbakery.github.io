@@ -1995,5 +1995,19 @@
     "x": 280,
     "y": -150,
     "v": "20260314023301"
+  },
+  {
+    "n": "V_GRYPHON",
+    "t": [
+      "GRYPHON",
+      "V",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260314031000",
+    "u": "https://magicbakery.github.io/sprites/V_Gryphon_%7B20260314031000%7D.png",
+    "s": 500.0,
+    "x": 100.0,
+    "y": 40.0
   }
 ]
