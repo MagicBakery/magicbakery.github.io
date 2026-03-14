@@ -2006,8 +2006,107 @@
     ],
     "p": "20260314031000",
     "u": "https://magicbakery.github.io/sprites/V_Gryphon_%7B20260314031000%7D.png",
-    "s": 500.0,
-    "x": 100.0,
-    "y": 40.0
+    "s": 700,
+    "x": 293,
+    "y": 66,
+    "v": "20260314031000"
+  },
+  {
+    "n": "COURTYARD_SAKURA",
+    "t": [
+      "ACADEMY",
+      "COURTYARD",
+      "SAKURA",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260314041600",
+    "u": "https://substackcdn.com/image/fetch/$s_!PJVC!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F4a1be104-64e2-467c-adde-ed565ab3b950_1536x1024.jpeg"
+  },
+  {
+    "n": "COURTYARD_SAKURA",
+    "t": [
+      "ACADEMY",
+      "COURTYARD",
+      "SAKURA",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260314041601",
+    "u": "https://substackcdn.com/image/fetch/$s_!SiHh!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fefa92fb5-10d4-4749-a12a-66555a52b361_1536x1024.jpeg"
+  },
+  {
+    "n": "COURTYARD_SAKURA",
+    "t": [
+      "ACADEMY",
+      "COURTYARD",
+      "SAKURA",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260314041602",
+    "u": "https://substackcdn.com/image/fetch/$s_!Cjci!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9e87ccfa-4c5a-4152-978f-8f1addb7932f_1536x1024.jpeg"
+  },
+  {
+    "n": "COURTYARD_SAKURA",
+    "t": [
+      "ACADEMY",
+      "COURTYARD",
+      "SAKURA",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260314041603",
+    "u": "https://substackcdn.com/image/fetch/$s_!Jgd9!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff19f4c2b-b3fb-45e8-886e-3b6ce2f9a626_1536x1024.jpeg"
+  },
+  {
+    "n": "TELEPORT",
+    "t": [
+      "PARK",
+      "TELEPORT",
+      "VICTORIA",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260314043500",
+    "u": "https://substackcdn.com/image/fetch/$s_!nikc!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F1d07795f-2f36-43bd-809e-eb29e42a48dc_1536x1024.jpeg"
+  },
+  {
+    "n": "ADVENTURERS GUILD_STREET_TELEPORT",
+    "t": [
+      "ADVENTURERS GUILD",
+      "PANARCANA",
+      "STREET",
+      "TELEPORT",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260314044606",
+    "u": "https://substackcdn.com/image/fetch/$s_!IGfw!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F56455035-db33-4c2d-a7aa-1b5b39c61567_1536x1024.jpeg"
+  },
+  {
+    "n": "NIGHT",
+    "t": [
+      "DETECTIVES OFFICE",
+      "NIGHT",
+      "VICTORIA",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260314055900",
+    "u": "https://substackcdn.com/image/fetch/$s_!DAu6!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fdebe31e1-5371-49cf-9c33-a45f8833bafb_1536x1024.jpeg"
+  },
+  {
+    "n": "NIGHT_MOON",
+    "t": [
+      "DETECTIVES OFFICE",
+      "MOON",
+      "NIGHT",
+      "VICTORIA",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260314055901",
+    "u": "https://substackcdn.com/image/fetch/$s_!QDxf!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc1f065bd-7a97-41cc-96c0-92eca3cef833_1536x1024.jpeg"
   }
 ]
