@@ -1370,21 +1370,6 @@
     "v": "20260220060511"
   },
   {
-    "n": "BLACK_LISTEN",
-    "t": [
-      "BLACK",
-      "LISTEN",
-      "[ACTOR]",
-      "[STARTER PACK]"
-    ],
-    "p": "20260201020700",
-    "u": "https://magicbakery.github.io/sprites/Black_Listen_%7B20260201020700%7D.png",
-    "s": 900,
-    "x": 310,
-    "y": 76,
-    "v": "20260220060511"
-  },
-  {
     "n": "WHEAT_FIELD_SUMMER",
     "t": [
       "FIELD",
@@ -2164,8 +2149,22 @@
     ],
     "p": "20260314177800",
     "u": "https://magicbakery.github.io/sprites/Brian_%7B20260314177800_1826%7D.png",
-    "s": 600.0,
+    "s": 480,
+    "x": 140,
+    "y": 70,
+    "v": "20260314177800"
+  },
+  {
+    "n": "BLACK",
+    "t": [
+      "BLACK",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260314190000",
+    "u": "https://magicbakery.github.io/sprites/Black_%7B20260314190000%7D.png",
+    "s": 480.0,
     "x": 100.0,
-    "y": 50.0
+    "y": 0.0
   }
 ]
