@@ -1844,7 +1844,7 @@
     "u": "https://magicbakery.github.io/sprites/Melody_%7B20260310224300%7D.png",
     "s": 690,
     "x": 249,
-    "y": 50,
+    "y": 52,
     "v": "20260310224300"
   },
   {
@@ -2149,6 +2149,21 @@
     ],
     "p": "20260314160405",
     "u": "https://magicbakery.github.io/sprites/Amber_%7B20260314160405%7D.png",
+    "s": 680,
+    "x": 261,
+    "y": 57,
+    "v": "20260315001617",
+    "c": "!End%0A%23Prompt%3A%20Entertaining%20attractive%20stunning%20whimsical%20Isekai%20medieval%20vibrant%20anime%20digital%20illustration.%20kid%20safe.%20Long%20amber%20brown%20hair.%20half%20up%20lace%20braid%20with%20red%20ribbon.%20amber%20eyes.%20short%20sleeve%20white%20blouse%20collar%20with%20red%20ribbon%2C%20green%20waist%20corset%20bodice%20vest%20below%20chest%20with%20gold%20trim.%20green%20dress.%20brown%20leather%20bracelets.%20standing%20in%20adventurers%20guild.%20right%20hand%20over%20left%20hand.%20welcoming%20and%20cheerful%20expression%0A"
+  },
+  {
+    "n": "BRIAN",
+    "t": [
+      "BRIAN",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260314177800",
+    "u": "https://magicbakery.github.io/sprites/Brian_%7B20260314177800_1826%7D.png",
     "s": 600.0,
     "x": 100.0,
     "y": 50.0
