@@ -1572,7 +1572,7 @@
     "u": "https://magicbakery.github.io/sprites/John_%7B20260208201100%7D.png",
     "s": 640,
     "x": 294,
-    "y": 96,
+    "y": 100,
     "v": "20260220060511"
   },
   {
@@ -1747,7 +1747,7 @@
     ],
     "p": "20260306215800",
     "u": "https://magicbakery.github.io/sprites/Patricia_%7B20260306215800%7D.png",
-    "s": 660,
+    "s": 650,
     "x": 310,
     "y": 48,
     "v": "20260306215800"
@@ -2163,8 +2163,23 @@
     ],
     "p": "20260314190000",
     "u": "https://magicbakery.github.io/sprites/Black_%7B20260314190000%7D.png",
-    "s": 480.0,
-    "x": 100.0,
-    "y": 0.0
+    "s": 550,
+    "x": 220,
+    "y": 40,
+    "v": "20260314190000"
+  },
+  {
+    "n": "KISARAGI",
+    "t": [
+      "KISARAGI",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260314194400",
+    "u": "https://magicbakery.github.io/sprites/Kisaragi_%7B20260314194400%7D.png",
+    "s": 535,
+    "y": 36,
+    "v": "20260314194400",
+    "x": -217
   }
 ]
