@@ -2181,5 +2181,47 @@
     "y": 36,
     "v": "20260314194400",
     "x": -217
+  },
+  {
+    "n": "CASEY",
+    "t": [
+      "CASEY",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260314205100",
+    "u": "https://magicbakery.github.io/sprites/Casey_%7B20260314205100%7D.png",
+    "s": 675,
+    "x": 235,
+    "y": 70,
+    "v": "20260314205100"
+  },
+  {
+    "n": "44",
+    "t": [
+      "44",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260314213200",
+    "u": "https://magicbakery.github.io/sprites/44_%7B20260314213200_2133%7D.png",
+    "s": 400,
+    "x": -200,
+    "y": 50,
+    "v": "20260314213200"
+  },
+  {
+    "n": "LEDIA",
+    "t": [
+      "LEDIA",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260314230700",
+    "u": "https://magicbakery.github.io/sprites/Ledia_%7B20260314230700%7D.png",
+    "s": 500,
+    "x": 278,
+    "y": 60,
+    "v": "20260314230700"
   }
 ]
