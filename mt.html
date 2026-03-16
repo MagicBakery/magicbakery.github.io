@@ -4970,7 +4970,8 @@
 			bubble.dataset.choiceText = choiceText;
 
 			SPEC("20260316011200","Evelyn","If the code has |, pick one of them randomly.")
-			code = code.oneOf();
+			code = code?.oneOf();
+
 			
 			SPEC("20260310155600", "Evelyn", "If the code starts with >, add that as script instead.")
 
@@ -4990,7 +4991,7 @@
 			const choiceList = document.getElementById('choice-container');
 			choiceList.classList.add('active');
 			choiceText = choiceText.replaceAll("//", "<br>");
-			code = code.oneOf();
+			code = code?.oneOf();
 			const choiceEntry = ChoiceEntry(code, choiceText);
 			if (code?.startsWith('>')) {
 				choiceEntry.dataset.script = `!Goto ${code.slice(1)}`;
