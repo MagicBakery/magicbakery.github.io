@@ -4969,7 +4969,11 @@
 			bubble.style.left = `${left}vw`;
 			bubble.dataset.choiceText = choiceText;
 
+			SPEC("20260316011200","Evelyn","If the code has |, pick one of them randomly.")
+			code = code.oneOf();
+			
 			SPEC("20260310155600", "Evelyn", "If the code starts with >, add that as script instead.")
+
 
 			if (code?.startsWith('>')) {
 				bubble.dataset.script = `!Goto ${code.slice(1)}`;
@@ -4986,6 +4990,7 @@
 			const choiceList = document.getElementById('choice-container');
 			choiceList.classList.add('active');
 			choiceText = choiceText.replaceAll("//", "<br>");
+			code = code.oneOf();
 			const choiceEntry = ChoiceEntry(code, choiceText);
 			if (code?.startsWith('>')) {
 				choiceEntry.dataset.script = `!Goto ${code.slice(1)}`;
@@ -7878,6 +7883,13 @@
 			String.prototype.leftOf = function (substring) {
 				return this.split(substring)[0];
 			}
+			String.prototype.oneOf = function (){
+					// 20260316: Evelyn: split the string by |, then return one of them randomly.
+					const parts = this.split("|").map(s => s.trim()).filter(s => s.length > 0);
+					if(parts.length === 0){ return ""; }
+					const i = Math.floor(Math.random() * parts.length);
+					return parts[i];
+			};
 			String.prototype.rightOf = function (substring, bInsensitive) {
 				// 20260125: Evelyn: Returns the remaining string after the first instance of substring.
 				const strcc = bInsensitive ? this.toUpperCase() : this;
