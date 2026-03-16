@@ -1943,8 +1943,8 @@
     ],
     "p": "20260314015200",
     "u": "https://substackcdn.com/image/fetch/$s_!m8pn!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd6e3f2c9-304d-4b17-a4b7-38cd7c050b19_1536x1024.jpeg",
-    "v": "20260315191601",
-    "c": "!stage%20this%0A%3DMagic%20Bakery%3D%0A*%3E20260314021000*%20Post%20Office%0A%23%0A",
+    "v": "20260316045734",
+    "c": "!stage%20!R%20this%0A%3DMagic%20Bakery%3D%0A*%3E20260314021000*%20Post%20Office%0A%23%0A",
     "s": 0,
     "x": 0,
     "y": 0
@@ -1960,8 +1960,8 @@
     ],
     "p": "20260314021000",
     "u": "https://substackcdn.com/image/fetch/$s_!-mkK!,w_1272,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8d590776-4587-4ab1-b553-a9f9e2816f1a_1536x1024.jpeg",
-    "v": "20260315192101",
-    "c": "!stage%20this%0A%3DPost%20Office%20Street%3D%0A*%3E20260314015200*%20Magic%20Bakery%0A*%3E20260314044606*%20Plaza%0A%23",
+    "v": "20260316052318",
+    "c": "!stage%20!L%20this%0A%3DPost%20Office%20Street%3D%0A*%3E20260314015200*%20Magic%20Bakery%0A*%3E20260314044606*%20Adventurers%20Guild%0A%23",
     "s": 0,
     "x": 0,
     "y": 0
@@ -2109,11 +2109,11 @@
     ],
     "p": "20260314044606",
     "u": "https://substackcdn.com/image/fetch/$s_!IGfw!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F56455035-db33-4c2d-a7aa-1b5b39c61567_1536x1024.jpeg",
-    "v": "20260315211948",
+    "v": "20260316052153",
     "s": 0,
     "x": 0,
     "y": 0,
-    "c": "%3F20260309045500%20*%3E20260314044606*%20Panarcana%0A!Stage%20this%0A%3DPanarcana%3D%0A%2020260314044606%20%23Paths%20Query%0A*!%3E20260306213800*Adventurers%20Guild%0A*%3E20260314015200*%20Magic%20Bakery%0A*%3E20260314021000*%20Post%20Office%0A%0A"
+    "c": "!clear%20choices%0A%3F20260309045500%20*%3E20260314044606*%20Panarcana%0A!Stage%20!R%20this%0A%3DPanarcana%3D%0A%2020260314044606%20%23Paths%20Query%0A*!%3EAGI*Adventurers%20Guild%0A*%3E20260314021000*%20Post%20Office%0A%0A%23AGI%23%0A!Stage%20quest%2Chall%0A%3DAdventurers%20Guild%3D%0A*%3E20260208013400*%20Diner%0A*%3ETOP*%20Back%20to%20Plaza%0A*%24New*%20%22I'm%20new%2C%20what%20is%20this%20place%3F%22%0A%0A%23About%23%0A!%0A!Goto%20AGI%0A%0A%0A"
   },
   {
     "n": "NIGHT",
