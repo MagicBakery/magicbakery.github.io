@@ -13,8 +13,8 @@
 	<link rel="apple-touch-icon" href="/icons/star_192.png">
 	<link rel="manifest" href="/mt_manifest.json">
 	<script>
-		const APP_VERSION = "20260315222400"; //#Version
-		const APP_ANNOUNCEMENT = "20260315: Stage Panning"
+		const APP_VERSION = "20260322034900"; //#Version
+		const APP_ANNOUNCEMENT = "20260322: Storage fix"
 		const APP_DEFAULTPACK = "https://magicbakery.github.io/starterpack.json";
 		const APP_DEFAULTWALLPAPER = "https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg";
 		const APP_HOMEURL = "https://magicbakery.github.io/?id=P202512210026";
@@ -4968,13 +4968,9 @@
 			bubble.style.top = `${top}vh`;
 			bubble.style.left = `${left}vw`;
 			bubble.dataset.choiceText = choiceText;
-
 			SPEC("20260316011200","Evelyn","If the code has |, pick one of them randomly.")
 			code = code?.oneOf();
-
-			
 			SPEC("20260310155600", "Evelyn", "If the code starts with >, add that as script instead.")
-
 
 			if (code?.startsWith('>')) {
 				bubble.dataset.script = `!Goto ${code.slice(1)}`;
@@ -5175,15 +5171,12 @@
 				}
 			});
 			if (list.length == 0) {
-				//showToast("Your storage area has no daily quest card. A random card there is drawn");
+				showToast("Your storage area has no daily quest card. A random card there is drawn");
 				list = cards;
 			}
 			const rndCard = list[Math.floor(Math.random() * list.length)];
 			const data = DATAByID(rndCard.dataset.id);
-			if (!data) {
-				//showToast("Your storage area has a card with an id not found in the current collection(s)."); return; }
-				createCard(rndCard);
-			} else {
+			if (data) {
 				createCard(data);
 			}
 		}
