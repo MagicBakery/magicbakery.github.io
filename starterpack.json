@@ -2275,20 +2275,16 @@
     "v": "20260322162200"
   },
   {
-    "n": "MIDWAY",
+    "n": "FINA",
     "t": [
-      "EXHIBIT",
-      "MIDWAY",
-      "MUSEUM",
-      "VICTORIA",
-      "[SCENE]",
+      "FINA",
+      "[ACTOR]",
       "[STARTER PACK]"
     ],
-    "p": "20260322200700",
-    "u": "https://substackcdn.com/image/fetch/$s_!75GW!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F92cc1f45-b139-4c83-bde4-22a20a109529_1536x629.png",
-    "v": "20260322200700",
-    "s": 0,
-    "x": 0,
-    "y": 0
+    "p": "20260324235100",
+    "u": "https://magicbakery.github.io/sprites/Fina_%7B20260324235100%7D.png",
+    "s": 500.0,
+    "x": 240.0,
+    "y": 15.0
   }
 ]
