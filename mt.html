@@ -4944,10 +4944,12 @@
 				bubble.closest(".choice-bubble").remove();
 			}
 		}
-		function ChoiceBubbleSpawn(code, choiceText) {
+		function ChoiceBubbleSpawn(code, choiceText,bOptional) {
 			// 20260119: LRRH: Enter spawning mode
 			const scriptEngine = ScriptEngine();
-			scriptEngine.setAttribute('SE-BubbleSpawning', '');
+			if(!bOptional){
+				scriptEngine.setAttribute('SE-BubbleSpawning', '');
+			}			
 			const bubble = document.createElement('div');
 			bubble.className = 'choice-bubble';
 			bubble.innerText = ''; // Nondescript at first
@@ -6786,6 +6788,9 @@
 				code = code.rightOf('!');
 				choice = ChoiceListAppend(code, choiceText);
 				ScriptBubbleSaveScript(choice);
+			}else if(prefix ==="."){ // A . choice is optional.
+				code = code.rightOf('.');
+				ChoiceBubbleSpawn(code, choiceText,true);
 			} else {
 				ChoiceBubbleSpawn(code, choiceText);
 			}
