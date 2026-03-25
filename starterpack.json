@@ -2286,5 +2286,18 @@
     "s": 500.0,
     "x": 240.0,
     "y": 15.0
+  },
+  {
+    "n": "MIKELA",
+    "t": [
+      "MIKELA",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260325003500",
+    "u": "https://magicbakery.github.io/sprites/Mikela_%7B20260325003500%7D.png",
+    "s": 625.0,
+    "x": 270.0,
+    "y": 45.0
   }
 ]

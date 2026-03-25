@@ -7563,10 +7563,15 @@
 			const stageEl = document.getElementById('stage-area');
 			// 20260125: Sasha: By default, the stage scene is the script card's cover image.
 			let scene = null;
-			args = args.trim();
+			args = args.trim().oneOf();
 			let argsU = args.toUpperCase() || "SEASON";
 			let prefix = args.charAt(0);
 
+			if (argsU.startsWith("!BLANK")){
+				StageChange('', anchor);
+				stageEl.classList.add('active');
+				return true;
+			}
 			if (argsU.startsWith("!L ")) {
 				anchor = "left";
 				argsU = argsU.slice(3).trim();
