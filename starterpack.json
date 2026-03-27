@@ -1622,7 +1622,10 @@
     ],
     "p": "20260210002100",
     "u": "https://substackcdn.com/image/fetch/$s_!TsJo!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fb56d45eb-2871-4ba6-83ca-9c94c8a134e7_1536x1024.jpeg",
-    "v": "20260220060511"
+    "v": "20260220060511",
+    "s": 0,
+    "x": 0,
+    "y": 0
   },
   {
     "n": "KOYO",
@@ -2088,7 +2091,11 @@
     ],
     "p": "20260314041603",
     "u": "https://substackcdn.com/image/fetch/$s_!Jgd9!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ff19f4c2b-b3fb-45e8-886e-3b6ce2f9a626_1536x1024.jpeg",
-    "v": "20260314041603"
+    "v": "20260327053135",
+    "c": "!Stage%20this%0A%3DMagic%20Academy%3D%0A%40StarTree%3A%20Welcome%20to%20the%20Magic%20Academy!%20%0A%40StarTree%3A%20The%20academy%20is%20in%20Spring%20Break%2C%20but%20this%20StarTree%20is%20happy%20to%20answer%20your%20questions.%0A*%3E20260309045500*%20Teleport%20Hub%0A*%3EWebsite*%20%22What%20is%20the%20website%20of%20the%20academy%3F%22%0A!Goto%20Top%0A%0A%0A%23Teleport%20Registry%0A%3F20260309045500%20*%3E20260314041603*%20Magic%20Academy%0A%0A%23Website%23%0A%40StarTree%3A%20The%20Academy's%20web%20address%20is%20%5Burl%3Dhttps%3A%2F%2Fmagicbakery.github.io%2F%3Fid%3DP202403231454%5Dthis%5B%2Furl%5D.%0A!Goto%20Top",
+    "s": 0,
+    "x": 0,
+    "y": 0
   },
   {
     "n": "TELEPORT",
@@ -2283,9 +2290,11 @@
     ],
     "p": "20260324235100",
     "u": "https://magicbakery.github.io/sprites/Fina_%7B20260324235100%7D.png",
-    "s": 500.0,
-    "x": 240.0,
-    "y": 15.0
+    "s": 500,
+    "x": 240,
+    "y": 15,
+    "v": "20260325092715",
+    "c": "!Stage%20!Blank%7CThis%0A*.%3EOption1*%20Option%201%0A*.*%20Option%202%0A!%0A!Stage%20Museum%0A*Mandatory%0A!%0A!Stage%20Winter%0A!%0A%40Fina%3A%20Hi%0A!%0A%23Option1%23%0A%40Fina%3A%20Option%201"
   },
   {
     "n": "MIKELA",
@@ -2296,8 +2305,9 @@
     ],
     "p": "20260325003500",
     "u": "https://magicbakery.github.io/sprites/Mikela_%7B20260325003500%7D.png",
-    "s": 625.0,
-    "x": 270.0,
-    "y": 45.0
+    "s": 625,
+    "x": 270,
+    "y": 45,
+    "v": "20260325003500"
   }
 ]
