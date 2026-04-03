@@ -2343,5 +2343,16 @@
     "x": -233,
     "y": 50,
     "v": "20260402004000"
+  },
+  {
+    "n": "LIBRARY",
+    "t": [
+      "ACADEMY",
+      "LIBRARY",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260403013300",
+    "u": "https://substackcdn.com/image/fetch/$s_!zWxt!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2bfc5ae4-7fbc-4d56-a04e-e20a664c70ab_1536x1024.jpeg"
   }
 ]
