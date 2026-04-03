@@ -4736,17 +4736,17 @@
 			// Here the @ at the beginning is already removed.
 			// STEP: Get the name of the actor.
 			// 20260214: Natalie: The actor's name could be delimited by a space of a colon.
-			// Example command: @Evelyn Left: Dialogue
-			const match1 = command.leftOf(' ').trim();
-			const match2 = command.leftOf(':').trim();
-			const commandStr = match2.length > match1.length ? match2 : match1;
-			const commands = commandStr.split(" ");
-			let actorName = commands[0];
+			// Example command: @Evelyn !L: Dialogue
+			
+			//const match1 = command.leftOf(' ').trim();
+			//const match2 = command.leftOf(':').trim();
+			//const commandStr = match2.length > match1.length ? match2 : match1;
+			const commandStr = command.split(":")[0].trim();
 			const actorX = ActorScanX(commandStr);
-			DEBUG(actorX);
+			const actorName = commandStr.split(" ")[0].trim();			
+			
 
-
-			let rest = command.rightOf(actorName).trim();
+			let rest = command.rightOf(commandStr).trim();
 
 			if (!actorName) { DEBUG("Actor is missing in: @" + command); }
 			// STEP: If the actor is not already on stage, bring it on stage.
