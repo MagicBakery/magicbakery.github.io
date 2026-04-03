@@ -13,8 +13,8 @@
 	<link rel="apple-touch-icon" href="/icons/star_192.png">
 	<link rel="manifest" href="/mt_manifest.json">
 	<script>
-		const APP_VERSION = "20260324034900"; //#Version
-		const APP_ANNOUNCEMENT = "20260324: Blank Stage"
+		const APP_VERSION = "20260403004700"; //#Version
+		const APP_ANNOUNCEMENT = "20260403: Actor Facing"
 		const APP_DEFAULTPACK = "https://magicbakery.github.io/starterpack.json";
 		const APP_DEFAULTWALLPAPER = "https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg";
 		const APP_HOMEURL = "https://magicbakery.github.io/?id=P202512210026";
@@ -4720,14 +4720,31 @@
 			const randomIndex = Math.floor(Math.random() * topMatches.length);
 			return topMatches[randomIndex];
 		}
+		function ActorScanX(command){
+			const lowerStr = command.toLowerCase();
+  		const hasL = lowerStr.includes("!l");
+  		const hasR = lowerStr.includes("!r");
+
+  		// If both are present or both are absent, return 0
+  		if (hasL && hasR || !hasL && !hasR) {
+    		return 0;
+  		}
+			return hasL ? -50 : 50;
+		}		
 		async function ActorSet(command) {
 			// 20260125: Evelyn: Process a script command line that starts with @.
 			// Here the @ at the beginning is already removed.
 			// STEP: Get the name of the actor.
 			// 20260214: Natalie: The actor's name could be delimited by a space of a colon.
+			// Example command: @Evelyn Left: Dialogue
 			const match1 = command.leftOf(' ').trim();
 			const match2 = command.leftOf(':').trim();
-			let actorName = match1.length > match2.length ? match2 : match1;
+			const commandStr = match2.length > match1.length ? match2 : match1;
+			const commands = commandStr.split(" ");
+			let actorName = commands[0];
+			const actorX = ActorScanX(commandStr);
+			DEBUG(actorX);
+
 
 			let rest = command.rightOf(actorName).trim();
 
@@ -4759,21 +4776,24 @@
 				// Make the img code inside the actor div, and run SpriteOnStage for the img.
 				actor.append(img);
 				elStage.append(actor);
-				let rndX = 0;
-				if (actorData.s > 0) { rndX = Math.random() * 40; }
-				if (actorData.x >= 0) {
+				let rndX = actorX;
+				if (rndX ==0 && actorData.s > 0) { rndX = Math.random() * 40; }
+				if (rndX >= 0) {
 					// Enter from right and face left.
 					SpriteOnStage(img, rndX, 0, true, true, true);
 				} else {
 					// Enter from left and face right.
-					SpriteOnStage(img, -rndX, 0, true, false, true);
+					SpriteOnStage(img, rndX, 0, true, false, true);
 				}
 				await ActorBlink(actor, 0);
 			} else {
 				// 20260208: Arcacia: If the actor is already on stage, shift it a little bit.
 				const img = actor.querySelector("img");
-				let curX = parseFloat(actor.dataset.posX) || 0;
-
+				let curX = actorX;
+				if(curX==0){
+					curX = parseFloat(actor.dataset.posX) || 0;
+				}
+				
 				curX += Math.random() * 10 - 5;
 				curX = Math.max(-40, Math.min(40, curX));
 				if (curX >= 0) {
@@ -4781,7 +4801,7 @@
 					SpriteOnStage(img, curX, 0, true, true, true);
 				} else {
 					// Enter from left and face right.
-					SpriteOnStage(img, -curX, 0, true, false, true);
+					SpriteOnStage(img, curX, 0, true, false, true);
 				}
 
 			}
@@ -6443,6 +6463,7 @@
 			if (command === 'BUTTON') { addButton(arg1, arg2, tail3); return true; }
 			if (command === 'CHOOSE') { ChoiceAdd(arg1); return true; }
 			if (command === 'CLEAR') {
+				if (arg1 === 'BUBBLES') { ChoiceBubblePop(null, true); return true; }
 				if (arg1 === 'CHOICES') { ChoiceRemove(null, true); return true; }
 				if (arg1 === 'CSS') { flushCSS(); return true; }
 				if (arg1 === 'TAGS') { activeTags.clear(); refreshAllUI(); return true; }
