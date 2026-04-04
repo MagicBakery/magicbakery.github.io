@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Health Scanner Pro</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f0f0f; color: #eee; margin: 0; padding: 20px; display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; }
+        .config-panel { background: #1a1a1a; padding: 20px; border-radius: 12px; border: 1px solid #333; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        input, textarea { width: 100%; padding: 12px; background: #252525; border: 1px solid #444; color: white; border-radius: 6px; box-sizing: border-box; font-family: monospace; }
+        
+        /* Toggle Switch Styling */
+        .toggle-container { display: flex; align-items: center; gap: 15px; margin: 15px 0; background: #252525; padding: 10px; border-radius: 8px; border: 1px solid #333; }
+        .switch { position: relative; display: inline-block; width: 50px; height: 24px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #444; transition: .4s; border-radius: 24px; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #4ade80; }
+        input:checked + .slider:before { transform: translateX(26px); }
+        .toggle-label { font-size: 14px; font-weight: bold; }
+
+        .btn-run { background: #ff4444; color: white; width: 100%; padding: 15px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-run:hover { background: #cc3333; }
+        .btn-run:disabled { background: #444; cursor: not-allowed; opacity: 0.6; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 15px 0; text-align: center; }
+        .stat-card { background: #111; padding: 10px; border-radius: 6px; border: 1px solid #333; }
+        .stat-card b { font-size: 18px; }
+
+        #status-text { font-size: 13px; color: #aaa; text-align: center; margin-bottom: 10px; }
+        #failure-list { flex-grow: 1; overflow-y: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 20px; padding: 10px; }
+        
+        .video-card { background: #1a1a1a; border: 1px solid #333; padding: 15px; border-radius: 10px; position: relative; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+        .video-title { font-size: 12px; font-weight: bold; margin: 0; flex: 1; padding-right: 10px; }
+        .tag { font-size: 9px; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; margin-right: 5px; }
+        .tag-blocked { background: #3d1b1b; color: #f87171; }
+        .tag-passed { background: #1b3d1b; color: #4ade80; }
+        
+        .dismiss-btn { background: #333; color: #ccc; font-size: 10px; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+        .dismiss-btn:hover { background: #444; color: white; }
+        
+        iframe { width: 100%; border-radius: 6px; aspect-ratio: 16 / 9; border: 0; }
+    </style>
+</head>
+<body>
+
+<div class="config-panel">
+    <div class="input-group">
+        <label>API Key (Saved to Browser Storage)</label>
+        <input type="password" id="api-key" placeholder="Obtain free from Google Cloud for YouTube API">
+    </div>
+    
+    <div class="input-group">
+        <label>Playlist IDs (Comma separated)</label>
+        <textarea id="playlist-ids" rows="2" placeholder="PL77Ib..., PL88Jk..."></textarea>
+    </div>
+
+    <div class="toggle-container">
+        <label class="switch">
+            <input type="checkbox" id="display-toggle">
+            <span class="slider"></span>
+        </label>
+        <div class="toggle-label" id="toggle-text">Showing: <span style="color:#f87171">BLOCKED</span> Videos Only</div>
+    </div>
+    
+    <div class="stats-grid">
+        <div class="stat-card">Total<br><b id="count-total">0</b></div>
+        <div class="stat-card" style="color:#4ade80;">Passed<br><b id="count-passed">0</b></div>
+        <div class="stat-card" style="color:#f87171;">Blocked<br><b id="count-blocked">0</b></div>
+    </div>
+    
+    <p id="status-text">Configure settings and start scan.</p>
+    <button id="run-btn" class="btn-run">Launch Embedding Check</button>
+</div>
+
+<div id="failure-list"></div>
+<div id="api-target" style="display:none;"></div>
+
+<script>
+    // 1. Initialize Settings & YouTube API
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+
+    const apiKeyInput = document.getElementById('api-key');
+    const listsInput = document.getElementById('playlist-ids');
+    const runBtn = document.getElementById('run-btn');
+    const statusText = document.getElementById('status-text');
+    const failureList = document.getElementById('failure-list');
+    const displayToggle = document.getElementById('display-toggle');
+    const toggleText = document.getElementById('toggle-text');
+    
+    const totalEl = document.getElementById('count-total');
+    const passedEl = document.getElementById('count-passed');
+    const blockedEl = document.getElementById('count-blocked');
+
+    // Handle Toggle Text Update
+    displayToggle.addEventListener('change', () => {
+        if(displayToggle.checked) {
+            toggleText.innerHTML = 'Showing: <span style="color:#4ade80">PASSED</span> Videos Only';
+        } else {
+            toggleText.innerHTML = 'Showing: <span style="color:#f87171">BLOCKED</span> Videos Only';
+        }
+    });
+
+    // Load URL Params and LocalStorage
+    window.onload = () => {
+        const savedKey = localStorage.getItem('yt_api_key');
+        if (savedKey) apiKeyInput.value = savedKey;
+
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('key')) apiKeyInput.value = params.get('key');
+        if (params.has('lists')) listsInput.value = params.get('lists').replace(/,/g, ',\n');
+    };
+
+    async function startScan() {
+        const apiKey = apiKeyInput.value.trim();
+        const playlistIds = listsInput.value.split(',').map(s => s.trim()).filter(s => s);
+        const showPassed = displayToggle.checked;
+        
+        if (!apiKey || playlistIds.length === 0) {
+            alert("API Key and Playlist IDs are required.");
+            return;
+        }
+
+        // Save key for next time
+        localStorage.setItem('yt_api_key', apiKey);
+
+        runBtn.disabled = true;
+        failureList.innerHTML = '';
+        let allVideos = [];
+        let passedCount = 0;
+        let blockedCount = 0;
+
+        try {
+            // Step 1: Master Fetch
+            for (let i = 0; i < playlistIds.length; i++) {
+                let nextPageToken = '';
+                const pid = playlistIds[i];
+                statusText.innerText = `Fetching metadata... (Playlist ${i+1}/${playlistIds.length})`;
+
+                do {
+                    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${pid}&key=${apiKey}${nextPageToken ? `&pageToken=${nextPageToken}` : ''}`;
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    if (data.error) throw new Error(data.error.message);
+                    
+                    allVideos.push(...data.items.map(item => ({
+                        id: item.snippet.resourceId.videoId,
+                        title: item.snippet.title
+                    })));
+                    nextPageToken = data.nextPageToken;
+                } while (nextPageToken);
+            }
+
+            totalEl.innerText = allVideos.length;
+
+            // Step 2: Sequential Testing
+            for (let i = 0; i < allVideos.length; i++) {
+                const video = allVideos[i];
+                statusText.innerText = `Scanning ${i+1}/${allVideos.length}: ${video.title.substring(0,30)}...`;
+
+                const isBlocked = await new Promise(resolve => {
+                    const temp = document.createElement('div');
+                    document.getElementById('api-target').appendChild(temp);
+                    const player = new YT.Player(temp, {
+                        height: '0', width: '0', videoId: video.id,
+                        events: {
+                            onReady: () => { setTimeout(() => { player.destroy(); resolve(false); }, 500); },
+                            onError: (e) => { 
+                                const blocked = (e.data === 101 || e.data === 150);
+                                player.destroy(); resolve(blocked); 
+                            }
+                        }
+                    });
+                });
+
+                if (isBlocked) blockedCount++; else passedCount++;
+                
+                blockedEl.innerText = blockedCount;
+                passedEl.innerText = passedCount;
+
+                // Logic to decide if we show the card
+                const shouldDisplay = (isBlocked && !showPassed) || (!isBlocked && showPassed);
+
+                if (shouldDisplay) {
+                    const card = document.createElement('div');
+                    card.className = 'video-card';
+                    const tagType = isBlocked ? 'tag-blocked' : 'tag-passed';
+                    const label = isBlocked ? 'Blocked' : 'Passed';
+                    
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <div class="video-title">
+                                <span class="tag ${tagType}">${label}</span>
+                                ${video.title}
+                            </div>
+                            <button class="dismiss-btn">Dismiss</button>
+                        </div>
+                        <iframe src="https://www.youtube.com/embed/${video.id}" allowfullscreen></iframe>
+                    `;
+                    card.querySelector('.dismiss-btn').onclick = () => card.remove();
+                    failureList.append(card); // Newest found items appear at the top
+                }
+            }
+            statusText.innerText = "✅ Global Scan Complete.";
+        } catch (err) {
+            statusText.innerText = "❌ Error: " + err.message;
+            console.error(err);
+        } finally {
+            runBtn.disabled = false;
+        }
+    }
+
+    runBtn.addEventListener('click', startScan);
+</script>
+
+</body>
+</html>
