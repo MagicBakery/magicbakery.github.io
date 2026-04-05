@@ -12,7 +12,6 @@
         label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
         input, textarea { width: 100%; padding: 12px; background: #252525; border: 1px solid #444; color: white; border-radius: 6px; box-sizing: border-box; font-family: monospace; }
         
-        /* Toggle Switch Styling */
         .toggle-container { display: flex; align-items: center; gap: 15px; margin: 15px 0; background: #252525; padding: 10px; border-radius: 8px; border: 1px solid #333; }
         .switch { position: relative; display: inline-block; width: 50px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
@@ -58,7 +57,7 @@
     
     <div class="input-group">
         <label>Playlist IDs (Comma separated)</label>
-        <textarea id="playlist-ids" rows="2" placeholder="PL77Ib..., PL88Jk..."></textarea>
+        <textarea id="playlist-ids" rows="2" placeholder="PL..., PL..."></textarea>
     </div>
 
     <div class="toggle-container">
@@ -83,7 +82,18 @@
 <div id="api-target" style="display:none;"></div>
 
 <script>
-    // 1. Initialize Settings & YouTube API
+    // --- 1. Global Definitions (Fixed Error) ---
+    function updateToggleText() {
+        const toggle = document.getElementById('display-toggle');
+        const text = document.getElementById('toggle-text');
+        if(toggle.checked) {
+            text.innerHTML = 'Showing: <span style="color:#4ade80">PASSED</span> Videos Only';
+        } else {
+            text.innerHTML = 'Showing: <span style="color:#f87171">BLOCKED</span> Videos Only';
+        }
+    }
+
+    // Initialize YouTube API
     const tag = document.createElement('script');
     tag.src = "https://www.youtube.com/iframe_api";
     document.head.appendChild(tag);
@@ -94,22 +104,14 @@
     const statusText = document.getElementById('status-text');
     const failureList = document.getElementById('failure-list');
     const displayToggle = document.getElementById('display-toggle');
-    const toggleText = document.getElementById('toggle-text');
     
     const totalEl = document.getElementById('count-total');
     const passedEl = document.getElementById('count-passed');
     const blockedEl = document.getElementById('count-blocked');
 
-    // Handle Toggle Text Update
-    displayToggle.addEventListener('change', () => {
-        if(displayToggle.checked) {
-            toggleText.innerHTML = 'Showing: <span style="color:#4ade80">PASSED</span> Videos Only';
-        } else {
-            toggleText.innerHTML = 'Showing: <span style="color:#f87171">BLOCKED</span> Videos Only';
-        }
-    });
+    displayToggle.addEventListener('change', updateToggleText);
 
-    // Load URL Params and LocalStorage
+    // --- 2. URL Param & Storage Logic ---
     window.onload = () => {
         const savedKey = localStorage.getItem('yt_api_key');
         if (savedKey) apiKeyInput.value = savedKey;
@@ -117,19 +119,23 @@
         const params = new URLSearchParams(window.location.search);
         if (params.has('key')) apiKeyInput.value = params.get('key');
         if (params.has('lists')) listsInput.value = params.get('lists').replace(/,/g, ',\n');
+        
+        if (params.get('show') === 'passed' || params.get('show') === 'good') {
+            displayToggle.checked = true;
+        }
+        updateToggleText(); 
     };
 
+    // --- 3. Main Logic ---
     async function startScan() {
         const apiKey = apiKeyInput.value.trim();
         const playlistIds = listsInput.value.split(',').map(s => s.trim()).filter(s => s);
-        const showPassed = displayToggle.checked;
         
         if (!apiKey || playlistIds.length === 0) {
             alert("API Key and Playlist IDs are required.");
             return;
         }
 
-        // Save key for next time
         localStorage.setItem('yt_api_key', apiKey);
 
         runBtn.disabled = true;
@@ -139,7 +145,6 @@
         let blockedCount = 0;
 
         try {
-            // Step 1: Master Fetch
             for (let i = 0; i < playlistIds.length; i++) {
                 let nextPageToken = '';
                 const pid = playlistIds[i];
@@ -161,7 +166,6 @@
 
             totalEl.innerText = allVideos.length;
 
-            // Step 2: Sequential Testing
             for (let i = 0; i < allVideos.length; i++) {
                 const video = allVideos[i];
                 statusText.innerText = `Scanning ${i+1}/${allVideos.length}: ${video.title.substring(0,30)}...`;
@@ -186,8 +190,8 @@
                 blockedEl.innerText = blockedCount;
                 passedEl.innerText = passedCount;
 
-                // Logic to decide if we show the card
-                const shouldDisplay = (isBlocked && !showPassed) || (!isBlocked && showPassed);
+                // Checking toggle inside loop so it updates live
+                const shouldDisplay = (isBlocked && !displayToggle.checked) || (!isBlocked && displayToggle.checked);
 
                 if (shouldDisplay) {
                     const card = document.createElement('div');
@@ -201,12 +205,11 @@
                                 <span class="tag ${tagType}">${label}</span>
                                 ${video.title}
                             </div>
-                            <button class="dismiss-btn">Dismiss</button>
+                            <button class="dismiss-btn" onclick="this.closest('.video-card').remove()">Dismiss</button>
                         </div>
                         <iframe src="https://www.youtube.com/embed/${video.id}" allowfullscreen></iframe>
                     `;
-                    card.querySelector('.dismiss-btn').onclick = () => card.remove();
-                    failureList.append(card); // Newest found items appear at the top
+                    failureList.append(card);
                 }
             }
             statusText.innerText = "✅ Global Scan Complete.";

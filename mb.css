@@ -76,6 +76,10 @@ div:has(> table){
 
 node{display: none;}
 
+p, li {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
 
 h4{
 margin-block-start:0px;
@@ -148,6 +152,7 @@ color:inherit;
   scroll-snap-type: y mandatory;
   scroll-margin-top:10px;
   text-align:left; 
+  overflow-wrap:anywhere;
 }
 
 
