@@ -4329,6 +4329,11 @@
 				});
 			}
 		}
+		class SE{
+			static instance = null;
+			static get() { return this.instance ??= new SE(); }
+			constructor(){}
+		}
 		class Storage {
 			constructor(element) {
 				if (!element) {
@@ -5026,6 +5031,9 @@
 			} else {
 				choiceList.append(choiceEntry);
 			}
+			SPEC("20260406235100","Evelyn","If the dialog frame is hidden, show it.");
+			const dl = document.getElementById('dialogue-overlay');
+			dl.classList.add('active');
 			choiceEntry.scrollIntoView();
 			ScriptEngine().setAttribute('SE-BubbleSpawning', '');
 			return choiceEntry;
@@ -5687,6 +5695,7 @@
 			const choice = ChoiceListAppend(bubble.dataset.code, bubble.dataset.choiceText, true);
 			choice.dataset.script = bubble.dataset.script;
 			ChoiceBubblePop(bubble);
+			
 		}
 		async function fairyChoiceSelect(e) {
 			// Prevent the buttons from triggering the "bump" logic
@@ -6480,8 +6489,14 @@
 			} else if (command === 'GOTO') {
 				ScriptGoto(arg1);
 				return true;
+			} else if (command === 'LOOP'){
+				StageSet(tail1);
+				const se = ScriptEngine();
+				se.dataset.script = "!Clear Bubbles\n!Goto " +SE.get().lastBookmark + "\n" + se.dataset.script;
+				return false;
 			} else if (command === 'PLAY') {
 				playSound(arg1, arg2, arg3); return true;
+			
 			} else if (command === 'QUERY') {
 				// 20260208: Natalie: The query will already happen at the next line. Need to redefine what this function means.
 				//return true;
@@ -6522,7 +6537,7 @@
 			const content = line.substring(1).trim();
 			switch (prefix) {
 				case '': return false;
-				case '#': return true; // # are comments.
+				case '#': ScriptBookmark(line);return true; // # are comments.
 				case '!': return processScriptCommands(content);
 				case '?': return ScriptIf(content);
 				case '+': return processScriptTag(content, true);
@@ -6766,6 +6781,13 @@
 				const val = activeCardData[field];
 				if (val === "") { delete activeCardData[field]; }
 			});
+		}
+		function ScriptBookmark(line){
+			SPEC("20260406225400","Evelyn","Check if it is a bookmark, if so, register it as the last seen bookmark for looping.");
+			line = line.trim();			
+			if(!line.startsWith('#') || !line.endsWith('#')){return;}
+			SE.get().lastBookmark = line.between('#','#');
+			DEBUG(SE.get().lastBookmark);
 		}
 		function ScriptBubbleSaveScript(elChoice) {
 			// 20260211: Tanya: store the effect script of a choice
