@@ -321,6 +321,7 @@
       "[STARTER PACK]"
     ],
     "p": "20260131093200",
+    "u": "https://substackcdn.com/image/fetch/$s_!z4zW!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2b40bc60-c90c-462d-b76f-b1795efbd47d_1536x1024.jpeg",
     "v": "20260322115904",
     "s": 0,
     "x": 0,
@@ -1844,9 +1845,9 @@
     ],
     "p": "20260310224300",
     "u": "https://magicbakery.github.io/sprites/Melody_%7B20260310224300%7D.png",
-    "s": 690,
+    "s": 680,
     "x": 249,
-    "y": 52,
+    "y": 60,
     "v": "20260310224300"
   },
   {
@@ -2165,7 +2166,7 @@
     ],
     "p": "20260314160405",
     "u": "https://magicbakery.github.io/sprites/Amber_%7B20260314160405%7D.png",
-    "s": 680,
+    "s": 685,
     "x": 261,
     "y": 57,
     "v": "20260315001617",
@@ -2354,19 +2355,5 @@
     "p": "20260403013300",
     "u": "https://substackcdn.com/image/fetch/$s_!zWxt!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2bfc5ae4-7fbc-4d56-a04e-e20a664c70ab_1536x1024.jpeg",
     "v": "20260403013300"
-  },
-  {
-    "n": "P4",
-    "t": [
-      "P4",
-      "[ACTOR]",
-      "[STARTER PACK]"
-    ],
-    "p": "20260404192300",
-    "u": "https://magicbakery.github.io/sprites/P4_%7B20260404192300%7D.png",
-    "s": 1200,
-    "x": -412,
-    "y": -900,
-    "v": "20260404192300"
   }
 ]
