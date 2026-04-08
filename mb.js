@@ -3200,6 +3200,7 @@ function GetURLCode(mURL,mDesc, mLang){
   
   if(IsBlank(mDesc)){
     mDesc = "url";
+    if(mURL.startsWith("https://magicbakery.github.io/mt.html?id=")){mDesc="▶";bIcon=true;}
     if(mURL.includes(".jpeg")){mDesc="JPEG"};
     if(mURL.includes(".pdf")){mDesc="PDF"};
     if(mURL.includes("amazon.com")){mDesc="Amazon"};
