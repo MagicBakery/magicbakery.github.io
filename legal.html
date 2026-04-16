@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter">
+  <link rel="stylesheet" href="mb.css">
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="mb.js"> </script>
+  <title>Magic Bakery</title>
+  <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+</head>
+<body id="MBJQSW">
+  <div class="header">
+    <div style="text-align: center;line-height:2px;margin-top:-5px">
+      <h4>
+        <!---->
+        <div class="mbIcon mbIconShift"
+          style="background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/WingL.png')">
+        </div>
+        <a class="mbpointer" title="About Magic Bakery" href="../" style="color:white;"
+          onclick="BoardLoadPF(this,'202208172056');return false">Magic Bakery</a>
+        <a class="mbbutton mbpointer" title="Visit Marker" onclick="NodeMarkUseCookie(this,true)"><span class="mbIcon"
+            style="Height:1.7em;Width:1.7em;position:relative;top:-5px;margin-bottom:-10px;background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png')">
+            <icon>🥨</icon>
+          </span></a>
+        <a class="mbpointer" title="About Panarcademy" href="../?id=P202403231454" style="color:white;"
+          onclick="BoardLoadPL(this,'202403231454');return false">Panarcademy</a>
+        <div class="mbIcon"
+          style="background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/WingR.png')">
+        </div>
+
+
+
+
+      </h4>
+
+      <small style="font-size: 10px;">
+        <a class="mbpointer" title="Website Updates" href="../?id=P202303052122" style="color:white;"
+          onclick="BoardLoadPF(this,'202303052122');return false">
+          <latestupdate></latestupdate>
+        </a>
+        <a class="mbpointer" title="Turn off Offline mode" d-offline onclick="Offline(null,true)"
+          style="color:gold"></a>
+      </small>
+    </div>
+    <hide>Arcacianism | Arcacian Principle | Let people help each other and reward those who do. | Peacemaker | Peace
+      Paradigm Ranking</hide>
+
+  </div>
+
+<div id="MainArea" main="" class="flex" style="padding-bottom:27px;padding-top:35px;justify-content:center;"><div class="mbPanel" panel="" serve="" style="flex: 1 1 50%;">      
+      <div control="" style="padding:0px 3px 2px 2px;">
+        <a class="mbbutton" onclick="IFrameURLSet(this)" title="Jquery Blogspot (Legacy)" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/MantleClock.png&quot;)"><icon>🕰️</icon></span></a>
+        <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;" inputmode="search"> 
+        
+        <a class="mbbutton" onclick="JQAdd(this,true)" title="Jquery GitHub" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span></a>
+        <!--<a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board"><span class='mbIcon' style='background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png&quot;)'><icon>🥨</icon></span></a>-->
+        
+        <a class="mbbutton" onclick="ShowNext(this)" style="float: right; cursor: text;" title="Panel Control"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pancake.png&quot;)"><icon>🥞</icon></span></a>
+        <div class="mbscroll mbhide" control="" style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">          
+          
+          <div control="" style="text-align: center;min-width:125px;font-size: 22px;">
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span></button>
+            <hide>              
+              <hr>    
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'800000000000',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P800000000000" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span> Search</a><br>    
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202405051137',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202405051137" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Phone.png&quot;)"><icon>☎️</icon></span> Help Center</a><br>    
+                       
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'Feedback');HC(this);return false;" target="_blank" title="Feedback" href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span> Feedback</a><br>  
+
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202207131009',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202207131009" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Teddy.png&quot;)"><icon>🧸</icon></span> Board Games</a><br>   
+                
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202208172056',false, true);HC(this);return false;" title="Calendar" href="./?id=P202208172056" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Question.png&quot;)"><icon>:?:</icon></span> About</a><br>   
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202403231454',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202403231454" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/SquareCap.png&quot;)"><icon>🎓</icon></span> Academy</a><br>  
+                                                              
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Chick.png&quot;)"><icon>🐤</icon></span></button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'900000000000',false, true);HC(this);return false;" title="Quest Board" href="./?id=P900000000000" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Circus.png&quot;)"><icon>🎪</icon></span> Quest Board</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202310072314',false, true);HC(this);return false;" title="Calendar" href="./?id=P202310072314" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Calendar.png&quot;)"><icon>📅</icon></span> Calendar</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202207242047',false, true);HC(this);return false;" title="Roll Call" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/PostHorn.png&quot;)"><icon>📯</icon></span> Roll Call</a><br> 
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202404260005',false, true);HC(this);return false" title="Message Scanner" href="./?id=P202404260005" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Bell.png&quot;)"><icon>🔔</icon></span> Messages</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202301251008',false, true);HC(this);return false;" title="Scoreboard" href="./?id=P202301251008" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Crown.png&quot;)"><icon>👑</icon></span> Scoreboard</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202405010908',false, true);HC(this);return false;" title="Guild Inbox" href="./?id=P202405010908" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Mailbox.png&quot;)"><icon>📬</icon></span> Guild Inbox</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202307161350',false, true);HC(this);return false;" title="Dice Roller" href="./?id=P202307161350" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Dice.png&quot;)"><icon>🎲</icon></span> Dice Roller</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202303191144',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202303191144" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ShoppingCart.png&quot;)"><icon>🛒</icon></span> Supplies List</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="Offline(null,true);" title="Offline Mode" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Backpack.png&quot;)"><icon>🎒</icon></span> Offline Mode</a>
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span></button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onclick="PanelAddBefore(this);HC(this);" title="Add a panel before" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span> Add Before</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelAddAfter(this);HC(this);" title="Add a panel after" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span> Add After</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelToggleServe(this);HC(this);" title="Serve nodes to this panel" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pancake.png&quot;)"><icon>🥞</icon></span> Serve Here</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelToggleWidth(this);HC(this);" title="Toggle the width of this panel" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Waffle.png&quot;)"><icon>🧇</icon></span> Toggle Width</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelRemove(this);" title="Close" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Close.png&quot;)"><icon>:Close:</icon></span> Close Panel</a><br>
+              <div class="mbCB"></div>
+              <hr>
+            </hide>
+            
+          </div>
+          <div></div><!--DISPLAY AREA-->
+        </div>
+      </div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px">
+ <!--IMPORT POST-RENDER MAINAREA BELOW-->
+<div class='mbscroll' dts='20260416043504'><h1>Quest Society Legal Implementation</h1><hr><h2>1. Ethical Goal</h2>
+<p>This page describes to the best of our knowledge how to implement Quest Society as an organization in a world that has tax without paying unnecessary tax.</p>
+<p>Quest Society doesn't think that taxation in general is an ethical way to run a society, this is not about how Quest Society "collects tax", but how it survives in a world that would subject it to taxes.</p>
+<p>The basic mission here is to identify the part of Quest Society that is tax exempt and implement it as a tax exempted entity (e.g. Magic Bakery), and identify the part of Quest Society that is not tax exempt as Quest Society proper, so that Quest Society proper can be all it can to the legal extent.</p>
+<h2>2. Exemption Compatibility</h2>
+<h3>🧭 2.1. About</h3>
+<p>This section evaluates which mechanism in Quest Society qualifies for 501(c)(3), 501(c)(4), or non-exempted.</p>
+<h4>🍰 2.1.1. 501(c)(3) Grants</h4>
+<p>In general, if the giver wants tax deduction, the donation is big, or if the asset is a will, it should go to a 501(c)(3).</p>
+<p>Money in this pot can be invested tax-free, but can only be spent on charitable or educational causes.</p>
+<p>It seems that the entire Panarcademy or Skill Tree can be 501(c)(3).</p>
+<p>Money can flow tax-free among 501(c)(3) as grants.</p>
+<h4>🐤 2.1.2. 501(c)(4) Operation</h4>
+<p>For small donations or items where the giver does not need tax deduction, it should go to the 501(c)(4).</p>
+<p>This pot does not grant the giver tax deduction, but it can grow in the the 501(c)(4) tax-free through investments.</p>
+<p>This pot can pay for non-educational operational costs for social welfare, such as that for running the quest board.</p>
+<p>If part of an 501(c)(4) is running for charitable or educational cost, that part of the cost can be paid by a 501(c)(3).</p>
+<h3>2.2. Liquidity</h3>
+<p>Quest Society design follows reversible donation principle, where a donor can donate money, and later on withdraw when they need the money back (if there is money available).</p>
+<p>A 501(c)(3) requires an irrevocable gift. Once money is donated, it belongs to the public. If a donor can take the money back, the IRS views it as a deposit or a loan, not a donation. This would classify the organization as a bank or investment fund, not a charity.</p>
+<p>Therefore, Quest Society can be an organization that implements reversible donation, just not as a 501(c)(3) organization.</p>
+<h4>💬 2.2.1. Discussion</h4>
+<p>Since 501(c)(3) is mainly set up for tax exemption, the trouble-free implementation of "donation" is messy because it makes it easy for someone to donate money to Quest Society and get it back later for the pure purpose to evade tax.</p>
+<p>By design, Quest Society keeps tabs for contributions such that it functions more like a bank.</p>
+<p>This prevents itself from tricking people to donate to something they regret.</p>
+<p>This is an Anti-Fragile mechanism because even when a person is just aiming to make a profit, it still makes sense to bank their resources/money to Quest Society. </p>
+<p>By banking at Quest Society, they earn impact credits from the quests they choose to support.</p>
+<p>It is definitely not charity, but the best investment option when you simply don't know what to do with your resources.</p>
+<h3>2.3. Private Inurement</h3>
+<p>In Quest Society, anyone who invest in it (including founders, board members, etc) can earn rewards for building it.</p>
+<p>The IRS has a strict Private Inurement rule. No part of a nonprofit’s net earnings can "inure" (flow) to the benefit of private individuals who have a "personal and private interest" in the organization (insiders).</p>
+<p>While a nonprofit can pay reasonable salaries, a system that looks like a "profit-sharing" rewards loop for founders is an automatic disqualifier.</p>
+<h3>2.4. Quest Board</h3>
+<p>In Quest Society, the quest board functions as a public forum where it is possible to post private quests.</p>
+<p>This type of operation costs do not qualify for 501(c)(3).</p>
+<p>But if a quester discovers and publish a new way of working and helps teach others, that part could qualify for 501(c)(3) grant.</p>
+<h2>3. Quest Society 501(c)(4)</h2>
+<p>Establishing the Quest Society Proper as a 501(c)(4) Social Welfare Organization provides the essential legal architecture to transform a decentralized ledger into a resilient civic institution.</p>
+<p>Even if the Society operates with a zero-cash balance—utilizing "Quest Credits" for internal governance while delegating financial interfaces to third-party entities—the (c)(4) status serves as a vital institutional anchor.</p>
+<p>This designation offers a "Social Welfare" shield that is broader and more flexible than strict 501(c)(3) charitable definitions, allowing the Quest Society Ethics (QSE) framework to govern community coordination without the constant threat of being reclassified as an unregulated commercial business.</p>
+<p>Beyond its tax-exempt status, the 501(c)(4) acts as a permanent custodian for the Society’s intellectual property, ensuring the Skill Tree and Quest Board remain community-owned assets that cannot be captured by private interests.</p>
+<p>Furthermore, it creates a liability firewall; by existing as a formal legal entity, it protects the Alchemists and participants from personal legal exposure, housing any operational risks within a corporation that, by design, holds no seizable financial assets.</p>
+<p>In this "Final Stage" evolution, the (c)(4) is not a bank account, but a sovereign legal shell that grants the Society the authority to exist as a legitimate "Civic League" in the eyes of the state while remaining purely focused on the ethical exchange of human value.</p>
+<h2>4. Quest Society Academy 501(c)(3)</h2>
+<p>This is the branch of Quest Society that can be tax free. It can host grants to pay for questers doing charitable or educational works.</p>
+<h2>5. Quest Society Vault SPC</h2>
+<h3>👑 5.1. SPC</h3>
+<p>A Social Purpose Corporation (SPC) serves as the ideal legal architecture for the Quest Society Vault because it provides a specialized "ethical sandbox" that traditional corporate structures lack.</p>
+<p>Unlike a standard B-Corp, which mandates a broad and often state-defined "general public benefit," an SPC allows you to codify a Special Purpose—specifically the implementation of the Quest Society Ethics—directly into the company’s articles of incorporation.</p>
+<p>This creates a robust legal shield for your mission: if a conflict ever arises between state-defined social goals and your core principle of individual autonomy, the SPC structure empowers your board to prioritize your specific ethical framework without fear of shareholder lawsuits for failing to meet generic "social" benchmarks.</p>
+<p>In the long run, this institutional permanence transforms the Quest Society from a mere project into a resilient "bank-rival" that can hold assets, manage complex "Silver" credit systems, and eventually facilitate a seamless legacy transfer to the Magic Bakery 501(c)(3) endowment.</p>
+<h3>🐤 5.2. PBLLC</h3>
+<p>While a Public Benefit LLC (PBLLC) is a perfectly functional and "fine" starting point, its greatest weakness in the long run is its structural instability.</p>
+<p>Because an LLC is governed primarily by a private operating agreement rather than a statutory mandate, its mission is only as strong as its current members; if the ownership changes or a founder passes away, the members can simply vote to rewrite the agreement and strip away the "Quest Society Ethics" entirely.</p>
+<p>Furthermore, the PBLLC lacks the institutional "weight" of a corporation, often making it more difficult to interface with legacy financial systems or establish the high-trust "banking" presence your model requires.</p>
+<p>While the flexibility of an LLC is convenient in the early stages, it fails to provide the permanent, legally codified "special purpose" that ensures your ethical code survives beyond your personal involvement, ultimately leaving the mission vulnerable to drift as the organization scales or transitions to future generations.</p>
+<h3>🐤 5.3. B-Corp</h3>
+<p>The "second runner up" for a mission-driven organization in California is the Benefit Corporation (B-Corp). While it is more famous than the SPC, it falls behind for your specific needs because of its lack of flexibility.</p>
+<p>A Benefit Corporation is a rigid legal structure designed for companies that want to prove they are "good" according to someone else's definition.</p>
+<p>Unlike the SPC, which lets you define your own "Special Purpose" (like your Quest Society Ethics), a Benefit Corporation is legally required to pursue a "General Public Benefit."</p>
+<p>This is defined by California law as having a "material positive impact on society and the environment, taken as a whole," and it must be assessed against a third-party standard (like the B Lab audit).</p>
+<p>While this is excellent for brands like Patagonia that want to signal their environmental commitment to the mass market, it is a poor fit for the Quest Society because it forces you to answer to external checklists.</p>
+<p>If your ethical framework’s focus on autonomy ever clashes with what a third-party auditor deems a "public benefit," you could face "benefit enforcement proceedings"—essentially lawsuits from shareholders for not being "good" in the way the state or the auditor expects.</p>
+<p>It is a powerful tool for public trust, but it risks subordinating your private philosophical vision to a generic corporate consensus.</p>
+<h2>6. Stewardship Foundation 501(c)(3)</h2>
+<p>The Stewardship Foundation acts as the "Physical Sanctuary" and scientific research arm of the alliance.</p>
+<p>Operating as a 501(c)(3), its mission is to research the methodologies required to transition from the status quo of artificial land scarcity to a system of ethical stewardship.</p>
+<p>By holding ground leases and conservation titles, the Foundation serves as a "Transition Lab," systematically observing and documenting how shifting decision power to individual stewards affects community resilience and ecological health.</p>
+<p>This "Scientific Research" framing is the essential legal shield that justifies property tax exemptions and protects the land from being taxed as a private asset, all while ensuring that the physical earth remains dedicated to the relief of the distressed.</p>
+<h3>🏛️ 6.1. No need to donate land</h3>
+<p>To participate in the transition research, a landowner (the "Steward") transfers their property title to the Social Purpose Corporation (SPC) Vault, which acts as a protective host for the land's legal deed.</p>
+<p>The SPC then leases the property for a nominal sum to the Stewardship Foundation (501(c)(3)), which "occupies" the land for scientific and educational purposes, allowing the property to qualify for the California Welfare Exemption and effectively reducing its property tax to zero.</p>
+<p>If the Steward chooses to withdraw from the alliance, the SPC simply cancels the lease and deeds the property back to the individual, who only covers the "Remediation Fee"—a sum equivalent to any mandatory state recording fees or deferred assessments required to keep the title clean.</p>
+<p>When this transition is successful on a city-wide scale, it de-commodifies housing by removing the "scarcity premium" from land prices; as a result, while the city’s traditional tax base may decrease, the overall market value of land often deflates, potentially allowing the Steward to return to a private market where their ongoing property tax burden is significantly lower than when they first joined.</p>
+<p>This careful legal architecture is designed to reflect the fundamental difference between State Communism and Gaia Stewardship.</p>
+<p>In a communist system, the individual is stripped of their share and the State becomes the absolute owner of all resources, leading to a "Top-Down" scarcity where the individual has no leverage.</p>
+<p>In the Quest Society, the design is "Bottom-Up": you are not yielding your land to a central authority; you are simply hosting it within a protective shield to defend your existing Gaia Share from the State’s tax and legal violence.</p>
+<p>The inclusion of explicit "Retrieval Clauses" within the SPC Vault is not just a safety feature—it is a mechanical realization of the Gaia principle.</p>
+<p>If the Society made it impossible for you to retrieve your deed, it would be committing the very "Violation" it seeks to solve by effectively stealing your share.</p>
+<p>By keeping the title in the Social Purpose Corporation (SPC) instead of a 501(c)(3) "Hotel California," the design ensures that your stewardship remains voluntary.</p>
+<p>The SPC acts as a "Legal Safe" for which you hold a key; the Society manages the ledger, but the Decision Power remains anchored to you.</p>
+<h2>7. Gaia Council 501(c)(4)</h2>
+<p>The Council is the Registrar. As a 501(c)(4), it is a social welfare organization that acts as the "Aunt" to the community—a wise, independent observer that oversees the Gaia Registry.</p>
+<p>It has no concept of currency, credits, or quests; its only concern is the Equilibrium of the Earth.</p>
+<p>It tracks who is "stewarding" which piece of land and identifies "Violators" who have exceeded their share.</p>
+<p>When the Quest Society resolves a local scarcity, it simply reports the new "stewardship mapping" to the Council, which updates the public ledger.</p>
+<p>Its (c)(4) status allows it to lobby for the "Gaia Law" and advocate for social justice with a political freedom that the Foundation cannot touch.</p>
+</div>
+ <!--IMPORT ABOVE-->
+      </div>
+    </div></div>
+
+  <div class="footer" onclick="ShowWidgets()">
+
+
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'90000000000000')" title="Quest Board">🔔</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;  overflow-y:auto;width:100%;max-width: 350px;">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240421014400')" title="Roll Call">📯</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 90vh; overflow-y:auto; max-width: 350px;">
+        </div>
+      </div>
+    </span>
+
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'80000000000000')" title="Search">🔍</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:350px;width:100%">
+        </div>
+      </div>
+    </span>
+
+    <button BB class="mbbutton" onClick="ShowNextFP(this,'20240904213516')" title="Music Player">🎧</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:350px;width:100%"></div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240330201200')" title="Notepad">📋</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:700px;width:100%">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'Feedback')" title="Feedback">💌</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP board reserved
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; ;max-width: 700px;width:100%">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240416213800')" title="Node Maker">🍞</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:right;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;max-width:350px; overflow-y:auto">
+        </div>
+      </div>
+    </span>
+
+
+
+  </div>
+  <hide><!--New Panel Template-->
+    <div id="NewPanelTemplate">
+
+      <div control style="padding:0px 3px 2px 2px;">
+        <a class="mbbutton" onClick="IFrameURLSet(this)" title="Jquery Blogspot (Legacy)">🕰️</a>
+        <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;" inputmode="search">
+
+        <a class="mbbutton" onClick="JQAdd(this,true)" title="Jquery GitHub">🐣</a>
+        <!--<a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board">🥨</a>-->
+
+        <a class="mbbutton" onclick="ShowNext(this)" style="float:right;" title="Panel Control">🍞</a>
+        <div class="mbscroll mbhide" control
+          style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">
+
+          <div control style="text-align: center;min-width:125px;font-size: 22px;">
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🔍</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'800000000000',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P800000000000">🔍 Search</a><br>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202405051137',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202405051137">☎️ Help Center</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'Feedback');HC(this);return false;"
+                target="_blank" title="Feedback"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">💟
+                Feedback</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202207131009',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202207131009">🧸 Board Games</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202208172056',false, true);HC(this);return false;" title="Calendar"
+                href="./?id=P202208172056">:?: About</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202403231454',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202403231454">🎓 Academy</a><br>
+
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🐤</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'900000000000',false, true);HC(this);return false;" title="Quest Board"
+                href="./?id=P900000000000">🎪 Quest Board</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202310072314',false, true);HC(this);return false;" title="Calendar"
+                href="./?id=P202310072314">📅 Calendar</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202207242047',false, true);HC(this);return false;" title="Roll Call">📯 Roll
+                Call</a><br>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202404260005',false, true);HC(this);return false"
+                title="Message Scanner" href="./?id=P202404260005">🔔 Messages</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202301251008',false, true);HC(this);return false;" title="Scoreboard"
+                href="./?id=P202301251008">👑 Scoreboard</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202405010908',false, true);HC(this);return false;" title="Guild Inbox"
+                href="./?id=P202405010908">📬 Guild Inbox</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202307161350',false, true);HC(this);return false;" title="Dice Roller"
+                href="./?id=P202307161350">🎲 Dice Roller</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202303191144',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202303191144">🛒 Supplies List</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="Offline(null,true);" title="Offline Mode">🎒
+                Offline Mode</a>
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🤎</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onClick="PanelAddBefore(this);HC(this);" title="Add a panel before">🤎 Add
+                Before</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelAddAfter(this);HC(this);" title="Add a panel after">🤎 Add
+                After</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelToggleServe(this);HC(this);"
+                title="Serve nodes to this panel">🥞 Serve Here</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelToggleWidth(this);HC(this);"
+                title="Toggle the width of this panel">🧇 Toggle Width</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelRemove(this);" title="Close">:Close: Close
+                Panel</a><br>
+              <div class="mbCB"></div>
+              <hr>
+            </hide>
+
+          </div>
+          <div></div><!--DISPLAY AREA-->
+        </div>
+      </div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px"></div>
+    </div>
+  </hide>
+</body>
+<script>
+  function URLViewer() {
+    MacroIcons(document.body);
+    LatestUpdate();
+  };
+  window.onload = URLViewer;
+</script>
+</html>
