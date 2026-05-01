@@ -13,8 +13,8 @@
 	<link rel="apple-touch-icon" href="/icons/star_192.png">
 	<link rel="manifest" href="/mt_manifest.json">
 	<script>
-		const APP_VERSION = "20260403004700"; //#Version
-		const APP_ANNOUNCEMENT = "20260403: Actor Facing"
+		const APP_VERSION = "20260430220300"; //#Version
+		const APP_ANNOUNCEMENT = "20260430: Loop Fix"
 		const APP_DEFAULTPACK = "https://magicbakery.github.io/starterpack.json";
 		const APP_DEFAULTWALLPAPER = "https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg";
 		const APP_HOMEURL = "https://magicbakery.github.io/?id=P202512210026";
@@ -6493,6 +6493,7 @@
 				StageSet(tail1);
 				const se = ScriptEngine();
 				se.dataset.script = "!Clear Bubbles\n!Goto " +SE.get().lastBookmark + "\n" + se.dataset.script;
+				DEBUG(se.dataset.script);
 				return false;
 			} else if (command === 'PLAY') {
 				playSound(arg1, arg2, arg3); return true;
@@ -6911,8 +6912,10 @@
 		}
 		function ScriptGoto(label) {
 			// 20260202: Fina: Go to a label encapsulated by '#' in the script.
-			const SE = ScriptEngine();
-			let remainingScript = SE.dataset.scriptBackup;
+			SE.get().lastBookmark = label;
+			const SEold = ScriptEngine();
+
+			let remainingScript = SEold.dataset.scriptBackup;
 			if (remainingScript) {
 				remainingScript = remainingScript.rightOf(`#${label}#`, true);
 			}
@@ -6927,15 +6930,15 @@
 						remainingScript = decodeURIComponent(data.o);
 					}
 					if (remainingScript.trim() != "") {
-						SE.dataset.p = label;
-						SE.dataset.scriptBackup = remainingScript;
+						SEold.dataset.p = label;
+						SEold.dataset.scriptBackup = remainingScript;
 					}
 				}
 			}
 			if (remainingScript == "") {
-				remainingScript = SE.dataset.scriptBackup;
+				remainingScript = SEold.dataset.scriptBackup;
 			}
-			SE.dataset.script = remainingScript;
+			SEold.dataset.script = remainingScript;
 			StageActorsOff();
 		}
 		function ScriptIf(line) {
