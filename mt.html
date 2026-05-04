@@ -6490,11 +6490,16 @@
 				ScriptGoto(arg1);
 				return true;
 			} else if (command === 'LOOP'){
-				StageSet(tail1);
 				const se = ScriptEngine();
-				se.dataset.script = "!Clear Bubbles\n!Goto " +SE.get().lastBookmark + "\n" + se.dataset.script;
-				DEBUG(se.dataset.script);
-				return false;
+				if(tail1.trim() ==""){
+					SPEC("20260503181700","Mikela","When it is blank, just loop back to the last bookmark.");
+					se.dataset.script = "!Goto " +SE.get().lastBookmark + "\n"+ se.dataset.script;
+					return true;
+				}else{
+					StageSet(tail1);
+					se.dataset.script = "!Clear Bubbles\n!Goto " +SE.get().lastBookmark + "\n" + se.dataset.script;
+					return false;
+				}
 			} else if (command === 'PLAY') {
 				playSound(arg1, arg2, arg3); return true;
 			
