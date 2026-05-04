@@ -2383,9 +2383,30 @@
     ],
     "p": "20260423231100",
     "u": "https://magicbakery.github.io/sprites/Evelyn_%7B20260423231100%7D.png",
-    "s": 700,
-    "x": 285,
-    "y": 70,
-    "v": "20260423231100"
+    "s": 700.0,
+    "x": 285.0,
+    "y": 70.0
+  },
+  {
+    "n": "CONFETTI",
+    "t": [
+      "CONFETTI",
+      "PANARCANA",
+      "PLAZA",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260503221808",
+    "u": "https://substackcdn.com/image/fetch/$s_!ZPCX!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2292744c-b257-42c1-9fa4-bb8f4600f994_1536x1024.jpeg"
+  },
+  {
+    "n": "CIRCUS",
+    "t": [
+      "CIRCUS",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260503223500",
+    "u": "https://substackcdn.com/image/fetch/$s_!Cz7O!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa4651e19-ac9a-4884-b6bc-eb480bad7130_1536x1024.jpeg"
   }
 ]
