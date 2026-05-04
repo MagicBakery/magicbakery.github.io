@@ -6868,7 +6868,8 @@
 				bubble.classList.add('narrative-mode');
 			} else {
 				bubble.classList.remove('narrative-mode');
-				text = text.substring(1).trim();
+				SPEC("20260503230000","Skyle","Use randomizer for dialog with |.");
+				text = text.substring(1).trim().oneOf();
 				continueNarration = false;
 			}
 
