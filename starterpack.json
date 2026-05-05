@@ -2424,5 +2424,124 @@
     "p": "20260503231300",
     "u": "https://substackcdn.com/image/fetch/$s_!ZmRP!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F45324185-6ed2-462e-86c5-bb5bdc34d9f2_1536x1024.jpeg",
     "v": "20260503231300"
+  },
+  {
+    "n": "ROBERT",
+    "t": [
+      "ROBERT",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260504192500",
+    "u": "https://magicbakery.github.io/sprites/Robert_%7B20260504192500%7D.png",
+    "s": 535.0,
+    "x": -195.0,
+    "y": 50.0
+  },
+  {
+    "n": "THERESE",
+    "t": [
+      "THERESE",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260504194000",
+    "u": "https://magicbakery.github.io/sprites/Therese_%7B20260504194000%7D.png",
+    "s": 580.0,
+    "x": -255.0,
+    "y": 50.0
+  },
+  {
+    "n": "AMELIA",
+    "t": [
+      "AMELIA",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260504195000",
+    "u": "https://magicbakery.github.io/sprites/Amelia_%7B20260504195000%7D.png",
+    "s": 680.0,
+    "x": 273.0,
+    "y": 50.0
+  },
+  {
+    "n": "THE UNUSUAL",
+    "t": [
+      "THE",
+      "THE UNUSUAL",
+      "UNUSUAL",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260504200300",
+    "u": "https://magicbakery.github.io/sprites/The%20Unusual_%7B20260504200300%7D.png",
+    "s": 460.0,
+    "x": 260.0,
+    "y": 55.0
+  },
+  {
+    "n": "HELEN",
+    "t": [
+      "HELEN",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260504203800",
+    "u": "https://magicbakery.github.io/sprites/Helen_%7B20260504203800%7D.png",
+    "s": 620.0,
+    "x": -311.0,
+    "y": 90.0
+  },
+  {
+    "n": "GEMINI",
+    "t": [
+      "GEMINI",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260504210300",
+    "u": "https://magicbakery.github.io/sprites/Gemini_%7B20260504210300%7D.png",
+    "s": 775.0,
+    "x": -275.0,
+    "y": 60.0
+  },
+  {
+    "n": "CODY",
+    "t": [
+      "CODY",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260504212000",
+    "u": "https://magicbakery.github.io/sprites/Cody_%7B20260504212000%7D.png",
+    "s": 640.0,
+    "x": 374.0,
+    "y": 75.0
+  },
+  {
+    "n": "JASMINE",
+    "t": [
+      "JASMINE",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260504213300",
+    "u": "https://magicbakery.github.io/sprites/Jasmine_%7B20260504213300%7D.png",
+    "s": 680.0,
+    "x": 335.0,
+    "y": 70.0
+  },
+  {
+    "n": "LEO",
+    "t": [
+      "LEO",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260504214000",
+    "u": "https://magicbakery.github.io/sprites/Leo_%7B20260504214000%7D.png",
+    "s": 700.0,
+    "x": 403.0,
+    "y": 70.0
   }
 ]
