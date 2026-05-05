@@ -182,6 +182,12 @@
 			box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
 			animation: floatSpore 6s infinite ease-in-out;
 		}
+		@media (min-width: 800px) { /*To avoid bad performance on desktop.*/
+			.choice-bubble {
+				backdrop-filter: none;				
+			}
+		}
+
 
 		/* Hover state: It glows and expands slightly */
 		.choice-bubble:hover {
