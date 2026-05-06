@@ -2411,6 +2411,7 @@ function MacroIcons(el,iHTMLInner){
     ["Rainbow","🌈"],
     ["Ramen","🍜"],
     ["Ribbon","🎀"],
+    ["Roadsign",":Roadsign:"],
     ["Rock","🪨"],
     ["Rocket","🚀"],
     ["Rose","🌹"],
