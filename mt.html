@@ -4756,7 +4756,6 @@
 			const actorX = ActorScanX(commandStr);
 			const actorName = commandStr.split(" ")[0].trim();			
 			
-
 			let rest = command.rightOf(commandStr).trim();
 
 			if (!actorName) { DEBUG("Actor is missing in: @" + command); }
@@ -4824,8 +4823,23 @@
 				SpeechBubbleShow(false);
 				return false;
 			}
-			//await ActorBlink(actor, 0);
+			await ActorBlink(actor, 0);
 			return processScriptLine(rest);
+		}
+		async function ActorYield(iShift){
+			SPEC("20260507001700","Sylvia","Move the current actor on screen to the left, center, or right.");
+			// -1:Left; 0:Center, 1:Right
+			// If there is no actor in display, just return.
+			const actor = document.querySelector(`.actor.active`);
+			if(!actor){return;}
+			const img = actor.querySelector("img");
+			let rndX = (Math.random() * 25 + 60) * iShift; 
+			if(rndX>=0){
+				SpriteOnStage(img, rndX, 0, true, true, true);
+			}else{
+				SpriteOnStage(img, rndX, 0, true, false, true);
+			}
+			await ActorBlink(actor, 0);
 		}
 		function Backstage() {
 			SPEC("20260214", "Skyle", "This is true when the view is backstage.");
@@ -5821,40 +5835,35 @@
 		}
 		async function fairyScenePan(e) {
 			SPEC("20260315200100", "LRRH", "Pan the stage if the user clicks on the edge.");
-
 			const sa = e.target.closest('.stage-area');
 			if (!sa) { return; }
-
 			e.stopPropagation();
-
 			const x = e.clientX;
 			const y = e.clientY;
-
 			const w = window.innerWidth;
 			const h = window.innerHeight;
-
 			const leftZone = w * 0.3;
 			const rightZone = w * 0.7;
 			const topZone = h * 0.3;
 			const bottomZone = h * 0.7;
-
 			let horiz = "center";
 			let vert = "center";
-
 			// Horizontal logic
 			if (x < leftZone) {
 				horiz = "left";
+				ActorYield(1);
 			} else if (x > rightZone) {
 				horiz = "right";
+				ActorYield(-1);
+			}else{
+				ActorYield(0);
 			}
-
 			// Vertical logic
 			if (y < topZone) {
 				vert = "top";
 			} else if (y > bottomZone) {
 				vert = "bottom";
 			}
-
 			sa.style.backgroundPosition = `${horiz} ${vert}`;
 		}
 
