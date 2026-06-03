@@ -4752,7 +4752,9 @@
 			//const match1 = command.leftOf(' ').trim();
 			//const match2 = command.leftOf(':').trim();
 			//const commandStr = match2.length > match1.length ? match2 : match1;
-			const commandStr = command.split(":")[0].trim();
+			const commandSplit = command.split(":");
+			const commandStr = commandSplit[0].trim();
+			const arg1 = commandSplit[1].trim().toUpperCase();
 			const actorX = ActorScanX(commandStr);
 			const actorName = commandStr.split(" ")[0].trim();			
 			
@@ -4765,8 +4767,18 @@
 			let filters = [];
 
 			// If the command is OFF, get the actor off stage
-			let arg1 = rest.toUpperCase();
-			if (rest === 'OFF') { if (actor) { actor.remove(); } return true; }
+			
+			DEBUG("COMMAND IS|" + command + "|"); 
+			DEBUG("COMMANDSTR IS|" + commandStr + "|"); 
+			DEBUG("REST IS|" + rest + "|"); 
+			DEBUG("ARG1 IS|" + arg1 + "|"); 
+			if (arg1 === 'OFF') { 
+				DEBUG("REST IS OFF"); 
+				if (actor) { 
+					actor.remove(); 
+					DEBUG("Removed");} 
+				return true; 
+			}
 
 			if (!actor) {
 				actor = document.createElement('div');
@@ -6808,7 +6820,7 @@
 			line = line.trim();			
 			if(!line.startsWith('#') || !line.endsWith('#')){return;}
 			SE.get().lastBookmark = line.between('#','#');
-			DEBUG(SE.get().lastBookmark);
+			//DEBUG(SE.get().lastBookmark);
 		}
 		function ScriptBubbleSaveScript(elChoice) {
 			// 20260211: Tanya: store the effect script of a choice
