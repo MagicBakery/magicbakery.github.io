@@ -4752,9 +4752,17 @@
 			//const match1 = command.leftOf(' ').trim();
 			//const match2 = command.leftOf(':').trim();
 			//const commandStr = match2.length > match1.length ? match2 : match1;
+			
+			// 20260610: Tanya: Special handling when the line is @ActorName OFF
+			const cmdSplitBySpace = command.split(" ");
+			let bOFF = false;
+			if(cmdSplitBySpace[1]){
+				bOFF = (cmdSplitBySpace[1].toUpperCase().trim()=="OFF");
+			}			
+			
 			const commandSplit = command.split(":");
 			const commandStr = commandSplit[0].trim();
-			const arg1 = commandSplit[1].trim().toUpperCase();
+			//const arg1 = commandSplit[1].trim().toUpperCase();
 			const actorX = ActorScanX(commandStr);
 			const actorName = commandStr.split(" ")[0].trim();			
 			
@@ -4768,15 +4776,10 @@
 
 			// If the command is OFF, get the actor off stage
 			
-			DEBUG("COMMAND IS|" + command + "|"); 
-			DEBUG("COMMANDSTR IS|" + commandStr + "|"); 
-			DEBUG("REST IS|" + rest + "|"); 
-			DEBUG("ARG1 IS|" + arg1 + "|"); 
-			if (arg1 === 'OFF') { 
-				DEBUG("REST IS OFF"); 
+			if (bOFF) { 
 				if (actor) { 
 					actor.remove(); 
-					DEBUG("Removed");} 
+				}
 				return true; 
 			}
 
