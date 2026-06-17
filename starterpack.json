@@ -2318,6 +2318,18 @@
     "v": "20260325003500"
   },
   {
+    "n": "SEATING",
+    "t": [
+      "BAKERY",
+      "PANARCANA",
+      "SEATING",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260325232807",
+    "u": "https://substackcdn.com/image/fetch/$s_!xlwq!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5e8ac1f8-229a-462f-8e89-825d7dcec2f6_1536x1024.jpeg"
+  },
+  {
     "n": "NEWSROOM",
     "t": [
       "ACADEMY",
@@ -2443,6 +2455,17 @@
     "p": "20260503210808",
     "u": "https://substackcdn.com/image/fetch/$s_!hGxL!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F744c0277-9388-47b6-b89c-65f1c8896b5e_1536x1024.jpeg",
     "v": "20260503210808"
+  },
+    {
+    "n": "ACCOUNTING",
+    "t": [
+      "ACADEMY",
+      "ACCOUNTING",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260503220001",
+    "u": "https://substackcdn.com/image/fetch/$s_!iYhy!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F980268a7-714a-4a7d-8bba-0049526e5837_1536x1024.jpeg"
   },
   {
     "n": "CONFETTI",
@@ -2621,5 +2644,18 @@
     "x": 403,
     "y": 70,
     "v": "20260504214000"
+  },
+  {
+    "n": "KITCHEN",
+    "t": [
+      "BAKERY",
+      "CHOCOLATE",
+      "KITCHEN",
+      "PANARCANA",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260508001900",
+    "u": "https://substackcdn.com/image/fetch/$s_!WhBJ!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F38389e03-0545-4ce6-ad62-a1b00c48485c_1536x1024.jpeg"
   }
 ]
