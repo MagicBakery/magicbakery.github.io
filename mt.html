@@ -13,8 +13,8 @@
 	<link rel="apple-touch-icon" href="/icons/star_192.png">
 	<link rel="manifest" href="/mt_manifest.json">
 	<script>
-		const APP_VERSION = "20260430220300"; //#Version
-		const APP_ANNOUNCEMENT = "20260430: Loop Fix"
+		const APP_VERSION = "20260619212900"; //#Version
+		const APP_ANNOUNCEMENT = "20260618: Overflow-Wrap"
 		const APP_DEFAULTPACK = "https://magicbakery.github.io/starterpack.json";
 		const APP_DEFAULTWALLPAPER = "https://substackcdn.com/image/fetch/$s_!KRIG!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fc5630f5a-5397-4ad1-b713-9ade6321e486_1536x1024.jpeg";
 		const APP_HOMEURL = "https://magicbakery.github.io/?id=P202512210026";
@@ -450,6 +450,7 @@
 			white-space: pre-wrap;
 			flex: 0 1 auto;
 			min-height: 0;
+			overflow-wrap:anywhere;
 
 			&::-webkit-scrollbar {
 				width: 2px;
