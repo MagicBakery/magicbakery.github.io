@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter">
+  <link rel="stylesheet" href="mb.css">
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="mb.js"> </script>
+  <title>Magic Bakery</title>
+  <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+</head>
+<body id="MBJQSW">
+  <div class="header">
+    <div style="text-align: center;line-height:2px;margin-top:-5px">
+      <h4>
+        <!---->
+        <div class="mbIcon mbIconShift"
+          style="background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/WingL.png')">
+        </div>
+        <a class="mbpointer" title="About Magic Bakery" href="../" style="color:white;"
+          onclick="BoardLoadPF(this,'202208172056');return false">Magic Bakery</a>
+        <a class="mbbutton mbpointer" title="Visit Marker" onclick="NodeMarkUseCookie(this,true)"><span class="mbIcon"
+            style="Height:1.7em;Width:1.7em;position:relative;top:-5px;margin-bottom:-10px;background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png')">
+            <icon>🥨</icon>
+          </span></a>
+        <a class="mbpointer" title="About Panarcademy" href="../?id=P202403231454" style="color:white;"
+          onclick="BoardLoadPL(this,'202403231454');return false">Panarcademy</a>
+        <div class="mbIcon"
+          style="background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/WingR.png')">
+        </div>
+
+
+
+
+      </h4>
+
+      <small style="font-size: 10px;">
+        <a class="mbpointer" title="Website Updates" href="../?id=P202303052122" style="color:white;"
+          onclick="BoardLoadPF(this,'202303052122');return false">
+          <latestupdate></latestupdate>
+        </a>
+        <a class="mbpointer" title="Turn off Offline mode" d-offline onclick="Offline(null,true)"
+          style="color:gold"></a>
+      </small>
+    </div>
+    <hide>Arcacianism | Arcacian Principle | Let people help each other and reward those who do. | Peacemaker | Peace
+      Paradigm Ranking</hide>
+
+  </div>
+
+<div id="MainArea" main="" class="flex" style="padding-bottom:27px;padding-top:35px;justify-content:center;"><div class="mbPanel" panel="" serve="" style="flex: 1 1 50%;">      
+      <div control="" style="padding:0px 3px 2px 2px;">
+        <a class="mbbutton" onclick="IFrameURLSet(this)" title="Jquery Blogspot (Legacy)" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/MantleClock.png&quot;)"><icon>🕰️</icon></span></a>
+        <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;" inputmode="search"> 
+        
+        <a class="mbbutton" onclick="JQAdd(this,true)" title="Jquery GitHub" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span></a>
+        <!--<a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board"><span class='mbIcon' style='background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png&quot;)'><icon>🥨</icon></span></a>-->
+        
+        <a class="mbbutton" onclick="ShowNext(this)" style="float: right; cursor: text;" title="Panel Control"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pancake.png&quot;)"><icon>🥞</icon></span></a>
+        <div class="mbscroll mbhide" control="" style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">          
+          
+          <div control="" style="text-align: center;min-width:125px;font-size: 22px;">
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span></button>
+            <hide>              
+              <hr>    
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'800000000000',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P800000000000" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span> Search</a><br>    
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202405051137',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202405051137" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Phone.png&quot;)"><icon>☎️</icon></span> Help Center</a><br>    
+                       
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'Feedback');HC(this);return false;" target="_blank" title="Feedback" href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span> Feedback</a><br>  
+
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202207131009',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202207131009" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Teddy.png&quot;)"><icon>🧸</icon></span> Board Games</a><br>   
+                
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202208172056',false, true);HC(this);return false;" title="Calendar" href="./?id=P202208172056" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Question.png&quot;)"><icon>:?:</icon></span> About</a><br>   
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202403231454',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202403231454" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/SquareCap.png&quot;)"><icon>🎓</icon></span> Academy</a><br>  
+                                                              
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Chick.png&quot;)"><icon>🐤</icon></span></button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'900000000000',false, true);HC(this);return false;" title="Quest Board" href="./?id=P900000000000" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Circus.png&quot;)"><icon>🎪</icon></span> Quest Board</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202310072314',false, true);HC(this);return false;" title="Calendar" href="./?id=P202310072314" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Calendar.png&quot;)"><icon>📅</icon></span> Calendar</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202207242047',false, true);HC(this);return false;" title="Roll Call" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/PostHorn.png&quot;)"><icon>📯</icon></span> Roll Call</a><br> 
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202404260005',false, true);HC(this);return false" title="Message Scanner" href="./?id=P202404260005" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Bell.png&quot;)"><icon>🔔</icon></span> Messages</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202301251008',false, true);HC(this);return false;" title="Scoreboard" href="./?id=P202301251008" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Crown.png&quot;)"><icon>👑</icon></span> Scoreboard</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202405010908',false, true);HC(this);return false;" title="Guild Inbox" href="./?id=P202405010908" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Mailbox.png&quot;)"><icon>📬</icon></span> Guild Inbox</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202307161350',false, true);HC(this);return false;" title="Dice Roller" href="./?id=P202307161350" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Dice.png&quot;)"><icon>🎲</icon></span> Dice Roller</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202303191144',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202303191144" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ShoppingCart.png&quot;)"><icon>🛒</icon></span> Supplies List</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="Offline(null,true);" title="Offline Mode" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Backpack.png&quot;)"><icon>🎒</icon></span> Offline Mode</a>
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span></button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onclick="PanelAddBefore(this);HC(this);" title="Add a panel before" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span> Add Before</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelAddAfter(this);HC(this);" title="Add a panel after" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span> Add After</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelToggleServe(this);HC(this);" title="Serve nodes to this panel" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pancake.png&quot;)"><icon>🥞</icon></span> Serve Here</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelToggleWidth(this);HC(this);" title="Toggle the width of this panel" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Waffle.png&quot;)"><icon>🧇</icon></span> Toggle Width</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelRemove(this);" title="Close" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Close.png&quot;)"><icon>:Close:</icon></span> Close Panel</a><br>
+              <div class="mbCB"></div>
+              <hr>
+            </hide>
+            
+          </div>
+          <div></div><!--DISPLAY AREA-->
+        </div>
+      </div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px">
+ <!--IMPORT POST-RENDER MAINAREA BELOW-->
+<div class='mbscroll' dts='20260622215257'><h1>Parking</h1><hr><h2>1. Ethical Goals</h2>
+<p>This section highlights the ethical considerations for parking policies.</p>
+<h3>🏰 1.1. Autonomy</h3>
+<p>Since an option zone is opt-in and can set any rules, for this node we assume that the context is the common zone, where the underlying rules should be universal that can resolve conflicts in autonomy.</p>
+<p>For those who are not familiar, please refer to another node on how to turn a common zone into an option zone.</p>
+<h3>🪨 1.2. Negative Externalities</h3>
+<p>For the common zone, the main consideration should be negative externalities such as pollution.</p>
+<p>A person should contain or resolve the effects of their travel, leaving no pollution.</p>
+<h3>🕊️ 1.3. Access</h3>
+<p>The purpose of common roads should be to help people move around so they can end up with where they want to be.</p>
+<p>Be mindful that when people are already where they want to be, and roads shouldn't be designed so that people "have to" use them.</p>
+<p>Also, roads as an infrastructure to help people move, shouldn't be seen as a means to force people to fund other things.</p>
+<h3>🪵 1.4. Antifragile</h3>
+<p>Antifragile roads are roads that not only require no "maintenance", but the more it is used the better it gets.</p>
+<p>Antifragile parking is parking that gets better when it is used.</p>
+<h4>🌱 1.4.1. Gaia Accounting</h4>
+<p>At the policy level, People normally have an incentive to provide space for travelers and visitors to park because when they badge in to the space you steward, they are micro-funding your stewardship and freeing your Gaia Shares.</p>
+<p>In a crowded town area of a common zone, it is the individual stewards that decide how much space they want their space to be visitor parkings.</p>
+<p>A downtown business steward would therefore try to claim as much parking space as they could manage (without blocking common access), and, and have workshops and shops on a different floor.</p>
+<p>How much each steward charges for parking is a result of supplies and demands.</p>
+<p>Freedom of Access can only support that a person can reach a destination, not that their vehicle would have a place to park.</p>
+<p>Whether people should have a place to park is a decision of the individual stewards.</p>
+<p>If the stewards, as a result of how they collectively built the town, don't provide enough parking, it just means that they decide that is the environment they want to create.</p>
+<p>The visitors can decide whether to visit and an equilbrium would be reached where each steward doesn't want to and doesn't need to provide more parking, and some visitors might not be able to visit because the stewards don't want to accommodate additional visitors.</p>
+<p>This does not violate access because freedom of travel doesn't mean that anyone may enter anyone's stewarded space. The destination is valid only if it welcomes the visitor.</p>
+<p>This situation is not different from any inn being full and decides not to house additional visitors.</p>
+<p>Gaia Accounting is organic. It doesn't dictate what style the environment would become. It evolves into an equilibrium.</p>
+<h5>🛞 1.4.1.1. Huge Parking Lot</h5>
+<p>A huge parking lot may exist with Gaia Accounting when the steward of the lot has enough Gaia Shares to reserve the space as a parking lot.</p>
+<p>This normally means that the stewards must be providing something valuable enough that it can "afford" to "waste space" on parking lot.</p>
+<h5>🐾 1.4.1.2. No Parking</h5>
+<p>Having no parking at all is also possible. It happens when the steward has enough visitors anyway, where visitor can get there by themselves or be carried by a vehicle that doesn't need to park on site.</p>
+<p>Again, the Steward decides how much traffic they want to serve.</p>
+<h2>2. Protocol</h2>
+<p>This section is about what to do for this survey quest.</p>
+<h3>🍀 2.1. Collect</h3>
+<p>Collect and summarize ideas on parking policies.</p>
+<h3>❤️ 2.2. Mediate</h3>
+<p>Account for concerns, expecially those that correspond to a violation.</p>
+<h3>:Paladin: 2.3. Evaluate</h3>
+<p>Evaluate the idea and give a verdict on whether is has any violation.</p>
+<h3>🔮 2.4. Predict</h3>
+<p>When applicable, predict whether the intended effect would result from the design.</p>
+<p>Just because a plan is clear of violations doesn't mean that it would yield the intended benefit.</p>
+<h3>📯 2.5. Share</h3>
+<p>Show the list of violation-free proposals and help people implement them.</p>
+<h3>🎩 2.6. Engage</h3>
+<p>Engage people to bring awareness and help.</p>
+<h2>3. Ideas &amp; Implementations</h2>
+<p>This section has ideas collected from discussion forums.</p>
+</div>
+ <!--IMPORT ABOVE-->
+      </div>
+    </div></div>
+
+  <div class="footer" onclick="ShowWidgets()">
+
+
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'90000000000000')" title="Quest Board">🔔</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;  overflow-y:auto;width:100%;max-width: 350px;">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240421014400')" title="Roll Call">📯</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 90vh; overflow-y:auto; max-width: 350px;">
+        </div>
+      </div>
+    </span>
+
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'80000000000000')" title="Search">🔍</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:350px;width:100%">
+        </div>
+      </div>
+    </span>
+
+    <button BB class="mbbutton" onClick="ShowNextFP(this,'20240904213516')" title="Music Player">🎧</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:350px;width:100%"></div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240330201200')" title="Notepad">📋</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:700px;width:100%">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'Feedback')" title="Feedback">💌</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP board reserved
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; ;max-width: 700px;width:100%">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240416213800')" title="Node Maker">🍞</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:right;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;max-width:350px; overflow-y:auto">
+        </div>
+      </div>
+    </span>
+
+
+
+  </div>
+  <hide><!--New Panel Template-->
+    <div id="NewPanelTemplate">
+
+      <div control style="padding:0px 3px 2px 2px;">
+        <a class="mbbutton" onClick="IFrameURLSet(this)" title="Jquery Blogspot (Legacy)">🕰️</a>
+        <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;" inputmode="search">
+
+        <a class="mbbutton" onClick="JQAdd(this,true)" title="Jquery GitHub">🐣</a>
+        <!--<a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board">🥨</a>-->
+
+        <a class="mbbutton" onclick="ShowNext(this)" style="float:right;" title="Panel Control">🍞</a>
+        <div class="mbscroll mbhide" control
+          style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">
+
+          <div control style="text-align: center;min-width:125px;font-size: 22px;">
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🔍</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'800000000000',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P800000000000">🔍 Search</a><br>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202405051137',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202405051137">☎️ Help Center</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'Feedback');HC(this);return false;"
+                target="_blank" title="Feedback"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">💟
+                Feedback</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202207131009',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202207131009">🧸 Board Games</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202208172056',false, true);HC(this);return false;" title="Calendar"
+                href="./?id=P202208172056">:?: About</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202403231454',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202403231454">🎓 Academy</a><br>
+
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🐤</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'900000000000',false, true);HC(this);return false;" title="Quest Board"
+                href="./?id=P900000000000">🎪 Quest Board</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202310072314',false, true);HC(this);return false;" title="Calendar"
+                href="./?id=P202310072314">📅 Calendar</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202207242047',false, true);HC(this);return false;" title="Roll Call">📯 Roll
+                Call</a><br>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202404260005',false, true);HC(this);return false"
+                title="Message Scanner" href="./?id=P202404260005">🔔 Messages</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202301251008',false, true);HC(this);return false;" title="Scoreboard"
+                href="./?id=P202301251008">👑 Scoreboard</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202405010908',false, true);HC(this);return false;" title="Guild Inbox"
+                href="./?id=P202405010908">📬 Guild Inbox</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202307161350',false, true);HC(this);return false;" title="Dice Roller"
+                href="./?id=P202307161350">🎲 Dice Roller</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202303191144',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202303191144">🛒 Supplies List</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="Offline(null,true);" title="Offline Mode">🎒
+                Offline Mode</a>
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🤎</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onClick="PanelAddBefore(this);HC(this);" title="Add a panel before">🤎 Add
+                Before</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelAddAfter(this);HC(this);" title="Add a panel after">🤎 Add
+                After</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelToggleServe(this);HC(this);"
+                title="Serve nodes to this panel">🥞 Serve Here</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelToggleWidth(this);HC(this);"
+                title="Toggle the width of this panel">🧇 Toggle Width</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelRemove(this);" title="Close">:Close: Close
+                Panel</a><br>
+              <div class="mbCB"></div>
+              <hr>
+            </hide>
+
+          </div>
+          <div></div><!--DISPLAY AREA-->
+        </div>
+      </div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px"></div>
+    </div>
+  </hide>
+</body>
+<script>
+  function URLViewer() {
+    MacroIcons(document.body);
+    LatestUpdate();
+  };
+  window.onload = URLViewer;
+</script>
+</html>
