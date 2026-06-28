@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mobile Event Logger</title>
+    <style>
+        /* Mobile-First Reset & Core Layout */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            margin: 0; 
+            padding: 10px 10px 75px 10px; /* Space at bottom for fixed mobile footer */
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        
+        .panel { 
+            background: #ffffff; 
+            padding: 12px; 
+            border-radius: 8px; 
+            border: 1px solid #dee2e6;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 15px;
+        }
+
+        h3 { margin: 0 0 10px 0; font-size: 15px; color: #495057; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        /* Compact Form Grid Engineering */
+        .form-row { 
+            display: flex; 
+            gap: 8px; 
+            margin-bottom: 8px; 
+        }
+        .form-group { 
+            flex: 1; 
+            display: flex;
+            flex-direction: column;
+        }
+        /* Specific proportions for the 3-column top row */
+        .col-30 { flex: 0 0 30%; }
+        .col-40 { flex: 0 0 40%; }
+        .col-25 { flex: 0 0 25%; }
+
+        label { font-size: 11px; font-weight: 600; color: #6c757d; margin-bottom: 3px; }
+        input[type="text"] { 
+            width: 100%; 
+            padding: 8px; 
+            font-size: 13px; 
+            border: 1px solid #ced4da; 
+            border-radius: 4px; 
+            box-sizing: border-box; 
+            background: #f1f3f5; /* Shaded to show it's often automated/cached */
+        }
+        input[type="text"]:focus, textarea:focus { background: #fff; border-color: #80bdff; outline: 0; }
+        
+        textarea { 
+            width: 100%; 
+            height: 45px; 
+            padding: 8px; 
+            font-size: 13px; 
+            border: 1px solid #ced4da; 
+            border-radius: 4px; 
+            box-sizing: border-box; 
+            resize: none; 
+        }
+
+        /* Inline Actions Row */
+        .submit-wrapper { display: flex; align-items: flex-end; }
+        button.submit-btn { 
+            width: 100%; 
+            background-color: #28a745; 
+            color: white; 
+            border: none; 
+            padding: 8px; 
+            font-size: 13px; 
+            font-weight: bold; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            height: 34px;
+            margin-top: 16px;
+        }
+        button.submit-btn:disabled { background-color: #6c757d; opacity: 0.6; }
+
+        /* Status & Logs UI */
+        #statusMessage { font-size: 11px; font-weight: bold; display: block; margin-top: 4px; text-align: right; }
+        
+        .stats-grid { display: flex; gap: 10px; margin-bottom: 10px; }
+        .stat-card { flex: 1; background: #e9ecef; padding: 8px; border-radius: 6px; text-align: center; }
+        .stat-val { font-size: 16px; font-weight: bold; color: #007bff; }
+        .stat-val.pending { color: #fd7e14; }
+        .stat-lbl { font-size: 10px; color: #6c757d; }
+
+        .query-trigger-btn { width: 100%; background: #007bff; color: white; border: none; padding: 8px; border-radius: 4px; font-weight: bold; font-size: 13px; }
+
+        .log-item { background: #f8f9fa; border: 1px solid #e9ecef; padding: 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+        .meta-row { color: #6c757d; font-size: 11px; margin-bottom: 4px; display: flex; justify-content: space-between; }
+        .tag-badge { background: #dee2e6; padding: 1px 4px; border-radius: 3px; font-size: 10px; }
+
+        /* Fixed Navigation Footer for Mobile Viewports */
+        .footer-nav { 
+            position: fixed; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            height: 55px; 
+            background: #ffffff; 
+            border-top: 1px solid #dee2e6; 
+            display: flex; 
+            justify-content: space-around; 
+            align-items: center; 
+            z-index: 1000; 
+            padding-bottom: env(safe-area-inset-bottom); /* iOS home bar handling */
+        }
+        .nav-btn { 
+            background: none; 
+            border: none; 
+            color: #6c757d; 
+            font-size: 11px; 
+            font-weight: 600; 
+            cursor: pointer; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 2px;
+            flex: 1;
+            height: 100%;
+            justify-content: center;
+        }
+        .nav-btn.active { color: #007bff; background: #f1f3f5; }
+        .nav-btn-icon { font-size: 16px; font-weight: bold; }
+
+        /* Toggle Rules */
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div id="querySection" class="panel">
+        <h3>Ledger Summary</h3>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-val" id="totalEntriesVal">-</div>
+                <div class="stat-lbl">Total Logs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val pending" id="pendingReviewVal">-</div>
+                <div class="stat-lbl">Pending</div>
+            </div>
+        </div>
+        <button class="query-trigger-btn" onclick="fetchLatestEntries()">Refresh Ledger</button>
+        <div id="ledgerOutput"></div>
+    </div>
+
+    <div id="formSection" class="panel">
+        <h3>Log Quick Event</h3>
+        <form id="eventForm" onsubmit="submitEvent(event)">
+            
+            <div class="form-row">
+                <div class="form-group col-30">
+                    <label for="submitterId">Submitter</label>
+                    <input type="text" id="submitterId" required>
+                </div>
+                <div class="form-group col-40">
+                    <label for="questId">Quest ID</label>
+                    <input type="text" id="questId" required>
+                </div>
+                <div class="form-group col-25">
+                    <label for="statusCode">Status</label>
+                    <input type="text" id="statusCode" value="" placeholder="-">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-30">
+                    <label for="tags">Tags</label>
+                    <input type="text" id="tags" placeholder="sys">
+                </div>
+                <div class="form-group col-40">
+                    <label for="url">Context URL</label>
+                    <input type="text" id="url" placeholder="http://...">
+                </div>
+                <div class="form-group submit-wrapper col-25">
+                    <button type="submit" id="submitBtn" class="submit-btn">Log</button>
+                </div>
+            </div>
+
+            <div class="form-row" style="margin-bottom: 0;">
+                <div class="form-group">
+                    <label for="eventText">Event Description (Optional Header)</label>
+                    <textarea id="eventText" placeholder="Automated event packet description..."></textarea>
+                </div>
+            </div>
+            
+            <span id="statusMessage"></span>
+        </form>
+    </div>
+
+    <div class="footer-nav">
+        <button class="nav-btn" id="btnShowQuery" onclick="switchView('query')">
+            <span class="nav-btn-icon">📋</span> Ledger
+        </button>
+        <button class="nav-btn active" id="btnShowBoth" onclick="switchView('both')">
+            <span class="nav-btn-icon">🔄</span> Both split
+        </button>
+        <button class="nav-btn" id="btnShowForm" onclick="switchView('form')">
+            <span class="nav-btn-icon">➕</span> Log Form
+        </button>
+    </div>
+
+    <script>
+        // ==================== CONFIGURATION ====================
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx9vXUOzh2zubGDueBzgwl0WFJZkcj3ViEtAoudqxPZPjjkCFgKw-gOvV3CPwb-2QjL_g/exec";
+        // =======================================================
+
+        document.addEventListener("DOMContentLoaded", () => {
+            if(localStorage.getItem("h_submitterId")) document.getElementById("submitterId").value = localStorage.getItem("h_submitterId");
+            if(localStorage.getItem("h_questId")) document.getElementById("questId").value = localStorage.getItem("h_questId");
+        });
+
+        // Responsive Mobile Layout Display Controller
+        function switchView(viewMode) {
+            const querySec = document.getElementById('querySection');
+            const formSec = document.getElementById('formSection');
+            
+            // Manage Active Button Styling Classes
+            document.getElementById('btnShowQuery').classList.remove('active');
+            document.getElementById('btnShowBoth').classList.remove('active');
+            document.getElementById('btnShowForm').classList.remove('active');
+
+            if (viewMode === 'query') {
+                querySec.classList.remove('hidden');
+                formSec.classList.add('hidden');
+                document.getElementById('btnShowQuery').classList.add('active');
+            } else if (viewMode === 'form') {
+                querySec.classList.add('hidden');
+                formSec.classList.remove('hidden');
+                document.getElementById('btnShowForm').classList.add('active');
+            } else { // Both split
+                querySec.classList.remove('hidden');
+                formSec.classList.remove('hidden');
+                document.getElementById('btnShowBoth').classList.add('active');
+            }
+        }
+
+        async function submitEvent(event) {
+    event.preventDefault();
+    const submitBtn = document.getElementById('submitBtn');
+    const statusMsg = document.getElementById('statusMessage');
+    
+    const submitterId = document.getElementById('submitterId').value;
+    const questId = document.getElementById('questId').value;
+    const statusCode = document.getElementById('statusCode').value || "200";
+    const urlField = document.getElementById('url').value;
+    const tags = document.getElementById('tags').value;
+    const eventText = document.getElementById('eventText').value || `Status transmission ${statusCode}`;
+
+    localStorage.setItem("h_submitterId", submitterId);
+    localStorage.setItem("h_questId", questId);
+
+    statusMsg.textContent = "Syncing...";
+    statusMsg.style.color = "#495057";
+
+    // Format as URL parameters instead of raw stringified JSON
+    const formData = new URLSearchParams();
+    formData.append('submitterId', submitterId);
+    formData.append('questId', questId);
+    formData.append('statusCode', statusCode);
+    formData.append('url', urlField);
+    formData.append('tags', tags);
+    formData.append('eventText', eventText);
+
+    try {
+        // Send as a standard text/plain form POST
+        await fetch(WEB_APP_URL, {
+            method: "POST",
+            body: formData.toString(),
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        });
+
+        statusMsg.textContent = "Saved!";
+        statusMsg.style.color = "green";
+        
+        document.getElementById('url').value = "";
+        document.getElementById('tags').value = "";
+        document.getElementById('eventText').value = "";
+        
+        startCooldown(5);
+    } catch (error) {
+        statusMsg.textContent = "Error.";
+        statusMsg.style.color = "red";
+        console.error(error);
+    }
+}
+
+        function startCooldown(seconds) {
+            const submitBtn = document.getElementById('submitBtn');
+            let remaining = seconds;
+            submitBtn.disabled = true;
+            submitBtn.textContent = `${remaining}s`;
+
+            const interval = setInterval(() => {
+                remaining--;
+                if (remaining <= 0) {
+                    clearInterval(interval);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Log";
+                } else {
+                    submitBtn.textContent = `${remaining}s`;
+                }
+            }, 1000);
+        }
+
+        async function fetchLatestEntries() {
+            const container = document.getElementById('ledgerOutput');
+            const totalDisplay = document.getElementById('totalEntriesVal');
+            const pendingDisplay = document.getElementById('pendingReviewVal');
+            container.innerHTML = "<p style='color:#6c757d; font-size:12px;'>Loading...</p>";
+
+            try {
+                const response = await fetch(WEB_APP_URL);
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    totalDisplay.textContent = result.totalRows;
+                    pendingDisplay.textContent = result.pendingCount;
+                    container.innerHTML = "";
+
+                    if (result.data.length === 0) {
+                        container.innerHTML = "<p style='color:#6c757d; font-size:12px;'>No public lines.</p>";
+                        return;
+                    }
+
+                    result.data.forEach(item => {
+                        const element = document.createElement('div');
+                        element.className = 'log-item';
+                        element.innerHTML = `
+                            <div class="meta-row">
+                                <span><strong>Q:</strong> ${item.questId || 'N/A'} [${item.statusCode || '200'}]</span>
+                                <span>${item.submitterId || 'User'}</span>
+                            </div>
+                            <div style="font-weight:500; color:#212529;">${item.eventText}</div>
+                            ${item.url ? `<div style="font-size:11px; margin-top:2px;"><a href="${item.url}" target="_blank" style="color:#007bff; text-decoration:none;">Context Link</a></div>` : ''}
+                        `;
+                        container.appendChild(element);
+                    });
+                }
+            } catch (error) {
+                container.innerHTML = "<p style='color:red; font-size:12px;'>Fetch Error.</p>";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -35,6 +35,10 @@ self.addEventListener('activate', (event) => {
 
 // 3. Fetch Event: The "Offline Magic"
 self.addEventListener('fetch', (event) => {
+  // CRITICAL FIX: Skip cross-origin extensions or internal schemes (like chrome-extension://)
+  if (!event.request.url.startsWith('http')) {
+    return; 
+  }
   // We only want to handle GET requests
   if (event.request.method !== 'GET') return;
 

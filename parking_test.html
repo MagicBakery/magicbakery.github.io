@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dynamic Municipal Parking Simulator</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <style>
+        :root {
+            --primary: #daa520;       /* Goldenrod accent color */
+            --success: #10b981;       /* Emerald emerald */
+            --warning: #f59e0b;       /* Amber amber */
+            --danger: #ef4444;        /* Crimson red */
+            --bg-main: #0f172a;       /* Slate 900 primary background */
+            --bg-card: #1e293b;       /* Slate 800 surfaces */
+            --bg-input: #334155;      /* Slate 700 field backgrounds */
+            --text-main: #f8fafc;     /* Slate 50 ultra-bright text */
+            --text-muted: #94a3b8;    /* Slate 400 subheadings */
+            --border-dark: #334155;   /* Subtle divider boundaries */
+            --border-radius: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body, html {
+            height: 100%;
+            background: var(--bg-main);
+            color: var(--text-main);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- HEADER & TABS ARCHITECTURE --- */
+        header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-dark);
+            z-index: 1000;
+            flex-shrink: 0;
+        }
+
+        .tab-nav {
+            display: flex;
+            background: #0b0f19;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            background: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--bg-card);
+            color: var(--text-main);
+            border-bottom: 3px solid var(--primary);
+        }
+
+        .tab-panel {
+            display: none;
+            padding: 16px 20px;
+            background: var(--bg-card);
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        .form-grid {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .inline-inputs {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 12px;
+            width: 100%;
+            align-items: flex-end;
+        }
+
+        .input-group {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .input-group input {
+            padding: 10px 14px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-dark);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text-main);
+            outline: none;
+            transition: border 0.2s;
+            width: 100%;
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary);
+        }
+
+        .revenue-btn {
+            background: var(--primary);
+            color: #0f172a;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            flex-shrink: 0;
+            height: 38px;
+            display: flex;
+            align-items: center;
+        }
+
+        .revenue-btn:hover {
+            background: #b8860b;
+        }
+
+        /* --- MAP CONTAINER ENGINE --- */
+        #map-wrapper {
+            flex-grow: 1;
+            position: relative;
+            width: 100%;
+            background: #fff;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* --- DYNAMIC SATELLITE HUD/CROSSHAIR FILTERS --- */
+        #crosshair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            transform: translate(-50%, -50%);
+            z-index: 999;
+            pointer-events: none;
+            display: none;
+        }
+
+        #crosshair::before, #crosshair::after {
+            content: '';
+            position: absolute;
+            background: var(--danger);
+        }
+
+        #crosshair::before { top: 14px; left: 0; width: 30px; height: 2px; }
+        #crosshair::after { left: 14px; top: 0; width: 2px; height: 30px; }
+
+        #gpsHud {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.9);
+            color: var(--text-main);
+            border: 1px solid var(--border-dark);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 999;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            display: none;
+            white-space: nowrap;
+        }
+
+        /* --- CONTROL CARD (CENTERED AT BOTTOM) --- */
+        .control-card {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-card);
+            border: 1px solid var(--border-dark);
+            padding: 16px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            z-index: 999;
+            width: 320px;
+        }
+
+        #statusLabel {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            word-break: break-all;
+        }
+
+        .action-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .billing-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        #sessionTimer {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        #userFee {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            line-height: 1.1;
+        }
+
+        .action-btn {
+            flex-grow: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: opacity 0.2s, background-color 0.2s;
+            height: 46px;
+        }
+
+        .action-btn:disabled {
+            background: #1e293b !important;
+            color: #475569 !important;
+            border: 1px solid #334155;
+            cursor: not-allowed;
+        }
+
+        .btn-park { background: var(--success); color: #0f172a; }
+        .btn-unpark { background: var(--warning); color: #0f172a; }
+        .action-btn:not(:disabled):hover { opacity: 0.9; }
+
+        /* --- TOP LEFT LEGENDS ARCHITECTURE --- */
+        .legend-wrapper {
+            position: absolute;
+            top: 12px;   
+            left: 12px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column; 
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .circle-toggle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-dark);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .circle-toggle:hover {
+            background: var(--bg-input);
+        }
+
+        .legend-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-dark);
+            padding: 14px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 170px;
+        }
+
+        .legend-panel.visible { display: flex; }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* --- LEAFLET NATIVE ELEMENT OVERRIDES --- */
+        .custom-map-btn {
+            background: var(--bg-card) !important;
+            border: 1px solid var(--border-dark) !important;
+            color: var(--text-main);
+            width: 42px;
+            height: 42px;
+            border-radius: 50% !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.2s;
+            margin-bottom: 6px;
+        }
+
+        .custom-map-btn:hover {
+            background: var(--bg-input) !important;
+        }
+
+        /* --- MOBILE LAYOUT OPTIMIZATIONS --- */
+        @media (max-width: 600px) {
+            .tab-panel { padding: 12px; }
+            .inline-inputs { gap: 6px; }
+            .input-group label { font-size: 0.65rem; }
+            .input-group input { padding: 8px 10px; font-size: 0.8rem; }
+            .revenue-btn { padding: 0 10px; font-size: 0.8rem; height: 33px; }
+            .control-card {
+                bottom: 25px;
+                width: calc(100% - 24px);
+                max-width: 340px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="switchTab('tab-profile')">User Profile</button>
+            <button class="tab-btn" onclick="switchTab('tab-settings')">System Settings</button>
+        </div>
+        
+        <div id="tab-profile" class="tab-panel active">
+            <div class="form-grid">
+                <div class="input-group">
+                    <label for="username">User Name</label>
+                    <input type="text" id="username" onchange="handleNameChange()">
+                </div>
+                <div class="input-group">
+                    <label for="plate">Virtual Plate (Random)</label>
+                    <input type="text" id="plate" disabled>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-settings" class="tab-panel">
+            <div class="inline-inputs">
+                <div class="input-group">
+                    <label for="paramGracePeriod">Free min</label>
+                    <input type="number" id="paramGracePeriod" value="60" onchange="handleParamUpdate()">
+                </div>
+                <div class="input-group">
+                    <label for="paramBaseFee">Base $</label>
+                    <input type="number" id="paramBaseFee" value="0.00" step="0.50" onchange="handleParamUpdate()">
+                </div>
+                <div class="input-group">
+                    <label for="paramHourlyRate">Hourly $</label>
+                    <input type="number" id="paramHourlyRate" value="5.00" step="0.50" onchange="handleParamUpdate()">
+                </div>
+                <button class="revenue-btn" onclick="checkCityRevenue()">Audit Revenue</button>
+            </div>
+        </div>
+    </header>
+
+    <div id="map-wrapper">
+        <div id="map"></div>
+        
+        <div id="crosshair"></div>
+        <div id="gpsHud" onclick="copyCoordinatesToClipboard()">📍 Lat: --, Lng: --</div>
+
+        <div class="control-card">
+            <div id="statusLabel">ID: None (Unparked)</div>
+            <div class="action-row">
+                <div class="billing-info">
+                    <div id="sessionTimer">0m</div>
+                    <div id="userFee">$0.00</div>
+                </div>
+                <button id="masterActionBtn" class="action-btn btn-park" onclick="handleMasterButtonClick()" disabled>Select a Spot</button>
+            </div>
+        </div>
+
+        <div class="legend-wrapper">
+            <button class="circle-toggle" onclick="toggleLegend()">?</button>
+            <div id="legendPanel" class="legend-panel">
+                <div class="legend-item"><span class="dot" style="background:#10b981;"></span> Available</div>
+                <div class="legend-item"><span class="dot" style="background:#f59e0b;"></span> Your Vehicle</div>
+                <div class="legend-item"><span class="dot" style="background:#64748b;"></span> Occupied (&lt;24h)</div>
+                <div class="legend-item"><span class="dot" style="background:#ef4444;"></span> Infraction (&gt;24h)</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwUx1XhUrPSrJLhTbcFzo5wmz-rqG2McDCtr2YWYDTHu0Gq965Ik3ZaYvu_euBVFG5Z/exec";
+        const QUEST_ID = "20260627215416";
+
+        // Baseline pricing parameter state values
+        let feeMMinutes = 60;
+        let feeXHourly = 5.00;
+        let feeYBase = 0.00;
+
+        let map, selectedSpotMarker = null;
+        let currentParkedSpotId = null; 
+        let parkingStartTime = null;
+        let billingInterval = null;
+        let currentCenterCoords = { lat: 0, lng: 0 };
+
+        let parkingSpots = [
+            { id: "3854452N12174038W", lat: 38.54452, lng: -121.74038, status: "", hoursParked: 0, plate: "Available" },
+            { id: "3854447N12174037W", lat: 38.54447, lng: -121.74037, status: "Available", hoursParked: 0, plate: "" },
+            { id: "3854442N12174035W", lat: 38.54442, lng: -121.74035, status: "Available", hoursParked: 0, plate: "" },
+            { id: "3854436N12174033W", lat: 38.54436, lng: -121.74033, status: "Available", hoursParked: 0, plate: "" },
+            { id: "3854431N12174032W", lat: 38.54431, lng: -121.74032, status: "Available", hoursParked: 0, plate: "" },
+            { id: "3854424N12174030W", lat: 38.54424, lng: -121.74030, status: "Available", hoursParked: 0, plate: "" },
+            { id: "3854456N12174023W", lat: 38.54456, lng: -121.74023, status: "Available", hoursParked: 0, plate: "" },
+            { id: "3854450N12174022W", lat: 38.54450, lng: -121.74022, status: "Available", hoursParked: 0, plate: "" },
+            { id: "3854440N12174019W", lat: 38.54440, lng: -121.74019, status: "Available", hoursParked: 0, plate: "" },
+            { id: "3854435N12174018W", lat: 38.54435, lng: -121.74018, status: "Available", hoursParked: 0, plate: "" },
+            { id: "3854430N12174016W", lat: 38.54430, lng: -121.74016, status: "Available", hoursParked: 0, plate: "" },
+            { id: "3854424N12174015W", lat: 38.54424, lng: -121.74015, status: "Available", hoursParked: 0, plate: "" }
+        ];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initSessionData();
+            initMapMatrix();
+            
+            syncLiveSpotAvailability().then(() => {
+                renderParkingGrid();
+                restoreActiveUserSession();
+            });
+        });
+
+        /* --- LAYOUT DISPLAY DRIVERS --- */
+        function switchTab(panelId) {
+            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(panelId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function toggleLegend() {
+            document.getElementById("legendPanel").classList.toggle("visible");
+        }
+
+        function loadParametersFromUI() {
+            feeYBase = parseFloat(document.getElementById("paramBaseFee").value) ?? 0.00;
+            feeXHourly = parseFloat(document.getElementById("paramHourlyRate").value) ?? 5.00;
+            feeMMinutes = parseInt(document.getElementById("paramGracePeriod").value) ?? 60;
+        }
+
+        function handleParamUpdate() {
+            loadParametersFromUI();
+            
+            // Commit structural metrics config state changes to Local Storage
+            localStorage.setItem("park_feeMMinutes", feeMMinutes);
+            localStorage.setItem("park_feeYBase", feeYBase);
+            localStorage.setItem("park_feeXHourly", feeXHourly);
+
+            if (parkingStartTime) {
+                let diffMs = new Date() - parkingStartTime;
+                let diffMins = Math.floor(diffMs / 60000);
+                document.getElementById("userFee").textContent = `$${calculateFeeFormula(diffMins).toFixed(2)}`;
+            } else {
+                syncHistoryFees();
+            }
+        }
+
+        function initSessionData() {
+            let storedName = localStorage.getItem("park_username");
+            let storedPlate = localStorage.getItem("park_plate");
+
+            document.getElementById("username").value = storedName || "Tester Account";
+            if (!storedName) localStorage.setItem("park_username", "Tester Account");
+
+            if (!storedPlate) {
+                storedPlate = generateRandomPlate();
+                localStorage.setItem("park_plate", storedPlate);
+            }
+            document.getElementById("plate").value = storedPlate;
+
+            // Pull parameters from Local Storage if present, otherwise drop back to standard default values
+            feeMMinutes = localStorage.getItem("park_feeMMinutes") !== null ? parseInt(localStorage.getItem("park_feeMMinutes")) : 60;
+            feeYBase = localStorage.getItem("park_feeYBase") !== null ? parseFloat(localStorage.getItem("park_feeYBase")) : 0.00;
+            feeXHourly = localStorage.getItem("park_feeXHourly") !== null ? parseFloat(localStorage.getItem("park_feeXHourly")) : 5.00;
+
+            // Push synchronized settings properties down to UI control tags
+            document.getElementById("paramGracePeriod").value = feeMMinutes;
+            document.getElementById("paramBaseFee").value = feeYBase.toFixed(2);
+            document.getElementById("paramHourlyRate").value = feeXHourly.toFixed(2);
+        }
+
+        function generateRandomPlate() {
+            const stateCode = "CA-";
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let out = '';
+            for (let i = 0; i < 6; i++) out += chars.charAt(Math.floor(Math.random() * chars.length));
+            return stateCode + out;
+        }
+
+        function handleNameChange() {
+            if (currentParkedSpotId) return; 
+            localStorage.setItem("park_username", document.getElementById("username").value);
+            const newPlate = generateRandomPlate();
+            localStorage.setItem("park_plate", newPlate);
+            document.getElementById("plate").value = newPlate;
+        }
+
+        /* --- MAP CORE LOGIC AND UI BINDINGS --- */
+        function initMapMatrix() {
+            const streetLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                maxZoom: 22, maxNativeZoom: 19,
+                attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+            });
+
+            const satelliteLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+                maxZoom: 22, maxNativeZoom: 20, attribution: '&copy; Google Maps'
+            });
+
+            map = L.map('map', {
+                zoomControl: false, attributionControl: false, layers: [streetLayer] 
+            }).setView([38.5446, -121.7401], 17);
+
+            // 1. Satellite Switch Control
+            const CustomToggleControl = L.Control.extend({
+                options: { position: 'topright' },
+                onAdd: function() {
+                    let container = L.DomUtil.create('div', 'custom-map-btn');
+                    container.innerHTML = "🗺️";
+                    container.title = "Toggle Map Type";
+                    
+                    L.DomEvent.on(container, 'click', function() {
+                        if (map.hasLayer(streetLayer)) {
+                            map.removeLayer(streetLayer);
+                            map.addLayer(satelliteLayer);
+                        } else {
+                            map.removeLayer(satelliteLayer);
+                            map.addLayer(streetLayer);
+                        }
+                    });
+                    return container;
+                }
+            });
+            map.addControl(new CustomToggleControl());
+
+            // 2. Re-center Target Button
+            const RecenterControl = L.Control.extend({
+                options: { position: 'topright' },
+                onAdd: function() {
+                    let container = L.DomUtil.create('div', 'custom-map-btn');
+                    container.innerHTML = "🎯";
+                    container.title = "Recenter Map View";
+                    
+                    L.DomEvent.on(container, 'click', function() {
+                        reCenterMap();
+                    });
+                    return container;
+                }
+            });
+            map.addControl(new RecenterControl());
+
+            map.on('layeradd', () => updateLayerContextHud(streetLayer, satelliteLayer));
+            map.on('layerremove', () => updateLayerContextHud(streetLayer, satelliteLayer));
+            
+            map.on('move', updateGpsHud);
+            updateGpsHud(); 
+        }
+
+        function reCenterMap() {
+            if (currentParkedSpotId) {
+                const target = parkingSpots.find(s => s.id === currentParkedSpotId);
+                if (target) map.setView([target.lat, target.lng], 20); 
+            } else {
+                map.setView([38.5446, -121.7401], 17);
+            }
+        }
+
+        function updateLayerContextHud(street, satellite) {
+            const targetVisible = map.hasLayer(satellite);
+            document.getElementById("crosshair").style.display = targetVisible ? "block" : "none";
+            document.getElementById("gpsHud").style.display = targetVisible ? "block" : "none";
+        }
+
+        function updateGpsHud() {
+            const center = map.getCenter();
+            currentCenterCoords.lat = center.lat.toFixed(5);
+            currentCenterCoords.lng = center.lng.toFixed(5);
+            document.getElementById("gpsHud").textContent = `📍 Lat: ${currentCenterCoords.lat}, Lng: ${currentCenterCoords.lng}`;
+        }
+
+        function generateIdFromCoordinates(lat, lng) {
+            const latDir = lat >= 0 ? "N" : "S";
+            const lngDir = lng >= 0 ? "E" : "W";
+            const latVal = Math.round(Math.abs(lat) * 100000).toString();
+            const lngVal = Math.round(Math.abs(lng) * 100000).toString();
+            return latVal.padStart(6, '0') + latDir + lngVal.padStart(8, '0') + lngDir;
+        }
+
+        function copyCoordinatesToClipboard() {
+            const calculatedId = generateIdFromCoordinates(parseFloat(currentCenterCoords.lat), parseFloat(currentCenterCoords.lng));
+            const codeString = `{ id: "${calculatedId}", lat: ${currentCenterCoords.lat}, lng: ${currentCenterCoords.lng}, status: "Available", hoursParked: 0, plate: "" },`;
+            
+            navigator.clipboard.writeText(codeString).then(() => {
+                const hud = document.getElementById("gpsHud");
+                const originalText = hud.textContent;
+                hud.textContent = "📋 Copied Entry Point!";
+                setTimeout(() => { hud.textContent = originalText; }, 1200);
+            }).catch(err => console.error("Clipboard blocked:", err));
+        }
+
+        /* --- ACCOUNTING LEDGER PIPELINE --- */
+        async function syncLiveSpotAvailability() {
+            try {
+                const response = await fetch(WEB_APP_URL);
+                if (!response.ok) return;
+                const result = await response.json();
+                
+                if (result.status === "success" && result.data) {
+                    let normalizedLogs = result.data.map(log => {
+                        let cleanLog = {};
+                        Object.keys(log).forEach(key => { cleanLog[key.toLowerCase().replace(/[^a-z0-9]/g, '')] = log[key]; });
+                        return cleanLog;
+                    });
+
+                    let targetQuestStr = String(QUEST_ID).trim().toLowerCase();
+                    let simulationLogs = normalizedLogs
+                        .filter(item => String(item.questid || '').trim().toLowerCase() === targetQuestStr)
+                        .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+                    simulationLogs.forEach(log => {
+                        const extractedSpotId = log.eventtext ? String(log.eventtext).trim() : "";
+                        let localSpot = parkingSpots.find(s => s.id === extractedSpotId);
+                        
+                        if (localSpot) {
+                            if (log.statuscode === "Park") {
+                                localSpot.status = "Occupied";
+                                localSpot.plate = log.submitterid;
+                                let elapsedHours = Math.floor((new Date() - new Date(log.timestamp)) / 3600000);
+                                localSpot.hoursParked = elapsedHours;
+                            } else if (log.statuscode === "Unpark") {
+                                localSpot.status = "Available";
+                                localSpot.plate = "";
+                                localSpot.hoursParked = 0;
+                            }
+                        }
+                    });
+                }
+            } catch (e) { console.error("Live sync failure:", e); }
+        }
+
+        function restoreActiveUserSession() {
+            const trackingPlate = document.getElementById("plate").value;
+            let targetSpot = parkingSpots.find(s => s.status === "Occupied" && s.plate === trackingPlate);
+            
+            if (targetSpot) {
+                currentParkedSpotId = targetSpot.id;
+                fetch(WEB_APP_URL).then(res => res.json()).then(result => {
+                    if(result.data) {
+                        let normalizedLogs = result.data.map(log => {
+                            let cleanLog = {};
+                            Object.keys(log).forEach(key => { cleanLog[key.toLowerCase().replace(/[^a-z0-9]/g, '')] = log[key]; });
+                            return cleanLog;
+                        });
+
+                        let targetQuestStr = String(QUEST_ID).trim().toLowerCase();
+                        let logs = normalizedLogs
+                            .filter(l => l.submitterid === trackingPlate && String(l.questid || '').trim().toLowerCase() === targetQuestStr)
+                            .sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
+                        
+                        let lastLog = logs[logs.length - 1];
+                        if (lastLog && lastLog.statuscode === "Park") {
+                            parkingStartTime = new Date(lastLog.timestamp);
+                            document.getElementById("username").disabled = true;
+                            document.getElementById("statusLabel").textContent = `ID: ${currentParkedSpotId} (Parked)`;
+                            
+                            const btn = document.getElementById("masterActionBtn");
+                            btn.disabled = false;
+                            btn.textContent = "Unpark";
+                            btn.className = "action-btn btn-unpark";
+                            
+                            startBillingTimer();
+                            renderParkingGrid();
+                        }
+                    }
+                }).catch(e => console.warn(e));
+            } else {
+                syncHistoryFees();
+            }
+        }
+
+        /* --- AUDIT REVENUE ENGINE (SILENT COMPUTATION BREAKDOWN DIALOG) --- */
+        async function checkCityRevenue() {
+            try {
+                const response = await fetch(WEB_APP_URL);
+                if (!response.ok) return;
+                const result = await response.json();
+                
+                if (result.status === "success" && result.data) {
+                    let normalizedLogs = result.data.map(log => {
+                        let cleanLog = {};
+                        Object.keys(log).forEach(key => { cleanLog[key.toLowerCase().replace(/[^a-z0-9]/g, '')] = log[key]; });
+                        return cleanLog;
+                    });
+
+                    let targetQuestStr = String(QUEST_ID).trim().toLowerCase();
+                    let allLogs = normalizedLogs
+                        .filter(item => String(item.questid || '').trim().toLowerCase() === targetQuestStr)
+                        .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+                    const targetPlate = document.getElementById("plate").value;
+                    let activeSessions = {}; 
+                    let globalRevenue = 0;
+                    let userRevenueBreakdown = 0;
+
+                    allLogs.forEach(log => {
+                        const plate = log.submitterid;
+                        if (log.statuscode === "Park") {
+                            activeSessions[plate] = log.timestamp;
+                        } else if (log.statuscode === "Unpark") {
+                            if (activeSessions[plate]) {
+                                let durationMs = new Date(log.timestamp) - new Date(activeSessions[plate]);
+                                let feeCalculated = calculateFeeFormula(Math.floor(durationMs / 60000));
+                                globalRevenue += feeCalculated;
+                                if (plate === targetPlate) userRevenueBreakdown += feeCalculated;
+                                delete activeSessions[plate];
+                            }
+                        }
+                    });
+
+                    const now = new Date();
+                    Object.keys(activeSessions).forEach(plate => {
+                        let dynamicDurationMs = now - new Date(activeSessions[plate]);
+                        let feeCalculated = calculateFeeFormula(Math.floor(dynamicDurationMs / 60000));
+                        globalRevenue += feeCalculated;
+                        if (plate === targetPlate) userRevenueBreakdown += feeCalculated;
+                    });
+
+                    alert(
+                        `📊 SYSTEM LEDGER AUDIT\n` +
+                        `-----------------------------------------\n` +
+                        `• Total City System Collections : $${globalRevenue.toFixed(2)}\n` +
+                        `• Your Account Contribution     : $${userRevenueBreakdown.toFixed(2)}`
+                    );
+                }
+            } catch (error) {
+                alert("Failed connecting to accounting server ledger backend.");
+            }
+        }
+
+        function renderParkingGrid() {
+            map.eachLayer((layer) => { if (layer instanceof L.CircleMarker) map.removeLayer(layer); });
+            const trackingPlate = document.getElementById("plate").value;
+
+            parkingSpots.forEach(spot => {
+                let color = "#10b981"; // Available (Emerald)
+                if (spot.id === currentParkedSpotId || (spot.status === "Occupied" && spot.plate === trackingPlate)) {
+                    color = "#f59e0b"; // Your Vehicle (Amber)
+                } else if (spot.status === "Occupied") {
+                    color = spot.hoursParked > 24 ? "#ef4444" : "#64748b"; // Infraction vs Normal Occupied
+                }
+
+                let marker = L.circleMarker([spot.lat, spot.lng], {
+                    radius: 10, fillColor: color, color: "#0f172a", weight: 2.5, fillOpacity: 0.95
+                }).addTo(map);
+
+                marker.on('click', () => handleSpotClick(spot));
+            });
+        }
+
+        function handleSpotClick(spot) {
+            if (currentParkedSpotId && spot.id !== currentParkedSpotId) return;
+            if (spot.status === "Occupied" && spot.id !== currentParkedSpotId) return;
+
+            selectedSpotMarker = spot;
+            if (!currentParkedSpotId) {
+                document.getElementById("statusLabel").textContent = `ID: ${spot.id}`;
+                const btn = document.getElementById("masterActionBtn");
+                btn.disabled = false;
+                btn.textContent = "Confirm Parking";
+                btn.className = "action-btn btn-park";
+            }
+        }
+
+        function handleMasterButtonClick() {
+            if (!currentParkedSpotId) { executePark(); } else { executeUnpark(currentParkedSpotId); }
+        }
+
+        async function executePark() {
+            if (!selectedSpotMarker) return;
+            currentParkedSpotId = selectedSpotMarker.id;
+            parkingStartTime = new Date();
+            
+            document.getElementById("username").disabled = true;
+            document.getElementById("statusLabel").textContent = `ID: ${currentParkedSpotId} (Parked)`;
+            
+            const btn = document.getElementById("masterActionBtn");
+            btn.textContent = "Unpark";
+            btn.className = "action-btn btn-unpark";
+
+            let target = parkingSpots.find(s => s.id === currentParkedSpotId);
+            target.status = "Occupied";
+            target.plate = document.getElementById("plate").value;
+            renderParkingGrid();
+
+            startBillingTimer();
+            await transmitLog("Park", currentParkedSpotId);
+        }
+
+        async function executeUnpark(spotId) {
+            stopBillingTimer();
+            let target = parkingSpots.find(s => s.id === spotId);
+            target.status = "Available";
+            target.plate = "";
+            target.hoursParked = 0;
+
+            if (spotId === currentParkedSpotId) {
+                currentParkedSpotId = null;
+                parkingStartTime = null;
+                document.getElementById("username").disabled = false;
+                document.getElementById("statusLabel").textContent = "ID: None (Unparked)";
+                
+                const btn = document.getElementById("masterActionBtn");
+                btn.textContent = "Select a Spot";
+                btn.className = "action-btn btn-park";
+                btn.disabled = true;
+            }
+
+            renderParkingGrid();
+            await transmitLog("Unpark", spotId);
+            syncHistoryFees();
+        }
+
+        function startBillingTimer() {
+            if(billingInterval) clearInterval(billingInterval);
+            billingInterval = setInterval(() => {
+                if (!parkingStartTime) return;
+                let diffMins = Math.floor((new Date() - parkingStartTime) / 60000); 
+                document.getElementById("sessionTimer").textContent = `${diffMins}m`;
+                document.getElementById("userFee").textContent = `$${calculateFeeFormula(diffMins).toFixed(2)}`;
+            }, 1000);
+        }
+
+        function stopBillingTimer() {
+            clearInterval(billingInterval);
+            document.getElementById("sessionTimer").textContent = "0m";
+        }
+
+        function calculateFeeFormula(totalMinutes) {
+            if (totalMinutes <= feeMMinutes) return 0.00;
+            return feeYBase + (((totalMinutes - feeMMinutes) / 60) * feeXHourly);
+        }
+
+        async function transmitLog(statusCode, logText) {
+            const plateId = document.getElementById("plate").value;
+            const formData = new URLSearchParams();
+            formData.append('submitterId', plateId);
+            formData.append('questId', QUEST_ID);
+            formData.append('statusCode', statusCode);
+            formData.append('eventText', logText);
+            try {
+                await fetch(WEB_APP_URL, {
+                    method: "POST", body: formData.toString(),
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                });
+            } catch (e) { console.error("Transmission error:", e); }
+        }
+
+        async function syncHistoryFees() {
+            const targetPlate = document.getElementById("plate").value;
+            try {
+                const response = await fetch(WEB_APP_URL);
+                if (!response.ok) return;
+                const result = await response.json();
+                if (result.status === "success" && result.data) {
+                    let normalizedLogs = result.data.map(log => {
+                        let cleanLog = {};
+                        Object.keys(log).forEach(key => { cleanLog[key.toLowerCase().replace(/[^a-z0-9]/g, '')] = log[key]; });
+                        return cleanLog;
+                    });
+
+                    let targetQuestStr = String(QUEST_ID).trim().toLowerCase();
+                    let plateLogs = normalizedLogs
+                        .filter(item => item.submitterid === targetPlate && String(item.questid || '').trim().toLowerCase() === targetQuestStr)
+                        .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+                    let totalHistoricalFee = 0;
+                    for(let i = 0; i < plateLogs.length; i++) {
+                        if(plateLogs[i].statuscode === "Park" && plateLogs[i+1] && plateLogs[i+1].statuscode === "Unpark") {
+                            let durationMins = Math.floor((new Date(plateLogs[i+1].timestamp) - new Date(plateLogs[i].timestamp)) / 60000);
+                            totalHistoricalFee += calculateFeeFormula(durationMins);
+                            i++; 
+                        }
+                    }
+                    document.getElementById("userFee").textContent = `$${totalHistoricalFee.toFixed(2)}`;
+                }
+            } catch(e) { console.warn("Error processing calculation layout sync."); }
+        }
+    </script>
+</body>
+</html>
