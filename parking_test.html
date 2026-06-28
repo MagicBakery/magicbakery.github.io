@@ -549,10 +549,10 @@
         }
 
         function generateRandomPlate() {
-            const stateCode = "CA-";
+            const stateCode = "DV-";
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let out = '';
-            for (let i = 0; i < 7; i++) out += chars.charAt(Math.floor(Math.random() * chars.length));
+            for (let i = 0; i < 8; i++) out += chars.charAt(Math.floor(Math.random() * chars.length));
             return stateCode + out;
         }
 
