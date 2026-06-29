@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mobile Event Logger</title>
+    <script src="config.js"></script>
+    <script src="qsdk.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <style>
+        /* Premium Grayscale Monochrome Dark Theme */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            margin: 0;
+            padding: 10px 10px 75px 10px;
+            background-color: #000000;
+            /* Pure black canvas background */
+            color: #e2e8f0;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            height: 100vh;
+        }
+
+        .panel {
+            background: #1c1c1e;
+            /* Matte dark grey slate */
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid #2c2c2e;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+            flex: 1 1 0%;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            position: relative;
+        }
+
+        h3 {
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            color: #ffffff;
+            /* Clean monochrome white headline */
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            border-bottom: 1px solid #2c2c2e;
+            padding-bottom: 6px;
+        }
+
+        /* Full Screen / Multi-Split Layout Core */
+        #mapSection {
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid #2c2c2e;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            background: #000000;
+        }
+
+        /* Semi-Transparent Floating Overlay HUD Controls */
+        .map-hud {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .hud-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: rgba(28, 28, 30, 0.65);
+            /* Semi-transparent panel overlay */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            padding: 0;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .hud-btn:active {
+            background-color: rgba(44, 44, 46, 0.85);
+            border-color: #ffffff;
+        }
+
+        .hud-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: #d1d1d6;
+            /* Clean light gray graphic lines */
+            transition: fill 0.2s;
+        }
+
+        .hud-btn:active svg {
+            fill: #ffffff;
+        }
+
+        /* Center Coordinate Display HUD */
+        .coord-hud {
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background-color: rgba(28, 28, 30, 0.75);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-family: monospace;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            white-space: nowrap;
+            pointer-events: none;
+        }
+
+        /* Map Crosshair Target Graphic Overlay */
+        .map-crosshair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            transform: translate(-50%, -50%);
+            z-index: 1001;
+            pointer-events: none;
+        }
+
+        .map-crosshair::before,
+        .map-crosshair::after {
+            content: '';
+            position: absolute;
+            background: #ffffff;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+        }
+
+        .map-crosshair::before {
+            top: 14px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+        }
+
+        .map-crosshair::after {
+            top: 0;
+            left: 14px;
+            width: 2px;
+            height: 30px;
+        }
+
+        .leaflet-control-attribution {
+            display: none !important;
+        }
+
+        /* Street View Custom CSS Filters (Soft Contrast Default) */
+        .map-theme-street-soft {
+            filter: contrast(92%) saturate(90%) brightness(102%) sepia(8%);
+        }
+
+        .map-theme-street-warm {
+            filter: sepia(35%) contrast(102%) saturate(115%) hue-rotate(-5deg);
+        }
+
+        .map-theme-street-cozy {
+            filter: hue-rotate(85deg) saturate(70%) brightness(92%) contrast(95%);
+        }
+
+        .map-theme-satellite {
+            filter: none !important;
+        }
+
+        /* Input Elements Form Styling */
+        .form-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .form-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .col-20 {
+            flex: 0 0 20%;
+        }
+
+        .col-25 {
+            flex: 0 0 25%;
+        }
+
+        .col-30 {
+            flex: 0 0 30%;
+        }
+
+        .col-35 {
+            flex: 0 0 35%;
+        }
+
+        .col-40 {
+            flex: 0 0 40%;
+        }
+
+        .col-50 {
+            flex: 0 0 50%;
+        }
+
+        label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #a0aec0;
+            margin-bottom: 4px;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            font-size: 13px;
+            border: 1px solid #2c2c2e;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background: #000000;
+            color: #ffffff;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
+            background: #1c1c1e;
+            border-color: #ffffff;
+            outline: 0;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            color: #a0aec0;
+            user-select: none;
+        }
+
+        .checkbox-container input {
+            cursor: pointer;
+            accent-color: #ffffff;
+            margin: 0;
+            width: 16px;
+            height: 16px;
+        }
+
+        textarea {
+            height: 45px;
+            resize: none;
+        }
+
+        .submit-wrapper {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        button.submit-btn,
+        .query-trigger-btn {
+            width: 100%;
+            background-color: #ffffff;
+            /* Stark monochrome light fill button */
+            color: #000000;
+            border: none;
+            padding: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            height: 34px;
+            margin-top: 16px;
+            transition: background 0.2s;
+        }
+
+        button.submit-btn:active,
+        .query-trigger-btn:active {
+            background-color: #d1d1d6;
+        }
+
+        button.submit-btn:disabled {
+            background-color: #3a3a3c;
+            color: #718096;
+            cursor: not-allowed;
+        }
+
+        #statusMessage {
+            font-size: 11px;
+            font-weight: bold;
+            display: block;
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .stats-grid {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card {
+            flex: 1;
+            background: #000000;
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+            border: 1px solid #2c2c2e;
+        }
+
+        .stat-val {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .stat-lbl {
+            font-size: 10px;
+            color: #a0aec0;
+        }
+
+        #ledgerOutput {
+            margin-top: 10px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .log-item {
+            background: #000000;
+            border: 1px solid #2c2c2e;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 8px;
+            font-size: 12px;
+        }
+
+        .meta-row {
+            color: #a0aec0;
+            font-size: 11px;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .info-link {
+            color: #ffffff;
+            text-decoration: underline;
+            font-size: 13px;
+        }
+
+        .info-link:hover {
+            color: #d1d1d6;
+        }
+
+        /* Fixed Navigation Footer Dock */
+        .footer-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 55px;
+            background: #000000;
+            border-top: 1px solid #2c2c2e;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #a0aec0;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            flex: 1;
+            height: 100%;
+            justify-content: center;
+        }
+
+        .nav-btn.active {
+            color: #ffffff;
+            background: #1c1c1e;
+            /* Dark grey selection accent */
+        }
+
+        .nav-icon {
+            width: 18px;
+            height: 18px;
+            fill: #a0aec0;
+        }
+
+        .nav-btn.active .nav-icon {
+            fill: #ffffff;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="mapSection" class="panel">
+        <div id="coordHud" class="coord-hud hidden">0.000000, 0.000000</div>
+        <div id="mapCrosshair" class="map-crosshair hidden"></div>
+        <div class="map-hud">
+            <button class="hud-btn" id="layerToggleBtn" onclick="toggleMapView()" title="Toggle View Matrix">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+            </button>
+            <button class="hud-btn" onclick="recenterMap()" title="Recenter">
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" />
+                </svg>
+            </button>
+        </div>
+        <div id="map"></div>
+    </div>
+
+    <div id="querySection" class="panel hidden">
+        <h3>Ledger Summary</h3>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-val" id="totalEntriesVal">-</div>
+                <div class="stat-lbl">Total Logs</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" id="pendingReviewVal" style="color: #ffffff; opacity:0.7;">-</div>
+                <div class="stat-lbl">Pending</div>
+            </div>
+        </div>
+        <button class="query-trigger-btn" onclick="fetchLatestEntries()">Refresh Ledger</button>
+        <div id="ledgerOutput"></div>
+    </div>
+
+    <div id="formSection" class="panel hidden">
+        <h3>Event Logging</h3>
+        <form id="eventForm" onsubmit="submitEvent(event)">
+            <div class="form-row">
+                <div class="form-group col-30">
+                    <label for="submitterId">Submitter</label>
+                    <input type="text" id="submitterId" required>
+                </div>
+                <div class="form-group col-40">
+                    <label for="questId">Quest ID</label>
+                    <input type="text" id="questId" required>
+                </div>
+                <div class="form-group col-30">
+                    <label for="statusCode">Status</label>
+                    <input type="text" id="statusCode" value="" placeholder="-">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-35">
+                    <label for="latField">Latitude</label>
+                    <input type="text" id="latField" placeholder="0.000000">
+                </div>
+                <div class="form-group col-35">
+                    <label for="lngField">Longitude</label>
+                    <input type="text" id="lngField" placeholder="0.000000">
+                </div>
+                <div class="form-group col-30" style="justify-content: flex-end; padding-bottom: 8px;">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="useCrosshairCoords" onchange="toggleCrosshairSync(this.checked)">
+                        Sync Map
+                    </label>
+                </div>
+            </div>
+            <div class="form-row" style="margin-bottom: 0;">
+                <div class="form-group">
+                    <label for="eventText">Event Description</label>
+                    <textarea id="eventText" placeholder="Automated event description..."></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-30">
+                    <label for="tags">Tags</label>
+                    <input type="text" id="tags" placeholder="sys">
+                </div>
+                <div class="form-group col-40">
+                    <label for="url">Context URL</label>
+                    <input type="text" id="url" placeholder="http://...">
+                </div>
+                <div class="form-group submit-wrapper col-30">
+                    <button type="submit" id="submitBtn" class="submit-btn">Log</button>
+                </div>
+            </div>
+            <span id="statusMessage"></span>
+        </form>
+    </div>
+
+    <div id="settingsSection" class="panel hidden">
+        <h3>Terminal Settings</h3>
+        <div class="form-group" style="margin-top: 10px;">
+            <label for="themeSelect">Street View Color Profile</label>
+            <select id="themeSelect" onchange="updateStreetTheme(this.value)">
+                <option value="soft">Soft Contrast (Default Muted profile)</option>
+                <option value="warm">Warm Pastel (High Comfort Contrast)</option>
+                <option value="cozy">Cozy Emerald (Deep Variant)</option>
+            </select>
+        </div>
+        <div class="form-group" style="margin-top: 14px;">
+            <label class="checkbox-container" style="font-size: 13px;">
+                <input type="checkbox" id="crosshairToggle" onchange="updateCrosshairVisibility(this.checked)">
+                Show HUD Crosshair & Center Coordinates
+            </label>
+        </div>
+        <div
+            style="margin-top: 20px; border-top: 1px solid #2c2c2e; padding-top: 12px; font-size: 12px; color: #a0aec0;">
+            <div style="margin-bottom: 8px;"><strong>Engine Build:</strong> <span id="appVersion"
+                    style="color: #ffffff; font-family: monospace;">20260629111200</span></div>
+            <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 10px;">
+                <a href="https://magicbakery.github.io/?id=P202606271049" target="_blank" class="info-link">Magic Bakery
+                    Gadgets Lab</a>
+                <a href="https://nextdoor.com/p/5W3mJrs_6p_H" target="_blank" class="info-link">NextDoor Thread
+                    Reference</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-nav">
+        <button class="nav-btn" id="btnShowMap" onclick="toggleModule('map')">
+            <svg class="nav-icon" viewBox="0 0 24 24">
+                <path
+                    d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5c.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z" />
+            </svg>
+            Map
+        </button>
+        <button class="nav-btn" id="btnShowQuery" onclick="toggleModule('query')">
+            <svg class="nav-icon" viewBox="0 0 24 24">
+                <path
+                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
+            </svg>
+            Ledger
+        </button>
+        <button class="nav-btn" id="btnShowForm" onclick="toggleModule('form')">
+            <svg class="nav-icon" viewBox="0 0 24 24">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+            </svg>
+            Log Form
+        </button>
+        <button class="nav-btn" id="btnShowSettings" onclick="toggleModule('settings')">
+            <svg class="nav-icon" viewBox="0 0 24 24">
+                <path
+                    d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
+            </svg>
+            Settings
+        </button>
+    </div>
+
+    <script>
+        const modules = {
+            map: { elementId: 'mapSection', btnId: 'btnShowMap' },
+            query: { elementId: 'querySection', btnId: 'btnShowQuery' },
+            form: { elementId: 'formSection', btnId: 'btnShowForm' },
+            settings: { elementId: 'settingsSection', btnId: 'btnShowSettings' }
+        };
+
+        let map, activeStreetLayer, activeSatelliteLayer;
+        let currentMapMode = 'street';
+        const defaultCenter = [38.5449, -121.7405]; // Davis, CA coordinates
+
+        QuestSDK.init(QUEST_CONFIG);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            if (localStorage.getItem("h_submitterId")) document.getElementById("submitterId").value = localStorage.getItem("h_submitterId");
+            if (localStorage.getItem("h_questId")) document.getElementById("questId").value = localStorage.getItem("h_questId");
+
+            const savedTheme = localStorage.getItem("map_street_theme") || "soft";
+            document.getElementById("themeSelect").value = savedTheme;
+
+            currentMapMode = localStorage.getItem("map_view_mode") || "street";
+
+            const showCrosshair = localStorage.getItem("show_map_crosshair") === "true";
+            document.getElementById("crosshairToggle").checked = showCrosshair;
+
+            initLayoutState();
+            initGISCore();
+            initResizeWatchdog();
+            updateCrosshairVisibility(showCrosshair);
+        });
+
+        function initLayoutState() {
+            let activeKeys = ['map'];
+            const savedModules = localStorage.getItem("active_modules");
+
+            if (savedModules) {
+                try {
+                    activeKeys = JSON.parse(savedModules);
+                    if (!Array.isArray(activeKeys) || activeKeys.length === 0) activeKeys = ['map'];
+                } catch (e) {
+                    activeKeys = ['map'];
+                }
+            }
+
+            Object.keys(modules).forEach(key => {
+                const config = modules[key];
+                if (activeKeys.includes(key)) {
+                    document.getElementById(config.elementId).classList.remove('hidden');
+                    document.getElementById(config.btnId).classList.add('active');
+                } else {
+                    document.getElementById(config.elementId).classList.add('hidden');
+                    document.getElementById(config.btnId).classList.remove('active');
+                }
+            });
+        }
+
+        function saveLayoutState() {
+            const activeKeys = Object.keys(modules).filter(key =>
+                !document.getElementById(modules[key].elementId).classList.contains('hidden')
+            );
+            localStorage.setItem("active_modules", JSON.stringify(activeKeys));
+        }
+
+        function initGISCore() {
+            map = L.map('map', {
+                zoomControl: false,
+                maxZoom: 22
+            }).setView(defaultCenter, 15);
+
+            activeStreetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 22,
+                maxNativeZoom: 19
+            });
+
+            activeSatelliteLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+                maxZoom: 22,
+                maxNativeZoom: 20,
+                attribution: '&copy; Google Maps'
+            });
+
+            if (currentMapMode === 'satellite') {
+                activeSatelliteLayer.addTo(map);
+            } else {
+                activeStreetLayer.addTo(map);
+            }
+
+            applyFilterState();
+            map.on('move', updateLiveCoordinates);
+            updateLiveCoordinates();
+        }
+
+        function initResizeWatchdog() {
+            const watcher = new ResizeObserver(() => {
+                if (map) {
+                    map.invalidateSize({ pan: false });
+                }
+            });
+            watcher.observe(document.getElementById('mapSection'));
+        }
+
+        function applyFilterState() {
+            const mapContainer = document.getElementById('map');
+            mapContainer.classList.remove('map-theme-street-warm', 'map-theme-street-soft', 'map-theme-street-cozy', 'map-theme-satellite');
+
+            if (currentMapMode === 'satellite') {
+                mapContainer.classList.add('map-theme-satellite');
+            } else {
+                const selectedTheme = document.getElementById("themeSelect").value;
+                mapContainer.classList.add(`map-theme-street-${selectedTheme}`);
+            }
+        }
+
+        function updateStreetTheme(val) {
+            localStorage.setItem("map_street_theme", val);
+            applyFilterState();
+        }
+
+        function toggleMapView() {
+            if (currentMapMode === 'street') {
+                map.removeLayer(activeStreetLayer);
+                activeSatelliteLayer.addTo(map);
+                currentMapMode = 'satellite';
+            } else {
+                map.removeLayer(activeSatelliteLayer);
+                activeStreetLayer.addTo(map);
+                currentMapMode = 'street';
+            }
+            localStorage.setItem("map_view_mode", currentMapMode);
+            applyFilterState();
+        }
+
+        function recenterMap() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const loc = [position.coords.latitude, position.coords.longitude];
+                        map.setView(loc, 18);
+                        L.marker(loc).addTo(map);
+                    },
+                    () => {
+                        map.setView(defaultCenter, 15);
+                    }
+                );
+            } else {
+                map.setView(defaultCenter, 15);
+            }
+        }
+
+        function toggleModule(moduleKey) {
+            const mod = modules[moduleKey];
+            const targetElement = document.getElementById(mod.elementId);
+            const targetButton = document.getElementById(mod.btnId);
+
+            if (targetElement.classList.contains('hidden')) {
+                targetElement.classList.remove('hidden');
+                targetButton.classList.add('active');
+            } else {
+                targetElement.classList.add('hidden');
+                targetButton.classList.remove('active');
+            }
+
+            saveLayoutState();
+            if (map) map.invalidateSize();
+        }
+
+        function updateLiveCoordinates() {
+            if (!map) return;
+            const center = map.getCenter();
+            const latStr = center.lat.toFixed(6);
+            const lngStr = center.lng.toFixed(6);
+
+            document.getElementById('coordHud').textContent = `${latStr}, ${lngStr}`;
+
+            if (document.getElementById('useCrosshairCoords').checked) {
+                document.getElementById('latField').value = latStr;
+                document.getElementById('lngField').value = lngStr;
+            }
+        }
+
+        function updateCrosshairVisibility(visible) {
+            localStorage.setItem("show_map_crosshair", visible);
+            const crosshair = document.getElementById('mapCrosshair');
+            const hud = document.getElementById('coordHud');
+
+            if (visible) {
+                crosshair.classList.remove('hidden');
+                hud.classList.remove('hidden');
+            } else {
+                crosshair.classList.add('hidden');
+                hud.classList.add('hidden');
+            }
+        }
+
+        function toggleCrosshairSync(enabled) {
+            if (enabled) {
+                updateLiveCoordinates();
+            }
+        }
+
+        async function submitEvent(event) {
+            event.preventDefault();
+            const statusMsg = document.getElementById('statusMessage');
+
+            const submitterId = document.getElementById('submitterId').value;
+            const questId = document.getElementById('questId').value;
+            const statusCode = document.getElementById('statusCode').value || "200";
+            const urlField = document.getElementById('url').value;
+            const tags = document.getElementById('tags').value;
+            const lat = document.getElementById('latField').value;
+            const lng = document.getElementById('lngField').value;
+
+            let eventText = document.getElementById('eventText').value || `Status transmission ${statusCode}`;
+
+            localStorage.setItem("h_submitterId", submitterId);
+            localStorage.setItem("h_questId", questId);
+
+            statusMsg.textContent = "Syncing...";
+            statusMsg.style.color = "#ffffff";
+
+            const formData = new URLSearchParams();
+            formData.append('submitterId', submitterId);
+            formData.append('questId', questId);
+            formData.append('statusCode', statusCode);
+            formData.append('url', urlField);
+            formData.append('tags', tags);
+            formData.append('eventText', eventText);
+            formData.append('lat', lat);
+            formData.append('lng', lng);
+
+            try {
+                await fetch(QuestSDK.apiUrl, {
+                    method: "POST",
+                    body: formData.toString(),
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                });
+
+                statusMsg.textContent = "Saved!";
+                statusMsg.style.color = "#ffffff";
+
+                document.getElementById('url').value = "";
+                document.getElementById('tags').value = "";
+                document.getElementById('eventText').value = "";
+                document.getElementById('latField').value = "";
+                document.getElementById('lngField').value = "";
+                document.getElementById('useCrosshairCoords').checked = false;
+
+                startCooldown(5);
+            } catch (error) {
+                statusMsg.textContent = "Error.";
+                statusMsg.style.color = "#ff3b30";
+                console.error(error);
+            }
+        }
+
+        function startCooldown(seconds) {
+            const submitBtn = document.getElementById('submitBtn');
+            let remaining = seconds;
+            submitBtn.disabled = true;
+            submitBtn.textContent = `${remaining}s`;
+
+            const interval = setInterval(() => {
+                remaining--;
+                if (remaining <= 0) {
+                    clearInterval(interval);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Log";
+                } else {
+                    submitBtn.textContent = `${remaining}s`;
+                }
+            }, 1000);
+        }
+
+        async function fetchLatestEntries() {
+            const container = document.getElementById('ledgerOutput');
+            const totalDisplay = document.getElementById('totalEntriesVal');
+            const pendingDisplay = document.getElementById('pendingReviewVal');
+            container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>Loading...</p>";
+
+            try {
+                const response = await fetch(QuestSDK.apiUrl);
+                const result = await response.json();
+
+                if (result.status === "success") {
+                    totalDisplay.textContent = result.totalRows;
+                    pendingDisplay.textContent = result.pendingCount;
+                    container.innerHTML = "";
+
+                    if (result.data.length === 0) {
+                        container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>No public lines.</p>";
+                        return;
+                    }
+
+                    result.data.forEach(item => {
+                        const element = document.createElement('div');
+                        element.className = 'log-item';
+
+                        let fullTimeStr = "Unknown Time";
+                        let compactTimeStr = "Unknown";
+                        if (item.timestamp) {
+                            const parsedDate = new Date(item.timestamp);
+                            if (!isNaN(parsedDate.getTime())) {
+                                fullTimeStr = parsedDate.toLocaleString();
+
+                                // Formats as m/d hh:mm using the user's local timezone
+                                const m = parsedDate.getMonth() + 1;
+                                const d = parsedDate.getDate();
+                                const hh = String(parsedDate.getHours()).padStart(2, '0');
+                                const mm = String(parsedDate.getMinutes()).padStart(2, '0');
+                                compactTimeStr = `${m}/${d} ${hh}:${mm}`;
+                            } else {
+                                fullTimeStr = item.timestamp;
+                                compactTimeStr = item.timestamp;
+                            }
+                        }
+
+                        // Generate an instant-clickable link for the Quest ID
+                        const targetQuestId = item.questId || 'N/A';
+                        const questLink = item.questId ?
+                            `<a href="https://magicbakery.github.io/?id=P${item.questId}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto;">${item.questId}</a>` : 'N/A';
+
+                        element.innerHTML = `
+                            <div class="meta-row">
+                                <span><strong style="color:#ffffff;">Quest:</strong> ${questLink} [${item.statusCode || '200'}]</span>
+                                <span style="color: #a0aec0; font-size: 11px;"><span title="${fullTimeStr}" style="cursor: help;">${compactTimeStr}</span> <span style="color: #ffffff;">${item.submitterId || 'User'}</span></span>
+                            </div>
+                            <div style="font-weight:500; color:#ffffff; margin-top: 4px; word-break: break-word;">${item.eventText}</div>
+                            ${item.url ? `<div style="font-size:11px; margin-top:4px;"><a href="${item.url}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto;">Link</a></div>` : ''}
+                        `;
+                        container.appendChild(element);
+                    });
+                }
+            } catch (error) {
+                container.innerHTML = "<p style='color:#ff3b30; font-size:12px;'>Fetch Error.</p>";
+            }
+        }
+    </script>
+</body>
+
+</html>
