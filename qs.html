@@ -7,15 +7,18 @@
     <title>Mobile Event Logger</title>
     <script src="config.js"></script>
     <script src="qsdk.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <style>
         /* Premium Grayscale Monochrome Dark Theme */
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
             padding: 10px 10px 75px 10px;
-            background-color: #000000; /* Pure black canvas background */
+            background-color: #000000;
+            /* Pure black canvas background */
             color: #e2e8f0;
             box-sizing: border-box;
             display: flex;
@@ -25,22 +28,24 @@
         }
 
         .panel {
-            background: #1c1c1e; /* Matte dark grey slate */
+            background: #1c1c1e;
+            /* Matte dark grey slate */
             padding: 14px;
             border-radius: 8px;
             border: 1px solid #2c2c2e;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
-            flex: 1 1 0%; 
+            flex: 1 1 0%;
             display: flex;
             flex-direction: column;
-            min-height: 0; 
+            min-height: 0;
             position: relative;
         }
 
         h3 {
             margin: 0 0 12px 0;
             font-size: 14px;
-            color: #ffffff; /* Clean monochrome white headline */
+            color: #ffffff;
+            /* Clean monochrome white headline */
             text-transform: uppercase;
             letter-spacing: 0.8px;
             border-bottom: 1px solid #2c2c2e;
@@ -75,7 +80,8 @@
             width: 42px;
             height: 42px;
             border-radius: 50%;
-            background-color: rgba(28, 28, 30, 0.65); /* Semi-transparent panel overlay */
+            background-color: rgba(28, 28, 30, 0.65);
+            /* Semi-transparent panel overlay */
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -83,7 +89,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             padding: 0;
             transition: background 0.2s, border-color 0.2s;
         }
@@ -96,7 +102,8 @@
         .hud-btn svg {
             width: 20px;
             height: 20px;
-            fill: #d1d1d6; /* Clean light gray graphic lines */
+            fill: #d1d1d6;
+            /* Clean light gray graphic lines */
             transition: fill 0.2s;
         }
 
@@ -120,7 +127,7 @@
             font-size: 11px;
             font-family: monospace;
             color: #ffffff;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             white-space: nowrap;
             pointer-events: none;
         }
@@ -136,17 +143,27 @@
             z-index: 1001;
             pointer-events: none;
         }
-        .map-crosshair::before, .map-crosshair::after {
+
+        .map-crosshair::before,
+        .map-crosshair::after {
             content: '';
             position: absolute;
             background: #ffffff;
-            box-shadow: 0 0 2px rgba(0,0,0,0.8);
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
         }
+
         .map-crosshair::before {
-            top: 14px; left: 0; width: 30px; height: 2px;
+            top: 14px;
+            left: 0;
+            width: 30px;
+            height: 2px;
         }
+
         .map-crosshair::after {
-            top: 0; left: 14px; width: 2px; height: 30px;
+            top: 0;
+            left: 14px;
+            width: 2px;
+            height: 30px;
         }
 
         .leaflet-control-attribution {
@@ -157,12 +174,15 @@
         .map-theme-street-soft {
             filter: contrast(92%) saturate(90%) brightness(102%) sepia(8%);
         }
+
         .map-theme-street-warm {
             filter: sepia(35%) contrast(102%) saturate(115%) hue-rotate(-5deg);
         }
+
         .map-theme-street-cozy {
             filter: hue-rotate(85deg) saturate(70%) brightness(92%) contrast(95%);
         }
+
         .map-theme-satellite {
             filter: none !important;
         }
@@ -180,12 +200,29 @@
             flex-direction: column;
         }
 
-        .col-20 { flex: 0 0 20%; }
-        .col-25 { flex: 0 0 25%; }
-        .col-30 { flex: 0 0 30%; }
-        .col-35 { flex: 0 0 35%; }
-        .col-40 { flex: 0 0 40%; }
-        .col-50 { flex: 0 0 50%; }
+        .col-20 {
+            flex: 0 0 20%;
+        }
+
+        .col-25 {
+            flex: 0 0 25%;
+        }
+
+        .col-30 {
+            flex: 0 0 30%;
+        }
+
+        .col-35 {
+            flex: 0 0 35%;
+        }
+
+        .col-40 {
+            flex: 0 0 40%;
+        }
+
+        .col-50 {
+            flex: 0 0 50%;
+        }
 
         label {
             font-size: 11px;
@@ -194,7 +231,9 @@
             margin-bottom: 4px;
         }
 
-        input[type="text"], textarea, select {
+        input[type="text"],
+        textarea,
+        select {
             width: 100%;
             padding: 8px;
             font-size: 13px;
@@ -205,7 +244,9 @@
             color: #ffffff;
         }
 
-        input[type="text"]:focus, textarea:focus, select:focus {
+        input[type="text"]:focus,
+        textarea:focus,
+        select:focus {
             background: #1c1c1e;
             border-color: #ffffff;
             outline: 0;
@@ -240,9 +281,11 @@
             align-items: flex-end;
         }
 
-        button.submit-btn, .query-trigger-btn {
+        button.submit-btn,
+        .query-trigger-btn {
             width: 100%;
-            background-color: #ffffff; /* Stark monochrome light fill button */
+            background-color: #ffffff;
+            /* Stark monochrome light fill button */
             color: #000000;
             border: none;
             padding: 8px;
@@ -255,7 +298,8 @@
             transition: background 0.2s;
         }
 
-        button.submit-btn:active, .query-trigger-btn:active {
+        button.submit-btn:active,
+        .query-trigger-btn:active {
             background-color: #d1d1d6;
         }
 
@@ -367,7 +411,8 @@
 
         .nav-btn.active {
             color: #ffffff;
-            background: #1c1c1e; /* Dark grey selection accent */
+            background: #1c1c1e;
+            /* Dark grey selection accent */
         }
 
         .nav-icon {
@@ -393,17 +438,22 @@
         <div id="mapCrosshair" class="map-crosshair hidden"></div>
         <div class="map-hud">
             <button class="hud-btn" id="layerToggleBtn" onclick="toggleMapView()" title="Toggle View Matrix">
-                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
             </button>
             <button class="hud-btn" onclick="recenterMap()" title="Recenter">
-                <svg viewBox="0 0 24 24"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+                <svg viewBox="0 0 24 24">
+                    <path
+                        d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3c-.46-4.17-3.77-7.48-7.94-7.94V1h-2v2.06C6.83 3.52 3.52 6.83 3.06 11H1v2h2.06c.46 4.17 3.77 7.48 7.94 7.94V23h2v-2.06c4.17-.46 7.48-3.77 7.94-7.94H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z" />
+                </svg>
             </button>
         </div>
         <div id="map"></div>
     </div>
 
     <div id="querySection" class="panel hidden">
-        <h3>Ledger Summary</h3>
+        <h3>Announcements</h3>
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-val" id="totalEntriesVal">-</div>
@@ -414,7 +464,7 @@
                 <div class="stat-lbl">Pending</div>
             </div>
         </div>
-        <button class="query-trigger-btn" onclick="fetchLatestEntries()">Refresh Ledger</button>
+        <button class="query-trigger-btn" onclick="fetchLatestEntries()">Refresh</button>
         <div id="ledgerOutput"></div>
     </div>
 
@@ -424,25 +474,26 @@
             <div class="form-row">
                 <div class="form-group col-30">
                     <label for="submitterId">Submitter</label>
-                    <input type="text" id="submitterId" required>
+                    <input type="text" id="submitterId" value="" placeholder="(anon)">
+                    <!--<input type="text" id="submitterId" required>-->
                 </div>
                 <div class="form-group col-40">
                     <label for="questId">Quest ID</label>
-                    <input type="text" id="questId" required>
+                    <input type="text" id="questId" placeholder="(blank)">
                 </div>
                 <div class="form-group col-30">
                     <label for="statusCode">Status</label>
-                    <input type="text" id="statusCode" value="" placeholder="-">
+                    <input type="text" id="statusCode" value="" placeholder="(blank)">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-35">
                     <label for="latField">Latitude</label>
-                    <input type="text" id="latField" placeholder="0.000000">
+                    <input type="text" id="latField" placeholder="(blank)">
                 </div>
                 <div class="form-group col-35">
                     <label for="lngField">Longitude</label>
-                    <input type="text" id="lngField" placeholder="0.000000">
+                    <input type="text" id="lngField" placeholder="(blank)">
                 </div>
                 <div class="form-group col-30" style="justify-content: flex-end; padding-bottom: 8px;">
                     <label class="checkbox-container">
@@ -453,18 +504,18 @@
             </div>
             <div class="form-row" style="margin-bottom: 0;">
                 <div class="form-group">
-                    <label for="eventText">Event Description</label>
+                    <label for="eventText">Event Description / Request</label>
                     <textarea id="eventText" placeholder="Automated event description..."></textarea>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-30">
                     <label for="tags">Tags</label>
-                    <input type="text" id="tags" placeholder="sys">
+                    <input type="text" id="tags" placeholder="(blank)">
                 </div>
                 <div class="form-group col-40">
                     <label for="url">Context URL</label>
-                    <input type="text" id="url" placeholder="http://...">
+                    <input type="text" id="url" placeholder="(blank)">
                 </div>
                 <div class="form-group submit-wrapper col-30">
                     <button type="submit" id="submitBtn" class="submit-btn">Log</button>
@@ -490,30 +541,44 @@
                 Show HUD Crosshair & Center Coordinates
             </label>
         </div>
-        <div style="margin-top: 20px; border-top: 1px solid #2c2c2e; padding-top: 12px; font-size: 12px; color: #a0aec0;">
-            <div style="margin-bottom: 8px;"><strong>Engine Build:</strong> <span id="appVersion" style="color: #ffffff; font-family: monospace;">20260629110400</span></div>
+        <div
+            style="margin-top: 20px; border-top: 1px solid #2c2c2e; padding-top: 12px; font-size: 12px; color: #a0aec0;">
+            <div style="margin-bottom: 8px;"><strong>Engine Build:</strong> <span id="appVersion"
+                    style="color: #ffffff; font-family: monospace;">20260629111200</span></div>
             <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 10px;">
-                <a href="https://magicbakery.github.io/?id=P202606271049" target="_blank" class="info-link">Magic Bakery Gadgets Lab</a>
-                <a href="https://nextdoor.com/p/5W3mJrs_6p_H" target="_blank" class="info-link">NextDoor Thread Reference</a>
+                <a href="https://magicbakery.github.io/?id=P202606271049" target="_blank" class="info-link">Magic Bakery
+                    Gadgets Lab</a>
+                <a href="https://nextdoor.com/p/5W3mJrs_6p_H" target="_blank" class="info-link">Quest Society at NextDoor</a>
             </div>
         </div>
     </div>
 
     <div class="footer-nav">
         <button class="nav-btn" id="btnShowMap" onclick="toggleModule('map')">
-            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5c.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+            <svg class="nav-icon" viewBox="0 0 24 24">
+                <path
+                    d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5c.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z" />
+            </svg>
             Map
         </button>
         <button class="nav-btn" id="btnShowQuery" onclick="toggleModule('query')">
-            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-            Ledger
+            <svg class="nav-icon" viewBox="0 0 24 24">
+                <path
+                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
+            </svg>
+            Messages
         </button>
         <button class="nav-btn" id="btnShowForm" onclick="toggleModule('form')">
-            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            <svg class="nav-icon" viewBox="0 0 24 24">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+            </svg>
             Log Form
         </button>
         <button class="nav-btn" id="btnShowSettings" onclick="toggleModule('settings')">
-            <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+            <svg class="nav-icon" viewBox="0 0 24 24">
+                <path
+                    d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
+            </svg>
             Settings
         </button>
     </div>
@@ -531,11 +596,11 @@
         const defaultCenter = [38.5449, -121.7405]; // Davis, CA coordinates
 
         QuestSDK.init(QUEST_CONFIG);
-        
+
         document.addEventListener("DOMContentLoaded", () => {
             if (localStorage.getItem("h_submitterId")) document.getElementById("submitterId").value = localStorage.getItem("h_submitterId");
             if (localStorage.getItem("h_questId")) document.getElementById("questId").value = localStorage.getItem("h_questId");
-            
+
             const savedTheme = localStorage.getItem("map_street_theme") || "soft";
             document.getElementById("themeSelect").value = savedTheme;
 
@@ -553,12 +618,12 @@
         function initLayoutState() {
             let activeKeys = ['map'];
             const savedModules = localStorage.getItem("active_modules");
-            
+
             if (savedModules) {
                 try {
                     activeKeys = JSON.parse(savedModules);
                     if (!Array.isArray(activeKeys) || activeKeys.length === 0) activeKeys = ['map'];
-                } catch(e) {
+                } catch (e) {
                     activeKeys = ['map'];
                 }
             }
@@ -576,16 +641,16 @@
         }
 
         function saveLayoutState() {
-            const activeKeys = Object.keys(modules).filter(key => 
+            const activeKeys = Object.keys(modules).filter(key =>
                 !document.getElementById(modules[key].elementId).classList.contains('hidden')
             );
             localStorage.setItem("active_modules", JSON.stringify(activeKeys));
         }
 
         function initGISCore() {
-            map = L.map('map', { 
+            map = L.map('map', {
                 zoomControl: false,
-                maxZoom: 22 
+                maxZoom: 22
             }).setView(defaultCenter, 15);
 
             activeStreetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -594,8 +659,8 @@
             });
 
             activeSatelliteLayer = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-                maxZoom: 22, 
-                maxNativeZoom: 20, 
+                maxZoom: 22,
+                maxNativeZoom: 20,
                 attribution: '&copy; Google Maps'
             });
 
@@ -689,9 +754,9 @@
             const center = map.getCenter();
             const latStr = center.lat.toFixed(6);
             const lngStr = center.lng.toFixed(6);
-            
+
             document.getElementById('coordHud').textContent = `${latStr}, ${lngStr}`;
-            
+
             if (document.getElementById('useCrosshairCoords').checked) {
                 document.getElementById('latField').value = latStr;
                 document.getElementById('lngField').value = lngStr;
@@ -702,7 +767,7 @@
             localStorage.setItem("show_map_crosshair", visible);
             const crosshair = document.getElementById('mapCrosshair');
             const hud = document.getElementById('coordHud');
-            
+
             if (visible) {
                 crosshair.classList.remove('hidden');
                 hud.classList.remove('hidden');
@@ -729,7 +794,7 @@
             const tags = document.getElementById('tags').value;
             const lat = document.getElementById('latField').value;
             const lng = document.getElementById('lngField').value;
-            
+
             let eventText = document.getElementById('eventText').value || `Status transmission ${statusCode}`;
 
             localStorage.setItem("h_submitterId", submitterId);
@@ -814,26 +879,35 @@
                     result.data.forEach(item => {
                         const element = document.createElement('div');
                         element.className = 'log-item';
-                        
-                        let localTimeStr = "Unknown Time";
+
+                        let fullTimeStr = "Unknown Time";
+                        let compactTimeStr = "Unknown";
                         if (item.timestamp) {
                             const parsedDate = new Date(item.timestamp);
                             if (!isNaN(parsedDate.getTime())) {
-                                localTimeStr = parsedDate.toLocaleString();
+                                fullTimeStr = parsedDate.toLocaleString();
+
+                                // Formats as m/d hh:mm using the user's local timezone
+                                const m = parsedDate.getMonth() + 1;
+                                const d = parsedDate.getDate();
+                                const hh = String(parsedDate.getHours()).padStart(2, '0');
+                                const mm = String(parsedDate.getMinutes()).padStart(2, '0');
+                                compactTimeStr = `${m}/${d} ${hh}:${mm}`;
                             } else {
-                                localTimeStr = item.timestamp;
+                                fullTimeStr = item.timestamp;
+                                compactTimeStr = item.timestamp;
                             }
                         }
 
                         // Generate an instant-clickable link for the Quest ID
                         const targetQuestId = item.questId || 'N/A';
-                        const questLink = item.questId ? 
+                        const questLink = item.questId ?
                             `<a href="https://magicbakery.github.io/?id=P${item.questId}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto;">${item.questId}</a>` : 'N/A';
 
                         element.innerHTML = `
                             <div class="meta-row">
                                 <span><strong style="color:#ffffff;">Quest:</strong> ${questLink} [${item.statusCode || '200'}]</span>
-                                <span style="color: #a0aec0; font-size: 11px;">${localTimeStr} &nbsp;&bull;&nbsp; <span style="color: #ffffff;">${item.submitterId || 'User'}</span></span>
+                                <span style="color: #a0aec0; font-size: 11px;"><span title="${fullTimeStr}" style="cursor: help;">${compactTimeStr}</span> <span style="color: #ffffff;">${item.submitterId || 'User'}</span></span>
                             </div>
                             <div style="font-weight:500; color:#ffffff; margin-top: 4px; word-break: break-word;">${item.eventText}</div>
                             ${item.url ? `<div style="font-size:11px; margin-top:4px;"><a href="${item.url}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto;">Link</a></div>` : ''}

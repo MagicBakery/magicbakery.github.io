@@ -453,7 +453,7 @@
     </div>
 
     <div id="querySection" class="panel hidden">
-        <h3>Ledger Summary</h3>
+        <h3>Announcements</h3>
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-val" id="totalEntriesVal">-</div>
@@ -464,7 +464,7 @@
                 <div class="stat-lbl">Pending</div>
             </div>
         </div>
-        <button class="query-trigger-btn" onclick="fetchLatestEntries()">Refresh Ledger</button>
+        <button class="query-trigger-btn" onclick="fetchLatestEntries()">Refresh</button>
         <div id="ledgerOutput"></div>
     </div>
 
@@ -474,25 +474,26 @@
             <div class="form-row">
                 <div class="form-group col-30">
                     <label for="submitterId">Submitter</label>
-                    <input type="text" id="submitterId" required>
+                    <input type="text" id="submitterId" value="" placeholder="(anon)">
+                    <!--<input type="text" id="submitterId" required>-->
                 </div>
                 <div class="form-group col-40">
                     <label for="questId">Quest ID</label>
-                    <input type="text" id="questId" required>
+                    <input type="text" id="questId" placeholder="(blank)">
                 </div>
                 <div class="form-group col-30">
                     <label for="statusCode">Status</label>
-                    <input type="text" id="statusCode" value="" placeholder="-">
+                    <input type="text" id="statusCode" value="" placeholder="(blank)">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-35">
                     <label for="latField">Latitude</label>
-                    <input type="text" id="latField" placeholder="0.000000">
+                    <input type="text" id="latField" placeholder="(blank)">
                 </div>
                 <div class="form-group col-35">
                     <label for="lngField">Longitude</label>
-                    <input type="text" id="lngField" placeholder="0.000000">
+                    <input type="text" id="lngField" placeholder="(blank)">
                 </div>
                 <div class="form-group col-30" style="justify-content: flex-end; padding-bottom: 8px;">
                     <label class="checkbox-container">
@@ -503,18 +504,18 @@
             </div>
             <div class="form-row" style="margin-bottom: 0;">
                 <div class="form-group">
-                    <label for="eventText">Event Description</label>
+                    <label for="eventText">Event Description / Request</label>
                     <textarea id="eventText" placeholder="Automated event description..."></textarea>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-30">
                     <label for="tags">Tags</label>
-                    <input type="text" id="tags" placeholder="sys">
+                    <input type="text" id="tags" placeholder="(blank)">
                 </div>
                 <div class="form-group col-40">
                     <label for="url">Context URL</label>
-                    <input type="text" id="url" placeholder="http://...">
+                    <input type="text" id="url" placeholder="(blank)">
                 </div>
                 <div class="form-group submit-wrapper col-30">
                     <button type="submit" id="submitBtn" class="submit-btn">Log</button>
@@ -547,8 +548,7 @@
             <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 10px;">
                 <a href="https://magicbakery.github.io/?id=P202606271049" target="_blank" class="info-link">Magic Bakery
                     Gadgets Lab</a>
-                <a href="https://nextdoor.com/p/5W3mJrs_6p_H" target="_blank" class="info-link">NextDoor Thread
-                    Reference</a>
+                <a href="https://nextdoor.com/p/5W3mJrs_6p_H" target="_blank" class="info-link">Quest Society at NextDoor</a>
             </div>
         </div>
     </div>
@@ -566,7 +566,7 @@
                 <path
                     d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
             </svg>
-            Ledger
+            Messages
         </button>
         <button class="nav-btn" id="btnShowForm" onclick="toggleModule('form')">
             <svg class="nav-icon" viewBox="0 0 24 24">
