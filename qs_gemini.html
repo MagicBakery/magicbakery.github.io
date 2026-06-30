@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mobile Event Logger</title>
-    <script>const APP_VERSION = "20260630005131";</script>
+    <script>const APP_VERSION = "20260630051758";</script>
     <script src="config.js"></script>
     <script src="qsdk.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -193,6 +193,9 @@
         .leaflet-popup {
             margin-bottom: 10px !important;
         }
+        .leaflet-popup-close-button {
+            display: none !important;
+        }
 
         /* Street View Custom CSS Filters (Soft Contrast Default) */
         .map-theme-street-soft {
@@ -214,8 +217,6 @@
         /* Input Elements Form Styling */
         .form-row {
             display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
         }
 
         .form-group {
@@ -318,7 +319,6 @@
             border-radius: 4px;
             cursor: pointer;
             height: 34px;
-            margin-top: 16px;
             transition: background 0.2s;
         }
 
@@ -422,7 +422,7 @@
             z-index: 1000;
             padding-bottom: env(safe-area-inset-bottom);
         }
-
+        
         .nav-btn {
             background: none;
             border: none;
@@ -527,64 +527,77 @@
 
     <div id="formSection" class="panel hidden"
         style="max-height: calc(100vh - 140px); overflow-y: auto; overflow-x: hidden; padding-right: 4px;">
-        <h3>Event Logging</h3>
+
+
         <form id="eventForm" onsubmit="submitEvent(event)">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0; color: #ffffff; font-size: 16px;">Send a Message</h3>
+                <!--<button type="submit" form="questLogForm"
+                style="background: #ffd700; color: #000000; border: none; padding: 6px 16px; font-weight: 600; font-size: 12px; border-radius: 4px; cursor: pointer;">
+                Send
+            </button>-->
+                <div class="form-group submit-wrapper col-30">
+                    <button type="submit" id="submitBtn" class="submit-btn"
+                        style="background: #ffd700; color: #000000; border: none; padding: 6px 16px; font-weight: 600; font-size: 12px; border-radius: 4px; cursor: pointer;">Send</button>
+                </div>
+
+            </div>
+
+
+
             <div class="form-row">
+                <div class="form-group col-40">
+                    <input type="text" id="questId" placeholder="Quest ID">
+                </div>
                 <div class="form-group col-30">
-                    <label for="submitterId">Submitter</label>
-                    <input type="text" id="submitterId" value="" placeholder="(anon)">
+                    <input type="text" id="statusCode" value="" placeholder="Status">
+                </div>
+                <div class="form-group col-30">
+                    <input type="text" id="submitterId" value="" placeholder="Submitter">
                     <!--<input type="text" id="submitterId" required>-->
                 </div>
-                <div class="form-group col-35">
-                    <label for="questId">Quest ID</label>
-                    <input type="text" id="questId" placeholder="(blank)">
-                </div>
-                <div class="form-group col-25">
-                    <label for="statusCode">Status</label>
-                    <input type="text" id="statusCode" value="" placeholder="(blank)">
+            </div>
+            
+            <div class="form-row" style="margin-bottom: 0; width:100%">
+                <div class="form-group">
+                    <textarea id="eventText" placeholder="Event Description / Request..." style="resize:vertical; height:6em"></textarea>
+     
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-30">
-                    <label for="latField">Latitude</label>
-                    <input type="text" id="latField" placeholder="(blank)">
+                <div class="form-group col-40">
+                    <input type="text" id="tags" placeholder="Tags">
                 </div>
                 <div class="form-group col-30">
-                    <label for="lngField">Longitude</label>
-                    <input type="text" id="lngField" placeholder="(blank)">
+                    <input type="text" id="url" placeholder="URL">
                 </div>
-                <div class="form-group col-30" style="justify-content: flex-end; padding-bottom: 8px;">
+                <div class="form-group col-30">
+                    <input type="text" id="img" placeholder="Image URL">
+                </div>
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-40" style="justify-content: flex-end; padding-bottom: 8px;">
+                    
                     <label class="checkbox-container">
+                        &nbsp;Use Map Coordinate
                         <input type="checkbox" id="useCrosshairCoords" onchange="toggleCrosshairSync(this.checked)">
-                        Sync Map
                     </label>
                 </div>
-            </div>
-            <div class="form-row" style="margin-bottom: 0; width:95%">
-                <div class="form-group">
-                    <label for="eventText">Event Description / Request</label>
-                    <textarea id="eventText" placeholder="Automated event description..."></textarea>
-                </div>
-            </div>
-            <div class="form-row">
                 <div class="form-group col-30">
-                    <label for="tags">Tags</label>
-                    <input type="text" id="tags" placeholder="(blank)">
+                    <input type="text" id="latField" placeholder="Latitude">
                 </div>
                 <div class="form-group col-30">
-                    <label for="url">Context URL</label>
-                    <input type="text" id="url" placeholder="(blank)">
+                    <input type="text" id="lngField" placeholder="Longitude">
                 </div>
-                <div class="form-group submit-wrapper col-30">
-                    <button type="submit" id="submitBtn" class="submit-btn">Log</button>
-                </div>
+                
             </div>
-            <span id="statusMessage"></span>
+            <span id="statusMessage" style="display:none"></span>
         </form>
     </div>
 
-    <div id="settingsSection" class="panel hidden">
-        <h3>App Settings</h3>
+    <div id="settingsSection" class="panel hidden" style="max-height:100%; overflow-y:auto; overflow-x:hidden">
+        <h3>Settings</h3>
         <div class="form-group" style="margin-top: 10px;">
             <label for="themeSelect">Street View Color Profile</label>
             <select id="themeSelect" onchange="updateStreetTheme(this.value)">
@@ -596,13 +609,15 @@
         <div class="form-group" style="margin-top: 14px;">
             <label class="checkbox-container" style="color: #ffffff; font-size: 13px;  font-weight: 500;">
                 <input type="checkbox" id="crosshairToggle" onchange="updateCrosshairVisibility(this.checked)">
-                Show HUD Crosshair & Center Coordinates
+                Show crosshair on map
             </label>
-            <label class="checkbox-container" for="showSightingsInFeed" style="color: #ffffff; font-size: 13px; font-weight: 500;">
-                <input type="checkbox" id="showSightingsInFeed" onchange="fetchLatestEntries()" style="cursor: pointer;">
-                Show sighting-only entries in feed
+            <label class="checkbox-container" for="showSightingsInFeed"
+                style="color: #ffffff; font-size: 13px; font-weight: 500;">
+                <input type="checkbox" id="showSightingsInFeed" onchange="fetchLatestEntries()"
+                    style="cursor: pointer;">
+                Show sighting reports on Quest Board
             </label>
-            
+
         </div>
         <div
             style="margin-top: 20px; border-top: 1px solid #2c2c2e; padding-top: 12px; font-size: 12px; color: #a0aec0;">
@@ -662,6 +677,7 @@
         const defaultCenter = [38.5449, -121.7405]; // Davis, CA coordinates
         let localLandmarks = []; // Array to maintain the active landmark references and state data
         let sightingsLayerGroup = null;
+        let currentActiveSightingQuestId = null;
 
         QuestSDK.init(QUEST_CONFIG);
 
@@ -908,11 +924,18 @@
         async function showBoloSightings(questId) {
             if (!map || !sightingsLayerGroup) return;
 
-            // Clear any previous sightings displayed on the map
+            // TOGGLE OFF: If the requested quest matches the active one, clear and turn off
+            if (currentActiveSightingQuestId === String(questId)) {
+                sightingsLayerGroup.clearLayers();
+                currentActiveSightingQuestId = null;
+                updateSightingButtonLabels(); // Helper to refresh button texts
+                return;
+            }
+
+            // Otherwise, clear previous and proceed to load new sightings
             sightingsLayerGroup.clearLayers();
 
             try {
-                // Query the live api database
                 const response = await fetch(QuestSDK.apiUrl);
                 const result = await response.json();
 
@@ -923,42 +946,58 @@
                         const itemTags = item.tags ? item.tags.toLowerCase() : '';
                         const itemQuestId = String(item.questId || '').trim();
 
-                        // Match criteria: Same Quest ID AND has the tag "sighting" AND valid coordinates
                         if (itemQuestId === String(questId).trim() && itemTags.includes('sighting') && item.latitude && item.longitude) {
                             const lat = parseFloat(item.latitude);
                             const lng = parseFloat(item.longitude);
 
                             if (!isNaN(lat) && !isNaN(lng)) {
-                                // Create a tiny customizable glowing yellow dot marker
                                 const marker = L.circleMarker([lat, lng], {
                                     radius: 6,
-                                    fillColor: '#ffd700', // Gold / Yellow
+                                    fillColor: '#ffd700',
                                     color: '#000000',
                                     weight: 1.5,
                                     opacity: 1,
                                     fillOpacity: 0.9
                                 });
 
-                                // Optional: Bind popup text for the sighting info
-                                marker.bindPopup(`<strong>Sighting for Quest ${questId}</strong><br>${item.eventText || ''}<br><span style="font-size:10px; color:#a0aec0;">By: ${item.submitterId || 'Anon'}</span>`);
-
+                                marker.bindPopup(`<strong>Sighting for Quest ${questId}</strong><br>${item.eventText || ''}`);
                                 marker.addTo(sightingsLayerGroup);
                                 bounds.push([lat, lng]);
                             }
                         }
                     });
 
-                    // Automatically resize/zoom view bounds if sightings were successfully mapped
                     if (bounds.length > 0) {
                         map.fitBounds(bounds, { padding: [40, 40], maxZoom: 16 });
+                        currentActiveSightingQuestId = String(questId); // Mark as active
+                        updateSightingButtonLabels();
                     } else {
                         alert(`No reported sightings found for Quest: ${questId}`);
+                        currentActiveSightingQuestId = null;
+                        updateSightingButtonLabels();
                     }
                 }
             } catch (e) {
                 console.error("Error fetching sightings:", e);
                 alert("Failed to query sightings from database.");
             }
+        }
+
+        function updateSightingButtonLabels() {
+            const buttons = document.querySelectorAll('.sighting-toggle-btn');
+            buttons.forEach(btn => {
+                const targetId = btn.getAttribute('data-quest-id');
+
+                if (currentActiveSightingQuestId === targetId) {
+                    btn.textContent = 'Hide Sightings';
+                    btn.style.background = '#ffd700'; // Change to solid gold background when active
+                    btn.style.color = '#000000';
+                } else {
+                    btn.textContent = 'Show Sightings';
+                    btn.style.background = '#1c1c1e'; // Default layout state
+                    btn.style.color = '#ffd700';
+                }
+            });
         }
 
         // Not in alphabetical order.
@@ -1141,6 +1180,7 @@
             const submitterId = document.getElementById('submitterId').value;
             const questId = document.getElementById('questId').value;
             const statusCode = document.getElementById('statusCode').value || "";
+            const imgField = document.getElementById('img').value;
             const urlField = document.getElementById('url').value;
             const tags = document.getElementById('tags').value;
             const lat = document.getElementById('latField').value;
@@ -1159,6 +1199,7 @@
             formData.append('submitterId', submitterId);
             formData.append('questId', questId);
             formData.append('statusCode', statusCode);
+            formData.append('img', imgField);
             formData.append('url', urlField);
             formData.append('tags', tags);
             formData.append('eventText', eventText);
@@ -1178,11 +1219,13 @@
                 statusMsg.textContent = "";
                 statusMsg.style.color = "#ffffff";
 
+                document.getElementById('img').value = "";
                 document.getElementById('url').value = "";
                 document.getElementById('tags').value = "";
                 document.getElementById('eventText').value = "";
                 document.getElementById('latField').value = "";
                 document.getElementById('lngField').value = "";
+                document.getElementById('statusCode').value = "";
                 document.getElementById('useCrosshairCoords').checked = false;
 
 
@@ -1197,6 +1240,7 @@
             const submitBtn = document.getElementById('submitBtn');
             let remaining = seconds;
             submitBtn.disabled = true;
+            submitBtn.style.opacity = 0.1;
             submitBtn.textContent = `${remaining}s`;
 
             const interval = setInterval(() => {
@@ -1204,7 +1248,8 @@
                 if (remaining <= 0) {
                     clearInterval(interval);
                     submitBtn.disabled = false;
-                    submitBtn.textContent = "Log";
+                    submitBtn.style.opacity = 1.0;
+                    submitBtn.textContent = "Send";
                 } else {
                     submitBtn.textContent = `${remaining}s`;
                 }
@@ -1219,8 +1264,6 @@
             const allowSightingsInFeed = showSightingsCheckbox ? showSightingsCheckbox.checked : false;
 
             container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>Loading...</p>";
-
-
 
             try {
                 const response = await fetch(QuestSDK.apiUrl);
@@ -1251,9 +1294,6 @@
 
                         const element = document.createElement('div');
                         element.className = 'log-item';
-                        element.style.position = 'relative';
-                        element.className = 'log-item';
-                        // Ensure the container handles absolute positioning for the close button
                         element.style.position = 'relative';
 
                         let fullTimeStr = "Unknown Time";
@@ -1287,14 +1327,13 @@
                     </button>
                 ` : '';
 
-                        // Process and build the tags container if item.tags exists
                         let isBolo = false;
                         const tagsHtml = item.tags ? `
                     <div style="margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px;">
                         ${item.tags.split(',').map(tag => {
                             const trimmedTag = tag.trim();
                             if (trimmedTag.toUpperCase() === 'BOLO') {
-                                isBolo = true; // Flag for rendering BOLO buttons
+                                isBolo = true;
                             }
                             return `
                                 <span style="font-size: 10px; background: #2c2c2e; color: #a0aec0; padding: 2px 6px; border-radius: 4px; font-family: monospace;">
@@ -1306,27 +1345,51 @@
                 ` : '';
 
                         // Generate BOLO actions layout row if condition matches
+                        const isCurrentlyActive = currentActiveSightingQuestId === String(item.questId);
+                        const btnText = isCurrentlyActive ? 'Hide Sightings' : 'Show Sightings';
+                        const btnStyle = isCurrentlyActive
+                            ? 'background: #ffd700; color: #000000;'
+                            : 'background: #1c1c1e; color: #ffd700;';
+
                         const boloActionsHtml = isBolo ? `
                     <div style="margin-top: 8px; display: flex; gap: 8px;">
-                        <button onclick="showBoloSightings('${item.questId}')" style="background: #1c1c1e; border: 1px solid #ffd700; color: #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600;">
-                            Show Sightings
+                        <button class="sighting-toggle-btn" data-quest-id="${item.questId}" onclick="showBoloSightings('${item.questId}')" style="${btnStyle} border: 1px solid #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600; transition: all 0.2s ease;">
+                            ${btnText}
                         </button>
                         <button onclick="reportBoloSighting('${item.questId}')" style="background: #1c1c1e; border: 1px solid #ffd700; color: #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600;">
-                            Report Sighting
+                            Add Sighting
                         </button>
                     </div>
                 ` : '';
 
+                        // NEW CHANGE: Pull image target directly from the spreadsheet column property
+                        // Checks for both lowercase 'item.img' or uppercase 'item.IMG' depending on your API serializer
+                        const imageUrl = item.img || item.IMG || "";
+
+                        const imgThumbnailHtml = imageUrl ? `
+                    <div style="position: absolute; right: 8px; top: 28px; width: 50px; height: 50px; border-radius: 6px; overflow: hidden; border: 1px solid #3a3a3c; background: #1c1c1e;">
+                        <a href="${imageUrl}" target="_blank" onclick="window.open(this.href, '_blank'); return false;">
+                            <img src="${imageUrl}" alt="Attachment" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onerror="this.parentNode.parentNode.style.display='none';">
+                        </a>
+                    </div>
+                ` : '';
+
+                        // Dynamically offset padding based on image presence so text doesn't overlap it
+                        const trailingPadding = imageUrl ? 'padding-right: 66px;' : 'padding-right: 20px;';
+
                         element.innerHTML = `
-                    <button class="dismiss-post-btn" style="position: absolute; bottom: 0px; right: 0px; background: #303030; border: none; border-radius:3px; color: #808080; font-size: 16px; font-weight: bold; cursor: pointer; padding: 0 4px; line-height: 1;" title="Dismiss Post">×</button>
+                    <button class="dismiss-post-btn" style="position: absolute; bottom: 5px; right: 5px; background: none; border: none; color: #a0aec0; font-size: 16px; font-weight: bold; cursor: pointer; padding: 0 4px; line-height: 1;" title="Dismiss Post">×</button>
                     
                     <div class="meta-row">
                         <span><strong style="color:#ffffff;">Quest:</strong> ${questLink} [${item.statusCode || '200'}]${mapBtnHtml}</span>
                         <span style="color: #a0aec0; font-size: 11px;"><span title="${fullTimeStr}" style="cursor: help;">${compactTimeStr}</span> <span style="color: #ffffff;">${item.submitterId || 'User'}</span></span>
                     </div>
-                    <div style="font-weight:500; color:#ffffff; margin-top: 4px; word-break: break-word; padding-right: 20px;">${item.eventText}</div>
+                    
+                    ${imgThumbnailHtml} 
+                    <div style="font-weight:500; color:#ffffff; margin-top: 4px; word-break: break-word; ${trailingPadding}">${item.eventText}</div>
                     ${tagsHtml}
-                    ${boloActionsHtml} ${item.url ? `<div style="font-size:11px; margin-top:4px;"><a href="${item.url}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto;">Link</a></div>` : ''}
+                    ${boloActionsHtml}
+                    ${item.url ? `<div style="font-size:11px; margin-top:4px;"><a href="${item.url}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto;">Link</a></div>` : ''}
                 `;
 
                         // Add Event Listener to the newly generated close button
@@ -1336,7 +1399,6 @@
                             element.style.transition = 'all 0.2s ease';
                             setTimeout(() => {
                                 element.remove();
-                                // If no posts are left after dismissing, display fallback text
                                 if (container.children.length === 0) {
                                     container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>No active quests.</p>";
                                 }
@@ -1347,6 +1409,7 @@
                     });
                 }
             } catch (error) {
+                console.error("Layout Compilation Error Log:", error);
                 container.innerHTML = "<p style='color:#ff3b30; font-size:12px;'>Fetch Error.</p>";
             }
         }
