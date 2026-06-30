@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mobile Event Logger</title>
-    <script>const APP_VERSION = "20260630051758";</script>
+    <script>const APP_VERSION = "20260630100615";</script>
     <script src="config.js"></script>
     <script src="qsdk.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -193,6 +193,7 @@
         .leaflet-popup {
             margin-bottom: 10px !important;
         }
+
         .leaflet-popup-close-button {
             display: none !important;
         }
@@ -422,7 +423,7 @@
             z-index: 1000;
             padding-bottom: env(safe-area-inset-bottom);
         }
-        
+
         .nav-btn {
             background: none;
             border: none;
@@ -457,6 +458,36 @@
 
         .hidden {
             display: none !important;
+        }
+
+        .checkbox-container input {
+            cursor: pointer;
+            margin: 0;
+            width: 16px;
+            height: 16px;
+            appearance: none;
+            -webkit-appearance: none;
+            background: #000000;
+            border: 1px solid #a0aec0;
+            border-radius: 3px;
+            position: relative;
+            outline: none;
+        }
+
+        .checkbox-container input:checked {
+            background: #ffd700;
+            border-color: #ffd700;
+        }
+
+        .checkbox-container input:checked::after {
+            content: '✓';
+            position: absolute;
+            color: #000000;
+            font-size: 11px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            line-height: 1;
         }
     </style>
 </head>
@@ -498,7 +529,8 @@
                     Total <span id="totalEntriesVal" style="color: #ffffff; font-weight: bold;">0</span> |
                     <span id="pendingReviewVal" style="color: #ffffff; font-weight: bold;">0</span> Pending
                 </span>
-                <button onclick="fetchLatestEntries()"
+                <!-- Update the button in your HTML -->
+                <button id="refreshBtn" onclick="fetchLatestEntries(true)"
                     style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center;"
                     title="Refresh">
                     <svg style="width: 16px; height: 16px; fill: #ffffff;" viewBox="0 0 24 24">
@@ -538,7 +570,7 @@
             </button>-->
                 <div class="form-group submit-wrapper col-30">
                     <button type="submit" id="submitBtn" class="submit-btn"
-                        style="background: #ffd700; color: #000000; border: none; padding: 6px 16px; font-weight: 600; font-size: 12px; border-radius: 4px; cursor: pointer;">Send</button>
+                        style="background: #006000; color: #FFFFFF; border: none; padding: 6px 16px; font-weight: 600; font-size: 12px; border-radius: 4px; cursor: pointer;">Send</button>
                 </div>
 
             </div>
@@ -557,11 +589,12 @@
                     <!--<input type="text" id="submitterId" required>-->
                 </div>
             </div>
-            
+
             <div class="form-row" style="margin-bottom: 0; width:100%">
                 <div class="form-group">
-                    <textarea id="eventText" placeholder="Event Description / Request..." style="resize:vertical; height:6em"></textarea>
-     
+                    <textarea id="eventText" placeholder="Event Description / Request..."
+                        style="resize:vertical; height:6em"></textarea>
+
                 </div>
             </div>
             <div class="form-row">
@@ -578,7 +611,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-40" style="justify-content: flex-end; padding-bottom: 8px;">
-                    
+
                     <label class="checkbox-container">
                         &nbsp;Use Map Coordinate
                         <input type="checkbox" id="useCrosshairCoords" onchange="toggleCrosshairSync(this.checked)">
@@ -590,7 +623,7 @@
                 <div class="form-group col-30">
                     <input type="text" id="lngField" placeholder="Longitude">
                 </div>
-                
+
             </div>
             <span id="statusMessage" style="display:none"></span>
         </form>
@@ -613,7 +646,7 @@
             </label>
             <label class="checkbox-container" for="showSightingsInFeed"
                 style="color: #ffffff; font-size: 13px; font-weight: 500;">
-                <input type="checkbox" id="showSightingsInFeed" onchange="fetchLatestEntries()"
+                <input type="checkbox" id="showSightingsInFeed" onchange="fetchLatestEntries(false)"
                     style="cursor: pointer;">
                 Show sighting reports on Quest Board
             </label>
@@ -653,7 +686,7 @@
             <svg class="nav-icon" viewBox="0 0 24 24">
                 <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
             </svg>
-            Log
+            Add
         </button>
         <button class="nav-btn" id="btnShowSettings" onclick="toggleModule('settings')">
             <svg class="nav-icon" viewBox="0 0 24 24">
@@ -675,6 +708,7 @@
         let map, activeStreetLayer, activeSatelliteLayer;
         let currentMapMode = 'street';
         const defaultCenter = [38.5449, -121.7405]; // Davis, CA coordinates
+        let hasFetchedFromApi = false;
         let localLandmarks = []; // Array to maintain the active landmark references and state data
         let sightingsLayerGroup = null;
         let currentActiveSightingQuestId = null;
@@ -924,6 +958,8 @@
         async function showBoloSightings(questId) {
             if (!map || !sightingsLayerGroup) return;
 
+
+
             // TOGGLE OFF: If the requested quest matches the active one, clear and turn off
             if (currentActiveSightingQuestId === String(questId)) {
                 sightingsLayerGroup.clearLayers();
@@ -934,6 +970,13 @@
 
             // Otherwise, clear previous and proceed to load new sightings
             sightingsLayerGroup.clearLayers();
+
+            // Show map if it's currently hidden
+            const mapSection = document.getElementById('mapSection');
+            if (mapSection.classList.contains('hidden')) {
+                toggleModule('map');
+                if (map) map.invalidateSize();
+            }
 
             try {
                 const response = await fetch(QuestSDK.apiUrl);
@@ -959,8 +1002,8 @@
                                     opacity: 1,
                                     fillOpacity: 0.9
                                 });
-
-                                marker.bindPopup(`<strong>Sighting for Quest ${questId}</strong><br>${item.eventText || ''}`);
+                                 const isNumeric = /^\d+$/.test(questId);
+                                marker.bindPopup(`<strong>Sighting for ${isNumeric?'Quest ':'' + questId}</strong><br>${item.eventText || ''}`);
                                 marker.addTo(sightingsLayerGroup);
                                 bounds.push([lat, lng]);
                             }
@@ -1240,7 +1283,7 @@
             const submitBtn = document.getElementById('submitBtn');
             let remaining = seconds;
             submitBtn.disabled = true;
-            submitBtn.style.opacity = 0.1;
+            submitBtn.style.opacity = 0.25;
             submitBtn.textContent = `${remaining}s`;
 
             const interval = setInterval(() => {
@@ -1256,7 +1299,15 @@
             }, 1000);
         }
 
-        async function fetchLatestEntries() {
+        async function fetchLatestEntries(bCacheBust) {
+            const refreshBtn = document.getElementById('refreshBtn');
+            if (refreshBtn) {
+                refreshBtn.disabled = true;
+                refreshBtn.style.opacity = '0.25';
+                refreshBtn.style.cursor = 'wait';
+            }
+
+
             const container = document.getElementById('ledgerOutput');
             const totalDisplay = document.getElementById('totalEntriesVal');
             const pendingDisplay = document.getElementById('pendingReviewVal');
@@ -1266,10 +1317,12 @@
             container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>Loading...</p>";
 
             try {
-                const response = await fetch(QuestSDK.apiUrl);
+                const response = await fetch(QuestSDK.apiUrl + ((bCacheBust || !hasFetchedFromApi) ? '?t=' + Date.now() : ''));
+
                 const result = await response.json();
 
                 if (result.status === "success") {
+                    hasFetchedFromApi = true;
                     totalDisplay.textContent = result.totalRows;
                     pendingDisplay.textContent = result.pendingCount;
                     container.innerHTML = "";
@@ -1315,8 +1368,9 @@
                         }
 
                         const targetQuestId = item.questId || 'N/A';
-                        const questLink = item.questId ?
-                            `<a href="https://magicbakery.github.io/?id=P${item.questId}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto; cursor:pointer">${item.questId}</a>` : 'N/A';
+                        const isNumeric = /^\d+$/.test(questId);
+                        const questLink = isNumeric?
+                            `<a href="https://magicbakery.github.io/?id=P${item.questId}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto; cursor:pointer">${item.questId}</a>` : `${item.questId}`;
 
                         const hasCoords = item.latitude && item.longitude;
                         const mapBtnHtml = hasCoords ? `
@@ -1381,7 +1435,7 @@
                     <button class="dismiss-post-btn" style="position: absolute; bottom: 5px; right: 5px; background: none; border: none; color: #a0aec0; font-size: 16px; font-weight: bold; cursor: pointer; padding: 0 4px; line-height: 1;" title="Dismiss Post">×</button>
                     
                     <div class="meta-row">
-                        <span><strong style="color:#ffffff;">Quest:</strong> ${questLink} [${item.statusCode || '200'}]${mapBtnHtml}</span>
+                        <span><strong style="color:#ffffff;"></strong> ${questLink} [${item.statusCode||'-'}]${mapBtnHtml}</span>
                         <span style="color: #a0aec0; font-size: 11px;"><span title="${fullTimeStr}" style="cursor: help;">${compactTimeStr}</span> <span style="color: #ffffff;">${item.submitterId || 'User'}</span></span>
                     </div>
                     
@@ -1411,6 +1465,12 @@
             } catch (error) {
                 console.error("Layout Compilation Error Log:", error);
                 container.innerHTML = "<p style='color:#ff3b30; font-size:12px;'>Fetch Error.</p>";
+            } finally {
+                if (refreshBtn) {
+                    refreshBtn.disabled = false;
+                    refreshBtn.style.opacity = '';
+                    refreshBtn.style.cursor = '';
+                }
             }
         }
         document.getElementById('appVersion').textContent = APP_VERSION;
