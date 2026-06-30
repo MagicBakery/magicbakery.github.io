@@ -529,7 +529,8 @@
                     Total <span id="totalEntriesVal" style="color: #ffffff; font-weight: bold;">0</span> |
                     <span id="pendingReviewVal" style="color: #ffffff; font-weight: bold;">0</span> Pending
                 </span>
-                <button onclick="fetchLatestEntries(true)"
+                <!-- Update the button in your HTML -->
+                <button id="refreshBtn" onclick="fetchLatestEntries(true)"
                     style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center;"
                     title="Refresh">
                     <svg style="width: 16px; height: 16px; fill: #ffffff;" viewBox="0 0 24 24">
@@ -685,7 +686,7 @@
             <svg class="nav-icon" viewBox="0 0 24 24">
                 <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
             </svg>
-            Log
+            Add
         </button>
         <button class="nav-btn" id="btnShowSettings" onclick="toggleModule('settings')">
             <svg class="nav-icon" viewBox="0 0 24 24">
@@ -1001,8 +1002,8 @@
                                     opacity: 1,
                                     fillOpacity: 0.9
                                 });
-
-                                marker.bindPopup(`<strong>Sighting for Quest ${questId}</strong><br>${item.eventText || ''}`);
+                                 const isNumeric = /^\d+$/.test(questId);
+                                marker.bindPopup(`<strong>Sighting for ${isNumeric?'Quest ':'' + questId}</strong><br>${item.eventText || ''}`);
                                 marker.addTo(sightingsLayerGroup);
                                 bounds.push([lat, lng]);
                             }
@@ -1299,6 +1300,14 @@
         }
 
         async function fetchLatestEntries(bCacheBust) {
+            const refreshBtn = document.getElementById('refreshBtn');
+            if (refreshBtn) {
+                refreshBtn.disabled = true;
+                refreshBtn.style.opacity = '0.25';
+                refreshBtn.style.cursor = 'wait';
+            }
+
+
             const container = document.getElementById('ledgerOutput');
             const totalDisplay = document.getElementById('totalEntriesVal');
             const pendingDisplay = document.getElementById('pendingReviewVal');
@@ -1308,8 +1317,8 @@
             container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>Loading...</p>";
 
             try {
-                const response = await fetch(QuestSDK.apiUrl + ((bCacheBust||!hasFetchedFromApi)?'?t=' + Date.now():'') );
-                
+                const response = await fetch(QuestSDK.apiUrl + ((bCacheBust || !hasFetchedFromApi) ? '?t=' + Date.now() : ''));
+
                 const result = await response.json();
 
                 if (result.status === "success") {
@@ -1359,8 +1368,9 @@
                         }
 
                         const targetQuestId = item.questId || 'N/A';
-                        const questLink = item.questId ?
-                            `<a href="https://magicbakery.github.io/?id=P${item.questId}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto; cursor:pointer">${item.questId}</a>` : 'N/A';
+                        const isNumeric = /^\d+$/.test(questId);
+                        const questLink = isNumeric?
+                            `<a href="https://magicbakery.github.io/?id=P${item.questId}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto; cursor:pointer">${item.questId}</a>` : `${item.questId}`;
 
                         const hasCoords = item.latitude && item.longitude;
                         const mapBtnHtml = hasCoords ? `
@@ -1425,7 +1435,7 @@
                     <button class="dismiss-post-btn" style="position: absolute; bottom: 5px; right: 5px; background: none; border: none; color: #a0aec0; font-size: 16px; font-weight: bold; cursor: pointer; padding: 0 4px; line-height: 1;" title="Dismiss Post">×</button>
                     
                     <div class="meta-row">
-                        <span><strong style="color:#ffffff;">Quest:</strong> ${questLink} [${item.statusCode || '200'}]${mapBtnHtml}</span>
+                        <span><strong style="color:#ffffff;"></strong> ${questLink} [${item.statusCode||'-'}]${mapBtnHtml}</span>
                         <span style="color: #a0aec0; font-size: 11px;"><span title="${fullTimeStr}" style="cursor: help;">${compactTimeStr}</span> <span style="color: #ffffff;">${item.submitterId || 'User'}</span></span>
                     </div>
                     
@@ -1455,6 +1465,12 @@
             } catch (error) {
                 console.error("Layout Compilation Error Log:", error);
                 container.innerHTML = "<p style='color:#ff3b30; font-size:12px;'>Fetch Error.</p>";
+            } finally {
+                if (refreshBtn) {
+                    refreshBtn.disabled = false;
+                    refreshBtn.style.opacity = '';
+                    refreshBtn.style.cursor = '';
+                }
             }
         }
         document.getElementById('appVersion').textContent = APP_VERSION;
