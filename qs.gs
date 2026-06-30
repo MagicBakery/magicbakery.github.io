@@ -7,7 +7,7 @@ function doPost(e) {
     var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
     var newRow = new Array(headers.length);
     
-    // Map the incoming keys to the exact sheet headers
+    // Map the incoming keys to the exact sheet headers dynamically
     var payloadMap = {
       "Timestamp": new Date(),
       "Submitter ID": params.submitterId,
@@ -17,7 +17,9 @@ function doPost(e) {
       "Comments": "",
       "Status Code": params.statusCode || "200",
       "Tags": params.tags,
-      "Visibility": "Private"
+      "Visibility": "Private",
+      "Latitude": params.lat || params.latitude || params.latField || "",
+      "Longitude": params.lng || params.longitude || params.lngField || ""
     };
 
     for (var i = 0; i < headers.length; i++) {
@@ -29,7 +31,9 @@ function doPost(e) {
       }
     }
     
-    sheet.appendRow(newRow);
+    // Instead of appendRow, manually find the next row ensuring we never touch Row 2
+    var nextRow = Math.max(3, sheet.getLastRow() + 1);
+    sheet.getRange(nextRow, 1, 1, newRow.length).setValues([newRow]);
     
     // Return a clean CORS-approved response wrapper
     return ContentService.createTextOutput(JSON.stringify({"status": "success"}))
@@ -39,17 +43,18 @@ function doPost(e) {
                          .setMimeType(ContentService.MimeType.JSON);
   }
 }
+
 function doGet() {
   try {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("AIR");
     var lastRow = sheet.getLastRow();
     
-    // Total rows minus the header row
-    var totalRowsCount = Math.max(0, lastRow - 1); 
+    // Total data rows starting from the 3rd row (skips Header Row 1 and Unused Filter Row 2)
+    var totalRowsCount = Math.max(0, lastRow - 2);
     var pendingReviewCount = 0;
     var publicEntries = [];
 
-    if (lastRow <= 1) {
+    if (lastRow <= 2) {
       return ContentService.createTextOutput(JSON.stringify({"status": "success", "totalRows": 0, "pendingCount": 0, "data": []}))
                            .setMimeType(ContentService.MimeType.JSON);
     }
@@ -59,8 +64,8 @@ function doGet() {
     var viewSettingIndex = headers.indexOf("Visibility");
     if (viewSettingIndex === -1) throw new Error("Could not find 'Visibility' column.");
     
-    // Low-overhead call: only grabs the single column containing statuses
-    var statusColumnValues = sheet.getRange(2, viewSettingIndex + 1, totalRowsCount, 1).getValues();
+    // Low-overhead call: grabs the single column containing statuses starting at Row 3
+    var statusColumnValues = sheet.getRange(3, viewSettingIndex + 1, totalRowsCount, 1).getValues();
     for (var k = 0; k < statusColumnValues.length; k++) {
       if (statusColumnValues[k][0] === "Private") {
         pendingReviewCount++;
@@ -72,8 +77,8 @@ function doGet() {
     var chunkSize = 200;
     var endRow = lastRow;
 
-    while (publicEntries.length < 10 && endRow > 1) {
-      var startRow = Math.max(2, endRow - chunkSize + 1);
+    while (publicEntries.length < 10 && endRow > 2) {
+      var startRow = Math.max(3, endRow - chunkSize + 1);
       var numRows = (endRow - startRow) + 1;
       
       // Pull only this chunk into memory
@@ -109,7 +114,6 @@ function doGet() {
       "pendingCount": pendingReviewCount, 
       "data": publicEntries
     })).setMimeType(ContentService.MimeType.JSON);
-    
   } catch(error) {
     return ContentService.createTextOutput(JSON.stringify({"status": "error", "error": error.toString()}))
                          .setMimeType(ContentService.MimeType.JSON);

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mobile Event Logger</title>
+    <script>const APP_VERSION = "20260630005131";</script>
     <script src="config.js"></script>
     <script src="qsdk.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -30,7 +31,7 @@
         .panel {
             background: #1c1c1e;
             /* Matte dark grey slate */
-            padding: 14px;
+            padding: 5px;
             border-radius: 8px;
             border: 1px solid #2c2c2e;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
@@ -95,7 +96,7 @@
         }
 
         .hud-btn:active {
-            background-color: rgba(44, 44, 46, 0.85);
+            background-color: rgba(44, 44, 46, 0.50);
             border-color: #ffffff;
         }
 
@@ -129,7 +130,8 @@
             color: #ffffff;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             white-space: nowrap;
-            pointer-events: none;
+            pointer-events: auto;
+            cursor: pointer;
         }
 
         /* Map Crosshair Target Graphic Overlay */
@@ -141,7 +143,8 @@
             height: 30px;
             transform: translate(-50%, -50%);
             z-index: 1001;
-            pointer-events: none;
+            pointer-events: auto !important;
+            cursor: cell;
         }
 
         .map-crosshair::before,
@@ -168,6 +171,27 @@
 
         .leaflet-control-attribution {
             display: none !important;
+        }
+
+        .leaflet-popup-content-wrapper {
+            background: #1c1c1e !important;
+            color: #ffffff !important;
+            border: 1px solid #2c2c2e;
+            border-radius: 8px;
+            padding: 2px !important;
+            margin-bottom: -5px;
+        }
+
+        .leaflet-popup-content {
+            margin: 4px !important;
+        }
+
+        .leaflet-popup-tip {
+            background: #1c1c1e !important;
+        }
+
+        .leaflet-popup {
+            margin-bottom: 10px !important;
         }
 
         /* Street View Custom CSS Filters (Soft Contrast Default) */
@@ -377,6 +401,12 @@
             color: #d1d1d6;
         }
 
+        .red-marker-filter {
+            filter: hue-rotate(140deg) saturate(140%) brightness(90%);
+        }
+
+
+
         /* Fixed Navigation Footer Dock */
         .footer-nav {
             position: fixed;
@@ -396,7 +426,7 @@
         .nav-btn {
             background: none;
             border: none;
-            color: #a0aec0;
+            color: #606060;
             font-size: 11px;
             font-weight: 600;
             cursor: pointer;
@@ -418,7 +448,7 @@
         .nav-icon {
             width: 18px;
             height: 18px;
-            fill: #a0aec0;
+            fill: #606060;
         }
 
         .nav-btn.active .nav-icon {
@@ -438,8 +468,11 @@
         <div id="mapCrosshair" class="map-crosshair hidden"></div>
         <div class="map-hud">
             <button class="hud-btn" id="layerToggleBtn" onclick="toggleMapView()" title="Toggle View Matrix">
-                <svg viewBox="0 0 24 24">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                <svg class="nav-icon" viewBox="0 0 24 24">
+                    <path d="M12 10L21 14L12 18L3 14Z" fill="none" stroke="#ffffff" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+
+                    <path d="M12 4L21 8L12 12L3 8Z" fill="#ffffff" stroke="#ffffff" />
                 </svg>
             </button>
             <button class="hud-btn" onclick="recenterMap()" title="Recenter">
@@ -453,8 +486,32 @@
     </div>
 
     <div id="querySection" class="panel hidden">
-        <h3>Announcements</h3>
-        <div class="stats-grid">
+        <div
+            style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: -9px;">
+            <h3
+                style="margin: 0; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #ffffff;">
+                Quest Board
+            </h3>
+
+            <span style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 12px; color: #a0aec0; font-family: monospace; white-space: nowrap;">
+                    Total <span id="totalEntriesVal" style="color: #ffffff; font-weight: bold;">0</span> |
+                    <span id="pendingReviewVal" style="color: #ffffff; font-weight: bold;">0</span> Pending
+                </span>
+                <button onclick="fetchLatestEntries()"
+                    style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center;"
+                    title="Refresh">
+                    <svg style="width: 16px; height: 16px; fill: #ffffff;" viewBox="0 0 24 24">
+                        <path
+                            d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+                    </svg>
+                </button>
+            </span>
+        </div>
+
+
+
+        <!--<div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-val" id="totalEntriesVal">-</div>
                 <div class="stat-lbl">Total Logs</div>
@@ -464,11 +521,12 @@
                 <div class="stat-lbl">Pending</div>
             </div>
         </div>
-        <button class="query-trigger-btn" onclick="fetchLatestEntries()">Refresh</button>
+        <button class="query-trigger-btn" onclick="fetchLatestEntries()">Refresh</button>-->
         <div id="ledgerOutput"></div>
     </div>
 
-    <div id="formSection" class="panel hidden">
+    <div id="formSection" class="panel hidden"
+        style="max-height: calc(100vh - 140px); overflow-y: auto; overflow-x: hidden; padding-right: 4px;">
         <h3>Event Logging</h3>
         <form id="eventForm" onsubmit="submitEvent(event)">
             <div class="form-row">
@@ -477,21 +535,21 @@
                     <input type="text" id="submitterId" value="" placeholder="(anon)">
                     <!--<input type="text" id="submitterId" required>-->
                 </div>
-                <div class="form-group col-40">
+                <div class="form-group col-35">
                     <label for="questId">Quest ID</label>
                     <input type="text" id="questId" placeholder="(blank)">
                 </div>
-                <div class="form-group col-30">
+                <div class="form-group col-25">
                     <label for="statusCode">Status</label>
                     <input type="text" id="statusCode" value="" placeholder="(blank)">
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-35">
+                <div class="form-group col-30">
                     <label for="latField">Latitude</label>
                     <input type="text" id="latField" placeholder="(blank)">
                 </div>
-                <div class="form-group col-35">
+                <div class="form-group col-30">
                     <label for="lngField">Longitude</label>
                     <input type="text" id="lngField" placeholder="(blank)">
                 </div>
@@ -502,7 +560,7 @@
                     </label>
                 </div>
             </div>
-            <div class="form-row" style="margin-bottom: 0;">
+            <div class="form-row" style="margin-bottom: 0; width:95%">
                 <div class="form-group">
                     <label for="eventText">Event Description / Request</label>
                     <textarea id="eventText" placeholder="Automated event description..."></textarea>
@@ -513,7 +571,7 @@
                     <label for="tags">Tags</label>
                     <input type="text" id="tags" placeholder="(blank)">
                 </div>
-                <div class="form-group col-40">
+                <div class="form-group col-30">
                     <label for="url">Context URL</label>
                     <input type="text" id="url" placeholder="(blank)">
                 </div>
@@ -526,7 +584,7 @@
     </div>
 
     <div id="settingsSection" class="panel hidden">
-        <h3>Terminal Settings</h3>
+        <h3>App Settings</h3>
         <div class="form-group" style="margin-top: 10px;">
             <label for="themeSelect">Street View Color Profile</label>
             <select id="themeSelect" onchange="updateStreetTheme(this.value)">
@@ -536,19 +594,25 @@
             </select>
         </div>
         <div class="form-group" style="margin-top: 14px;">
-            <label class="checkbox-container" style="font-size: 13px;">
+            <label class="checkbox-container" style="color: #ffffff; font-size: 13px;  font-weight: 500;">
                 <input type="checkbox" id="crosshairToggle" onchange="updateCrosshairVisibility(this.checked)">
                 Show HUD Crosshair & Center Coordinates
             </label>
+            <label class="checkbox-container" for="showSightingsInFeed" style="color: #ffffff; font-size: 13px; font-weight: 500;">
+                <input type="checkbox" id="showSightingsInFeed" onchange="fetchLatestEntries()" style="cursor: pointer;">
+                Show sighting-only entries in feed
+            </label>
+            
         </div>
         <div
             style="margin-top: 20px; border-top: 1px solid #2c2c2e; padding-top: 12px; font-size: 12px; color: #a0aec0;">
-            <div style="margin-bottom: 8px;"><strong>Engine Build:</strong> <span id="appVersion"
-                    style="color: #ffffff; font-family: monospace;">20260629111200</span></div>
+            <div style="margin-bottom: 8px;"><strong>App Version:</strong> <span id="appVersion"
+                    style="color: #ffffff; font-family: monospace;"></span></div>
             <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 10px;">
                 <a href="https://magicbakery.github.io/?id=P202606271049" target="_blank" class="info-link">Magic Bakery
                     Gadgets Lab</a>
-                <a href="https://nextdoor.com/p/5W3mJrs_6p_H" target="_blank" class="info-link">Quest Society at NextDoor</a>
+                <a href="https://nextdoor.com/p/5W3mJrs_6p_H" target="_blank" class="info-link">Quest Society at
+                    NextDoor</a>
             </div>
         </div>
     </div>
@@ -556,8 +620,10 @@
     <div class="footer-nav">
         <button class="nav-btn" id="btnShowMap" onclick="toggleModule('map')">
             <svg class="nav-icon" viewBox="0 0 24 24">
-                <path
-                    d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5c.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z" />
+                <path d="M12 10L21 14L12 18L3 14Z" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+
+                <path d="M12 4L21 8L12 12L3 8Z" fill="currentColor" stroke="currentColor" />
             </svg>
             Map
         </button>
@@ -566,13 +632,13 @@
                 <path
                     d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
             </svg>
-            Messages
+            Quests
         </button>
         <button class="nav-btn" id="btnShowForm" onclick="toggleModule('form')">
             <svg class="nav-icon" viewBox="0 0 24 24">
                 <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
             </svg>
-            Log Form
+            Log
         </button>
         <button class="nav-btn" id="btnShowSettings" onclick="toggleModule('settings')">
             <svg class="nav-icon" viewBox="0 0 24 24">
@@ -594,10 +660,30 @@
         let map, activeStreetLayer, activeSatelliteLayer;
         let currentMapMode = 'street';
         const defaultCenter = [38.5449, -121.7405]; // Davis, CA coordinates
+        let localLandmarks = []; // Array to maintain the active landmark references and state data
+        let sightingsLayerGroup = null;
 
         QuestSDK.init(QUEST_CONFIG);
 
         document.addEventListener("DOMContentLoaded", () => {
+
+            const clientBD = localStorage.getItem("clientBD");
+            let clientLV = localStorage.getItem("clientLV");
+            if (!clientBD) {
+                // 1) Set defaults if clientBD does not exist
+                localStorage.setItem("clientLV", "0");
+                localStorage.setItem("clientBD", Date.now().toString()); // UTC Timestamp in ms
+            } else {
+                // 2) Check if timestamp is at least 1 day old (24 hours = 86400000 ms)
+                const startedTime = parseInt(clientBD, 10);
+                const oneDayInMs = 24 * 60 * 60 * 1000;
+
+                if ((clientLV === "0" || !clientLV) && (Date.now() - startedTime >= oneDayInMs)) {
+                    localStorage.setItem("clientLV", "1");
+                }
+            }
+
+
             if (localStorage.getItem("h_submitterId")) document.getElementById("submitterId").value = localStorage.getItem("h_submitterId");
             if (localStorage.getItem("h_questId")) document.getElementById("questId").value = localStorage.getItem("h_questId");
 
@@ -613,8 +699,269 @@
             initGISCore();
             initResizeWatchdog();
             updateCrosshairVisibility(showCrosshair);
+
+
+            // Grab references to the target input field and the submit button
+            const submitterInput = document.getElementById("submitterId");
+            const logButton = document.getElementById("submitBtn");
+
+            // Validation rule function
+            function validateSubmitterId() {
+                if (submitterInput && logButton) {
+                    if (submitterInput.value.includes('|')) {
+                        logButton.disabled = true;
+                        logButton.style.opacity = "0.4"; // Visual cue indicating disabled state
+                        logButton.style.cursor = "not-allowed";
+                    } else {
+                        logButton.disabled = false;
+                        logButton.style.opacity = "1.0";
+                        logButton.style.cursor = "pointer";
+                    }
+                }
+            }
+
+            // Attach listeners to handle real-time typing and saved storage loading
+            if (submitterInput) {
+                submitterInput.addEventListener("input", validateSubmitterId);
+            }
+
+            // Run an initial check immediately in case the loaded localStorage already contains '|'
+            validateSubmitterId();
+
+
+            document.getElementById('coordHud').addEventListener('click', () => {
+                if (map) {
+                    const center = map.getCenter();
+                    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${center.lat},${center.lng}`;
+                    window.open(googleMapsUrl, '_blank');
+                }
+            });
+            document.getElementById('mapCrosshair').addEventListener('click', () => {
+                if (map && !document.getElementById('mapCrosshair').classList.contains('hidden')) {
+                    const currentCenter = map.getCenter();
+                    addRedLandmark([currentCenter.lat, currentCenter.lng]);
+                }
+            });
         });
 
+        // functions in alphabetical order
+        function addRedLandmark(coords, savedCaption = '', shouldSave = true) {
+            if (!map) return;
+
+            const redIcon = new L.Icon.Default({
+                className: 'red-marker-filter'
+            });
+
+            const marker = L.marker(coords, { icon: redIcon }).addTo(map);
+
+            // Build the super compact horizontal inline wrapper
+            const container = document.createElement('div');
+            container.style.display = 'flex';
+            container.style.alignItems = 'center';
+            container.style.gap = '5px';
+            container.style.padding = '2px';
+
+            // Caption Input Textbox (Centered Text)
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = 'Caption...';
+            input.style.width = '100px';
+            input.style.height = '24px';
+            input.style.fontSize = '12px';
+            input.style.padding = '0 4px';
+            input.style.border = '1px solid #2c2c2e';
+            input.style.borderRadius = '4px';
+            input.style.background = '#000000';
+            input.style.color = '#ffffff';
+            input.style.textAlign = 'center';
+
+            input.value = savedCaption;
+
+            // Track this landmark instance locally
+            const landmarkEntry = { marker: marker, caption: savedCaption };
+            localLandmarks.push(landmarkEntry);
+
+            // Save state on input change
+            input.addEventListener('input', (e) => {
+                landmarkEntry.caption = e.target.value;
+                saveLandmarksToStorage();
+            });
+
+            // Inline square 'X' close/delete action button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = '×';
+            deleteBtn.title = 'Delete Landmark';
+            deleteBtn.style.background = '#303030';
+            deleteBtn.style.color = '#ffffff';
+            deleteBtn.style.border = 'none';
+            deleteBtn.style.borderRadius = '4px';
+            deleteBtn.style.width = '16px';
+            deleteBtn.style.height = '16px';
+            deleteBtn.style.fontSize = '15px';
+            deleteBtn.style.fontWeight = 'bold';
+            deleteBtn.style.cursor = 'pointer';
+            deleteBtn.style.display = 'flex';
+            deleteBtn.style.alignItems = 'center';
+            deleteBtn.style.justifyContent = 'center';
+
+            deleteBtn.addEventListener('click', () => {
+                map.removeLayer(marker);
+                // Remove from tracking array
+                localLandmarks = localLandmarks.filter(item => item !== landmarkEntry);
+                saveLandmarksToStorage();
+            });
+
+            container.appendChild(input);
+            container.appendChild(deleteBtn);
+
+            // Bind popup configurations
+            marker.bindPopup(container, {
+                autoClose: false,
+                closeOnClick: false,
+                closeButton: false,
+                offset: [0, -10]
+            });
+
+            if (shouldSave) {
+                saveLandmarksToStorage();
+            }
+
+            return marker;
+        }
+        function applyFilterState() {
+            const mapContainer = document.getElementById('map');
+            mapContainer.classList.remove('map-theme-street-warm', 'map-theme-street-soft', 'map-theme-street-cozy', 'map-theme-satellite');
+
+            if (currentMapMode === 'satellite') {
+                mapContainer.classList.add('map-theme-satellite');
+            } else {
+                const selectedTheme = document.getElementById("themeSelect").value;
+                mapContainer.classList.add(`map-theme-street-${selectedTheme}`);
+            }
+        }
+
+
+        function loadLandmarksFromStorage() {
+            try {
+                const stored = localStorage.getItem('map_landmarks');
+                if (stored) {
+                    const parsed = JSON.parse(stored);
+                    parsed.forEach(item => {
+                        // Pass false to shouldSave to prevent redundant array loops during initialization
+                        addRedLandmark([item.lat, item.lng], item.caption, false);
+                    });
+                }
+            } catch (e) {
+                console.error("Failed to parse map landmarks from localStorage:", e);
+            }
+        }
+
+        function panToCoordinate(lat, lng) {
+            if (map) {
+                const mapSection = document.getElementById('mapSection');
+                if (mapSection.classList.contains('hidden')) {
+                    toggleModule('map');
+                }
+                const coords = [parseFloat(lat), parseFloat(lng)];
+                map.setView(coords, 18);
+                addRedLandmark(coords);
+            }
+        }
+        function reportBoloSighting(questId) {
+            const formSection = document.getElementById('formSection');
+            if (!formSection) return;
+
+            // Remove hidden flag to show the panel drawer container
+            formSection.classList.remove('hidden');
+
+            // Prefill the Form Fields
+            document.getElementById('questId').value = questId;
+            document.getElementById('tags').value = "sighting";
+
+            // Turn on the "Sync Map" checkbox control element
+            const syncCheckbox = document.getElementById('useCrosshairCoords');
+            if (syncCheckbox) {
+                syncCheckbox.checked = true;
+                // Trigger its native update sequence layout routine
+                if (typeof toggleCrosshairSync === 'function') {
+                    toggleCrosshairSync(true);
+                }
+            }
+
+            // Smoothly scroll the logging form view into target viewport view segment if needed
+            formSection.scrollIntoView({ behavior: 'smooth' });
+        }
+        function saveLandmarksToStorage() {
+            const dataToSave = localLandmarks.map(item => ({
+                lat: item.marker.getLatLng().lat,
+                lng: item.marker.getLatLng().lng,
+                caption: item.caption
+            }));
+            localStorage.setItem('map_landmarks', JSON.stringify(dataToSave));
+        }
+        function saveLayoutState() {
+            const activeKeys = Object.keys(modules).filter(key =>
+                !document.getElementById(modules[key].elementId).classList.contains('hidden')
+            );
+            localStorage.setItem("active_modules", JSON.stringify(activeKeys));
+        }
+        async function showBoloSightings(questId) {
+            if (!map || !sightingsLayerGroup) return;
+
+            // Clear any previous sightings displayed on the map
+            sightingsLayerGroup.clearLayers();
+
+            try {
+                // Query the live api database
+                const response = await fetch(QuestSDK.apiUrl);
+                const result = await response.json();
+
+                if (result.status === "success" && result.data) {
+                    const bounds = [];
+
+                    result.data.forEach(item => {
+                        const itemTags = item.tags ? item.tags.toLowerCase() : '';
+                        const itemQuestId = String(item.questId || '').trim();
+
+                        // Match criteria: Same Quest ID AND has the tag "sighting" AND valid coordinates
+                        if (itemQuestId === String(questId).trim() && itemTags.includes('sighting') && item.latitude && item.longitude) {
+                            const lat = parseFloat(item.latitude);
+                            const lng = parseFloat(item.longitude);
+
+                            if (!isNaN(lat) && !isNaN(lng)) {
+                                // Create a tiny customizable glowing yellow dot marker
+                                const marker = L.circleMarker([lat, lng], {
+                                    radius: 6,
+                                    fillColor: '#ffd700', // Gold / Yellow
+                                    color: '#000000',
+                                    weight: 1.5,
+                                    opacity: 1,
+                                    fillOpacity: 0.9
+                                });
+
+                                // Optional: Bind popup text for the sighting info
+                                marker.bindPopup(`<strong>Sighting for Quest ${questId}</strong><br>${item.eventText || ''}<br><span style="font-size:10px; color:#a0aec0;">By: ${item.submitterId || 'Anon'}</span>`);
+
+                                marker.addTo(sightingsLayerGroup);
+                                bounds.push([lat, lng]);
+                            }
+                        }
+                    });
+
+                    // Automatically resize/zoom view bounds if sightings were successfully mapped
+                    if (bounds.length > 0) {
+                        map.fitBounds(bounds, { padding: [40, 40], maxZoom: 16 });
+                    } else {
+                        alert(`No reported sightings found for Quest: ${questId}`);
+                    }
+                }
+            } catch (e) {
+                console.error("Error fetching sightings:", e);
+                alert("Failed to query sightings from database.");
+            }
+        }
+
+        // Not in alphabetical order.
         function initLayoutState() {
             let activeKeys = ['map'];
             const savedModules = localStorage.getItem("active_modules");
@@ -639,14 +986,6 @@
                 }
             });
         }
-
-        function saveLayoutState() {
-            const activeKeys = Object.keys(modules).filter(key =>
-                !document.getElementById(modules[key].elementId).classList.contains('hidden')
-            );
-            localStorage.setItem("active_modules", JSON.stringify(activeKeys));
-        }
-
         function initGISCore() {
             map = L.map('map', {
                 zoomControl: false,
@@ -670,9 +1009,14 @@
                 activeStreetLayer.addTo(map);
             }
 
+            if (!sightingsLayerGroup) {
+                sightingsLayerGroup = L.layerGroup().addTo(map);
+            }
+
             applyFilterState();
             map.on('move', updateLiveCoordinates);
             updateLiveCoordinates();
+            loadLandmarksFromStorage();
         }
 
         function initResizeWatchdog() {
@@ -682,18 +1026,6 @@
                 }
             });
             watcher.observe(document.getElementById('mapSection'));
-        }
-
-        function applyFilterState() {
-            const mapContainer = document.getElementById('map');
-            mapContainer.classList.remove('map-theme-street-warm', 'map-theme-street-soft', 'map-theme-street-cozy', 'map-theme-satellite');
-
-            if (currentMapMode === 'satellite') {
-                mapContainer.classList.add('map-theme-satellite');
-            } else {
-                const selectedTheme = document.getElementById("themeSelect").value;
-                mapContainer.classList.add(`map-theme-street-${selectedTheme}`);
-            }
         }
 
         function updateStreetTheme(val) {
@@ -721,7 +1053,7 @@
                     (position) => {
                         const loc = [position.coords.latitude, position.coords.longitude];
                         map.setView(loc, 18);
-                        L.marker(loc).addTo(map);
+                        addRedLandmark(loc);
                     },
                     () => {
                         map.setView(defaultCenter, 15);
@@ -785,22 +1117,42 @@
 
         async function submitEvent(event) {
             event.preventDefault();
-            const statusMsg = document.getElementById('statusMessage');
+            startCooldown(5);
 
+            const clientLV = localStorage.getItem("clientLV") || "0";
+            const clientBDRaw = localStorage.getItem("clientBD");
+            let clientBD = "00000000000000"; // Fallback timestamp string
+            if (clientBDRaw) {
+                const startDate = new Date(parseInt(clientBDRaw, 10));
+                if (!isNaN(startDate.getTime())) {
+                    const yyyy = startDate.getUTCFullYear();
+                    const mm = String(startDate.getUTCMonth() + 1).padStart(2, '0');
+                    const dd = String(startDate.getUTCDate()).padStart(2, '0');
+                    const hh = String(startDate.getUTCHours()).padStart(2, '0');
+                    const min = String(startDate.getUTCMinutes()).padStart(2, '0');
+                    const ss = String(startDate.getUTCSeconds()).padStart(2, '0');
+                    const ms = String(startDate.getUTCMilliseconds()).padStart(3, '0');
+                    clientBD = `${yyyy}${mm}${dd}${hh}${min}${ss}${ms}`;
+                }
+            }
+
+
+            const statusMsg = document.getElementById('statusMessage');
             const submitterId = document.getElementById('submitterId').value;
             const questId = document.getElementById('questId').value;
-            const statusCode = document.getElementById('statusCode').value || "200";
+            const statusCode = document.getElementById('statusCode').value || "";
             const urlField = document.getElementById('url').value;
             const tags = document.getElementById('tags').value;
             const lat = document.getElementById('latField').value;
             const lng = document.getElementById('lngField').value;
 
-            let eventText = document.getElementById('eventText').value || `Status transmission ${statusCode}`;
+
+            let eventText = document.getElementById('eventText').value || ``;
 
             localStorage.setItem("h_submitterId", submitterId);
             localStorage.setItem("h_questId", questId);
 
-            statusMsg.textContent = "Syncing...";
+            statusMsg.textContent = "Sending...";
             statusMsg.style.color = "#ffffff";
 
             const formData = new URLSearchParams();
@@ -812,6 +1164,8 @@
             formData.append('eventText', eventText);
             formData.append('lat', lat);
             formData.append('lng', lng);
+            formData.append('cId', clientBD);
+            formData.append('cLv', clientLV);
 
             try {
                 await fetch(QuestSDK.apiUrl, {
@@ -819,8 +1173,9 @@
                     body: formData.toString(),
                     headers: { "Content-Type": "application/x-www-form-urlencoded" }
                 });
-
-                statusMsg.textContent = "Saved!";
+                //var now = new Date();
+                //statusMsg.textContent = "Saved " + now + "!";
+                statusMsg.textContent = "";
                 statusMsg.style.color = "#ffffff";
 
                 document.getElementById('url').value = "";
@@ -830,7 +1185,7 @@
                 document.getElementById('lngField').value = "";
                 document.getElementById('useCrosshairCoords').checked = false;
 
-                startCooldown(5);
+
             } catch (error) {
                 statusMsg.textContent = "Error.";
                 statusMsg.style.color = "#ff3b30";
@@ -860,7 +1215,12 @@
             const container = document.getElementById('ledgerOutput');
             const totalDisplay = document.getElementById('totalEntriesVal');
             const pendingDisplay = document.getElementById('pendingReviewVal');
+            const showSightingsCheckbox = document.getElementById('showSightingsInFeed');
+            const allowSightingsInFeed = showSightingsCheckbox ? showSightingsCheckbox.checked : false;
+
             container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>Loading...</p>";
+
+
 
             try {
                 const response = await fetch(QuestSDK.apiUrl);
@@ -877,8 +1237,24 @@
                     }
 
                     result.data.forEach(item => {
+                        // Parse and normalize tags
+                        const tagString = item.tags ? item.tags.trim().toLowerCase() : '';
+                        const tagList = tagString ? tagString.split(',').map(t => t.trim()) : [];
+
+                        // Determine if this entry features *only* a sighting tag
+                        const isOnlySighting = tagList.length === 1 && tagList[0] === 'sighting';
+
+                        // Skip rendering this post if it's only a sighting and the setting is turned off
+                        if (isOnlySighting && !allowSightingsInFeed) {
+                            return; // Skip to next element
+                        }
+
                         const element = document.createElement('div');
                         element.className = 'log-item';
+                        element.style.position = 'relative';
+                        element.className = 'log-item';
+                        // Ensure the container handles absolute positioning for the close button
+                        element.style.position = 'relative';
 
                         let fullTimeStr = "Unknown Time";
                         let compactTimeStr = "Unknown";
@@ -887,7 +1263,6 @@
                             if (!isNaN(parsedDate.getTime())) {
                                 fullTimeStr = parsedDate.toLocaleString();
 
-                                // Formats as m/d hh:mm using the user's local timezone
                                 const m = parsedDate.getMonth() + 1;
                                 const d = parsedDate.getDate();
                                 const hh = String(parsedDate.getHours()).padStart(2, '0');
@@ -899,19 +1274,75 @@
                             }
                         }
 
-                        // Generate an instant-clickable link for the Quest ID
                         const targetQuestId = item.questId || 'N/A';
                         const questLink = item.questId ?
-                            `<a href="https://magicbakery.github.io/?id=P${item.questId}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto;">${item.questId}</a>` : 'N/A';
+                            `<a href="https://magicbakery.github.io/?id=P${item.questId}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto; cursor:pointer">${item.questId}</a>` : 'N/A';
+
+                        const hasCoords = item.latitude && item.longitude;
+                        const mapBtnHtml = hasCoords ? `
+                    <button onclick="panToCoordinate(${item.latitude}, ${item.longitude})" title="Pan to Coordinates" style="background:none; border:none; padding:2px 6px; cursor:pointer; display:inline-flex; align-items:center; vertical-align:middle;">
+                        <svg viewBox="0 0 24 24" style="width:14px; height:14px; fill:#ffffff;">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                    </button>
+                ` : '';
+
+                        // Process and build the tags container if item.tags exists
+                        let isBolo = false;
+                        const tagsHtml = item.tags ? `
+                    <div style="margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px;">
+                        ${item.tags.split(',').map(tag => {
+                            const trimmedTag = tag.trim();
+                            if (trimmedTag.toUpperCase() === 'BOLO') {
+                                isBolo = true; // Flag for rendering BOLO buttons
+                            }
+                            return `
+                                <span style="font-size: 10px; background: #2c2c2e; color: #a0aec0; padding: 2px 6px; border-radius: 4px; font-family: monospace;">
+                                    #${trimmedTag}
+                                </span>
+                            `;
+                        }).join('')}
+                    </div>
+                ` : '';
+
+                        // Generate BOLO actions layout row if condition matches
+                        const boloActionsHtml = isBolo ? `
+                    <div style="margin-top: 8px; display: flex; gap: 8px;">
+                        <button onclick="showBoloSightings('${item.questId}')" style="background: #1c1c1e; border: 1px solid #ffd700; color: #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600;">
+                            Show Sightings
+                        </button>
+                        <button onclick="reportBoloSighting('${item.questId}')" style="background: #1c1c1e; border: 1px solid #ffd700; color: #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600;">
+                            Report Sighting
+                        </button>
+                    </div>
+                ` : '';
 
                         element.innerHTML = `
-                            <div class="meta-row">
-                                <span><strong style="color:#ffffff;">Quest:</strong> ${questLink} [${item.statusCode || '200'}]</span>
-                                <span style="color: #a0aec0; font-size: 11px;"><span title="${fullTimeStr}" style="cursor: help;">${compactTimeStr}</span> <span style="color: #ffffff;">${item.submitterId || 'User'}</span></span>
-                            </div>
-                            <div style="font-weight:500; color:#ffffff; margin-top: 4px; word-break: break-word;">${item.eventText}</div>
-                            ${item.url ? `<div style="font-size:11px; margin-top:4px;"><a href="${item.url}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto;">Link</a></div>` : ''}
-                        `;
+                    <button class="dismiss-post-btn" style="position: absolute; bottom: 0px; right: 0px; background: #303030; border: none; border-radius:3px; color: #808080; font-size: 16px; font-weight: bold; cursor: pointer; padding: 0 4px; line-height: 1;" title="Dismiss Post">×</button>
+                    
+                    <div class="meta-row">
+                        <span><strong style="color:#ffffff;">Quest:</strong> ${questLink} [${item.statusCode || '200'}]${mapBtnHtml}</span>
+                        <span style="color: #a0aec0; font-size: 11px;"><span title="${fullTimeStr}" style="cursor: help;">${compactTimeStr}</span> <span style="color: #ffffff;">${item.submitterId || 'User'}</span></span>
+                    </div>
+                    <div style="font-weight:500; color:#ffffff; margin-top: 4px; word-break: break-word; padding-right: 20px;">${item.eventText}</div>
+                    ${tagsHtml}
+                    ${boloActionsHtml} ${item.url ? `<div style="font-size:11px; margin-top:4px;"><a href="${item.url}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto;">Link</a></div>` : ''}
+                `;
+
+                        // Add Event Listener to the newly generated close button
+                        element.querySelector('.dismiss-post-btn').addEventListener('click', () => {
+                            element.style.opacity = '0';
+                            element.style.transform = 'scale(0.95)';
+                            element.style.transition = 'all 0.2s ease';
+                            setTimeout(() => {
+                                element.remove();
+                                // If no posts are left after dismissing, display fallback text
+                                if (container.children.length === 0) {
+                                    container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>No active quests.</p>";
+                                }
+                            }, 200);
+                        });
+
                         container.appendChild(element);
                     });
                 }
@@ -919,6 +1350,8 @@
                 container.innerHTML = "<p style='color:#ff3b30; font-size:12px;'>Fetch Error.</p>";
             }
         }
+        document.getElementById('appVersion').textContent = APP_VERSION;
+
     </script>
 </body>
 
