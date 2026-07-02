@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quest App</title>
-    <script>const APP_VERSION = "20260630100615";</script>
+    <script>const APP_VERSION = "20260702050845";</script>
     <script src="config.js"></script>
     <script src="qsdk.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -519,19 +519,27 @@
     <div id="querySection" class="panel hidden">
         <div
             style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: -9px;">
-            <h3
+            <!--<h3
                 style="margin: 0; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #ffffff;">
-                Quest Board
-            </h3>
+                Message Board
+            </h3>-->
+            <select id="messageBoardFilter" onClick="filterMessageBoard()"
+                style="background: #2c2c2e; color: #ffffff; border: 1px solid #2c2c2e; border-radius: 4px; padding: 4px; font-size: 12px; cursor: pointer; margin-right:10px">
+                <option value="quest">Quests</option>
+                <option value="sighting">Sightings</option>
+                <option value="comment">Comments</option>
+                <option value="SHOW ALL">Show all messages</option>
+            </select>
 
             <span style="display: flex; align-items: center; gap: 10px;">
                 <span style="font-size: 12px; color: #a0aec0; font-family: monospace; white-space: nowrap;">
-                    Total <span id="totalEntriesVal" style="color: #ffffff; font-weight: bold;">0</span> |
-                    <span id="pendingReviewVal" style="color: #ffffff; font-weight: bold;">0</span> Pending
+                    [<span id="totalEntriesVal" title="Total Messages"
+                        style="color: #ffffff; font-weight: bold;">0</span>.<span id="pendingReviewVal"
+                        title="Pending Messages" style="color: goldenrod; font-weight: bold;">0</span>]
                 </span>
                 <!-- Update the button in your HTML -->
                 <button id="refreshBtn" onclick="fetchLatestEntries(true)"
-                    style="background: none; border: none; padding: 4px; cursor: pointer; display: flex; align-items: center;"
+                    style="background: none; border: none; padding: 0px; margin-left:-4px; margin-right:4px; margin-top:2px; cursor: pointer; display: flex; align-items: center;"
                     title="Refresh">
                     <svg style="width: 16px; height: 16px; fill: #ffffff;" viewBox="0 0 24 24">
                         <path
@@ -680,7 +688,7 @@
                 <path
                     d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
             </svg>
-            Quests
+            Board
         </button>
         <button class="nav-btn" id="btnShowForm" onclick="toggleModule('form')">
             <svg class="nav-icon" viewBox="0 0 24 24">
@@ -715,6 +723,7 @@
 
         QuestSDK.init(QUEST_CONFIG);
 
+        // Listeners in alphabetical order
         document.addEventListener("DOMContentLoaded", () => {
 
             const clientBD = localStorage.getItem("clientBD");
@@ -889,7 +898,59 @@
                 mapContainer.classList.add(`map-theme-street-${selectedTheme}`);
             }
         }
+        function filterMessageBoard(iTag) {
 
+            const filter = document.getElementById('messageBoardFilter').value;
+            const entries = document.querySelectorAll('#ledgerOutput > div');
+            let visibleCount = 0;
+            if (iTag) {
+                iTag = iTag.toLowerCase();
+            }
+            entries.forEach(entry => {
+                if (iTag) {
+                    if (entry.querySelector('.tag.' + iTag)) {
+                        entry.style.display = '';
+                        visibleCount++;
+                    } else {
+                        entry.style.display = 'none';
+                    }
+                } else {
+                    if (filter === 'SHOW ALL') {
+                        entry.style.display = '';
+                        visibleCount++;
+                    } else if (filter === 'quest' || filter === 'sighting' ) {
+                        if (entry.querySelector('.tag.' + filter)) {
+                            entry.style.display = '';
+                            visibleCount++;
+                        } else {
+                            entry.style.display = 'none';
+                        }
+                    }else if(filter==="comment"){
+                        if (entry.querySelector('.tag.quest')){
+                            entry.style.display = 'none';
+                        }else if(entry.querySelector('.tag.sighting')) {
+                            entry.style.display = 'none';
+                        }else{
+                            entry.style.display = '';
+                            visibleCount++;
+                        }
+                    }
+                }
+            });
+            // Update the dropdown text to include the count
+            if (iTag) {
+
+            } else {
+                const dropdown = document.getElementById('messageBoardFilter');
+                const selectedOption = dropdown.options[dropdown.selectedIndex];
+                const baseText = selectedOption.text.replace(/\s*\(\d+\)$/, '').trim(); // Remove existing count if any
+                selectedOption.text = `${baseText} (${visibleCount})`;
+            }
+
+        }
+
+        // Call it manually if needed (e.g., after fetchLatestEntries())
+        // filterMessageBoard();
 
         function loadLandmarksFromStorage() {
             try {
@@ -1002,8 +1063,8 @@
                                     opacity: 1,
                                     fillOpacity: 0.9
                                 });
-                                 const isNumeric = /^\d+$/.test(questId);
-                                marker.bindPopup(`<strong>Sighting for ${isNumeric?'Quest ':'' + questId}</strong><br>${item.eventText || ''}`);
+                                const isNumeric = /^\d+$/.test(questId);
+                                marker.bindPopup(`<strong>Sighting for ${isNumeric ? 'Quest ' : '' + questId}</strong><br>${item.eventText || ''}`);
                                 marker.addTo(sightingsLayerGroup);
                                 bounds.push([lat, lng]);
                             }
@@ -1348,6 +1409,20 @@
                         const element = document.createElement('div');
                         element.className = 'log-item';
                         element.style.position = 'relative';
+                        element.style.overflow = 'hidden';
+                        element.style.padding = '10px';
+                        element.style.borderRadius = '8px';
+                        element.style.marginBottom = '8px';
+                        element.style.backgroundSize = 'cover';
+                        element.style.backgroundPosition = 'center';
+
+                        // Set the background to the image with a dark overlay
+                        if (item.img) {
+                            element.style.background = `linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.8)), url('${item.img}')`;
+                        } else {
+                            element.style.background = '#1c1c1e'; // Fallback background
+                        }
+
 
                         let fullTimeStr = "Unknown Time";
                         let compactTimeStr = "Unknown";
@@ -1368,8 +1443,8 @@
                         }
 
                         const targetQuestId = item.questId || 'N/A';
-                        const isNumeric = /^\d+$/.test(questId);
-                        const questLink = isNumeric?
+                        const isNumeric = /^\d+$/.test(item.questId);
+                        const questLink = isNumeric ?
                             `<a href="https://magicbakery.github.io/?id=P${item.questId}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto; cursor:pointer">${item.questId}</a>` : `${item.questId}`;
 
                         const hasCoords = item.latitude && item.longitude;
@@ -1386,11 +1461,12 @@
                     <div style="margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px;">
                         ${item.tags.split(',').map(tag => {
                             const trimmedTag = tag.trim();
+                            const lowerTag = trimmedTag.toLowerCase();
                             if (trimmedTag.toUpperCase() === 'BOLO') {
                                 isBolo = true;
                             }
                             return `
-                                <span style="font-size: 10px; background: #2c2c2e; color: #a0aec0; padding: 2px 6px; border-radius: 4px; font-family: monospace;">
+                                <span class="tag ${lowerTag}" onclick="filterMessageBoard('${lowerTag}')" style="font-size: 10px; background: #2c2c2e; color: #a0aec0; padding: 2px 6px; border-radius: 4px; font-family: monospace;">
                                     #${trimmedTag}
                                 </span>
                             `;
@@ -1432,19 +1508,20 @@
                         const trailingPadding = imageUrl ? 'padding-right: 66px;' : 'padding-right: 20px;';
 
                         element.innerHTML = `
-                    <button class="dismiss-post-btn" style="position: absolute; bottom: 5px; right: 5px; background: none; border: none; color: #a0aec0; font-size: 16px; font-weight: bold; cursor: pointer; padding: 0 4px; line-height: 1;" title="Dismiss Post">×</button>
-                    
-                    <div class="meta-row">
-                        <span><strong style="color:#ffffff;"></strong> ${questLink} [${item.statusCode||'-'}]${mapBtnHtml}</span>
-                        <span style="color: #a0aec0; font-size: 11px;"><span title="${fullTimeStr}" style="cursor: help;">${compactTimeStr}</span> <span style="color: #ffffff;">${item.submitterId || 'User'}</span></span>
-                    </div>
-                    
-                    ${imgThumbnailHtml} 
-                    <div style="font-weight:500; color:#ffffff; margin-top: 4px; word-break: break-word; ${trailingPadding}">${item.eventText}</div>
-                    ${tagsHtml}
-                    ${boloActionsHtml}
-                    ${item.url ? `<div style="font-size:11px; margin-top:4px;"><a href="${item.url}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto;">Link</a></div>` : ''}
-                `;
+    <button class="dismiss-post-btn" style="position: absolute; bottom: 5px; right: 5px; background: none; border: none; color: #a0aec0; font-size: 16px; font-weight: bold; cursor: pointer; padding: 0 4px; line-height: 1;" title="Dismiss Post">×</button>
+
+    <div class="meta-row">
+        <span><strong style="color:#ffffff;"></strong> ${questLink} [${item.statusCode || '-'}]${mapBtnHtml}</span>
+        <span style="color: #a0aec0; font-size: 11px;"><span title="${fullTimeStr}" style="cursor: help;">${compactTimeStr}</span> <span style="color: #ffffff;">${item.submitterId || 'User'}</span></span>
+    </div>
+
+    ${imgThumbnailHtml}
+    <div style="color:#ffffff; margin-top: 4px; word-break: break-word; ${trailingPadding}">
+        ${item.eventText}${item.url ? ` <a href="${item.url}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto;">[Link]</a>` : ''}
+    </div>
+    ${boloActionsHtml}
+    ${tagsHtml}
+`;
 
                         // Add Event Listener to the newly generated close button
                         element.querySelector('.dismiss-post-btn').addEventListener('click', () => {
@@ -1466,6 +1543,7 @@
                 console.error("Layout Compilation Error Log:", error);
                 container.innerHTML = "<p style='color:#ff3b30; font-size:12px;'>Fetch Error.</p>";
             } finally {
+                filterMessageBoard();
                 if (refreshBtn) {
                     refreshBtn.disabled = false;
                     refreshBtn.style.opacity = '';
