@@ -31,7 +31,6 @@
 
         .panel {
             background: #1c1c1e;
-            /* Matte dark grey slate */
             padding: 5px;
             border-radius: 8px;
             border: 1px solid #2c2c2e;
@@ -44,14 +43,11 @@
         }
 
         h3 {
-            margin: 0 0 12px 0;
-            font-size: 14px;
+            margin: 5px 0px;
+            font-size: 16px;
             color: #ffffff;
-            /* Clean monochrome white headline */
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            border-bottom: 1px solid #2c2c2e;
-            padding-bottom: 6px;
         }
 
         /* Full Screen / Multi-Split Layout Core */
@@ -317,17 +313,16 @@
 
         button.submit-btn,
         .query-trigger-btn {
-            width: 100%;
-            background-color: #ffffff;
-            /* Stark monochrome light fill button */
-            color: #000000;
+            background: #006000; 
+            border: 2px solid black; 
+            border-radius: 10px; 
+            color: #FFFFFF;
             border: none;
-            padding: 8px;
-            font-size: 12px;
-            font-weight: bold;
+            padding: 3px 10px; 
+            font-size: 14px;
+            font-weight: normal;
             border-radius: 4px;
             cursor: pointer;
-            height: 34px;
             transition: background 0.2s;
         }
 
@@ -462,6 +457,9 @@
             display: none !important;
         }
 
+        .checkbox-container{
+            color: #ffffff; font-size: 12px;  font-weight: 500;
+        }
         .checkbox-container input {
             cursor: pointer;
             margin: 0;
@@ -480,6 +478,11 @@
             background: #ffd700;
             border-color: #ffd700;
         }
+        .checkbox-container.persistent input:checked {
+            background: #00C020;
+            border-color: #00C020;
+            color:white;
+        }
 
         .checkbox-container input:checked::after {
             content: '✓';
@@ -496,6 +499,10 @@
         {
             flex: 0 1 auto;
             min-height:27px;
+        }
+        #settingsSection{
+            max-height:100%; overflow-y:auto; overflow-x:hidden;
+            padding:5px;
         }
 
         .btn {
@@ -541,6 +548,7 @@
         }
         .entry-text{
             color:#ffffff;
+            font-size:14px;
             margin: 5px 0px;
             word-break: break-word;
         }
@@ -582,11 +590,12 @@
         .entry-title {
             color: white;
             font-weight: 500;
-            font-size: 14px;
+            font-size: 16px;
 
         }
-        .entry-title.comment{
-            font-size: 12px;
+        .log-item.tag-comment .entry-title,
+        .log-item.tag-sighting .entry-title{
+            font-size: 14px;
             font-weight: normal;
         }
         .entry-url{
@@ -632,11 +641,12 @@
                 style="margin: 0; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #ffffff;">
                 Message Board
             </h3>-->
-            <select id="messageBoardFilter" onchange="filterMessageBoard()"
+            <select id="messageBoardFilter" onclick="fetchFromCacheOnFirstStart()" onchange="filterMessageBoard()"
                 style="background: #2c2c2e; color: #ffffff; border: 1px solid #2c2c2e; border-radius: 4px; padding: 4px; font-size: 12px; cursor: pointer; margin-right:10px">
-                <option value="quest">Quests</option>
+                <option value="public quest">Public Quests</option>
                 <option value="sighting">Sightings</option>
                 <option value="comment">Comments</option>
+                <option value="dev">About this App</option>
                 <option value="SHOW ALL">Show all entries</option>
             </select>
 
@@ -649,7 +659,7 @@
                 <!-- Update the button in your HTML -->
                 <button id="refreshBtn" onclick="fetchLatestEntries(true)"
                     style="background: darkgreen; border: 1px solid darkgreen; border-radius:3px; padding: 0px; margin-left:-4px; margin-right:4px; margin-top:2px; cursor: pointer; display: flex; align-items: center;"
-                    title="Refresh">
+                    title="Force Refresh">
                     <svg style="width: 16px; height: 16px; fill: #ffffff;" viewBox="0 0 24 24">
                         <path
                             d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
@@ -680,14 +690,13 @@
 
         <form id="eventForm" onsubmit="submitEvent(event)">
             <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h3 style="margin: 0; color: #ffffff; font-size: 16px;">Send a Message</h3>
+                <h3>Send a Message</h3>
                 <!--<button type="submit" form="questLogForm"
                 style="background: #ffd700; color: #000000; border: none; padding: 6px 16px; font-weight: 600; font-size: 12px; border-radius: 4px; cursor: pointer;">
                 Send
             </button>-->
                 <div class="form-group submit-wrapper col-30">
-                    <button type="submit" id="submitBtn" class="submit-btn"
-                        style="background: #006000; color: #FFFFFF; border: none; padding: 6px 16px; font-weight: 600; font-size: 12px; border-radius: 4px; cursor: pointer;">Send</button>
+                    <button type="submit" id="submitBtn" class="submit-btn">Send</button>
                 </div>
 
             </div>
@@ -750,9 +759,9 @@
         </form>
     </div>
 
-    <div id="settingsSection" class="panel hidden" style="max-height:100%; overflow-y:auto; overflow-x:hidden">
+    <div id="settingsSection" class="panel hidden">
         <h3>Settings</h3>
-        <div class="form-group" style="margin-top: 10px;">
+        <div class="form-group">
             <label for="themeSelect">Street View Color Profile</label>
             <select id="themeSelect" onchange="updateStreetTheme(this.value)">
                 <option value="soft">Soft Contrast (Default Muted profile)</option>
@@ -760,29 +769,28 @@
                 <option value="cozy">Cozy Emerald (Deep Variant)</option>
             </select>
         </div>
-        <div class="form-group" style="margin-top: 14px;">
-            <label class="checkbox-container" style="color: #ffffff; font-size: 13px;  font-weight: 500;">
+        <div class="form-group" style="padding:5px">
+            <label class="checkbox-container persistent">
                 <input type="checkbox" id="crosshairToggle" onchange="updateCrosshairVisibility(this.checked)">
-                Show crosshair on map
+                Show crosshair on map (Persistent)
             </label>
-            <label class="checkbox-container" for="showSightingsInFeed"
-                style="display:none;color: #ffffff; font-size: 13px; font-weight: 500;">
+            <!--Disabled Checkbox-->
+            <label class="checkbox-container hidden" for="useCacheBuster">
+                <input type="checkbox" id="useCacheBuster" style="cursor: pointer;">
+                Skip the cache when fetching entries
+            </label>
+            
+            <label class="checkbox-container hidden" for="showSightingsInFeed">
                 <input type="checkbox" id="showSightingsInFeed" onchange="fetchLatestEntries(false)"
                     style="cursor: pointer;">
                 Show sighting reports on Quest Board
             </label>
 
         </div>
-        <div
-            style="margin-top: 20px; border-top: 1px solid #2c2c2e; padding-top: 12px; font-size: 12px; color: #a0aec0;">
-            <div style="margin-bottom: 8px;"><strong>App Version:</strong> <span id="appVersion"
-                    style="color: #ffffff; font-family: monospace;"></span></div>
-            <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 10px;">
-                <a href="https://magicbakery.github.io/?id=P202606271049" target="_blank" class="info-link">Magic Bakery
-                    Gadgets Lab</a>
-                <a href="https://nextdoor.com/p/5W3mJrs_6p_H" target="_blank" class="info-link">Quest Society at
-                    NextDoor</a>
-            </div>
+        <div>
+            Version: <span id="appVersion" style="color: #ffffff; font-family: monospace;"></span> |
+            <a href="https://magicbakery.github.io/?id=P202606271049" target="_blank" class="info-link">Magic Bakery</a> |
+            <a href="https://nextdoor.com/p/5W3mJrs_6p_H" target="_blank" class="info-link">NextDoor</a>
         </div>
     </div>
 
@@ -1009,8 +1017,11 @@
                 mapContainer.classList.add(`map-theme-street-${selectedTheme}`);
             }
         }
+        function fetchFromCacheOnFirstStart(){
+            // If the list has not been populated, load from cache.
+            if(!hasFetchedFromApi){fetchLatestEntries(false);}
+        }
         function filterMessageBoard(iTag) {
-            
             const filter = document.getElementById('messageBoardFilter').value;
             const entries = document.querySelectorAll('#ledgerOutput > div');
             let visibleCount = 0;
@@ -1034,26 +1045,22 @@
                         visibleCount++;
                         
                     }else {
-                        entry.style.display = 'none';
-                        
+                        entry.style.display = 'none';   
                     }
                 }else {
-                     if (filter === 'quest' || filter === 'sighting') {
-                        
-                        if (entry.querySelector('.tag.' + filter)) {
+                    if(filter === "public quest"){
+                        if (entry.querySelector('.tag.public') && entry.querySelector('.tag.quest')) {
                             entry.style.display = '';
                             visibleCount++;
                         } else {
                             entry.style.display = 'none';
                         }
-                    } else if (filter === "comment") {
-                        if (entry.querySelector('.tag.quest')) {
-                            entry.style.display = 'none';
-                        } else if (entry.querySelector('.tag.sighting')) {
-                            entry.style.display = 'none';
-                        } else {
+                    }else{
+                        if (entry.querySelector('.tag.' + filter)) {
                             entry.style.display = '';
                             visibleCount++;
+                        } else {
+                            entry.style.display = 'none';
                         }
                     }
                 }
@@ -1183,7 +1190,7 @@
                                 });
 
                                 const isNumeric = /^\d+$/.test(questId);
-                                marker.bindPopup(`${EntryThumbnail(item,"entry-thumbnail-popup")} <span style="float:right">${EntryURL(item)}</span>${questId}<br>${item.eventText || ''}`);
+                                marker.bindPopup(`${EntryThumbnail(item,"entry-thumbnail-popup")} <span style="float:right">${EntryURL(item)}</span>${EntryTitle(item)}<br>${item.eventText || ''}`);
                                 marker.addTo(sightingsLayerGroup);
                                 bounds.push([lat, lng]);
                             }
@@ -1489,18 +1496,20 @@
                 refreshBtn.style.opacity = '0.25';
                 refreshBtn.style.cursor = 'wait';
             }
-
             const container = document.getElementById('ledgerOutput');
             const totalDisplay = document.getElementById('totalEntriesVal');
             const pendingDisplay = document.getElementById('pendingReviewVal');
+            const useCacheBuster = document.getElementById('useCacheBuster').checked;
             const showSightingsCheckbox = document.getElementById('showSightingsInFeed');
             //const allowSightingsInFeed = showSightingsCheckbox ? showSightingsCheckbox.checked : false;
             const allowSightingsInFeed = true;
+            //bCacheBust &= useCacheBuster;
 
-            container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>Loading...</p>";
+            container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>Loading from server...</p>";
 
             try {
-                const response = await fetch(QuestSDK.apiUrl + ((bCacheBust || !hasFetchedFromApi) ? '?t=' + Date.now() : ''));
+                //const response = await fetch(QuestSDK.apiUrl + ((bCacheBust || !hasFetchedFromApi) ? '?t=' + Date.now() : ''));
+                const response = await fetch(QuestSDK.apiUrl + ((bCacheBust) ? '?t=' + Date.now() : ''));
 
                 const result = await response.json();
 
@@ -1583,6 +1592,7 @@
                             if (trimmedTag.toUpperCase() === 'BOLO') {
                                 isBolo = true;
                             }
+                            element.classList.add(`tag-${lowerTag}`);
                             return `
                                 <span class="tag ${lowerTag}" onclick="filterMessageBoard('${lowerTag}')" style="font-size: 10px; background: #2c2c2e; color: #a0aec0; padding: 2px 6px; border-radius: 4px; font-family: monospace;">
                                     #${trimmedTag}
@@ -1616,7 +1626,7 @@
 var html = `<div class="entry-titlebar" onclick="ToggleNext(this)">`;
 html += `<div style="float:right">`;
 html +=`<div style="display:inline-block;margin-right:5px;color: #a0aec0; font-size: 11px; cursor: help;" title="${fullTimeStr}">${compactTimeStr}</div>`;
-html += `<button class="dismiss-post-btn entry-dismiss-btn" title="Dismiss Post" onclick="EntryDismiss(event,this)">
+html += `<button class="dismiss-post-btn entry-dismiss-btn" title="Dismiss" onclick="EntryDismiss(event,this)">
         <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" focusable="false">
             <line x1="1" y1="1" x2="9" y2="9" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
             <line x1="9" y1="1" x2="1" y2="9" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
