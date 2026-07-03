@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quest App</title>
-    <script>const APP_VERSION = "20260702050845";</script>
+    <script>const APP_VERSION = "20260703035213";</script>
     <script src="config.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="qsdk.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
@@ -17,7 +18,7 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
-            padding: 10px 10px 75px 10px;
+            padding: 10px 10px 65px 10px;
             background-color: #000000;
             /* Pure black canvas background */
             color: #e2e8f0;
@@ -35,10 +36,10 @@
             border-radius: 8px;
             border: 1px solid #2c2c2e;
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
-            flex: 1 1 0%;
+            flex: 0 1 auto;
             display: flex;
             flex-direction: column;
-            min-height: 0;
+            min-height: 20vh;
             position: relative;
         }
 
@@ -58,6 +59,8 @@
             padding: 0;
             overflow: hidden;
             border: 1px solid #2c2c2e;
+        	flex: 1 1 auto;
+            
         }
 
         #map {
@@ -169,21 +172,26 @@
             height: 30px;
         }
 
+        .leaflet-container a{
+           color:inherit; 
+        }
         .leaflet-control-attribution {
             display: none !important;
         }
 
         .leaflet-popup-content-wrapper {
-            background: #1c1c1e !important;
+            background:#1c1c1e !important;
             color: #ffffff !important;
             border: 1px solid #2c2c2e;
             border-radius: 8px;
             padding: 2px !important;
-            margin-bottom: -5px;
+        }
+        .leaflet-popup-tip{
+            
         }
 
         .leaflet-popup-content {
-            margin: 4px !important;
+            margin: 2px !important;
         }
 
         .leaflet-popup-tip {
@@ -191,7 +199,7 @@
         }
 
         .leaflet-popup {
-            margin-bottom: 10px !important;
+            
         }
 
         .leaflet-popup-close-button {
@@ -375,22 +383,16 @@
         }
 
         .log-item {
-            background: #000000;
-            border: 1px solid #2c2c2e;
-            padding: 10px;
-            border-radius: 6px;
-            margin-top: 8px;
+            background: #000000;            
+            border-radius: 10px;
+            border: 2px solid black;
+            margin: 0px;
             font-size: 12px;
         }
-
-        .meta-row {
-            color: #a0aec0;
-            font-size: 11px;
-            margin-bottom: 4px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        #ledgerOutput>.log-item {
+            border: 2px solid black;
         }
+        
 
         .info-link {
             color: #ffffff;
@@ -489,6 +491,113 @@
             transform: translate(-50%, -50%);
             line-height: 1;
         }
+
+        #querySection
+        {
+            flex: 0 1 auto;
+            min-height:27px;
+        }
+
+        .btn {
+            align-items: center;
+            border-radius:3px;
+            color:white;
+            cursor: pointer;
+            display: inline-flex;
+            height: 18px;
+            justify-content: center;
+            padding:0px;            
+            width: 24px;
+        }
+        .btn.comment-add{
+            background:#006000;
+            border: 1px solid #006000;
+            border-radius:0px 3px 3px 0px;
+        }
+        .btn.comment-list{
+            background:#006000;
+            border: 1px solid #006000;
+            border-radius:3px 0px 0px 3px;
+        }
+
+        .entry-content{
+            padding:5px 5px 5px 5px;
+        }
+
+        .entry-dismiss-btn{
+            background: #202020; border: 1px solid #202020; border-radius:3px; color: white; font-weight: bold; cursor: pointer; width:16px; height:16px; padding:0; margin:2px 0px 0px 0px;display:inline-flex; align-items:center; justify-content:center;
+        }
+        .entry-link{
+            text-decoration:underline; 
+            pointer-events: auto; 
+            cursor:pointer"
+        }
+        .entry-status{
+            background:none;
+            color:gold;
+            margin-left:2px;
+            padding:0px 2px;
+
+        }
+        .entry-text{
+            color:#ffffff;
+            margin: 5px 0px;
+            word-break: break-word;
+        }
+        .entry-thumbnail {
+            display:block;
+            float:left; 
+            margin:0px 5px 0px 0px;
+            width: 100px; height: 80px; 
+            border-radius: 6px; overflow: hidden; border: 1px solid #3a3a3c; background: #1c1c1e;
+            object-fit: cover; cursor: pointer;
+        }
+        .entry-thumbnail-popup {
+            display:block;
+            float:left; 
+            margin:0px 5px 5px 0px;
+            height: 40px; 
+            width: 40px; 
+            border-radius: 6px; overflow: hidden; border: 1px solid #3a3a3c; background: #1c1c1e;
+            object-fit: cover; cursor: pointer;
+        }
+        
+        .entry-titlebar {
+            background: #006000;            
+            color: white;
+            font-size: 11px;
+            padding:5px;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #ledgerOutput>.log-item>.entry-titlebar{
+            background: #003060;            
+            color: white;
+            font-size: 11px;
+            padding:5px;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .entry-title {
+            color: white;
+            font-weight: 500;
+            font-size: 14px;
+
+        }
+        .entry-title.comment{
+            font-size: 12px;
+            font-weight: normal;
+        }
+        .entry-url{
+            color:#ffffff; text-decoration:underline; pointer-events: auto;
+        }
+        
+        .hide{
+            display: none;
+        }
+
+        /*#CSS*/
     </style>
 </head>
 
@@ -523,12 +632,12 @@
                 style="margin: 0; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #ffffff;">
                 Message Board
             </h3>-->
-            <select id="messageBoardFilter" onClick="filterMessageBoard()"
+            <select id="messageBoardFilter" onchange="filterMessageBoard()"
                 style="background: #2c2c2e; color: #ffffff; border: 1px solid #2c2c2e; border-radius: 4px; padding: 4px; font-size: 12px; cursor: pointer; margin-right:10px">
                 <option value="quest">Quests</option>
                 <option value="sighting">Sightings</option>
                 <option value="comment">Comments</option>
-                <option value="SHOW ALL">Show all messages</option>
+                <option value="SHOW ALL">Show all entries</option>
             </select>
 
             <span style="display: flex; align-items: center; gap: 10px;">
@@ -539,7 +648,7 @@
                 </span>
                 <!-- Update the button in your HTML -->
                 <button id="refreshBtn" onclick="fetchLatestEntries(true)"
-                    style="background: none; border: none; padding: 0px; margin-left:-4px; margin-right:4px; margin-top:2px; cursor: pointer; display: flex; align-items: center;"
+                    style="background: darkgreen; border: 1px solid darkgreen; border-radius:3px; padding: 0px; margin-left:-4px; margin-right:4px; margin-top:2px; cursor: pointer; display: flex; align-items: center;"
                     title="Refresh">
                     <svg style="width: 16px; height: 16px; fill: #ffffff;" viewBox="0 0 24 24">
                         <path
@@ -586,13 +695,17 @@
 
 
             <div class="form-row">
-                <div class="form-group col-40">
+                <div class="form-group col-25">
                     <input type="text" id="questId" placeholder="Quest ID">
                 </div>
-                <div class="form-group col-30">
-                    <input type="text" id="statusCode" value="" placeholder="Status">
+                <div class="form-group col-35">
+                    <input type="text" id="title" placeholder="Title">
                 </div>
-                <div class="form-group col-30">
+                
+                <div class="form-group col-20">
+                    <input type="text" id="status" value="" placeholder="Status">
+                </div>
+                <div class="form-group col-20">
                     <input type="text" id="submitterId" value="" placeholder="Submitter">
                     <!--<input type="text" id="submitterId" required>-->
                 </div>
@@ -653,7 +766,7 @@
                 Show crosshair on map
             </label>
             <label class="checkbox-container" for="showSightingsInFeed"
-                style="color: #ffffff; font-size: 13px; font-weight: 500;">
+                style="display:none;color: #ffffff; font-size: 13px; font-weight: 500;">
                 <input type="checkbox" id="showSightingsInFeed" onchange="fetchLatestEntries(false)"
                     style="cursor: pointer;">
                 Show sighting reports on Quest Board
@@ -818,7 +931,6 @@
             container.style.display = 'flex';
             container.style.alignItems = 'center';
             container.style.gap = '5px';
-            container.style.padding = '2px';
 
             // Caption Input Textbox (Centered Text)
             const input = document.createElement('input');
@@ -850,7 +962,7 @@
             const deleteBtn = document.createElement('button');
             deleteBtn.textContent = '×';
             deleteBtn.title = 'Delete Landmark';
-            deleteBtn.style.background = '#303030';
+            deleteBtn.style.background = '#800000';
             deleteBtn.style.color = '#ffffff';
             deleteBtn.style.border = 'none';
             deleteBtn.style.borderRadius = '4px';
@@ -878,13 +990,12 @@
                 autoClose: false,
                 closeOnClick: false,
                 closeButton: false,
-                offset: [0, -10]
+                offset: [-1, 25]
             });
 
             if (shouldSave) {
                 saveLandmarksToStorage();
-            }
-
+            }            
             return marker;
         }
         function applyFilterState() {
@@ -899,38 +1010,48 @@
             }
         }
         function filterMessageBoard(iTag) {
-
+            
             const filter = document.getElementById('messageBoardFilter').value;
             const entries = document.querySelectorAll('#ledgerOutput > div');
             let visibleCount = 0;
             if (iTag) {
                 iTag = iTag.toLowerCase();
             }
-            entries.forEach(entry => {
-                if (iTag) {
-                    if (entry.querySelector('.tag.' + iTag)) {
+            entries.forEach(entry => {                 
+                if(filter==="SHOW ALL" && !iTag){
+                    entry.style.display = '';
+                    entry.classList.remove("dismissed")
+                    visibleCount++;
+                }else if(entry.classList.contains("dismissed")){
+                    // Do nothing;
+                    entry.style.display = 'none';              
+                }else if(iTag){
+                    // Clicking on a tag does not reveal entries they are already filtered out.
+                    if(entry.style.display=="none"){
+                        
+                    }else if (entry.querySelector('.tag.' + iTag)) {
                         entry.style.display = '';
                         visibleCount++;
-                    } else {
+                        
+                    }else {
                         entry.style.display = 'none';
+                        
                     }
-                } else {
-                    if (filter === 'SHOW ALL') {
-                        entry.style.display = '';
-                        visibleCount++;
-                    } else if (filter === 'quest' || filter === 'sighting' ) {
+                }else {
+                     if (filter === 'quest' || filter === 'sighting') {
+                        
                         if (entry.querySelector('.tag.' + filter)) {
                             entry.style.display = '';
                             visibleCount++;
                         } else {
                             entry.style.display = 'none';
                         }
-                    }else if(filter==="comment"){
-                        if (entry.querySelector('.tag.quest')){
+                    } else if (filter === "comment") {
+                        if (entry.querySelector('.tag.quest')) {
                             entry.style.display = 'none';
-                        }else if(entry.querySelector('.tag.sighting')) {
+                        } else if (entry.querySelector('.tag.sighting')) {
                             entry.style.display = 'none';
-                        }else{
+                        } else {
                             entry.style.display = '';
                             visibleCount++;
                         }
@@ -938,14 +1059,11 @@
                 }
             });
             // Update the dropdown text to include the count
-            if (iTag) {
 
-            } else {
-                const dropdown = document.getElementById('messageBoardFilter');
-                const selectedOption = dropdown.options[dropdown.selectedIndex];
-                const baseText = selectedOption.text.replace(/\s*\(\d+\)$/, '').trim(); // Remove existing count if any
-                selectedOption.text = `${baseText} (${visibleCount})`;
-            }
+            const dropdown = document.getElementById('messageBoardFilter');
+            const selectedOption = dropdown.options[dropdown.selectedIndex];
+            const baseText = selectedOption.text.replace(/\s*\(\d+\)$/, '').trim(); // Remove existing count if any
+            selectedOption.text = `${baseText} (${visibleCount})`;
 
         }
 
@@ -983,7 +1101,7 @@
             if (!formSection) return;
 
             // Remove hidden flag to show the panel drawer container
-            formSection.classList.remove('hidden');
+            toggleModule('form', true)
 
             // Prefill the Form Fields
             document.getElementById('questId').value = questId;
@@ -1063,8 +1181,9 @@
                                     opacity: 1,
                                     fillOpacity: 0.9
                                 });
+
                                 const isNumeric = /^\d+$/.test(questId);
-                                marker.bindPopup(`<strong>Sighting for ${isNumeric ? 'Quest ' : '' + questId}</strong><br>${item.eventText || ''}`);
+                                marker.bindPopup(`${EntryThumbnail(item,"entry-thumbnail-popup")} <span style="float:right">${EntryURL(item)}</span>${questId}<br>${item.eventText || ''}`);
                                 marker.addTo(sightingsLayerGroup);
                                 bounds.push([lat, lng]);
                             }
@@ -1207,12 +1326,12 @@
             }
         }
 
-        function toggleModule(moduleKey) {
+        function toggleModule(moduleKey, bShow) {
             const mod = modules[moduleKey];
             const targetElement = document.getElementById(mod.elementId);
             const targetButton = document.getElementById(mod.btnId);
 
-            if (targetElement.classList.contains('hidden')) {
+            if (bShow || targetElement.classList.contains('hidden')) {
                 targetElement.classList.remove('hidden');
                 targetButton.classList.add('active');
             } else {
@@ -1283,12 +1402,13 @@
             const statusMsg = document.getElementById('statusMessage');
             const submitterId = document.getElementById('submitterId').value;
             const questId = document.getElementById('questId').value;
-            const statusCode = document.getElementById('statusCode').value || "";
+            const status = document.getElementById('status').value || "";
             const imgField = document.getElementById('img').value;
             const urlField = document.getElementById('url').value;
             const tags = document.getElementById('tags').value;
             const lat = document.getElementById('latField').value;
             const lng = document.getElementById('lngField').value;
+            const title = document.getElementById('title').value;
 
 
             let eventText = document.getElementById('eventText').value || ``;
@@ -1302,7 +1422,7 @@
             const formData = new URLSearchParams();
             formData.append('submitterId', submitterId);
             formData.append('questId', questId);
-            formData.append('statusCode', statusCode);
+            formData.append('status', status);
             formData.append('img', imgField);
             formData.append('url', urlField);
             formData.append('tags', tags);
@@ -1311,6 +1431,7 @@
             formData.append('lng', lng);
             formData.append('cId', clientBD);
             formData.append('cLv', clientLV);
+            formData.append('title', title);
 
             try {
                 await fetch(QuestSDK.apiUrl, {
@@ -1329,7 +1450,8 @@
                 document.getElementById('eventText').value = "";
                 document.getElementById('latField').value = "";
                 document.getElementById('lngField').value = "";
-                document.getElementById('statusCode').value = "";
+                document.getElementById('status').value = "";
+                //document.getElementById('title').value = "";
                 document.getElementById('useCrosshairCoords').checked = false;
 
 
@@ -1368,12 +1490,12 @@
                 refreshBtn.style.cursor = 'wait';
             }
 
-
             const container = document.getElementById('ledgerOutput');
             const totalDisplay = document.getElementById('totalEntriesVal');
             const pendingDisplay = document.getElementById('pendingReviewVal');
             const showSightingsCheckbox = document.getElementById('showSightingsInFeed');
-            const allowSightingsInFeed = showSightingsCheckbox ? showSightingsCheckbox.checked : false;
+            //const allowSightingsInFeed = showSightingsCheckbox ? showSightingsCheckbox.checked : false;
+            const allowSightingsInFeed = true;
 
             container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>Loading...</p>";
 
@@ -1410,18 +1532,21 @@
                         element.className = 'log-item';
                         element.style.position = 'relative';
                         element.style.overflow = 'hidden';
-                        element.style.padding = '10px';
-                        element.style.borderRadius = '8px';
-                        element.style.marginBottom = '8px';
+                        
                         element.style.backgroundSize = 'cover';
                         element.style.backgroundPosition = 'center';
 
+                        // Save the Quest ID
+                        element.dataset.questId = item.questId;
+                        element.dataset.timestamp = item.timestamp;
+
                         // Set the background to the image with a dark overlay
+                        /*
                         if (item.img) {
                             element.style.background = `linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.8)), url('${item.img}')`;
                         } else {
                             element.style.background = '#1c1c1e'; // Fallback background
-                        }
+                        }*/
 
 
                         let fullTimeStr = "Unknown Time";
@@ -1447,18 +1572,11 @@
                         const questLink = isNumeric ?
                             `<a href="https://magicbakery.github.io/?id=P${item.questId}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto; cursor:pointer">${item.questId}</a>` : `${item.questId}`;
 
-                        const hasCoords = item.latitude && item.longitude;
-                        const mapBtnHtml = hasCoords ? `
-                    <button onclick="panToCoordinate(${item.latitude}, ${item.longitude})" title="Pan to Coordinates" style="background:none; border:none; padding:2px 6px; cursor:pointer; display:inline-flex; align-items:center; vertical-align:middle;">
-                        <svg viewBox="0 0 24 24" style="width:14px; height:14px; fill:#ffffff;">
-                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                        </svg>
-                    </button>
-                ` : '';
+                       
 
                         let isBolo = false;
                         const tagsHtml = item.tags ? `
-                    <div style="margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px;">
+                    <div style="display: flex; flex-wrap: wrap; gap: 4px;">
                         ${item.tags.split(',').map(tag => {
                             const trimmedTag = tag.trim();
                             const lowerTag = trimmedTag.toLowerCase();
@@ -1482,59 +1600,59 @@
                             : 'background: #1c1c1e; color: #ffd700;';
 
                         const boloActionsHtml = isBolo ? `
-                    <div style="margin-top: 8px; display: flex; gap: 8px;">
-                        <button class="sighting-toggle-btn" data-quest-id="${item.questId}" onclick="showBoloSightings('${item.questId}')" style="${btnStyle} border: 1px solid #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600; transition: all 0.2s ease;">
+                    <div class="entry-actions" style=" display: flex; gap: 8px;">
+                        <button class="sighting-toggle-btn" data-quest-id="${item.questId}" onclick="showBoloSightings('${item.timestamp}')" style="${btnStyle} border: 1px solid #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600; transition: all 0.2s ease;">
                             ${btnText}
                         </button>
-                        <button onclick="reportBoloSighting('${item.questId}')" style="background: #1c1c1e; border: 1px solid #ffd700; color: #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600;">
+                        <button onclick="reportBoloSighting('${item.timestamp}')" style="background: #1c1c1e; border: 1px solid #ffd700; color: #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600;">
                             Add Sighting
                         </button>
                     </div>
                 ` : '';
 
-                        // NEW CHANGE: Pull image target directly from the spreadsheet column property
-                        // Checks for both lowercase 'item.img' or uppercase 'item.IMG' depending on your API serializer
-                        const imageUrl = item.img || item.IMG || "";
 
-                        const imgThumbnailHtml = imageUrl ? `
-                    <div style="position: absolute; right: 8px; top: 28px; width: 50px; height: 50px; border-radius: 6px; overflow: hidden; border: 1px solid #3a3a3c; background: #1c1c1e;">
-                        <a href="${imageUrl}" target="_blank" onclick="window.open(this.href, '_blank'); return false;">
-                            <img src="${imageUrl}" alt="Attachment" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;" onerror="this.parentNode.parentNode.style.display='none';">
-                        </a>
-                    </div>
-                ` : '';
+                        // Start element content html
+                        // Title
+var html = `<div class="entry-titlebar" onclick="ToggleNext(this)">`;
+html += `<div style="float:right">`;
+html +=`<div style="display:inline-block;margin-right:5px;color: #a0aec0; font-size: 11px; cursor: help;" title="${fullTimeStr}">${compactTimeStr}</div>`;
+html += `<button class="dismiss-post-btn entry-dismiss-btn" title="Dismiss Post" onclick="EntryDismiss(event,this)">
+        <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" focusable="false">
+            <line x1="1" y1="1" x2="9" y2="9" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="9" y1="1" x2="1" y2="9" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        </svg></button>`;
 
-                        // Dynamically offset padding based on image presence so text doesn't overlap it
-                        const trailingPadding = imageUrl ? 'padding-right: 66px;' : 'padding-right: 20px;';
+html += `</div>`;
 
-                        element.innerHTML = `
-    <button class="dismiss-post-btn" style="position: absolute; bottom: 5px; right: 5px; background: none; border: none; color: #a0aec0; font-size: 16px; font-weight: bold; cursor: pointer; padding: 0 4px; line-height: 1;" title="Dismiss Post">×</button>
+ const hasCoords = item.latitude && item.longitude;
+const mapBtnHtml = hasCoords ? `<button onclick="panToCoordinate(${item.latitude}, ${item.longitude})" title="Pan to Coordinates" style="background:none; border:none; margin: 2px -5px 2px 0px; cursor:pointer; display:inline-flex; align-items:center; vertical-align:middle;"><svg viewBox="0 0 24 24" style="width:14px; height:14px; fill:#ffffff;">
+    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+</svg></button>` : '';
+html += EntryTitle(item);
+html += `<span class="entry-title">${mapBtnHtml}</span>`;
+html += EntryStatus(item);
+html += `</div><div class="entry-content hide">`; 
+html += EntryThumbnail(item,"entry-thumbnail");
+html += `<span style="float:right; color: #ffffff; margin-right:5px">${item.submitterId || 'User'}</span>`;
+html += `${tagsHtml}`;
+html += `<div class="entry-text">${item.eventText} ${EntryURL(item)}</div>`;
+html += `${boloActionsHtml}`;
+html += EntryStandardButtons(item);
+html += `<div class="commentsSection" style="clear:both; margin:0px -5px;display:none;"></div>`;
+                        
+                        
 
-    <div class="meta-row">
-        <span><strong style="color:#ffffff;"></strong> ${questLink} [${item.statusCode || '-'}]${mapBtnHtml}</span>
-        <span style="color: #a0aec0; font-size: 11px;"><span title="${fullTimeStr}" style="cursor: help;">${compactTimeStr}</span> <span style="color: #ffffff;">${item.submitterId || 'User'}</span></span>
-    </div>
-
-    ${imgThumbnailHtml}
-    <div style="color:#ffffff; margin-top: 4px; word-break: break-word; ${trailingPadding}">
-        ${item.eventText}${item.url ? ` <a href="${item.url}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto;">[Link]</a>` : ''}
-    </div>
-    ${boloActionsHtml}
-    ${tagsHtml}
-`;
+                        element.innerHTML = html;
 
                         // Add Event Listener to the newly generated close button
-                        element.querySelector('.dismiss-post-btn').addEventListener('click', () => {
-                            element.style.opacity = '0';
-                            element.style.transform = 'scale(0.95)';
-                            element.style.transition = 'all 0.2s ease';
-                            setTimeout(() => {
-                                element.remove();
-                                if (container.children.length === 0) {
-                                    container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>No active quests.</p>";
-                                }
-                            }, 200);
-                        });
+                        /*element.querySelector('.dismiss-post-btn').addEventListener('click', () => {
+                            const logItem = element.closest('.log-item');
+                            if (logItem) logItem.style.display = 'none';
+                            element.classList.add("dismissed");
+                            if (container.children.length === 0) {
+                                container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>No active quests.</p>";
+                            }
+                        });*/
 
                         container.appendChild(element);
                     });
