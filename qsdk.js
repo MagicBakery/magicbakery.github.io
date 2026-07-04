@@ -92,7 +92,7 @@ function DEBUG(iStr){
 function EntryDismiss(e, btn){
   e.stopPropagation();
   const logItem = btn.closest('.log-item');
-  if (logItem) logItem.style.display = 'none';
+  if (logItem) logItem.classList.add('hidden');
   logItem.classList.add('dismissed');
 }
 function EntryListComments(questId,btn){
@@ -102,7 +102,7 @@ function EntryListComments(questId,btn){
 
 // Ensure comments container exists as the last child
   let commentsSection = logItem.querySelector('.commentsSection');
-  commentsSection.style.display = "block";
+  commentsSection.classList.remove('hidden');
 
   // Avoid doing duplicate work if already showing for the same questId
   commentsSection.dataset.questId = questId; 
@@ -119,7 +119,7 @@ function EntryListComments(questId,btn){
 
   // If none exist, show empty state
   if (candidates.length === 0) {
-    commentsSection.style.display="none";
+    commentsSection.classList.add('hidden');
     return;
   }
 
@@ -132,8 +132,8 @@ function EntryListComments(questId,btn){
 
     // Move into this entry's comments section
     // (If you want to remove from DOM only once, this does that.)
-    frag.appendChild(item);
-    item.style.display = "block";
+    frag.appendChild(item);    
+    item.classList.remove('hidden');
   }
 
   // Clear current comments and add moved ones
@@ -156,9 +156,12 @@ function EntryStandardButtons(entry){
       <path d="M8 3.5v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </svg></button>`;
     var addCommentBtnHTML = `<button class="btn comment-add" title="Add a Comment" onclick="FormSetQuest('${entry.timestamp}',this)">
- <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-      <path d="M3.5 8h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-      <path d="M8 3.5v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+      <path d="M2.8 2.8h10.4c.55 0 1 .45 1 1v6.3c0 .55-.45 1-1 1H7.1L4 13.7V11.1H2.8c-.55 0-1-.45-1-1V3.8c0-.55.45-1 1-1z"
+            fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+    </svg>
+
+
 </button>`;   
  // return showBtnHTML + commentBtnHTML;
  return addCommentBtnHTML;
@@ -197,7 +200,7 @@ function EntryThumbnail(entry,iClass){
   if(!imageUrl){return "";}
   return `<div >
           <a href="${imageUrl}" target="_blank" onclick="window.open(this.href, '_blank'); return false;">
-          <img class="${iClass}" src="${imageUrl}" alt="Attachment" onerror="this.parentNode.parentNode.style.display='none';">
+          <img class="${iClass}" src="${imageUrl}" alt="Attachment" onerror="this.parentNode.parentNode.classList.add('hidden');">
           </a></div>`;
 };
 function EntryURL(entry){

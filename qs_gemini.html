@@ -389,13 +389,14 @@
         }
 
         #ledgerOutput {
+            background: #101010;
             margin-bottom: 5px;
             overflow-y: auto;
             flex: 1;
         }
 
         .log-item {
-            background: #000000;
+            background: rgba(128,128,128,0.025);
             border-radius: 10px;
             border: 2px solid black;
             margin: 0px;
@@ -544,9 +545,9 @@
         }
 
         .btn.comment-add {
-            background: #404040;
+            background: none;
             border-radius: 5px;
-            color: black;
+            color: white;
             height: 20px;
             width: 20px;
             float: right;
@@ -755,7 +756,7 @@
                 <option value="quest">Quests</option>
                 <option value="sighting">Sightings</option>
                 <option value="comment">Comments</option>
-
+                <option value="selected">Selected</option>
                 <option value="SHOW ALL">Show all entries</option>
             </select>
             <span style="font-size: 12px; color: #a0aec0; font-family: monospace; white-space: nowrap;margin:0px 5px">
@@ -1171,37 +1172,43 @@
             }
             entries.forEach(entry => {
                 if (filter === "SHOW ALL" && !iTag) {
-                    entry.style.display = '';
+                    entry.classList.remove('hidden');
                     entry.classList.remove("dismissed")
                     visibleCount++;
+                }else if(filter==="selected"){
+                    if(entry.classList.contains('selected')){
+
+                    }else{
+
+                    }
                 } else if (entry.classList.contains("dismissed")) {
                     // Do nothing;
-                    entry.style.display = 'none';
+                    entry.classList.add('hidden');
                 } else if (iTag) {
                     // Clicking on a tag does not reveal entries they are already filtered out.
-                    if (entry.style.display == "none") {
+                    if (entry.classList.contains('hidden')) {
 
                     } else if (entry.querySelector('.tag.' + iTag)) {
-                        entry.style.display = '';
+                        entry.classList.remove('hidden');
                         visibleCount++;
 
                     } else {
-                        entry.style.display = 'none';
+                        entry.classList.add('hidden');
                     }
                 } else {
                     if (filter === "public quest") {
                         if (entry.querySelector('.tag.public') && entry.querySelector('.tag.quest')) {
-                            entry.style.display = '';
+                            entry.classList.remove('hidden');
                             visibleCount++;
                         } else {
-                            entry.style.display = 'none';
+                            entry.classList.add('hidden');
                         }
                     } else {
                         if (entry.querySelector('.tag.' + filter)) {
-                            entry.style.display = '';
+                            entry.classList.remove('hidden');
                             visibleCount++;
                         } else {
-                            entry.style.display = 'none';
+                            entry.classList.add('hidden');
                         }
                     }
                 }
@@ -1834,7 +1841,7 @@
                         html += `<div class="entry-text">${item.eventText} ${EntryURL(item)} ${EntryStandardButtons(item)}</div>`;
                         html += `${boloActionsHtml}`;
                         //html += EntryStandardButtons(item);
-                        html += `<div class="commentsSection" style="clear:both; margin:0px -5px;display:none;"></div>`;
+                        html += `<div class="commentsSection hidden" style="clear:both; margin:0px -5px;"></div>`;
 
 
 
