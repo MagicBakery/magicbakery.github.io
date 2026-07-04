@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quest App</title>
-    <script>const APP_VERSION = "20260704001618";</script>
+    <script>const APP_VERSION = "20260704114453";</script>
     <script src="config.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="qsdk.js"></script>
@@ -18,7 +18,7 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
-            
+
             padding: 10px 10px 65px 10px;
             background-color: #000000;
             /* Pure black canvas background */
@@ -244,7 +244,7 @@
         #settingsSection .form-group {
             border-top: 1px solid #404040;
             padding: 5px 0px;
-            
+
         }
 
         .col-20 {
@@ -332,7 +332,7 @@
         .query-trigger-btn {
             background: #006000;
             border: 2px solid black !important;
-            border-radius: 10px  !important;
+            border-radius: 10px !important;
             color: #FFFFFF;
             border: none;
             padding: 3px 10px;
@@ -527,7 +527,7 @@
             overflow-y: auto;
             overflow-x: hidden;
             padding: 5px;
-            min-height:56px;
+            min-height: 56px;
         }
 
         .btn {
@@ -544,8 +544,12 @@
         }
 
         .btn.comment-add {
-            background: #006000;
-            border-radius: 0px 8px 8px 0px;
+            background: #404040;
+            border-radius: 5px;
+            color: black;
+            height: 20px;
+            width: 20px;
+            float: right;
         }
 
         .btn.comment-list {
@@ -642,8 +646,7 @@
             align-items: center;
         }
 
-        #querySection:has(#apiSource.public)
-        #ledgerOutput>.log-item>.entry-titlebar {
+        #querySection:has(#apiSource.public) #ledgerOutput>.log-item>.entry-titlebar {
             background: #003060;
             color: white;
             font-size: 11px;
@@ -651,17 +654,17 @@
             justify-content: space-between;
             align-items: center;
         }
-        #querySection:has(#apiSource.guild)
-        #ledgerOutput>.log-item>.entry-titlebar {
-            background: #402020;
+
+        #querySection:has(#apiSource.guild) #ledgerOutput>.log-item>.entry-titlebar {
+            background: #502000;
             color: white;
             font-size: 11px;
             padding: 5px;
             justify-content: space-between;
             align-items: center;
         }
-        #querySection:has(#apiSource.personal)
-        #ledgerOutput>.log-item>.entry-titlebar {
+
+        #querySection:has(#apiSource.personal) #ledgerOutput>.log-item>.entry-titlebar {
             background: #404040;
             color: white;
             font-size: 11px;
@@ -688,8 +691,9 @@
             text-decoration: underline;
             pointer-events: auto;
         }
-        .scope-selector{
-            background:none;
+
+        .scope-selector {
+            background: none;
             border: none;
             padding: 4px;
             font-size: 12px;
@@ -698,11 +702,12 @@
             text-align: center;
             margin-right: 5px;
         }
-        .timestamp.click-to-copy{
-            display:inline-block;
-            margin-right:5px;
-            color: #a0aec0; 
-            font-size: 11px; 
+
+        .timestamp.click-to-copy {
+            display: inline-block;
+            margin-right: 5px;
+            color: #a0aec0;
+            font-size: 11px;
             cursor: help;
         }
 
@@ -738,39 +743,40 @@
     <div id="querySection" class="panel hidden">
         <div id="ledgerOutput" class="hidden"></div>
         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-            <select id="apiSource" class="scope-selector public" style="text-align: left;" onchange="hasFetchedFromApi=false;ScopeSelect(this);fetchFromCacheOnFirstStart()">
+            <select id="apiSource" class="scope-selector public" style="text-align: left;"
+                onchange="hasFetchedFromApi=false;ScopeSelect(this);fetchFromCacheOnFirstStart()">
                 <option value="public">Public</option>
                 <option value="guild">Guild</option>
                 <option value="personal">Self</option>
-            </select>  
+            </select>
             <select id="messageBoardFilter" onclick="fetchFromCacheOnFirstStart()" onchange="filterMessageBoard()"
                 style="background: #2c2c2e; color: #ffffff; border: 2px solid black; border-radius: 10px; padding: 4px; font-size: 12px; cursor: pointer;">
                 <option value="about">About</option>
                 <option value="quest">Quests</option>
                 <option value="sighting">Sightings</option>
                 <option value="comment">Comments</option>
-                
+
                 <option value="SHOW ALL">Show all entries</option>
             </select>
             <span style="font-size: 12px; color: #a0aec0; font-family: monospace; white-space: nowrap;margin:0px 5px">
-                    <span id="totalEntriesVal" title="Total Messages"
-                        style="color: #ffffff; font-weight: bold;">0</span>.<span id="pendingReviewVal"
-                        title="Pending Messages" style="color: goldenrod; font-weight: bold;">0</span>
-                </span>
-                <!-- Update the button in your HTML -->
-                <button id="refreshBtn" onclick="fetchLatestEntries(true)"
-                    style="background: darkgreen; border: 2px solid black; border-radius:10px; padding: 0px; margin-right:4px; margin-top:2px; cursor: pointer; display: flex; align-items: center;"
-                    title="Force Refresh">
-                    <svg style="width: 16px; height: 16px; fill: #ffffff;" viewBox="0 0 24 24">
-                        <path
-                            d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
-                    </svg>
-                </button>
-           
+                <span id="totalEntriesVal" title="Total Messages"
+                    style="color: #ffffff; font-weight: bold;">0</span>.<span id="pendingReviewVal"
+                    title="Pending Messages" style="color: goldenrod; font-weight: bold;">0</span>
+            </span>
+            <!-- Update the button in your HTML -->
+            <button id="refreshBtn" onclick="fetchLatestEntries(true)"
+                style="background: darkgreen; border: 2px solid black; border-radius:10px; padding: 0px; margin-right:4px; margin-top:2px; cursor: pointer; display: flex; align-items: center;"
+                title="Force Refresh">
+                <svg style="width: 16px; height: 16px; fill: #ffffff;" viewBox="0 0 24 24">
+                    <path
+                        d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
+                </svg>
+            </button>
+
         </div>
 
 
-        
+
     </div>
 
     <div id="formSection" class="panel hidden"
@@ -787,7 +793,7 @@
                         <option value="guild">To Guild</option>
                         <option value="personal">To Self</option>
                         <option value="locked">LOCK</option>
-                    </select>                    
+                    </select>
                     <button type="submit" id="submitBtn" class="submit-btn">Send</button>
                 </div>
 
@@ -796,10 +802,10 @@
 
 
             <div class="form-row">
-                <div class="form-group col-50" >
+                <div class="form-group col-50">
                     <input style="font-size:12px;padding:8px" type="text" id="questId" placeholder="Parent ID">
                 </div>
-                
+
 
                 <div class="form-group col-25">
                     <input type="text" id="status" value="" placeholder="Status">
@@ -813,8 +819,7 @@
             </div>
             <div class="form-row" style="margin-bottom: 0; width:100%">
                 <div class="form-group">
-                    <textarea id="eventText" placeholder="Post Message"
-                        style="resize:vertical; height:6em"></textarea>
+                    <textarea id="eventText" placeholder="Post Message" style="resize:vertical; height:6em"></textarea>
 
                 </div>
             </div>
@@ -832,7 +837,8 @@
             </div>
             <div class="form-row">
                 <div class="form-group col-50" style="justify-content: flex-end;">
-                    <label class="checkbox-container" style="text-align: right;font-weight: normal; justify-content: right;align-items: center;padding:0px 5px 5px 0px;">
+                    <label class="checkbox-container"
+                        style="text-align: right;font-weight: normal; justify-content: right;align-items: center;padding:0px 5px 5px 0px;">
                         Use Map Coordinate
                         <input type="checkbox" id="useCrosshairCoords" onchange="toggleCrosshairSync(this.checked)">
                     </label>
@@ -850,20 +856,23 @@
     </div>
 
     <div id="settingsSection" class="panel hidden">
-        
+
         <h3>Settings</h3>
         <div>
             <div class="btn settings-tab" onclick="ToggleNext(this)">API</div>
             <div class="form-group hidden" style="display:flex">
                 <label for="publicQuestAPIURL">Public Quest API URL</label>
                 <input id="publicQuestAPIURL" type="text" class="form-control"
-                    placeholder="Public Quest Ledger (Unassigned)" onblur="hasFetchedFromApi=false;QuestSDK.APISet('public',this)" />
+                    placeholder="Public Quest Ledger (Unassigned)"
+                    onblur="hasFetchedFromApi=false;QuestSDK.APISet('public',this)" />
                 <label for="guildQuestAPIURL">Guild Quest API URL</label>
                 <input id="guildQuestAPIURL" type="text" class="form-control"
-                    placeholder="Guest Quest Ledger (Unassigned)" onblur="hasFetchedFromApi=false;QuestSDK.APISet('guild',this)" />
+                    placeholder="Guest Quest Ledger (Unassigned)"
+                    onblur="hasFetchedFromApi=false;QuestSDK.APISet('guild',this)" />
                 <label for="personalQuestAPIURL">Personal Quest API URL</label>
                 <input id="personalQuestAPIURL" type="text" class="form-control"
-                    placeholder="Personal Quest Ledger (Unassigned)" onblur="hasFetchedFromApi=false;QuestSDK.APISet('personal',this)" />
+                    placeholder="Personal Quest Ledger (Unassigned)"
+                    onblur="hasFetchedFromApi=false;QuestSDK.APISet('personal',this)" />
             </div>
             <div class="btn settings-tab" onclick="ToggleNext(this)">MAP</div>
             <div class="form-group hidden">
@@ -883,7 +892,8 @@
                 <div style="text-align: center; font-size:13px">
                     Quest App<br>
                     Version <span id="appVersion" style="color: #ffffff; font-family: monospace;"></span><br>
-                    <a href="https://magicbakery.github.io/?id=P202606271049" target="_blank" class="info-link">Magic Bakery</a>
+                    <a href="https://magicbakery.github.io/?id=P202606271049" target="_blank" class="info-link">Magic
+                        Bakery</a>
                     |
                     <a href="https://nextdoor.com/p/5W3mJrs_6p_H" target="_blank" class="info-link">NextDoor</a>
                 </div>
@@ -907,7 +917,7 @@
             </label>
 
         </div>
-        
+
     </div>
 
     <div class="footer-nav">
@@ -961,16 +971,19 @@
         // Set API and show them on Settings screen.
         QuestSDK.init(QUEST_CONFIG);
 
-
+        window.addEventListener('beforeunload', (event) => {
+            event.preventDefault();
+            event.returnValue = '';
+        });
 
         // Listeners in alphabetical order
         document.addEventListener("DOMContentLoaded", () => {
 
             // Load API settings from Quest SDK.
-            Settings_SetValue('publicQuestAPIURL',QuestSDK.publicAPI);
-            Settings_SetValue('guildQuestAPIURL',QuestSDK.guildAPI);
-            Settings_SetValue('personalQuestAPIURL',QuestSDK.personalAPI);
-            QuestSDK.APIGet(null, document.getElementById('apiSource'),document.getElementById('apiDest'));
+            Settings_SetValue('publicQuestAPIURL', QuestSDK.publicAPI);
+            Settings_SetValue('guildQuestAPIURL', QuestSDK.guildAPI);
+            Settings_SetValue('personalQuestAPIURL', QuestSDK.personalAPI);
+            QuestSDK.APIGet(null, document.getElementById('apiSource'), document.getElementById('apiDest'));
 
             const clientBD = localStorage.getItem("clientBD");
             let clientLV = localStorage.getItem("clientLV");
@@ -1146,7 +1159,7 @@
             // If the list has not been populated, load from cache.
             // 20260703: StarTree: hasFetchedFromApi also changes when the scope or API address has changed.
             if (!hasFetchedFromApi) { fetchLatestEntries(false); }
-            
+
         }
         function filterMessageBoard(iTag) {
             const filter = document.getElementById('messageBoardFilter').value;
@@ -1200,15 +1213,15 @@
             const baseText = selectedOption.text.replace(/\s*\(\d+\)$/, '').trim(); // Remove existing count if any
             selectedOption.text = `${baseText} (${visibleCount})`;
 
-            if(visibleCount >0 ){
+            if (visibleCount > 0) {
                 ledger.classList.remove("hidden");
-            }else{
+            } else {
                 ledger.classList.add("hidden");
             }
 
         }
 
-   
+
         function loadLandmarksFromStorage() {
             try {
                 const stored = localStorage.getItem('map_landmarks');
@@ -1272,14 +1285,14 @@
             );
             localStorage.setItem("active_modules", JSON.stringify(activeKeys));
         }
-        function Settings_SetValue(elID,iValue){
+        function Settings_SetValue(elID, iValue) {
             const el = document.getElementById(elID);
-            if(!el){return;}
+            if (!el) { return; }
             el.value = iValue;
         }
         async function showBoloSightings(questId) {
             var precheck = QuestSDK.APIGet(true);
-            if(!precheck){return;}
+            if (!precheck) { return; }
             if (!map || !sightingsLayerGroup) return;
 
 
@@ -1440,7 +1453,18 @@
             localStorage.setItem("map_street_theme", val);
             applyFilterState();
         }
-
+        function ToggleListComments(elBar) {
+            // 20260704: StarTree: Toggles the content visibility and lists comments.
+            // elBar is the title bar within the log-item object.
+            // When the content is hidden, clicking the bar opens it and lists the comments.
+            // Clicking the bar while the content is shown will just hide the content.
+            const elParent = elBar.closest('.log-item');
+            const elContent = elParent.querySelector('.entry-content');
+            if (elContent.classList.contains('hidden')) {
+                EntryListComments(elParent.dataset.timestamp, elBar);
+            }
+            elContent.classList.toggle('hidden');
+        }
         function toggleMapView() {
             if (currentMapMode === 'street') {
                 map.removeLayer(activeStreetLayer);
@@ -1522,7 +1546,7 @@
                 updateLiveCoordinates();
             }
         }
-        function ScopeSelect(elSelector){
+        function ScopeSelect(elSelector) {
             // 20260703: StarTree: Set the class for CSS.
             elSelector.classList.remove('public');
             elSelector.classList.remove('guild');
@@ -1533,13 +1557,13 @@
         async function submitEvent(event) {
             event.preventDefault();
             var precheck = QuestSDK.APIGet(false);
-            if(!precheck){return;}
-            
+            if (!precheck) { return; }
+
             // Scope mismatch alert
             const mSourceAPI = document.getElementById("apiSource").value;
             const mDestAPI = document.getElementById("apiDest").value;
-            if(mSourceAPI != mDestAPI){
-                if(!await confirm(`You are viewing a ${mSourceAPI} record but sending a message to the ${mDestAPI}. Is this what you want to do?`)){return;}
+            if (mSourceAPI != mDestAPI) {
+                if (!await confirm(`You are viewing a ${mSourceAPI} record but sending a message to the ${mDestAPI}. Is this what you want to do?`)) { return; }
             }
 
 
@@ -1648,7 +1672,7 @@
 
         async function fetchLatestEntries(bCacheBust) {
             var precheck = QuestSDK.APIGet(true);
-            if(!precheck){return;}
+            if (!precheck) { return; }
             const refreshBtn = document.getElementById('refreshBtn');
             if (refreshBtn) {
                 refreshBtn.disabled = true;
@@ -1784,7 +1808,7 @@
 
                         // Start element content html
                         // Title
-                        var html = `<div class="entry-titlebar" onclick="ToggleNext(this)">`;
+                        var html = `<div class="entry-titlebar" onclick="ToggleListComments(this);">`;
                         html += `<div style="float:right">`;
                         html += `<div class="timestamp click-to-copy" onclick="event.stopPropagation();CopyToClipboard('${ISOTimeStr}')" title="${fullTimeStr}">${compactTimeStr}</div>`;
                         html += `<button class="dismiss-post-btn entry-dismiss-btn" title="Dismiss" onclick="EntryDismiss(event,this)">
@@ -1805,10 +1829,11 @@
                         html += `</div><div class="entry-content hidden">`;
                         html += EntryThumbnail(item, "entry-thumbnail");
                         html += `<span style="float:right; color: #ffffff; margin-right:5px">${item.submitterId || 'User'}</span>`;
+                        //html += EntryStandardButtons(item);
                         html += `${tagsHtml}`;
-                        html += `<div class="entry-text">${item.eventText} ${EntryURL(item)}</div>`;
+                        html += `<div class="entry-text">${item.eventText} ${EntryURL(item)} ${EntryStandardButtons(item)}</div>`;
                         html += `${boloActionsHtml}`;
-                        html += EntryStandardButtons(item);
+                        //html += EntryStandardButtons(item);
                         html += `<div class="commentsSection" style="clear:both; margin:0px -5px;display:none;"></div>`;
 
 

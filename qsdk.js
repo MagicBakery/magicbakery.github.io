@@ -155,7 +155,13 @@ function EntryStandardButtons(entry){
       <path d="M3.5 8h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
       <path d="M8 3.5v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </svg></button>`;
-  return showBtnHTML + commentBtnHTML;
+    var addCommentBtnHTML = `<button class="btn comment-add" title="Add a Comment" onclick="FormSetQuest('${entry.timestamp}',this)">
+ <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+      <path d="M3.5 8h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M8 3.5v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+</button>`;   
+ // return showBtnHTML + commentBtnHTML;
+ return addCommentBtnHTML;
 }
 function EntryTitle(entry){
     // 20260702: StarTree: Handle the Quest ID field that can start with text followed by quest ID.
