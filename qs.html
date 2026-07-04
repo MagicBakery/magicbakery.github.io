@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quest App</title>
-    <script>const APP_VERSION = "20260703035213";</script>
+    <script>const APP_VERSION = "20260704001618";</script>
     <script src="config.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="qsdk.js"></script>
@@ -18,6 +18,7 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
+            
             padding: 10px 10px 65px 10px;
             background-color: #000000;
             /* Pure black canvas background */
@@ -25,12 +26,13 @@
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             height: 100vh;
+            justify-content: flex-end;
         }
 
         .panel {
-            background: #1c1c1e;
+            background: #202020;
             padding: 5px;
             border-radius: 8px;
             border: 1px solid #2c2c2e;
@@ -50,13 +52,23 @@
             letter-spacing: 0.8px;
         }
 
+        input[type="password"] {
+            background: black;
+            color: white;
+            border: 1px solid #202020;
+            border-radius: 10px;
+            padding: .375rem .75rem;
+
+            box-shadow: none;
+        }
+
         /* Full Screen / Multi-Split Layout Core */
         #mapSection {
             padding: 0;
             overflow: hidden;
             border: 1px solid #2c2c2e;
-        	flex: 1 1 auto;
-            
+            flex: 1 1 auto;
+
         }
 
         #map {
@@ -168,23 +180,23 @@
             height: 30px;
         }
 
-        .leaflet-container a{
-           color:inherit; 
+        .leaflet-container a {
+            color: inherit;
         }
+
         .leaflet-control-attribution {
             display: none !important;
         }
 
         .leaflet-popup-content-wrapper {
-            background:#1c1c1e !important;
+            background: #1c1c1e !important;
             color: #ffffff !important;
             border: 1px solid #2c2c2e;
             border-radius: 8px;
             padding: 2px !important;
         }
-        .leaflet-popup-tip{
-            
-        }
+
+        .leaflet-popup-tip {}
 
         .leaflet-popup-content {
             margin: 2px !important;
@@ -194,9 +206,7 @@
             background: #1c1c1e !important;
         }
 
-        .leaflet-popup {
-            
-        }
+        .leaflet-popup {}
 
         .leaflet-popup-close-button {
             display: none !important;
@@ -228,6 +238,13 @@
             flex: 1;
             display: flex;
             flex-direction: column;
+
+        }
+
+        #settingsSection .form-group {
+            border-top: 1px solid #404040;
+            padding: 5px 0px;
+            
         }
 
         .col-20 {
@@ -313,12 +330,12 @@
 
         button.submit-btn,
         .query-trigger-btn {
-            background: #006000; 
-            border: 2px solid black; 
-            border-radius: 10px; 
+            background: #006000;
+            border: 2px solid black !important;
+            border-radius: 10px  !important;
             color: #FFFFFF;
             border: none;
-            padding: 3px 10px; 
+            padding: 3px 10px;
             font-size: 14px;
             font-weight: normal;
             border-radius: 4px;
@@ -372,22 +389,23 @@
         }
 
         #ledgerOutput {
-            margin-top: 10px;
+            margin-bottom: 5px;
             overflow-y: auto;
             flex: 1;
         }
 
         .log-item {
-            background: #000000;            
+            background: #000000;
             border-radius: 10px;
             border: 2px solid black;
             margin: 0px;
             font-size: 12px;
         }
+
         #ledgerOutput>.log-item {
             border: 2px solid black;
         }
-        
+
 
         .info-link {
             color: #ffffff;
@@ -457,9 +475,12 @@
             display: none !important;
         }
 
-        .checkbox-container{
-            color: #ffffff; font-size: 12px;  font-weight: 500;
+        .checkbox-container {
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 500;
         }
+
         .checkbox-container input {
             cursor: pointer;
             margin: 0;
@@ -478,10 +499,11 @@
             background: #ffd700;
             border-color: #ffd700;
         }
+
         .checkbox-container.persistent input:checked {
             background: #00C020;
             border-color: #00C020;
-            color:white;
+            color: white;
         }
 
         .checkbox-container input:checked::after {
@@ -495,94 +517,155 @@
             line-height: 1;
         }
 
-        #querySection
-        {
+        #querySection {
             flex: 0 1 auto;
-            min-height:27px;
+            min-height: 27px;
         }
-        #settingsSection{
-            max-height:100%; overflow-y:auto; overflow-x:hidden;
-            padding:5px;
+
+        #settingsSection {
+            max-height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 5px;
+            min-height:56px;
         }
 
         .btn {
             align-items: center;
-            border-radius:3px;
-            color:white;
+            border-radius: 3px;
+            border: 1px solid black;
+            color: white;
             cursor: pointer;
             display: inline-flex;
             height: 18px;
             justify-content: center;
-            padding:0px;            
+            padding: 0px;
             width: 24px;
         }
-        .btn.comment-add{
-            background:#006000;
-            border: 1px solid #006000;
-            border-radius:0px 3px 3px 0px;
-        }
-        .btn.comment-list{
-            background:#006000;
-            border: 1px solid #006000;
-            border-radius:3px 0px 0px 3px;
+
+        .btn.comment-add {
+            background: #006000;
+            border-radius: 0px 8px 8px 0px;
         }
 
-        .entry-content{
-            padding:5px 5px 5px 5px;
+        .btn.comment-list {
+            background: #006000;
+            border-radius: 8px 0px 0px 8px;
         }
 
-        .entry-dismiss-btn{
-            background: #202020; border: 1px solid #202020; border-radius:3px; color: white; font-weight: bold; cursor: pointer; width:16px; height:16px; padding:0; margin:2px 0px 0px 0px;display:inline-flex; align-items:center; justify-content:center;
-        }
-        .entry-link{
-            text-decoration:underline; 
-            pointer-events: auto; 
-            cursor:pointer"
-        }
-        .entry-status{
-            background:none;
-            color:gold;
-            margin-left:2px;
-            padding:0px 2px;
+        .btn.settings-tab {
+            background: #404040;
+            border: 1px solid #404040;
+            border-radius: 10px 10px 0px 0px;
+            width: auto;
+            font-size: 12px;
+            padding: 0px 10px;
 
         }
-        .entry-text{
-            color:#ffffff;
-            font-size:14px;
+
+        .entry-content {
+            padding: 5px 5px 5px 5px;
+        }
+
+        .entry-dismiss-btn {
+            background: #202020;
+            border: 1px solid #202020;
+            border-radius: 3px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+            padding: 0;
+            margin: 2px 0px 0px 0px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .entry-link {
+            text-decoration: underline;
+            pointer-events: auto;
+            cursor: pointer"
+
+        }
+
+        .entry-status {
+            background: none;
+            color: gold;
+            margin-left: 2px;
+            padding: 0px 2px;
+
+        }
+
+        .entry-text {
+            color: #ffffff;
+            font-size: 14px;
             margin: 5px 0px;
             word-break: break-word;
         }
+
         .entry-thumbnail {
-            display:block;
-            float:left; 
-            margin:0px 5px 0px 0px;
-            width: 100px; height: 80px; 
-            border-radius: 6px; overflow: hidden; border: 1px solid #3a3a3c; background: #1c1c1e;
-            object-fit: cover; cursor: pointer;
+            display: block;
+            float: left;
+            margin: 0px 5px 0px 0px;
+            width: 100px;
+            height: 80px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #3a3a3c;
+            background: #1c1c1e;
+            object-fit: cover;
+            cursor: pointer;
         }
+
         .entry-thumbnail-popup {
-            display:block;
-            float:left; 
-            margin:0px 5px 5px 0px;
-            height: 40px; 
-            width: 40px; 
-            border-radius: 6px; overflow: hidden; border: 1px solid #3a3a3c; background: #1c1c1e;
-            object-fit: cover; cursor: pointer;
+            display: block;
+            float: left;
+            margin: 0px 5px 5px 0px;
+            height: 40px;
+            width: 40px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #3a3a3c;
+            background: #1c1c1e;
+            object-fit: cover;
+            cursor: pointer;
         }
-        
+
         .entry-titlebar {
-            background: #006000;            
+            background: #006000;
             color: white;
             font-size: 11px;
-            padding:5px;
+            padding: 5px;
             justify-content: space-between;
             align-items: center;
         }
-        #ledgerOutput>.log-item>.entry-titlebar{
-            background: #003060;            
+
+        #querySection:has(#apiSource.public)
+        #ledgerOutput>.log-item>.entry-titlebar {
+            background: #003060;
             color: white;
             font-size: 11px;
-            padding:5px;
+            padding: 5px;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #querySection:has(#apiSource.guild)
+        #ledgerOutput>.log-item>.entry-titlebar {
+            background: #402020;
+            color: white;
+            font-size: 11px;
+            padding: 5px;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #querySection:has(#apiSource.personal)
+        #ledgerOutput>.log-item>.entry-titlebar {
+            background: #404040;
+            color: white;
+            font-size: 11px;
+            padding: 5px;
             justify-content: space-between;
             align-items: center;
         }
@@ -593,18 +676,36 @@
             font-size: 16px;
 
         }
+
         .log-item.tag-comment .entry-title,
-        .log-item.tag-sighting .entry-title{
+        .log-item.tag-sighting .entry-title {
             font-size: 14px;
             font-weight: normal;
         }
-        .entry-url{
-            color:#ffffff; text-decoration:underline; pointer-events: auto;
+
+        .entry-url {
+            color: #ffffff;
+            text-decoration: underline;
+            pointer-events: auto;
         }
-        
-        .hide{
-            display: none;
+        .scope-selector{
+            background:none;
+            border: none;
+            padding: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            width: auto;
+            text-align: center;
+            margin-right: 5px;
         }
+        .timestamp.click-to-copy{
+            display:inline-block;
+            margin-right:5px;
+            color: #a0aec0; 
+            font-size: 11px; 
+            cursor: help;
+        }
+
 
         /*#CSS*/
     </style>
@@ -635,53 +736,41 @@
     </div>
 
     <div id="querySection" class="panel hidden">
-        <div
-            style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: -9px;">
-            <!--<h3
-                style="margin: 0; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #ffffff;">
-                Message Board
-            </h3>-->
+        <div id="ledgerOutput" class="hidden"></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <select id="apiSource" class="scope-selector public" style="text-align: left;" onchange="hasFetchedFromApi=false;ScopeSelect(this);fetchFromCacheOnFirstStart()">
+                <option value="public">Public</option>
+                <option value="guild">Guild</option>
+                <option value="personal">Self</option>
+            </select>  
             <select id="messageBoardFilter" onclick="fetchFromCacheOnFirstStart()" onchange="filterMessageBoard()"
-                style="background: #2c2c2e; color: #ffffff; border: 1px solid #2c2c2e; border-radius: 4px; padding: 4px; font-size: 12px; cursor: pointer; margin-right:10px">
-                <option value="public quest">Public Quests</option>
+                style="background: #2c2c2e; color: #ffffff; border: 2px solid black; border-radius: 10px; padding: 4px; font-size: 12px; cursor: pointer;">
+                <option value="about">About</option>
+                <option value="quest">Quests</option>
                 <option value="sighting">Sightings</option>
                 <option value="comment">Comments</option>
-                <option value="dev">About this App</option>
+                
                 <option value="SHOW ALL">Show all entries</option>
             </select>
-
-            <span style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-size: 12px; color: #a0aec0; font-family: monospace; white-space: nowrap;">
-                    [<span id="totalEntriesVal" title="Total Messages"
+            <span style="font-size: 12px; color: #a0aec0; font-family: monospace; white-space: nowrap;margin:0px 5px">
+                    <span id="totalEntriesVal" title="Total Messages"
                         style="color: #ffffff; font-weight: bold;">0</span>.<span id="pendingReviewVal"
-                        title="Pending Messages" style="color: goldenrod; font-weight: bold;">0</span>]
+                        title="Pending Messages" style="color: goldenrod; font-weight: bold;">0</span>
                 </span>
                 <!-- Update the button in your HTML -->
                 <button id="refreshBtn" onclick="fetchLatestEntries(true)"
-                    style="background: darkgreen; border: 1px solid darkgreen; border-radius:3px; padding: 0px; margin-left:-4px; margin-right:4px; margin-top:2px; cursor: pointer; display: flex; align-items: center;"
+                    style="background: darkgreen; border: 2px solid black; border-radius:10px; padding: 0px; margin-right:4px; margin-top:2px; cursor: pointer; display: flex; align-items: center;"
                     title="Force Refresh">
                     <svg style="width: 16px; height: 16px; fill: #ffffff;" viewBox="0 0 24 24">
                         <path
                             d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
                     </svg>
                 </button>
-            </span>
+           
         </div>
 
 
-
-        <!--<div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-val" id="totalEntriesVal">-</div>
-                <div class="stat-lbl">Total Logs</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-val" id="pendingReviewVal" style="color: #ffffff; opacity:0.7;">-</div>
-                <div class="stat-lbl">Pending</div>
-            </div>
-        </div>
-        <button class="query-trigger-btn" onclick="fetchLatestEntries()">Refresh</button>-->
-        <div id="ledgerOutput"></div>
+        
     </div>
 
     <div id="formSection" class="panel hidden"
@@ -691,11 +780,14 @@
         <form id="eventForm" onsubmit="submitEvent(event)">
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <h3>Send a Message</h3>
-                <!--<button type="submit" form="questLogForm"
-                style="background: #ffd700; color: #000000; border: none; padding: 6px 16px; font-weight: 600; font-size: 12px; border-radius: 4px; cursor: pointer;">
-                Send
-            </button>-->
-                <div class="form-group submit-wrapper col-30">
+
+                <div class="submit-wrapper col-30" style="justify-content: right;">
+                    <select id="apiDest" class="scope-selector public" onchange="ScopeSelect(this)">
+                        <option value="public">To Public</option>
+                        <option value="guild">To Guild</option>
+                        <option value="personal">To Self</option>
+                        <option value="locked">LOCK</option>
+                    </select>                    
                     <button type="submit" id="submitBtn" class="submit-btn">Send</button>
                 </div>
 
@@ -704,53 +796,51 @@
 
 
             <div class="form-row">
-                <div class="form-group col-25">
-                    <input type="text" id="questId" placeholder="Quest ID">
-                </div>
-                <div class="form-group col-35">
-                    <input type="text" id="title" placeholder="Title">
+                <div class="form-group col-50" >
+                    <input style="font-size:12px;padding:8px" type="text" id="questId" placeholder="Parent ID">
                 </div>
                 
-                <div class="form-group col-20">
+
+                <div class="form-group col-25">
                     <input type="text" id="status" value="" placeholder="Status">
                 </div>
-                <div class="form-group col-20">
+                <div class="form-group col-25">
                     <input type="text" id="submitterId" value="" placeholder="Submitter">
-                    <!--<input type="text" id="submitterId" required>-->
                 </div>
             </div>
-
+            <div class="form-row" style="margin-bottom: 0; width:100%">
+                <input type="text" id="title" placeholder="Title">
+            </div>
             <div class="form-row" style="margin-bottom: 0; width:100%">
                 <div class="form-group">
-                    <textarea id="eventText" placeholder="Event Description / Request..."
+                    <textarea id="eventText" placeholder="Post Message"
                         style="resize:vertical; height:6em"></textarea>
 
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-40">
+                <div class="form-group col-50">
                     <input type="text" id="tags" placeholder="Tags">
                 </div>
-                <div class="form-group col-30">
+                <div class="form-group col-25">
                     <input type="text" id="url" placeholder="URL">
                 </div>
-                <div class="form-group col-30">
+                <div class="form-group col-25">
                     <input type="text" id="img" placeholder="Image URL">
                 </div>
 
             </div>
             <div class="form-row">
-                <div class="form-group col-40" style="justify-content: flex-end; padding-bottom: 8px;">
-
-                    <label class="checkbox-container">
-                        &nbsp;Use Map Coordinate
+                <div class="form-group col-50" style="justify-content: flex-end;">
+                    <label class="checkbox-container" style="text-align: right;font-weight: normal; justify-content: right;align-items: center;padding:0px 5px 5px 0px;">
+                        Use Map Coordinate
                         <input type="checkbox" id="useCrosshairCoords" onchange="toggleCrosshairSync(this.checked)">
                     </label>
                 </div>
-                <div class="form-group col-30">
+                <div class="form-group col-25">
                     <input type="text" id="latField" placeholder="Latitude">
                 </div>
-                <div class="form-group col-30">
+                <div class="form-group col-25">
                     <input type="text" id="lngField" placeholder="Longitude">
                 </div>
 
@@ -760,26 +850,56 @@
     </div>
 
     <div id="settingsSection" class="panel hidden">
+        
         <h3>Settings</h3>
-        <div class="form-group">
-            <label for="themeSelect">Street View Color Profile</label>
-            <select id="themeSelect" onchange="updateStreetTheme(this.value)">
-                <option value="soft">Soft Contrast (Default Muted profile)</option>
-                <option value="warm">Warm Pastel (High Comfort Contrast)</option>
-                <option value="cozy">Cozy Emerald (Deep Variant)</option>
-            </select>
+        <div>
+            <div class="btn settings-tab" onclick="ToggleNext(this)">API</div>
+            <div class="form-group hidden" style="display:flex">
+                <label for="publicQuestAPIURL">Public Quest API URL</label>
+                <input id="publicQuestAPIURL" type="text" class="form-control"
+                    placeholder="Public Quest Ledger (Unassigned)" onblur="hasFetchedFromApi=false;QuestSDK.APISet('public',this)" />
+                <label for="guildQuestAPIURL">Guild Quest API URL</label>
+                <input id="guildQuestAPIURL" type="text" class="form-control"
+                    placeholder="Guest Quest Ledger (Unassigned)" onblur="hasFetchedFromApi=false;QuestSDK.APISet('guild',this)" />
+                <label for="personalQuestAPIURL">Personal Quest API URL</label>
+                <input id="personalQuestAPIURL" type="text" class="form-control"
+                    placeholder="Personal Quest Ledger (Unassigned)" onblur="hasFetchedFromApi=false;QuestSDK.APISet('personal',this)" />
+            </div>
+            <div class="btn settings-tab" onclick="ToggleNext(this)">MAP</div>
+            <div class="form-group hidden">
+                <label for="themeSelect">Street View Color Profile</label>
+                <select id="themeSelect" onchange="updateStreetTheme(this.value)">
+                    <option value="soft">Soft Contrast (Default Muted profile)</option>
+                    <option value="warm">Warm Pastel (High Comfort Contrast)</option>
+                    <option value="cozy">Cozy Emerald (Deep Variant)</option>
+                </select>
+                <label class="checkbox-container persistent">
+                    <input type="checkbox" id="crosshairToggle" onchange="updateCrosshairVisibility(this.checked)">
+                    Show crosshair on map (Persistent)
+                </label>
+            </div>
+            <div class="btn  settings-tab" onclick="ToggleNext(this)">VER</div>
+            <div class="form-group hidden">
+                <div style="text-align: center; font-size:13px">
+                    Quest App<br>
+                    Version <span id="appVersion" style="color: #ffffff; font-family: monospace;"></span><br>
+                    <a href="https://magicbakery.github.io/?id=P202606271049" target="_blank" class="info-link">Magic Bakery</a>
+                    |
+                    <a href="https://nextdoor.com/p/5W3mJrs_6p_H" target="_blank" class="info-link">NextDoor</a>
+                </div>
+            </div>
         </div>
+
+
+
         <div class="form-group" style="padding:5px">
-            <label class="checkbox-container persistent">
-                <input type="checkbox" id="crosshairToggle" onchange="updateCrosshairVisibility(this.checked)">
-                Show crosshair on map (Persistent)
-            </label>
+
             <!--Disabled Checkbox-->
             <label class="checkbox-container hidden" for="useCacheBuster">
                 <input type="checkbox" id="useCacheBuster" style="cursor: pointer;">
                 Skip the cache when fetching entries
             </label>
-            
+
             <label class="checkbox-container hidden" for="showSightingsInFeed">
                 <input type="checkbox" id="showSightingsInFeed" onchange="fetchLatestEntries(false)"
                     style="cursor: pointer;">
@@ -787,11 +907,7 @@
             </label>
 
         </div>
-        <div>
-            Version: <span id="appVersion" style="color: #ffffff; font-family: monospace;"></span> |
-            <a href="https://magicbakery.github.io/?id=P202606271049" target="_blank" class="info-link">Magic Bakery</a> |
-            <a href="https://nextdoor.com/p/5W3mJrs_6p_H" target="_blank" class="info-link">NextDoor</a>
-        </div>
+        
     </div>
 
     <div class="footer-nav">
@@ -842,10 +958,19 @@
         let sightingsLayerGroup = null;
         let currentActiveSightingQuestId = null;
 
+        // Set API and show them on Settings screen.
         QuestSDK.init(QUEST_CONFIG);
+
+
 
         // Listeners in alphabetical order
         document.addEventListener("DOMContentLoaded", () => {
+
+            // Load API settings from Quest SDK.
+            Settings_SetValue('publicQuestAPIURL',QuestSDK.publicAPI);
+            Settings_SetValue('guildQuestAPIURL',QuestSDK.guildAPI);
+            Settings_SetValue('personalQuestAPIURL',QuestSDK.personalAPI);
+            QuestSDK.APIGet(null, document.getElementById('apiSource'),document.getElementById('apiDest'));
 
             const clientBD = localStorage.getItem("clientBD");
             let clientLV = localStorage.getItem("clientLV");
@@ -924,7 +1049,7 @@
             });
         });
 
-        // functions in alphabetical order
+        // functions in alphabetical order #Alpha
         function addRedLandmark(coords, savedCaption = '', shouldSave = true) {
             if (!map) return;
 
@@ -1003,7 +1128,7 @@
 
             if (shouldSave) {
                 saveLandmarksToStorage();
-            }            
+            }
             return marker;
         }
         function applyFilterState() {
@@ -1017,45 +1142,48 @@
                 mapContainer.classList.add(`map-theme-street-${selectedTheme}`);
             }
         }
-        function fetchFromCacheOnFirstStart(){
+        function fetchFromCacheOnFirstStart() {
             // If the list has not been populated, load from cache.
-            if(!hasFetchedFromApi){fetchLatestEntries(false);}
+            // 20260703: StarTree: hasFetchedFromApi also changes when the scope or API address has changed.
+            if (!hasFetchedFromApi) { fetchLatestEntries(false); }
+            
         }
         function filterMessageBoard(iTag) {
             const filter = document.getElementById('messageBoardFilter').value;
+            const ledger = document.querySelector('#ledgerOutput');
             const entries = document.querySelectorAll('#ledgerOutput > div');
             let visibleCount = 0;
             if (iTag) {
                 iTag = iTag.toLowerCase();
             }
-            entries.forEach(entry => {                 
-                if(filter==="SHOW ALL" && !iTag){
+            entries.forEach(entry => {
+                if (filter === "SHOW ALL" && !iTag) {
                     entry.style.display = '';
                     entry.classList.remove("dismissed")
                     visibleCount++;
-                }else if(entry.classList.contains("dismissed")){
+                } else if (entry.classList.contains("dismissed")) {
                     // Do nothing;
-                    entry.style.display = 'none';              
-                }else if(iTag){
+                    entry.style.display = 'none';
+                } else if (iTag) {
                     // Clicking on a tag does not reveal entries they are already filtered out.
-                    if(entry.style.display=="none"){
-                        
-                    }else if (entry.querySelector('.tag.' + iTag)) {
+                    if (entry.style.display == "none") {
+
+                    } else if (entry.querySelector('.tag.' + iTag)) {
                         entry.style.display = '';
                         visibleCount++;
-                        
-                    }else {
-                        entry.style.display = 'none';   
+
+                    } else {
+                        entry.style.display = 'none';
                     }
-                }else {
-                    if(filter === "public quest"){
+                } else {
+                    if (filter === "public quest") {
                         if (entry.querySelector('.tag.public') && entry.querySelector('.tag.quest')) {
                             entry.style.display = '';
                             visibleCount++;
                         } else {
                             entry.style.display = 'none';
                         }
-                    }else{
+                    } else {
                         if (entry.querySelector('.tag.' + filter)) {
                             entry.style.display = '';
                             visibleCount++;
@@ -1072,11 +1200,15 @@
             const baseText = selectedOption.text.replace(/\s*\(\d+\)$/, '').trim(); // Remove existing count if any
             selectedOption.text = `${baseText} (${visibleCount})`;
 
+            if(visibleCount >0 ){
+                ledger.classList.remove("hidden");
+            }else{
+                ledger.classList.add("hidden");
+            }
+
         }
 
-        // Call it manually if needed (e.g., after fetchLatestEntries())
-        // filterMessageBoard();
-
+   
         function loadLandmarksFromStorage() {
             try {
                 const stored = localStorage.getItem('map_landmarks');
@@ -1091,7 +1223,6 @@
                 console.error("Failed to parse map landmarks from localStorage:", e);
             }
         }
-
         function panToCoordinate(lat, lng) {
             if (map) {
                 const mapSection = document.getElementById('mapSection');
@@ -1141,8 +1272,16 @@
             );
             localStorage.setItem("active_modules", JSON.stringify(activeKeys));
         }
+        function Settings_SetValue(elID,iValue){
+            const el = document.getElementById(elID);
+            if(!el){return;}
+            el.value = iValue;
+        }
         async function showBoloSightings(questId) {
+            var precheck = QuestSDK.APIGet(true);
+            if(!precheck){return;}
             if (!map || !sightingsLayerGroup) return;
+
 
 
 
@@ -1165,7 +1304,7 @@
             }
 
             try {
-                const response = await fetch(QuestSDK.apiUrl);
+                const response = await fetch(QuestSDK.APIGet(true));
                 const result = await response.json();
 
                 if (result.status === "success" && result.data) {
@@ -1190,7 +1329,7 @@
                                 });
 
                                 const isNumeric = /^\d+$/.test(questId);
-                                marker.bindPopup(`${EntryThumbnail(item,"entry-thumbnail-popup")} <span style="float:right">${EntryURL(item)}</span>${EntryTitle(item)}<br>${item.eventText || ''}`);
+                                marker.bindPopup(`${EntryThumbnail(item, "entry-thumbnail-popup")} <span style="float:right">${EntryURL(item)}</span>${EntryTitle(item)}<br>${item.eventText || ''}`);
                                 marker.addTo(sightingsLayerGroup);
                                 bounds.push([lat, lng]);
                             }
@@ -1383,9 +1522,27 @@
                 updateLiveCoordinates();
             }
         }
-
+        function ScopeSelect(elSelector){
+            // 20260703: StarTree: Set the class for CSS.
+            elSelector.classList.remove('public');
+            elSelector.classList.remove('guild');
+            elSelector.classList.remove('personal');
+            elSelector.classList.remove('locked');
+            elSelector.classList.add(elSelector.value);
+        }
         async function submitEvent(event) {
             event.preventDefault();
+            var precheck = QuestSDK.APIGet(false);
+            if(!precheck){return;}
+            
+            // Scope mismatch alert
+            const mSourceAPI = document.getElementById("apiSource").value;
+            const mDestAPI = document.getElementById("apiDest").value;
+            if(mSourceAPI != mDestAPI){
+                if(!await confirm(`You are viewing a ${mSourceAPI} record but sending a message to the ${mDestAPI}. Is this what you want to do?`)){return;}
+            }
+
+
             startCooldown(5);
 
             const clientLV = localStorage.getItem("clientLV") || "0";
@@ -1441,7 +1598,7 @@
             formData.append('title', title);
 
             try {
-                await fetch(QuestSDK.apiUrl, {
+                await fetch(QuestSDK.APIGet(false), {
                     method: "POST",
                     body: formData.toString(),
                     headers: { "Content-Type": "application/x-www-form-urlencoded" }
@@ -1490,6 +1647,8 @@
         }
 
         async function fetchLatestEntries(bCacheBust) {
+            var precheck = QuestSDK.APIGet(true);
+            if(!precheck){return;}
             const refreshBtn = document.getElementById('refreshBtn');
             if (refreshBtn) {
                 refreshBtn.disabled = true;
@@ -1508,8 +1667,8 @@
             container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>Loading from server...</p>";
 
             try {
-                //const response = await fetch(QuestSDK.apiUrl + ((bCacheBust || !hasFetchedFromApi) ? '?t=' + Date.now() : ''));
-                const response = await fetch(QuestSDK.apiUrl + ((bCacheBust) ? '?t=' + Date.now() : ''));
+                //const response = await fetch(QuestSDK.publicAPI + ((bCacheBust || !hasFetchedFromApi) ? '?t=' + Date.now() : ''));
+                const response = await fetch(QuestSDK.APIGet(true) + ((bCacheBust) ? '?t=' + Date.now() : ''));
 
                 const result = await response.json();
 
@@ -1541,7 +1700,7 @@
                         element.className = 'log-item';
                         element.style.position = 'relative';
                         element.style.overflow = 'hidden';
-                        
+
                         element.style.backgroundSize = 'cover';
                         element.style.backgroundPosition = 'center';
 
@@ -1560,11 +1719,12 @@
 
                         let fullTimeStr = "Unknown Time";
                         let compactTimeStr = "Unknown";
+                        let ISOTimeStr = "Unknown";
                         if (item.timestamp) {
                             const parsedDate = new Date(item.timestamp);
                             if (!isNaN(parsedDate.getTime())) {
                                 fullTimeStr = parsedDate.toLocaleString();
-
+                                ISOTimeStr = parsedDate.toISOString();
                                 const m = parsedDate.getMonth() + 1;
                                 const d = parsedDate.getDate();
                                 const hh = String(parsedDate.getHours()).padStart(2, '0');
@@ -1573,6 +1733,7 @@
                             } else {
                                 fullTimeStr = item.timestamp;
                                 compactTimeStr = item.timestamp;
+                                ISOTimeStr = item.timestamp;
                             }
                         }
 
@@ -1581,7 +1742,7 @@
                         const questLink = isNumeric ?
                             `<a href="https://magicbakery.github.io/?id=P${item.questId}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto; cursor:pointer">${item.questId}</a>` : `${item.questId}`;
 
-                       
+
 
                         let isBolo = false;
                         const tagsHtml = item.tags ? `
@@ -1623,34 +1784,34 @@
 
                         // Start element content html
                         // Title
-var html = `<div class="entry-titlebar" onclick="ToggleNext(this)">`;
-html += `<div style="float:right">`;
-html +=`<div style="display:inline-block;margin-right:5px;color: #a0aec0; font-size: 11px; cursor: help;" title="${fullTimeStr}">${compactTimeStr}</div>`;
-html += `<button class="dismiss-post-btn entry-dismiss-btn" title="Dismiss" onclick="EntryDismiss(event,this)">
+                        var html = `<div class="entry-titlebar" onclick="ToggleNext(this)">`;
+                        html += `<div style="float:right">`;
+                        html += `<div class="timestamp click-to-copy" onclick="event.stopPropagation();CopyToClipboard('${ISOTimeStr}')" title="${fullTimeStr}">${compactTimeStr}</div>`;
+                        html += `<button class="dismiss-post-btn entry-dismiss-btn" title="Dismiss" onclick="EntryDismiss(event,this)">
         <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" focusable="false">
             <line x1="1" y1="1" x2="9" y2="9" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
             <line x1="9" y1="1" x2="1" y2="9" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
         </svg></button>`;
 
-html += `</div>`;
+                        html += `</div>`;
 
- const hasCoords = item.latitude && item.longitude;
-const mapBtnHtml = hasCoords ? `<button onclick="panToCoordinate(${item.latitude}, ${item.longitude})" title="Pan to Coordinates" style="background:none; border:none; margin: 2px -5px 2px 0px; cursor:pointer; display:inline-flex; align-items:center; vertical-align:middle;"><svg viewBox="0 0 24 24" style="width:14px; height:14px; fill:#ffffff;">
+                        const hasCoords = item.latitude && item.longitude;
+                        const mapBtnHtml = hasCoords ? `<button onclick="panToCoordinate(${item.latitude}, ${item.longitude})" title="Pan to Coordinates" style="background:none; border:none; margin: 2px -5px 2px 0px; cursor:pointer; display:inline-flex; align-items:center; vertical-align:middle;"><svg viewBox="0 0 24 24" style="width:14px; height:14px; fill:#ffffff;">
     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
 </svg></button>` : '';
-html += EntryTitle(item);
-html += `<span class="entry-title">${mapBtnHtml}</span>`;
-html += EntryStatus(item);
-html += `</div><div class="entry-content hide">`; 
-html += EntryThumbnail(item,"entry-thumbnail");
-html += `<span style="float:right; color: #ffffff; margin-right:5px">${item.submitterId || 'User'}</span>`;
-html += `${tagsHtml}`;
-html += `<div class="entry-text">${item.eventText} ${EntryURL(item)}</div>`;
-html += `${boloActionsHtml}`;
-html += EntryStandardButtons(item);
-html += `<div class="commentsSection" style="clear:both; margin:0px -5px;display:none;"></div>`;
-                        
-                        
+                        html += EntryTitle(item);
+                        html += `<span class="entry-title">${mapBtnHtml}</span>`;
+                        html += EntryStatus(item);
+                        html += `</div><div class="entry-content hidden">`;
+                        html += EntryThumbnail(item, "entry-thumbnail");
+                        html += `<span style="float:right; color: #ffffff; margin-right:5px">${item.submitterId || 'User'}</span>`;
+                        html += `${tagsHtml}`;
+                        html += `<div class="entry-text">${item.eventText} ${EntryURL(item)}</div>`;
+                        html += `${boloActionsHtml}`;
+                        html += EntryStandardButtons(item);
+                        html += `<div class="commentsSection" style="clear:both; margin:0px -5px;display:none;"></div>`;
+
+
 
                         element.innerHTML = html;
 

@@ -2,14 +2,90 @@
 const QuestSDK = {
   // 1. Initialize the SDK with the user's specific configuration
   init(config) {
-    if (!config || !config.API_URL) {
-      console.error("QuestSDK Error: API_URL is required inside init().");
+
+    // First load from local storage.
+    this.publicAPI = localStorage.getItem("questSDKpublicAPI");
+    this.guildAPI = localStorage.getItem("questSDKguildAPI");
+    this.personalAPI = localStorage.getItem("questSDKpersonalAPI");
+
+    // If public API is blank, load from config.
+    if(!this.publicAPI){
+      if (!config || !config.API_URL) {
+        console.error("QuestSDK Error: API_URL is required inside init().");
+        return;
+      }
+      this.publicAPI = config.API_URL;
+    }
+  },
+  APIGet(bFetch,elSource,elDest){
+    // 20260703: StarTree: The control's value specifies the destination.
+    // When bFetch is TRUE, return API URL for fetching.
+    // When bFetch is FALSE, return the API RUL for sending.
+    if(elDest){ this.apiDestControl = elDest; }
+    if(elSource){ this.apiSourceControl = elSource; }
+    if(bFetch && !this.apiSourceControl){
+      confirm('Cannot fetch data because the source scope is unknown.');
+      return null;
+    }
+    if(!bFetch && !this.apiDestControl){
+      confirm('Cannot send data because the destination scope is unknown.');
+      return null;
+    }
+    var mScope = bFetch? this.apiSourceControl.value.toLowerCase():this.apiDestControl.value.toLowerCase();
+    if(mScope==="public"){
+      if(!this.publicAPI){
+        confirm("Public API is not set.");
+      }
+      return this.publicAPI;
+    }else if(mScope==="guild"){
+      if(!this.guildAPI){
+        confirm("Guild API is not set.");
+      }
+      return this.guildAPI;
+    }else if(mScope==="personal"){
+      if(!this.personalAPI){
+        confirm("Personal API is not set.");
+      }
+      return this.personalAPI;
+    }else if(mScope==="locked"){
+      if(bFetch===false){
+        confirm("Message sending is locked.");
+      }else if(bFetch===null){
+        return null;
+      }
+      
+      return null;
+    }
+    confirm("Destination API is not set.");
+    return null;
+  },
+  APISet(iScope,elTextbox,iURL){
+    // 20260703: StarTree: Saves the API URL for the scope.    
+    // Read from textbox if iURL is not specified.
+    if(!iURL){iURL = elTextbox.value};
+    iURL = iURL.trim();
+    const lScope = iScope.toLowerCase();
+    if(lScope==="public"){
+      this.publicAPI = iURL;
+      localStorage.setItem("questSDKpublicAPI",iURL);
+      return;
+    }else if(lScope==="guild"){
+      this.guildAPI = iURL;
+      localStorage.setItem("questSDKguildAPI",iURL);
+      return;
+    }else if(lScope==="personal"){
+      this.personalAPI = iURL;
+      localStorage.setItem("questSDKpersonalAPI",iURL);
       return;
     }
-    this.apiUrl = config.API_URL;
-  }
-};
+  },
+}
 // Helper Functions in Alphabetical Order
+async function CopyToClipboard(text) {
+  // usage:
+  //copyToClipboard("hello world").catch(console.error);
+  await navigator.clipboard.writeText(text);
+}
 function DEBUG(iStr){
   console.log(iStr);
 };
@@ -149,11 +225,8 @@ function isISOZTimestamp(s) {
     && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/.test(s)
     && !Number.isNaN(Date.parse(s));
 }
+
 function ToggleNext(el){
   const elNext = el.nextElementSibling;
-  $(elNext).toggle();
-  if(elNext.style.display != "none"){
-    elNext.classList.remove('hide');
-  }
-
+  elNext.classList.toggle("hidden");
 }
