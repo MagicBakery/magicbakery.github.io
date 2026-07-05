@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quest App</title>
-    <script>const APP_VERSION = "20260704114453";</script>
+    <script>const APP_VERSION = "20260704233036";</script>
     <script src="config.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="qsdk.js"></script>
@@ -45,7 +45,7 @@
         }
 
         h3 {
-            margin: 5px 0px;
+            margin: 5px 3px;
             font-size: 16px;
             color: #ffffff;
             text-transform: uppercase;
@@ -242,9 +242,8 @@
         }
 
         #settingsSection .form-group {
-            border-top: 1px solid #404040;
-            padding: 5px 0px;
-
+            /*border-top: 1px solid #404040;
+            padding: 5px 0px;*/
         }
 
         .col-20 {
@@ -299,6 +298,7 @@
             outline: 0;
         }
 
+
         .checkbox-container {
             display: flex;
             align-items: center;
@@ -348,10 +348,9 @@
             background-color: #d1d1d6;
         }
 
+        #formSection:has(#apiDest.draft) button.submit-btn,
         button.submit-btn:disabled {
-            background-color: #3a3a3c;
-            color: #718096;
-            cursor: not-allowed;
+            display: none;
         }
 
         #statusMessage {
@@ -390,13 +389,14 @@
 
         #ledgerOutput {
             background: #101010;
+            border-radius: 10px;
             margin-bottom: 5px;
             overflow-y: auto;
             flex: 1;
         }
 
         .log-item {
-            background: rgba(128,128,128,0.025);
+            background: rgba(128, 128, 128, 0.025);
             border-radius: 10px;
             border: 2px solid black;
             margin: 0px;
@@ -476,6 +476,7 @@
             display: none !important;
         }
 
+
         .checkbox-container {
             color: #ffffff;
             font-size: 12px;
@@ -518,19 +519,6 @@
             line-height: 1;
         }
 
-        #querySection {
-            flex: 0 1 auto;
-            min-height: 27px;
-        }
-
-        #settingsSection {
-            max-height: 100%;
-            overflow-y: auto;
-            overflow-x: hidden;
-            padding: 5px;
-            min-height: 56px;
-        }
-
         .btn {
             align-items: center;
             border-radius: 3px;
@@ -551,6 +539,7 @@
             height: 20px;
             width: 20px;
             float: right;
+            margin: 0px -2px 0px 3px;
         }
 
         .btn.comment-list {
@@ -639,34 +628,7 @@
         }
 
         .entry-titlebar {
-            background: #006000;
-            color: white;
-            font-size: 11px;
-            padding: 5px;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        #querySection:has(#apiSource.public) #ledgerOutput>.log-item>.entry-titlebar {
-            background: #003060;
-            color: white;
-            font-size: 11px;
-            padding: 5px;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        #querySection:has(#apiSource.guild) #ledgerOutput>.log-item>.entry-titlebar {
-            background: #502000;
-            color: white;
-            font-size: 11px;
-            padding: 5px;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        #querySection:has(#apiSource.personal) #ledgerOutput>.log-item>.entry-titlebar {
-            background: #404040;
+            background: #006060;
             color: white;
             font-size: 11px;
             padding: 5px;
@@ -679,6 +641,22 @@
             font-weight: 500;
             font-size: 16px;
 
+        }
+
+        .log-item.dismissed>.entry-titlebar .entry-dismiss-btn {
+            background: darkred;
+        }
+
+        .log-item.public>.entry-titlebar {
+            background: #004060;
+        }
+
+        .log-item.guild>.entry-titlebar {
+            background: #503000;
+        }
+
+        .log-item.personal>.entry-titlebar {
+            background: #606060;
         }
 
         .log-item.tag-comment .entry-title,
@@ -709,8 +687,109 @@
             margin-right: 5px;
             color: #a0aec0;
             font-size: 11px;
-            cursor: help;
+            cursor: pointer;
         }
+
+        .log-item.selected>.entry-titlebar .timestamp.click-to-copy {
+            display: inline-block;
+            margin-right: 5px;
+            color: gold;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        #apiSource {
+            background: #303030;
+            border: 2px solid #101010;
+            border-right: none;
+            border-radius: 15px 0px 0px 15px;
+            padding: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            width: auto;
+            text-align: center;
+            margin: 0px
+        }
+
+
+
+
+
+
+
+
+
+
+
+        #ledgerOutput>.log-item.public>.entry-titlebar {
+            background: #003060;
+        }
+
+        #ledgerOutput>.log-item.guild>.entry-titlebar {
+            background: #502000;
+        }
+
+        #ledgerOutput>.log-item.personal>.entry-titlebar {
+            background: #303030;
+        }
+
+        #messageBoardFilter {
+            background: #303030;
+            color: #ffffff;
+            border: 2px solid #101010;
+            padding: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            width: 120px;
+            flex: 0 0 auto;
+        }
+
+        #messageBoardTextSearch {
+            background: #303030;
+            color: #fff;
+            border: 2px solid #101010;
+            border-left: none;
+            border-radius: 0px 15px 15px 0px;
+            padding: 5px;
+            font-size: 12px;
+            flex: 1 1 auto;
+            min-width: 0px;
+            text-align: left;
+        }
+
+        #Notepad:focus {
+            background: black !important;
+        }
+
+        #querySection {
+            flex: 0 1 auto;
+            min-height: 27px;
+        }
+
+        #settingsSection {
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 5px;
+            min-height: 56px;
+            flex: 0 0 auto;
+        }
+
+        #settingsSection .tab {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: space-evenly;
+        }
+
+        #settingsSection button {
+            background: transparent;
+            border: 0;
+            padding: 8px 5px;
+            cursor: pointer;
+            color: #808080;
+            font-size: 12px
+        }
+
 
 
         /*#CSS*/
@@ -743,38 +822,48 @@
 
     <div id="querySection" class="panel hidden">
         <div id="ledgerOutput" class="hidden"></div>
-        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-            <select id="apiSource" class="scope-selector public" style="text-align: left;"
-                onchange="hasFetchedFromApi=false;ScopeSelect(this);fetchFromCacheOnFirstStart()">
-                <option value="public">Public</option>
-                <option value="guild">Guild</option>
-                <option value="personal">Self</option>
-            </select>
-            <select id="messageBoardFilter" onclick="fetchFromCacheOnFirstStart()" onchange="filterMessageBoard()"
-                style="background: #2c2c2e; color: #ffffff; border: 2px solid black; border-radius: 10px; padding: 4px; font-size: 12px; cursor: pointer;">
-                <option value="about">About</option>
-                <option value="quest">Quests</option>
-                <option value="sighting">Sightings</option>
-                <option value="comment">Comments</option>
-                <option value="selected">Selected</option>
-                <option value="SHOW ALL">Show all entries</option>
-            </select>
-            <span style="font-size: 12px; color: #a0aec0; font-family: monospace; white-space: nowrap;margin:0px 5px">
-                <span id="totalEntriesVal" title="Total Messages"
-                    style="color: #ffffff; font-weight: bold;">0</span>.<span id="pendingReviewVal"
-                    title="Pending Messages" style="color: goldenrod; font-weight: bold;">0</span>
-            </span>
-            <!-- Update the button in your HTML -->
-            <button id="refreshBtn" onclick="fetchLatestEntries(true)"
-                style="background: darkgreen; border: 2px solid black; border-radius:10px; padding: 0px; margin-right:4px; margin-top:2px; cursor: pointer; display: flex; align-items: center;"
+        <form style="display: flex; align-items: center; width: 100%;flex-wrap:nowrap">
+            <button id="refreshBtn" onclick="fetchLatestEntries(true)" type="button"
+                style="background: darkgreen; border: 2px solid black; border-radius:10px; padding: 0px; cursor: pointer; display: flex; align-items: center;"
                 title="Force Refresh">
                 <svg style="width: 16px; height: 16px; fill: #ffffff;" viewBox="0 0 24 24">
                     <path
                         d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
                 </svg>
             </button>
+            <span style="font-size: 12px; color: #a0aec0; font-family: monospace; white-space: nowrap;margin:0px 5px">
+                <span id="totalEntriesVal" title="Total Messages"
+                    style="color: #ffffff; font-weight: bold;">0</span><span class="hidden">.<span id="pendingReviewVal"
+                        title="Pending Messages" style="color: gold; font-weight: bold;">0</span></span>
+            </span>
+            <select id="apiSource" class="scope-selector public"
+                onchange="hasFetchedFromApi=false;ScopeSelect(this);fetchFromCacheOnFirstStart()">
+                <option value="public">Public</option>
+                <option value="guild">Guild</option>
+                <option value="personal">Self</option>
+                <option value="all">All</option>
+            </select>
+            <!--//onclick="fetchFromCacheOnFirstStart();"-->
+            <select id="messageBoardFilter" onchange="fetchFromCacheOnFirstStart();filterMessageBoard()">
+                <option value="SHOW ALL">All</option>
+                <option value="about">About</option>
+                <option value="quest">Quests</option>
+                <option value="sighting">Sightings</option>
+                <option value="comment">Comments</option>
+                <option value="dismissed">Dismissed</option>
+            </select>
 
-        </div>
+            <input id="messageBoardTextSearch" oninput="MsgBoardTextFilter(this)" onblur="this.value=''"
+                onfocus="fetchFromCacheOnFirstStart();" placeholder="Search...">
+
+
+            <button id="selectedBtn" class="btn" type="button" onclick="MsgBoardShowSelected()" style="background: gold; border: 2px solid black; border-radius:10px; padding: 0px; margin-right:4px; cursor: pointer; display: flex; align-items: center; color:saddlebrown; font-weight:bold;width: 20px;
+    height: 20px;
+    flex: 0 0 auto;" title="Show only selected Entries">
+            </button>
+
+
+        </form>
 
 
 
@@ -784,55 +873,51 @@
         style="max-height: calc(100vh - 140px); overflow-y: auto; overflow-x: hidden; padding-right: 4px;">
 
 
-        <form id="eventForm" onsubmit="submitEvent(event)">
+        <form id="eventForm" onsubmit="submitEvent(event)" oninput="MEMForm()">
+            <!--@@2-->
             <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h3>Send a Message</h3>
+                <h3>Message</h3>
 
                 <div class="submit-wrapper col-30" style="justify-content: right;">
-                    <select id="apiDest" class="scope-selector public" onchange="ScopeSelect(this)">
+                    <select id="apiDest" class="scope-selector draft" onchange="ScopeSelect(this)">
                         <option value="public">To Public</option>
                         <option value="guild">To Guild</option>
                         <option value="personal">To Self</option>
-                        <option value="locked">LOCK</option>
+                        <option value="draft" selected>Draft</option>
                     </select>
                     <button type="submit" id="submitBtn" class="submit-btn">Send</button>
                 </div>
-
             </div>
-
-
-
             <div class="form-row">
                 <div class="form-group col-50">
                     <input style="font-size:12px;padding:8px" type="text" id="questId" placeholder="Parent ID">
                 </div>
-
-
                 <div class="form-group col-25">
                     <input type="text" id="status" value="" placeholder="Status">
                 </div>
                 <div class="form-group col-25">
-                    <input type="text" id="submitterId" value="" placeholder="Submitter">
+                    <input type="text" id="MsgFormQuester" value="" placeholder="Submitter">
                 </div>
             </div>
             <div class="form-row" style="margin-bottom: 0; width:100%">
-                <input type="text" id="title" placeholder="Title">
+                <input type="text" id="MsgFormTitle" placeholder="Title">
             </div>
             <div class="form-row" style="margin-bottom: 0; width:100%">
                 <div class="form-group">
-                    <textarea id="eventText" placeholder="Post Message" style="resize:vertical; height:6em"></textarea>
+                    <textarea id="MsgFormText" placeholder="Post Message"
+                        style="resize:vertical; height:6em"></textarea>
 
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-50">
-                    <input type="text" id="tags" placeholder="Tags">
+                    <input type="text" id="MsgFormTags" placeholder="Tags">
                 </div>
                 <div class="form-group col-25">
-                    <input type="text" id="url" placeholder="URL">
+                    <input type="text" id="MsgFormUrl" placeholder="URL">
                 </div>
                 <div class="form-group col-25">
-                    <input type="text" id="img" placeholder="Image URL">
+                    <input type="text" id="MsgFormImg" placeholder="Image URL">
                 </div>
 
             </div>
@@ -850,75 +935,92 @@
                 <div class="form-group col-25">
                     <input type="text" id="lngField" placeholder="Longitude">
                 </div>
-
             </div>
             <span id="statusMessage" style="display:none"></span>
         </form>
     </div>
-
     <div id="settingsSection" class="panel hidden">
+        <div class="form-row">
+            <div class="form-group" style="justify-content: flex-end;flex:0 0 40px;padding-right:5px">
 
-        <h3>Settings</h3>
-        <div>
-            <div class="btn settings-tab" onclick="ToggleNext(this)">API</div>
-            <div class="form-group hidden" style="display:flex">
-                <label for="publicQuestAPIURL">Public Quest API URL</label>
-                <input id="publicQuestAPIURL" type="text" class="form-control"
-                    placeholder="Public Quest Ledger (Unassigned)"
-                    onblur="hasFetchedFromApi=false;QuestSDK.APISet('public',this)" />
-                <label for="guildQuestAPIURL">Guild Quest API URL</label>
-                <input id="guildQuestAPIURL" type="text" class="form-control"
-                    placeholder="Guest Quest Ledger (Unassigned)"
-                    onblur="hasFetchedFromApi=false;QuestSDK.APISet('guild',this)" />
-                <label for="personalQuestAPIURL">Personal Quest API URL</label>
-                <input id="personalQuestAPIURL" type="text" class="form-control"
-                    placeholder="Personal Quest Ledger (Unassigned)"
-                    onblur="hasFetchedFromApi=false;QuestSDK.APISet('personal',this)" />
+                <button type="button" onclick="ToggleTab('tabNotepad')"
+                    style="background:transparent; border:0; padding:5px; cursor:pointer;color:#808080">
+                    <!-- Notes icon -->
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z" />
+                        <path d="M9 7h6" />
+                        <path d="M9 11h6" />
+                        <path d="M9 15h4" />
+                    </svg>
+                </button>
+                <button type="button" onclick="ToggleTab('tabAPISettings')">API</button>
+                <button type="button" onclick="ToggleTab('tabMAPSettings')">MAP</button>
+                <button type="button" onclick="ToggleTab('tabVERSettings')">VER</button>
             </div>
-            <div class="btn settings-tab" onclick="ToggleNext(this)">MAP</div>
-            <div class="form-group hidden">
-                <label for="themeSelect">Street View Color Profile</label>
-                <select id="themeSelect" onchange="updateStreetTheme(this.value)">
-                    <option value="soft">Soft Contrast (Default Muted profile)</option>
-                    <option value="warm">Warm Pastel (High Comfort Contrast)</option>
-                    <option value="cozy">Cozy Emerald (Deep Variant)</option>
-                </select>
-                <label class="checkbox-container persistent">
-                    <input type="checkbox" id="crosshairToggle" onchange="updateCrosshairVisibility(this.checked)">
-                    Show crosshair on map (Persistent)
-                </label>
-            </div>
-            <div class="btn  settings-tab" onclick="ToggleNext(this)">VER</div>
-            <div class="form-group hidden">
-                <div style="text-align: center; font-size:13px">
-                    Quest App<br>
-                    Version <span id="appVersion" style="color: #ffffff; font-family: monospace;"></span><br>
-                    <a href="https://magicbakery.github.io/?id=P202606271049" target="_blank" class="info-link">Magic
-                        Bakery</a>
-                    |
-                    <a href="https://nextdoor.com/p/5W3mJrs_6p_H" target="_blank" class="info-link">NextDoor</a>
+            <div class="form-group tab-group">
+                <div id="tabNotepad" class="tab">
+                    <textarea id="Notepad" placeholder="Notes..." style="resize:vertical; height:100%"
+                        oninput="MEMValue('Notepad')"></textarea>
                 </div>
+                <div id="tabAPISettings" class="tab hidden">
+                    <!--<label for="publicQuestAPIURL">Public Quest API URL</label>-->
+                    <input id="publicQuestAPIURL" type="text" class="form-control"
+                        placeholder="Public Quest Ledger (Unassigned)"
+                        onblur="hasFetchedFromApi=false;QuestSDK.APISet('public',this)" />
+                    <!--<label for="guildQuestAPIURL">Guild Quest API URL</label>-->
+                    <input id="guildQuestAPIURL" type="text" class="form-control"
+                        placeholder="Guest Quest Ledger (Unassigned)"
+                        onblur="hasFetchedFromApi=false;QuestSDK.APISet('guild',this)" />
+                    <!--<label for="personalQuestAPIURL">Personal Quest API URL</label>-->
+                    <input id="personalQuestAPIURL" type="text" class="form-control"
+                        placeholder="Personal Quest Ledger (Unassigned)"
+                        onblur="hasFetchedFromApi=false;QuestSDK.APISet('personal',this)" />
+
+
+                </div>
+                <div id="tabMAPSettings" class="tab hidden">
+                    <label for="themeSelect">Street View Color Profile</label>
+                    <select id="themeSelect" onchange="updateStreetTheme(this.value)">
+                        <option value="soft">Soft Contrast (Default Muted profile)</option>
+                        <option value="warm">Warm Pastel (High Comfort Contrast)</option>
+                        <option value="cozy">Cozy Emerald (Deep Variant)</option>
+                    </select>
+                    <label class="checkbox-container persistent">
+                        <input type="checkbox" id="crosshairToggle" onchange="updateCrosshairVisibility(this.checked)">
+                        Show crosshair on map (Persistent)
+                    </label>
+                </div>
+                <div id="tabVERSettings" class="tab hidden">
+                    <center>
+                        Quest App
+                        <div>Version <span id="appVersion" style="color: #ffffff; font-family: monospace;"></span></div>
+                        <div>
+                            <a href="https://magicbakery.github.io/?id=P202606271049" target="_blank"
+                                class="info-link">Magic
+                                Bakery</a>
+                            |
+                            <a href="https://nextdoor.com/p/5W3mJrs_6p_H" target="_blank" class="info-link">NextDoor</a>
+                        </div>
+                    </center>
+
+
+
+                    <!--Disabled Checkbox-->
+                    <label class="checkbox-container hidden" for="useCacheBuster">
+                        <input type="checkbox" id="useCacheBuster" style="cursor: pointer;">
+                        Skip the cache when fetching entries
+                    </label>
+
+                    <label class="checkbox-container hidden" for="showSightingsInFeed">
+                        <input type="checkbox" id="showSightingsInFeed" onchange="fetchLatestEntries(false)"
+                            style="cursor: pointer;">
+                        Show sighting reports on Quest Board
+                    </label>
+                </div>
+
             </div>
         </div>
-
-
-
-        <div class="form-group" style="padding:5px">
-
-            <!--Disabled Checkbox-->
-            <label class="checkbox-container hidden" for="useCacheBuster">
-                <input type="checkbox" id="useCacheBuster" style="cursor: pointer;">
-                Skip the cache when fetching entries
-            </label>
-
-            <label class="checkbox-container hidden" for="showSightingsInFeed">
-                <input type="checkbox" id="showSightingsInFeed" onchange="fetchLatestEntries(false)"
-                    style="cursor: pointer;">
-                Show sighting reports on Quest Board
-            </label>
-
-        </div>
-
     </div>
 
     <div class="footer-nav">
@@ -976,7 +1078,6 @@
             event.preventDefault();
             event.returnValue = '';
         });
-
         // Listeners in alphabetical order
         document.addEventListener("DOMContentLoaded", () => {
 
@@ -1003,7 +1104,7 @@
             }
 
 
-            if (localStorage.getItem("h_submitterId")) document.getElementById("submitterId").value = localStorage.getItem("h_submitterId");
+            /*if (localStorage.getItem("h_submitterId")) document.getElementById("submitterId").value = localStorage.getItem("h_submitterId");*/
             if (localStorage.getItem("h_questId")) document.getElementById("questId").value = localStorage.getItem("h_questId");
 
             const savedTheme = localStorage.getItem("map_street_theme") || "soft";
@@ -1014,6 +1115,8 @@
             const showCrosshair = localStorage.getItem("show_map_crosshair") === "true";
             document.getElementById("crosshairToggle").checked = showCrosshair;
 
+            MEMForm(true);
+            MEMValue('Notepad', true);
             initLayoutState();
             initGISCore();
             initResizeWatchdog();
@@ -1021,7 +1124,7 @@
 
 
             // Grab references to the target input field and the submit button
-            const submitterInput = document.getElementById("submitterId");
+            const submitterInput = document.getElementById("MsgFormQuester");
             const logButton = document.getElementById("submitBtn");
 
             // Validation rule function
@@ -1062,6 +1165,27 @@
                 }
             });
         });
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Tab') return;
+
+            const form = e.target?.form;
+            if (!form || !form.contains(e.target)) return;
+
+            // only plain Shift+Tab navigation
+            if (e.altKey || e.metaKey || e.ctrlKey) return;
+
+            e.preventDefault();
+
+            const focusables = [...form.querySelectorAll('input, select, textarea, button, [tabindex]:not([tabindex="-1"])')]
+                .filter(el => !el.disabled && el.tabIndex >= 0 && el.offsetParent !== null);
+
+            const i = focusables.indexOf(e.target);
+            if (i === -1) return;
+
+            const next = e.shiftKey ? focusables[i - 1] : focusables[i + 1];
+            (next || (e.shiftKey ? focusables[focusables.length - 1] : focusables[0])).focus();
+        });
+
 
         // functions in alphabetical order #Alpha
         function addRedLandmark(coords, savedCaption = '', shouldSave = true) {
@@ -1165,33 +1289,43 @@
         function filterMessageBoard(iTag) {
             const filter = document.getElementById('messageBoardFilter').value;
             const ledger = document.querySelector('#ledgerOutput');
-            const entries = document.querySelectorAll('#ledgerOutput > div');
+            const entries = document.querySelectorAll('.log-item');
             let visibleCount = 0;
             if (iTag) {
                 iTag = iTag.toLowerCase();
             }
             entries.forEach(entry => {
+
                 if (filter === "SHOW ALL" && !iTag) {
-                    entry.classList.remove('hidden');
-                    entry.classList.remove("dismissed")
-                    visibleCount++;
-                }else if(filter==="selected"){
-                    if(entry.classList.contains('selected')){
-
-                    }else{
-
+                    if (!entry.classList.contains('dismissed')) {
+                        entry.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        entry.classList.add('hidden');
                     }
-                } else if (entry.classList.contains("dismissed")) {
-                    // Do nothing;
-                    entry.classList.add('hidden');
+                } else if (filter === "dismissed") {
+                    if (entry.classList.contains('dismissed')) {
+                        entry.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        entry.classList.add('hidden');
+                    }
+                } else if (filter === "selected") {
+                    if (entry.classList.contains('selected')) {
+                        entry.classList.remove('hidden');
+                        ledger.insertBefore(entry, ledger.firstChild);
+                        entry.querySelector('.entry-content').classList.add('hidden');
+                        visibleCount++;
+                    } else {
+                        entry.classList.add('hidden');
+                    }
                 } else if (iTag) {
                     // Clicking on a tag does not reveal entries they are already filtered out.
                     if (entry.classList.contains('hidden')) {
 
                     } else if (entry.querySelector('.tag.' + iTag)) {
-                        entry.classList.remove('hidden');
-                        visibleCount++;
 
+                        visibleCount++;
                     } else {
                         entry.classList.add('hidden');
                     }
@@ -1204,7 +1338,7 @@
                             entry.classList.add('hidden');
                         }
                     } else {
-                        if (entry.querySelector('.tag.' + filter)) {
+                        if (entry.classList.contains("tag-" + filter)) {
                             entry.classList.remove('hidden');
                             visibleCount++;
                         } else {
@@ -1227,7 +1361,47 @@
             }
 
         }
+        function MsgBoardShowSelected() {
+            // 20260704: StarTree: Show selected entries only.
+            const ledger = document.querySelector('#ledgerOutput');
+            const entries = document.querySelectorAll('.log-item');
+            let visibleCount = 0;
+            entries.forEach(entry => {
+                if (entry.classList.contains('selected')) {
+                    entry.classList.remove('hidden');
+                    ledger.insertBefore(entry, ledger.firstChild);
+                    entry.querySelector('.entry-content').classList.add('hidden');
+                    visibleCount++;
+                } else {
+                    entry.classList.add('hidden');
+                }
+            });
+            document.getElementById('selectedBtn').innerHTML = visibleCount;
+        }
+        function MsgBoardTextFilter(elInput) {
+            // 20260704: StarTree
+            // For each .log-item in #ledgerOutput, set .hidden when it does not have elInput.value in its text.
 
+            const query = (elInput.value || "").trim().toLowerCase();
+            const items = document.querySelectorAll('#ledgerOutput .log-item');
+
+            items.forEach(item => {
+                const text = (item.textContent || "").toLowerCase();
+                const shouldHide = query && !text.includes(query);
+
+                item.classList.toggle('hidden', shouldHide);
+            });
+        }
+        function MEMForm(bLoad) {
+            // @@3
+            // 20260704: StarTree: Load or Save the form content.
+            MEMValue('MsgFormImg', bLoad);
+            MEMValue('MsgFormQuester', bLoad);
+            MEMValue('MsgFormTags', bLoad);
+            MEMValue('MsgFormText', bLoad);
+            MEMValue('MsgFormTitle', bLoad);
+            MEMValue('MsgFormUrl', bLoad);
+        }
 
         function loadLandmarksFromStorage() {
             try {
@@ -1263,7 +1437,7 @@
 
             // Prefill the Form Fields
             document.getElementById('questId').value = questId;
-            document.getElementById('tags').value = "sighting";
+            document.getElementById('MsgFormTags').value = "sighting";
 
             // Turn on the "Sync Map" checkbox control element
             const syncCheckbox = document.getElementById('useCrosshairCoords');
@@ -1471,6 +1645,7 @@
                 EntryListComments(elParent.dataset.timestamp, elBar);
             }
             elContent.classList.toggle('hidden');
+            elContent.removeAttribute('hidden');
         }
         function toggleMapView() {
             if (currentMapMode === 'street') {
@@ -1485,7 +1660,19 @@
             localStorage.setItem("map_view_mode", currentMapMode);
             applyFilterState();
         }
+        function EntryToggleSelected(btn) {
+            // 20260704: LRRH Toggles whether the entry is selected
+            let elEntry = btn.closest('.log-item');
+            elEntry.classList.toggle('selected');
 
+            const elCounter = document.getElementById('selectedBtn');
+            let n = parseInt(elCounter.textContent, 10) || 0;
+
+            if (elEntry.classList.contains('selected')) n += 1;
+            else n -= 1;
+
+            elCounter.textContent = String(n);
+        }
         function recenterMap() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
@@ -1558,7 +1745,7 @@
             elSelector.classList.remove('public');
             elSelector.classList.remove('guild');
             elSelector.classList.remove('personal');
-            elSelector.classList.remove('locked');
+            elSelector.classList.remove('draft');
             elSelector.classList.add(elSelector.value);
         }
         async function submitEvent(event) {
@@ -1570,7 +1757,7 @@
             const mSourceAPI = document.getElementById("apiSource").value;
             const mDestAPI = document.getElementById("apiDest").value;
             if (mSourceAPI != mDestAPI) {
-                if (!await confirm(`You are viewing a ${mSourceAPI} record but sending a message to the ${mDestAPI}. Is this what you want to do?`)) { return; }
+                if (!await confirm(`You are viewing ${mSourceAPI} records but sending a message to ${mDestAPI}. Is this what you want to do?`)) { return; }
             }
 
 
@@ -1593,22 +1780,20 @@
                 }
             }
 
-
+            // @@1
             const statusMsg = document.getElementById('statusMessage');
-            const submitterId = document.getElementById('submitterId').value;
             const questId = document.getElementById('questId').value;
             const status = document.getElementById('status').value || "";
-            const imgField = document.getElementById('img').value;
-            const urlField = document.getElementById('url').value;
-            const tags = document.getElementById('tags').value;
+            const imgField = document.getElementById('MsgFormImg').value;
+            const urlField = document.getElementById('MsgFormUrl').value;
+            const tags = document.getElementById('MsgFormTags').value;
             const lat = document.getElementById('latField').value;
             const lng = document.getElementById('lngField').value;
-            const title = document.getElementById('title').value;
+            const submitterId = document.getElementById('MsgFormQuester').value;
+            const title = document.getElementById('MsgFormTitle').value;
+            let eventText = document.getElementById('MsgFormText').value || ``;
 
-
-            let eventText = document.getElementById('eventText').value || ``;
-
-            localStorage.setItem("h_submitterId", submitterId);
+            //localStorage.setItem("h_submitterId", submitterId);
             localStorage.setItem("h_questId", questId);
 
             statusMsg.textContent = "Sending...";
@@ -1639,16 +1824,20 @@
                 statusMsg.textContent = "";
                 statusMsg.style.color = "#ffffff";
 
-                document.getElementById('img').value = "";
-                document.getElementById('url').value = "";
-                document.getElementById('tags').value = "";
-                document.getElementById('eventText').value = "";
+
+
+
                 document.getElementById('latField').value = "";
                 document.getElementById('lngField').value = "";
                 document.getElementById('status').value = "";
-                //document.getElementById('title').value = "";
+                document.getElementById('MsgFormImg').value = "";
+                document.getElementById('MsgFormTags').value = "";
+                document.getElementById('MsgFormText').value = "";
+                document.getElementById('MsgFormTitle').value = "";
+                document.getElementById('MsgFormUrl').value = "";
                 document.getElementById('useCrosshairCoords').checked = false;
 
+                MEMForm(); // So that the form doesn't show the sent data again on reloading the HTML.
 
             } catch (error) {
                 statusMsg.textContent = "Error.";
@@ -1677,39 +1866,82 @@
             }, 1000);
         }
 
-        async function fetchLatestEntries(bCacheBust) {
-            var precheck = QuestSDK.APIGet(true);
-            if (!precheck) { return; }
+        async function fetchLatestEntries(bCacheBust, iSpecificAPI, iScope) {
+            const container = document.getElementById('ledgerOutput');
+            const totalDisplay = document.getElementById('totalEntriesVal');
+            const pendingDisplay = document.getElementById('pendingReviewVal');
+            var mScope = iScope;
+            if (!mScope) {
+                mScope = document.getElementById('apiSource').value;
+            }
+            var precheck = iSpecificAPI;
+            if (!precheck) {
+                precheck = QuestSDK.APIGet(true);
+                if (!precheck) { return; }
+                if (precheck === "all") {
+                    container.innerHTML = "";
+                    totalDisplay.textContent = 0;
+                    pendingDisplay.textContent = 0;
+                    if (QuestSDK.publicAPI) {
+                        await fetchLatestEntries(bCacheBust, QuestSDK.publicAPI, "public");
+                    }
+                    if (QuestSDK.guildAPI) {
+                        await fetchLatestEntries(bCacheBust, QuestSDK.guildAPI, "guild");
+                    }
+                    if (QuestSDK.personalAPI) {
+                        await fetchLatestEntries(bCacheBust, QuestSDK.personalAPI, "personal");
+                    }
+                    return;
+                } else {
+                    totalDisplay.textContent = 0;
+                    pendingDisplay.textContent = 0;
+                }
+            }
+
             const refreshBtn = document.getElementById('refreshBtn');
             if (refreshBtn) {
                 refreshBtn.disabled = true;
                 refreshBtn.style.opacity = '0.25';
                 refreshBtn.style.cursor = 'wait';
             }
-            const container = document.getElementById('ledgerOutput');
-            const totalDisplay = document.getElementById('totalEntriesVal');
-            const pendingDisplay = document.getElementById('pendingReviewVal');
+
+
             const useCacheBuster = document.getElementById('useCacheBuster').checked;
             const showSightingsCheckbox = document.getElementById('showSightingsInFeed');
             //const allowSightingsInFeed = showSightingsCheckbox ? showSightingsCheckbox.checked : false;
             const allowSightingsInFeed = true;
             //bCacheBust &= useCacheBuster;
 
-            container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>Loading from server...</p>";
+            if (!iSpecificAPI) {
+                container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>Loading from server...</p>";
+
+            }
+
 
             try {
                 //const response = await fetch(QuestSDK.publicAPI + ((bCacheBust || !hasFetchedFromApi) ? '?t=' + Date.now() : ''));
-                const response = await fetch(QuestSDK.APIGet(true) + ((bCacheBust) ? '?t=' + Date.now() : ''));
+                const response = await fetch(precheck + ((bCacheBust) ? '?t=' + Date.now() : ''));
 
                 const result = await response.json();
 
                 if (result.status === "success") {
                     hasFetchedFromApi = true;
-                    totalDisplay.textContent = result.totalRows;
-                    pendingDisplay.textContent = result.pendingCount;
-                    container.innerHTML = "";
+                    totalDisplay.textContent = String(Number(totalDisplay.textContent || 0) + Number(result.totalRows || 0));
+                    pendingDisplay.textContent = String(Number(pendingDisplay.textContent || 0) + Number(result.pendingCount || 0));
 
-                    if (result.data.length === 0) {
+                    if (pendingDisplay.textContent === "0") {
+                        pendingDisplay.parentElement.classList.add('hidden');
+                    } else {
+                        pendingDisplay.parentElement.classList.remove('hidden');
+                    }
+
+
+                    if (!iSpecificAPI) {
+                        container.innerHTML = "";
+                    }
+
+
+                    if (result.data.length === 0 && !iSpecificAPI) {
                         container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>No public lines.</p>";
                         return;
                     }
@@ -1729,6 +1961,7 @@
 
                         const element = document.createElement('div');
                         element.className = 'log-item';
+                        element.classList.add(mScope);
                         element.style.position = 'relative';
                         element.style.overflow = 'hidden';
 
@@ -1817,7 +2050,7 @@
                         // Title
                         var html = `<div class="entry-titlebar" onclick="ToggleListComments(this);">`;
                         html += `<div style="float:right">`;
-                        html += `<div class="timestamp click-to-copy" onclick="event.stopPropagation();CopyToClipboard('${ISOTimeStr}')" title="${fullTimeStr}">${compactTimeStr}</div>`;
+                        html += `<div class="timestamp click-to-copy" onclick="event.stopPropagation();EntryToggleSelected(this);CopyToClipboard('${ISOTimeStr}')" title="${fullTimeStr}">${compactTimeStr}</div>`;
                         html += `<button class="dismiss-post-btn entry-dismiss-btn" title="Dismiss" onclick="EntryDismiss(event,this)">
         <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" focusable="false">
             <line x1="1" y1="1" x2="9" y2="9" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
@@ -1835,28 +2068,15 @@
                         html += EntryStatus(item);
                         html += `</div><div class="entry-content hidden">`;
                         html += EntryThumbnail(item, "entry-thumbnail");
-                        html += `<span style="float:right; color: #ffffff; margin-right:5px">${item.submitterId || 'User'}</span>`;
+                        html += `<span style="float:right; color: #ffffff;">${item.submitterId || 'User'} ${EntryStandardButtons(item)}</span>`;
                         //html += EntryStandardButtons(item);
                         html += `${tagsHtml}`;
-                        html += `<div class="entry-text">${item.eventText} ${EntryURL(item)} ${EntryStandardButtons(item)}</div>`;
+                        html += `<div class="entry-text">${item.eventText} ${EntryURL(item)}</div>`;
                         html += `${boloActionsHtml}`;
-                        //html += EntryStandardButtons(item);
-                        html += `<div class="commentsSection hidden" style="clear:both; margin:0px -5px;"></div>`;
 
-
+                        html += `<div class="commentsSection hidden" style="clear:both; margin:5px -5px -5px -5px;"></div>`;
 
                         element.innerHTML = html;
-
-                        // Add Event Listener to the newly generated close button
-                        /*element.querySelector('.dismiss-post-btn').addEventListener('click', () => {
-                            const logItem = element.closest('.log-item');
-                            if (logItem) logItem.style.display = 'none';
-                            element.classList.add("dismissed");
-                            if (container.children.length === 0) {
-                                container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>No active quests.</p>";
-                            }
-                        });*/
-
                         container.appendChild(element);
                     });
                 }

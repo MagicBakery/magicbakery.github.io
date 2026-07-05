@@ -47,14 +47,19 @@ const QuestSDK = {
         confirm("Personal API is not set.");
       }
       return this.personalAPI;
-    }else if(mScope==="locked"){
+    }else if(mScope==="draft"){
       if(bFetch===false){
-        confirm("Message sending is locked.");
+        confirm("The message is in draft. Please set a destination.");
       }else if(bFetch===null){
         return null;
-      }
-      
+      }      
       return null;
+    }else if(mScope==="all"){
+      if(!this.publicAPI && !this.guildAPI && !this.personalAPI){
+        confirm("Destination API is not set.");
+        return null;
+      }
+      return "all";
     }
     confirm("Destination API is not set.");
     return null;
@@ -92,8 +97,10 @@ function DEBUG(iStr){
 function EntryDismiss(e, btn){
   e.stopPropagation();
   const logItem = btn.closest('.log-item');
-  if (logItem) logItem.classList.add('hidden');
-  logItem.classList.add('dismissed');
+  if (logItem) 
+  if(logItem.classList.toggle('dismissed')){
+    logItem.classList.add('hidden');
+  };
 }
 function EntryListComments(questId,btn){
   // 20260702: StarTree: This is run from an entry to list the comments of that entry in that entry. Gather the commetnts and put them 
@@ -132,8 +139,15 @@ function EntryListComments(questId,btn){
 
     // Move into this entry's comments section
     // (If you want to remove from DOM only once, this does that.)
-    frag.appendChild(item);    
-    item.classList.remove('hidden');
+    
+    // Don't show a dismissed item.    
+    if(item.classList.contains('dismissed')){
+      // Detach the dismissed item.
+      ledgerOutput.insertBefore(item,ledgerOutput.firstChild);
+    }else{
+      frag.appendChild(item);
+      item.classList.remove('hidden');
+    }    
   }
 
   // Clear current comments and add moved ones
@@ -166,6 +180,11 @@ function EntryStandardButtons(entry){
  // return showBtnHTML + commentBtnHTML;
  return addCommentBtnHTML;
 }
+function EntryStatus(entry){
+  // 20260702: Fina: Returns the html code for displaying the status.
+  if(!entry.status){return "";}
+  return `<span class="entry-status">${entry.status}</span>`;
+};
 function EntryTitle(entry){
     // 20260702: StarTree: Handle the Quest ID field that can start with text followed by quest ID.
     if(!entry.title){
@@ -189,11 +208,7 @@ function EntryTitle(entry){
 
     return `<a href="${mQuestLink}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" class="entry-title entry-link" >${mArg1}</a>`;
 }
-function EntryStatus(entry){
-  // 20260702: Fina: Returns the html code for displaying the status.
-  if(!entry.status){return "";}
-  return `<span class="entry-status">${entry.status}</span>`;
-};
+
 function EntryThumbnail(entry,iClass){
   // 20260702: Fina: Returns the html code for displaying a thumbnail of the entry.
   const imageUrl = entry.img || entry.IMG || "";
@@ -203,6 +218,7 @@ function EntryThumbnail(entry,iClass){
           <img class="${iClass}" src="${imageUrl}" alt="Attachment" onerror="this.parentNode.parentNode.classList.add('hidden');">
           </a></div>`;
 };
+
 function EntryURL(entry){
   if(!entry.url){return "";}
   return ` <a class="entry-url" href="${entry.url}" target="_blank" onclick="window.open(this.href, '_blank'); return false;">[Link]</a>`;
@@ -234,8 +250,28 @@ function isISOZTimestamp(s) {
     && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/.test(s)
     && !Number.isNaN(Date.parse(s));
 }
-
+ 
+function MEMValue(elID,bLoad){
+  // 20260702: StarTree: save or load the value of a control element.
+  const elControl = document.getElementById(elID);
+  if(bLoad){
+    elControl.value = localStorage.getItem(elID)
+    return elControl.value;
+  }else{
+    localStorage.setItem(elID,elControl.value);
+  }
+}
 function ToggleNext(el){
   const elNext = el.nextElementSibling;
   elNext.classList.toggle("hidden");
+}
+function ToggleTab(elID){
+  const elTab = document.getElementById(elID);
+  if(!elTab.classList.contains('hidden')){return;}
+  const elTabGroup = elTab.closest('.tab-group');
+  if(!elTabGroup) return;
+  elTabGroup.querySelectorAll('.tab').forEach(tab => {
+    tab.classList.add('hidden');
+  });
+  elTab.classList.remove('hidden');
 }
