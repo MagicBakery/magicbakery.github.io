@@ -223,6 +223,27 @@ function EntryURL(entry){
   if(!entry.url){return "";}
   return ` <a class="entry-url" href="${entry.url}" target="_blank" onclick="window.open(this.href, '_blank'); return false;">[Link]</a>`;
 }
+function formatUTCYYYMMDDhhmmssuuu(q) {
+  const p = parseQidToUTC(q);
+  if (!p) return null;
+
+  const pad2 = (n) => String(n).padStart(2, '0');
+  const pad3 = (n) => String(n).padStart(3, '0');
+  const pad4 = (n) => String(n).padStart(4, '0');
+  // spec wants uuu = 3 digits
+  // if your input had true 3-digit uuu, good; if derived from ISO ms, it becomes uuu = ms*1000 -> last 3 digits are 000..999
+  const uuu3 = pad3(p.uuu % 1000);
+
+  return (
+    pad4(p.year) +
+    pad2(p.mon) +
+    pad2(p.day) +
+    pad2(p.hh) +
+    pad2(p.mm) +
+    pad2(p.ss) +
+    uuu3
+  );
+}
 function FormSetQuest(questId, btn){
   // 20260702: StarTree: This is called to set the Quest ID of a form. (such as when the user clicked on the add comment button.)
 
@@ -232,7 +253,7 @@ function FormSetQuest(questId, btn){
 
   // Prefill the Form Fields
   document.getElementById('questId').value = questId;
-  document.getElementById('tags').value = "comment";
+  document.getElementById('MsgFormTags').value = "comment";
 
   // Smoothly scroll the logging form view into target viewport view segment if needed
   formSection.scrollIntoView({ behavior: 'smooth' });
@@ -260,6 +281,52 @@ function MEMValue(elID,bLoad){
   }else{
     localStorage.setItem(elID,elControl.value);
   }
+}
+function parseQidToUTC(qid) {
+  if (qid == null) return null;
+  const s = String(qid).trim();
+
+  // All-digits: YYYYMMDDhhmmss(uuu)
+  if (/^\d{14,17}$/.test(s)) {
+    const year = Number(s.slice(0, 4));
+    const mon  = Number(s.slice(4, 6));
+    const day  = Number(s.slice(6, 8));
+    const hh   = Number(s.slice(8, 10));
+    const mm   = Number(s.slice(10, 12));
+    const ss   = Number(s.slice(12, 14));
+    const uuu  = s.length >= 17 ? Number(s.slice(14, 17)) : 0; // default if missing
+
+    // Interpret as UTC because it's already UTC-structured in your spec
+    const ms = uuu / 1000; // milliseconds fraction
+    // Build Date from UTC, then add remaining micro/nano via ms
+    const d = new Date(Date.UTC(year, mon - 1, day, hh, mm, ss, 0));
+    return {
+      year, mon, day, hh, mm, ss,
+      uuu,
+      date: d, // base UTC second
+      msPart: ms
+    };
+  }
+
+  // ISO: 2026-06-30T08:27:26.814Z (or with offset)
+  // new Date(...) parses ISO to an instant (UTC internally)
+  const d = new Date(s);
+  if (Number.isNaN(d.getTime())) return null;
+
+  // JS Date only tracks milliseconds; for "uuu" we use those ms * 1000 = microseconds (nanos rounded/truncated)
+  const year = d.getUTCFullYear();
+  const mon  = d.getUTCMonth() + 1;
+  const day  = d.getUTCDate();
+  const hh   = d.getUTCHours();
+  const mm   = d.getUTCMinutes();
+  const ss   = d.getUTCSeconds();
+  const uuu  = d.getUTCMilliseconds() * 1000; // 000..999000
+
+  return {
+    year, mon, day, hh, mm, ss,
+    uuu,
+    date: d
+  };
 }
 function ToggleNext(el){
   const elNext = el.nextElementSibling;

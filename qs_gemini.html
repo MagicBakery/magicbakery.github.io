@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quest App</title>
-    <script>const APP_VERSION = "20260704233036";</script>
+    <script>const APP_VERSION = "20260705004120";</script>
     <script src="config.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="qsdk.js"></script>
@@ -849,6 +849,7 @@
                 <option value="about">About</option>
                 <option value="quest">Quests</option>
                 <option value="sighting">Sightings</option>
+                <option value="selected">Selected</option>
                 <option value="comment">Comments</option>
                 <option value="dismissed">Dismissed</option>
             </select>
@@ -857,7 +858,8 @@
                 onfocus="fetchFromCacheOnFirstStart();" placeholder="Search...">
 
 
-            <button id="selectedBtn" class="btn" type="button" onclick="MsgBoardShowSelected()" style="background: gold; border: 2px solid black; border-radius:10px; padding: 0px; margin-right:4px; cursor: pointer; display: flex; align-items: center; color:saddlebrown; font-weight:bold;width: 20px;
+            <button id="selectedBtn" class="btn" type="button"
+                onclick="fetchFromCacheOnFirstStart();MsgBoardShowSelected()" style="background: gold; border: 2px solid black; border-radius:10px; padding: 0px; margin-right:4px; cursor: pointer; display: flex; align-items: center; color:saddlebrown; font-weight:bold;width: 20px;
     height: 20px;
     flex: 0 0 auto;" title="Show only selected Entries">
             </button>
@@ -1003,9 +1005,6 @@
                             <a href="https://nextdoor.com/p/5W3mJrs_6p_H" target="_blank" class="info-link">NextDoor</a>
                         </div>
                     </center>
-
-
-
                     <!--Disabled Checkbox-->
                     <label class="checkbox-container hidden" for="useCacheBuster">
                         <input type="checkbox" id="useCacheBuster" style="cursor: pointer;">
@@ -1361,6 +1360,69 @@
             }
 
         }
+        function MEMForm(bLoad) {
+            // @@3
+            // 20260704: StarTree: Load or Save the form content.
+            MEMValue('MsgFormImg', bLoad);
+            MEMValue('MsgFormQuester', bLoad);
+            MEMValue('MsgFormTags', bLoad);
+            MEMValue('MsgFormText', bLoad);
+            MEMValue('MsgFormTitle', bLoad);
+            MEMValue('MsgFormUrl', bLoad);
+        }
+        function MEMSelected(qid, add, bLoad) {
+            const key = 'selectedQids';
+
+            const ledger = document.getElementById('ledgerOutput');
+
+            if (bLoad) {
+                if (!ledger) return;
+
+                const raw = localStorage.getItem(key);
+                let list = [];
+                try {
+                    list = raw ? JSON.parse(raw) : [];
+                    if (!Array.isArray(list)) list = [];
+                } catch {
+                    list = [];
+                }
+
+                const selectedSet = new Set(list.map(String));
+
+                const items = ledger.querySelectorAll(':scope > .log-item');
+                items.forEach(el => {
+                    const norm = formatUTCYYYMMDDhhmmssuuu(el.dataset.timestamp);
+                    if (norm && selectedSet.has(norm)) el.classList.add('selected');
+                    else el.classList.remove('selected');
+                });
+
+                return;
+            }
+
+            const normalized = formatUTCYYYMMDDhhmmssuuu(qid);
+            if (!normalized) return;
+
+            const raw = localStorage.getItem(key);
+            let list = [];
+            try {
+                list = raw ? JSON.parse(raw) : [];
+                if (!Array.isArray(list)) list = [];
+            } catch {
+                list = [];
+            }
+
+            const id = String(normalized);
+
+            if (add) {
+                if (!list.includes(id)) list.push(id);
+            } else {
+                list = list.filter(x => String(x) !== id);
+            }
+
+            localStorage.setItem(key, JSON.stringify(list));
+        }
+
+
         function MsgBoardShowSelected() {
             // 20260704: StarTree: Show selected entries only.
             const ledger = document.querySelector('#ledgerOutput');
@@ -1391,16 +1453,6 @@
 
                 item.classList.toggle('hidden', shouldHide);
             });
-        }
-        function MEMForm(bLoad) {
-            // @@3
-            // 20260704: StarTree: Load or Save the form content.
-            MEMValue('MsgFormImg', bLoad);
-            MEMValue('MsgFormQuester', bLoad);
-            MEMValue('MsgFormTags', bLoad);
-            MEMValue('MsgFormText', bLoad);
-            MEMValue('MsgFormTitle', bLoad);
-            MEMValue('MsgFormUrl', bLoad);
         }
 
         function loadLandmarksFromStorage() {
@@ -1664,14 +1716,25 @@
             // 20260704: LRRH Toggles whether the entry is selected
             let elEntry = btn.closest('.log-item');
             elEntry.classList.toggle('selected');
+            const qid = elEntry.dataset.timestamp;
+
 
             const elCounter = document.getElementById('selectedBtn');
             let n = parseInt(elCounter.textContent, 10) || 0;
 
-            if (elEntry.classList.contains('selected')) n += 1;
-            else n -= 1;
+            if (elEntry.classList.contains('selected')) {
+                n += 1;
+                // Add this qid to the list of saved qid
+                MEMSelected(qid, true);
+            } else {
+                n -= 1;
+                // Remove this qid to the list of saved qid
+                MEMSelected(qid, false);
+            }
 
             elCounter.textContent = String(n);
+
+
         }
         function recenterMap() {
             if (navigator.geolocation) {
@@ -1891,6 +1954,8 @@
                     if (QuestSDK.personalAPI) {
                         await fetchLatestEntries(bCacheBust, QuestSDK.personalAPI, "personal");
                     }
+                    MEMSelected(null, null, true);
+                    filterMessageBoard();
                     return;
                 } else {
                     totalDisplay.textContent = 0;
@@ -2084,6 +2149,7 @@
                 console.error("Layout Compilation Error Log:", error);
                 container.innerHTML = "<p style='color:#ff3b30; font-size:12px;'>Fetch Error.</p>";
             } finally {
+                MEMSelected(null, null, true);
                 filterMessageBoard();
                 if (refreshBtn) {
                     refreshBtn.disabled = false;
