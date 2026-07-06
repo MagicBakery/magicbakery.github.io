@@ -244,28 +244,7 @@ function formatUTCYYYMMDDhhmmssuuu(q) {
     uuu3
   );
 }
-function FormSetQuest(questId, btn){
-  // 20260702: StarTree: This is called to set the Quest ID of a form. (such as when the user clicked on the add comment button.)
 
-  const formSection = document.getElementById('formSection');
-  if (!formSection) return;
-  toggleModule('form', true)
-
-  // Prefill the Form Fields
-  document.getElementById('questId').value = questId;
-  document.getElementById('MsgFormTags').value = "comment";
-
-  // Smoothly scroll the logging form view into target viewport view segment if needed
-  formSection.scrollIntoView({ behavior: 'smooth' });
-  if(btn){
-    const logItem = btn.closest('.log-item');
-    if(logItem){
-      logItem.scrollIntoView({ behavior: 'smooth', block: 'end' });
-
-    }
-    
-  }
-}
 function isISOZTimestamp(s) {
   return typeof s === 'string'
     && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/.test(s)
