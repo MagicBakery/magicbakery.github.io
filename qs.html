@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quest App</title>
-    <script>const APP_VERSION = "20260705004120";</script>
+    <script>const APP_VERSION = "20260706033325";</script>
     <script src="config.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="qsdk.js"></script>
@@ -246,6 +246,10 @@
             padding: 5px 0px;*/
         }
 
+        .col-10 {
+            flex: 0 0 10%;
+        }
+
         .col-20 {
             flex: 0 0 20%;
         }
@@ -328,6 +332,10 @@
             align-items: flex-end;
         }
 
+        button.submit-btn {
+            width: 60px;
+        }
+
         button.submit-btn,
         .query-trigger-btn {
             background: #006000;
@@ -348,8 +356,7 @@
             background-color: #d1d1d6;
         }
 
-        #formSection:has(#apiDest.draft) button.submit-btn,
-        button.submit-btn:disabled {
+        #formSection:has(#apiDest.draft) button.submit-btn {
             display: none;
         }
 
@@ -403,7 +410,12 @@
             font-size: 12px;
         }
 
-        #ledgerOutput>.log-item {
+        .log-item.active {
+            border: 2px solid gold !important;
+        }
+
+
+        .log-item:has() #ledgerOutput>.log-item {
             border: 2px solid black;
         }
 
@@ -643,6 +655,12 @@
 
         }
 
+        .entry-url {
+            color: #ffffff;
+            text-decoration: underline;
+            pointer-events: auto;
+        }
+
         .log-item.dismissed>.entry-titlebar .entry-dismiss-btn {
             background: darkred;
         }
@@ -665,11 +683,14 @@
             font-weight: normal;
         }
 
-        .entry-url {
-            color: #ffffff;
-            text-decoration: underline;
-            pointer-events: auto;
+        .log-item.selected>.entry-titlebar .timestamp.click-to-copy {
+            display: inline-block;
+            margin-right: 5px;
+            color: gold;
+            font-size: 11px;
+            cursor: pointer;
         }
+
 
         .scope-selector {
             background: none;
@@ -682,6 +703,20 @@
             margin-right: 5px;
         }
 
+        .timer-control.started #MsgFormStartTime,
+        .timer-control.started #MsgFormStartBtn {
+            color: #00C000 !important;
+        }
+
+        .timer-control.started #MsgFormDuration {
+            color: #00FFFF !important;
+        }
+
+        .timer-control.started #MsgFormStopBtn,
+        .timer-control.started #MsgFormEndTime {
+            color: gold !important;
+        }
+
         .timestamp.click-to-copy {
             display: inline-block;
             margin-right: 5px;
@@ -690,13 +725,7 @@
             cursor: pointer;
         }
 
-        .log-item.selected>.entry-titlebar .timestamp.click-to-copy {
-            display: inline-block;
-            margin-right: 5px;
-            color: gold;
-            font-size: 11px;
-            cursor: pointer;
-        }
+
 
         #apiSource {
             background: #303030;
@@ -859,9 +888,9 @@
 
 
             <button id="selectedBtn" class="btn" type="button"
-                onclick="fetchFromCacheOnFirstStart();MsgBoardShowSelected()" style="background: gold; border: 2px solid black; border-radius:10px; padding: 0px; margin:0px 4px; cursor: pointer; display: flex; align-items: center; color:saddlebrown; font-weight:bold;width: 20px;
-    height: 20px;
-    flex: 0 0 auto;" title="Show only selected Entries">
+                onclick="fetchFromCacheOnFirstStart();MsgBoardShowSelected()"
+                style="background: gold; border: 2px solid black; border-radius:10px; padding: 0px 1.5px 0px 0px; margin:0px 0px 0px 4px; cursor: pointer; display: flex; align-items: center; color:saddlebrown; font-weight:bold;width: 20px;height: 20px;flex: 0 0 auto;letter-spacing: -0.1em;"
+                title="Show only selected Entries">
             </button>
 
 
@@ -877,10 +906,12 @@
 
         <form id="eventForm" onsubmit="submitEvent(event)" oninput="MEMForm()">
             <!--@@2-->
-            <div style="display: flex; justify-content: space-between; align-items: center;">
+
+            <div style="display:flex; align-items:center;justify-content: space-between;">
+
                 <h3>Message</h3>
 
-                <div class="submit-wrapper col-30" style="justify-content: right;">
+                <div class="submit-wrapper">
                     <select id="apiDest" class="scope-selector draft" onchange="ScopeSelect(this)">
                         <option value="public">To Public</option>
                         <option value="guild">To Guild</option>
@@ -899,6 +930,36 @@
                 </div>
                 <div class="form-group col-25">
                     <input type="text" id="MsgFormQuester" value="" placeholder="Submitter">
+                </div>
+            </div>
+            <div class="form-row timer-control">
+                <div class="form-group" style="flex:1 1 auto">
+                    <input type="text" id="MsgFormStartTime" placeholder="Start"
+                        style="text-align:center;font-size:9px;border-radius: 25px;padding:10px;">
+                </div>
+                <div class="form-group">
+                    <!--<button class="btn">Stop</button>-->
+                    <button id="MsgFormStartBtn" type="button" class="btn" onclick="TimerStartStop(true,false);"
+                        style="width:32px;height:30px;background:black;border-radius:16px 0px 0px 16px;border:none;padding:0;font-size:8px;color:#008000;margin-top:1px;margin-left:-1px;padding-left:5px">
+                        START
+                    </button>
+
+                </div>
+                <div class="form-group" style="flex:1 1 20%">
+                    <input type="text" id="MsgFormDuration" placeholder="---" style="text-align: center;border:none">
+                </div>
+
+                <div class="form-group">
+                    <!--<button class="btn">Stop</button>-->
+                    <button id="MsgFormStopBtn" type="button" class="btn" onclick="TimerStartStop(false,true)"
+                        style="width:32px;height:30px;background:black;border-radius:0px 16px 16px 0px;border:none;padding:0;font-size:8px;color:#A00000;margin-top:1px;margin-left:-1px;padding-right:5px">
+                        RESET
+                    </button>
+
+                </div>
+                <div class="form-group" style="flex:1 1 auto">
+                    <input type="text" id="MsgFormEndTime" placeholder="End"
+                        style="text-align: center;font-size:9px;border-radius: 25px;padding:10px;">
                 </div>
             </div>
             <div class="form-row" style="margin-bottom: 0; width:100%">
@@ -923,6 +984,7 @@
                 </div>
 
             </div>
+
             <div class="form-row">
                 <div class="form-group col-50" style="justify-content: flex-end;">
                     <label class="checkbox-container"
@@ -959,6 +1021,7 @@
                 <button type="button" onclick="ToggleTab('tabAPISettings')">API</button>
                 <button type="button" onclick="ToggleTab('tabMAPSettings')">MAP</button>
                 <button type="button" onclick="ToggleTab('tabVERSettings')">VER</button>
+                <button type="button" onclick="ToggleTab('tabNEWSettings')">???</button>
             </div>
             <div class="form-group tab-group">
                 <div id="tabNotepad" class="tab">
@@ -1017,7 +1080,12 @@
                         Show sighting reports on Quest Board
                     </label>
                 </div>
-
+                <div id="tabNEWSettings" class="tab hidden">
+                    <!--<label class="checkbox-container" for="activeGold">
+                        <input type="checkbox" id="activeGold" style="cursor: pointer;">
+                        Highlight active entry with gold border.
+                    </label>-->
+                </div>
             </div>
         </div>
     </div>
@@ -1062,6 +1130,7 @@
             settings: { elementId: 'settingsSection', btnId: 'btnShowSettings' }
         };
 
+        let activeEntry = null;
         let map, activeStreetLayer, activeSatelliteLayer;
         let currentMapMode = 'street';
         const defaultCenter = [38.5449, -121.7405]; // Davis, CA coordinates
@@ -1070,6 +1139,7 @@
         let sightingsLayerGroup = null;
         let currentActiveSightingQuestId = null;
 
+
         // Set API and show them on Settings screen.
         QuestSDK.init(QUEST_CONFIG);
 
@@ -1077,7 +1147,7 @@
             event.preventDefault();
             event.returnValue = '';
         });
-        // Listeners in alphabetical order
+        // Listeners in #alphabetical order
         document.addEventListener("DOMContentLoaded", () => {
 
             // Load API settings from Quest SDK.
@@ -1323,7 +1393,7 @@
                     if (entry.classList.contains('hidden')) {
 
                     } else if (entry.querySelector('.tag.' + iTag)) {
-
+                        ledger.insertBefore(entry, ledger.firstChild);
                         visibleCount++;
                     } else {
                         entry.classList.add('hidden');
@@ -1331,6 +1401,7 @@
                 } else {
                     if (filter === "public quest") {
                         if (entry.querySelector('.tag.public') && entry.querySelector('.tag.quest')) {
+                            ledger.insertBefore(entry, ledger.firstChild);
                             entry.classList.remove('hidden');
                             visibleCount++;
                         } else {
@@ -1338,6 +1409,7 @@
                         }
                     } else {
                         if (entry.classList.contains("tag-" + filter)) {
+                            ledger.insertBefore(entry, ledger.firstChild);
                             entry.classList.remove('hidden');
                             visibleCount++;
                         } else {
@@ -1358,6 +1430,38 @@
             } else {
                 ledger.classList.add("hidden");
             }
+
+        }
+        function FormSetQuest(questId, btn) {
+            // 20260702: StarTree: This is called to set the Quest ID of a form. (such as when the user clicked on the add comment button.)
+
+            const formSection = document.getElementById('formSection');
+            if (!formSection) return;
+            toggleModule('form', true)
+
+
+
+            // Prefill the Form Fields
+            document.getElementById('questId').value = questId;
+            document.getElementById('MsgFormTags').value = "comment";
+
+            // Smoothly scroll the logging form view into target viewport view segment if needed
+            formSection.scrollIntoView({ behavior: 'smooth' });
+            if (btn) {
+                const logItem = btn.closest('.log-item');
+                if (logItem) {
+                    logItem.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                }
+                // Sets the gold border.
+                if (activeEntry) {
+                    activeEntry.classList.remove('active');
+                }
+                if (true || document.getElementById('activeGold').checked) {
+                    logItem.classList.add('active');
+                }
+                activeEntry = logItem;
+            }
+
 
         }
         function MEMForm(bLoad) {
@@ -1550,7 +1654,7 @@
             }
 
             try {
-                const response = await fetch(QuestSDK.APIGet(true));
+                const response = await fetch(precheck);
                 const result = await response.json();
 
                 if (result.status === "success" && result.data) {
@@ -1686,18 +1790,107 @@
             localStorage.setItem("map_street_theme", val);
             applyFilterState();
         }
+        function TimerStartStop(bStart, bStop) {
+            // 20260706: Evelyn: Set the start time in UTC, but display the time in the user's local time.
+            
+            const btnStart = document.getElementById('MsgFormStartBtn');
+            const txtStart = document.getElementById('MsgFormStartTime');
+            const txtDura = document.getElementById('MsgFormDuration');
+            const txtEnd = document.getElementById('MsgFormEndTime');
+            const btnStop = document.getElementById('MsgFormStopBtn');
+            const frmTimer = btnStart.closest('.timer-control');
+            // Store UTC timestamps + accumulated duration (ms) on the element
+            if (!frmTimer.dataset.accMs) frmTimer.dataset.accMs = "0";
+            const started = frmTimer.classList.contains('started');
+
+            if (bStart == bStop) {
+                // Master Stop: if the Timer is started, stop it
+                if (txtStart.value == "") { return; } // If the timer was not used, return;
+                if (!started) { return; } // If the timer was used but currently stopped, return
+                if (started) { bStop = false; } // If the timer is still running, stop it,
+            }
+
+            const pad2 = n => String(n).padStart(2, '0');
+            const toLocalInputValueFromUTC = (utcMs) => {
+                const d = new Date(utcMs);
+                // Matches datetime-local input value format: YYYY-MM-DDTHH:mm
+                return `${d.getFullYear()}${pad2(d.getMonth() + 1)}${pad2(d.getDate())}${pad2(d.getHours())}${pad2(d.getMinutes())}${pad2(d.getSeconds())}`;
+            };
+            const toLocalMinutes = (ms) => Math.max(0, ms / 60000);
+            if (bStart) { // Start/pause button is pressed.
+                if (!started) {
+                    // If the started flag is not set, set the start time and the flag, change the text to pause.
+                    frmTimer.classList.add('started');
+                    frmTimer.dataset.startUtcMs = String(Date.now());
+                    btnStart.textContent = 'PAUSE';
+                    btnStop.textContent = 'CHECK';
+                    // Display start time in local time only if it is new since reset
+                    if (txtStart.value == "") {
+                        frmTimer.dataset.startUtcMs0 = frmTimer.dataset.startUtcMs;
+                        txtStart.value = toLocalInputValueFromUTC(Number(frmTimer.dataset.startUtcMs));
+                    }
+                } else {
+                    // If the started flag is already set, pause, update the end time and accumulate the difference to the duration, display in minutes. Remove the started flag, change the text to start.
+                    const nowUtcMs = Date.now();
+                    frmTimer.dataset.endUtcMs = nowUtcMs
+                    const startUtcMs = Number(frmTimer.dataset.startUtcMs || nowUtcMs);
+                    const elapsedMs = Math.max(0, nowUtcMs - startUtcMs);
+                    frmTimer.dataset.accMs = String(Number(frmTimer.dataset.accMs || 0) + elapsedMs);
+
+                    // Display end time and accumulated duration (minutes)
+
+                    if (txtEnd) txtEnd.value = toLocalInputValueFromUTC(nowUtcMs);
+                    if (txtDura) txtDura.value = String(Math.ceil(toLocalMinutes(Number(frmTimer.dataset.accMs))));
+                    frmTimer.classList.remove('started');
+                    delete frmTimer.dataset.startUtcMs;
+                    btnStart.textContent = 'START';
+                    btnStop.textContent = 'RESET';
+                }
+
+            }
+            if (bStop) { // Stop/Reset button is pressed.
+                if (!started) {
+                    // If the started flag is not set, clear the duration.
+                    // Reset everything for a new run
+                    
+                    frmTimer.classList.remove('started');
+                    delete frmTimer.dataset.startUtcMs;
+                    delete frmTimer.dataset.startUtcMs0;
+                    delete frmTimer.dataset.endUtcMs;
+                    delete frmTimer.dataset.accMs;
+                    
+
+                    if (txtStart) txtStart.value = '';
+                    if (txtEnd) txtEnd.value = '';
+                    if (txtDura) txtDura.value = '';
+
+                    btnStart.textContent = 'START';
+                } else {
+                    // If the started flag is set, update the end time and minute.
+                    const nowUtcMs = Date.now();
+                    if (txtEnd) txtEnd.value = toLocalInputValueFromUTC(nowUtcMs);
+                    const startUtcMs = Number(frmTimer.dataset.startUtcMs || nowUtcMs);
+                    var tempElapsedMs = Math.max(0, nowUtcMs - startUtcMs);
+                    tempElapsedMs = String(Number(frmTimer.dataset.accMs || 0) + tempElapsedMs);
+                    if (txtDura) txtDura.value = String(Math.ceil(toLocalMinutes(Number(tempElapsedMs))));
+
+                }
+            }
+        }
         function ToggleListComments(elBar) {
             // 20260704: StarTree: Toggles the content visibility and lists comments.
             // elBar is the title bar within the log-item object.
             // When the content is hidden, clicking the bar opens it and lists the comments.
             // Clicking the bar while the content is shown will just hide the content.
-            const elParent = elBar.closest('.log-item');
-            const elContent = elParent.querySelector('.entry-content');
+            const elEntry = elBar.closest('.log-item');
+            const elContent = elEntry.querySelector('.entry-content');
             if (elContent.classList.contains('hidden')) {
-                EntryListComments(elParent.dataset.timestamp, elBar);
+                EntryListComments(elEntry.dataset.timestamp, elBar);
             }
             elContent.classList.toggle('hidden');
             elContent.removeAttribute('hidden');
+
+
         }
         function toggleMapView() {
             if (currentMapMode === 'street') {
@@ -1823,7 +2016,7 @@
                 if (!await confirm(`You are viewing ${mSourceAPI} records but sending a message to ${mDestAPI}. Is this what you want to do?`)) { return; }
             }
 
-
+            TimerStartStop(true, true); // Stop the timer before sending.
             startCooldown(5);
 
             const clientLV = localStorage.getItem("clientLV") || "0";
@@ -1842,7 +2035,7 @@
                     clientBD = `${yyyy}${mm}${dd}${hh}${min}${ss}${ms}`;
                 }
             }
-
+            const frmTimer = document.querySelector('.timer-control');
             // @@1
             const statusMsg = document.getElementById('statusMessage');
             const questId = document.getElementById('questId').value;
@@ -1852,9 +2045,16 @@
             const tags = document.getElementById('MsgFormTags').value;
             const lat = document.getElementById('latField').value;
             const lng = document.getElementById('lngField').value;
+            const duration = frmTimer.dataset.accMs;
+            const endTime = frmTimer.dataset.endUtcMs;
+            const startTime = frmTimer.dataset.startUtcMs0;
             const submitterId = document.getElementById('MsgFormQuester').value;
             const title = document.getElementById('MsgFormTitle').value;
             let eventText = document.getElementById('MsgFormText').value || ``;
+
+            DEBUG(startTime + " " + duration + " " + endTime);
+
+            // 
 
             //localStorage.setItem("h_submitterId", submitterId);
             localStorage.setItem("h_questId", questId);
@@ -1877,7 +2077,7 @@
             formData.append('title', title);
 
             try {
-                await fetch(QuestSDK.APIGet(false), {
+                await fetch(precheck, {
                     method: "POST",
                     body: formData.toString(),
                     headers: { "Content-Type": "application/x-www-form-urlencoded" }
@@ -1910,12 +2110,16 @@
         }
 
         function startCooldown(seconds) {
+            const apiDest = document.getElementById('apiDest');
             const submitBtn = document.getElementById('submitBtn');
             let remaining = seconds;
             submitBtn.disabled = true;
             submitBtn.style.opacity = 0.25;
             submitBtn.textContent = `${remaining}s`;
-
+            if (apiDest.value != "personal") {
+                apiDest.value = "draft";
+                apiDest.classList.add("draft");
+            }
             const interval = setInterval(() => {
                 remaining--;
                 if (remaining <= 0) {
@@ -1978,8 +2182,7 @@
             //bCacheBust &= useCacheBuster;
 
             if (!iSpecificAPI) {
-                container.innerHTML = "<p style='color:#a0aec0; font-size:12px;'>Loading from server...</p>";
-
+                container.innerHTML = "<p style='text-align:center;color:#a0aec0; font-size:16px;'>Loading from server...</p>";
             }
 
 
