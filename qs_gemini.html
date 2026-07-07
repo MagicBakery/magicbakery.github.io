@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quest App</title>
-    <script>const APP_VERSION = "20260706033325";</script>
+    <script>const APP_VERSION = "20260706183238";</script>
     <script src="config.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="qsdk.js"></script>
@@ -551,14 +551,22 @@
             height: 20px;
             width: 20px;
             float: right;
-            margin: 0px -2px 0px 3px;
+            margin: -2px -2px 0px 3px;
         }
 
         .btn.comment-list {
             background: #006000;
             border-radius: 8px 0px 0px 8px;
         }
-
+        .btn.parent {
+            background: none;
+            border-radius: 5px;
+            color: #606060;
+            height: 20px;
+            width: 20px;
+            float: left;
+            margin:-2px 0px 0px -5px;
+        }
         .btn.settings-tab {
             background: #404040;
             border: 1px solid #404040;
@@ -921,6 +929,10 @@
                     <button type="submit" id="submitBtn" class="submit-btn">Send</button>
                 </div>
             </div>
+            <div class="form-row hidden">
+                <div onclick="ListShowReOnly()" style="color:gold;font-size:12px;margin:-7px 0px 0px 3px">Re: <span
+                        id="MsgFormReAPI"></span>: <span id="MsgFormReTitle"></span></div>
+            </div>
             <div class="form-row">
                 <div class="form-group col-50">
                     <input style="font-size:12px;padding:8px" type="text" id="questId" placeholder="Parent ID">
@@ -1025,7 +1037,17 @@
             </div>
             <div class="form-group tab-group">
                 <div id="tabNotepad" class="tab">
-                    <textarea id="Notepad" placeholder="Notes..." style="resize:vertical; height:100%"
+                    <div class="form-group">
+                        <button id="EditURLStrip" type="button" class="btn" onclick="URLTrim()" title="URL Trimmer" style="width: 32px;height: 23px;background: none;border-radius: 5px;border: 1px solid #606060;color:#808080;padding: 0;">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="1" fill="currentColor">
+                                <rect x="3.5" y="8" width="11" height="8" rx="0" />
+                                <rect x="16.5" y="8" width="4" height="8" rx="0" />
+                            </svg>
+                        </button>
+                    </div>
+                    <textarea id="Notepad" placeholder="Notes..."
+                        style="resize:vertical; height:100%;border: 1px solid black;border-radius: 5px;"
                         oninput="MEMValue('Notepad')"></textarea>
                 </div>
                 <div id="tabAPISettings" class="tab hidden">
@@ -1367,6 +1389,7 @@
 
                 if (filter === "SHOW ALL" && !iTag) {
                     if (!entry.classList.contains('dismissed')) {
+                        ledger.append(entry);
                         entry.classList.remove('hidden');
                         visibleCount++;
                     } else {
@@ -1382,7 +1405,7 @@
                 } else if (filter === "selected") {
                     if (entry.classList.contains('selected')) {
                         entry.classList.remove('hidden');
-                        ledger.insertBefore(entry, ledger.firstChild);
+                        ledger.append(entry);
                         entry.querySelector('.entry-content').classList.add('hidden');
                         visibleCount++;
                     } else {
@@ -1393,7 +1416,7 @@
                     if (entry.classList.contains('hidden')) {
 
                     } else if (entry.querySelector('.tag.' + iTag)) {
-                        ledger.insertBefore(entry, ledger.firstChild);
+                        ledger.append(entry);
                         visibleCount++;
                     } else {
                         entry.classList.add('hidden');
@@ -1401,7 +1424,7 @@
                 } else {
                     if (filter === "public quest") {
                         if (entry.querySelector('.tag.public') && entry.querySelector('.tag.quest')) {
-                            ledger.insertBefore(entry, ledger.firstChild);
+                            ledger.append(entry);
                             entry.classList.remove('hidden');
                             visibleCount++;
                         } else {
@@ -1409,7 +1432,7 @@
                         }
                     } else {
                         if (entry.classList.contains("tag-" + filter)) {
-                            ledger.insertBefore(entry, ledger.firstChild);
+                            ledger.append(entry);
                             entry.classList.remove('hidden');
                             visibleCount++;
                         } else {
@@ -1439,30 +1462,39 @@
             if (!formSection) return;
             toggleModule('form', true)
 
-
-
             // Prefill the Form Fields
             document.getElementById('questId').value = questId;
             document.getElementById('MsgFormTags').value = "comment";
 
             // Smoothly scroll the logging form view into target viewport view segment if needed
-            formSection.scrollIntoView({ behavior: 'smooth' });
+            formSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            const reTitle = document.getElementById('MsgFormReTitle');
+            const reAPI = document.getElementById('MsgFormReAPI');
+
             if (btn) {
                 const logItem = btn.closest('.log-item');
                 if (logItem) {
-                    logItem.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    logItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }
                 // Sets the gold border.
-                if (activeEntry) {
-                    activeEntry.classList.remove('active');
-                }
-                if (true || document.getElementById('activeGold').checked) {
+                if (logItem && activeEntry != logItem) {
+                    activeEntry?.classList.remove('active');
                     logItem.classList.add('active');
+                    activeEntry = logItem;
+                    reAPI.innerText = EntryScope(logItem);
+                    reTitle.innerText = logItem.querySelector('.entry-title').textContent;
+                    reTitle.classList.remove("hidden");
+                    reTitle.closest('.form-row').classList.remove("hidden");
+                    return;
+                } else {
+                    activeEntry.classList.remove('active');
+                    activeEntry = null;
+                    document.getElementById('questId').value = "";
                 }
-                activeEntry = logItem;
             }
-
-
+            reAPI.innerText = "";
+            reTitle.innerText = "";
+            reTitle.closest('.form-row').classList.add("hidden");
         }
         function MEMForm(bLoad) {
             // @@3
@@ -1584,15 +1616,14 @@
                 addRedLandmark(coords);
             }
         }
-        function reportBoloSighting(questId) {
+        function reportBoloSighting(questId,btn) {
             const formSection = document.getElementById('formSection');
             if (!formSection) return;
 
             // Remove hidden flag to show the panel drawer container
-            toggleModule('form', true)
+            FormSetQuest(questId,btn);
 
             // Prefill the Form Fields
-            document.getElementById('questId').value = questId;
             document.getElementById('MsgFormTags').value = "sighting";
 
             // Turn on the "Sync Map" checkbox control element
@@ -1604,9 +1635,6 @@
                     toggleCrosshairSync(true);
                 }
             }
-
-            // Smoothly scroll the logging form view into target viewport view segment if needed
-            formSection.scrollIntoView({ behavior: 'smooth' });
         }
         function saveLandmarksToStorage() {
             const dataToSave = localLandmarks.map(item => ({
@@ -1627,13 +1655,10 @@
             if (!el) { return; }
             el.value = iValue;
         }
-        async function showBoloSightings(questId) {
+        async function showBoloSightings(questId,iSpecificAPI, iScope) {
             var precheck = QuestSDK.APIGet(true);
             if (!precheck) { return; }
             if (!map || !sightingsLayerGroup) return;
-
-
-
 
             // TOGGLE OFF: If the requested quest matches the active one, clear and turn off
             if (currentActiveSightingQuestId === String(questId)) {
@@ -1792,7 +1817,7 @@
         }
         function TimerStartStop(bStart, bStop) {
             // 20260706: Evelyn: Set the start time in UTC, but display the time in the user's local time.
-            
+
             const btnStart = document.getElementById('MsgFormStartBtn');
             const txtStart = document.getElementById('MsgFormStartTime');
             const txtDura = document.getElementById('MsgFormDuration');
@@ -1852,13 +1877,13 @@
                 if (!started) {
                     // If the started flag is not set, clear the duration.
                     // Reset everything for a new run
-                    
+
                     frmTimer.classList.remove('started');
                     delete frmTimer.dataset.startUtcMs;
                     delete frmTimer.dataset.startUtcMs0;
                     delete frmTimer.dataset.endUtcMs;
                     delete frmTimer.dataset.accMs;
-                    
+
 
                     if (txtStart) txtStart.value = '';
                     if (txtEnd) txtEnd.value = '';
@@ -1877,21 +1902,7 @@
                 }
             }
         }
-        function ToggleListComments(elBar) {
-            // 20260704: StarTree: Toggles the content visibility and lists comments.
-            // elBar is the title bar within the log-item object.
-            // When the content is hidden, clicking the bar opens it and lists the comments.
-            // Clicking the bar while the content is shown will just hide the content.
-            const elEntry = elBar.closest('.log-item');
-            const elContent = elEntry.querySelector('.entry-content');
-            if (elContent.classList.contains('hidden')) {
-                EntryListComments(elEntry.dataset.timestamp, elBar);
-            }
-            elContent.classList.toggle('hidden');
-            elContent.removeAttribute('hidden');
-
-
-        }
+        
         function toggleMapView() {
             if (currentMapMode === 'street') {
                 map.removeLayer(activeStreetLayer);
@@ -2307,7 +2318,7 @@
                         <button class="sighting-toggle-btn" data-quest-id="${item.questId}" onclick="showBoloSightings('${item.timestamp}')" style="${btnStyle} border: 1px solid #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600; transition: all 0.2s ease;">
                             ${btnText}
                         </button>
-                        <button onclick="reportBoloSighting('${item.timestamp}')" style="background: #1c1c1e; border: 1px solid #ffd700; color: #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600;">
+                        <button onclick="reportBoloSighting('${item.timestamp}',this)" style="background: #1c1c1e; border: 1px solid #ffd700; color: #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600;">
                             Add Sighting
                         </button>
                     </div>
@@ -2333,11 +2344,11 @@
 </svg></button>` : '';
                         html += EntryTitle(item);
                         html += `<span class="entry-title">${mapBtnHtml}</span>`;
-                        html += EntryStatus(item);
+                        html += " " + EntryStatus(item);
                         html += `</div><div class="entry-content hidden">`;
                         html += EntryThumbnail(item, "entry-thumbnail");
                         html += `<span style="float:right; color: #ffffff;">${item.submitterId || 'User'} ${EntryStandardButtons(item)}</span>`;
-                        //html += EntryStandardButtons(item);
+                        html += EntryParentButton(item);
                         html += `${tagsHtml}`;
                         html += `<div class="entry-text">${item.eventText} ${EntryURL(item)}</div>`;
                         html += `${boloActionsHtml}`;
