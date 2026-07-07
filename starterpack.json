@@ -2228,9 +2228,10 @@
     "p": "20260314194400",
     "u": "https://magicbakery.github.io/sprites/Kisaragi_%7B20260314194400%7D.png",
     "s": 535,
+    "x": -217,
     "y": 36,
-    "v": "20260314194400",
-    "x": -217
+    "v": "20260314194400"
+
   },
   {
     "n": "CASEY",
@@ -2273,6 +2274,28 @@
     "x": 278,
     "y": 60,
     "v": "20260314230700"
+  },
+  {
+    "n": "LAB",
+    "t": [
+      "LAB",
+      "PANARCANA",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260316002900",
+    "u": "https://substackcdn.com/image/fetch/$s_!mitq!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcb33eac6-a36e-4c6f-a81c-da10288550b2_1536x1024.jpeg"
+  },
+  {
+    "n": "LAB",
+    "t": [
+      "LAB",
+      "PANARCANA",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260316002918",
+    "u": "https://substackcdn.com/image/fetch/$s_!EnZ6!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F420ce627-8845-4ba3-8137-3a377a598201_1536x1024.jpeg"
   },
   {
     "n": "USS MISSOURI",
@@ -2680,5 +2703,31 @@
     ],
     "p": "20260619211700",
     "u": "https://substackcdn.com/image/fetch/$s_!izSz!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8e742331-df62-41ec-90e8-11b494466b01_1536x1024.jpeg"
+  },
+  {
+    "n": "HALLWAY",
+    "t": [
+      "BAKERY",
+      "DORM",
+      "HALLWAY",
+      "PANARCANA",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260620215901",
+    "u": "https://substackcdn.com/image/fetch/$s_!wun6!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9801a8f7-bf38-4450-ba66-9390dd33ff9d_1536x1024.jpeg"
+  },
+  {
+    "n": "HALLWAY",
+    "t": [
+      "BAKERY",
+      "DORM",
+      "HALLWAY",
+      "PANARCANA",
+      "[SCENE]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260620215903",
+    "u": "https://substackcdn.com/image/fetch/$s_!b9C3!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F32ce90a1-dcd7-4017-8dda-ec744ddd2e67_1536x1024.jpeg"
   }
 ]
