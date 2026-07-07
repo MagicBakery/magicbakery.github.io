@@ -332,7 +332,7 @@ function EntryTimestamp(entry) {
       fullTimeStr = entry.timestamp;
     }
   }
-  var html = `<div class="timestamp click-to-copy" title="${locTimeStr}"><a href="${URLTrim(document.location.href) + '?p=' + QID}" ondblclick="CopyToClipboard('${QID}')" onclick="event.stopPropagation();event.preventDefault();EntryToggleSelected(this);">${shortLocTime}</a></div>`;
+  var html = `<div class="timestamp click-to-copy" title="${locTimeStr}"><a href="${URLTrim(document.location.href) + '?id=' + QID}" ondblclick="CopyToClipboard('${QID}')" onclick="event.stopPropagation();event.preventDefault();EntryToggleSelected(this);">${shortLocTime}</a></div>`;
   return html;
 }
 function EntryURL(entry) {

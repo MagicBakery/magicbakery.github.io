@@ -1734,8 +1734,8 @@
     ],
     "p": "20260306213800",
     "u": "https://substackcdn.com/image/fetch/$s_!H89Z!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F0e820440-059e-447b-8d5d-8c1af14d8b6f_1536x1024.jpeg",
-    "v": "20260316082407",
-    "c": "!Stage%20quest%2Chall%0A!clear%20choices%0A%3DAdventurers%20Guild%3D%0A*!%3E20260107234400*%20Check%20the%20Quest%20Board%0A*%3E20260314044606*%20Back%20to%20Plaza%0A*%3E20260208013400*%20Go%20to%20to%20the%20Diner%0A*%3E20260131093200%7C%3E20260131093101*%20%22What%20is%20this%20place%3F%22%0A*%3E20260131093200*%20Talk%20to%20Amber%0A*%3E20260131093101*%20Talk%20to%20Brian%0A!Goto%20Lobby",
+    "v": "20260707081608",
+    "c": "!Stage%20quest%2Chall%0A!clear%20choices%0A%3DAdventurers%20Guild%3D%0A*!%3E20260107234400*%20Check%20the%20Quest%20Board%0A*%3E20260314044606*%20Back%20to%20Plaza%0A*%3E20260208013400*%20Go%20to%20the%20Diner%0A*%3E20260131093200%7C%3E20260131093101*%20%22What%20is%20this%20place%3F%22%0A*%3E20260131093200*%20Talk%20to%20Amber%0A*%3E20260131093101*%20Talk%20to%20Brian%0A*%3E20260316002900*%20Go%20to%20downstairs%0A!Goto%20Lobby",
     "s": 0,
     "x": 0,
     "y": 0
@@ -2231,7 +2231,6 @@
     "x": -217,
     "y": 36,
     "v": "20260314194400"
-
   },
   {
     "n": "CASEY",
@@ -2284,7 +2283,12 @@
       "[STARTER PACK]"
     ],
     "p": "20260316002900",
-    "u": "https://substackcdn.com/image/fetch/$s_!mitq!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcb33eac6-a36e-4c6f-a81c-da10288550b2_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!mitq!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fcb33eac6-a36e-4c6f-a81c-da10288550b2_1536x1024.jpeg",
+    "v": "20260707091505",
+    "c": "!stage%20lab%2C%20panarcana%0A!clear%20bubbles%0A%3D%5BUrl%3Dhttps%3A%2F%2Fmagicbakery.github.io%2F%3Fid%3DP202606271049%5DGadgets%20Lab%5B%2Furl%5D%3D%0A*!%3EAbout*%20What%20is%20this%3F%0A*%3E20260306213800*%20Exit%20to%20Adventurers%20Guild%0A!Goto%20Top%0A%0A%23About%23%0A%40Ivy%3A%20%5Burl%3Dhttps%3A%2F%2Fmagicbakery.github.io%2Fqs.html%3Fid%3D20260703220947678%5DThis%5B%2Furl%5D%20is%20a%20webapp%20we%20are%20making.%20It%20is%20for%20posting%20quests%20and%20logging%20quest%20credits.%0A*%3EComplicated*%20Why%20is%20it%20so%20complicated%3F%0A*%3EFeatures*%20What%20can%20it%20do%20right%20now%3F%0A*%3EManual*%20Where%20is%20the%20manual%3F%0A!Goto%20Top%0A%0A%23Complicated%23%0A%40Ivy%3A%20I%20know%20right...%20It%20would%20be%20so%20much%20simpler%20if%20we%20started%20right...%0A!Goto%20Top%0A%0A%23Features%23%0A%40Ivy%3A%20Let's%20see...%0A*%3ELog%20Credits*%20Log%20Credits%0A*%3ELost%20Pets*%20Lost%20Pets%0A*%3ENote%20Taking*%20Note%20Taking%0A*%3EPost%20Quests*%20Post%20Quests%0A*%3E1%20Star*%201-Star%20App%0A%0A%23Log%20Credits%23%0A%40P4%3A%20You%20can%20log%20credits.%0A%40Sasha%3A%20That's%20pointless%20unless%20you%20are%20in%20a%20guild.%0A!Goto%20Features%0A%0A%23Lost%20Pets*%0A%40StarTree%3A%20You%20could%20post%20about%20lost%20pets.%0A%40Sasha%3A%20%5Burl%3Dhttps%3A%2F%2Fwww.pawboost.com%2F%5DOther%20Apps%5B%2Furl%5D%20can%20do%20that%20better.%20And%20for%20that%20to%20work%2C%20you%20first%20need%20enough%20people%20use%20it.%0A%40LRRH%3A%20Isn't%20that%20a%20chicken-and-egg%20problem%3F%0A%40P4%3A%20Eggs%20don't%20fly.%0A%40Evelyn%3A%20I%20think%20it%20could%20still%20be%20helpful%20if%20someone%20is%20not%20trying%20to%20look%20for%20lost%20pets%2C%20but%20through%20the%20app%20learns%20that%20there%20might%20be%20a%20lost%20pet%20nearby.%0A!Goto%20Features%0A%0A%23Manual%23%0A%40Ivy%3A%20Things%20are%20being%20added%20and%20changing%20faster%20than%20people%20could%20explain%20them...%0A*%20Isn't%20that%20want%20the%20manual%20is%20for%3F%20You%20write%20the%20manual%20first%20so%20the%20app%20will%20do%20what%20it%20is%20supposed%20to.%0A%40Ivy%3A%20Well%2C%20I%20don't%20disagree.%20%0A!Goto%20Top%0A%0A%23Merge%23%0A%40Sasha%3A%20Which%20is%20merging%20to%20which%3F%20I%20think%20it%20is%20easier%20for%20the%20Theater%20to%20call%20Apps%20Script%20and%20load%20scripts%20than%20for%20the%20Quest%20App%20to%20run%20Theater.%0A%40Evelyn%3A%20I%20think%20they%20are%20both%20good.%0A%40Ivy%3A%20Refactor%20the%20code%20and%20move%20all%20the%20javascript%20to%20the%20SDK%20so%20both%20apps%20can%20call%20functions%20developed%20by%20the%20other.%0A%40Ivy%3A%20Including%20the%20Bakery%20code.%0A%40StarTree%3A%20Does%20Red%20want%20to%20keep%20the%20Bakery%20or%20just%20make%20a%20CSS%20for%20the%20Quest%20App%20so%20that%20it%20can%20look%20like%20the%20Bakery%3F%0A%40LRRH%3A%20Please%20make%20the%20Quest%20App%20cute%20so%20the%20switch%20can%20be%20made.%0A%40StarTree%3A%20Roger!%0A!Goto%20Top%0A%0A%23Note%20Taking%23%0A%40Black%3A%20You%20can%20take%20notes%20with%20it%2C%20if%20you%20set%20up%20your%20Google%20Sheet.%0A%40Black%3A%20But%20we%20can't%20really%20recommend%20that%20use%20yet%20because%20things%20are%20still%20changing.%20%0A%40Black%3A%20If%20you%20start%20using%20it%20like%20that%20and%20we%20change%20the%20backend%2C%20you%20would%20have%20to%20fix%20your%20Google%20Sheet.%0A%40Sasha%3A%20The%20Theater%20(this)%20is%20better%20for%20note-taking.%20It%20works%20from%20the%20start.%20No%20setup%20required!%0A%40StarTree%3A%20Note-taking%20is%20a%20feature%20at%20the%20backstage%20of%20the%20theater.%20You%20need%20to%20go%20to%20the%20backstage%20first.%0A!Goto%20Top%0A%0A%23Post%20Quests*%0A%40Evelyn%3A%20You%20can%20post%20quests%20and%20browse%20quests.%20I%20think%20that%20is%20the%20main%20use.%0A%40Sasha%3A%20Although%20right%20now%20most%20of%20the%20activities%20are%20about%20making%20the%20app%20itself.%0A%40Evelyn%3A%20I%20am%20happy%20that%20it%20got%20started%20and%20I%20think%20it%20can%20compliment%20the%20Theater.%0A%40Ledia%3A%20The%20Theater%20can%20show%20skits%2C%20but%20you%20can't%20share%20the%20skits%20you%20make%20easily.%20The%20Quest%20App%20is%20the%20opposite.%20It%20can%20share%20records%2C%20but%20can't%20run%20skits.%0A%40Evelyn%3A%20I%20think%20they%20can%20merge.%0A*.%3EMerge*%20Which%20merges%20to%20which%3F%0A!%0A!Goto%20Top%0A%0A%0A%0A%231%20Star%23%0A%40Tanya%3A%20It%20is%20a%201-star%20app.%20Unless%20you%20are%20a%20dedicate%20(aka%20a%20developer)%2C%20it%20is%20unlikely%20to%20be%20usable.%0A%40Sasha%3A%20The%20Theater%20is%20at%20least%20entertaining.%0A!Goto%20Top",
+    "s": 0,
+    "x": 0,
+    "y": 0
   },
   {
     "n": "LAB",
@@ -2295,7 +2299,8 @@
       "[STARTER PACK]"
     ],
     "p": "20260316002918",
-    "u": "https://substackcdn.com/image/fetch/$s_!EnZ6!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F420ce627-8845-4ba3-8137-3a377a598201_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!EnZ6!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F420ce627-8845-4ba3-8137-3a377a598201_1536x1024.jpeg",
+    "v": "20260316002918"
   },
   {
     "n": "USS MISSOURI",
@@ -2350,7 +2355,8 @@
       "[STARTER PACK]"
     ],
     "p": "20260325232807",
-    "u": "https://substackcdn.com/image/fetch/$s_!xlwq!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5e8ac1f8-229a-462f-8e89-825d7dcec2f6_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!xlwq!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F5e8ac1f8-229a-462f-8e89-825d7dcec2f6_1536x1024.jpeg",
+    "v": "20260325232807"
   },
   {
     "n": "NEWSROOM",
@@ -2479,7 +2485,7 @@
     "u": "https://substackcdn.com/image/fetch/$s_!hGxL!,w_474,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F744c0277-9388-47b6-b89c-65f1c8896b5e_1536x1024.jpeg",
     "v": "20260503210808"
   },
-    {
+  {
     "n": "ACCOUNTING",
     "t": [
       "ACADEMY",
@@ -2488,7 +2494,8 @@
       "[STARTER PACK]"
     ],
     "p": "20260503220001",
-    "u": "https://substackcdn.com/image/fetch/$s_!iYhy!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F980268a7-714a-4a7d-8bba-0049526e5837_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!iYhy!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F980268a7-714a-4a7d-8bba-0049526e5837_1536x1024.jpeg",
+    "v": "20260503220001"
   },
   {
     "n": "CONFETTI",
@@ -2679,7 +2686,11 @@
       "[STARTER PACK]"
     ],
     "p": "20260508001900",
-    "u": "https://substackcdn.com/image/fetch/$s_!WhBJ!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F38389e03-0545-4ce6-ad62-a1b00c48485c_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!WhBJ!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F38389e03-0545-4ce6-ad62-a1b00c48485c_1536x1024.jpeg",
+    "v": "20260508001900",
+    "s": 0,
+    "x": 0,
+    "y": 0
   },
   {
     "n": "BLACKBOARD",
@@ -2691,7 +2702,8 @@
       "[STARTER PACK]"
     ],
     "p": "20260619211102",
-    "u": "https://substackcdn.com/image/fetch/$s_!ZRfe!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd28f2e98-a887-46b5-8e3b-b673790706a3_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!ZRfe!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd28f2e98-a887-46b5-8e3b-b673790706a3_1536x1024.jpeg",
+    "v": "20260619211102"
   },
   {
     "n": "CLASSROOM",
@@ -2702,7 +2714,8 @@
       "[STARTER PACK]"
     ],
     "p": "20260619211700",
-    "u": "https://substackcdn.com/image/fetch/$s_!izSz!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8e742331-df62-41ec-90e8-11b494466b01_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!izSz!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F8e742331-df62-41ec-90e8-11b494466b01_1536x1024.jpeg",
+    "v": "20260619211700"
   },
   {
     "n": "HALLWAY",
@@ -2715,7 +2728,8 @@
       "[STARTER PACK]"
     ],
     "p": "20260620215901",
-    "u": "https://substackcdn.com/image/fetch/$s_!wun6!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9801a8f7-bf38-4450-ba66-9390dd33ff9d_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!wun6!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F9801a8f7-bf38-4450-ba66-9390dd33ff9d_1536x1024.jpeg",
+    "v": "20260620215901"
   },
   {
     "n": "HALLWAY",
@@ -2728,6 +2742,7 @@
       "[STARTER PACK]"
     ],
     "p": "20260620215903",
-    "u": "https://substackcdn.com/image/fetch/$s_!b9C3!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F32ce90a1-dcd7-4017-8dda-ec744ddd2e67_1536x1024.jpeg"
+    "u": "https://substackcdn.com/image/fetch/$s_!b9C3!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F32ce90a1-dcd7-4017-8dda-ec744ddd2e67_1536x1024.jpeg",
+    "v": "20260620215903"
   }
 ]

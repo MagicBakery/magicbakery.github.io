@@ -1180,7 +1180,7 @@
 
         window.onload = async () => {
             urlParams = new URLSearchParams(window.location.search);
-            const rawId = urlParams.get('p');
+            const rawId = urlParams.get('id');
             if (rawId) {
                 await fetchFromCacheOnFirstStart(true); // This takes some time.
                 if (ListSolo(rawId) == 0) {
