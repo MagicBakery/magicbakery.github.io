@@ -945,23 +945,22 @@
                 </div>
             </div>
             <div class="form-row timer-control">
-                <div class="form-group" style="flex:1 1 auto">
+                <div class="form-group" style="flex:1 1 40%">
                     <input type="text" id="MsgFormStartTime" placeholder="Start"
                         style="text-align:center;font-size:9px;border-radius: 25px;padding:10px;">
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="align-items: end;">
                     <!--<button class="btn">Stop</button>-->
                     <button id="MsgFormStartBtn" type="button" class="btn" onclick="TimerStartStop(true,false);"
                         style="width:32px;height:30px;background:black;border-radius:16px 0px 0px 16px;border:none;padding:0;font-size:8px;color:#008000;margin-top:1px;margin-left:-1px;padding-left:5px">
                         START
                     </button>
-
                 </div>
                 <div class="form-group" style="flex:1 1 20%">
                     <input type="text" id="MsgFormDuration" placeholder="---" style="text-align: center;border:none">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="align-items: start;">
                     <!--<button class="btn">Stop</button>-->
                     <button id="MsgFormStopBtn" type="button" class="btn" onclick="TimerStartStop(false,true)"
                         style="width:32px;height:30px;background:black;border-radius:0px 16px 16px 0px;border:none;padding:0;font-size:8px;color:#A00000;margin-top:1px;margin-left:-1px;padding-right:5px">
@@ -969,7 +968,7 @@
                     </button>
 
                 </div>
-                <div class="form-group" style="flex:1 1 auto">
+                <div class="form-group" style="flex:1 1 40%">
                     <input type="text" id="MsgFormEndTime" placeholder="End"
                         style="text-align: center;font-size:9px;border-radius: 25px;padding:10px;">
                 </div>
@@ -1037,12 +1036,12 @@
             </div>
             <div class="form-group tab-group">
                 <div id="tabNotepad" class="tab">
-                    <div class="form-group">
-                        <button id="EditURLStrip" type="button" class="btn" onclick="URLTrim()" title="URL Trimmer" style="width: 32px;height: 23px;background: none;border-radius: 5px;border: 1px solid #606060;color:#808080;padding: 0;">
+                    <div class="form-group" style="align-items: end;">
+                        <button id="EditURLStrip" type="button" class="btn" onclick="URLTrim()" title="URL Trimmer" style="width: 32px;height: 23px;background: none;border-radius: 5px;border: none;color:#808080;padding: 0;">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="1" fill="currentColor">
-                                <rect x="3.5" y="8" width="11" height="8" rx="0" />
-                                <rect x="16.5" y="8" width="4" height="8" rx="0" />
+                                <rect x="3.5" y="10" width="11" height="4" rx="0" />
+                                <rect x="16.5" y="10" width="4" height="4" rx="0" />
                             </svg>
                         </button>
                     </div>
@@ -1051,15 +1050,15 @@
                         oninput="MEMValue('Notepad')"></textarea>
                 </div>
                 <div id="tabAPISettings" class="tab hidden">
-                    <!--<label for="publicQuestAPIURL">Public Quest API URL</label>-->
+                    <label for="publicQuestAPIURL">Public Quest API URL</label>
                     <input id="publicQuestAPIURL" type="text" class="form-control"
                         placeholder="Public Quest Ledger (Unassigned)"
                         onblur="hasFetchedFromApi=false;QuestSDK.APISet('public',this)" />
-                    <!--<label for="guildQuestAPIURL">Guild Quest API URL</label>-->
+                    <label for="guildQuestAPIURL">Guild Quest API URL</label>
                     <input id="guildQuestAPIURL" type="text" class="form-control"
                         placeholder="Guest Quest Ledger (Unassigned)"
                         onblur="hasFetchedFromApi=false;QuestSDK.APISet('guild',this)" />
-                    <!--<label for="personalQuestAPIURL">Personal Quest API URL</label>-->
+                    <label for="personalQuestAPIURL">Personal Quest API URL</label>
                     <input id="personalQuestAPIURL" type="text" class="form-control"
                         placeholder="Personal Quest Ledger (Unassigned)"
                         onblur="hasFetchedFromApi=false;QuestSDK.APISet('personal',this)" />
