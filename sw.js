@@ -4,7 +4,7 @@ const ASSETS_TO_CACHE = [
   '/',           // The root URL
   '/mt.html',     // Magic Theater
   '/qs.html',     // Quest Board
-  '/qssdk.js',     // Quest Board SDK
+  '/qsdk.js',     // Quest Board SDK
   '/starterpack.json'
 ];
 
