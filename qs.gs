@@ -6,6 +6,15 @@ function doPost(e) {
     
     var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
     var newRow = new Array(headers.length);
+
+    var clientLevel = parseInt(params.cLv || "0", 10);
+    var visibilityStatus = "Private";
+    var approvalComment = "";
+
+    if (!isNaN(clientLevel) && clientLevel >= 1) {
+      visibilityStatus = "Public";
+      approvalComment = "Auto Approve Lv 1";
+    }
     
     // Map the incoming keys to the exact sheet headers dynamically
     var payloadMap = {
@@ -14,12 +23,16 @@ function doPost(e) {
       "Quest ID": params.questId,
       "URL": params.url,
       "Event Text": params.eventText,
-      "Comments": "",
-      "Status Code": params.statusCode || "200",
+      "IMG": params.img,
+      "Comments": approvalComment,
+      "Status": params.status,
       "Tags": params.tags,
-      "Visibility": "Private",
+      "Title": params.title,
+      "Visibility": visibilityStatus,
       "Latitude": params.lat || params.latitude || params.latField || "",
-      "Longitude": params.lng || params.longitude || params.lngField || ""
+      "Longitude": params.lng || params.longitude || params.lngField || "",
+      "Client BD": params.cId || params.clientBD,
+      "Client LV": params.cLv ||params.clientLV,
     };
 
     for (var i = 0; i < headers.length; i++) {
@@ -46,8 +59,12 @@ function doPost(e) {
 
 function doGet() {
   try {
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("AIR");
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName("AIR");
     var lastRow = sheet.getLastRow();
+    
+    // Dynamically retrieve the spreadsheet's exact time zone
+    var sheetTimeZone = ss.getSpreadsheetTimeZone();
     
     // Total data rows starting from the 3rd row (skips Header Row 1 and Unused Filter Row 2)
     var totalRowsCount = Math.max(0, lastRow - 2);
@@ -72,12 +89,11 @@ function doGet() {
       }
     }
 
-    // Step 2: Extract data chunks from the bottom up to isolate the 10 public logs
-    // We fetch blocks of 200 rows at a time to minimize memory usage
+    // Step 2: Extract data chunks from the bottom up to isolate the public logs
     var chunkSize = 200;
     var endRow = lastRow;
 
-    while (publicEntries.length < 10 && endRow > 2) {
+    while (publicEntries.length < chunkSize && endRow > 2) {
       var startRow = Math.max(3, endRow - chunkSize + 1);
       var numRows = (endRow - startRow) + 1;
       
@@ -91,16 +107,24 @@ function doGet() {
         if (row[viewSettingIndex] === "Public") {
           var entry = {};
           for (var j = 0; j < headers.length; j++) {
+
+            var headerName = headers[j];
+            if (headerName === "ClientBD" || headerName === "ClientLV" || headerName === "Visibility" || headerName === "Comments") {
+              continue; 
+            }
+
             var camelKey = headers[j].toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
-            entry[camelKey] = row[j];
+            
+            // --- TIMEZONE FIX ---
+            // If the cell contains a JavaScript Date object, force-format it from the Sheet's Timezone to UTC
+            if (row[j] instanceof Date) {
+              entry[camelKey] = Utilities.formatDate(row[j], "UTC", "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            } else {
+              entry[camelKey] = row[j];
+            }
           }
           
           publicEntries.push(entry);
-          
-          // Break early if we hit our target mid-chunk
-          if (publicEntries.length === 10) {
-            break;
-          }
         }
       }
       

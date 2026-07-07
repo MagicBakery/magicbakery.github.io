@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quest App</title>
-    <script>const APP_VERSION = "20260706183238";</script>
+    <script>const APP_VERSION = "20260706195811";</script>
     <script src="config.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="qsdk.js"></script>
@@ -558,6 +558,7 @@
             background: #006000;
             border-radius: 8px 0px 0px 8px;
         }
+
         .btn.parent {
             background: none;
             border-radius: 5px;
@@ -565,8 +566,9 @@
             height: 20px;
             width: 20px;
             float: left;
-            margin:-2px 0px 0px -5px;
+            margin: -2px 0px 0px -5px;
         }
+
         .btn.settings-tab {
             background: #404040;
             border: 1px solid #404040;
@@ -694,7 +696,7 @@
         .log-item.selected>.entry-titlebar .timestamp.click-to-copy {
             display: inline-block;
             margin-right: 5px;
-            color: gold;
+            color: gold !important;
             font-size: 11px;
             cursor: pointer;
         }
@@ -725,6 +727,7 @@
             color: gold !important;
         }
 
+
         .timestamp.click-to-copy {
             display: inline-block;
             margin-right: 5px;
@@ -733,6 +736,20 @@
             cursor: pointer;
         }
 
+
+        .timestamp.click-to-copy a {
+            color: unset;
+            font-size: 11px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .timestamp.click-to-copy a:visited {
+            color: unset;
+            font-size: 11px;
+            cursor: pointer;
+            text-decoration: none;
+        }
 
 
         #apiSource {
@@ -895,8 +912,7 @@
                 onfocus="fetchFromCacheOnFirstStart();" placeholder="Search...">
 
 
-            <button id="selectedBtn" class="btn" type="button"
-                onclick="fetchFromCacheOnFirstStart();MsgBoardShowSelected()"
+            <button id="selectedBtn" class="btn" type="button" onclick="MsgBoardShowSelected()"
                 style="background: gold; border: 2px solid black; border-radius:10px; padding: 0px 1.5px 0px 0px; margin:0px 0px 0px 4px; cursor: pointer; display: flex; align-items: center; color:saddlebrown; font-weight:bold;width: 20px;height: 20px;flex: 0 0 auto;letter-spacing: -0.1em;"
                 title="Show only selected Entries">
             </button>
@@ -938,10 +954,10 @@
                     <input style="font-size:12px;padding:8px" type="text" id="questId" placeholder="Parent ID">
                 </div>
                 <div class="form-group col-25">
-                    <input type="text" id="status" value="" placeholder="Status">
+                    <input type="text" id="status" value="" placeholder="Status" style="text-align: center;">
                 </div>
                 <div class="form-group col-25">
-                    <input type="text" id="MsgFormQuester" value="" placeholder="Submitter">
+                    <input type="text" id="MsgFormQuester" value="" placeholder="Submitter" style="text-align: center;">
                 </div>
             </div>
             <div class="form-row timer-control">
@@ -1036,13 +1052,19 @@
             </div>
             <div class="form-group tab-group">
                 <div id="tabNotepad" class="tab">
-                    <div class="form-group" style="align-items: end;">
-                        <button id="EditURLStrip" type="button" class="btn" onclick="URLTrim()" title="URL Trimmer" style="width: 32px;height: 23px;background: none;border-radius: 5px;border: none;color:#808080;padding: 0;">
+                    <div class="form-group" style="flex-direction:row-reverse;">
+
+                        <button id="EditURLStrip" type="button" class="btn" onclick="URLTrim()" title="URL Trimmer"
+                            style="width: 32px;height: 23px;background: none;border-radius: 5px;border: none;color:#808080;padding: 0;">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                                 stroke="currentColor" stroke-width="1" fill="currentColor">
                                 <rect x="3.5" y="10" width="11" height="4" rx="0" />
                                 <rect x="16.5" y="10" width="4" height="4" rx="0" />
                             </svg>
+                        </button>
+                        <button id="EditURLStrip" type="button" class="btn" onclick="TEST()" title="Test Button"
+                            style="width: 32px;height: 23px;background: none;border-radius: 5px;border: none;color:#808080;padding: 0;">
+                            UTC
                         </button>
                     </div>
                     <textarea id="Notepad" placeholder="Notes..."
@@ -1126,13 +1148,13 @@
                 <path
                     d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
             </svg>
-            Board
+            List
         </button>
         <button class="nav-btn" id="btnShowForm" onclick="toggleModule('form')">
             <svg class="nav-icon" viewBox="0 0 24 24">
                 <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
             </svg>
-            Add
+            Post
         </button>
         <button class="nav-btn" id="btnShowSettings" onclick="toggleModule('settings')">
             <svg class="nav-icon" viewBox="0 0 24 24">
@@ -1144,13 +1166,6 @@
     </div>
 
     <script>
-        const modules = {
-            map: { elementId: 'mapSection', btnId: 'btnShowMap' },
-            query: { elementId: 'querySection', btnId: 'btnShowQuery' },
-            form: { elementId: 'formSection', btnId: 'btnShowForm' },
-            settings: { elementId: 'settingsSection', btnId: 'btnShowSettings' }
-        };
-
         let activeEntry = null;
         let map, activeStreetLayer, activeSatelliteLayer;
         let currentMapMode = 'street';
@@ -1160,9 +1175,20 @@
         let sightingsLayerGroup = null;
         let currentActiveSightingQuestId = null;
 
-
         // Set API and show them on Settings screen.
         QuestSDK.init(QUEST_CONFIG);
+
+        window.onload = async () => {
+            urlParams = new URLSearchParams(window.location.search);
+            const rawId = urlParams.get('p');
+            if (rawId) {
+                await fetchFromCacheOnFirstStart(true); // This takes some time.
+                if (ListSolo(rawId) == 0) {
+                    alert(`The entry ${rawId} specified in the URL is not found.`);
+                }
+            }
+        }
+
 
         window.addEventListener('beforeunload', (event) => {
             event.preventDefault();
@@ -1343,8 +1369,8 @@
                 saveLandmarksToStorage();
             });
 
-            container.appendChild(input);
-            container.appendChild(deleteBtn);
+            container.append(input);
+            container.append(deleteBtn);
 
             // Bind popup configurations
             marker.bindPopup(container, {
@@ -1370,10 +1396,17 @@
                 mapContainer.classList.add(`map-theme-street-${selectedTheme}`);
             }
         }
-        function fetchFromCacheOnFirstStart() {
+        async function fetchFromCacheOnFirstStart(bWait) {
             // If the list has not been populated, load from cache.
             // 20260703: StarTree: hasFetchedFromApi also changes when the scope or API address has changed.
-            if (!hasFetchedFromApi) { fetchLatestEntries(false); }
+            if (!hasFetchedFromApi) {
+                if (bWait) {
+                    await fetchLatestEntries(false);
+                } else {
+                    fetchLatestEntries(false);
+                }
+
+            }
 
         }
         function filterMessageBoard(iTag) {
@@ -1507,12 +1540,9 @@
         }
         function MEMSelected(qid, add, bLoad) {
             const key = 'selectedQids';
-
             const ledger = document.getElementById('ledgerOutput');
-
             if (bLoad) {
                 if (!ledger) return;
-
                 const raw = localStorage.getItem(key);
                 let list = [];
                 try {
@@ -1526,7 +1556,7 @@
 
                 const items = ledger.querySelectorAll(':scope > .log-item');
                 items.forEach(el => {
-                    const norm = formatUTCYYYMMDDhhmmssuuu(el.dataset.timestamp);
+                    const norm = QuestSDK.QSID(el.dataset.timestamp);
                     if (norm && selectedSet.has(norm)) el.classList.add('selected');
                     else el.classList.remove('selected');
                 });
@@ -1534,7 +1564,7 @@
                 return;
             }
 
-            const normalized = formatUTCYYYMMDDhhmmssuuu(qid);
+            const normalized = QuestSDK.QSID(qid);
             if (!normalized) return;
 
             const raw = localStorage.getItem(key);
@@ -1558,15 +1588,16 @@
         }
 
 
-        function MsgBoardShowSelected() {
+        async function MsgBoardShowSelected() {
             // 20260704: StarTree: Show selected entries only.
+            await fetchFromCacheOnFirstStart(true);
             const ledger = document.querySelector('#ledgerOutput');
             const entries = document.querySelectorAll('.log-item');
             let visibleCount = 0;
             entries.forEach(entry => {
                 if (entry.classList.contains('selected')) {
                     entry.classList.remove('hidden');
-                    ledger.insertBefore(entry, ledger.firstChild);
+                    ledger.append(entry, ledger.firstChild);
                     entry.querySelector('.entry-content').classList.add('hidden');
                     visibleCount++;
                 } else {
@@ -1581,11 +1612,14 @@
 
             const query = (elInput.value || "").trim().toLowerCase();
             const items = document.querySelectorAll('#ledgerOutput .log-item');
+            const isDismissedView = (document.getElementById('messageBoardFilter').value==="dismissed");
 
             items.forEach(item => {
                 const text = (item.textContent || "").toLowerCase();
-                const shouldHide = query && !text.includes(query);
-
+                var shouldHide = query && !text.includes(query);
+                if(item.classList.contains('dismissed') != isDismissedView){
+                    shouldHide = true;
+                }
                 item.classList.toggle('hidden', shouldHide);
             });
         }
@@ -1615,12 +1649,12 @@
                 addRedLandmark(coords);
             }
         }
-        function reportBoloSighting(questId,btn) {
+        function reportBoloSighting(questId, btn) {
             const formSection = document.getElementById('formSection');
             if (!formSection) return;
 
             // Remove hidden flag to show the panel drawer container
-            FormSetQuest(questId,btn);
+            FormSetQuest(questId, btn);
 
             // Prefill the Form Fields
             document.getElementById('MsgFormTags').value = "sighting";
@@ -1654,21 +1688,53 @@
             if (!el) { return; }
             el.value = iValue;
         }
-        async function showBoloSightings(questId,iSpecificAPI, iScope) {
-            var precheck = QuestSDK.APIGet(true);
-            if (!precheck) { return; }
-            if (!map || !sightingsLayerGroup) return;
+        async function showBoloSightings(questId, iSpecificAPI, iScope) {
+            if (!map || !sightingsLayerGroup) return 0;
+            var mScope = iScope;
+            if (!mScope) {
+                mScope = document.getElementById('apiSource').value;
+            }
+            var totalSightings = 0;
+            var precheck = iSpecificAPI;
+            if (!precheck) {
+                precheck = QuestSDK.APIGet(true);
+                if (!precheck) { return 0; }
+                if (precheck === "all") {
+                    if (currentActiveSightingQuestId === String(questId)) {
+                        sightingsLayerGroup.clearLayers();
+                        currentActiveSightingQuestId = null;
+                        updateSightingButtonLabels(); // Helper to refresh button texts
+                        return 0;
+                    }
+                    sightingsLayerGroup.clearLayers();
 
-            // TOGGLE OFF: If the requested quest matches the active one, clear and turn off
-            if (currentActiveSightingQuestId === String(questId)) {
+                    if (QuestSDK.publicAPI) {
+                        totalSightings += await showBoloSightings(questId, QuestSDK.publicAPI, "public");
+                    }
+                    if (QuestSDK.guildAPI) {
+                        totalSightings += await showBoloSightings(questId, QuestSDK.guildAPI, "guild");
+                    }
+                    if (QuestSDK.personalAPI) {
+                        totalSightings += await showBoloSightings(questId, QuestSDK.personalAPI, "personal");
+                    }
+                    if (totalSightings == 0) {
+                        alert(`No reported sightings found for Quest: ${questId}`);
+                    }
+                    return totalSightings;
+                }
+            }
+            if (!iScope) {
+                // TOGGLE OFF: If the requested quest matches the active one, clear and turn off
+                if (currentActiveSightingQuestId === String(questId)) {
+                    sightingsLayerGroup.clearLayers();
+                    currentActiveSightingQuestId = null;
+                    updateSightingButtonLabels(); // Helper to refresh button texts
+                    return 0;
+                }
+                // Otherwise, clear previous and proceed to load new sightings
                 sightingsLayerGroup.clearLayers();
-                currentActiveSightingQuestId = null;
-                updateSightingButtonLabels(); // Helper to refresh button texts
-                return;
             }
 
-            // Otherwise, clear previous and proceed to load new sightings
-            sightingsLayerGroup.clearLayers();
 
             // Show map if it's currently hidden
             const mapSection = document.getElementById('mapSection');
@@ -1714,8 +1780,11 @@
                         map.fitBounds(bounds, { padding: [40, 40], maxZoom: 16 });
                         currentActiveSightingQuestId = String(questId); // Mark as active
                         updateSightingButtonLabels();
+                        totalSightings += bounds.length;
                     } else {
-                        alert(`No reported sightings found for Quest: ${questId}`);
+                        if (!iScope) {
+                            alert(`No reported sightings found for Quest: ${questId}`);
+                        }
                         currentActiveSightingQuestId = null;
                         updateSightingButtonLabels();
                     }
@@ -1724,6 +1793,7 @@
                 console.error("Error fetching sightings:", e);
                 alert("Failed to query sightings from database.");
             }
+            return totalSightings;
         }
 
         function updateSightingButtonLabels() {
@@ -1901,7 +1971,7 @@
                 }
             }
         }
-        
+
         function toggleMapView() {
             if (currentMapMode === 'street') {
                 map.removeLayer(activeStreetLayer);
@@ -1920,11 +1990,8 @@
             let elEntry = btn.closest('.log-item');
             elEntry.classList.toggle('selected');
             const qid = elEntry.dataset.timestamp;
-
-
             const elCounter = document.getElementById('selectedBtn');
             let n = parseInt(elCounter.textContent, 10) || 0;
-
             if (elEntry.classList.contains('selected')) {
                 n += 1;
                 // Add this qid to the list of saved qid
@@ -1934,10 +2001,7 @@
                 // Remove this qid to the list of saved qid
                 MEMSelected(qid, false);
             }
-
             elCounter.textContent = String(n);
-
-
         }
         function recenterMap() {
             if (navigator.geolocation) {
@@ -1956,22 +2020,7 @@
             }
         }
 
-        function toggleModule(moduleKey, bShow) {
-            const mod = modules[moduleKey];
-            const targetElement = document.getElementById(mod.elementId);
-            const targetButton = document.getElementById(mod.btnId);
 
-            if (bShow || targetElement.classList.contains('hidden')) {
-                targetElement.classList.remove('hidden');
-                targetButton.classList.add('active');
-            } else {
-                targetElement.classList.add('hidden');
-                targetButton.classList.remove('active');
-            }
-
-            saveLayoutState();
-            if (map) map.invalidateSize();
-        }
 
         function updateLiveCoordinates() {
             if (!map) return;
@@ -2250,34 +2299,7 @@
                         element.dataset.questId = item.questId;
                         element.dataset.timestamp = item.timestamp;
 
-                        // Set the background to the image with a dark overlay
-                        /*
-                        if (item.img) {
-                            element.style.background = `linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.8)), url('${item.img}')`;
-                        } else {
-                            element.style.background = '#1c1c1e'; // Fallback background
-                        }*/
 
-
-                        let fullTimeStr = "Unknown Time";
-                        let compactTimeStr = "Unknown";
-                        let ISOTimeStr = "Unknown";
-                        if (item.timestamp) {
-                            const parsedDate = new Date(item.timestamp);
-                            if (!isNaN(parsedDate.getTime())) {
-                                fullTimeStr = parsedDate.toLocaleString();
-                                ISOTimeStr = parsedDate.toISOString();
-                                const m = parsedDate.getMonth() + 1;
-                                const d = parsedDate.getDate();
-                                const hh = String(parsedDate.getHours()).padStart(2, '0');
-                                const mm = String(parsedDate.getMinutes()).padStart(2, '0');
-                                compactTimeStr = `${m}/${d} ${hh}:${mm}`;
-                            } else {
-                                fullTimeStr = item.timestamp;
-                                compactTimeStr = item.timestamp;
-                                ISOTimeStr = item.timestamp;
-                            }
-                        }
 
                         const targetQuestId = item.questId || 'N/A';
                         const isNumeric = /^\d+$/.test(item.questId);
@@ -2328,15 +2350,9 @@
                         // Title
                         var html = `<div class="entry-titlebar" onclick="ToggleListComments(this);">`;
                         html += `<div style="float:right">`;
-                        html += `<div class="timestamp click-to-copy" onclick="event.stopPropagation();EntryToggleSelected(this);CopyToClipboard('${ISOTimeStr}')" title="${fullTimeStr}">${compactTimeStr}</div>`;
-                        html += `<button class="dismiss-post-btn entry-dismiss-btn" title="Dismiss" onclick="EntryDismiss(event,this)">
-        <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" focusable="false">
-            <line x1="1" y1="1" x2="9" y2="9" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="9" y1="1" x2="1" y2="9" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-        </svg></button>`;
-
+                        html += EntryTimestamp(item);
+                        html += EntryDismissBtnHTML();
                         html += `</div>`;
-
                         const hasCoords = item.latitude && item.longitude;
                         const mapBtnHtml = hasCoords ? `<button onclick="panToCoordinate(${item.latitude}, ${item.longitude})" title="Pan to Coordinates" style="background:none; border:none; margin: 2px -5px 2px 0px; cursor:pointer; display:inline-flex; align-items:center; vertical-align:middle;"><svg viewBox="0 0 24 24" style="width:14px; height:14px; fill:#ffffff;">
     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
@@ -2355,7 +2371,7 @@
                         html += `<div class="commentsSection hidden" style="clear:both; margin:5px -5px -5px -5px;"></div>`;
 
                         element.innerHTML = html;
-                        container.appendChild(element);
+                        container.append(element);
                     });
                 }
             } catch (error) {

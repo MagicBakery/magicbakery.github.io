@@ -1,4 +1,10 @@
 // qsdk.js
+const modules = {
+  map: { elementId: 'mapSection', btnId: 'btnShowMap' },
+  query: { elementId: 'querySection', btnId: 'btnShowQuery' },
+  form: { elementId: 'formSection', btnId: 'btnShowForm' },
+  settings: { elementId: 'settingsSection', btnId: 'btnShowSettings' }
+};
 const QuestSDK = {
   // 1. Initialize the SDK with the user's specific configuration
   init(config) {
@@ -84,6 +90,44 @@ const QuestSDK = {
       return;
     }
   },
+  QSID(isoUtc) {
+    // isoUtc: ISO string in UTC, e.g. "2026-07-04T06:16:22.713Z"
+    // already in intended format?
+    if (typeof isoUtc === "string" && /^\d{17}$/.test(isoUtc)) return isoUtc;
+    // isoUtc: ISO UTC -> "YYYYMMDDhhmmssuuu"
+    if (typeof isoUtc !== "string") throw new Error("Invalid timestamp input");
+    const d = new Date(isoUtc);
+    if (Number.isNaN(d.getTime())) throw new Error("Invalid ISO timestamp");
+    const YYYY = d.getUTCFullYear().toString().padStart(4, "0");
+    const MM = (d.getUTCMonth() + 1).toString().padStart(2, "0");
+    const DD = d.getUTCDate().toString().padStart(2, "0");
+    const hh = d.getUTCHours().toString().padStart(2, "0");
+    const mm = d.getUTCMinutes().toString().padStart(2, "0");
+    const ss = d.getUTCSeconds().toString().padStart(2, "0");
+    const uuu = d.getUTCMilliseconds().toString().padStart(3, "0");
+    return `${YYYY}${MM}${DD}${hh}${mm}${ss}${uuu}`;
+  },
+  UTC(s) {
+    // already ISO?
+    if (typeof s === "string" && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(s)) return s;
+    // compact format -> ISO
+    if (typeof s !== "string") throw new Error("Invalid timestamp input");
+    const m = /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{3})$/.exec(s);
+    if (!m) throw new Error("Invalid timestamp format");
+
+    const [, YYYY, MM, DD, hh, mm, ss, uuu] = m;
+
+    const dt = new Date(Date.UTC(
+      Number(YYYY),
+      Number(MM) - 1,
+      Number(DD),
+      Number(hh),
+      Number(mm),
+      Number(ss),
+      Number(uuu)
+    ));
+    return dt.toISOString();
+  },
 }
 // Helper Functions in Alphabetical Order
 async function CopyToClipboard(text) {
@@ -101,6 +145,14 @@ function EntryDismiss(e, btn) {
     if (logItem.classList.toggle('dismissed')) {
       logItem.classList.add('hidden');
     };
+}
+function EntryDismissBtnHTML() {
+  const html = `<button class="dismiss-post-btn entry-dismiss-btn" title="Dismiss" onclick="EntryDismiss(event,this)">
+        <svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true" focusable="false">
+            <line x1="1" y1="1" x2="9" y2="9" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="9" y1="1" x2="1" y2="9" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        </svg></button>`;
+  return html;
 }
 function EntryListComments(questId, btn) {
   // 20260702: StarTree: This is run from an entry to list the comments of that entry in that entry. Gather the commetnts and put them 
@@ -143,16 +195,16 @@ function EntryListComments(questId, btn) {
     // Don't show a dismissed item.    
     if (item.classList.contains('dismissed')) {
       // Detach the dismissed item.
-      ledgerOutput.insertBefore(item, ledgerOutput.firstChild);
+      ledgerOutput.append(item, ledgerOutput.firstChild);
     } else {
-      frag.appendChild(item);
+      frag.append(item);
       item.classList.remove('hidden');
     }
   }
 
   // Clear current comments and add moved ones
   commentsSection.innerHTML = '';
-  commentsSection.appendChild(frag);
+  commentsSection.append(frag);
 
   // Optional: ensure current entry has a visual state
   logItem.classList.add('showing-comments');
@@ -167,27 +219,27 @@ function EntryParentButton() {
   </button>`;
   return parentBtnHTML;
 }
-function EntryParentShow(elThis){
+function EntryParentShow(elThis) {
   // 20060706: StarTree: Show the parent of this entry
   const thisEntry = elThis.closest(".log-item");
   const parentID = thisEntry.dataset.questId;
   const list = document.getElementById('ledgerOutput');
   const parent = list.querySelector(`.log-item[data-timestamp="${parentID}"]`)
-  if(!parent){
-    prompt(`The parent ${parentID} is not found.`);
+  if (!parent) {
+    alert(`The parent ${parentID} is not found.`);
     return;
   }
   const currentParent = thisEntry.parentElement?.closest('.log-item');
-  if(currentParent){
-    try{
-      currentParent.insertBefore(parent,thisEntry);
-    }catch{}
-  }else{
-    try{
-      list.insertBefore(parent,thisEntry);
-    }catch{}
-  }  
-  ToggleListComments(parent.firstElementChild,true);
+  if (currentParent) {
+    try {
+      currentParent.insertBefore(parent, thisEntry);
+    } catch { }
+  } else {
+    try {
+      list.insertBefore(parent, thisEntry);
+    } catch { }
+  }
+  ToggleListComments(parent.firstElementChild, true);
   parent.classList.remove("hidden");
   parent.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -258,7 +310,32 @@ function EntryThumbnail(entry, iClass) {
           <img class="${iClass}" src="${imageUrl}" alt="Attachment" onerror="this.parentNode.parentNode.classList.add('hidden');">
           </a></div>`;
 };
+function EntryTimestamp(entry) {
+  // 20260706: StarTree: This timestamp should show the time in the user's time zone.
+  // On single click, it toggles the selected flag of the entry.
+  // On double click, it copies the timestamp to ISO UTC format (for now), so that it is easy to reassign the parent ID
+  // on right click, there is the option to open the URL link or copy that link.
+  const QID = QuestSDK.QSID(entry.timestamp);
+  var locTimeStr = "Unknown Time";
+  var shortLocTime = "???";
 
+  if (entry.timestamp) {
+    const parsedDate = new Date(entry.timestamp);
+    if (!isNaN(parsedDate.getTime())) {
+      locTimeStr = parsedDate.toLocaleString();
+      const m = parsedDate.getMonth() + 1;
+      const d = parsedDate.getDate();
+      const hh = String(parsedDate.getHours()).padStart(2, '0');
+      const mm = String(parsedDate.getMinutes()).padStart(2, '0');
+      shortLocTime = `${m}/${d} ${hh}:${mm}`;
+    } else {
+      fullTimeStr = entry.timestamp;
+    }
+  }
+  var html = `<div class="timestamp click-to-copy" ondblclick="CopyToClipboard('${QID}')" onclick="event.stopPropagation();EntryToggleSelected(this);"  title="${locTimeStr}"><a href="${URLTrim(document.location.href) + '?p=' + QID}" target="_blank">${shortLocTime}</a></div>`;
+
+  return html;
+}
 function EntryURL(entry) {
   if (!entry.url) { return ""; }
   return ` <a class="entry-url" href="${entry.url}" target="_blank" onclick="window.open(this.href, '_blank'); return false;">[Link]</a>`;
@@ -290,6 +367,30 @@ function isISOZTimestamp(s) {
     && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/.test(s)
     && !Number.isNaN(Date.parse(s));
 }
+function ListSolo(id) {
+  // 20260706: Sasha: Show a specific entry given the id.
+  const list = document.getElementById('ledgerOutput');
+  const entries = list.querySelectorAll('.log-item');
+  id = QuestSDK.UTC(id);
+  var count = 0;
+  var first = null;
+  entries.forEach(entry => {
+    if (entry.dataset.timestamp == id) {
+      entry.classList.remove('hidden');
+      list.append(entry)
+      ToggleListComments(entry.firstElementChild, true);
+      first = entry;
+      count++;
+    } else {
+      entry.classList.add('hidden');
+    }
+  });
+  toggleModule('query', true);
+
+  first?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  return count;
+}
 function ListShowReOnly() {
   //20260706: StarTree: Show only the reply target entry.
   const list = document.getElementById('ledgerOutput');
@@ -297,7 +398,7 @@ function ListShowReOnly() {
   entries.forEach(entry => {
     if (entry == activeEntry) {
       entry.classList.remove('hidden');
-      list.appendChild(entry)
+      list.append(entry)
     } else {
       entry.classList.add('hidden');
     }
@@ -371,24 +472,49 @@ function URLTrim(iURL) {
     }
   });
 }
-function ToggleListComments(elBar,bShow) {
-            // 20260704: StarTree: Toggles the content visibility and lists comments.
-            // elBar is the title bar within the log-item object.
-            // When the content is hidden, clicking the bar opens it and lists the comments.
-            // Clicking the bar while the content is shown will just hide the content.
-            const elEntry = elBar.closest('.log-item');
-            const elContent = elEntry.querySelector('.entry-content');
-            if (bShow || elContent.classList.contains('hidden')) {
-                EntryListComments(elEntry.dataset.timestamp, elBar);
-            }
-            if(elContent.classList.contains('hidden')|| bShow){
-              elContent.classList.toggle('hidden',false);
-              elContent.removeAttribute('hidden'); // For a legacy bug where vibe coding used attribute hidden.
-              elEntry.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }else{
-              elContent.classList.toggle('hidden',true);
-            }
-        }
+function TEST(){
+  navigator.clipboard.readText().then((YYYY) => {
+    if (YYYY) {
+      var UTC = QuestSDK.UTC(YYYY);
+      navigator.clipboard.writeText(UTC);
+      return UTC;
+    }
+  });
+}
+function ToggleListComments(elBar, bShow) {
+  // 20260704: StarTree: Toggles the content visibility and lists comments.
+  // elBar is the title bar within the log-item object.
+  // When the content is hidden, clicking the bar opens it and lists the comments.
+  // Clicking the bar while the content is shown will just hide the content.
+  const elEntry = elBar.closest('.log-item');
+  const elContent = elEntry.querySelector('.entry-content');
+  if (bShow || elContent.classList.contains('hidden')) {
+    EntryListComments(elEntry.dataset.timestamp, elBar);
+  }
+  if (elContent.classList.contains('hidden') || bShow) {
+    elContent.classList.toggle('hidden', false);
+    elContent.removeAttribute('hidden'); // For a legacy bug where vibe coding used attribute hidden.
+    elEntry.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  } else {
+    elContent.classList.toggle('hidden', true);
+  }
+}
+function toggleModule(moduleKey, bShow) {
+  const mod = modules[moduleKey];
+  const targetElement = document.getElementById(mod.elementId);
+  const targetButton = document.getElementById(mod.btnId);
+
+  if (bShow || targetElement.classList.contains('hidden')) {
+    targetElement.classList.remove('hidden');
+    targetButton.classList.add('active');
+  } else {
+    targetElement.classList.add('hidden');
+    targetButton.classList.remove('active');
+  }
+
+  saveLayoutState();
+  if (map) map.invalidateSize();
+}
 function ToggleNext(el) {
   const elNext = el.nextElementSibling;
   elNext.classList.toggle("hidden");
