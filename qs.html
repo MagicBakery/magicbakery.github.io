@@ -43,7 +43,9 @@
             min-height: 20vh;
             position: relative;
         }
-
+        a{
+            cursor:pointer;
+        }
         h3 {
             margin: 5px 3px;
             font-size: 16px;
@@ -1180,7 +1182,7 @@
 
         window.onload = async () => {
             urlParams = new URLSearchParams(window.location.search);
-            const rawId = urlParams.get('p');
+            const rawId = urlParams.get('id');
             if (rawId) {
                 await fetchFromCacheOnFirstStart(true); // This takes some time.
                 if (ListSolo(rawId) == 0) {
