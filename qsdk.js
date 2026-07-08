@@ -249,6 +249,27 @@ function EntryScope(entry) {
   if (entry.classList.contains('personal')) { return 'Personal'; }
   return "Unknown";
 }
+function EntrySetActive(entry) {
+  // 20260707: StarTree: Mark the entry as active.
+  if (!entry) { return; }
+  if (activeEntry) { activeEntry.classList.remove('active'); }
+  activeEntry = entry;
+  activeEntry.classList.add('active');
+  activeEntry.classList.remove('hidden');
+  reTargetUTC = activeEntry.dataset.timestamp;
+
+  const reTitle = document.getElementById('MsgFormReTitle');
+  const reAPI = document.getElementById('MsgFormReAPI');
+  reAPI.innerText = EntryScope(activeEntry);
+  reTitle.innerText = activeEntry.querySelector('.entry-title').textContent;
+  reTitle.classList.remove("hidden");
+  reTitle.closest('.form-row').classList.remove("hidden");
+
+}
+function EntrySightingsShowHTML(entry){
+  // 20260707: StarTree: Create the show sightings button HTML.
+  if(!entry.classList.contains("mapping")){return;}
+}
 function EntryStandardButtons(entry) {
   // 20260702: StarTree: Every entry has a show comments and a comment button.
   var showBtnHTML = `<button class="btn comment-list" title="Show/Hide Comments" onclick="EntryListComments('${entry.timestamp}',this)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
@@ -277,6 +298,29 @@ function EntryStatus(entry) {
   if (!entry.status) { return ""; }
   return `<span class="entry-status">${entry.status}</span>`;
 };
+function EntryTagsHTML(item, element) {
+  // 20260707: Evelyn: Make the tags list.
+  // The item is the data item. The element is the HTML element. 
+  // Clicking on those tags should show other entries not already on the list 
+  var tags = item.tags;
+  tags = tags.replace(/ /g, ",");
+  tags = tags.replace(",,", ",");
+  const tagsSplit = tags.split(',');
+  var entryTagsHTML = `<div class="entry-tagsList">`;
+  tagsSplit.forEach(tag => {
+    tag = tag.trim();
+    if(!tag){return;}
+    const lowerTag = tag.toLowerCase();
+    if (!element.classList.contains(lowerTag)) {
+      try {
+        element.classList.add(`tag-${lowerTag}`);
+        entryTagsHTML += `<span class="tag ${lowerTag}" onclick="filterMessageBoard('${lowerTag}')">#${tag}</span>`
+      } catch { }
+    }
+  });
+  entryTagsHTML += `</div>`;
+  return entryTagsHTML;
+}
 function EntryTitle(entry) {
   // 20260702: StarTree: Handle the Quest ID field that can start with text followed by quest ID.
   if (!entry.title) {
@@ -395,8 +439,8 @@ function ListShowReOnly() {
   const list = document.getElementById('ledgerOutput');
   const entries = list.querySelectorAll('.log-item');
   entries.forEach(entry => {
-    if (entry == activeEntry) {
-      entry.classList.remove('hidden');
+    if (entry.dataset.timestamp == reTargetUTC) {
+      EntrySetActive(entry);
       list.append(entry)
     } else {
       entry.classList.add('hidden');
@@ -471,7 +515,7 @@ function URLTrim(iURL) {
     }
   });
 }
-function TEST(){
+function TEST() {
   navigator.clipboard.readText().then((YYYY) => {
     if (YYYY) {
       var UTC = QuestSDK.UTC(YYYY);

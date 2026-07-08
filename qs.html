@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quest App</title>
-    <script>const APP_VERSION = "20260706195811";</script>
+    <script>const APP_VERSION = "20260707203833";</script>
     <script src="config.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="qsdk.js"></script>
+    <link rel="manifest" href="/qs_manifest.json">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -615,7 +616,10 @@
             padding: 0px 2px;
 
         }
-
+        
+        .entry-tagsList{
+            display: flex; flex-wrap: wrap; gap: 4px;
+        }
         .entry-text {
             color: #ffffff;
             font-size: 14px;
@@ -714,7 +718,9 @@
             text-align: center;
             margin-right: 5px;
         }
-
+        .tag{
+            font-size: 10px; background: #2c2c2e; color: #a0aec0; padding: 2px 6px; border-radius: 4px; font-family: monospace;
+        }
         .timer-control.started #MsgFormStartTime,
         .timer-control.started #MsgFormStartBtn {
             color: #00C000 !important;
@@ -1169,6 +1175,7 @@
 
     <script>
         let activeEntry = null;
+        let reTargetUTC = "";
         let map, activeStreetLayer, activeSatelliteLayer;
         let currentMapMode = 'street';
         const defaultCenter = [38.5449, -121.7405]; // Davis, CA coordinates
@@ -1497,6 +1504,7 @@
             toggleModule('form', true)
 
             // Prefill the Form Fields
+            reTargetUTC = "";
             document.getElementById('questId').value = questId;
             document.getElementById('MsgFormTags').value = "comment";
 
@@ -1509,16 +1517,11 @@
                 const logItem = btn.closest('.log-item');
                 if (logItem) {
                     logItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    reTargetUTC = logItem.dataset.timestamp;
                 }
                 // Sets the gold border.
                 if (logItem && activeEntry != logItem) {
-                    activeEntry?.classList.remove('active');
-                    logItem.classList.add('active');
-                    activeEntry = logItem;
-                    reAPI.innerText = EntryScope(logItem);
-                    reTitle.innerText = logItem.querySelector('.entry-title').textContent;
-                    reTitle.classList.remove("hidden");
-                    reTitle.closest('.form-row').classList.remove("hidden");
+                    EntrySetActive(logItem);
                     return;
                 } else {
                     activeEntry.classList.remove('active');
@@ -2301,53 +2304,6 @@
                         element.dataset.questId = item.questId;
                         element.dataset.timestamp = item.timestamp;
 
-
-
-                        const targetQuestId = item.questId || 'N/A';
-                        const isNumeric = /^\d+$/.test(item.questId);
-                        const questLink = isNumeric ?
-                            `<a href="https://magicbakery.github.io/?id=P${item.questId}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" style="color:#ffffff; text-decoration:underline; pointer-events: auto; cursor:pointer">${item.questId}</a>` : `${item.questId}`;
-
-
-
-                        let isBolo = false;
-                        const tagsHtml = item.tags ? `
-                    <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-                        ${item.tags.split(',').map(tag => {
-                            const trimmedTag = tag.trim();
-                            const lowerTag = trimmedTag.toLowerCase();
-                            if (trimmedTag.toUpperCase() === 'BOLO') {
-                                isBolo = true;
-                            }
-                            element.classList.add(`tag-${lowerTag}`);
-                            return `
-                                <span class="tag ${lowerTag}" onclick="filterMessageBoard('${lowerTag}')" style="font-size: 10px; background: #2c2c2e; color: #a0aec0; padding: 2px 6px; border-radius: 4px; font-family: monospace;">
-                                    #${trimmedTag}
-                                </span>
-                            `;
-                        }).join('')}
-                    </div>
-                ` : '';
-
-                        // Generate BOLO actions layout row if condition matches
-                        const isCurrentlyActive = currentActiveSightingQuestId === String(item.questId);
-                        const btnText = isCurrentlyActive ? 'Hide Sightings' : 'Show Sightings';
-                        const btnStyle = isCurrentlyActive
-                            ? 'background: #ffd700; color: #000000;'
-                            : 'background: #1c1c1e; color: #ffd700;';
-
-                        const boloActionsHtml = isBolo ? `
-                    <div class="entry-actions" style=" display: flex; gap: 8px;">
-                        <button class="sighting-toggle-btn" data-quest-id="${item.questId}" onclick="showBoloSightings('${item.timestamp}')" style="${btnStyle} border: 1px solid #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600; transition: all 0.2s ease;">
-                            ${btnText}
-                        </button>
-                        <button onclick="reportBoloSighting('${item.timestamp}',this)" style="background: #1c1c1e; border: 1px solid #ffd700; color: #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600;">
-                            Add Sighting
-                        </button>
-                    </div>
-                ` : '';
-
-
                         // Start element content html
                         // Title
                         var html = `<div class="entry-titlebar" onclick="ToggleListComments(this);">`;
@@ -2366,8 +2322,28 @@
                         html += EntryThumbnail(item, "entry-thumbnail");
                         html += `<span style="float:right; color: #ffffff;">${item.submitterId || 'User'} ${EntryStandardButtons(item)}</span>`;
                         html += EntryParentButton(item);
-                        html += `${tagsHtml}`;
+                        html += EntryTagsHTML(item,element);
                         html += `<div class="entry-text">${item.eventText} ${EntryURL(item)}</div>`;
+
+                        let isBolo = element.classList.contains('tag-bolo');
+                        // Generate BOLO actions layout row if condition matches
+                        const isCurrentlyActive = currentActiveSightingQuestId === String(item.questId);
+                        const btnText = isCurrentlyActive ? 'Hide Sightings' : 'Show Sightings';
+                        const btnStyle = isCurrentlyActive
+                            ? 'background: #ffd700; color: #000000;'
+                            : 'background: #1c1c1e; color: #ffd700;';
+
+                        const boloActionsHtml = isBolo ? `
+                    <div class="entry-actions" style=" display: flex; gap: 8px;">
+                        <button class="sighting-toggle-btn" data-quest-id="${item.questId}" onclick="showBoloSightings('${item.timestamp}')" style="${btnStyle} border: 1px solid #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600; transition: all 0.2s ease;">
+                            ${btnText}
+                        </button>
+                        <button onclick="reportBoloSighting('${item.timestamp}',this)" style="background: #1c1c1e; border: 1px solid #ffd700; color: #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600;">
+                            Add Sighting
+                        </button>
+                    </div>
+                ` : '';
+
                         html += `${boloActionsHtml}`;
 
                         html += `<div class="commentsSection hidden" style="clear:both; margin:5px -5px -5px -5px;"></div>`;
