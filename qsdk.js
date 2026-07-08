@@ -90,6 +90,21 @@ const QuestSDK = {
       return;
     }
   },
+  BDtoQSID(BD) {
+    if (!BD) { return ""; }
+    const startDate = new Date(parseInt(BD, 10));
+    if (!isNaN(startDate.getTime())) {
+      const yyyy = startDate.getUTCFullYear();
+      const mm = String(startDate.getUTCMonth() + 1).padStart(2, '0');
+      const dd = String(startDate.getUTCDate()).padStart(2, '0');
+      const hh = String(startDate.getUTCHours()).padStart(2, '0');
+      const min = String(startDate.getUTCMinutes()).padStart(2, '0');
+      const ss = String(startDate.getUTCSeconds()).padStart(2, '0');
+      const ms = String(startDate.getUTCMilliseconds()).padStart(3, '0');
+      BD = `${yyyy}${mm}${dd}${hh}${min}${ss}${ms}`;
+    }
+    return BD;
+  },
   QSID(isoUtc) {
     // isoUtc: ISO string in UTC, e.g. "2026-07-04T06:16:22.713Z"
     // already in intended format?
@@ -243,6 +258,38 @@ function EntryParentShow(elThis) {
   parent.classList.remove("hidden");
   parent.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+function EntryQuickLogBtnHTML(entry) {
+  // 20260707: StarTree: Returns the HTML for a quick log button.
+  // The quick log button appears only when the entry has the tags #quick and #quest.
+  if (!entry.classList.contains("tag-quick")) { return ""; }
+  if (!entry.classList.contains("tag-quest")) { return ""; }
+  return `<div style="display: inline-block;position:relative"><button class="btn quickLog" title="Quick Log" onclick="QuickLog(event,this)">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor">
+      <path
+        d="M50 6
+          L61 34
+          Q61.6 35.5 63.2 35.6
+          L93 37.4
+          L69.8 56.2
+          Q68.5 57.2 68.9 58.8
+          L76.5 88.2
+          L51.9 72.8
+          Q50.4 71.9 48.9 72.8
+          L24.3 88.2
+          L31.9 58.8
+          Q32.3 57.2 31 56.2
+          L7.8 37.4
+          L37.6 35.6
+          Q39.2 35.5 39.8 34
+          Z"
+        stroke="currentColor"
+        stroke-width="10"
+        stroke-linejoin="round"
+      />
+    </svg>
+    <span class="starCount"></span>
+  </button></div>`;
+}
 function EntryScope(entry) {
   if (entry.classList.contains('public')) { return 'Public'; }
   if (entry.classList.contains('guild')) { return 'Guild'; }
@@ -266,9 +313,22 @@ function EntrySetActive(entry) {
   reTitle.closest('.form-row').classList.remove("hidden");
 
 }
-function EntrySightingsShowHTML(entry){
+function EntrySightingsShowHTML(entry) {
   // 20260707: StarTree: Create the show sightings button HTML.
-  if(!entry.classList.contains("mapping")){return;}
+  if (!entry.classList.contains("tag-mapping")) { return ""; }
+  return `<button class="btn showLocations" title="Show locations" onclick="showBoloSightings(event,'${entry.dataset.timestamp}')" data-quest-id="${entry.dataset.timestamp}">
+    <svg viewBox="0 0 24 24" style="width:15px; height:15px; fill:currentColor;">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+    </svg>
+  </button>
+  <button class="btn addLocation" onclick="reportBoloSighting(event,'${entry.dataset.timestamp}',this)" title="Add a location">
+    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
+      <g transform="scale(1)" transform-origin="32 32">
+        <rect x="28" y="12" width="8" height="40" rx="1.5" fill="currentColor"/>
+        <rect x="12" y="28" width="40" height="8" rx="1.5" fill="currentColor"/>
+      </g>
+    </svg>
+  </button>`;
 }
 function EntryStandardButtons(entry) {
   // 20260702: StarTree: Every entry has a show comments and a comment button.
@@ -309,9 +369,9 @@ function EntryTagsHTML(item, element) {
   var entryTagsHTML = `<div class="entry-tagsList">`;
   tagsSplit.forEach(tag => {
     tag = tag.trim();
-    if(!tag){return;}
+    if (!tag) { return; }
     const lowerTag = tag.toLowerCase();
-    if (!element.classList.contains(lowerTag)) {
+    if (!element.classList.contains(`tag-${lowerTag}`)) {
       try {
         element.classList.add(`tag-${lowerTag}`);
         entryTagsHTML += `<span class="tag ${lowerTag}" onclick="filterMessageBoard('${lowerTag}')">#${tag}</span>`
@@ -502,6 +562,49 @@ function parseQidToUTC(qid) {
     uuu,
     date: d
   };
+}
+async function QuickLog(e, elBtn) {
+  e.stopPropagation();
+  if(elBtn.classList.contains('sending')){return;}
+  elBtn.classList.add('sending');
+  const entry = elBtn.closest('.log-item');
+  const scope = EntryScope(entry).toLocaleLowerCase();
+
+  var api = "";
+  if (scope === "public") { api = QuestSDK.publicAPI; }
+  if (scope === "guild") { api = QuestSDK.guildAPI; }
+  if (scope === "personal") { api = QuestSDK.personalAPI; }
+  if (!api) { alert(`The ${scope} API URL is missing.`); return; }
+
+  // Add a cooldown timer of 5 seconds after each click, so the user cannot click it again immediately.
+
+  // Send the message
+  const formData = new URLSearchParams();
+  formData.append('submitterId', document.getElementById('MsgFormQuester').value.trim());
+  formData.append('questId', entry.dataset.questId);
+  formData.append('tags', "quick log");
+  formData.append('eventText', entry.querySelector('.entry-title').textContent);
+  formData.append('cId', QuestSDK.BDtoQSID(localStorage.getItem("clientBD")));
+  formData.append('cLv', localStorage.getItem("clientLV"));
+  
+  try {
+    await fetch(api, {
+      method: "POST",
+      body: formData.toString(),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" }
+    });
+  } catch (error) {
+    elBtn.classList.add('error');
+  }finally{
+    const starCounter = elBtn.querySelector('.starCount');
+    var count = Number(starCounter.textContent);
+    count++;
+    elBtn.dataset.count = count;
+    starCounter.textContent = count;
+    elBtn.classList.remove('error');
+    elBtn.classList.remove('sending');
+    elBtn.classList.add('done');
+  }
 }
 function URLTrim(iURL) {
   // 20260706: StarTree: Trim the ? tail off an URL

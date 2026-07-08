@@ -44,9 +44,11 @@
             min-height: 20vh;
             position: relative;
         }
-        a{
-            cursor:pointer;
+
+        a {
+            cursor: pointer;
         }
+
         h3 {
             margin: 5px 3px;
             font-size: 16px;
@@ -417,6 +419,10 @@
             border: 2px solid gold !important;
         }
 
+        .log-item.active>.entry-titlebar .addLocation {
+            color: gold;
+            opacity: 1;
+        }
 
         .log-item:has() #ledgerOutput>.log-item {
             border: 2px solid black;
@@ -572,6 +578,47 @@
             margin: -2px 0px 0px -5px;
         }
 
+        .btn.quickLog {
+            background: none;
+            border: none;
+            margin: -4px 0px 0px 0px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            vertical-align: middle;
+            width: 16px;
+            opacity: 0.25;
+        }
+
+        .btn.quickLog.done {
+            color: gold;
+            opacity: 0.9;
+        }
+
+        .btn.quickLog.error {
+            color: black;
+            opacity: 0.75;
+        }
+
+        .btn.quickLog.sending {
+            color: white;
+            opacity: 0.9;
+        }
+
+        .starCount {
+            color: saddlebrown;
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #000;
+            pointer-events: none;            
+            font-size: 10px;
+            margin-top: -2px;
+        }
+
         .btn.settings-tab {
             background: #404040;
             border: 1px solid #404040;
@@ -580,6 +627,24 @@
             font-size: 12px;
             padding: 0px 10px;
 
+        }
+
+        .btn.addLocation,
+        .btn.showLocations {
+            background: none;
+            border: none;
+            margin: -3px 0px 0px 0px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            vertical-align: middle;
+            width: 16px;
+            opacity: 0.25;
+        }
+
+        .btn.showLocations.active {
+            color: gold;
+            opacity: 1;
         }
 
         .entry-content {
@@ -616,10 +681,13 @@
             padding: 0px 2px;
 
         }
-        
-        .entry-tagsList{
-            display: flex; flex-wrap: wrap; gap: 4px;
+
+        .entry-tagsList {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
         }
+
         .entry-text {
             color: #ffffff;
             font-size: 14px;
@@ -718,9 +786,16 @@
             text-align: center;
             margin-right: 5px;
         }
-        .tag{
-            font-size: 10px; background: #2c2c2e; color: #a0aec0; padding: 2px 6px; border-radius: 4px; font-family: monospace;
+
+        .tag {
+            font-size: 10px;
+            background: #2c2c2e;
+            color: #a0aec0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
         }
+
         .timer-control.started #MsgFormStartTime,
         .timer-control.started #MsgFormStartBtn {
             color: #00C000 !important;
@@ -742,6 +817,8 @@
             color: #a0aec0;
             font-size: 11px;
             cursor: pointer;
+            width: 54px;
+            text-align: right;
         }
 
 
@@ -1617,12 +1694,12 @@
 
             const query = (elInput.value || "").trim().toLowerCase();
             const items = document.querySelectorAll('#ledgerOutput .log-item');
-            const isDismissedView = (document.getElementById('messageBoardFilter').value==="dismissed");
+            const isDismissedView = (document.getElementById('messageBoardFilter').value === "dismissed");
 
             items.forEach(item => {
                 const text = (item.textContent || "").toLowerCase();
                 var shouldHide = query && !text.includes(query);
-                if(item.classList.contains('dismissed') != isDismissedView){
+                if (item.classList.contains('dismissed') != isDismissedView) {
                     shouldHide = true;
                 }
                 item.classList.toggle('hidden', shouldHide);
@@ -1654,7 +1731,8 @@
                 addRedLandmark(coords);
             }
         }
-        function reportBoloSighting(questId, btn) {
+        function reportBoloSighting(e, questId, btn) {
+            e.stopPropagation();
             const formSection = document.getElementById('formSection');
             if (!formSection) return;
 
@@ -1693,53 +1771,17 @@
             if (!el) { return; }
             el.value = iValue;
         }
-        async function showBoloSightings(questId, iSpecificAPI, iScope) {
+        async function showBoloSightings(e, questId, iSpecificAPI, iScope) {
+            e.stopPropagation();
             if (!map || !sightingsLayerGroup) return 0;
-            var mScope = iScope;
-            if (!mScope) {
-                mScope = document.getElementById('apiSource').value;
+            sightingsLayerGroup.clearLayers();
+            if (currentActiveSightingQuestId === questId) {
+                currentActiveSightingQuestId = null;
+                updateSightingButtonLabels();
+                return 0;
             }
+            var mScope = document.getElementById('apiSource').value;
             var totalSightings = 0;
-            var precheck = iSpecificAPI;
-            if (!precheck) {
-                precheck = QuestSDK.APIGet(true);
-                if (!precheck) { return 0; }
-                if (precheck === "all") {
-                    if (currentActiveSightingQuestId === String(questId)) {
-                        sightingsLayerGroup.clearLayers();
-                        currentActiveSightingQuestId = null;
-                        updateSightingButtonLabels(); // Helper to refresh button texts
-                        return 0;
-                    }
-                    sightingsLayerGroup.clearLayers();
-
-                    if (QuestSDK.publicAPI) {
-                        totalSightings += await showBoloSightings(questId, QuestSDK.publicAPI, "public");
-                    }
-                    if (QuestSDK.guildAPI) {
-                        totalSightings += await showBoloSightings(questId, QuestSDK.guildAPI, "guild");
-                    }
-                    if (QuestSDK.personalAPI) {
-                        totalSightings += await showBoloSightings(questId, QuestSDK.personalAPI, "personal");
-                    }
-                    if (totalSightings == 0) {
-                        alert(`No reported sightings found for Quest: ${questId}`);
-                    }
-                    return totalSightings;
-                }
-            }
-            if (!iScope) {
-                // TOGGLE OFF: If the requested quest matches the active one, clear and turn off
-                if (currentActiveSightingQuestId === String(questId)) {
-                    sightingsLayerGroup.clearLayers();
-                    currentActiveSightingQuestId = null;
-                    updateSightingButtonLabels(); // Helper to refresh button texts
-                    return 0;
-                }
-                // Otherwise, clear previous and proceed to load new sightings
-                sightingsLayerGroup.clearLayers();
-            }
-
 
             // Show map if it's currently hidden
             const mapSection = document.getElementById('mapSection');
@@ -1748,73 +1790,58 @@
                 if (map) map.invalidateSize();
             }
 
-            try {
-                const response = await fetch(precheck);
-                const result = await response.json();
+            // 20260707: StarTree: No need to fetch, just use the current data.
+            var list = document.getElementById('ledgerOutput');
+            var locEntries = list.querySelectorAll(`.log-item.geo[data-quest-id='${questId}']`);
+            const bounds = [];
+            locEntries.forEach(entry => {
+                // Skip the done sightings.
+                if (entry.querySelector('.entry-titlebar').querySelector('.entry-status')?.textContent === "Done") { return; }
+                // Skip the sightings not in the same scope.
+                if (!mScope === "all" && !entry.classList.contains(mScope)) { return; }
 
-                if (result.status === "success" && result.data) {
-                    const bounds = [];
 
-                    result.data.forEach(item => {
-                        const itemTags = item.tags ? item.tags.toLowerCase() : '';
-                        const itemQuestId = String(item.questId || '').trim();
-
-                        if (itemQuestId === String(questId).trim() && itemTags.includes('sighting') && item.latitude && item.longitude) {
-                            const lat = parseFloat(item.latitude);
-                            const lng = parseFloat(item.longitude);
-
-                            if (!isNaN(lat) && !isNaN(lng)) {
-                                const marker = L.circleMarker([lat, lng], {
-                                    radius: 6,
-                                    fillColor: '#ffd700',
-                                    color: '#000000',
-                                    weight: 1.5,
-                                    opacity: 1,
-                                    fillOpacity: 0.9
-                                });
-
-                                const isNumeric = /^\d+$/.test(questId);
-                                marker.bindPopup(`${EntryThumbnail(item, "entry-thumbnail-popup")} <span style="float:right">${EntryURL(item)}</span>${EntryTitle(item)}<br>${item.eventText || ''}`);
-                                marker.addTo(sightingsLayerGroup);
-                                bounds.push([lat, lng]);
-                            }
-                        }
+                const lat = parseFloat(entry.dataset.latitude);
+                const lng = parseFloat(entry.dataset.longitude);
+                if (!isNaN(lat) && !isNaN(lng)) {
+                    const marker = L.circleMarker([lat, lng], {
+                        radius: 6,
+                        fillColor: '#ffd700',
+                        color: '#000000',
+                        weight: 1.5,
+                        opacity: 1,
+                        fillOpacity: 0.9
                     });
 
-                    if (bounds.length > 0) {
-                        map.fitBounds(bounds, { padding: [40, 40], maxZoom: 16 });
-                        currentActiveSightingQuestId = String(questId); // Mark as active
-                        updateSightingButtonLabels();
-                        totalSightings += bounds.length;
-                    } else {
-                        if (!iScope) {
-                            alert(`No reported sightings found for Quest: ${questId}`);
-                        }
-                        currentActiveSightingQuestId = null;
-                        updateSightingButtonLabels();
-                    }
+                    const isNumeric = /^\d+$/.test(questId);
+                    const desc = entry.querySelector('.entry-content').textContent;
+                    marker.bindPopup(`${EntryThumbnail(entry, "entry-thumbnail-popup")} <span style="float:right">${EntryURL(entry)}</span>${EntryTitle(entry)}<br>${desc}`);
+                    marker.addTo(sightingsLayerGroup);
+                    bounds.push([lat, lng]);
                 }
-            } catch (e) {
-                console.error("Error fetching sightings:", e);
-                alert("Failed to query sightings from database.");
+
+            });
+            if (bounds.length > 0) {
+                map.fitBounds(bounds, { padding: [40, 40], maxZoom: 16 });
+                currentActiveSightingQuestId = String(questId); // Mark as active
+                updateSightingButtonLabels();
+                totalSightings += bounds.length;
+            } else {
+                if (!iScope) {
+                    alert(`No reported sightings found for Quest: ${questId}`);
+                }
+                currentActiveSightingQuestId = null;
+                updateSightingButtonLabels();
             }
             return totalSightings;
         }
 
+
         function updateSightingButtonLabels() {
-            const buttons = document.querySelectorAll('.sighting-toggle-btn');
+            const buttons = document.querySelectorAll('.showLocations');
             buttons.forEach(btn => {
                 const targetId = btn.getAttribute('data-quest-id');
-
-                if (currentActiveSightingQuestId === targetId) {
-                    btn.textContent = 'Hide Sightings';
-                    btn.style.background = '#ffd700'; // Change to solid gold background when active
-                    btn.style.color = '#000000';
-                } else {
-                    btn.textContent = 'Show Sightings';
-                    btn.style.background = '#1c1c1e'; // Default layout state
-                    btn.style.color = '#ffd700';
-                }
+                btn.classList.toggle('active', currentActiveSightingQuestId === targetId);
             });
         }
 
@@ -2150,10 +2177,6 @@
                 //statusMsg.textContent = "Saved " + now + "!";
                 statusMsg.textContent = "";
                 statusMsg.style.color = "#ffffff";
-
-
-
-
                 document.getElementById('latField').value = "";
                 document.getElementById('lngField').value = "";
                 document.getElementById('status').value = "";
@@ -2306,45 +2329,33 @@
 
                         // Start element content html
                         // Title
+                        var htmlTags = EntryTagsHTML(item, element);
                         var html = `<div class="entry-titlebar" onclick="ToggleListComments(this);">`;
                         html += `<div style="float:right">`;
+                        html += EntrySightingsShowHTML(element);
+                        html += EntryQuickLogBtnHTML(element);
                         html += EntryTimestamp(item);
                         html += EntryDismissBtnHTML();
                         html += `</div>`;
+                        html += EntryTitle(item);
                         const hasCoords = item.latitude && item.longitude;
                         const mapBtnHtml = hasCoords ? `<button onclick="panToCoordinate(${item.latitude}, ${item.longitude})" title="Pan to Coordinates" style="background:none; border:none; margin: 2px -5px 2px 0px; cursor:pointer; display:inline-flex; align-items:center; vertical-align:middle;"><svg viewBox="0 0 24 24" style="width:14px; height:14px; fill:#ffffff;">
     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
 </svg></button>` : '';
-                        html += EntryTitle(item);
+                        if (hasCoords) {
+                            element.classList.add('geo')
+                            element.dataset.latitude = item.latitude;
+                            element.dataset.longitude = item.longitude;
+                        }
                         html += `<span class="entry-title">${mapBtnHtml}</span>`;
                         html += " " + EntryStatus(item);
                         html += `</div><div class="entry-content hidden">`;
                         html += EntryThumbnail(item, "entry-thumbnail");
                         html += `<span style="float:right; color: #ffffff;">${item.submitterId || 'User'} ${EntryStandardButtons(item)}</span>`;
                         html += EntryParentButton(item);
-                        html += EntryTagsHTML(item,element);
+                        html += htmlTags
                         html += `<div class="entry-text">${item.eventText} ${EntryURL(item)}</div>`;
 
-                        let isBolo = element.classList.contains('tag-bolo');
-                        // Generate BOLO actions layout row if condition matches
-                        const isCurrentlyActive = currentActiveSightingQuestId === String(item.questId);
-                        const btnText = isCurrentlyActive ? 'Hide Sightings' : 'Show Sightings';
-                        const btnStyle = isCurrentlyActive
-                            ? 'background: #ffd700; color: #000000;'
-                            : 'background: #1c1c1e; color: #ffd700;';
-
-                        const boloActionsHtml = isBolo ? `
-                    <div class="entry-actions" style=" display: flex; gap: 8px;">
-                        <button class="sighting-toggle-btn" data-quest-id="${item.questId}" onclick="showBoloSightings('${item.timestamp}')" style="${btnStyle} border: 1px solid #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600; transition: all 0.2s ease;">
-                            ${btnText}
-                        </button>
-                        <button onclick="reportBoloSighting('${item.timestamp}',this)" style="background: #1c1c1e; border: 1px solid #ffd700; color: #ffd700; font-size: 11px; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-weight: 600;">
-                            Add Sighting
-                        </button>
-                    </div>
-                ` : '';
-
-                        html += `${boloActionsHtml}`;
 
                         html += `<div class="commentsSection hidden" style="clear:both; margin:5px -5px -5px -5px;"></div>`;
 
