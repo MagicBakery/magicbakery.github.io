@@ -355,6 +355,10 @@ function EntryStandardButtons(entry) {
 }
 function EntryStatus(entry) {
   // 20260702: Fina: Returns the html code for displaying the status.
+  try{
+    return entry.querySelector('.entry-status').textContent;
+  }catch{}
+
   if (!entry.status) { return ""; }
   return `<span class="entry-status">${entry.status}</span>`;
 };
@@ -381,19 +385,26 @@ function EntryTagsHTML(item, element) {
   entryTagsHTML += `</div>`;
   return entryTagsHTML;
 }
-function EntryTitle(entry) {
+function EntryTitle(item, entry) {
   // 20260702: StarTree: Handle the Quest ID field that can start with text followed by quest ID.
-  if (!entry.title) {
-    var tempTitle = entry.submitterId || "Anon Msg";
+
+
+  if (item && !item.title) {
+    var tempTitle = item.submitterId || "Anon Msg";
     return `<span class="entry-title comment">${tempTitle}</span>`;
   }
-  const titleStr = String(entry.title);
+  if(entry){
+    return `<span class="entry-title comment">${entry.querySelector('.entry-title').textContent}</span>`;
+  }
+
+
+  const titleStr = String(item.title);
   const mSplit = titleStr.split("|");
   // If there is no second part, just return the first part.
   let mArg1 = mSplit[0].trim()
   if (mSplit.length == 1) {
     if (isISOZTimestamp(mArg1)) {
-      mArg1 = (entry.submitterId || "Anon Msg");
+      mArg1 = (item.submitterId || "Anon Msg");
       return `<span class="entry-title comment">${mArg1}</span>`;
     }
     return `<span class="entry-title">${mArg1}</span>`;
@@ -405,9 +416,17 @@ function EntryTitle(entry) {
 
   return `<a href="${mQuestLink}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" class="entry-title entry-link" >${mArg1}</a>`;
 }
-function EntryThumbnail(entry, iClass) {
+function EntryThumbnail(item, iClass,iDOM) {
   // 20260702: Fina: Returns the html code for displaying a thumbnail of the entry.
-  const imageUrl = entry.img || entry.IMG || "";
+  var imageUrl = "";
+  if(item){
+    imageUrl =  item.img || item.IMG || "";
+  }else if(iDOM){
+    //const imgItem = iDOM.querySelector(`img.${iClass}`);
+    //DEBUG(imgItem);
+    imageUrl = iDOM.querySelector(`img`)?.src || "";
+    
+  }  
   if (!imageUrl) { return ""; }
   return `<div >
           <a href="${imageUrl}" target="_blank" onclick="window.open(this.href, '_blank'); return false;">

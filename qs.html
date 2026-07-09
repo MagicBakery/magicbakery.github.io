@@ -1814,8 +1814,8 @@
                     });
 
                     const isNumeric = /^\d+$/.test(questId);
-                    const desc = entry.querySelector('.entry-content').textContent;
-                    marker.bindPopup(`${EntryThumbnail(entry, "entry-thumbnail-popup")} <span style="float:right">${EntryURL(entry)}</span>${EntryTitle(entry)}<br>${desc}`);
+                    const desc = entry.querySelector('.entry-text').textContent;
+                    marker.bindPopup(`${EntryThumbnail(null, "entry-thumbnail-popup",entry)} ${EntryTitle(null, entry)}<br>${EntryStatus(entry)}`);
                     marker.addTo(sightingsLayerGroup);
                     bounds.push([lat, lng]);
                 }
