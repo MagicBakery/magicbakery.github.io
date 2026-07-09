@@ -581,7 +581,7 @@ async function QuickLog(e, elBtn) {
   // Send the message
   const formData = new URLSearchParams();
   formData.append('submitterId', document.getElementById('MsgFormQuester').value.trim());
-  formData.append('questId', entry.dataset.questId);
+  formData.append('questId', entry.dataset.timestamp);
   formData.append('tags', "quick log");
   formData.append('eventText', entry.querySelector('.entry-title').textContent);
   formData.append('cId', QuestSDK.BDtoQSID(localStorage.getItem("clientBD")));
