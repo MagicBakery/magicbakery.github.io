@@ -145,21 +145,6 @@ const QuestSDK = {
   },
 }
 // Helper Functions in Alphabetical Order
-function CommentsFilterByTag(elBtn) {
-  const entry = elBtn.closest('.log-item');
-  const comSec = entry.querySelector('.commentsSection');
-  const children = comSec.querySelectorAll('.log-item');
-  const tagName = elBtn.dataset.tag;  
-  children.forEach(child => {
-    if (child.classList.contains(`tag-${tagName}`)) {
-      comSec.append(child);
-      child.classList.remove('hidden');
-    } else {
-      child.classList.add('hidden');
-    }
-  });
-  comSec.classList.remove('hidden');
-}
 async function CopyToClipboard(text) {
   // usage:
   //copyToClipboard("hello world").catch(console.error);
@@ -370,9 +355,9 @@ function EntryStandardButtons(entry) {
 }
 function EntryStatus(entry) {
   // 20260702: Fina: Returns the html code for displaying the status.
-  try {
+  try{
     return entry.querySelector('.entry-status').textContent;
-  } catch { }
+  }catch{}
 
   if (!entry.status) { return ""; }
   return `<span class="entry-status">${entry.status}</span>`;
@@ -393,7 +378,7 @@ function EntryTagsHTML(item, element) {
     if (!element.classList.contains(`tag-${lowerTag}`)) {
       try {
         element.classList.add(`tag-${lowerTag}`);
-        entryTagsHTML += `<span class="tag ${lowerTag}" onclick="filterMessageBoard('${lowerTag}')">#${lowerTag}</span>`
+        entryTagsHTML += `<span class="tag ${lowerTag}" onclick="filterMessageBoard('${lowerTag}')">#${tag}</span>`
       } catch { }
     }
   });
@@ -408,7 +393,7 @@ function EntryTitle(item, entry) {
     var tempTitle = item.submitterId || "Anon Msg";
     return `<span class="entry-title comment">${tempTitle}</span>`;
   }
-  if (entry) {
+  if(entry){
     return `<span class="entry-title comment">${entry.querySelector('.entry-title').textContent}</span>`;
   }
 
@@ -431,17 +416,17 @@ function EntryTitle(item, entry) {
 
   return `<a href="${mQuestLink}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" class="entry-title entry-link" >${mArg1}</a>`;
 }
-function EntryThumbnail(item, iClass, iDOM) {
+function EntryThumbnail(item, iClass,iDOM) {
   // 20260702: Fina: Returns the html code for displaying a thumbnail of the entry.
   var imageUrl = "";
-  if (item) {
-    imageUrl = item.img || item.IMG || "";
-  } else if (iDOM) {
+  if(item){
+    imageUrl =  item.img || item.IMG || "";
+  }else if(iDOM){
     //const imgItem = iDOM.querySelector(`img.${iClass}`);
     //DEBUG(imgItem);
     imageUrl = iDOM.querySelector(`img`)?.src || "";
-
-  }
+    
+  }  
   if (!imageUrl) { return ""; }
   return `<div >
           <a href="${imageUrl}" target="_blank" onclick="window.open(this.href, '_blank'); return false;">
@@ -458,6 +443,7 @@ function EntryTimestamp(entry) {
   var shortLocTime = "???";
 
   if (entry.timestamp) {
+    DEBUG(entry.timestamp);
     const parsedDate = new Date(entry.timestamp);
     if (!isNaN(parsedDate.getTime())) {
       locTimeStr = parsedDate.toLocaleString();
@@ -599,7 +585,7 @@ function parseQidToUTC(qid) {
 }
 async function QuickLog(e, elBtn) {
   e.stopPropagation();
-  if (elBtn.classList.contains('sending')) { return; }
+  if(elBtn.classList.contains('sending')){return;}
   elBtn.classList.add('sending');
   const entry = elBtn.closest('.log-item');
   const scope = EntryScope(entry).toLocaleLowerCase();
@@ -616,11 +602,11 @@ async function QuickLog(e, elBtn) {
   const formData = new URLSearchParams();
   formData.append('submitterId', document.getElementById('MsgFormQuester').value.trim());
   formData.append('questId', entry.dataset.timestamp);
-  formData.append('tags', entry.querySelector('.entry-title').textContent);
-  formData.append('eventText', entry.querySelector('.entry-title').textContent + " quick log");
+  formData.append('tags', "quick log");
+  formData.append('eventText', entry.querySelector('.entry-title').textContent);
   formData.append('cId', QuestSDK.BDtoQSID(localStorage.getItem("clientBD")));
   formData.append('cLv', localStorage.getItem("clientLV"));
-
+  
   try {
     await fetch(api, {
       method: "POST",
@@ -629,7 +615,7 @@ async function QuickLog(e, elBtn) {
     });
   } catch (error) {
     elBtn.classList.add('error');
-  } finally {
+  }finally{
     const starCounter = elBtn.querySelector('.starCount');
     var count = Number(starCounter.textContent);
     count++;
@@ -662,57 +648,24 @@ function TEST() {
   });
 }
 function ToggleListComments(elBar, bShow) {
+  // 20260704: StarTree: Toggles the content visibility and lists comments.
+  // elBar is the title bar within the log-item object.
+  // When the content is hidden, clicking the bar opens it and lists the comments.
+  // Clicking the bar while the content is shown will just hide the content.
   const elEntry = elBar.closest('.log-item');
   const elContent = elEntry.querySelector('.entry-content');
-
   if (bShow || elContent.classList.contains('hidden')) {
     EntryListComments(elEntry.dataset.timestamp, elBar);
   }
-
   if (elContent.classList.contains('hidden') || bShow) {
     elContent.classList.toggle('hidden', false);
-    elContent.removeAttribute('hidden');
+    elContent.removeAttribute('hidden'); // For a legacy bug where vibe coding used attribute hidden.
     elEntry.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-    // UPGRADE: Tally tags of the children and show list ordered by descending count.
-    const childTagsDiv = elEntry.querySelector('.entry-childTags');
-    if (childTagsDiv) {
-      childTagsDiv.innerHTML = '';
-      const comSec = elEntry.querySelector('.commentsSection');
-      const tagEls = comSec.querySelectorAll('.log-item .tag'); // adjust scope if needed
-      const counts = new Map();
+    // UPGRADE: Tally the tags of the children and show a list ordered by descending count.
+    // In each child, tags have the class "tag", with text content of the tag text starting with #. 
+    // Report the result as a button list with onclick on each that calls "CommentsFilterByTag(this)" in the div with class name "childTags"
 
-      tagEls.forEach(t => {
-        const txt = (t.textContent || '').trim(); // expected like "#something"
-        if (!txt) return;
-        const tagText = txt.startsWith('#') ? txt : `#${txt}`;
-        if (tagText.includes(" ")) { return; }
-        counts.set(tagText, (counts.get(tagText) || 0) + 1);
-      });
-
-      const sorted = [...counts.entries()].sort((a, b) => b[1] - a[1]);
-
-      // Clear the container first
-      childTagsDiv.innerHTML = '';
-
-      sorted.forEach(([tagText, count]) => {
-        // Extract clean tag text for the data attribute
-        const dataTag = tagText.slice(1);
-
-        // Compose the button as a raw HTML text string with an inline onclick attribute
-        const btnHtml = `
-    <button 
-      type="button" 
-      class="btn tag" 
-      data-tag="${dataTag}" 
-      onclick="CommentsFilterByTag(this)"
-    >${tagText} (${count})</button>
-  `;
-
-        // Append the HTML string directly into the container element
-        childTagsDiv.insertAdjacentHTML('beforeend', btnHtml);
-      });
-    }
   } else {
     elContent.classList.toggle('hidden', true);
   }
