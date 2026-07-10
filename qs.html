@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Quest App</title>
-    <script>const APP_VERSION = "20260708202258";</script>
+    <script>const APP_VERSION = "20260710014316";</script>
     <script src="config.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="qsdk.js"></script>
@@ -652,6 +652,8 @@
             color: gold;
             opacity: 1;
         }
+        .entry-childTags{
+        }
 
         .entry-content {
             padding: 5px 5px 5px 5px;
@@ -688,7 +690,7 @@
 
         }
 
-        .entry-childTags,
+        
         .entry-tagsList {
             display: flex;
             flex-wrap: wrap;
@@ -2372,7 +2374,7 @@
                         html += EntryParentButton(item);
                         html += htmlTags
                         html += `<div class="entry-text">${item.eventText} ${EntryURL(item)}</div>`;
-                        html += `<div class="entry-childTags"></div>`;
+                        html += `<span class="entry-childTags"></span>`;
                         html += `<div class="commentsSection hidden" style="clear:both; margin:5px -5px -5px -5px;"></div>`;
 
                         element.innerHTML = html;
