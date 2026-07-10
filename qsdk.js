@@ -149,7 +149,7 @@ function CommentsFilterByTag(elBtn) {
   const entry = elBtn.closest('.log-item');
   const comSec = entry.querySelector('.commentsSection');
   const children = comSec.querySelectorAll('.log-item');
-  const tagName = elBtn.dataset.tag;  
+  const tagName = elBtn.dataset.tag;
   children.forEach(child => {
     if (child.classList.contains(`tag-${tagName}`)) {
       comSec.append(child);
@@ -164,6 +164,19 @@ async function CopyToClipboard(text) {
   // usage:
   //copyToClipboard("hello world").catch(console.error);
   await navigator.clipboard.writeText(text);
+}
+function DateSameLocalDay(UTC1, UTC2) {
+  // 20260709: StarTree: Given two date strings in ISO UTC format, return true if they are the same day in the user's local time zone.
+  const d1 = new Date(UTC1);
+  const d2 = UTC2 == null ? new Date() : new Date(UTC2);
+
+  if (Number.isNaN(d1.getTime()) || Number.isNaN(d2.getTime())) return false;
+
+  return (
+    d1.getFullYear() === d2.getFullYear() &&
+    d1.getMonth() === d2.getMonth() &&
+    d1.getDate() === d2.getDate()
+  );
 }
 function DEBUG(iStr) {
   console.log(iStr);
@@ -183,6 +196,15 @@ function EntryDismissBtnHTML() {
             <line x1="9" y1="1" x2="1" y2="9" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
         </svg></button>`;
   return html;
+}
+function EntryGeoMarkHTML(entry) {
+  // 20260709: StarTree: Show the Geo mark if the entry or its children has coordinates.
+  if (!entry.classList.contains('geo') && !entry.classList.contains('tag-mapping')) { return "" }
+  return `<button class="btn showLocations" title="Show locations" onclick="showBoloSightings(event,'${entry.dataset.timestamp}')" data-quest-id="${entry.dataset.timestamp}">
+    <svg viewBox="0 0 24 24" style="width:15px; height:15px; fill:currentColor;">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+    </svg>
+  </button>`;
 }
 function EntryListComments(questId, btn) {
   // 20260702: StarTree: This is run from an entry to list the comments of that entry in that entry. Gather the commetnts and put them 
@@ -238,6 +260,9 @@ function EntryListComments(questId, btn) {
 
   // Optional: ensure current entry has a visual state
   logItem.classList.add('showing-comments');
+  // 20260709: StarTree: Get a count for quick quest
+  EntryQuickQuestCount(logItem);
+
 }
 function EntryParentButton() {
   var parentBtnHTML = `<button class="btn parent" title="Show Parent" onclick="EntryParentShow(this)">
@@ -305,6 +330,20 @@ function EntryQuickLogBtnHTML(entry) {
     <span class="starCount"></span>
   </button></div>`;
 }
+function EntryQuickQuestCount(entry){
+  // 20260709: StarTree: If the entry is Quick Quest, count the log entries for today.
+  if(!entry.classList.contains('tag-quick') || !entry.classList.contains('tag-quest')){return;}
+  var logs = entry.querySelectorAll('.log-item.tag-quick.tag-log');
+  const counter = entry.querySelector('.starCount');
+  var count = 0;
+  logs.forEach(log=>{
+    
+    if(DateSameLocalDay(log.dataset.timestamp,null)){
+      count++;
+    }
+  });
+  counter.innerHTML = count;
+}
 function EntryScope(entry) {
   if (entry.classList.contains('public')) { return 'Public'; }
   if (entry.classList.contains('guild')) { return 'Guild'; }
@@ -331,12 +370,7 @@ function EntrySetActive(entry) {
 function EntrySightingsShowHTML(entry) {
   // 20260707: StarTree: Create the show sightings button HTML.
   if (!entry.classList.contains("tag-mapping")) { return ""; }
-  return `<button class="btn showLocations" title="Show locations" onclick="showBoloSightings(event,'${entry.dataset.timestamp}')" data-quest-id="${entry.dataset.timestamp}">
-    <svg viewBox="0 0 24 24" style="width:15px; height:15px; fill:currentColor;">
-      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-    </svg>
-  </button>
-  <button class="btn addLocation" onclick="reportBoloSighting(event,'${entry.dataset.timestamp}',this)" title="Add a location">
+  return `<button class="btn addLocation" onclick="reportBoloSighting(event,'${entry.dataset.timestamp}',this)" title="Add a location">
     <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
       <g transform="scale(1)" transform-origin="32 32">
         <rect x="28" y="12" width="8" height="40" rx="1.5" fill="currentColor"/>
@@ -411,13 +445,16 @@ function EntryTitle(item, entry) {
   if (entry) {
     return `<span class="entry-title comment">${entry.querySelector('.entry-title').textContent}</span>`;
   }
+  const titleStr = String(item.title).trim();
+  return `<span class="entry-title">${titleStr}</span>`;
 
-
-  const titleStr = String(item.title);
   const mSplit = titleStr.split("|");
   // If there is no second part, just return the first part.
+
+
+
   let mArg1 = mSplit[0].trim()
-  if (mSplit.length == 1) {
+  if (true || mSplit.length == 1) { // 20260709: StarTree: Disabled this feature because a user normally needs to click on the title bar.
     if (isISOZTimestamp(mArg1)) {
       mArg1 = (item.submitterId || "Anon Msg");
       return `<span class="entry-title comment">${mArg1}</span>`;
@@ -474,9 +511,15 @@ function EntryTimestamp(entry) {
   return html;
 }
 function EntryURL(entry) {
-  if (!entry.url) { return ""; }
-  return ` <a class="entry-url" href="${entry.url}" target="_blank" onclick="window.open(this.href, '_blank'); return false;">[Link]</a>`;
+  if (!entry.url) return "";
+  const urls = String(entry.url).split("|").map(s => s.trim()).filter(Boolean);
+  return urls.map((url, index) => {
+    const label = URLLabel(url, index);
+    const safeUrl = encodeURI(url);
+    return ` <a class="entry-url" href="${safeUrl}" target="_blank" onclick="window.open(this.href, '_blank'); return false;">${label}</a>`;
+  }).join("");
 }
+
 function formatUTCYYYMMDDhhmmssuuu(q) {
   const p = parseQidToUTC(q);
   if (!p) return null;
@@ -616,8 +659,8 @@ async function QuickLog(e, elBtn) {
   const formData = new URLSearchParams();
   formData.append('submitterId', document.getElementById('MsgFormQuester').value.trim());
   formData.append('questId', entry.dataset.timestamp);
-  formData.append('tags', entry.querySelector('.entry-title').textContent);
-  formData.append('eventText', entry.querySelector('.entry-title').textContent + " quick log");
+  formData.append('tags', entry.querySelector('.entry-title').textContent + " quick log");
+  //formData.append('eventText', entry.querySelector('.entry-title').textContent + " quick log");
   formData.append('cId', QuestSDK.BDtoQSID(localStorage.getItem("clientBD")));
   formData.append('cLv', localStorage.getItem("clientLV"));
 
@@ -639,6 +682,21 @@ async function QuickLog(e, elBtn) {
     elBtn.classList.remove('sending');
     elBtn.classList.add('done');
   }
+}
+function URLGuessDomain(url) {
+  const host = (() => {
+    try { return new URL(url).hostname; } catch { return String(url); }
+  })();
+  const h = host.replace(/^www\./i, '').toLowerCase();
+  // remove common TLDs (kept simple)
+  return h.replace(/\.(com|net|org|io|co|edu|gov|uk|us|ca|de|fr|au|in|info|biz|app|dev|ai)\s*$/i, '');
+}
+function URLLabel(url, index) {
+  var label = URLGuessDomain(url);
+  if (label) {
+    return `[${index + 1}:${label}]`;
+  }
+  return `[${index + 1}]`;
 }
 function URLTrim(iURL) {
   // 20260706: StarTree: Trim the ? tail off an URL
@@ -680,7 +738,7 @@ function ToggleListComments(elBar, bShow) {
       childTagsDiv.innerHTML = '';
       const comSec = elEntry.querySelector('.commentsSection');
       const tagEls = comSec.querySelectorAll('.log-item .tag'); // adjust scope if needed
-      const counts = new Map();
+      const counts = new Map();      
 
       tagEls.forEach(t => {
         const txt = (t.textContent || '').trim(); // expected like "#something"

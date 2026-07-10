@@ -145,6 +145,21 @@ const QuestSDK = {
   },
 }
 // Helper Functions in Alphabetical Order
+function CommentsFilterByTag(elBtn) {
+  const entry = elBtn.closest('.log-item');
+  const comSec = entry.querySelector('.commentsSection');
+  const children = comSec.querySelectorAll('.log-item');
+  const tagName = elBtn.dataset.tag;  
+  children.forEach(child => {
+    if (child.classList.contains(`tag-${tagName}`)) {
+      comSec.append(child);
+      child.classList.remove('hidden');
+    } else {
+      child.classList.add('hidden');
+    }
+  });
+  comSec.classList.remove('hidden');
+}
 async function CopyToClipboard(text) {
   // usage:
   //copyToClipboard("hello world").catch(console.error);
@@ -168,6 +183,15 @@ function EntryDismissBtnHTML() {
             <line x1="9" y1="1" x2="1" y2="9" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
         </svg></button>`;
   return html;
+}
+function EntryGeoMarkHTML(entry){
+  // 20260709: StarTree: Show the Geo mark if the entry or its children has coordinates.
+  if(!entry.classList.contains('geo') && !entry.classList.contains('tag-mapping')){return ""}
+  return `<button class="btn showLocations" title="Show locations" onclick="showBoloSightings(event,'${entry.dataset.timestamp}')" data-quest-id="${entry.dataset.timestamp}">
+    <svg viewBox="0 0 24 24" style="width:15px; height:15px; fill:currentColor;">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+    </svg>
+  </button>`;
 }
 function EntryListComments(questId, btn) {
   // 20260702: StarTree: This is run from an entry to list the comments of that entry in that entry. Gather the commetnts and put them 
@@ -316,12 +340,7 @@ function EntrySetActive(entry) {
 function EntrySightingsShowHTML(entry) {
   // 20260707: StarTree: Create the show sightings button HTML.
   if (!entry.classList.contains("tag-mapping")) { return ""; }
-  return `<button class="btn showLocations" title="Show locations" onclick="showBoloSightings(event,'${entry.dataset.timestamp}')" data-quest-id="${entry.dataset.timestamp}">
-    <svg viewBox="0 0 24 24" style="width:15px; height:15px; fill:currentColor;">
-      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-    </svg>
-  </button>
-  <button class="btn addLocation" onclick="reportBoloSighting(event,'${entry.dataset.timestamp}',this)" title="Add a location">
+  return `<button class="btn addLocation" onclick="reportBoloSighting(event,'${entry.dataset.timestamp}',this)" title="Add a location">
     <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none">
       <g transform="scale(1)" transform-origin="32 32">
         <rect x="28" y="12" width="8" height="40" rx="1.5" fill="currentColor"/>
@@ -355,9 +374,9 @@ function EntryStandardButtons(entry) {
 }
 function EntryStatus(entry) {
   // 20260702: Fina: Returns the html code for displaying the status.
-  try{
+  try {
     return entry.querySelector('.entry-status').textContent;
-  }catch{}
+  } catch { }
 
   if (!entry.status) { return ""; }
   return `<span class="entry-status">${entry.status}</span>`;
@@ -378,7 +397,7 @@ function EntryTagsHTML(item, element) {
     if (!element.classList.contains(`tag-${lowerTag}`)) {
       try {
         element.classList.add(`tag-${lowerTag}`);
-        entryTagsHTML += `<span class="tag ${lowerTag}" onclick="filterMessageBoard('${lowerTag}')">#${tag}</span>`
+        entryTagsHTML += `<span class="tag ${lowerTag}" onclick="filterMessageBoard('${lowerTag}')">#${lowerTag}</span>`
       } catch { }
     }
   });
@@ -393,16 +412,19 @@ function EntryTitle(item, entry) {
     var tempTitle = item.submitterId || "Anon Msg";
     return `<span class="entry-title comment">${tempTitle}</span>`;
   }
-  if(entry){
+  if (entry) {
     return `<span class="entry-title comment">${entry.querySelector('.entry-title').textContent}</span>`;
   }
+  const titleStr = String(item.title).trim();
+  return `<span class="entry-title">${titleStr}</span>`;
 
-
-  const titleStr = String(item.title);
   const mSplit = titleStr.split("|");
   // If there is no second part, just return the first part.
+
+  
+
   let mArg1 = mSplit[0].trim()
-  if (mSplit.length == 1) {
+  if (true || mSplit.length == 1) { // 20260709: StarTree: Disabled this feature because a user normally needs to click on the title bar.
     if (isISOZTimestamp(mArg1)) {
       mArg1 = (item.submitterId || "Anon Msg");
       return `<span class="entry-title comment">${mArg1}</span>`;
@@ -416,17 +438,17 @@ function EntryTitle(item, entry) {
 
   return `<a href="${mQuestLink}" target="_blank" onclick="window.open(this.href, '_blank'); return false;" class="entry-title entry-link" >${mArg1}</a>`;
 }
-function EntryThumbnail(item, iClass,iDOM) {
+function EntryThumbnail(item, iClass, iDOM) {
   // 20260702: Fina: Returns the html code for displaying a thumbnail of the entry.
   var imageUrl = "";
-  if(item){
-    imageUrl =  item.img || item.IMG || "";
-  }else if(iDOM){
+  if (item) {
+    imageUrl = item.img || item.IMG || "";
+  } else if (iDOM) {
     //const imgItem = iDOM.querySelector(`img.${iClass}`);
     //DEBUG(imgItem);
     imageUrl = iDOM.querySelector(`img`)?.src || "";
-    
-  }  
+
+  }
   if (!imageUrl) { return ""; }
   return `<div >
           <a href="${imageUrl}" target="_blank" onclick="window.open(this.href, '_blank'); return false;">
@@ -443,7 +465,6 @@ function EntryTimestamp(entry) {
   var shortLocTime = "???";
 
   if (entry.timestamp) {
-    DEBUG(entry.timestamp);
     const parsedDate = new Date(entry.timestamp);
     if (!isNaN(parsedDate.getTime())) {
       locTimeStr = parsedDate.toLocaleString();
@@ -585,7 +606,7 @@ function parseQidToUTC(qid) {
 }
 async function QuickLog(e, elBtn) {
   e.stopPropagation();
-  if(elBtn.classList.contains('sending')){return;}
+  if (elBtn.classList.contains('sending')) { return; }
   elBtn.classList.add('sending');
   const entry = elBtn.closest('.log-item');
   const scope = EntryScope(entry).toLocaleLowerCase();
@@ -602,11 +623,11 @@ async function QuickLog(e, elBtn) {
   const formData = new URLSearchParams();
   formData.append('submitterId', document.getElementById('MsgFormQuester').value.trim());
   formData.append('questId', entry.dataset.timestamp);
-  formData.append('tags', "quick log");
-  formData.append('eventText', entry.querySelector('.entry-title').textContent);
+  formData.append('tags', entry.querySelector('.entry-title').textContent);
+  formData.append('eventText', entry.querySelector('.entry-title').textContent + " quick log");
   formData.append('cId', QuestSDK.BDtoQSID(localStorage.getItem("clientBD")));
   formData.append('cLv', localStorage.getItem("clientLV"));
-  
+
   try {
     await fetch(api, {
       method: "POST",
@@ -615,7 +636,7 @@ async function QuickLog(e, elBtn) {
     });
   } catch (error) {
     elBtn.classList.add('error');
-  }finally{
+  } finally {
     const starCounter = elBtn.querySelector('.starCount');
     var count = Number(starCounter.textContent);
     count++;
@@ -648,24 +669,57 @@ function TEST() {
   });
 }
 function ToggleListComments(elBar, bShow) {
-  // 20260704: StarTree: Toggles the content visibility and lists comments.
-  // elBar is the title bar within the log-item object.
-  // When the content is hidden, clicking the bar opens it and lists the comments.
-  // Clicking the bar while the content is shown will just hide the content.
   const elEntry = elBar.closest('.log-item');
   const elContent = elEntry.querySelector('.entry-content');
+
   if (bShow || elContent.classList.contains('hidden')) {
     EntryListComments(elEntry.dataset.timestamp, elBar);
   }
+
   if (elContent.classList.contains('hidden') || bShow) {
     elContent.classList.toggle('hidden', false);
-    elContent.removeAttribute('hidden'); // For a legacy bug where vibe coding used attribute hidden.
+    elContent.removeAttribute('hidden');
     elEntry.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-    // UPGRADE: Tally the tags of the children and show a list ordered by descending count.
-    // In each child, tags have the class "tag", with text content of the tag text starting with #. 
-    // Report the result as a button list with onclick on each that calls "CommentsFilterByTag(this)" in the div with class name "childTags"
+    // UPGRADE: Tally tags of the children and show list ordered by descending count.
+    const childTagsDiv = elEntry.querySelector('.entry-childTags');
+    if (childTagsDiv) {
+      childTagsDiv.innerHTML = '';
+      const comSec = elEntry.querySelector('.commentsSection');
+      const tagEls = comSec.querySelectorAll('.log-item .tag'); // adjust scope if needed
+      const counts = new Map();
 
+      tagEls.forEach(t => {
+        const txt = (t.textContent || '').trim(); // expected like "#something"
+        if (!txt) return;
+        const tagText = txt.startsWith('#') ? txt : `#${txt}`;
+        if (tagText.includes(" ")) { return; }
+        counts.set(tagText, (counts.get(tagText) || 0) + 1);
+      });
+
+      const sorted = [...counts.entries()].sort((a, b) => b[1] - a[1]);
+
+      // Clear the container first
+      childTagsDiv.innerHTML = '';
+
+      sorted.forEach(([tagText, count]) => {
+        // Extract clean tag text for the data attribute
+        const dataTag = tagText.slice(1);
+
+        // Compose the button as a raw HTML text string with an inline onclick attribute
+        const btnHtml = `
+    <button 
+      type="button" 
+      class="btn tag" 
+      data-tag="${dataTag}" 
+      onclick="CommentsFilterByTag(this)"
+    >${tagText} (${count})</button>
+  `;
+
+        // Append the HTML string directly into the container element
+        childTagsDiv.insertAdjacentHTML('beforeend', btnHtml);
+      });
+    }
   } else {
     elContent.classList.toggle('hidden', true);
   }
