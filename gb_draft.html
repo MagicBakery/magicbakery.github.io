@@ -1,0 +1,1592 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+  <title>Playground</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #222;
+      color: #eee;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      --card-radius: 6px;
+    }
+
+    #app {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    #hud-left {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+      max-width: 320px;
+      width: 300px;
+      z-index: 100;
+    }
+
+    #hud-right {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .panel {
+      pointer-events: auto;
+      background: rgba(0, 0, 0, .75);
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 10px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      transition: width 0.2s ease, height 0.2s ease, border-radius 0.2s ease;
+    }
+
+    #setupPanel.collapsed {
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      user-select: none;
+      background: rgba(255, 255, 255, 0.02);
+      box-sizing: border-box;
+    }
+
+    #setupPanel:not(.collapsed) .panel-header {
+      width: 100%;
+      justify-content: flex-start;
+      padding-left: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .panel-header:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .panel-content {
+      padding: 14px;
+      display: block;
+    }
+
+    #setupPanel.collapsed .panel-content {
+      display: none;
+    }
+
+    .tab-bar {
+      display: flex;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 12px;
+      gap: 4px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 6px 6px 0 0;
+      transition: color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tab-btn.active {
+      color: #1f6feb;
+      border-bottom: 2px solid #1f6feb;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    .tab-pane {
+      display: none;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .row:first-child {
+      margin-top: 0;
+    }
+
+    input[type="text"] {
+      background: #0d0d0d;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 8px;
+      padding: 6px 8px;
+      flex-grow: 1;
+    }
+
+    input[type="range"] {
+      flex-grow: 1;
+      accent-color: #1f6feb;
+      cursor: pointer;
+    }
+
+    button.action-btn {
+      background: #1f6feb;
+      color: #fff;
+      border: 0;
+      border-radius: 8px;
+      padding: 7px 12px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    button.action-btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      pointer-events: auto;
+      transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.1s ease;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: #fff;
+    }
+
+    .icon-btn:active {
+      transform: scale(0.96);
+    }
+
+    .icon-btn[data-status="normal"] {
+      background-color: rgba(0, 0, 0, 0.6);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .icon-btn[data-status="normal"]:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .icon-btn[data-status="saving"] {
+      background-color: rgba(218, 165, 32, 0.6);
+      border-color: rgba(255, 215, 0, 0.4);
+    }
+
+    .icon-btn[data-status="error"] {
+      background-color: rgba(179, 38, 30, 0.6);
+      border-color: rgba(239, 83, 80, 0.4);
+    }
+
+    #msg {
+      margin-top: 8px;
+      font-size: 12px;
+      opacity: .9;
+    }
+
+    .debug-info {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 11px;
+      font-family: monospace;
+      color: #a5d6ff;
+      line-height: 1.4;
+    }
+
+    .tracking-section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: rgba(255, 255, 255, 0.4);
+      margin-top: 14px;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .player-count-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      font-family: monospace;
+      font-size: 12px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+    }
+
+    .player-count-row:last-child {
+      border-bottom: none;
+    }
+
+    .player-count-row .p-name {
+      color: #eee;
+    }
+
+    .player-count-row .p-count {
+      font-weight: bold;
+      color: #a5d6ff;
+    }
+
+    .rot-btn {
+      position: absolute;
+      z-index: 50;
+      width: 40px;
+      height: 40px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: translateY(-50%);
+      /* Centers vertically on the border */
+      user-select: none;
+    }
+
+    .rot-btn:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    .rot-btn:active {
+      background: #1f6feb;
+    }
+
+    .box-item {
+      padding: 4px 6px;
+      font-size: 12px;
+      font-family: monospace;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 4px;
+      margin-bottom: 4px;
+      color: #fff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #contextTarget {
+      position: absolute;
+      width: 64px;
+      height: 90px;
+      pointer-events: auto;
+      opacity: 0.01;
+      z-index: 9999;
+      display: none;
+    }
+
+    /* Fixed Aspect Ratio Dynamic Splash Screen Overlay */
+    #splashViewer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(5, 5, 5, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    #splashViewer.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #splashCanvas {
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+      border-radius: 12px;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <img id="contextTarget" src="" alt="card proxy" />
+    <canvas id="c"></canvas>
+    <button id="btnRotLeft" class="rot-btn" onclick="" style="left: 10px;">◀</button>
+    <button id="btnRotRight" class="rot-btn" style="right: 10px;">▶</button>
+    <div id="hud-left">
+      <div class="panel collapsed" id="setupPanel">
+        <div class="panel-header" id="btnToggleSetup">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x1="20" y1="12" y2="12"></line>
+            <line x1="4" x1="20" y1="6" y2="6"></line>
+            <line x1="4" x1="20" y1="18" y2="18"></line>
+          </svg>
+        </div>
+        <div class="panel-content">
+
+          <div class="tab-bar">
+            <button class="tab-btn active" data-tab="tab-general">General</button>
+            <button class="tab-btn" data-tab="tab-actions">Actions</button>
+            <button class="tab-btn" data-tab="tab-box">Box</button>
+            <button class="tab-btn" data-tab="tab-settings">Settings</button>
+          </div>
+
+          <div class="tab-pane active" id="tab-general">
+            <div class="row">
+              <label style="font-size:12px; opacity:.9; width: 60px;">Room</label>
+              <input type="text" id="gameId" value="lunch" />
+            </div>
+            <div class="row">
+              <label style="font-size:12px; opacity:.9; width: 60px;">Name</label>
+              <input type="text" id="playerName" value="Player" />
+            </div>
+            <div class="row" style="margin-top:10px;">
+              <button class="action-btn" id="btnJoin" style="width: 100%;">Join Room</button>
+            </div>
+            <div id="msg"></div>
+
+            <div class="tracking-section-title">Hand Tracking</div>
+            <div id="countsContainer" style="max-height: 120px; overflow-y: auto; margin-bottom: 6px;">
+              <div style="font-size: 11px; opacity: 0.5; font-style: italic;">No active card connections found...</div>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="tab-actions">
+            <div style="padding: 6px 0;">
+              <button class="action-btn" id="btnFlipSelected" style="width: 100%; font-size: 12px;" disabled>Flip
+                Selected Asset (F)</button>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="tab-box">
+            <div class="tracking-section-title" style="margin-top: 0;">Items in Box</div>
+            <div id="boxContainer" style="max-height: 160px; overflow-y: auto;">
+              <div style="font-size: 11px; opacity: 0.5; font-style: italic;">Box is currently empty...</div>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="tab-settings">
+            <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px; color: rgba(255,255,255,0.7);">
+              Table : Hand Ratio
+            </div>
+            <div class="row" style="gap: 12px; margin-bottom: 12px;">
+              <input type="range" id="ratioSlider" min="0" max="4" step="1" value="2" />
+              <span id="ratioDisplay"
+                style="font-family: monospace; font-size: 13px; font-weight: 700; width: 30px; text-align: right;">2:2</span>
+            </div>
+
+            <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px; color: rgba(255,255,255,0.7);">
+              Seat Orientation
+            </div>
+            <div class="row" style="gap: 12px;">
+              <input type="range" id="seatSlider" min="0" max="360" step="1" value="0" />
+              <span id="seatDisplay"
+                style="font-family: monospace; font-size: 13px; font-weight: 700; width: 45px; text-align: right;">0°</span>
+            </div>
+
+          </div>
+
+          <div class="debug-info">
+            <div>Assets: <span id="debugCount">0</span></div>
+            <div>Table Pan: <span id="debugTablePan">0, 0</span> | Zoom: <span id="debugTableZoom">1.0</span>x</div>
+            <div>Hand Pan: <span id="debugHandPan">0, 0</span> | Zoom: <span id="debugHandZoom">1.0</span>x</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div id="hud-right">
+      <button id="btnResync" class="icon-btn" title="Refresh State" data-status="normal" disabled>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+          <path d="M3 3v5h5" />
+          <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+          <path d="M16 16h5v5" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="splashViewer">
+    <canvas id="splashCanvas"></canvas>
+  </div>
+
+  <script>
+
+    const API_BASE = "https://script.google.com/macros/s/AKfycbxMccOqQu0Bssu73UyOv8P7R-g2ifVjs-irVK2wGYTOuw0trFQ3adBgkr822w8TqDlp/exec";
+    const btnRotLeft = document.getElementById('btnRotLeft');
+    const btnRotRight = document.getElementById('btnRotRight');
+    let rotInterval = null;
+    let originalState = null;
+
+    let deviceId = localStorage.getItem("ClientBD");
+    if (!deviceId) {
+      deviceId = String(Date.now());
+      localStorage.setItem("ClientBD", deviceId);
+    }
+
+    const savedName = localStorage.getItem("playerNameCache");
+    if (savedName) {
+      document.getElementById('playerName').value = savedName;
+    }
+
+    document.getElementById('playerName').addEventListener('input', (e) => {
+      localStorage.setItem("playerNameCache", e.target.value);
+    });
+
+    function getServerOwnerId() {
+      const currentDisplayName = document.getElementById('playerName').value.trim() || "Player";
+      return `${deviceId}|${currentDisplayName}`;
+    }
+
+    function parseDisplayName(rawOwnerId) {
+      if (!rawOwnerId) return "Unknown Player";
+      const splitIdx = rawOwnerId.indexOf('|');
+      if (splitIdx === -1) return rawOwnerId;
+      return rawOwnerId.substring(splitIdx + 1);
+    }
+
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+    const contextTarget = document.getElementById('contextTarget');
+    const splashViewer = document.getElementById('splashViewer');
+    const splashCanvas = document.getElementById('splashCanvas');
+    const splashCtx = splashCanvas.getContext('2d');
+
+    const setupPanel = document.getElementById('setupPanel');
+    document.getElementById('btnToggleSetup').addEventListener('click', () => {
+      setupPanel.classList.toggle('collapsed');
+    });
+
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        tabButtons.forEach(t => t.classList.remove('active'));
+        tabPanes.forEach(p => p.classList.remove('active'));
+
+        btn.classList.add('active');
+        document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
+      });
+    });
+
+    // Config ratio mappings
+    const ratioSlider = document.getElementById('ratioSlider');
+    const ratioDisplay = document.getElementById('ratioDisplay');
+    const RATIO_MAP = [
+      { label: "0:4", table: 0.00, hand: 1.00 },
+      { label: "1:3", table: 0.25, hand: 0.75 },
+      { label: "2:2", table: 0.50, hand: 0.50 },
+      { label: "3:1", table: 0.75, hand: 0.25 },
+      { label: "4:0", table: 1.00, hand: 0.00 }
+    ];
+
+    const savedRatioIndex = localStorage.getItem("sandbox_ratio_index");
+    if (savedRatioIndex !== null) {
+      ratioSlider.value = savedRatioIndex;
+      ratioDisplay.textContent = RATIO_MAP[parseInt(savedRatioIndex, 10)].label;
+    }
+
+    function getTableSplitFactor() {
+      return RATIO_MAP[parseInt(ratioSlider.value, 10)].table;
+    }
+
+    ratioSlider.addEventListener('input', () => {
+      ratioDisplay.textContent = RATIO_MAP[parseInt(ratioSlider.value, 10)].label;
+      localStorage.setItem("sandbox_ratio_index", ratioSlider.value);
+      draw(); updateButtonPositions();
+    });
+
+    // Update the button handlers
+    function rotateSelected(delta) {
+      if (!selectedId) return; // Do nothing if nothing is selected
+
+      const a = assetById.get(selectedId);
+      if (!a) return;
+
+      // Update local state immediately for instant feedback
+      a.rotationDeg = (a.rotationDeg + delta + 360) % 360;
+
+      draw();
+    }
+
+    // Press and hold logic (replaces your previous startRotation)
+    function startRotation(delta) {
+      if (rotInterval) clearInterval(rotInterval);
+      rotateSelected(delta);
+      rotInterval = setInterval(() => rotateSelected(delta), 50);
+    }
+
+    function stopRotation() {
+      clearInterval(rotInterval);
+      rotInterval = null;
+    }
+    // Add Event Listeners
+    [btnRotLeft, btnRotRight].forEach(btn => {
+      const delta = (btn === btnRotLeft) ? -1 : 1;
+      btn.addEventListener('mousedown', () => startRotation(delta));
+      btn.addEventListener('touchstart', (e) => { e.preventDefault(); startRotation(delta); });
+      btn.addEventListener('mouseup', stopRotation);
+      btn.addEventListener('mouseleave', stopRotation);
+      btn.addEventListener('touchend', stopRotation);
+    });
+
+    // Sync button position with the Table/Hand border
+    // Update this inside your resize() or whenever TableSplitFactor changes
+    function updateButtonPositions() {
+      const midY = canvas.clientHeight * getTableSplitFactor();
+      btnRotLeft.style.top = midY + 'px';
+      btnRotRight.style.top = midY + 'px';
+    }
+
+    // Attach to existing resize function
+    window.addEventListener('resize', () => {
+      resize();
+      updateButtonPositions();
+    });
+    // Initial call
+    updateButtonPositions();
+
+    // Seating Config mapping rules
+    const seatSlider = document.getElementById('seatSlider');
+    const seatDisplay = document.getElementById('seatDisplay');
+    const SEAT_DEGREES = [0, 90, 180, 270, 360];
+
+    // Load saved value directly
+    const savedSeatValue = localStorage.getItem("sandbox_seat_value");
+    if (savedSeatValue !== null) {
+      seatSlider.value = savedSeatValue;
+      seatDisplay.textContent = `${seatSlider.value}°`;
+    }
+
+    function getSeatOrientationDegrees() {
+      return parseInt(seatSlider.value, 10);
+    }
+
+    seatSlider.addEventListener('input', () => {
+      seatDisplay.textContent = `${seatSlider.value}°`;
+      localStorage.setItem("sandbox_seat_value", seatSlider.value);
+      draw();
+    });
+
+
+
+
+    function resize() {
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      canvas.width = Math.floor(canvas.clientWidth * dpr);
+      canvas.height = Math.floor(canvas.clientHeight * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function tableRect() {
+      return { x: 0, y: 0, w: canvas.clientWidth, h: canvas.clientHeight * getTableSplitFactor() };
+    }
+    function handRect() {
+      const r = tableRect();
+      return { x: 0, y: r.h, w: r.w, h: canvas.clientHeight - r.h };
+    }
+
+    const view = { table: { zoom: 1.0, panX: 0, panY: 0 }, hand: { zoom: 1.0, panX: 0, panY: 0 } };
+
+    function screenToWorld(viewport, sx, sy) {
+      const r = viewport === 'table' ? tableRect() : handRect();
+      const v = view[viewport];
+
+      let dx = sx - r.x - r.w * 0.5;
+      let dy = sy - r.y - r.h * 0.5;
+
+      if (viewport === 'table') {
+        const angleRad = -getSeatOrientationDegrees() * Math.PI / 180;
+        const rx = dx * Math.cos(angleRad) - dy * Math.sin(angleRad);
+        const ry = dx * Math.sin(angleRad) + dy * Math.cos(angleRad);
+        dx = rx; dy = ry;
+      }
+
+      return { x: (dx - v.panX) / v.zoom, y: (dy - v.panY) / v.zoom };
+    }
+
+    function getCardRadiusFromCSS() {
+      const value = window.getComputedStyle(document.documentElement).getPropertyValue('--card-radius').trim();
+      const parsed = parseFloat(value);
+      return isNaN(parsed) ? 6 : parsed;
+    }
+
+    function worldToScreen(viewport, wx, wy) {
+      const r = viewport === 'table' ? tableRect() : handRect();
+      const v = view[viewport];
+
+      let lx = wx * v.zoom + v.panX;
+      let ly = wy * v.zoom + v.panY;
+
+      if (viewport === 'table') {
+        const angleRad = getSeatOrientationDegrees() * Math.PI / 180;
+        const rx = lx * Math.cos(angleRad) - ly * Math.sin(angleRad);
+        const ry = lx * Math.sin(angleRad) + ly * Math.cos(angleRad);
+        lx = rx; ly = ry;
+      }
+
+      return { x: r.x + r.w * 0.5 + lx, y: r.y + r.h * 0.5 + ly };
+    }
+
+    const gameIdEl = document.getElementById('gameId');
+    const btnJoin = document.getElementById('btnJoin');
+    const btnResync = document.getElementById('btnResync');
+    const btnFlipSelected = document.getElementById('btnFlipSelected');
+    const msgEl = document.getElementById('msg');
+    const countsContainer = document.getElementById('countsContainer');
+    const boxContainer = document.getElementById('boxContainer');
+
+    const debugCountEl = document.getElementById('debugCount');
+    const debugTablePanEl = document.getElementById('debugTablePan');
+    const debugTableZoomEl = document.getElementById('debugTableZoom');
+    const debugHandPanEl = document.getElementById('debugHandPan');
+    const debugHandZoomEl = document.getElementById('debugHandZoom');
+
+    let gameId = ""; let myJoined = false;
+    let assets = []; let assetById = new Map(); let selectedId = null;
+    let drag = null; let panDrag = null; let pointer = { x: 0, y: 0 };
+    let touchGesture = {
+      active: false,
+      lastDistance: 0,
+      lastTouches: [],
+      targetView: null // Will be 'table' or 'hand'
+    };
+    function updateSyncStatus(status) {
+      btnResync.setAttribute('data-status', status);
+    }
+
+    window.addEventListener('beforeunload', (e) => {
+      if (selectedId) {
+        trySaveAsset(selectedId);
+      }
+      if (myJoined) {
+        e.preventDefault();
+        e.returnValue = 'Are you sure you want to exit? Local modifications inside your hand region may be forgotten.';
+        return e.returnValue;
+      }
+    });
+
+    function getStorageKey() {
+      return `cardsandbox_${gameId}_${deviceId}_hand`;
+    }
+    function saveHandToLocalStorage() {
+      if (!gameId || !deviceId) return;
+      const handData = assets
+        .filter(a => (a.region || "").toString().toUpperCase() === "HAND")
+        .map(a => ({ assetId: a.assetId, x: a.x, y: a.y, rotationDeg: a.rotationDeg, facedown: a.facedown }));
+      localStorage.setItem(getStorageKey(), JSON.stringify(handData));
+      updateTrackedUIs();
+    }
+    function applyHandFromLocalStorage() {
+      try {
+        const raw = localStorage.getItem(getStorageKey());
+        if (!raw) return;
+        const localHand = JSON.parse(raw);
+        const complexOwnerId = getServerOwnerId();
+        for (const item of localHand) {
+          const match = assetById.get(item.assetId);
+          if (match) {
+            match.region = "HAND";
+            match.ownerId = complexOwnerId;
+            match.x = item.x;
+            match.y = item.y;
+            match.rotationDeg = item.rotationDeg;
+            match.facedown = item.facedown;
+          }
+        }
+      } catch (e) { console.error("Hand recovery crash", e); }
+    }
+
+    function updateTrackedUIs() {
+      const metrics = new Map();
+      const boxItems = [];
+
+      for (const asset of assets) {
+        const reg = (asset.region || "").toString().toUpperCase();
+        if (reg === "HAND") {
+          const rawOwner = asset.ownerId || "";
+          const displayName = parseDisplayName(rawOwner);
+          metrics.set(displayName, (metrics.get(displayName) || 0) + 1);
+        } else if (reg === "BOX") {
+          boxItems.push(asset.name || `Asset (${asset.assetId})`);
+        }
+      }
+
+      if (metrics.size === 0) {
+        countsContainer.innerHTML = `<div style="font-size: 11px; opacity: 0.5; font-style: italic;">No active card connections found...</div>`;
+      } else {
+        let html = "";
+        const sortedPlayers = [...metrics.keys()].sort();
+        for (const player of sortedPlayers) {
+          html += `
+              <div class="player-count-row">
+                <span class="p-name">${player}</span>
+                <span class="p-count">${metrics.get(player)} cards</span>
+              </div>
+            `;
+        }
+        countsContainer.innerHTML = html;
+      }
+
+      if (boxItems.length === 0) {
+        boxContainer.innerHTML = `<div style="font-size: 11px; opacity: 0.5; font-style: italic;">Box is currently empty...</div>`;
+      } else {
+        boxContainer.innerHTML = boxItems.map(item => `<div class="box-item">${item}</div>`).join('');
+      }
+
+      btnFlipSelected.disabled = !selectedId;
+    }
+
+    const imgCache = new Map();
+    function loadImage(url) {
+      if (!url || url.includes('|')) return Promise.resolve(null);
+      if (imgCache.has(url)) return imgCache.get(url);
+      const im = new Image();
+      const p = new Promise((resolve) => {
+        im.onload = () => { p._loaded = true; draw(); resolve(im); };
+        im.onerror = () => { p._loaded = false; resolve(null); };
+        im.src = url;
+      });
+      p._image = im; p._loaded = false;
+      imgCache.set(url, p);
+      return p;
+    }
+
+    function formatColorString(rawColor) {
+      if (!rawColor) return "rgba(45, 110, 210, 0.4)";
+      let cleaned = rawColor.trim();
+      if (cleaned.startsWith('0x') || cleaned.startsWith('0X')) {
+        return '#' + cleaned.slice(2);
+      }
+      return cleaned;
+    }
+
+    function parsePlaceholder(urlStr) {
+      if (!urlStr || !urlStr.includes('|')) return null;
+
+      const front = { shape: 'card', size: 64, color: 'rgba(45, 110, 210, 0.4)' };
+      const back = { shape: null, size: null, color: null };
+      const tokens = urlStr.split('|');
+      const counts = { shape: 0, size: 0, color: 0 };
+
+      for (const token of tokens) {
+        const [key, val] = token.split(':');
+        if (key && val) {
+          const k = key.trim().toLowerCase();
+          const v = val.trim();
+
+          if (k === 'shape') {
+            counts.shape++;
+            if (counts.shape === 1) front.shape = v.toLowerCase();
+            else if (counts.shape === 2) back.shape = v.toLowerCase();
+          } else if (k === 'size') {
+            counts.size++;
+            const parsedSize = parseFloat(v) || 64;
+            if (counts.size === 1) front.size = parsedSize;
+            else if (counts.size === 2) back.size = parsedSize;
+          } else if (k === 'color') {
+            counts.color++;
+            const formattedColor = formatColorString(v);
+            if (counts.color === 1) front.color = formattedColor;
+            else if (counts.color === 2) back.color = formattedColor;
+          }
+        }
+      }
+
+      if (!back.shape) back.shape = front.shape;
+      if (!back.size) back.size = front.size;
+      if (!back.color) back.color = "#141414";
+
+      return { front, back };
+    }
+
+    function getAssetDimensions(card) {
+      const definition = parsePlaceholder(card.imageUrl);
+      if (definition) {
+        const target = !!card.facedown ? definition.back : definition.front;
+        if (target.shape === 'card') {
+          return { w: target.size, h: target.size * 1.4, isPlaceholder: true, config: target };
+        }
+        return { w: target.size, h: target.size, isPlaceholder: true, config: target };
+      }
+      return { w: 64, h: 64 * 1.4, isPlaceholder: false, config: null };
+    }
+    function getDistance(t1, t2) {
+      const dx = t1.clientX - t2.clientX;
+      const dy = t1.clientY - t2.clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+    function apiUrl(action, params) {
+      const u = new URL(API_BASE);
+      u.searchParams.set("action", action);
+      for (const [k, v] of Object.entries(params || {})) u.searchParams.set(k, v);
+      u.searchParams.set("_t", Date.now().toString());
+      return u.toString();
+    }
+
+    async function fetchState() {
+      const complexOwnerId = getServerOwnerId();
+      const url = apiUrl("GET_STATE", { gameId, playerId: complexOwnerId });
+      const res = await fetch(url, { method: 'GET', redirect: "follow" });
+      if (!res.ok) throw new Error(`GET_STATE failed: ${res.status}`);
+      const rawText = await res.text();
+      let data = JSON.parse(rawText);
+      if (!data.ok && data.error) throw new Error(data.error);
+      assets = data.assets || [];
+      assetById = new Map(assets.map(a => [a.assetId, a]));
+
+      applyHandFromLocalStorage();
+      debugCountEl.textContent = assets.length;
+      updateTrackedUIs();
+    }
+
+    async function applyMove(assetId, patch, expectedUpdatedAt) {
+      const complexOwnerId = getServerOwnerId();
+      const payload = { action: "APPLY_MOVE", gameId, playerId: complexOwnerId, assetId, expectedUpdatedAt: String(expectedUpdatedAt || ""), patch: JSON.stringify(patch) };
+      const formBody = Object.keys(payload).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(payload[k])).join('&');
+      const res = await fetch(API_BASE, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body: formBody,
+        redirect: "follow"
+      });
+      const text = await res.text();
+      let data = {}; try { data = JSON.parse(text); } catch (e) { }
+      if (!res.ok || !data.ok) {
+        const err = data.error || `HTTP ${res.status}`;
+        if (err === "CONFLICT") throw Object.assign(new Error("CONFLICT"), { code: "CONFLICT", currentUpdatedAt: data.currentUpdatedAt || "" });
+        throw new Error(err);
+      }
+      return data;
+    }
+
+    async function tryWithResync(fn) {
+      try { return await fn(); } catch (e) {
+        if (e && e.code === "CONFLICT") { await fetchState(); return await fn(); }
+        throw e;
+      }
+    }
+
+    async function resync() {
+      msgEl.textContent = "Refreshing…";
+      btnResync.disabled = true;
+      updateSyncStatus("saving");
+      try {
+        await fetchState();
+        await warmImages();
+        updateSyncStatus("normal");
+        msgEl.textContent = "Refreshed.";
+      } catch (err) {
+        updateSyncStatus("error");
+        throw err;
+      } finally {
+        btnResync.disabled = false;
+      }
+    }
+
+    function getViewportForPointer(sx, sy) {
+      return (sy < canvas.clientHeight * getTableSplitFactor()) ? "table" : "hand";
+    }
+
+    function drawCardToCtx(context, card, x, y, scale, isSelected, relativeToViewport) {
+      const { w, h, isPlaceholder, config } = getAssetDimensions(card);
+      const radius = getCardRadiusFromCSS();
+
+      context.save();
+      context.translate(x, y);
+      context.scale(scale, scale);
+
+      let finalRotation = (card.rotationDeg || 0);
+      if (relativeToViewport === 'table') {
+        finalRotation += getSeatOrientationDegrees();
+      }
+      context.rotate(finalRotation * Math.PI / 180);
+
+      if (isSelected) {
+        context.shadowBlur = 12;
+        context.shadowColor = "#ffd700";
+        context.strokeStyle = "#ffd700";
+        context.lineWidth = 3;
+      } else {
+        context.globalAlpha = 0.35;
+        context.fillStyle = "#000";
+        context.beginPath();
+        if (isPlaceholder && config.shape === 'disk') {
+          context.arc(3, 5, w / 2, 0, Math.PI * 2);
+        } else {
+          context.roundRect(-w / 2 + 3, -h / 2 + 5, w, h, radius);
+        }
+        context.fill();
+        context.globalAlpha = 1;
+        context.shadowBlur = 0;
+      }
+
+      if (!!card.facedown && !isPlaceholder) {
+        context.fillStyle = "saddlebrown";
+        context.beginPath();
+        context.roundRect(-w / 2, -h / 2, w, h, radius);
+        context.fill();
+
+        context.strokeStyle = "#ffffff";
+        context.lineWidth = 1.5;
+        context.beginPath();
+        context.roundRect(-w / 2 + 4, -h / 2 + 4, w - 8, h - 8, Math.max(1, radius - 3));
+        context.stroke();
+
+        if (isSelected) {
+          context.strokeStyle = "#ffd700";
+          context.lineWidth = 3;
+          context.beginPath();
+          context.roundRect(-w / 2, -h / 2, w, h, radius);
+          context.stroke();
+        }
+
+        context.fillStyle = "rgba(255,255,255,0.65)"; context.font = "bold 11px monospace"; context.textAlign = "center"; context.textBaseline = "middle";
+        context.fillText("?", 0, 0);
+      } else {
+        context.beginPath();
+        if (isPlaceholder && config.shape === 'disk') {
+          context.arc(0, 0, w / 2, 0, Math.PI * 2);
+        } else {
+          context.roundRect(-w / 2, -h / 2, w, h, radius);
+        }
+        context.clip();
+
+        const cachedPromise = imgCache.get(card.imageUrl);
+        const hasValidImage = (!isPlaceholder && cachedPromise && cachedPromise._image && cachedPromise._loaded);
+
+        if (hasValidImage) {
+          context.drawImage(cachedPromise._image, -w / 2, -h / 2, w, h);
+        } else {
+          context.fillStyle = isPlaceholder ? config.color : "rgba(45, 110, 210, 0.4)";
+          if (isPlaceholder && config.shape === 'disk') {
+            context.beginPath(); context.arc(0, 0, w / 2, 0, Math.PI * 2); context.fill();
+          } else {
+            context.fillRect(-w / 2, -h / 2, w, h);
+          }
+
+          if (card.name && !hasValidImage) {
+            context.fillStyle = "rgba(255,255,255,0.95)"; context.font = "bold 10px system-ui"; context.textAlign = "center"; context.textBaseline = "middle";
+            context.fillText(card.name.slice(0, 16), 0, 0);
+          }
+        }
+
+        context.beginPath();
+        if (isPlaceholder && config.shape === 'disk') {
+          context.arc(0, 0, w / 2, 0, Math.PI * 2);
+        } else {
+          context.roundRect(-w / 2, -h / 2, w, h, radius);
+        }
+        context.strokeStyle = isSelected ? "#ffd700" : (isPlaceholder ? "#ffffff" : "rgba(255,255,255,0.20)");
+        context.lineWidth = isSelected ? 3 : (isPlaceholder ? 3 : 1);
+        context.stroke();
+      }
+      context.restore();
+    }
+
+    function drawCard(card, viewport) {
+      const v = view[viewport];
+      const screen = worldToScreen(viewport, card.x, card.y);
+      const isSelected = (selectedId === card.assetId);
+      drawCardToCtx(ctx, card, screen.x, screen.y, v.zoom, isSelected, viewport);
+    }
+
+    // High-Fidelity Maximized Un-distorted Splash Magnifier Component
+    function triggerSplashView(card) {
+      if (!card) return;
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      const { w, h, isPlaceholder, config } = getAssetDimensions(card);
+
+      let finalW = w;
+      let finalH = h;
+
+      const cachedPromise = imgCache.get(card.imageUrl);
+      if (!isPlaceholder && cachedPromise && cachedPromise._image && cachedPromise._loaded) {
+        finalW = cachedPromise._image.naturalWidth || w;
+        finalH = cachedPromise._image.naturalHeight || h;
+      }
+
+      const maxAllowedW = window.innerWidth * 0.85;
+      const maxAllowedH = window.innerHeight * 0.85;
+
+      let targetScale = Math.min(maxAllowedW / finalW, maxAllowedH / finalH);
+
+      splashCanvas.width = Math.floor(finalW * targetScale * dpr);
+      splashCanvas.height = Math.floor(finalH * targetScale * dpr);
+      splashCanvas.style.width = `${Math.floor(finalW * targetScale)}px`;
+      splashCanvas.style.height = `${Math.floor(finalH * targetScale)}px`;
+
+      splashCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      splashCtx.clearRect(0, 0, splashCanvas.width, splashCanvas.height);
+
+      // Render card relative inside splash viewport boundary canvas frames directly
+      const cardMock = Object.assign({}, card, { rotationDeg: 0 });
+      const scaleRender = (finalW * targetScale) / w;
+
+      drawCardToCtx(splashCtx, cardMock, (finalW * targetScale) / 2, (finalH * targetScale) / 2, scaleRender, false, 'splash');
+      splashViewer.classList.add('active');
+    }
+
+    splashViewer.addEventListener('click', () => {
+      splashViewer.classList.remove('active');
+    });
+
+    async function warmImages() {
+      const unique = [...new Set(assets.map(a => a.imageUrl).filter(Boolean))];
+      await Promise.all(unique.map(loadImage));
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+      const midY = canvas.clientHeight * getTableSplitFactor();
+
+      // Create a list of assets that ARE NOT being dragged
+      const draggingId = drag ? drag.assetId : null;
+
+      // 1. Draw Table base components
+      if (midY > 0) {
+        ctx.fillStyle = "rgba(255,255,255,0.15)"; ctx.font = "10px monospace";
+        ctx.fillText("TABLE RECT", 12, 20);
+
+        const tCards = assets.filter(a => (a.region || "").toString().toUpperCase() === "TABLE" && a.assetId !== draggingId);
+        tCards.sort((a, b) => Number(a.z || 0) - Number(b.z || 0));
+        for (const c of tCards) drawCard(c, 'table');
+      }
+
+      // 2. Draw Hand background layer
+      if (midY < canvas.clientHeight) {
+        ctx.save();
+        ctx.fillStyle = "rgba(0, 0, 0, 0.7)"; // Transparent hand
+        ctx.fillRect(0, midY, canvas.clientWidth, canvas.clientHeight - midY);
+        ctx.strokeStyle = "rgba(255,255,255,0.12)"; ctx.beginPath(); ctx.moveTo(0, midY); ctx.lineTo(canvas.clientWidth, midY); ctx.stroke();
+        ctx.restore();
+
+        const hCards = assets.filter(a => (a.region || "").toString().toUpperCase() === "HAND" && a.assetId !== draggingId);
+        hCards.sort((a, b) => (Number(a.y || 0) + Number(a.x || 0)) - (Number(b.y || 0) + Number(b.x || 0)));
+        for (const c of hCards) drawCard(c, 'hand');
+      }
+
+      // 3. Draw Dragged Asset LAST (Top Z)
+      if (drag) {
+        const a = assetById.get(drag.assetId);
+        if (a) drawCard(a, drag.viewport);
+      }
+
+      debugTablePanEl.textContent = `${view.table.panX.toFixed(0)}, ${view.table.panY.toFixed(0)}`;
+      debugTableZoomEl.textContent = view.table.zoom.toFixed(1);
+      debugHandPanEl.textContent = `${view.hand.panX.toFixed(0)}, ${view.hand.panY.toFixed(0)}`;
+      debugHandZoomEl.textContent = view.hand.zoom.toFixed(1);
+    }
+
+    function hitTest(sx, sy) {
+      const viewport = getViewportForPointer(sx, sy);
+      const factor = getTableSplitFactor();
+      if (viewport === "table" && factor === 0) return null;
+      if (viewport === "hand" && factor === 1) return null;
+
+      const matchTag = viewport === "table" ? "TABLE" : "HAND";
+      const cards = assets.filter(a => (a.region || "").toString().toUpperCase() === matchTag);
+      const v = view[viewport];
+      const ordered = cards.slice().sort((a, b) => Number(a.z || 0) - Number(b.z || 0)).reverse();
+
+      for (const c of ordered) {
+        const { w, h, isPlaceholder, config } = getAssetDimensions(c);
+        const scaledW = w * v.zoom; const scaledH = h * v.zoom;
+        const sc = worldToScreen(viewport, c.x, c.y);
+        const dx = sx - sc.x; const dy = sy - sc.y;
+
+        let finalRotation = (c.rotationDeg || 0);
+        if (viewport === 'table') {
+          finalRotation += getSeatOrientationDegrees();
+        }
+        const ang = finalRotation * Math.PI / 180;
+
+        const lx = dx * Math.cos(-ang) - dy * Math.sin(-ang); const ly = dx * Math.sin(-ang) + dy * Math.cos(-ang);
+
+        if (isPlaceholder && config.shape === 'disk') {
+          if ((lx * lx + ly * ly) <= (scaledW * scaledW) / 4) return c;
+        } else {
+          if (Math.abs(lx) <= scaledW / 2 && Math.abs(ly) <= scaledH / 2) return c;
+        }
+      }
+      return null;
+    }
+
+    function onPointerMove(e) {
+      const rect = canvas.getBoundingClientRect();
+      pointer.x = e.clientX - rect.left; pointer.y = e.clientY - rect.top;
+
+      if (drag) {
+        drag.hasMovedSignificantAmount = true;
+
+        // Detect if we crossed the border
+        const currentVp = getViewportForPointer(pointer.x, pointer.y);
+        const a = assetById.get(drag.assetId);
+
+        if (currentVp !== drag.viewport && a) {
+          // Crossing border: Update region and rotation immediately
+          drag.viewport = currentVp;
+          a.region = currentVp === "hand" ? "HAND" : "TABLE";
+
+          if (a.region === "HAND") {
+            a.rotationDeg = 0; // Upright to player in hand
+          } else {
+            // Rotate to match table orientation
+            a.rotationDeg = (360 - getSeatOrientationDegrees()) % 360;
+          }
+        }
+
+        // Apply movement
+        const world = screenToWorld(drag.viewport, pointer.x, pointer.y);
+        if (a) {
+          a.x = drag.startAsset.x + (world.x - drag.startPointerWorld.x);
+          a.y = drag.startAsset.y + (world.y - drag.startPointerWorld.y);
+          draw();
+        }
+        return;
+      }
+
+      if (panDrag) {
+        const v = view[panDrag.viewport];
+        let dx = e.movementX;
+        let dy = e.movementY;
+
+        // Rotate movement vector if the table is currently rotated
+        if (panDrag.viewport === 'table') {
+          const angleRad = -getSeatOrientationDegrees() * Math.PI / 180;
+          const rx = dx * Math.cos(angleRad) - dy * Math.sin(angleRad);
+          const ry = dx * Math.sin(angleRad) + dy * Math.cos(angleRad);
+          dx = rx; dy = ry;
+        }
+
+        v.panX += dx; v.panY += dy;
+        draw();
+      }
+    }
+
+
+    function onPointerDown(e) {
+      contextTarget.style.display = 'none';
+      const rect = canvas.getBoundingClientRect();
+      const sx = e.clientX - rect.left; const sy = e.clientY - rect.top;
+      const viewport = getViewportForPointer(sx, sy);
+
+      const hit = hitTest(sx, sy);
+
+      // 1. Handle Selection Logic (Update UI immediately)
+      if (hit) {
+        selectAsset(hit.assetId);
+      } else {
+        selectAsset(null);
+      }
+
+      // 2. Handle Panning (This happens whether we hit an asset or not, 
+      // depending on Shift key or button logic)
+      if (!hit && e.button === 0) {
+        panDrag = { viewport };
+        canvas.setPointerCapture(e.pointerId);
+        return; // Exit here because we are panning
+      }
+
+      if (e.shiftKey) {
+        panDrag = { viewport };
+        canvas.setPointerCapture(e.pointerId);
+        return; // Exit here because we are panning
+      }
+
+      // 3. GUARD CLAUSE: If we are not panning and we didn't hit an asset, stop here.
+      if (!hit) return;
+
+      // 4. Setup Drag (We only reach here if we clicked an asset)
+      canvas.setPointerCapture(e.pointerId);
+      updateTrackedUIs();
+      draw();
+
+      const sc = worldToScreen(viewport, hit.x, hit.y);
+      drag = {
+        viewport,
+        assetId: hit.assetId,
+        hasMovedSignificantAmount: false,
+        startPointerWorld: screenToWorld(viewport, sx, sy),
+        startAsset: {
+          x: hit.x,
+          y: hit.y,
+          rotationDeg: hit.rotationDeg || 0,
+          facedown: !!hit.facedown,
+          region: hit.region
+        },
+        mouseOffsetScreen: { x: sx - sc.x, y: sy - sc.y }
+      };
+    }
+
+    function onPointerUp(e) {
+      // 1. Handle Panning cleanup
+      if (panDrag && (e.button === 2 || e.button === 0)) {
+        canvas.releasePointerCapture(e.pointerId);
+        panDrag = null;
+        return;
+      }
+
+      canvas.releasePointerCapture(e.pointerId);
+      if (panDrag) { panDrag = null; return; }
+      if (!drag) return;
+
+      const localDragRef = drag; drag = null;
+      const a = assetById.get(localDragRef.assetId); if (!a) return;
+
+      if (!localDragRef.hasMovedSignificantAmount) return;
+
+      const endVp = getViewportForPointer(pointer.x, pointer.y);
+      const wasInHand = (localDragRef.startAsset.region || "").toString().toUpperCase() === "HAND";
+      const nowInHand = endVp === "hand";
+
+      // 2. Update Position
+      if (localDragRef.viewport !== endVp) {
+        const dropCenterScreenX = pointer.x - localDragRef.mouseOffsetScreen.x;
+        const dropCenterScreenY = pointer.y - localDragRef.mouseOffsetScreen.y;
+        const targetWorld = screenToWorld(endVp, dropCenterScreenX, dropCenterScreenY);
+        a.x = Math.round(targetWorld.x);
+        a.y = Math.round(targetWorld.y);
+      } else {
+        a.x = Math.round(a.x);
+        a.y = Math.round(a.y);
+      }
+
+      // 3. Update Region and Owner
+      a.region = nowInHand ? "HAND" : "TABLE";
+      a.ownerId = nowInHand ? getServerOwnerId() : "";
+
+      // 4. Update Rotation logic
+      if (wasInHand && !nowInHand) {
+        // Moved from Hand to Table: adjust to seat orientation
+        a.rotationDeg = (360 - getSeatOrientationDegrees()) % 360;
+      } else if (!wasInHand && nowInHand) {
+        // Moved from Table to Hand: reset to 0
+        a.rotationDeg = 0;
+      }
+
+      // 5. Local Storage (if the card touched the hand area)
+      if (wasInHand || nowInHand) {
+        saveHandToLocalStorage();
+      }
+
+      // 6. Update Display
+      draw();
+      // No server API calls here anymore!
+    }
+
+    function onWheel(e) {
+      e.preventDefault();
+      const rect = canvas.getBoundingClientRect();
+      const sx = e.clientX - rect.left; const sy = e.clientY - rect.top;
+      const viewport = getViewportForPointer(sx, sy);
+
+      const v = view[viewport];
+      const r = viewport === 'table' ? tableRect() : handRect();
+
+      // Screen-to-world logic extracted locally to maintain anchor regardless of live table seating rotations 
+      let dx = sx - r.x - r.w * 0.5;
+      let dy = sy - r.y - r.h * 0.5;
+      if (viewport === 'table') {
+        const angleRad = -getSeatOrientationDegrees() * Math.PI / 180;
+        const rx = dx * Math.cos(angleRad) - dy * Math.sin(angleRad);
+        const ry = dx * Math.sin(angleRad) + dy * Math.cos(angleRad);
+        dx = rx; dy = ry;
+      }
+
+      const worldX = (dx - v.panX) / v.zoom;
+      const worldY = (dy - v.panY) / v.zoom;
+
+      v.zoom *= Math.exp(-e.deltaY * 0.0015);
+      v.zoom = Math.max(0.15, Math.min(6.0, v.zoom));
+
+      v.panX = dx - worldX * v.zoom;
+      v.panY = dy - worldY * v.zoom;
+
+      draw();
+    }
+
+    canvas.addEventListener('dblclick', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const sx = e.clientX - rect.left; const sy = e.clientY - rect.top;
+      const hit = hitTest(sx, sy);
+      if (hit) {
+        triggerSplashView(hit);
+      }
+    });
+
+
+    contextTarget.addEventListener('mouseleave', () => { contextTarget.style.display = 'none'; });
+
+    canvas.addEventListener('pointermove', onPointerMove);
+    canvas.addEventListener('pointerdown', onPointerDown);
+    canvas.addEventListener('pointerup', onPointerUp);
+    canvas.addEventListener('wheel', onWheel, { passive: false });
+    canvas.addEventListener('touchstart', (e) => {
+      // If we are already dragging a card (from your existing logic), don't pan/zoom
+      if (drag) return;
+
+      if (e.touches.length > 0) {
+        touchGesture.active = true;
+        touchGesture.lastTouches = Array.from(e.touches);
+
+        // Determine if we are interacting with Table or Hand
+        const firstY = e.touches[0].clientY;
+        touchGesture.targetView = (firstY < canvas.clientHeight * getTableSplitFactor()) ? 'table' : 'hand';
+
+        if (e.touches.length === 2) {
+          touchGesture.lastDistance = getDistance(e.touches[0], e.touches[1]);
+        }
+      }
+    }, { passive: false });
+    canvas.addEventListener('touchmove', (e) => {
+      if (!touchGesture.active || drag) return;
+      e.preventDefault(); // Stop page scrolling
+
+      const v = view[touchGesture.targetView];
+
+      // Panning (1 finger)
+      if (e.touches.length === 1) {
+        const dx = e.touches[0].clientX - touchGesture.lastTouches[0].clientX;
+        const dy = e.touches[0].clientY - touchGesture.lastTouches[0].clientY;
+        v.panX += dx;
+        v.panY += dy;
+      }
+      // Zooming (2 fingers)
+      else if (e.touches.length === 2) {
+        const dist = getDistance(e.touches[0], e.touches[1]);
+        const zoomDelta = dist / touchGesture.lastDistance;
+        v.zoom *= zoomDelta;
+        touchGesture.lastDistance = dist;
+      }
+
+      touchGesture.lastTouches = Array.from(e.touches);
+      draw();
+    }, { passive: false });
+    canvas.addEventListener('touchend', (e) => {
+      if (e.touches.length === 0) {
+        touchGesture.active = false;
+      } else {
+        // Update last touches so jump isn't huge if one finger lifts
+        touchGesture.lastTouches = Array.from(e.touches);
+        if (e.touches.length === 2) {
+          touchGesture.lastDistance = getDistance(e.touches[0], e.touches[1]);
+        }
+      }
+    });
+    async function flipAsset(a) {
+      if (!a) return;
+      a.facedown = !a.facedown;
+
+
+      if ((a.region || "").toString().toUpperCase() === "HAND") {
+        saveHandToLocalStorage();
+      }
+
+      draw(); // Local change only
+    }
+    // Helper to save a specific asset's rotation to the server
+    async function saveAssetRotation(assetId) {
+      const a = assetById.get(assetId);
+      if (!a) return;
+
+      // Only save if it's on the table, as requested
+      if (a.region !== "TABLE") return;
+
+      try {
+        updateSyncStatus("saving");
+        const patch = { rotationDeg: a.rotationDeg };
+        await tryWithResync(async () => {
+          await applyMove(a.assetId, patch, a.updatedAt);
+        });
+        await fetchState(); // Sync state after save
+        updateSyncStatus("normal");
+      } catch (err) {
+        console.error("Failed to save rotation:", err);
+        updateSyncStatus("error");
+      }
+    }
+
+    async function trySaveAsset(assetId) {
+      const a = assetById.get(assetId);
+      if (!a || !originalState) return;
+
+      // 1. Parse the original state so we can compare regions
+      const originalStateObj = JSON.parse(originalState);
+
+      // 2. Determine "Before" and "After" hand status
+      const wasInHand = (originalStateObj.region || "").toString().toUpperCase() === "HAND";
+      const nowInHand = (a.region || "").toString().toUpperCase() === "HAND";
+
+      // 3. Logic Check:
+      // If it started in hand AND ended in hand, it's a "Hand-Internal" move.
+      // Skip server save.
+      if (wasInHand && nowInHand) {
+        return;
+      }
+
+      // 4. Otherwise, perform the standard "dirty check" to see if data changed
+      const currentState = JSON.stringify({
+        x: a.x, y: a.y, rotationDeg: a.rotationDeg,
+        facedown: a.facedown, region: a.region, ownerId: a.ownerId
+      });
+
+      if (currentState !== originalState) {
+        msgEl.textContent = "Saving...";
+        updateSyncStatus("saving");
+        try {
+          const patch = {
+            x: a.x, y: a.y, rotationDeg: a.rotationDeg,
+            facedown: a.facedown, region: a.region, ownerId: a.ownerId
+          };
+          await tryWithResync(async () => {
+            return await applyMove(a.assetId, patch, a.updatedAt);
+          });
+          await fetchState();
+          await warmImages();
+          msgEl.textContent = "Saved.";
+          updateSyncStatus("normal");
+        } catch (err) {
+          msgEl.textContent = `Error: ${err.message}`;
+          updateSyncStatus("error");
+        }
+      }
+    }
+
+    function selectAsset(id) {
+      // 1. If we are deselecting, try to save the old one first
+      if (selectedId) {
+        trySaveAsset(selectedId);
+      }
+
+      // 2. Update selection
+      selectedId = id;
+
+      // 3. Capture "Original State" for the new selection
+      if (selectedId) {
+        const a = assetById.get(selectedId);
+        originalState = JSON.stringify({
+          x: a.x, y: a.y, rotationDeg: a.rotationDeg,
+          facedown: a.facedown, region: a.region, ownerId: a.ownerId
+        });
+      } else {
+        originalState = null;
+      }
+
+      updateTrackedUIs();
+      draw();
+    }
+
+    window.addEventListener('keydown', async (e) => {
+      if (!myJoined || !selectedId) return;
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+      const a = assetById.get(selectedId); if (!a) return;
+
+      if (e.key === 'Escape') { selectedId = null; updateTrackedUIs(); draw(); return; }
+      if (e.key.toLowerCase() === 'f') {
+        flipAsset(a);
+      } else if (e.key.toLowerCase() === 'r') {
+        const isHand = (a.region || "").toString().toUpperCase() === "HAND";
+        const expectedUpdatedAt = a.updatedAt;
+        a.rotationDeg = (Number(a.rotationDeg || 0) + 90) % 360;
+
+        if (isHand) {
+          saveHandToLocalStorage();
+          draw();
+          return;
+        }
+
+        msgEl.textContent = "Saving change...";
+        updateSyncStatus("saving");
+
+        try {
+          const patch = { facedown: a.facedown, rotationDeg: a.rotationDeg };
+          await tryWithResync(async () => { return await applyMove(a.assetId, patch, expectedUpdatedAt); });
+          await fetchState(); await warmImages();
+          updateSyncStatus("normal");
+          draw();
+        } catch (err) {
+          msgEl.textContent = err.message || String(err);
+          updateSyncStatus("error");
+        }
+      }
+    });
+
+    btnJoin.addEventListener('click', async () => {
+      const gid = (gameIdEl.value || "").trim();
+      if (!gid) return;
+      gameId = gid; myJoined = true; btnJoin.disabled = true;
+      msgEl.textContent = "Joining…";
+      updateSyncStatus("saving");
+
+      try {
+        await fetchState(); await warmImages(); draw();
+        msgEl.textContent = "Connected."; btnResync.disabled = false;
+        setupPanel.classList.add('collapsed');
+        updateSyncStatus("normal");
+      } catch (err) {
+        msgEl.textContent = `Join failed: ${err.message || err}`; btnJoin.disabled = false;
+        updateSyncStatus("error");
+      }
+    });
+
+    btnResync.addEventListener('click', async () => {
+      try { await resync(); draw(); } catch (err) { msgEl.textContent = `Refresh failed: ${err.message || err}`; }
+    });
+
+
+  </script>
+</body>
+
+</html>
