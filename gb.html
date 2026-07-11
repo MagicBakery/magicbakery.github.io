@@ -1220,37 +1220,32 @@
       }
 
       // Inside onPointerMove(e)
+      // In onPointerMove(e)
       if (panDrag) {
         const v = view[panDrag.viewport];
 
-        // 1. Calculate raw screen movement
-        const dx = (currentX - panDrag.lastX) / v.zoom;
-        const dy = (currentY - panDrag.lastY) / v.zoom;
+        // 1. Calculate raw delta and scale by zoom
+        // We calculate (current - last) to get accurate distance regardless of browser
+        let dx = (e.clientX - panDrag.lastX) / v.zoom;
+        let dy = (e.clientY - panDrag.lastY) / v.zoom;
 
-        // 2. Apply rotation if it's the table view
+        // 2. Update last position for the next frame
+        panDrag.lastX = e.clientX;
+        panDrag.lastY = e.clientY;
+
+        // 3. Apply rotation (only if viewport is 'table')
         if (panDrag.viewport === 'table') {
-          const angleDeg = getSeatOrientationDegrees();
-          // Convert to radians and negate (we need the inverse rotation)
-          const angleRad = -angleDeg * (Math.PI / 180);
-
-          // Rotation Matrix
-          const cos = Math.cos(angleRad);
-          const sin = Math.sin(angleRad);
-
-          // Rotate the dx/dy vector
-          const rotatedDX = dx * cos - dy * sin;
-          const rotatedDY = dx * sin + dy * cos;
-
-          v.panX += rotatedDX;
-          v.panY += rotatedDY;
-        } else {
-          // Hand view doesn't rotate, so apply normally
-          v.panX += dx;
-          v.panY += dy;
+          const angleRad = -getSeatOrientationDegrees() * Math.PI / 180;
+          const rx = dx * Math.cos(angleRad) - dy * Math.sin(angleRad);
+          const ry = dx * Math.sin(angleRad) + dy * Math.cos(angleRad);
+          dx = rx;
+          dy = ry;
         }
 
-        panDrag.lastX = currentX;
-        panDrag.lastY = currentY;
+        // 4. Update pan
+        v.panX += dx;
+        v.panY += dy;
+
         draw();
       }
     }
