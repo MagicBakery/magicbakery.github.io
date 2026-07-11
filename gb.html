@@ -27,6 +27,8 @@
       display: block;
       width: 100%;
       height: 100%;
+      touch-action: none;
+      overscroll-behavior: none;
     }
 
     #hud-left {
@@ -480,7 +482,15 @@
     document.getElementById('playerName').addEventListener('input', (e) => {
       localStorage.setItem("playerNameCache", e.target.value);
     });
-
+    function bringToFront(assetId) {
+      const index = assets.findIndex(a => a.assetId === assetId);
+      if (index > -1) {
+        // Remove the asset from its current position
+        const asset = assets.splice(index, 1)[0];
+        // Add it to the end of the array so it draws last (on top)
+        assets.push(asset);
+      }
+    }
     function getServerOwnerId() {
       const currentDisplayName = document.getElementById('playerName').value.trim() || "Player";
       return `${deviceId}|${currentDisplayName}`;
@@ -547,14 +557,23 @@
 
     // Update the button handlers
     function rotateSelected(delta) {
-      if (!selectedId) return; // Do nothing if nothing is selected
+      if (selectedId) {
+        // CASE: Card is selected -> Rotate the card
+        const a = assetById.get(selectedId);
+        if (a) {
+          a.rotationDeg = (a.rotationDeg + delta + 360) % 360;
+        }
+      } else {
+        // CASE: Nothing selected -> Rotate the table
+        let current = parseInt(seatSlider.value, 10);
+        let next = (current + delta + 360) % 360;
 
-      const a = assetById.get(selectedId);
-      if (!a) return;
+        seatSlider.value = next;
+        seatDisplay.textContent = `${next}°`;
+        localStorage.setItem("sandbox_seat_value", next);
+      }
 
-      // Update local state immediately for instant feedback
-      a.rotationDeg = (a.rotationDeg + delta + 360) % 360;
-
+      // Always trigger a redraw
       draw();
     }
 
@@ -1165,7 +1184,10 @@
 
     function onPointerMove(e) {
       const rect = canvas.getBoundingClientRect();
-      pointer.x = e.clientX - rect.left; pointer.y = e.clientY - rect.top;
+      const currentX = e.clientX - rect.left;
+      const currentY = e.clientY - rect.top;
+      pointer.x = currentX;
+      pointer.y = currentY;
 
       if (drag) {
         drag.hasMovedSignificantAmount = true;
@@ -1197,20 +1219,38 @@
         return;
       }
 
+      // Inside onPointerMove(e)
       if (panDrag) {
         const v = view[panDrag.viewport];
-        let dx = e.movementX;
-        let dy = e.movementY;
 
-        // Rotate movement vector if the table is currently rotated
+        // 1. Calculate raw screen movement
+        const dx = (currentX - panDrag.lastX) / v.zoom;
+        const dy = (currentY - panDrag.lastY) / v.zoom;
+
+        // 2. Apply rotation if it's the table view
         if (panDrag.viewport === 'table') {
-          const angleRad = -getSeatOrientationDegrees() * Math.PI / 180;
-          const rx = dx * Math.cos(angleRad) - dy * Math.sin(angleRad);
-          const ry = dx * Math.sin(angleRad) + dy * Math.cos(angleRad);
-          dx = rx; dy = ry;
+          const angleDeg = getSeatOrientationDegrees();
+          // Convert to radians and negate (we need the inverse rotation)
+          const angleRad = -angleDeg * (Math.PI / 180);
+
+          // Rotation Matrix
+          const cos = Math.cos(angleRad);
+          const sin = Math.sin(angleRad);
+
+          // Rotate the dx/dy vector
+          const rotatedDX = dx * cos - dy * sin;
+          const rotatedDY = dx * sin + dy * cos;
+
+          v.panX += rotatedDX;
+          v.panY += rotatedDY;
+        } else {
+          // Hand view doesn't rotate, so apply normally
+          v.panX += dx;
+          v.panY += dy;
         }
 
-        v.panX += dx; v.panY += dy;
+        panDrag.lastX = currentX;
+        panDrag.lastY = currentY;
         draw();
       }
     }
@@ -1234,7 +1274,11 @@
       // 2. Handle Panning (This happens whether we hit an asset or not, 
       // depending on Shift key or button logic)
       if (!hit && e.button === 0) {
-        panDrag = { viewport };
+        panDrag = {
+          viewport,
+          lastX: e.clientX, // Store raw client coordinates
+          lastY: e.clientY
+        };
         canvas.setPointerCapture(e.pointerId);
         return; // Exit here because we are panning
       }
@@ -1311,14 +1355,17 @@
       if (wasInHand && !nowInHand) {
         // Moved from Hand to Table: adjust to seat orientation
         a.rotationDeg = (360 - getSeatOrientationDegrees()) % 360;
+        bringToFront(a.assetId);
       } else if (!wasInHand && nowInHand) {
         // Moved from Table to Hand: reset to 0
         a.rotationDeg = 0;
+        bringToFront(a.assetId);
       }
 
       // 5. Local Storage (if the card touched the hand area)
       if (wasInHand || nowInHand) {
         saveHandToLocalStorage();
+        bringToFront(a.assetId);
       }
 
       // 6. Update Display
