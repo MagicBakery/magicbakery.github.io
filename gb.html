@@ -15,6 +15,7 @@
       color: #eee;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
       --card-radius: 6px;
+      padding-bottom: 60px;
     }
 
     #app {
@@ -54,6 +55,34 @@
       gap: 10px;
       pointer-events: none;
       z-index: 100;
+    }
+
+    #footerBar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      /* Adjust height as needed */
+      display: flex;
+      justify-content: space-between;
+      /* Pushes items to opposite ends */
+      align-items: center;
+      padding: 0 15px;
+      /* Adds space from the edges of the screen */
+      background: rgba(30, 30, 30, 0.9);
+      /* Semi-transparent dark background */
+      border-top: 1px solid #444;
+      box-sizing: border-box;
+      z-index: 1000;
+    }
+
+    #footerBar .btn {
+      background: none;
+      border: none;
+      color: #606060;
+      height: 80%;
+
     }
 
     .panel {
@@ -187,42 +216,57 @@
     }
 
     .icon-btn {
-      width: 40px;
-      height: 40px;
       border-radius: 50%;
       padding: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
       pointer-events: auto;
       transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.1s ease;
-      background-color: rgba(0, 0, 0, 0.6);
-      color: #fff;
+      background-color: none;
     }
 
     .icon-btn:active {
       transform: scale(0.96);
     }
 
-    .icon-btn[data-status="normal"] {
-      background-color: rgba(0, 0, 0, 0.6);
-      border-color: rgba(255, 255, 255, 0.15);
-    }
+    .icon-btn[data-status="normal"] {}
 
-    .icon-btn[data-status="normal"]:hover {
-      background-color: rgba(255, 255, 255, 0.15);
-    }
 
     .icon-btn[data-status="saving"] {
-      background-color: rgba(218, 165, 32, 0.6);
-      border-color: rgba(255, 215, 0, 0.4);
+      color: gold !important;
+      animation: spin-ccw 5s linear infinite;
+      transform-origin: center;
+    }
+
+    @keyframes spin-ccw {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(-360deg);
+      }
     }
 
     .icon-btn[data-status="error"] {
-      background-color: rgba(179, 38, 30, 0.6);
-      border-color: rgba(239, 83, 80, 0.4);
+      color: darkred !important;
+      animation: blink-animation 3s ease-in-out infinite;
+    }
+
+    @keyframes blink-animation {
+      0% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.3;
+        /* The minimum opacity */
+      }
+
+      100% {
+        opacity: 1;
+      }
     }
 
     #msg {
@@ -312,6 +356,21 @@
       white-space: nowrap;
     }
 
+    #btnToggleHand {
+
+      padding: 10px;
+      font-size: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid #444;
+      color: white;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    #btnToggleHand:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+
     #contextTarget {
       position: absolute;
       width: 64px;
@@ -357,8 +416,7 @@
   <div id="app">
     <img id="contextTarget" src="" alt="card proxy" />
     <canvas id="c"></canvas>
-    <button id="btnRotLeft" class="rot-btn" onclick="" style="left: 10px;">◀</button>
-    <button id="btnRotRight" class="rot-btn" style="right: 10px;">▶</button>
+
     <div id="hud-left">
       <div class="panel collapsed" id="setupPanel">
         <div class="panel-header" id="btnToggleSetup">
@@ -400,12 +458,12 @@
 
           <div class="tab-pane" id="tab-actions">
             <div style="padding: 6px 0;">
-              <button class="action-btn" id="btnFlipSelected" style="width: 100%; font-size: 12px;" disabled>Flip
-                Selected Asset (F)</button>
+
             </div>
           </div>
 
           <div class="tab-pane" id="tab-box">
+            <button onclick="shuffleAssets()">Reshuffle</button>
             <div class="tracking-section-title" style="margin-top: 0;">Items in Box</div>
             <div id="boxContainer" style="max-height: 160px; overflow-y: auto;">
               <div style="font-size: 11px; opacity: 0.5; font-style: italic;">Box is currently empty...</div>
@@ -431,6 +489,10 @@
                 style="font-family: monospace; font-size: 13px; font-weight: 700; width: 45px; text-align: right;">0°</span>
             </div>
 
+
+            <label>
+              <input type="checkbox" id="chkAutoHideSplash"> Auto-hide hand when showing card
+            </label>
           </div>
 
           <div class="debug-info">
@@ -444,29 +506,69 @@
     </div>
 
     <div id="hud-right">
-      <button id="btnResync" class="icon-btn" title="Refresh State" data-status="normal" disabled>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-          stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-          <path d="M3 3v5h5" />
-          <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
-          <path d="M16 16h5v5" />
-        </svg>
-      </button>
-    </div>
-  </div>
 
+    </div>
+
+  </div>
+  <div id="footerBar">
+    <button id="btnRotLeft" class="btn" title="Rotate Left">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M1 4v6h6" />
+        <path d="M3.51 15a9 9 0 1 0 2.12-9.36L1 10" />
+      </svg>
+    </button>
+    <button class="btn" id="btnFlipSelected" onclick="flipSelectedAsset()" title="Fip Selected Asset">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+
+        <rect x="4" y="2" width="16" height="20" rx="1" />
+
+        <line x1="12" y1="0" x2="12" y2="26" stroke-dasharray="2 4" />
+      </svg>
+    </button>
+    <button id="btnToggleHand" class="btn" title="Toggle Hand Visibility" style="margin-top:-5px">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="12" height="16" rx="2" ry="2" transform="rotate(-15 9 11)" fill="#202020" />
+
+        <rect x="6" y="1" width="12" height="16" rx="2" ry="2" fill="#202020" stroke-width="2.5" />
+
+        <rect x="9" y="3" width="12" height="16" rx="2" ry="2" transform="rotate(15 15 11)" fill="#202020" />
+      </svg>
+    </button>
+    <button id="btnResync" class="icon-btn btn" title="Refresh State" data-status="normal" disabled>
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+        <path d="M3 3v5h5" />
+        <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+        <path d="M16 16h5v5" />
+      </svg>
+    </button>
+    <button id="btnRotRight" class="btn" title="Rotate Right">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <path d="M23 4v6h-6" />
+        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+      </svg>
+  </div>
   <div id="splashViewer">
     <canvas id="splashCanvas"></canvas>
   </div>
 
   <script>
 
-    const API_BASE = "https://script.google.com/macros/s/AKfycbxMccOqQu0Bssu73UyOv8P7R-g2ifVjs-irVK2wGYTOuw0trFQ3adBgkr822w8TqDlp/exec";
+    const API_BASE = "https://script.google.com/macros/s/AKfycbxBo9n_LPsaFuxuhSCFOJN1KUK_JKRTGIDtM4uW8y_Ze7sBrK2JI2t3ADZyLt_m0YCe/exec";
+    const API_BASE_SHUFFLE = "https://script.google.com/macros/s/AKfycbz8S_zW0BxVHihf5UUX3fgkYbSY2o80mltCoCBrGE7dX7STwxQz4soK5WejhJk1QWjU/exec";
+    const API_BASE_V14 = "https://script.google.com/macros/s/AKfycbyusChcUVJEcJ4x74iDFhysLjU6lW3yqXRu88oELa0oOmtmh9r2xVjT7WVC714rRJ73/exec";
+    const API_BASE_V21 = "https://script.google.com/macros/s/AKfycbyiBM2nM1WRlUOrmGj2fRA5tAwTJyUVUTa3CtVmTKQGV4ULAzziKGMUU1cu8TV3GTvf/exec";
     const btnRotLeft = document.getElementById('btnRotLeft');
     const btnRotRight = document.getElementById('btnRotRight');
+    let isHandHidden = false;
     let rotInterval = null;
     let originalState = null;
+    let pendingUpdates = [];
 
     let deviceId = localStorage.getItem("ClientBD");
     if (!deviceId) {
@@ -478,10 +580,26 @@
     if (savedName) {
       document.getElementById('playerName').value = savedName;
     }
+    const chkAutoHide = document.getElementById('chkAutoHideSplash');
+    const storedValue = localStorage.getItem('hideHandOnSplash');
+    const isChecked = storedValue === null ? true : storedValue === 'true';
+    chkAutoHide.checked = isChecked;
+    if (storedValue === null) {
+      localStorage.setItem('hideHandOnSplash', 'true');
+    }
 
+    chkAutoHide.addEventListener('change', () => {
+      localStorage.setItem('hideHandOnSplash', chkAutoHide.checked);
+    });
+    document.getElementById('btnToggleHand').addEventListener('click', () => {
+      isHandHidden = !isHandHidden;
+
+      draw();
+    });
     document.getElementById('playerName').addEventListener('input', (e) => {
       localStorage.setItem("playerNameCache", e.target.value);
     });
+
     function bringToFront(assetId) {
       const index = assets.findIndex(a => a.assetId === assetId);
       if (index > -1) {
@@ -495,7 +613,26 @@
       const currentDisplayName = document.getElementById('playerName').value.trim() || "Player";
       return `${deviceId}|${currentDisplayName}`;
     }
+    async function flipSelectedAsset() {
+      if (!selectedId) return; // Nothing selected
 
+      const a = assetById.get(selectedId);
+      if (!a) return;
+
+      // 1. Toggle the state
+      a.facedown = !a.facedown;
+
+      // 2. FORCE a save. 
+      // If your trySaveAsset only checks for movement, it will ignore this.
+      // Call your network update function directly here.
+      if(a.region==='HAND'){
+        saveHandToLocalStorage();
+      }
+
+      // 3. Update the UI
+      updateTrackedUIs();
+      draw();
+    }
     function parseDisplayName(rawOwnerId) {
       if (!rawOwnerId) return "Unknown Player";
       const splitIdx = rawOwnerId.indexOf('|');
@@ -590,7 +727,7 @@
     }
     // Add Event Listeners
     [btnRotLeft, btnRotRight].forEach(btn => {
-      const delta = (btn === btnRotLeft) ? -1 : 1;
+      const delta = (btn === btnRotLeft) ? -5 : 5;
       btn.addEventListener('mousedown', () => startRotation(delta));
       btn.addEventListener('touchstart', (e) => { e.preventDefault(); startRotation(delta); });
       btn.addEventListener('mouseup', stopRotation);
@@ -739,6 +876,13 @@
     function getStorageKey() {
       return `cardsandbox_${gameId}_${deviceId}_hand`;
     }
+    async function savePendingUpdates() {
+      await fetch(API_BASE, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'BATCH_MOVE', updates: pendingUpdates })
+      });
+      pendingUpdates = [];
+    }
     function saveHandToLocalStorage() {
       if (!gameId || !deviceId) return;
       const handData = assets
@@ -747,7 +891,7 @@
       localStorage.setItem(getStorageKey(), JSON.stringify(handData));
       updateTrackedUIs();
     }
-    function applyHandFromLocalStorage() {
+    function applyHandFromLocalStorage() {      
       try {
         const raw = localStorage.getItem(getStorageKey());
         if (!raw) return;
@@ -755,9 +899,7 @@
         const complexOwnerId = getServerOwnerId();
         for (const item of localHand) {
           const match = assetById.get(item.assetId);
-          if (match) {
-            match.region = "HAND";
-            match.ownerId = complexOwnerId;
+          if (match && match.region==="HAND" && match.ownerId == complexOwnerId){            
             match.x = item.x;
             match.y = item.y;
             match.rotationDeg = item.rotationDeg;
@@ -834,8 +976,8 @@
     function parsePlaceholder(urlStr) {
       if (!urlStr || !urlStr.includes('|')) return null;
 
-      const front = { shape: 'card', size: 64, color: 'rgba(45, 110, 210, 0.4)' };
-      const back = { shape: null, size: null, color: null };
+      const front = { shape: 'card', size: 64, color: 'rgba(45, 110, 210, 0.4)', number: null };
+      const back = { shape: null, size: null, color: 'saddlebrown' };
       const tokens = urlStr.split('|');
       const counts = { shape: 0, size: 0, color: 0 };
 
@@ -859,6 +1001,9 @@
             const formattedColor = formatColorString(v);
             if (counts.color === 1) front.color = formattedColor;
             else if (counts.color === 2) back.color = formattedColor;
+          } else if (k === 'number') {
+            // 2. Add the number argument
+            front.number = v;
           }
         }
       }
@@ -951,10 +1096,12 @@
         throw err;
       } finally {
         btnResync.disabled = false;
+        applyHandFromLocalStorage();
       }
     }
 
     function getViewportForPointer(sx, sy) {
+      if (isHandHidden) { return "table"; }
       return (sy < canvas.clientHeight * getTableSplitFactor()) ? "table" : "hand";
     }
 
@@ -972,25 +1119,29 @@
       }
       context.rotate(finalRotation * Math.PI / 180);
 
+      // --- Selection / Background Drawing ---
       if (isSelected) {
         context.shadowBlur = 12;
         context.shadowColor = "#ffd700";
         context.strokeStyle = "#ffd700";
         context.lineWidth = 3;
       } else {
+        //Shadow
         context.globalAlpha = 0.35;
         context.fillStyle = "#000";
         context.beginPath();
         if (isPlaceholder && config.shape === 'disk') {
-          context.arc(3, 5, w / 2, 0, Math.PI * 2);
+          context.arc(0, 0, w / 2 + 1, 0, Math.PI * 2);
         } else {
-          context.roundRect(-w / 2 + 3, -h / 2 + 5, w, h, radius);
+          context.roundRect(-w / 2 + -1, -h / 2 + -1, w + 2, h + 2, radius);
         }
         context.fill();
         context.globalAlpha = 1;
         context.shadowBlur = 0;
+
       }
 
+      // --- Card Face Rendering ---
       if (!!card.facedown && !isPlaceholder) {
         context.fillStyle = "saddlebrown";
         context.beginPath();
@@ -1010,9 +1161,6 @@
           context.roundRect(-w / 2, -h / 2, w, h, radius);
           context.stroke();
         }
-
-        context.fillStyle = "rgba(255,255,255,0.65)"; context.font = "bold 11px monospace"; context.textAlign = "center"; context.textBaseline = "middle";
-        context.fillText("?", 0, 0);
       } else {
         context.beginPath();
         if (isPlaceholder && config.shape === 'disk') {
@@ -1028,6 +1176,7 @@
         if (hasValidImage) {
           context.drawImage(cachedPromise._image, -w / 2, -h / 2, w, h);
         } else {
+          const displayValue = card.number || (isPlaceholder ? config.number : null);
           context.fillStyle = isPlaceholder ? config.color : "rgba(45, 110, 210, 0.4)";
           if (isPlaceholder && config.shape === 'disk') {
             context.beginPath(); context.arc(0, 0, w / 2, 0, Math.PI * 2); context.fill();
@@ -1035,9 +1184,32 @@
             context.fillRect(-w / 2, -h / 2, w, h);
           }
 
-          if (card.name && !hasValidImage) {
-            context.fillStyle = "rgba(255,255,255,0.95)"; context.font = "bold 10px system-ui"; context.textAlign = "center"; context.textBaseline = "middle";
-            context.fillText(card.name.slice(0, 16), 0, 0);
+          // --- New Logic for Number vs Name ---
+          if (!hasValidImage && !card.facedown) {
+            //            console.log(card.name + "|" + card.number);
+            if (displayValue) {
+              // Draw Small Number (Top-Left)
+              context.fillStyle = "rgba(255,255,255,1)"; // Slightly dimmer than the big one
+              context.font = `bold ${w * 0.25}px sans-serif`; // Small font (20% of width)
+              context.textAlign = "left";
+              context.textBaseline = "top";
+              // Position: -w/2 (left edge) + padding, -h/2 (top edge) + padding
+              context.fillText(displayValue, -w / 2 + (w * 0.07), -h / 2 + (h * 0.05));
+
+              // Display BIG number
+              context.fillStyle = "rgba(255,255,255,1)";
+              context.font = `bold ${w}px sans-serif`;
+              context.textAlign = "center";
+              context.textBaseline = "middle";
+              context.fillText(displayValue, 0, h / 15);
+            } else if (card.name) {
+              // Fallback to name
+              context.fillStyle = "rgba(255,255,255,1)";
+              context.font = "bold 10px system-ui";
+              context.textAlign = "center";
+              context.textBaseline = "middle";
+              context.fillText(card.name.slice(0, 16), 0, 0);
+            }
           }
         }
 
@@ -1095,6 +1267,11 @@
 
       drawCardToCtx(splashCtx, cardMock, (finalW * targetScale) / 2, (finalH * targetScale) / 2, scaleRender, false, 'splash');
       splashViewer.classList.add('active');
+
+      if (chkAutoHide.checked) {
+        isHandHidden = true;
+        draw();
+      }
     }
 
     splashViewer.addEventListener('click', () => {
@@ -1124,7 +1301,7 @@
       }
 
       // 2. Draw Hand background layer
-      if (midY < canvas.clientHeight) {
+      if (!isHandHidden && midY < canvas.clientHeight) {
         ctx.save();
         ctx.fillStyle = "rgba(0, 0, 0, 0.7)"; // Transparent hand
         ctx.fillRect(0, midY, canvas.clientWidth, canvas.clientHeight - midY);
@@ -1147,31 +1324,29 @@
       debugHandPanEl.textContent = `${view.hand.panX.toFixed(0)}, ${view.hand.panY.toFixed(0)}`;
       debugHandZoomEl.textContent = view.hand.zoom.toFixed(1);
     }
+    // 1. New helper: Checks a specific region (TABLE or HAND) for a card
+    function getCardAtPointInRegion(regionName, sx, sy) {
+      const cards = assets.filter(a => (a.region || "").toString().toUpperCase() === regionName);
 
-    function hitTest(sx, sy) {
-      const viewport = getViewportForPointer(sx, sy);
-      const factor = getTableSplitFactor();
-      if (viewport === "table" && factor === 0) return null;
-      if (viewport === "hand" && factor === 1) return null;
-
-      const matchTag = viewport === "table" ? "TABLE" : "HAND";
-      const cards = assets.filter(a => (a.region || "").toString().toUpperCase() === matchTag);
-      const v = view[viewport];
+      // We use the view associated with the region name
+      const v = view[regionName.toLowerCase()];
       const ordered = cards.slice().sort((a, b) => Number(a.z || 0) - Number(b.z || 0)).reverse();
 
       for (const c of ordered) {
         const { w, h, isPlaceholder, config } = getAssetDimensions(c);
-        const scaledW = w * v.zoom; const scaledH = h * v.zoom;
-        const sc = worldToScreen(viewport, c.x, c.y);
-        const dx = sx - sc.x; const dy = sy - sc.y;
+        const scaledW = w * v.zoom;
+        const scaledH = h * v.zoom;
+        const sc = worldToScreen(regionName.toLowerCase(), c.x, c.y);
+        const dx = sx - sc.x;
+        const dy = sy - sc.y;
 
         let finalRotation = (c.rotationDeg || 0);
-        if (viewport === 'table') {
+        if (regionName === 'TABLE') {
           finalRotation += getSeatOrientationDegrees();
         }
         const ang = finalRotation * Math.PI / 180;
-
-        const lx = dx * Math.cos(-ang) - dy * Math.sin(-ang); const ly = dx * Math.sin(-ang) + dy * Math.cos(-ang);
+        const lx = dx * Math.cos(-ang) - dy * Math.sin(-ang);
+        const ly = dx * Math.sin(-ang) + dy * Math.cos(-ang);
 
         if (isPlaceholder && config.shape === 'disk') {
           if ((lx * lx + ly * ly) <= (scaledW * scaledW) / 4) return c;
@@ -1180,6 +1355,61 @@
         }
       }
       return null;
+    }
+
+    // 2. Updated hitTest: Orchestrates the search
+    function hitTest(sx, sy) {
+      const viewport = getViewportForPointer(sx, sy);
+      const factor = getTableSplitFactor();
+
+      // If the hand is NOT hidden, try to find a card in the hand first
+      if (!isHandHidden && viewport === "hand" && factor !== 1) {
+        const handCard = getCardAtPointInRegion("HAND", sx, sy);
+        if (handCard) return handCard;
+      }
+
+      // Always try to find a card on the table
+      // (This works even if the click is in the "hand" overlay area)
+      if (factor !== 0) {
+        return getCardAtPointInRegion("TABLE", sx, sy);
+      }
+
+      return null;
+    }
+    function hitTest(sx, sy) {
+      const viewport = getViewportForPointer(sx, sy);
+      const factor = getTableSplitFactor();
+
+      // If the hand is NOT hidden, try to find a card in the hand first
+      if (!isHandHidden && viewport === "hand" && factor !== 1) {
+        const handCard = getCardAtPointInRegion("HAND", sx, sy);
+        if (handCard) return handCard;
+      }
+
+      // Always try to find a card on the table
+      // (This works even if the click is in the "hand" overlay area)
+      if (factor !== 0) {
+        return getCardAtPointInRegion("TABLE", sx, sy);
+      }
+
+      return null;
+    }
+    // Example of how to send the batch from your HTML
+    async function shuffleAssets() {
+      const body = new URLSearchParams({
+        action: "BATCH_SHUFFLE",
+        gameId: gameId,
+        tag: "shuffle",
+      });
+
+      const response = await fetch(API_BASE, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
+      });
+
+      const data = await response.json();
+      console.log("Shuffle complete:", data);
     }
 
     function onPointerMove(e) {
@@ -1205,7 +1435,7 @@
             a.rotationDeg = 0; // Upright to player in hand
           } else {
             // Rotate to match table orientation
-            a.rotationDeg = (360 - getSeatOrientationDegrees()) % 360;
+            a.rotationDeg = (360 - getSeatOrientationDegrees() + 180) % 360;
           }
         }
 
@@ -1349,7 +1579,7 @@
       // 4. Update Rotation logic
       if (wasInHand && !nowInHand) {
         // Moved from Hand to Table: adjust to seat orientation
-        a.rotationDeg = (360 - getSeatOrientationDegrees()) % 360;
+        a.rotationDeg = (360 - getSeatOrientationDegrees() - 180) % 360;
         bringToFront(a.assetId);
       } else if (!wasInHand && nowInHand) {
         // Moved from Table to Hand: reset to 0

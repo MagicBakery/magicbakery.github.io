@@ -1,60 +1,79 @@
 /***** CONFIG *****/
 const SHEET_NAME = "Assets";
 
-const COL = {
-  gameId: 1,
-  assetId: 2,
-  name: 3,
-  imageUrl: 4,
-  facedown: 5,
-  region: 6,      // "TABLE" | "HAND"
-  ownerId: 7,     // playerId or ""
-  x: 8,
-  y: 9,
-  rotationDeg: 10,
-  z: 11,          // number; meaningful for TABLE only
-  updatedAt: 12, // ISO string
-};
-
-function doGet(e) {
-  const action = (e.parameter.action || "").toString();
-  const gameId = (e.parameter.gameId || "").toString();
-  const playerId = (e.parameter.playerId || "").toString();
-
-  // FIX 1: Use direct JSON objects for errors, not your custom json_() helper
-  if (action !== "GET_STATE") {
-    return ContentService.createTextOutput(JSON.stringify({ ok: false, error: "BAD_ACTION" }))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-  if (!gameId) {
-    return ContentService.createTextOutput(JSON.stringify({ ok: false, error: "MISSING_GAMEID" }))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-
-  const rows = loadAll_(gameId);
-
-  // Sandbox visibility: TABLE is always visible; HAND is visible only to owner.
-  const visible = rows.filter(r => {
-    if (r.region !== "HAND") return true;
-    return (r.ownerId || "") === playerId;
-  });
-
-  // FIX 2: Stringify the direct data object directly. Remove the json_() wrapper.
-  const responseData = { ok: true, assets: visible };
-
-  return ContentService.createTextOutput(JSON.stringify(responseData))
-    .setMimeType(ContentService.MimeType.JSON);
+function doOptions(e) {
+  return ContentService.createTextOutput("")
+    .setMimeType(ContentService.MimeType.TEXT)
+    .setHeader("Access-Control-Allow-Origin", "*")
+    .setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+    .setHeader("Access-Control-Allow-Headers", "Content-Type");
 }
 
-function doPost(e) {
-  const body = JSON.parse(e.postData.contents || "{}");
-  const action = (body.action || "").toString();
+function doGet(e) {
+  try {
+    const action = (e.parameter.action || "").toString();
+    const gameId = (e.parameter.gameId || "").toString();
+    const playerId = (e.parameter.playerId || "").toString();
 
-  if (action !== "APPLY_MOVE") {
-    return json_({ ok: false, error: "BAD_ACTION" }, 400);
+    if (action !== "GET_STATE") {
+      return json_({ ok: false, error: "BAD_ACTION", status: 400 }, 400);
+    }
+    if (!gameId) {
+      return json_({ ok: false, error: "MISSING_GAMEID", status: 400 }, 400);
+    }
+
+    const rows = loadAll_(gameId);
+
+    const visible = rows.filter(r => {
+      if (r.region !== "HAND") return true;
+      return (r.ownerId || "") === playerId;
+    });
+
+    return json_({ ok: true, assets: visible }, 200);
+  } catch (err) {
+    return json_({ ok: false, error: "SERVER_CRASH", details: err.toString() }, 500);
   }
+}
 
-  return applyMove_(body);
+
+function doPost(e) {
+  try {
+    var params = {};
+    // 1. Unpack incoming payload
+    if (e && e.postData && e.postData.contents) {
+      if (e.postData.type === "application/json") {
+        params = JSON.parse(e.postData.contents);
+      } else {
+        var pairs = e.postData.contents.split('&');
+        for (var i = 0; i < pairs.length; i++) {
+          var pair = pairs[i].split('=');
+          params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
+        }
+      }
+    }
+    if (!params.action && e && e.parameter) params = e.parameter;
+
+    // 2. Route to the correct helper function
+    // This makes doPost very small and easy to maintain
+    if (params.action === "APPLY_MOVE") {
+      return applyMove_(params);
+    } 
+    
+    if (params.action === "BATCH_SHUFFLE") {
+      return batchShuffleAssets_(params);
+    }
+
+    return json_({ ok: false, error: "UNKNOWN_ACTION" }, 400);
+
+  } catch (err) {
+    // Force transmission of detailed line errors out to the user UI
+    return ContentService.createTextOutput(JSON.stringify({ 
+      ok: false, 
+      error: "SERVER_CRASH", 
+      details: err.toString(),
+      stack: err.stack 
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
 }
 
 /***** CORE: APPLY MOVE WITH OPTIMISTIC LOCK + Z-ON-PLACE *****/
@@ -63,7 +82,7 @@ function applyMove_(body) {
   const playerId = (body.playerId || "").toString();
   const assetId = (body.assetId || "").toString();
   const patch = body.patch || {};
-  const expectedUpdatedAt = body.expectedUpdatedAt; // may be undefined/null/"" for no lock
+  const expectedUpdatedAt = body.expectedUpdatedAt;
 
   if (!gameId || !assetId || !patch) {
     return json_({ ok: false, error: "MISSING_FIELDS" }, 400);
@@ -77,17 +96,21 @@ function applyMove_(body) {
     const sh = ss.getSheetByName(SHEET_NAME);
     if (!sh) return json_({ ok: false, error: "NO_SHEET" }, 500);
 
-    const data = sh.getDataRange().getValues(); // includes header
-    const rowIndex = findRowIndex_(data, gameId, assetId); // 1-based Sheets row index
+    const data = sh.getDataRange().getValues(); 
+    const colMap = getHeaderMap_(data[0]); // <--- 1. Get the dynamic map
+    
+    // 2. Pass colMap to findRowIndex_
+    const rowIndex = findRowIndex_(data, colMap, gameId, assetId); 
     if (rowIndex < 2) return json_({ ok: false, error: "NOT_FOUND" }, 404);
 
-    const currentUpdatedAt = sh.getRange(rowIndex, COL.updatedAt).getValue();
-    const currentRegion = (sh.getRange(rowIndex, COL.region).getValue() || "").toString();
-    const currentOwnerId = (sh.getRange(rowIndex, COL.ownerId).getValue() || "").toString();
+    // 3. Use colMap instead of COL constant
+    const currentUpdatedAt = sh.getRange(rowIndex, colMap["updatedAt"]).getValue();
+    const currentRegion = (sh.getRange(rowIndex, colMap["region"]).getValue() ?? "").toString();
+    const currentOwnerId = (sh.getRange(rowIndex, colMap["ownerId"]).getValue() ?? "").toString();
 
     // Optimistic locking
     if (expectedUpdatedAt !== undefined && expectedUpdatedAt !== null && expectedUpdatedAt !== "") {
-      if ((currentUpdatedAt || "") !== (expectedUpdatedAt || "")) {
+      if ((currentUpdatedAt || "").toString() !== expectedUpdatedAt.toString()) {
         return json_({
           ok: false,
           error: "CONFLICT",
@@ -97,127 +120,204 @@ function applyMove_(body) {
     }
 
     const now = new Date().toISOString();
-
-    // Decide whether this move is HAND -> TABLE placement (assign z = maxZ + 1).
-    // We use the intent flag patch.placeOnTable (recommended).
-    // If you omit that flag, it will also infer by seeing region change.
     const wantsPlaceOnTable = !!patch.placeOnTable;
-
     const nextRegion = (patch.region !== undefined && patch.region !== null) ? String(patch.region) : currentRegion;
     const nextOwnerId = (patch.ownerId !== undefined && patch.ownerId !== null) ? String(patch.ownerId) : currentOwnerId;
 
     const isHandToTable =
       (currentRegion === "HAND") &&
       (nextRegion === "TABLE") &&
-      (
-        wantsPlaceOnTable || // explicit
-        ((patch.placeOnTable === undefined) && (nextOwnerId === "" || nextOwnerId === "null")) // inferred
-      );
+      (wantsPlaceOnTable || (patch.placeOnTable === undefined && (nextOwnerId === "" || nextOwnerId === "null")));
 
-    // Prepare the applied changes
-    const allowed = new Set([
-      "facedown",
-      "region",
-      "ownerId",
-      "x",
-      "y",
-      "rotationDeg",
-      "z", // only set by server when isHandToTable; but allowed to keep generic patch
-      // do NOT allow placeOnTable to be persisted
-    ]);
+    const allowed = new Set(["facedown", "region", "ownerId", "x", "y", "rotationDeg", "z"]);
 
-    // Assign z only on place-to-table; moving within table must NOT change z.
     if (isHandToTable) {
-      const maxZ = getMaxZOnTable_(sh, gameId);
+      // 4. Pass colMap to helper
+      const maxZ = getMaxZOnTable_(sh, colMap, gameId);
       patch.z = (maxZ + 1);
     } else {
-      // Strip any client-provided z so dragging across table keeps original z.
       if (patch.z !== undefined) delete patch.z;
     }
 
-    // Apply patch fields
     Object.keys(patch).forEach(k => {
       if (!allowed.has(k)) return;
-      if (k === "z" && !isHandToTable) return; // safety
+      if (k === "z" && !isHandToTable) return; 
 
-      const colNum = COL[k];
+      const colNum = colMap[k];
       if (!colNum) return;
 
       let v = patch[k];
 
       if (k === "facedown") v = coerceBool_(v);
       if (k === "x" || k === "y" || k === "rotationDeg" || k === "z") v = Number(v);
-
       if (k === "ownerId") v = (v === null || v === undefined) ? "" : String(v);
       if (k === "region") v = (v === null || v === undefined) ? "" : String(v);
 
       sh.getRange(rowIndex, colNum).setValue(v);
     });
 
-    sh.getRange(rowIndex, COL.updatedAt).setValue(now);
+    sh.getRange(rowIndex, colMap["updatedAt"]).setValue(now);
 
     return json_({ ok: true, newUpdatedAt: now });
   } finally {
     lock.releaseLock();
   }
 }
+function batchShuffleAssets_(body) {
+  const gameId = body.gameId;
+  const targetTag = body.tag; // Now we use the tag string
+  
+  const lock = LockService.getScriptLock();
+  lock.waitLock(15000);
+
+  try {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sh = ss.getSheetByName(SHEET_NAME);
+    const data = sh.getDataRange().getValues();
+    const colMap = getHeaderMap_(data[0]);
+
+    // Safety Check: Ensure "tag" column exists
+    if (!colMap["tag"]) {
+      return json_({ ok: false, error: "MISSING_TAG_COLUMN" }, 400);
+    }
+
+    const targetRows = [];
+    const positions = []; 
+
+    // 1. Identify all assets matching the GameID AND the Tag
+    for (let i = 1; i < data.length; i++) {
+      const row = data[i];
+      const gid = String(row[colMap["gameId"] - 1]);
+      const assetTag = String(row[colMap["tag"] - 1] ?? "");
+      const assetTagsArray = String(row[colMap["tag"] - 1] ?? "").split(',').map(t => t.trim());
+
+      if (gid === gameId && assetTagsArray.includes(targetTag)) {
+        targetRows.push({ rowIndex: i + 1 });
+        positions.push({
+          x: row[colMap["x"] - 1],
+          y: row[colMap["y"] - 1],
+          z: row[colMap["z"] - 1],
+          ownerId: row[colMap["ownerId"] - 1],
+          rotationDeg: row[colMap["rotationDeg"] - 1],
+          region: row[colMap["region"] - 1]
+        });
+      }
+    }
+
+    if (targetRows.length === 0) {
+      return json_({ ok: false, error: "NO_ASSETS_FOUND_WITH_TAG" }, 404);
+    }
+
+    // 2. Shuffle positions (Fisher-Yates)
+    for (let i = positions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [positions[i], positions[j]] = [positions[j], positions[i]];
+    }
+
+    // 3. Perform a Bulk Update
+    // Instead of looping individual setValue calls, we create an update array
+    const now = new Date().toISOString();
+    
+    targetRows.forEach((row, index) => {
+      const newPos = positions[index];
+      
+      // Update the specific row
+      sh.getRange(row.rowIndex, colMap["facedown"]).setValue("TRUE");
+      sh.getRange(row.rowIndex, colMap["x"]).setValue(newPos.x);
+      sh.getRange(row.rowIndex, colMap["y"]).setValue(newPos.y);
+      sh.getRange(row.rowIndex, colMap["z"]).setValue(newPos.z);
+      sh.getRange(row.rowIndex, colMap["ownerId"]).setValue(newPos.ownerId);
+      sh.getRange(row.rowIndex, colMap["rotationDeg"]).setValue(newPos.rotationDeg);
+      sh.getRange(row.rowIndex, colMap["region"]).setValue(newPos.region);
+      sh.getRange(row.rowIndex, colMap["updatedAt"]).setValue(now);
+    });
+
+    return json_({ ok: true, count: targetRows.length });
+
+  } finally {
+    lock.releaseLock();
+  }
+}
 
 /***** HELPERS *****/
+
+/**
+ * Creates a mapping of Header Names to 1-based Column Indices.
+ * @param {Array} headerRow - The first row of your data array.
+ * @return {Object} An object like { "gameId": 1, "name": 2, ... }
+ */
+function getHeaderMap_(headerRow) {
+  const map = {};
+  headerRow.forEach((header, index) => {
+    // We store index + 1 because spreadsheet columns are 1-based
+    map[header.toString().trim()] = index + 1;
+  });
+  return map;
+}
 function loadAll_(gameId) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const sh = ss.getSheetByName(SHEET_NAME);
-  const data = sh.getDataRange().getValues(); // includes header
+  if (!sh) return [];
+  
+  const data = sh.getDataRange().getValues(); 
+  if (data.length < 2) return []; // No data rows
+  
+  // 1. Generate the map dynamically from the header row (index 0)
+  const colMap = getHeaderMap_(data[0]);
   const out = [];
 
-  for (let i = 1; i < data.length; i++) { // skip header row
+  for (let i = 1; i < data.length; i++) { 
     const r = data[i];
-    const gid = (r[COL.gameId - 1] || "").toString();
-    if (gid !== gameId) continue;
+    // Safe evaluation using Nullish Coalescing (??) instead of Logical OR (||)
+    const gid = (r[colMap["gameId"] - 1] ?? "").toString();
+    if (gid !== gameId || gid === "") continue;
 
     out.push({
       gameId: gid,
-      assetId: (r[COL.assetId - 1] || "").toString(),
-      name: (r[COL.name - 1] || "").toString(),
-      imageUrl: (r[COL.imageUrl - 1] || "").toString(),
-      facedown: coerceBool_(r[COL.facedown - 1]),
-      region: (r[COL.region - 1] || "TABLE").toString(),
-      ownerId: (r[COL.ownerId - 1] || "").toString(),
-      x: Number(r[COL.x - 1] || 0),
-      y: Number(r[COL.y - 1] || 0),
-      rotationDeg: Number(r[COL.rotationDeg - 1] || 0),
-      z: Number(r[COL.z - 1] || 0),
-      updatedAt: (r[COL.updatedAt - 1] || "").toString(),
+      assetId: (r[colMap["assetId"] - 1] ?? "").toString(),
+      name: (r[colMap["name"] - 1] ?? "").toString(),
+      imageUrl: (r[colMap["imageUrl"] - 1] ?? "").toString(),
+      facedown: coerceBool_(r[colMap["facedown"] - 1]),
+      region: (r[colMap["region"] - 1] ?? "TABLE").toString(),
+      ownerId: (r[colMap["ownerId"] - 1] ?? "").toString(),
+      x: Number(r[colMap["x"] - 1] || 0),
+      y: Number(r[colMap["y"] - 1] || 0),
+      rotationDeg: Number(r[colMap["rotationDeg"] - 1] || 0),
+      z: Number(r[colMap["z"] - 1] || 0),
+      updatedAt: (r[colMap["updatedAt"] - 1] ?? "").toString(),
     });
   }
   return out;
 }
 
-function findRowIndex_(data, gameId, assetId) {
-  // data includes header at index 0; Sheets row index = i+1
+function celValue(row, colConfig) {
+  return colConfig - 1;
+}
+
+function findRowIndex_(data, colMap, gameId, assetId) {
   for (let i = 1; i < data.length; i++) {
     const r = data[i];
-    const gid = (r[COL.gameId - 1] || "").toString();
-    const aid = (r[COL.assetId - 1] || "").toString();
-    if (gid === gameId && aid === assetId) return i + 1; // 1-based Sheets row
+    // Use colMap here
+    const gid = (r[colMap["gameId"] - 1] ?? "").toString();
+    const aid = (r[colMap["assetId"] - 1] ?? "").toString();
+    if (gid === gameId && aid === assetId) return i + 1; 
   }
   return -1;
 }
 
-function getMaxZOnTable_(sh, gameId) {
-  // Scan all rows; sandbox/simple. If performance becomes an issue, we can index/cached by Apps Script Cache.
-  const range = sh.getDataRange();
-  const values = range.getValues();
-
+function getMaxZOnTable_(sh, colMap, gameId) {
+  const values = sh.getDataRange().getValues();
   let maxZ = 0;
   for (let i = 1; i < values.length; i++) {
     const r = values[i];
-    const gid = (r[COL.gameId - 1] || "").toString();
+    // Use colMap here
+    const gid = (r[colMap["gameId"] - 1] ?? "").toString();
     if (gid !== gameId) continue;
 
-    const region = (r[COL.region - 1] || "").toString();
+    const region = (r[colMap["region"] - 1] ?? "").toString();
     if (region !== "TABLE") continue;
 
-    const z = Number(r[COL.z - 1] || 0);
+    const z = Number(r[colMap["z"] - 1] || 0);
     if (z > maxZ) maxZ = z;
   }
   return maxZ;
@@ -228,12 +328,11 @@ function coerceBool_(v) {
   return false;
 }
 
+// Left intact for your doPost routine
 function json_(obj, status) {
   const out = ContentService
     .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
-  // Apps Script doesn't support setting status code directly in ContentService for doPost;
-  // we include "status" in payload when needed.
   if (status) out.setContent(JSON.stringify({ ...obj, status }));
   return out;
 }
