@@ -498,10 +498,10 @@
             <div class="tab-buttons">
               <button class="tab-btn active" data-tab="tab-general">Lobby</button>
               <!--<button class="tab-btn" data-tab="tab-actions">Actions</button>-->
-              <button class="tab-btn" data-tab="tab-box">Box</button>
+              <button class="tab-btn" data-tab="tab-box">Items</button>
               <button class="tab-btn" data-tab="tab-settings">Settings</button>
             </div>
-            <div class="version-display" id="versionDisplay">v28</div>
+            <div class="version-display" style="text-align: right;" id="versionDisplay"></div>
           </div>
 
           <div class="tab-pane active" id="tab-general">
@@ -716,6 +716,7 @@
       { id: "v28", label: "v28 Fetch All for Hand Count", url: "https://script.google.com/macros/s/AKfycbxg3c7y-REebdm4mkL1qJKzZmevf0kM-iC6EZtzctmJhCm22_-zcEmhdtoWEbk_ncRO/exec" }
     ];
     let selected = "v28";
+    const VERSIONID = "20260713101023";
     const API_BASE = APPS_SCRIPTS.find(x => x.id === selected)?.url ?? APPS_SCRIPTS[0].url;
 
     const btnRotLeft = document.getElementById('btnRotLeft');
@@ -959,9 +960,6 @@
       draw();
     }
 
-    // Usage:
-    // StowAll(allAssets);
-
     function TableCenter() {
       view.table.panX = 0;
       view.table.panY = 0;
@@ -979,6 +977,15 @@
       updateTrackedUIs?.();
       draw?.();
     }
+
+    // #Alphabetical Listeners    
+    document.addEventListener('DOMContentLoaded', () => {
+      const versionEl = document.getElementById('versionDisplay');
+      if (versionEl) {
+        versionEl.textContent = VERSIONID + " Apps Script " + selected;
+      }
+    });
+
 
 
     // #Alphabetical #Helper Functions
