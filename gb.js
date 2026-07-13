@@ -1,20 +1,13 @@
 /***** CONFIG *****/
 const SHEET_NAME = "Assets";
 
-/*const COL = {
-  gameId: 1,
-  assetId: 2,
-  name: 3,
-  imageUrl: 4,
-  facedown: 5,
-  region: 6,      // "TABLE" | "HAND"
-  ownerId: 7,     // playerId or ""
-  x: 8,
-  y: 9,
-  rotationDeg: 10,
-  z: 11,          // number; meaningful for TABLE only
-  updatedAt: 12, // ISO string
-};*/
+function doOptions(e) {
+  return ContentService.createTextOutput("")
+    .setMimeType(ContentService.MimeType.TEXT)
+    .setHeader("Access-Control-Allow-Origin", "*")
+    .setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+    .setHeader("Access-Control-Allow-Headers", "Content-Type");
+}
 
 function doGet(e) {
   try {
@@ -23,139 +16,54 @@ function doGet(e) {
     const playerId = (e.parameter.playerId || "").toString();
 
     if (action !== "GET_STATE") {
-      return ContentService.createTextOutput(JSON.stringify({ ok: false, error: "BAD_ACTION", status: 400 }))
-        .setMimeType(ContentService.MimeType.JSON);
+      return json_({ ok: false, error: "BAD_ACTION", status: 400 }, 400);
     }
     if (!gameId) {
-      return ContentService.createTextOutput(JSON.stringify({ ok: false, error: "MISSING_GAMEID", status: 400 }))
-        .setMimeType(ContentService.MimeType.JSON);
+      return json_({ ok: false, error: "MISSING_GAMEID", status: 400 }, 400);
     }
 
     const rows = loadAll_(gameId);
 
-    // Sandbox visibility: TABLE is always visible; HAND is visible only to owner.
     const visible = rows.filter(r => {
       if (r.region !== "HAND") return true;
       return (r.ownerId || "") === playerId;
     });
 
-    return ContentService.createTextOutput(JSON.stringify({ ok: true, assets: visible }))
-      .setMimeType(ContentService.MimeType.JSON);
-
+    return json_({ ok: true, assets: visible }, 200);
   } catch (err) {
-    // Catch any backend script crashes and return them safely as JSON so CORS doesn't trigger
-    return ContentService.createTextOutput(JSON.stringify({ ok: false, error: "SERVER_CRASH", details: err.toString() }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return json_({ ok: false, error: "SERVER_CRASH", details: err.toString() }, 500);
   }
 }
+
 
 function doPost(e) {
   try {
     var params = {};
-
-    // 1. Unpack incoming payload stream safely
+    // 1. Unpack incoming payload
     if (e && e.postData && e.postData.contents) {
-      var rawContents = e.postData.contents;
       if (e.postData.type === "application/json") {
-        params = JSON.parse(rawContents);
+        params = JSON.parse(e.postData.contents);
       } else {
-        var pairs = rawContents.split('&');
+        var pairs = e.postData.contents.split('&');
         for (var i = 0; i < pairs.length; i++) {
           var pair = pairs[i].split('=');
-          var key = decodeURIComponent(pair[0]);
-          var val = decodeURIComponent(pair[1] || '');
-          params[key] = val;
+          params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
         }
       }
     }
-    
-    if (!params.action && e && e.parameter) {
-      params = e.parameter;
-    }
+    if (!params.action && e && e.parameter) params = e.parameter;
 
-    var action            = params.action;
-    var gameId            = params.gameId;
-    var assetId           = params.assetId;
-    var expectedUpdatedAt = params.expectedUpdatedAt;
+    // 2. Route to the correct helper function
+    // This makes doPost very small and easy to maintain
+    if (params.action === "APPLY_MOVE") {
+      return applyMove_(params);
+    } 
     
-    var patch = {};
-    if (typeof params.patch === "string") {
-      patch = JSON.parse(params.patch);
-    } else if (params.patch) {
-      patch = params.patch;
-    }
-    if (action === "BATCH_SHUFFLE") {
+    if (params.action === "BATCH_SHUFFLE") {
       return batchShuffleAssets_(params);
     }
-    if (action !== "APPLY_MOVE") {
-      return ContentService.createTextOutput(JSON.stringify({ ok: false, error: "Invalid action" }))
-                           .setMimeType(ContentService.MimeType.JSON);
-    }
 
-    // 2. Validate Sheet target
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Assets");
-    if (!sheet) {
-      return ContentService.createTextOutput(JSON.stringify({ ok: false, error: "Assets not found" }))
-                           .setMimeType(ContentService.MimeType.JSON);
-    }
-
-    var data = sheet.getDataRange().getValues();
-    var headers = data[0];
-    var colMap = {};
-    for (var i = 0; i < headers.length; i++) {
-      colMap[headers[i].toString().trim()] = i;
-    }
-
-    // 3. Match row exactly
-    var foundIndex = -1;
-    for (var r = 1; r < data.length; r++) {
-      if (String(data[r][colMap["gameId"]]).trim() === String(gameId).trim() && 
-          String(data[r][colMap["assetId"]]).trim() === String(assetId).trim()) {
-        foundIndex = r;
-        break;
-      }
-    }
-
-    if (foundIndex === -1) {
-      return ContentService.createTextOutput(JSON.stringify({ ok: false, error: "Asset target row missing" }))
-                           .setMimeType(ContentService.MimeType.JSON);
-    }
-
-    // 4. Concurrency matching (ignore if sheet cell is completely empty)
-    var currentUpdateCell = sheet.getRange(foundIndex + 1, colMap["updatedAt"] + 1);
-    var currentUpdateVal  = String(currentUpdateCell.getValue()).trim();
-    var cleanExpected     = String(expectedUpdatedAt || "").trim();
-    
-    if (cleanExpected && currentUpdateVal && currentUpdateVal !== "0" && currentUpdateVal !== cleanExpected) {
-      return ContentService.createTextOutput(JSON.stringify({ ok: false, error: "CONFLICT", currentUpdatedAt: currentUpdateVal }))
-                           .setMimeType(ContentService.MimeType.JSON);
-    }
-
-    // 5. Sanitize patch fields to absolute safe primitives before saving
-    for (var key in patch) {
-      if (colMap[key] !== undefined) {
-        var val = patch[key];
-        
-        // Convert to absolute string representation for booleans
-        if (val === true || String(val).toUpperCase() === "TRUE") val = "FALSE"; // baseline
-        if (patch[key] === true) val = "TRUE";
-        if (patch[key] === false) val = "FALSE";
-        
-        // CRITICAL: Force coordinate decimals into integers to keep cell math clean
-        if (key === "x" || key === "y" || key === "z" || key === "rotationDeg" || key === "rotatingDeg") {
-          val = Math.round(Number(val) || 0);
-        }
-
-        sheet.getRange(foundIndex + 1, colMap[key] + 1).setValue(val);
-      }
-    }
-
-    // 6. Set transaction completion timestamp
-    var nextVersion = String(Date.now());
-    currentUpdateCell.setValue(nextVersion);
-
-    return ContentService.createTextOutput(JSON.stringify({ ok: true, newUpdatedAt: nextVersion }))
-                         .setMimeType(ContentService.MimeType.JSON);
+    return json_({ ok: false, error: "UNKNOWN_ACTION" }, 400);
 
   } catch (err) {
     // Force transmission of detailed line errors out to the user UI
@@ -332,6 +240,7 @@ function batchShuffleAssets_(body) {
 }
 
 /***** HELPERS *****/
+
 /**
  * Creates a mapping of Header Names to 1-based Column Indices.
  * @param {Array} headerRow - The first row of your data array.
