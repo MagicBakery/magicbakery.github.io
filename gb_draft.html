@@ -17,6 +17,9 @@
       --card-radius: 6px;
       padding-bottom: 60px;
       cursor: pointer;
+      /* Add this line to remove the blue flash */
+      -webkit-tap-highlight-color: transparent;
+      tap-highlight-color: transparent;
     }
 
     #app {
@@ -151,6 +154,10 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       margin-bottom: 12px;
       gap: 4px;
+      justify-content: space-between;
+      /* This pushes the two inner divs to opposite sides */
+      align-items: center;
+      /* Vertically centers them */
     }
 
     .tab-btn {
@@ -177,6 +184,11 @@
       background: transparent;
     }
 
+    .tab-buttons {
+      display: flex;
+      gap: 4px;
+    }
+
     .tab-pane {
       display: none;
     }
@@ -194,6 +206,13 @@
 
     .row:first-child {
       margin-top: 0;
+    }
+
+    .version-display {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.4);
+      font-family: monospace;
+      padding-right: 4px;
     }
 
     input[type="text"] {
@@ -476,10 +495,13 @@
         <div class="panel-content">
 
           <div class="tab-bar">
-            <button class="tab-btn active" data-tab="tab-general">Lobby</button>
-            <!--<button class="tab-btn" data-tab="tab-actions">Actions</button>-->
-            <button class="tab-btn" data-tab="tab-box">Box</button>
-            <button class="tab-btn" data-tab="tab-settings">Settings</button>
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-tab="tab-general">Lobby</button>
+              <!--<button class="tab-btn" data-tab="tab-actions">Actions</button>-->
+              <button class="tab-btn" data-tab="tab-box">Box</button>
+              <button class="tab-btn" data-tab="tab-settings">Settings</button>
+            </div>
+            <div class="version-display" id="versionDisplay">v28</div>
           </div>
 
           <div class="tab-pane active" id="tab-general">
@@ -496,7 +518,7 @@
             </div>
             <div id="msg"></div>
 
-            
+
           </div>
 
           <div class="tab-pane" id="tab-actions">
@@ -544,7 +566,8 @@
               <input type="checkbox" id="chkAutoHideSplash"> Hide hand when showing card
             </label><br>
             <label>
-              <input type="checkbox" id="courtesy-flip" onchange="localStorage.setItem('courtesyFlip', event.target.checked);">
+              <input type="checkbox" id="courtesy-flip"
+                onchange="localStorage.setItem('courtesyFlip', event.target.checked);">
               Courtesy flip
             </label>
           </div>
@@ -676,7 +699,8 @@
 
   </div>
   <div id="splashViewer" class="splashViewer">
-    <a id="splashLink" href="#" target="_blank" rel="noopener noreferrer" style="display:block;" onclick="event.preventDefault();">
+    <a id="splashLink" href="#" target="_blank" rel="noopener noreferrer" style="display:block;"
+      onclick="event.preventDefault();">
       <canvas id="splashCanvas"></canvas>
     </a>
   </div>
@@ -785,7 +809,7 @@
     }
     function PlaceOnTable(boxEl, e, bPrecise) {
       if (!boxEl || !boxEl.dataset.assetId) return;
-      moveAssetToTable(boxEl.dataset.assetId,bPrecise);
+      moveAssetToTable(boxEl.dataset.assetId, bPrecise);
       isDragging = true;
       draggingAssetId = boxEl.dataset.assetId;
       updateTrackedUIs();
@@ -853,7 +877,8 @@
       view.hand.zoom = 1.0;
       view.hand.panX = 0;
       view.hand.panY = 0;
-      const handCards = assets.filter(a => (a.region || "").toString().toUpperCase() === "HAND");
+      const complexOwnerId = getServerOwnerId();
+      const handCards = assets.filter(a => (a.region || "").toString().toUpperCase() === "HAND" && a.ownerId === complexOwnerId);
       const n = handCards.length;
       if (!n) return;
 
@@ -1009,7 +1034,7 @@
       selectedIds.push(id);
       selectedId = selectedIds.length ? selectedIds[selectedIds.length - 1] : null;
     }
-    function moveAssetToTable(assetId,bPrecise) {
+    function moveAssetToTable(assetId, bPrecise) {
       const a = assetById.get(assetId);
       if (!a) return;
 
@@ -1017,7 +1042,7 @@
 
       const cx = canvas.clientWidth / 2;
       let cy = (canvas.clientHeight * getTableSplitFactor()) / 2;
-      if(bPrecise){
+      if (bPrecise) {
         cy = canvas.clientHeight * getTableSplitFactor();
       }
       const world = screenToWorld("table", cx, cy);
@@ -1026,17 +1051,17 @@
       const angle = Math.random() * 2 * Math.PI;
       const radius = Math.sqrt(Math.random()) * size;
 
-      if(bPrecise){
+      if (bPrecise) {
         a.x = world.x;
         a.y = world.y;
         a.rotationDeg = (360 - getSeatOrientationDegrees()) % 360
-      }else{
+      } else {
         a.x = world.x + (Math.cos(angle) * radius);
         a.y = world.y + (Math.sin(angle) * radius);
         a.rotationDeg = Math.floor(Math.random() * 360);
       }
-      
-      
+
+
       a.z = 0;
       a.region = "TABLE";
     }
@@ -1372,8 +1397,9 @@
     }
     function saveHandToLocalStorage() {
       if (!gameId || !deviceId) return;
+      const complexOwnerId = getServerOwnerId();
       const handData = assets
-        .filter(a => (a.region || "").toString().toUpperCase() === "HAND")
+        .filter(a => (a.region || "").toString().toUpperCase() === "HAND" && a.ownerId === complexOwnerId)
         .map(a => ({ assetId: a.assetId, x: a.x, y: a.y, z: a.z, rotationDeg: a.rotationDeg, facedown: a.facedown }));
       localStorage.setItem(getStorageKey(), JSON.stringify(handData));
       updateTrackedUIs();
@@ -1780,7 +1806,6 @@
       // 1. Draw Table base components
       if (midY > 0) {
         ctx.fillStyle = "rgba(255,255,255,0.15)"; ctx.font = "10px monospace";
-        ctx.fillText("TABLE RECT", 12, 20);
 
         const tCards = assets.filter(a => (a.region || "").toString().toUpperCase() === "TABLE" && a.assetId !== draggingId);
         tCards.sort((a, b) => Number(a.z || 0) - Number(b.z || 0));
@@ -1794,8 +1819,8 @@
         ctx.fillRect(0, midY, canvas.clientWidth, canvas.clientHeight - midY);
         ctx.strokeStyle = "rgba(255,255,255,0.12)"; ctx.beginPath(); ctx.moveTo(0, midY); ctx.lineTo(canvas.clientWidth, midY); ctx.stroke();
         ctx.restore();
-
-        const hCards = assets.filter(a => (a.region || "").toString().toUpperCase() === "HAND" && a.assetId !== draggingId);
+        const complexOwnerId = getServerOwnerId();
+        const hCards = assets.filter(a => (a.region || "").toString().toUpperCase() === "HAND" && a.assetId !== draggingId && a.ownerId === complexOwnerId);
         hCards.sort((a, b) => (Number(a.y || 0) + Number(a.x || 0)) - (Number(b.y || 0) + Number(b.x || 0)));
         for (const c of hCards) drawCard(c, 'hand');
       }
@@ -1936,12 +1961,12 @@
             a.rotationDeg = 0; // Upright to player in hand
           } else {
             // Rotate to match table orientation
-            if(chkCourtesyFlip.checked){
+            if (chkCourtesyFlip.checked) {
               a.rotationDeg = (360 - getSeatOrientationDegrees() + 180) % 360;
-            }else{
+            } else {
               a.rotationDeg = (360 - getSeatOrientationDegrees()) % 360;
             }
-            
+
           }
         }
         if (a.region === "TABLE") {
@@ -2089,12 +2114,12 @@
       // 4. Update Rotation logic
       if (wasInHand && !nowInHand) {
         // Moved from Hand to Table: adjust to seat orientation
-        if(chkCourtesyFlip.checked){
+        if (chkCourtesyFlip.checked) {
           a.rotationDeg = (360 - getSeatOrientationDegrees() + 180) % 360;
-        }else{
+        } else {
           a.rotationDeg = (360 - getSeatOrientationDegrees()) % 360;
         }
-        
+
         bringToFront(a.assetId);
         BringToTop();
       } else if (!wasInHand && nowInHand) {
