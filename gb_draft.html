@@ -63,10 +63,11 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 60px;
+      height: auto;
       /* Adjust height as needed */
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: space-evenly;
       /* Pushes items to opposite ends */
       align-items: center;
       padding: 0 15px;
@@ -77,6 +78,15 @@
       box-sizing: border-box;
       z-index: 1000;
     }
+
+    .footerBtnBar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+      width: 100%;
+    }
+
 
     #footerBar .btn {
       background: none;
@@ -234,7 +244,7 @@
     .icon-btn[data-status="normal"] {}
 
     .icon-btn[data-status="reload"] {
-      color:green !important;
+      color: green !important;
     }
 
     .icon-btn[data-status="pending"],
@@ -261,6 +271,7 @@
     .icon-btn[data-status="error"] {
       color: darkred !important;
     }
+
     .icon-btn[data-status="reload"],
     .icon-btn[data-status="pending"],
     .icon-btn[data-status="error"] {
@@ -545,54 +556,81 @@
     </div>
 
   </div>
+
   <div id="footerBar">
-    <button id="btnRotLeft" class="btn" title="Rotate Left">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round">
-        <path d="M1 4v6h6" />
-        <path d="M3.51 15a9 9 0 1 0 2.12-9.36L1 10" />
-      </svg>
-    </button>
-    <button class="btn" id="btnFlipSelected" onclick="flipSelectedAssets()" title="Flip the Selected">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round">
-
-        <rect x="4" y="2" width="16" height="20" rx="1" />
-
-        <line x1="12" y1="0" x2="12" y2="26" stroke-dasharray="2 4" />
-      </svg>
-    </button>
-    <button id="btnToggleHand" class="btn" title="Toggle Hand Visibility" style="margin-top:-5px">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="3" width="12" height="16" rx="2" ry="2" transform="rotate(-15 9 11)" fill="#202020" />
-
-        <rect x="6" y="1" width="12" height="16" rx="2" ry="2" fill="#202020" stroke-width="2.5" />
-
-        <rect x="9" y="3" width="12" height="16" rx="2" ry="2" transform="rotate(15 15 11)" fill="#202020" />
-      </svg>
-    </button>
-    <button id="btnResync" class="icon-btn btn" title="Refresh State" data-status="normal" disabled onclick="ResyncButton()">
-      <div class="btn-resync-content">
-        <svg class="icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
-          <path d="M3 3v5h5" />
-          <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
-          <path d="M16 16h5v5" />
+    <div class="footerBtnBar">
+      <button class="btn" title="Sort Cards in Hand" onclick="SortInHand()">Sort</button>
+      <button class="btn" title="Zoom Out" onclick="TableZoom(-0.25)">Zoom-</button>
+      <button class="btn" title="Center the table" onclick="TableCenter()">Center</button>
+      <button class="btn" title="Zoom In" onclick="TableZoom(0.25)">Zoom+</button>
+      <button class="btn" title="Bring to Top" onclick="BringToTop()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- bar -->
+          <rect x="4.5" y="18.5" width="15" height="2" rx="1" fill="currentColor" />
+          <!-- vertical arrow -->
+          <path d="M12 3.5V18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <!-- arrow head -->
+          <path d="M7.5 8 L12 3.5 L16.5 8" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" />
         </svg>
-        <span id="btnResyncCount" class="label"></span>
-      </div>
-    </button>
-    <button id="btnRotRight" class="btn" title="Rotate Right">
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round">
-        <path d="M23 4v6h-6" />
-        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-      </svg>
+      </button>
+
+    </div>
+    <div class="footerBtnBar">
+      <button id="btnRotLeft" class="btn" title="Rotate Left">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 4v6h6" />
+          <path d="M3.51 15a9 9 0 1 0 2.12-9.36L1 10" />
+        </svg>
+      </button>
+
+      <button class="btn" id="btnFlipSelected" onclick="flipSelectedAssets()" title="Flip the Selected">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+
+          <rect x="4" y="2" width="16" height="20" rx="1" />
+
+          <line x1="12" y1="0" x2="12" y2="26" stroke-dasharray="2 4" />
+        </svg>
+      </button>
+      <button id="btnToggleHand" class="btn" title="Toggle Hand Visibility" onclick="isHandHidden=!isHandHidden;draw()">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="12" height="16" rx="2" ry="2" transform="rotate(-15 9 11)" fill="#202020" />
+
+          <rect x="6" y="1" width="12" height="16" rx="2" ry="2" fill="#202020" stroke-width="2.5" />
+
+          <rect x="9" y="3" width="12" height="16" rx="2" ry="2" transform="rotate(15 15 11)" fill="#202020" />
+        </svg>
+      </button>
+      <button id="btnResync" class="icon-btn btn" title="Refresh State" data-status="normal" disabled
+        onclick="ResyncButton()">
+        <div class="btn-resync-content">
+          <svg class="icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+            <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+            <path d="M16 16h5v5" />
+          </svg>
+          <span id="btnResyncCount" class="label"></span>
+        </div>
+      </button>
+      <button id="btnRotRight" class="btn" title="Rotate Right">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 4v6h-6" />
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+        </svg>
+      </button>
+    </div>
+
   </div>
-  <div id="splashViewer">
-    <canvas id="splashCanvas"></canvas>
+  <div id="splashViewer" class="splashViewer active">
+    <a id="splashLink" href="#" target="_blank" rel="noopener noreferrer" style="display:block;">
+      <canvas id="splashCanvas"></canvas>
+    </a>
   </div>
 
   <script>
@@ -613,8 +651,34 @@
     let rotInterval = null;
     let originalState = null;
     let pendingUpdates = [];
+    let activePan = false;
+    let panViewport = null;
+    let usePointerEvents = false;
 
     // #Alphabetical Core Functions 
+    function BringToTop() {
+      const minDelta = 1;
+      const selected = new Set(selectedIds);
+      // Decide where the selected group should land: after the max z of unselected
+      let maxZUnselected = -Infinity;
+      for (const a of assets) {
+        if (!selected.has(a.assetId)) {
+          maxZUnselected = Math.max(maxZUnselected, Number(a.z || 0));
+        }
+      }
+      if (maxZUnselected === -Infinity) maxZUnselected = 0;
+
+      // Give each selected a new z, keeping their relative order (by current z)
+      const selectedAssets = assets
+        .filter(a => selected.has(a.assetId))
+        .sort((a, b) => Number(a.z || 0) - Number(b.z || 0));
+
+      selectedAssets.forEach((a, i) => {
+        markAssetPending(a.assetId);
+        a.z = maxZUnselected + minDelta + i; // mutate only selected
+      });
+      draw();
+    }
     async function SaveMoves(moves, legacyPatch, legacyExpectedUpdatedAt) {
       if (!moves) return;
       markAssetPending(null, true);
@@ -671,8 +735,75 @@
       updateSyncStatus("normal");
       return data;
     }
+    function SortInHand() {
+      view.hand.zoom = 1.0;
+      view.hand.panX = 0;
+      view.hand.panY = 0;
+      const handCards = assets.filter(a => (a.region || "").toString().toUpperCase() === "HAND");
+      const n = handCards.length;
+      if (!n) return;
+
+      // Sort left-to-right by assetId
+      const sorted = handCards
+        .slice()
+        .sort((a, b) => String(a.assetId).localeCompare(String(b.assetId)));
+
+      // Screen-space hand viewport
+      const midY = canvas.clientHeight * getTableSplitFactor();
+      const handTop = midY;
+      const handBottom = canvas.clientHeight;
+      const handHeight = handBottom - handTop;
+
+      const zoom = Number(view.hand.zoom || 1);
+      const panX = Number(view.hand.panX || 0);
+      const panY = Number(view.hand.panY || 0);
+
+      // Choose left/right bounds in screen space (tweak padding as needed)
+      const pad = 30;
+      const leftScreenX = pad;
+      const rightScreenX = canvas.clientWidth - pad;
+
+      // Center in both X and Y within the hand viewport
+      const centerScreenY = handTop + handHeight / 2;
+
+      sorted.forEach((a, i) => {
+        const t = (n === 1) ? 0.5 : i / (n - 1);
+        const targetScreenX = leftScreenX + t * (rightScreenX - leftScreenX);
+        const targetScreenY = centerScreenY;
+
+        // Convert screen -> world (match your typical draw transform: screen = world*zoom + pan)
+        a.facedown = false;
+        a.rotationDeg = 0;
+        a.z = 0;
+        a.x = targetScreenX / zoom - panX - canvas.clientWidth / 2;
+        a.y = targetScreenY / zoom - panY - targetScreenY - 40;
+      });
+
+      saveHandToLocalStorage();
+      updateTrackedUIs();
+      draw();
+    }
+    function TableCenter() {
+      view.table.panX = 0;
+      view.table.panY = 0;
+
+      updateTrackedUIs?.();
+      draw?.();
+    }
+    function TableZoom(delta, { minZoom = 0.2, maxZoom = 5 } = {}) {
+      const z = Number(view.table.zoom || 1);
+
+      // delta as percent: e.g. 0.1 => +10%, -0.1 => -10%
+      const next = z * (1 + delta);
+
+      view.table.zoom = Math.min(maxZoom, Math.max(minZoom, next));
+      updateTrackedUIs?.();
+      draw?.();
+    }
+
 
     // #Alphabetical #Helper Functions
+
     function isSelected(id) {
       return Array.isArray(selectedIds) && selectedIds.includes(id);
     }
@@ -700,7 +831,7 @@
       if (!a) { return; }
       if (!isPendingUpdate(id)) {
         originalStatesById[id] = JSON.stringify({
-          x: a.x, y: a.y, rotationDeg: a.rotationDeg,
+          x: a.x, y: a.y, z: a.z, rotationDeg: a.rotationDeg,
           facedown: a.facedown, region: a.region, ownerId: a.ownerId
         });
       }
@@ -724,11 +855,12 @@
       selectedIds.push(id);
       selectedId = selectedIds.length ? selectedIds[selectedIds.length - 1] : null;
     }
+
     function setOriginalStateForAsset(assetId) {
       const a = assetById.get(assetId);
       if (!a) return;
       originalStatesById[assetId] = JSON.stringify({
-        x: a.x, y: a.y, rotationDeg: a.rotationDeg,
+        x: a.x, y: a.y, z: a.z, rotationDeg: a.rotationDeg,
         facedown: a.facedown, region: a.region, ownerId: a.ownerId
       });
     }
@@ -758,11 +890,6 @@
     }
     chkAutoHide.addEventListener('change', () => {
       localStorage.setItem('hideHandOnSplash', chkAutoHide.checked);
-    });
-    document.getElementById('btnToggleHand').addEventListener('click', () => {
-      isHandHidden = !isHandHidden;
-
-      draw();
     });
     document.getElementById('playerName').addEventListener('input', (e) => {
       localStorage.setItem("playerNameCache", e.target.value);
@@ -1061,7 +1188,7 @@
       if (!gameId || !deviceId) return;
       const handData = assets
         .filter(a => (a.region || "").toString().toUpperCase() === "HAND")
-        .map(a => ({ assetId: a.assetId, x: a.x, y: a.y, rotationDeg: a.rotationDeg, facedown: a.facedown }));
+        .map(a => ({ assetId: a.assetId, x: a.x, y: a.y, z: a.z, rotationDeg: a.rotationDeg, facedown: a.facedown }));
       localStorage.setItem(getStorageKey(), JSON.stringify(handData));
       updateTrackedUIs();
     }
@@ -1243,7 +1370,7 @@
       try {
         await fetchState();
         await warmImages();
-        markAssetPending(null,true);
+        markAssetPending(null, true);
         msgEl.textContent = "Refreshed.";
       } catch (err) {
         updateSyncStatus("error");
@@ -1355,6 +1482,20 @@
               context.textAlign = "center";
               context.textBaseline = "middle";
               context.fillText(displayValue, 0, h / 15);
+
+              if (displayValue === "6" || displayValue === "9") {
+                // Line under the number
+                const y = h / 15 + w * 0.4;      // tweak if needed
+                const lineW = w * 0.5;            // tweak if needed
+                context.strokeStyle = "rgba(255,255,255,1)";
+                context.lineWidth = Math.max(2, w * 0.1); // tweak if needed
+                context.beginPath();
+                context.moveTo(-lineW / 2, y);
+                context.lineTo(lineW / 2, y);
+                context.stroke();
+              }
+
+
             } else if (card.name) {
               // Fallback to name
               context.fillStyle = "rgba(255,255,255,1)";
@@ -1388,6 +1529,11 @@
     // High-Fidelity Maximized Un-distorted Splash Magnifier Component
     function triggerSplashView(card) {
       if (!card) return;
+      const splashLink = document.getElementById('splashLink');
+      splashLink.href = card.imageUrl;
+
+      // (optional) keep target blank
+      splashLink.target = '_blank';
       const dpr = Math.max(1, window.devicePixelRatio || 1);
       const { w, h, isPlaceholder, config } = getAssetDimensions(card);
 
@@ -1430,6 +1576,8 @@
       splashViewer.classList.remove('active');
     });
 
+
+
     async function warmImages() {
       const unique = [...new Set(assets.map(a => a.imageUrl).filter(Boolean))];
       await Promise.all(unique.map(loadImage));
@@ -1438,7 +1586,6 @@
     function draw() {
       ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
       const midY = canvas.clientHeight * getTableSplitFactor();
-
       // Create a list of assets that ARE NOT being dragged
       const draggingId = drag ? drag.assetId : null;
 
@@ -1548,6 +1695,7 @@
     }
     // Example of how to send the batch from your HTML
     async function shuffleAssets() {
+      if (!confirm("Reshuffle?")) { return; }
       try {
         updateSyncStatus("saving");
         await tryWithResync(async () => {
@@ -1574,6 +1722,7 @@
     }
 
     function onPointerMove(e) {
+      if (!activePan || !usePointerEvents) return;
       const rect = canvas.getBoundingClientRect();
       const currentX = e.clientX - rect.left;
       const currentY = e.clientY - rect.top;
@@ -1583,7 +1732,7 @@
       if (drag) {
         drag.hasMovedSignificantAmount = true;
         markAssetSelected(drag.assetId);
-        markAssetPending(drag.assetId);
+
 
         // Detect if we crossed the border
         const currentVp = getViewportForPointer(pointer.x, pointer.y);
@@ -1601,6 +1750,9 @@
             a.rotationDeg = (360 - getSeatOrientationDegrees() + 180) % 360;
           }
         }
+        if (a.region === "TABLE") {
+          markAssetPending(drag.assetId);
+        }
 
         // Apply movement
         const world = screenToWorld(drag.viewport, pointer.x, pointer.y);
@@ -1614,6 +1766,7 @@
 
       // Inside onPointerMove(e)
       // In onPointerMove(e)
+
       if (panDrag) {
         const v = view[panDrag.viewport];
 
@@ -1628,23 +1781,34 @@
 
         // 3. Apply rotation (only if viewport is 'table')
         if (panDrag.viewport === 'table') {
-          const angleRad = -getSeatOrientationDegrees() * Math.PI / 180;
-          const rx = dx * Math.cos(angleRad) - dy * Math.sin(angleRad);
-          const ry = dx * Math.sin(angleRad) + dy * Math.cos(angleRad);
+          const angleRad = getSeatOrientationDegrees() * Math.PI / 180;
+          const rx = dx * Math.cos(angleRad) + dy * Math.sin(angleRad);
+          const ry = -dx * Math.sin(angleRad) + dy * Math.cos(angleRad);
           dx = rx;
           dy = ry;
+          v.panX += dx * v.zoom; //@@
+          v.panY += dy * v.zoom;
+          console.log("1803 " + v.zoom);
+          draw();
         }
 
         // 4. Update pan
-        v.panX += dx;
-        v.panY += dy;
+        //v.panX += dx; //@@
+        //v.panY += dy;
 
-        draw();
+
+
+
+
       }
     }
 
 
     function onPointerDown(e) {
+      e.preventDefault();
+      usePointerEvents = true;
+      activePan = true;
+
       contextTarget.style.display = 'none';
       const rect = canvas.getBoundingClientRect();
       const sx = e.clientX - rect.left; const sy = e.clientY - rect.top;
@@ -1690,6 +1854,8 @@
     }
 
     function onPointerUp(e) {
+      activePan = false;
+      usePointerEvents = false;
       // 1. Handle Panning cleanup
       if (panDrag && (e.button === 2 || e.button === 0)) {
         canvas.releasePointerCapture(e.pointerId);
@@ -1731,6 +1897,7 @@
         // Moved from Hand to Table: adjust to seat orientation
         a.rotationDeg = (360 - getSeatOrientationDegrees() - 180) % 360;
         bringToFront(a.assetId);
+        BringToTop();
       } else if (!wasInHand && nowInHand) {
         // Moved from Table to Hand: reset to 0
         a.rotationDeg = 0;
@@ -1773,8 +1940,10 @@
       v.zoom *= Math.exp(-e.deltaY * 0.0015);
       v.zoom = Math.max(0.15, Math.min(6.0, v.zoom));
 
-      v.panX = dx - worldX * v.zoom;
+      v.panX = dx - worldX * v.zoom; // @@
       v.panY = dy - worldY * v.zoom;
+      console.log("1945")
+
 
       draw();
     }
@@ -1813,6 +1982,10 @@
       }
     }, { passive: false });
     canvas.addEventListener('touchmove', (e) => {
+      if (usePointerEvents) return;
+
+      if (!activePan) return;
+      const t = e.touches[0];
       if (!touchGesture.active || drag) return;
       e.preventDefault(); // Stop page scrolling
 
@@ -1822,11 +1995,13 @@
       if (e.touches.length === 1) {
         const dx = e.touches[0].clientX - touchGesture.lastTouches[0].clientX;
         const dy = e.touches[0].clientY - touchGesture.lastTouches[0].clientY;
-        v.panX += dx;
+        v.panX += dx; // @@
         v.panY += dy;
+        console.log("1997")
+
       }
       // Zooming (2 fingers)
-      else if (e.touches.length === 2) {
+      else if (e.touches.length === 2) { // Disabled for now. Buggy.
         const dist = getDistance(e.touches[0], e.touches[1]);
         const zoomDelta = dist / touchGesture.lastDistance;
         v.zoom *= zoomDelta;
@@ -1885,18 +2060,14 @@
       }
 
       // mark all touched assets pending (deduped)
-      console.log("BB");
       if (assetIds) { for (const id of assetIds) markAssetPending(id); }
-      console.log("CC");
       if (!hasPendingUpdates()) return;
-      console.log("DD");
 
       // build per-asset moves using each asset's own originalState
       const moves = [];
 
       for (const assetId of pendingUpdates) {
         const a = assetById.get(assetId);
-        console.log("Loop" + a.assetId);
         const originalState = originalStatesById[assetId];
         if (!a || !originalState) continue;
 
@@ -1909,17 +2080,15 @@
         if (wasInHand && nowInHand) continue;
 
         const currentState = JSON.stringify({
-          x: a.x, y: a.y, rotationDeg: a.rotationDeg,
+          x: a.x, y: a.y, z: a.z, rotationDeg: a.rotationDeg,
           facedown: a.facedown, region: a.region, ownerId: a.ownerId
         });
-        console.log("Check:" + a.assetId);
         if (currentState === originalState) continue;
-        console.log("Push:" + a.assetId);
         moves.push({
           assetId: a.assetId,
           expectedUpdatedAt: a.updatedAt,
           patch: {
-            x: a.x, y: a.y, rotationDeg: a.rotationDeg,
+            x: a.x, y: a.y, z: a.z, rotationDeg: a.rotationDeg,
             facedown: a.facedown, region: a.region, ownerId: a.ownerId
           }
         });
@@ -2005,14 +2174,11 @@
 
 
     async function ResyncButton() {
-      console.log("S");
-      if(hasPendingUpdates()){
-        console.log(pendingUpdates);
+      if (hasPendingUpdates()) {
         await trySaveAsset();
-      }else{
+      } else {
         try { await resync(); draw(); } catch (err) { msgEl.textContent = `Refresh failed: ${err.message || err}`; }
       }
-      console.log("A");
     }
 
   </script>
