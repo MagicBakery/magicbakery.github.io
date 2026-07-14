@@ -245,6 +245,7 @@
       cursor: not-allowed;
     }
 
+
     .icon-btn {
       border-radius: 50%;
       padding: 0;
@@ -258,6 +259,11 @@
 
     .icon-btn:active {
       transform: scale(0.96);
+    }
+
+    #btnResync.auto {
+      color: green;
+      animation: blink-animation 5s ease-in-out infinite;
     }
 
     .icon-btn[data-status="normal"] {}
@@ -367,7 +373,7 @@
       align-items: center;
       /* Vertically centers the image */
       height: 200px;
-      /* Optional: Set a height for the container */      
+      /* Optional: Set a height for the container */
     }
 
     .rot-btn {
@@ -521,7 +527,7 @@
             </div>
             <div class="row">
               <label style="font-size:12px; opacity:.9; width: 60px;">Name</label>
-              <input type="text" id="playerName" value="Player" />
+              <input type="text" id="playerName" value="" />
             </div>
             <div class="row" style="margin-top:10px;">
               <button class="action-btn" id="btnJoin" style="width: 100%;">Join Room</button>
@@ -576,8 +582,11 @@
               <span id="seatDisplay"
                 style="font-family: monospace; font-size: 13px; font-weight: 700; width: 45px; text-align: right;">0°</span>
             </div>
-
-
+            <label>
+              <input type="checkbox" id="seating-compass"
+                onchange="localStorage.setItem('seatingCompass', event.target.checked);">
+              Show seating compass
+            </label><br>
             <label>
               <input type="checkbox" id="chkAutoHideSplash"> Hide hand when showing card
             </label><br>
@@ -586,13 +595,15 @@
                 onchange="localStorage.setItem('courtesyFlip', event.target.checked);">
               Courtesy flip
             </label>
+
+            <div class="debug-info"><!--</div>style="display:none">-->
+              <div>Assets: <span id="debugCount">0</span></div>
+              <div>Table Pan: <span id="debugTablePan">0, 0</span> | Zoom: <span id="debugTableZoom">1.0</span>x</div>
+              <div>Hand Pan: <span id="debugHandPan">0, 0</span> | Zoom: <span id="debugHandZoom">1.0</span>x</div>
+            </div>
           </div>
 
-          <div class="debug-info" style="display:none">
-            <div>Assets: <span id="debugCount">0</span></div>
-            <div>Table Pan: <span id="debugTablePan">0, 0</span> | Zoom: <span id="debugTableZoom">1.0</span>x</div>
-            <div>Hand Pan: <span id="debugHandPan">0, 0</span> | Zoom: <span id="debugHandZoom">1.0</span>x</div>
-          </div>
+
 
         </div>
       </div>
@@ -729,22 +740,26 @@
       { id: "v21", label: "v21", url: "https://script.google.com/macros/s/AKfycbyiBM2nM1WRlUOrmGj2fRA5tAwTJyUVUTa3CtVmTKQGV4ULAzziKGMUU1cu8TV3GTvf/exec" },
       { id: "v26", label: "v26 Good", url: "https://script.google.com/macros/s/AKfycbxBo9n_LPsaFuxuhSCFOJN1KUK_JKRTGIDtM4uW8y_Ze7sBrK2JI2t3ADZyLt_m0YCe/exec" },
       { id: "v27", label: "v27 Good with batchApplyMove", url: "https://script.google.com/macros/s/AKfycbxcQphH43unVIagBt2fG_0VAB5lrj9WgELoYd705oqVZEhldWLQk98P6iWQZ_MiPTPp/exec" },
-      { id: "v28", label: "v28 Fetch All for Hand Count", url: "https://script.google.com/macros/s/AKfycbxg3c7y-REebdm4mkL1qJKzZmevf0kM-iC6EZtzctmJhCm22_-zcEmhdtoWEbk_ncRO/exec" }
+      { id: "v28", label: "v28 Fetch All for Hand Count", url: "https://script.google.com/macros/s/AKfycbxg3c7y-REebdm4mkL1qJKzZmevf0kM-iC6EZtzctmJhCm22_-zcEmhdtoWEbk_ncRO/exec" },
+      { id: "v29", label: "v29 Output tag", url: "https://script.google.com/macros/s/AKfycbyKOHtQ3Mv63LFLV9TM4ihLUtymbtQBgZf1XTQK2GrmvsIgfXQUdG7lA4d6chk_OyXD/exec" }
     ];
-    let selected = "v28";
-    const VERSIONID = "20260713203418";
+    let selected = "v29";
+    const VERSIONID = "20260714033301";
     const API_BASE = APPS_SCRIPTS.find(x => x.id === selected)?.url ?? APPS_SCRIPTS[0].url;
-
     const btnRotLeft = document.getElementById('btnRotLeft');
     const btnRotRight = document.getElementById('btnRotRight');
     const chkCourtesyFlip = document.getElementById('courtesy-flip');
-    const savedValue = localStorage.getItem('courtesyFlip') === 'true';
-    chkCourtesyFlip.checked = savedValue;
+    chkCourtesyFlip.checked = localStorage.getItem('courtesyFlip') === 'true';
+    const chkSeatingCompass = document.getElementById('seating-compass');
+    chkSeatingCompass.checked = localStorage.getItem('seatingCompass') === 'true';
     let isHandHidden = false;
     let rotInterval = null;
     let originalState = null;
     let pendingUpdates = [];
     let activePan = false;
+    let autoSyncTimer = null;
+    let lastInteraction = new Date();
+    let lastAutoSync = new Date();
     let panViewport = null;
     let usePointerEvents = false;
 
@@ -768,7 +783,7 @@
         .sort((a, b) => Number(a.z || 0) - Number(b.z || 0));
 
       selectedAssets.forEach((a, i) => {
-        if(a.region != "HAND"){
+        if (a.region != "HAND") {
           markAssetPending(a.assetId);
         }
         a.z = minZUnselected - minDelta - (selectedAssets.length - 1 - i); // push below unselected
@@ -795,7 +810,7 @@
         .sort((a, b) => Number(a.z || 0) - Number(b.z || 0));
 
       selectedAssets.forEach((a, i) => {
-        if(a.region !="HAND"){
+        if (a.region != "HAND") {
           markAssetPending(a.assetId);
         }
         a.z = maxZUnselected + minDelta + i; // mutate only selected
@@ -987,7 +1002,7 @@
       updateTrackedUIs?.();
       draw?.();
     }
-    function TableZoom(delta, { minZoom = 0.2, maxZoom = 5 } = {}) {
+    function TableZoom(delta, { minZoom = 0.5, maxZoom = 3 } = {}) {
       const z = Number(view.table.zoom || 1);
 
       // delta as percent: e.g. 0.1 => +10%, -0.1 => -10%
@@ -1009,7 +1024,85 @@
 
 
     // #Alphabetical #Helper Functions
+    function autoSyncStart(bStart) {
+      const mLabel = document.getElementById("btnResyncCount");
+      if (!bStart) {
+        if (!autoSyncTimer) return;
+        btnResync.classList.remove('auto');
+        clearInterval(autoSyncTimer);
+        autoSyncTimer = null;
+        mLabel.innerHTML = "";
+        return;
+      }
+      if (autoSyncTimer) return;
+      btnResync.classList.add('auto');
+      lastInteraction = new Date();
+      autoSyncTimer = setInterval(() => {
+        const t = new Date();
+        const diff = 120_000 - (t - lastInteraction);
+        if (diff <= 0) {
+          autoSyncStart(false);
+        } else if (!hasPendingUpdates()) {
+          mLabel.innerHTML = Math.floor(diff / 1000);
+          if (btnResync.dataset.status === 'normal') {
+            if (t - lastAutoSync >= 5000) {
+              resync();
+              lastAutoSync = t;
+            }
+          }
+        }
+      }, 500);
+    }
+    function countPlayers() {
+      let count = 0;
+      for (const a of assets) {
+        const tag = a?.tag ?? '';
+        const region = a?.region;
+        if (tag.includes('player') && region !== 'BOX') count++;
+      }
+      return count;
+    }
+    function drawCompass() {
+      const colors = ["rgba(255,255,255,1)", "rgba(255,0,0,1)", "rgba(255,215,0,1)", "rgba(0,255,0,1)", "rgba(0,215,255,1)", "rgba(215,0,255,1)"];
+      const r0 = 400; // Player area limit
+      const r1 = 100; // Compass Radius
+      const r2 = 5; // 100
+      const r3 = 20; // 118
+      const r4 = 12; // 106
+      const ctr = worldToScreen('table', 0, 0);
+      ctx.strokeStyle = "rgba(255,255,255,0.25)";
+      ctx.beginPath();
+      ctx.arc(ctr.x, ctr.y, r0 * view.table.zoom, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.strokeStyle = "rgba(255,255,255,0.1)";
+      ctx.beginPath();
+      ctx.arc(ctr.x, ctr.y, r1 * view.table.zoom, 0, Math.PI * 2);
+      ctx.stroke();
+      /*ctx.beginPath();
+      ctx.arc(ctr.x, ctr.y, r2 * view.table.zoom, 0, Math.PI * 2);
+      ctx.stroke();*/
+      ctx.lineWidth = 3 * view.table.zoom;
+      let players = countPlayers();
 
+      let deg = 30;
+      for (i = 0; i < players; i++) {
+        ctx.strokeStyle = colors[i];
+        ctx.fillStyle = colors[i];
+        ctx.beginPath();
+        let pt1 = wtsPolar(r3, -i * 360 / players);
+        let pt2 = wtsPolar(r4, -deg - i * 360 / players);
+        let pt3 = wtsPolar(r4, +deg - i * 360 / players);
+        let pt4 = wtsPolar(r4 + 2, -i * 360 / players);
+        ctx.moveTo(pt4.x, pt4.y);
+        ctx.lineTo(pt2.x, pt2.y);
+        ctx.lineTo(pt1.x, pt1.y);
+        ctx.lineTo(pt3.x, pt3.y);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fill();
+      }
+    }
+    
     function isSelected(id) {
       return Array.isArray(selectedIds) && selectedIds.includes(id);
     }
@@ -1027,7 +1120,9 @@
       if (bClear) {
         pendingUpdates = [];
         originalStatesById = [];
-        mLabel.innerHTML = "";
+        if (!btnResync.classList.contains('auto')) {
+          mLabel.innerHTML = "";
+        }
         updateSyncStatus("normal");
         return;
       }
@@ -1105,7 +1200,11 @@
       if (i >= 0) list.splice(i, 1);
       else list.push(id);
     }
-
+    function wtsPolar(r, deg) {
+      // 0 deg is at the bottom of the circle
+      // 90 deg is on the right side of the circle.
+      return point = worldToScreen('table', r * Math.sin(deg * Math.PI / 180), r * Math.cos(deg * Math.PI / 180));
+    }
 
     //==Vibe Code Results==
     let deviceId = localStorage.getItem("ClientBD");
@@ -1613,6 +1712,7 @@
         await fetchState();
         await warmImages();
         markAssetPending(null, true);
+
         msgEl.textContent = "Refreshed.";
       } catch (err) {
         updateSyncStatus("error");
@@ -1620,6 +1720,8 @@
       } finally {
         btnResync.disabled = false;
         applyHandFromLocalStorage();
+        updateTrackedUIs();
+        if (!hasPendingUpdates()) { draw() }
       }
     }
 
@@ -1834,6 +1936,10 @@
       if (midY > 0) {
         ctx.fillStyle = "rgba(255,255,255,0.15)"; ctx.font = "10px monospace";
 
+
+        // Draw compass
+        drawCompass();
+
         const tCards = assets.filter(a => (a.region || "").toString().toUpperCase() === "TABLE" && a.assetId !== draggingId);
         tCards.sort((a, b) => Number(a.z || 0) - Number(b.z || 0));
         for (const c of tCards) drawCard(c, 'table');
@@ -1867,15 +1973,15 @@
     function getCardAtPointInRegion(regionName, sx, sy) {
       let cards = [];
       const complexOwnerId = getServerOwnerId();
-      if(regionName==="TABLE"){
+      if (regionName === "TABLE") {
         cards = assets.filter(a => (a.region || "").toString().toUpperCase() === regionName);
-      }else if(regionName ==="HAND"){
+      } else if (regionName === "HAND") {
         cards = assets.filter(a => (a.region || "").toString().toUpperCase() === regionName && a.ownerId === complexOwnerId);
-      }else{
+      } else {
         return null;
       }
-      
-      
+
+
 
       // We use the view associated with the region name
       const v = view[regionName.toLowerCase()];
@@ -2007,7 +2113,6 @@
           }
         }
         if (a.region === "TABLE") {
-          console.log('2006');
           markAssetPending(drag.assetId);
         }
 
@@ -2063,6 +2168,7 @@
 
     function onPointerDown(e) {
       e.preventDefault();
+      lastInteraction = new Date();
       usePointerEvents = true;
       activePan = true;
 
@@ -2200,7 +2306,7 @@
       const worldY = (dy - v.panY) / v.zoom;
 
       v.zoom *= Math.exp(-e.deltaY * 0.0015);
-      v.zoom = Math.max(0.15, Math.min(6.0, v.zoom));
+      v.zoom = Math.max(0.5, Math.min(3.0, v.zoom));
 
       v.panX = dx - worldX * v.zoom; // @@
       v.panY = dy - worldY * v.zoom;
@@ -2226,6 +2332,7 @@
     canvas.addEventListener('wheel', onWheel, { passive: false });
     canvas.addEventListener('touchstart', (e) => {
       // If we are already dragging a card (from your existing logic), don't pan/zoom
+      lastInteraction = new Date();
       if (drag) return;
 
       if (e.touches.length > 0) {
@@ -2437,8 +2544,14 @@
       selectAsset(null);
       if (hasPendingUpdates()) {
         await trySaveAsset();
+        autoSyncStart(true);
       } else {
-        try { await resync(); draw(); } catch (err) { msgEl.textContent = `Refresh failed: ${err.message || err}`; }
+        try {
+          await resync(); draw();
+        } catch (err) {
+          msgEl.textContent = `Refresh failed: ${err.message || err}`;
+        }
+        autoSyncStart(true);
       }
     }
 
