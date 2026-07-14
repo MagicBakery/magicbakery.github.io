@@ -732,7 +732,7 @@
       { id: "v28", label: "v28 Fetch All for Hand Count", url: "https://script.google.com/macros/s/AKfycbxg3c7y-REebdm4mkL1qJKzZmevf0kM-iC6EZtzctmJhCm22_-zcEmhdtoWEbk_ncRO/exec" }
     ];
     let selected = "v28";
-    const VERSIONID = "20260713101023";
+    const VERSIONID = "20260713203418";
     const API_BASE = APPS_SCRIPTS.find(x => x.id === selected)?.url ?? APPS_SCRIPTS[0].url;
 
     const btnRotLeft = document.getElementById('btnRotLeft');
@@ -768,7 +768,9 @@
         .sort((a, b) => Number(a.z || 0) - Number(b.z || 0));
 
       selectedAssets.forEach((a, i) => {
-        markAssetPending(a.assetId);
+        if(a.region != "HAND"){
+          markAssetPending(a.assetId);
+        }
         a.z = minZUnselected - minDelta - (selectedAssets.length - 1 - i); // push below unselected
       });
 
@@ -793,7 +795,9 @@
         .sort((a, b) => Number(a.z || 0) - Number(b.z || 0));
 
       selectedAssets.forEach((a, i) => {
-        markAssetPending(a.assetId);
+        if(a.region !="HAND"){
+          markAssetPending(a.assetId);
+        }
         a.z = maxZUnselected + minDelta + i; // mutate only selected
       });
       draw();
@@ -1861,7 +1865,17 @@
     }
     // 1. New helper: Checks a specific region (TABLE or HAND) for a card
     function getCardAtPointInRegion(regionName, sx, sy) {
-      const cards = assets.filter(a => (a.region || "").toString().toUpperCase() === regionName);
+      let cards = [];
+      const complexOwnerId = getServerOwnerId();
+      if(regionName==="TABLE"){
+        cards = assets.filter(a => (a.region || "").toString().toUpperCase() === regionName);
+      }else if(regionName ==="HAND"){
+        cards = assets.filter(a => (a.region || "").toString().toUpperCase() === regionName && a.ownerId === complexOwnerId);
+      }else{
+        return null;
+      }
+      
+      
 
       // We use the view associated with the region name
       const v = view[regionName.toLowerCase()];
@@ -1993,6 +2007,7 @@
           }
         }
         if (a.region === "TABLE") {
+          console.log('2006');
           markAssetPending(drag.assetId);
         }
 
