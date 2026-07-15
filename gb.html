@@ -2595,10 +2595,12 @@
       // If user clicked on nothing: save old one (legacy behavior) and clear selection.
       if (id == null) {
         // 20260712: StarTree: This could be an option of whether to save when clicking on blank area.
-        if (hasPendingUpdates() || selectedId) trySaveAsset(selectedId);
-
         selectedIds = [];
         selectedId = null;
+        if (hasPendingUpdates() || selectedId){
+          trySaveAsset();
+          autoSyncStart(true);
+        }  
         updateTrackedUIs();
         draw();
         return;
