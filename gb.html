@@ -752,6 +752,7 @@
     chkCourtesyFlip.checked = localStorage.getItem('courtesyFlip') === 'true';
     const chkSeatingCompass = document.getElementById('seating-compass');
     chkSeatingCompass.checked = localStorage.getItem('seatingCompass') === 'true';
+
     let isHandHidden = false;
     let rotInterval = null;
     let originalState = null;
@@ -761,9 +762,45 @@
     let lastInteraction = new Date();
     let lastAutoSync = new Date();
     let panViewport = null;
+    let serverCopy = [];
+    let serverCopyByID = {};
     let usePointerEvents = false;
 
     // #Alphabetical Core Functions 
+    function AssetsMerge() {
+      // 20260714: StarTree: User serverCopy to update assets, but don't change items in assets already on pendingUpdates list unless it became someone else's hand item.
+      const complexOwnerId = getServerOwnerId();
+      let cat1=0;
+      let cat2=0;
+      let cat3=0;
+      for (const s of serverCopy) {
+        // Step 1: Find s in assets by assetId. if it does exist, add it to assets/
+        const id = s.assetId;
+        let a = assetById.get(id);
+        if (!a) {
+          assets.push(s);
+          assetById.set(id, s);
+          cat1++;
+          continue;
+        }
+        // Step 2: s.region==="HAND" and s.ownerId != complexOwnerId, set a.region="HAND" and remove that id from pendingUpdates
+        if (s.region === "HAND" && s.ownerId !== complexOwnerId) {
+          a.region = "HAND";
+          markAssetPending(id,null,true);
+          cat2++;
+          continue;
+        }
+        // Step 3: if s is not in pendingUpdates, copy or replace the corresponding a in assets with s content.
+        if(!isPendingUpdate(id)){
+          assetById.set(id, s);
+          Object.assign(a, s);
+          cat3++;
+        }else{
+          a.updatedAt = s.updatedAt;
+        }
+      }
+      assets = Array.from(assetById.values());
+    }
     function BringToBottom() {
       const minDelta = 1;
       const selected = new Set(selectedIds);
@@ -1050,6 +1087,8 @@
               lastAutoSync = t;
             }
           }
+        }else{
+          autoSyncStart(false);
         }
       }, 500);
     }
@@ -1102,7 +1141,7 @@
         ctx.fill();
       }
     }
-    
+
     function isSelected(id) {
       return Array.isArray(selectedIds) && selectedIds.includes(id);
     }
@@ -1115,7 +1154,7 @@
     function hasSelected() {
       return Array.isArray(selectedIds) && selectedIds.length > 0;
     }
-    function markAssetPending(id, bClear) {
+    function markAssetPending(id, bClear, bRemoveIfFound) {
       const mLabel = document.getElementById("btnResyncCount");
       if (bClear) {
         pendingUpdates = [];
@@ -1130,15 +1169,23 @@
       if (!Array.isArray(pendingUpdates)) return;
       const a = assetById.get(id);
       if (!a) { return; }
-      if (!isPendingUpdate(id)) {
-        originalStatesById[id] = JSON.stringify({
-          x: a.x, y: a.y, z: a.z, rotationDeg: a.rotationDeg,
-          facedown: a.facedown, region: a.region, ownerId: a.ownerId
-        });
+
+      if (bRemoveIfFound) {
+        if (isPendingUpdate(id)) {
+            pendingUpdates.delete(id);
+          }
+      } else {
+        if (!isPendingUpdate(id)) {
+          originalStatesById[id] = JSON.stringify({
+            x: a.x, y: a.y, z: a.z, rotationDeg: a.rotationDeg,
+            facedown: a.facedown, region: a.region, ownerId: a.ownerId
+          });
+        }
+        if (!isPendingUpdate(id)) {
+          pendingUpdates.push(id);
+        }
       }
-      if (!isPendingUpdate(id)) {
-        pendingUpdates.push(id);
-      }
+
       selectedId = selectedIds.length ? selectedIds[selectedIds.length - 1] : null;
       const mPend = pendingUpdates.length;
       if (mPend > 0) {
@@ -1689,12 +1736,21 @@
       const rawText = await res.text();
       let data = JSON.parse(rawText);
       if (!data.ok && data.error) throw new Error(data.error);
-      assets = data.assets || [];
-      assetById = new Map(assets.map(a => [a.assetId, a]));
+
+      // Store the data from server to serverCopy.
+      serverCopy = data.assets || [];
+      serverCopyById = new Map( serverCopy.map(s => [s.assetId, s]));
+
+      AssetsMerge();
+      //assets = data.assets || [];
+      //assetById = new Map(assets.map(a => [a.assetId, a]));
 
       applyHandFromLocalStorage();
       debugCountEl.textContent = assets.length;
       updateTrackedUIs();
+      draw();
+      const cap = assetById.get("E5");
+      console.log(cap.region);
     }
 
     async function tryWithResync(fn) {
@@ -1715,7 +1771,7 @@
 
         msgEl.textContent = "Refreshed.";
       } catch (err) {
-        updateSyncStatus("error");
+        //updateSyncStatus("error");
         throw err;
       } finally {
         btnResync.disabled = false;
@@ -1942,7 +1998,12 @@
 
         const tCards = assets.filter(a => (a.region || "").toString().toUpperCase() === "TABLE" && a.assetId !== draggingId);
         tCards.sort((a, b) => Number(a.z || 0) - Number(b.z || 0));
-        for (const c of tCards) drawCard(c, 'table');
+        
+        const cap = assetById.get("E5");
+
+        for (const c of tCards){
+          drawCard(c, 'table');
+        }
       }
 
       // 2. Draw Hand background layer
@@ -2416,7 +2477,7 @@
         updateSyncStatus("normal");
       } catch (err) {
         console.error("Failed to save rotation:", err);
-        updateSyncStatus("error");
+        //updateSyncStatus("error");
       }
     }
 
@@ -2476,7 +2537,7 @@
         for (const m of moves) setOriginalStateForAsset(m.assetId);
       } catch (err) {
         msgEl.textContent = `Error: ${err.message}`;
-        updateSyncStatus("error");
+        //updateSyncStatus("error");
 
       }
     }
@@ -2535,7 +2596,7 @@
         updateSyncStatus("normal");
       } catch (err) {
         msgEl.textContent = `Join failed: ${err.message || err}`; btnJoin.disabled = false;
-        updateSyncStatus("error");
+        //updateSyncStatus("error");
       }
     });
 
