@@ -496,7 +496,7 @@
 <body>
   <div id="app">
     <img id="contextTarget" src="" alt="card proxy" />
-    <canvas id="c" ondblclick="TableCenter();"></canvas>
+    <canvas id="c"></canvas>
 
     <div id="hud-left">
       <div class="panel collapsed" id="setupPanel">
@@ -726,8 +726,7 @@
 
   </div>
   <div id="splashViewer" class="splashViewer">
-    <a id="splashLink" href="#" target="_blank" rel="noopener noreferrer" style="display:block;"
-      onclick="event.preventDefault();">
+    <a id="splashLink" href="#" target="_blank" rel="noopener noreferrer" style="display:block;">
       <canvas id="splashCanvas"></canvas>
     </a>
   </div>
@@ -744,7 +743,7 @@
       { id: "v29", label: "v29 Output tag", url: "https://script.google.com/macros/s/AKfycbyKOHtQ3Mv63LFLV9TM4ihLUtymbtQBgZf1XTQK2GrmvsIgfXQUdG7lA4d6chk_OyXD/exec" }
     ];
     let selected = "v29";
-    const VERSIONID = "20260714033301";
+    const VERSIONID = "20260715040910";
     const API_BASE = APPS_SCRIPTS.find(x => x.id === selected)?.url ?? APPS_SCRIPTS[0].url;
     const btnRotLeft = document.getElementById('btnRotLeft');
     const btnRotRight = document.getElementById('btnRotRight');
@@ -752,7 +751,9 @@
     chkCourtesyFlip.checked = localStorage.getItem('courtesyFlip') === 'true';
     const chkSeatingCompass = document.getElementById('seating-compass');
     chkSeatingCompass.checked = localStorage.getItem('seatingCompass') === 'true';
-
+    const DOUBLE_TAP_MS = 300;
+    let lastTapTs = 0;
+    let ignoreNextClick = false;
     let isHandHidden = false;
     let rotInterval = null;
     let originalState = null;
@@ -770,11 +771,11 @@
     function AssetsMerge() {
       // 20260714: StarTree: User serverCopy to update assets, but don't change items in assets already on pendingUpdates list unless it became someone else's hand item.
       const complexOwnerId = getServerOwnerId();
-      let cat1=0;
-      let cat2=0;
-      let cat3=0;
+      let cat1 = 0;
+      let cat2 = 0;
+      let cat3 = 0;
       for (const s of serverCopy) {
-        // Step 1: Find s in assets by assetId. if it does exist, add it to assets/
+        // Step 1: Find s in assets by assetId. if it doesn't exist, add it to assets/
         const id = s.assetId;
         let a = assetById.get(id);
         if (!a) {
@@ -785,17 +786,18 @@
         }
         // Step 2: s.region==="HAND" and s.ownerId != complexOwnerId, set a.region="HAND" and remove that id from pendingUpdates
         if (s.region === "HAND" && s.ownerId !== complexOwnerId) {
-          a.region = "HAND";
-          markAssetPending(id,null,true);
+          assetById.set(id, s);
+          Object.assign(a, s);
+          markAssetPending(id, null, true);
           cat2++;
           continue;
         }
         // Step 3: if s is not in pendingUpdates, copy or replace the corresponding a in assets with s content.
-        if(!isPendingUpdate(id)){
+        if (!isPendingUpdate(id)) {
           assetById.set(id, s);
           Object.assign(a, s);
           cat3++;
-        }else{
+        } else {
           a.updatedAt = s.updatedAt;
         }
       }
@@ -1068,7 +1070,11 @@
         btnResync.classList.remove('auto');
         clearInterval(autoSyncTimer);
         autoSyncTimer = null;
-        mLabel.innerHTML = "";
+        if (!hasPendingUpdates()) {
+          mLabel.innerHTML = "";
+        } else {
+          btnResync.dataset.status = "pending";
+        }
         return;
       }
       if (autoSyncTimer) return;
@@ -1087,7 +1093,7 @@
               lastAutoSync = t;
             }
           }
-        }else{
+        } else {
           autoSyncStart(false);
         }
       }, 500);
@@ -1102,31 +1108,53 @@
       return count;
     }
     function drawCompass() {
-      const colors = ["rgba(255,255,255,1)", "rgba(255,0,0,1)", "rgba(255,215,0,1)", "rgba(0,255,0,1)", "rgba(0,215,255,1)", "rgba(215,0,255,1)"];
+      if (!chkSeatingCompass.checked) { return; }
+      /*const colors = ["rgba(255,255,255,1)", "rgba(255,0,0,1)", "rgba(255,215,0,1)", "rgba(0,255,0,1)", "rgba(0,215,255,1)", "rgba(215,0,255,1)"];*/
+      const colors = ["rgba(186,90,90,1)", "rgba(247,228,155,1)", "rgba(164,208,139,1)", "rgba(134,188,189,1)", "rgba(159,161,255,1)", "rgba(255,255,255,1)"];
+      const greys = [
+        "rgba(40,40,40,1)",
+        "rgba(50,50,50,1)",
+        "rgba(60,60,60,1)",
+        "rgba(70,70,70,1)",
+        "rgba(80,80,80,1)",
+        "rgba(90,90,90,1)"
+      ];
+      /*const colors = [
+        "rgba(140, 68, 68, 1)",
+        "rgba(148, 113, 69, 1)",
+        "rgba(98, 124, 83, 1)",
+        "rgba(80, 112, 112, 1)",
+        "rgba(95, 97, 153, 1)",
+        "rgba(120, 120, 120, 1)"
+      ];*/
+
       const r0 = 400; // Player area limit
       const r1 = 100; // Compass Radius
       const r2 = 5; // 100
       const r3 = 20; // 118
       const r4 = 12; // 106
       const ctr = worldToScreen('table', 0, 0);
-      ctx.strokeStyle = "rgba(255,255,255,0.25)";
+      /*ctx.strokeStyle = "rgba(255,255,255,0.25)";
       ctx.beginPath();
       ctx.arc(ctr.x, ctr.y, r0 * view.table.zoom, 0, Math.PI * 2);
       ctx.stroke();
       ctx.strokeStyle = "rgba(255,255,255,0.1)";
       ctx.beginPath();
       ctx.arc(ctr.x, ctr.y, r1 * view.table.zoom, 0, Math.PI * 2);
-      ctx.stroke();
-      /*ctx.beginPath();
-      ctx.arc(ctr.x, ctr.y, r2 * view.table.zoom, 0, Math.PI * 2);
       ctx.stroke();*/
+
       ctx.lineWidth = 3 * view.table.zoom;
       let players = countPlayers();
 
       let deg = 30;
-      for (i = 0; i < players; i++) {
+      let deg2 = (360 / players / 2) * Math.PI / 180;
+      let deg3 = getSeatOrientationDegrees() * Math.PI / 180;
+      const step = (Math.PI) / players;      // radians per orientation
+      const rot = getSeatOrientationDegrees() * Math.PI / 180;
+      for (let i = 0; i < players; i++) {
         ctx.strokeStyle = colors[i];
         ctx.fillStyle = colors[i];
+        ctx.lineWidth = 1 * view.table.zoom;
         ctx.beginPath();
         let pt1 = wtsPolar(r3, -i * 360 / players);
         let pt2 = wtsPolar(r4, -deg - i * 360 / players);
@@ -1139,9 +1167,28 @@
         ctx.closePath();
         ctx.stroke();
         ctx.fill();
+
+        let cr = (i * 2 * step) + rot + Math.PI / 2;
+        ctx.lineWidth = 300 * view.table.zoom;
+        ctx.strokeStyle = greys[i];
+        ctx.beginPath();
+        ctx.arc(ctr.x, ctr.y, (r1 + (r0 - r1) / 2) * view.table.zoom, cr - step, cr + step);
+        ctx.stroke();
+      }
+      ctx.lineWidth = 3 * view.table.zoom;
+
+    }
+    function handleClickAtClientXY(clientX, clientY) {
+      const rect = canvas.getBoundingClientRect();
+      const sx = clientX - rect.left;
+      const sy = clientY - rect.top;
+      const hit = hitTest(sx, sy);
+      if (hit){
+        triggerSplashView(hit);
+      }else{
+        TableCenter();
       }
     }
-
     function isSelected(id) {
       return Array.isArray(selectedIds) && selectedIds.includes(id);
     }
@@ -1172,8 +1219,8 @@
 
       if (bRemoveIfFound) {
         if (isPendingUpdate(id)) {
-            pendingUpdates.delete(id);
-          }
+          pendingUpdates = pendingUpdates.filter(x => x !== id);
+        }
       } else {
         if (!isPendingUpdate(id)) {
           originalStatesById[id] = JSON.stringify({
@@ -1218,7 +1265,12 @@
 
       const size = Math.min(canvas.clientWidth, canvas.clientHeight) / 2.5;
       const angle = Math.random() * 2 * Math.PI;
-      const radius = Math.sqrt(Math.random()) * size;
+      let radius = Math.max(125, Math.sqrt(Math.random()) * size);
+      if (a.tag.includes("player")) {
+        radius = 50;
+      } else if (a.tag == "") {
+        radius = 75;
+      }
 
       if (bPrecise) {
         a.x = world.x;
@@ -1739,7 +1791,7 @@
 
       // Store the data from server to serverCopy.
       serverCopy = data.assets || [];
-      serverCopyById = new Map( serverCopy.map(s => [s.assetId, s]));
+      serverCopyById = new Map(serverCopy.map(s => [s.assetId, s]));
 
       AssetsMerge();
       //assets = data.assets || [];
@@ -1749,8 +1801,6 @@
       debugCountEl.textContent = assets.length;
       updateTrackedUIs();
       draw();
-      const cap = assetById.get("E5");
-      console.log(cap.region);
     }
 
     async function tryWithResync(fn) {
@@ -1767,8 +1817,6 @@
       try {
         await fetchState();
         await warmImages();
-        markAssetPending(null, true);
-
         msgEl.textContent = "Refreshed.";
       } catch (err) {
         //updateSyncStatus("error");
@@ -1998,10 +2046,10 @@
 
         const tCards = assets.filter(a => (a.region || "").toString().toUpperCase() === "TABLE" && a.assetId !== draggingId);
         tCards.sort((a, b) => Number(a.z || 0) - Number(b.z || 0));
-        
+
         const cap = assetById.get("E5");
 
-        for (const c of tCards){
+        for (const c of tCards) {
           drawCard(c, 'table');
         }
       }
@@ -2082,24 +2130,7 @@
       if (!isHandHidden && viewport === "hand" && factor !== 1) {
         const handCard = getCardAtPointInRegion("HAND", sx, sy);
         if (handCard) return handCard;
-      }
-
-      // Always try to find a card on the table
-      // (This works even if the click is in the "hand" overlay area)
-      if (factor !== 0) {
-        return getCardAtPointInRegion("TABLE", sx, sy);
-      }
-
-      return null;
-    }
-    function hitTest(sx, sy) {
-      const viewport = getViewportForPointer(sx, sy);
-      const factor = getTableSplitFactor();
-
-      // If the hand is NOT hidden, try to find a card in the hand first
-      if (!isHandHidden && viewport === "hand" && factor !== 1) {
-        const handCard = getCardAtPointInRegion("HAND", sx, sy);
-        if (handCard) return handCard;
+        return null;
       }
 
       // Always try to find a card on the table
@@ -2376,12 +2407,18 @@
     }
 
     canvas.addEventListener('dblclick', (e) => {
-      const rect = canvas.getBoundingClientRect();
-      const sx = e.clientX - rect.left; const sy = e.clientY - rect.top;
-      const hit = hitTest(sx, sy);
-      if (hit) {
-        triggerSplashView(hit);
+      handleClickAtClientXY(e.clientX, e.clientY);
+    });
+    splashCanvas.addEventListener('click', (e) => {
+      event.preventDefault();
+      if (ignoreNextClick) {
+        ignoreNextClick = false;
+        e.preventDefault();
+        e.stopPropagation();
+        return;
       }
+      
+      // else: normal click behavior (if you have one)
     });
 
 
@@ -2394,7 +2431,9 @@
     canvas.addEventListener('touchstart', (e) => {
       // If we are already dragging a card (from your existing logic), don't pan/zoom
       lastInteraction = new Date();
+      if (e.touches.length !== 1) return;
       if (drag) return;
+
 
       if (e.touches.length > 0) {
         touchGesture.active = true;
@@ -2440,6 +2479,17 @@
       draw();
     }, { passive: false });
     canvas.addEventListener('touchend', (e) => {
+      if (e.changedTouches.length > 1) return;
+      const t = e.changedTouches[0];
+      const now = Date.now();
+      // (tune this if needed)
+      if (now - lastTapTs < 300) {
+        ignoreNextClick = true;
+        handleClickAtClientXY(t.clientX, t.clientY);
+        e.preventDefault();
+      }
+      lastTapTs = now;
+
       if (e.touches.length === 0) {
         touchGesture.active = false;
       } else {
@@ -2449,7 +2499,7 @@
           touchGesture.lastDistance = getDistance(e.touches[0], e.touches[1]);
         }
       }
-    });
+    }, { passive: false });
     async function flipAsset(a) {
       if (!a) return;
       a.facedown = !a.facedown;
@@ -2545,7 +2595,7 @@
       // If user clicked on nothing: save old one (legacy behavior) and clear selection.
       if (id == null) {
         // 20260712: StarTree: This could be an option of whether to save when clicking on blank area.
-        //if (hasPendingUpdates() || selectedId) trySaveAsset(selectedId);
+        if (hasPendingUpdates() || selectedId) trySaveAsset(selectedId);
 
         selectedIds = [];
         selectedId = null;
