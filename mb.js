@@ -2482,6 +2482,7 @@ function MacroIcons(el,iHTMLInner){
     ["Wave","🌊"],
     ["Wheat","🌾"],
     ["Wheel","🛞"],
+    ["WhiteFlag","🏳️"],
     ["WingL",":WingL:"],
     ["WingR",":WingR:"],
     ["WingR","🪽"],

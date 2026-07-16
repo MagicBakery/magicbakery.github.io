@@ -743,7 +743,7 @@
       { id: "v29", label: "v29 Output tag", url: "https://script.google.com/macros/s/AKfycbyKOHtQ3Mv63LFLV9TM4ihLUtymbtQBgZf1XTQK2GrmvsIgfXQUdG7lA4d6chk_OyXD/exec" }
     ];
     let selected = "v29";
-    const VERSIONID = "20260715040910";
+    const VERSIONID = "20260716094421";
     const API_BASE = APPS_SCRIPTS.find(x => x.id === selected)?.url ?? APPS_SCRIPTS[0].url;
     const btnRotLeft = document.getElementById('btnRotLeft');
     const btnRotRight = document.getElementById('btnRotRight');
@@ -894,7 +894,7 @@
 
     async function SaveMoves(moves, legacyPatch, legacyExpectedUpdatedAt) {
       if (!moves) return;
-      
+
       const normalizedMoves = Array.isArray(moves)
         ? moves
         : [{
@@ -1073,7 +1073,7 @@
         autoSyncTimer = null;
         if (!hasPendingUpdates()) {
           mLabel.innerHTML = "";
-        } else if(btnResync.dataset.status != "saving") {          
+        } else if (btnResync.dataset.status != "saving") {
           btnResync.dataset.status = "pending";
         }
         return;
@@ -1181,9 +1181,9 @@
       const sx = clientX - rect.left;
       const sy = clientY - rect.top;
       const hit = hitTest(sx, sy);
-      if (hit){
+      if (hit) {
         triggerSplashView(hit);
-      }else{
+      } else {
         TableCenter();
       }
     }
@@ -1296,6 +1296,24 @@
       const i = list.indexOf(id);
       if (i >= 0) list.splice(i, 1);
       else list.push(id);
+    }
+    function wrapText(ctx, text, maxWidth) {
+      const words = String(text).split(/\s+/);
+      const lines = [];
+      let line = "";
+
+      for (const word of words) {
+        const test = line ? `${line} ${word}` : word;
+        if (ctx.measureText(test).width <= maxWidth) {
+          line = test;
+        } else {
+          if (line) lines.push(line);
+          line = word; // start new line with the word that overflowed
+        }
+      }
+
+      if (line) lines.push(line);
+      return lines;
     }
     function wtsPolar(r, deg) {
       // 0 deg is at the bottom of the circle
@@ -1865,9 +1883,7 @@
         context.fill();
         context.globalAlpha = 1;
         context.shadowBlur = 0;
-
       }
-
       // --- Card Face Rendering ---
       if (!!card.facedown && !isPlaceholder) {
         context.fillStyle = "saddlebrown";
@@ -1947,7 +1963,17 @@
               context.font = "bold 10px system-ui";
               context.textAlign = "center";
               context.textBaseline = "middle";
-              context.fillText(card.name.slice(0, 16), 0, 0);
+
+              const maxWidth = w * 0.9; // leave some padding; adjust as needed
+              const lines = wrapText(context, card.name, maxWidth);
+
+              // draw lines centered around y=0
+              const lineHeight = 12; // adjust to match your font size
+              const startY = -(lines.length - 1) * (lineHeight / 2);
+
+              for (let i = 0; i < lines.length; i++) {
+                context.fillText(lines[i], 0, startY + i * lineHeight);
+              }
             }
           }
         }
@@ -2415,7 +2441,7 @@
         e.stopPropagation();
         return;
       }
-      
+
       // else: normal click behavior (if you have one)
     });
 
@@ -2544,7 +2570,7 @@
       for (const assetId of pendingUpdates) {
         const a = assetById.get(assetId);
         const originalState = originalStatesById[assetId];
-        if (!a || !originalState) continue;        
+        if (!a || !originalState) continue;
 
         const originalStateObj = JSON.parse(originalState);
 
@@ -2570,8 +2596,8 @@
         });
       }
 
-      if (moves.length === 0){
-        markAssetPending(null,true);        
+      if (moves.length === 0) {
+        markAssetPending(null, true);
         return;
       }
 
@@ -2592,16 +2618,16 @@
 
       }
     }
-    function selectAsset(id) {
+    async function selectAsset(id) {
       // If user clicked on nothing: save old one (legacy behavior) and clear selection.
       if (id == null) {
         // 20260712: StarTree: This could be an option of whether to save when clicking on blank area.
         selectedIds = [];
         selectedId = null;
-        if (hasPendingUpdates() || selectedId){
-          trySaveAsset();
+        if (hasPendingUpdates() || selectedId) {
+          await trySaveAsset();
           autoSyncStart(true);
-        }  
+        }
         updateTrackedUIs();
         draw();
         return;
