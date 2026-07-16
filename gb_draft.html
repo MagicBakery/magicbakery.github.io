@@ -1004,6 +1004,7 @@
 
       boxItems.forEach(item => {
         const assetId = item.dataset.assetId;
+        // Only spill items with the 
         if (assetId) {
           moveAssetToTable(assetId);
         }
@@ -1257,7 +1258,7 @@
       const cx = canvas.clientWidth / 2;
       let cy = (canvas.clientHeight * getTableSplitFactor()) / 2;
       if (bPrecise) {
-        cy = canvas.clientHeight * getTableSplitFactor();
+        cy = canvas.clientHeight * getTableSplitFactor()-50;
       }
       const world = screenToWorld("table", cx, cy);
 
