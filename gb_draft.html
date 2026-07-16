@@ -2246,6 +2246,8 @@
       // Inside onPointerMove(e)
       // In onPointerMove(e)
 
+      // 20260716: Disable panning the table if the hand is shown ?
+      //if (panDrag && isHandHidden) {
       if (panDrag) {
         const v = view[panDrag.viewport];
 
