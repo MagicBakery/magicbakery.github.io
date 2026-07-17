@@ -1191,11 +1191,14 @@
       const sx = clientX - rect.left;
       const sy = clientY - rect.top;
       const hit = hitTest(sx, sy);
-      if (hit) {
-        triggerSplashView(hit);
-      } else if (!touchGesture.didPinch) {
-        TableCenter();
+      if (!touchGesture.didPinch) {
+        if (hit) {
+          triggerSplashView(hit);
+        } else{
+          TableCenter();
+        }
       }
+
     }
     function isSelected(id) {
       return Array.isArray(selectedIds) && selectedIds.includes(id);
@@ -2256,29 +2259,24 @@
 
         // 1. Calculate raw delta and scale by zoom
         // We calculate (current - last) to get accurate distance regardless of browser
-        let dx = (e.clientX - panDrag.lastX) / v.zoom;
-        let dy = (e.clientY - panDrag.lastY) / v.zoom;
+        let dx = (e.clientX - panDrag.lastX);
+        let dy = (e.clientY - panDrag.lastY);
 
         // 2. Update last position for the next frame
         panDrag.lastX = e.clientX;
         panDrag.lastY = e.clientY;
 
         // 3. Apply rotation (only if viewport is 'table')
-        if (panDrag.viewport === 'table') {
+        if (isHandHidden || panDrag.viewport === 'table') {
           const angleRad = getSeatOrientationDegrees() * Math.PI / 180;
           const rx = dx * Math.cos(angleRad) + dy * Math.sin(angleRad);
           const ry = -dx * Math.sin(angleRad) + dy * Math.cos(angleRad);
-          dx = rx;
-          dy = ry;
-          v.panX += dx * v.zoom; //@@
-          v.panY += dy * v.zoom;
-          //console.log("1803 " + v.zoom);
+          v.panX += rx;
+          v.panY += ry;
           draw();
         }
       }
     }
-
-
     function onPointerDown(e) {
       e.preventDefault();
       lastInteraction = new Date();
@@ -2287,7 +2285,8 @@
 
       contextTarget.style.display = 'none';
       const rect = canvas.getBoundingClientRect();
-      const sx = e.clientX - rect.left; const sy = e.clientY - rect.top;
+      const sx = e.clientX - rect.left;
+      const sy = e.clientY - rect.top;
       const viewport = getViewportForPointer(sx, sy);
 
       const hit = hitTest(sx, sy);
@@ -2484,15 +2483,17 @@
       if (e.touches.length === 1) {
         const dx = e.touches[0].clientX - touchGesture.lastTouches[0].clientX;
         const dy = e.touches[0].clientY - touchGesture.lastTouches[0].clientY;
-        v.panX += dx; // @@
-        v.panY += dy;
-        console.log("1997")
+        const angleRad = getSeatOrientationDegrees() * Math.PI / 180;
+        const rx = dx * Math.cos(angleRad) + dy * Math.sin(angleRad);
+        const ry = -dx * Math.sin(angleRad) + dy * Math.cos(angleRad);
+        v.panX += rx;
+        v.panY += ry;
 
       }
       // Zooming (2 fingers)
       else if (e.touches.length === 2) { // Disabled for now. Buggy.
         if (!chkPinchToZoom.checked) return;
-        if (touchGesture.targetView !== 'table') return;
+        if (!isHandHidden && touchGesture.targetView !== 'table') return;
         const dist = getDistance(e.touches[0], e.touches[1]);
         const zoomDelta = dist / touchGesture.lastDistance;
         v.zoom *= zoomDelta;
