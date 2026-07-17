@@ -1,13 +1,20 @@
 /***** CONFIG *****/
 const SHEET_NAME = "Assets";
 
-function doOptions(e) {
-  return ContentService.createTextOutput("")
-    .setMimeType(ContentService.MimeType.TEXT)
-    .setHeader("Access-Control-Allow-Origin", "*")
-    .setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-    .setHeader("Access-Control-Allow-Headers", "Content-Type");
-}
+/*const COL = {
+  gameId: 1,
+  assetId: 2,
+  name: 3,
+  imageUrl: 4,
+  facedown: 5,
+  region: 6,      // "TABLE" | "HAND"
+  ownerId: 7,     // playerId or ""
+  x: 8,
+  y: 9,
+  rotationDeg: 10,
+  z: 11,          // number; meaningful for TABLE only
+  updatedAt: 12, // ISO string
+};*/
 
 function doGet(e) {
   try {
@@ -16,231 +23,319 @@ function doGet(e) {
     const playerId = (e.parameter.playerId || "").toString();
 
     if (action !== "GET_STATE") {
-      return json_({ ok: false, error: "BAD_ACTION", status: 400 }, 400);
+      return ContentService.createTextOutput(JSON.stringify({ ok: false, error: "BAD_ACTION", status: 400 }))
+        .setMimeType(ContentService.MimeType.JSON);
     }
     if (!gameId) {
-      return json_({ ok: false, error: "MISSING_GAMEID", status: 400 }, 400);
+      return ContentService.createTextOutput(JSON.stringify({ ok: false, error: "MISSING_GAMEID", status: 400 }))
+        .setMimeType(ContentService.MimeType.JSON);
     }
 
     const rows = loadAll_(gameId);
 
+    // Sandbox visibility: TABLE is always visible; HAND is visible only to owner.
     const visible = rows.filter(r => {
+      return true; // Fetch all for the hand count.
       if (r.region !== "HAND") return true;
       return (r.ownerId || "") === playerId;
     });
 
-    return json_({ ok: true, assets: visible }, 200);
+    return ContentService.createTextOutput(JSON.stringify({ ok: true, assets: visible }))
+      .setMimeType(ContentService.MimeType.JSON);
+
   } catch (err) {
-    return json_({ ok: false, error: "SERVER_CRASH", details: err.toString() }, 500);
+    // Catch any backend script crashes and return them safely as JSON so CORS doesn't trigger
+    return ContentService.createTextOutput(JSON.stringify({ ok: false, error: "SERVER_CRASH", details: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
   }
 }
-
 
 function doPost(e) {
   try {
     var params = {};
-    // 1. Unpack incoming payload
+
+    // 1. Unpack incoming payload stream safely
     if (e && e.postData && e.postData.contents) {
+      var rawContents = e.postData.contents;
       if (e.postData.type === "application/json") {
-        params = JSON.parse(e.postData.contents);
+        params = JSON.parse(rawContents);
       } else {
-        var pairs = e.postData.contents.split('&');
+        var pairs = rawContents.split('&');
         for (var i = 0; i < pairs.length; i++) {
           var pair = pairs[i].split('=');
-          params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1] || '');
+          var key = decodeURIComponent(pair[0]);
+          var val = decodeURIComponent(pair[1] || '');
+          params[key] = val;
         }
       }
     }
-    if (!params.action && e && e.parameter) params = e.parameter;
 
-    // 2. Route to the correct helper function
-    // This makes doPost very small and easy to maintain
-    if (params.action === "APPLY_MOVE") {
-      return applyMove_(params);
-    } 
-    
-    if (params.action === "BATCH_SHUFFLE") {
+    if (!params.action && e && e.parameter) {
+      params = e.parameter;
+    }
+
+    var action = params.action;
+    if (action === "BATCH_SHUFFLE") {
       return batchShuffleAssets_(params);
     }
 
-    return json_({ ok: false, error: "UNKNOWN_ACTION" }, 400);
+    if (action === "APPLY_MOVE") {
+      params.action = "BATCH_APPLY_MOVE";
+      params.updates = JSON.stringify([{
+        assetId: params.assetId,
+        expectedUpdatedAt: params.expectedUpdatedAt,
+        patch: params.patch
+      }]);
+      return batchApplyMove_(params);
+    }
+    if (action === "BATCH_APPLY_MOVE") {
+      return batchApplyMove_(params);
+    }
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ ok: false, error: "Invalid action" }))
+      .setMimeType(ContentService.MimeType.JSON);
 
   } catch (err) {
-    // Force transmission of detailed line errors out to the user UI
-    return ContentService.createTextOutput(JSON.stringify({ 
-      ok: false, 
-      error: "SERVER_CRASH", 
+    return ContentService.createTextOutput(JSON.stringify({
+      ok: false,
+      error: "SERVER_CRASH",
       details: err.toString(),
-      stack: err.stack 
+      stack: err.stack
     })).setMimeType(ContentService.MimeType.JSON);
   }
 }
 
 /***** CORE: APPLY MOVE WITH OPTIMISTIC LOCK + Z-ON-PLACE *****/
-function applyMove_(body) {
-  const gameId = (body.gameId || "").toString();
-  const playerId = (body.playerId || "").toString();
-  const assetId = (body.assetId || "").toString();
-  const patch = body.patch || {};
-  const expectedUpdatedAt = body.expectedUpdatedAt;
+function batchApplyMove_(params) {
+  return withSheetLock_(() => {
+    var gameId = params.gameId;
+    var expectedUpdatedAt = params.expectedUpdatedAt; // not used for per-move; here for backwards compatibility if needed
 
-  if (!gameId || !assetId || !patch) {
-    return json_({ ok: false, error: "MISSING_FIELDS" }, 400);
-  }
+    // moves may arrive as:
+    // - params.updates as a stringified JSON
+    // - params.updates as an object (already parsed)
+    var updates = [];
+    try {
+      if (typeof params.updates === "string") {
+        updates = JSON.parse(params.updates);
+      } else if (params.updates && typeof params.updates === "object") {
+        updates = params.updates;
+      }
+    } catch (err) {
+      return ContentService.createTextOutput(JSON.stringify({
+        ok: false,
+        error: "BAD_UPDATES_JSON",
+        details: err.toString()
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
 
-  const lock = LockService.getScriptLock();
-  lock.waitLock(15000);
+    if (!Array.isArray(updates)) {
+      return ContentService.createTextOutput(JSON.stringify({ ok: false, error: "BAD_UPDATES" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
 
-  try {
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const sh = ss.getSheetByName(SHEET_NAME);
-    if (!sh) return json_({ ok: false, error: "NO_SHEET" }, 500);
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Assets");
+    if (!sheet) {
+      return ContentService.createTextOutput(JSON.stringify({ ok: false, error: "Assets not found" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
 
-    const data = sh.getDataRange().getValues(); 
-    const colMap = getHeaderMap_(data[0]); // <--- 1. Get the dynamic map
-    
-    // 2. Pass colMap to findRowIndex_
-    const rowIndex = findRowIndex_(data, colMap, gameId, assetId); 
-    if (rowIndex < 2) return json_({ ok: false, error: "NOT_FOUND" }, 404);
+    var data = sheet.getDataRange().getValues();
+    var headers = data[0];
+    var colMap = {};
+    for (var i = 0; i < headers.length; i++) {
+      colMap[headers[i].toString().trim()] = i;
+    }
 
-    // 3. Use colMap instead of COL constant
-    const currentUpdatedAt = sh.getRange(rowIndex, colMap["updatedAt"]).getValue();
-    const currentRegion = (sh.getRange(rowIndex, colMap["region"]).getValue() ?? "").toString();
-    const currentOwnerId = (sh.getRange(rowIndex, colMap["ownerId"]).getValue() ?? "").toString();
+    // Build a quick lookup: (gameId|assetId) -> row index in sheet data
+    var indexMap = {};
+    for (var r = 1; r < data.length; r++) {
+      var g = String(data[r][colMap["gameId"]]).trim();
+      var a = String(data[r][colMap["assetId"]]).trim();
+      indexMap[g + "|" + a] = r;
+    }
 
-    // Optimistic locking
-    if (expectedUpdatedAt !== undefined && expectedUpdatedAt !== null && expectedUpdatedAt !== "") {
-      if ((currentUpdatedAt || "").toString() !== expectedUpdatedAt.toString()) {
-        return json_({
+    // For atomicity, do conflicts first; only then apply writes
+    var results = [];
+    var conflicts = [];
+
+    for (var u = 0; u < updates.length; u++) {
+      var upd = updates[u] || {};
+
+      var assetId = upd.assetId;
+      var exp = upd.expectedUpdatedAt; // per-move
+      var patch = {};
+
+      try {
+        if (typeof upd.patch === "string") {
+          if (!upd.patch || upd.patch === "undefined") patch = {};
+          else patch = JSON.parse(upd.patch);
+        } else if (upd.patch && typeof upd.patch === "object") {
+          patch = upd.patch;
+        }
+      } catch (err) {
+        return ContentService.createTextOutput(JSON.stringify({
+          ok: false,
+          error: "BAD_PATCH_JSON",
+          details: err.toString(),
+          at: u
+        })).setMimeType(ContentService.MimeType.JSON);
+      }
+
+      var rowIndex = indexMap[String(gameId).trim() + "|" + String(assetId).trim()];
+      if (rowIndex === undefined) {
+        conflicts.push({
+          ok: false,
+          error: "Asset target row missing",
+          at: u,
+          assetId: assetId
+        });
+        continue;
+      }
+
+      var currentUpdateCell = sheet.getRange(rowIndex + 1, colMap["updatedAt"] + 1);
+      var currentUpdateVal = String(currentUpdateCell.getValue()).trim();
+      var cleanExpected = String(exp || "").trim();
+
+      if (cleanExpected && currentUpdateVal && currentUpdateVal !== "0" && currentUpdateVal !== cleanExpected) {
+        conflicts.push({
           ok: false,
           error: "CONFLICT",
-          currentUpdatedAt: currentUpdatedAt || "",
-        }, 409);
+          currentUpdatedAt: currentUpdateVal,
+          at: u,
+          assetId: assetId
+        });
+        continue;
       }
+
+      results.push({
+        at: u,
+        assetId: assetId,
+        rowIndex: rowIndex,
+        patch: patch,
+        expectedUpdatedAt: cleanExpected
+      });
     }
 
-    const now = new Date().toISOString();
-    const wantsPlaceOnTable = !!patch.placeOnTable;
-    const nextRegion = (patch.region !== undefined && patch.region !== null) ? String(patch.region) : currentRegion;
-    const nextOwnerId = (patch.ownerId !== undefined && patch.ownerId !== null) ? String(patch.ownerId) : currentOwnerId;
-
-    const isHandToTable =
-      (currentRegion === "HAND") &&
-      (nextRegion === "TABLE") &&
-      (wantsPlaceOnTable || (patch.placeOnTable === undefined && (nextOwnerId === "" || nextOwnerId === "null")));
-
-    const allowed = new Set(["facedown", "region", "ownerId", "x", "y", "rotationDeg", "z"]);
-
-    if (isHandToTable) {
-      // 4. Pass colMap to helper
-      const maxZ = getMaxZOnTable_(sh, colMap, gameId);
-      patch.z = (maxZ + 1);
-    } else {
-      if (patch.z !== undefined) delete patch.z;
+    if (conflicts.length) {
+      // Keep the response shape similar to APPLY_MOVE conflict
+      // If you want per-move conflicts, you can return conflicts instead.
+      return ContentService.createTextOutput(JSON.stringify({
+        ok: false,
+        error: "CONFLICT",
+        conflicts: conflicts
+      })).setMimeType(ContentService.MimeType.JSON);
     }
 
-    Object.keys(patch).forEach(k => {
-      if (!allowed.has(k)) return;
-      if (k === "z" && !isHandToTable) return; 
+    // Apply all patches (no conflicts found)
+    var newUpdatedAtByAsset = [];
+    for (var k = 0; k < results.length; k++) {
+      var r = results[k];
+      var patch2 = r.patch;
 
-      const colNum = colMap[k];
-      if (!colNum) return;
+      for (var key in patch2) {
+        if (colMap[key] !== undefined) {
+          var val = patch2[key];
 
-      let v = patch[k];
+          if (val === true || String(val).toUpperCase() === "TRUE") val = "FALSE"; // baseline
+          if (patch2[key] === true) val = "TRUE";
+          if (patch2[key] === false) val = "FALSE";
 
-      if (k === "facedown") v = coerceBool_(v);
-      if (k === "x" || k === "y" || k === "rotationDeg" || k === "z") v = Number(v);
-      if (k === "ownerId") v = (v === null || v === undefined) ? "" : String(v);
-      if (k === "region") v = (v === null || v === undefined) ? "" : String(v);
+          if (key === "x" || key === "y" || key === "z" || key === "rotationDeg" || key === "rotatingDeg") {
+            val = Math.round(Number(val) || 0);
+          }
 
-      sh.getRange(rowIndex, colNum).setValue(v);
-    });
+          sheet.getRange(r.rowIndex + 1, colMap[key] + 1).setValue(val);
+        }
+      }
 
-    sh.getRange(rowIndex, colMap["updatedAt"]).setValue(now);
+      var currentUpdateCell2 = sheet.getRange(r.rowIndex + 1, colMap["updatedAt"] + 1);
+      var nextVersion = String(Date.now());
+      currentUpdateCell2.setValue(nextVersion);
 
-    return json_({ ok: true, newUpdatedAt: now });
-  } finally {
-    lock.releaseLock();
-  }
+      newUpdatedAtByAsset.push({ assetId: r.assetId, newUpdatedAt: nextVersion });
+    }
+
+    return ContentService.createTextOutput(JSON.stringify({
+      ok: true,
+      newUpdatedAtByAsset: newUpdatedAtByAsset
+    })).setMimeType(ContentService.MimeType.JSON);
+  });
 }
 function batchShuffleAssets_(body) {
-  const gameId = body.gameId;
-  const targetTag = body.tag; // Now we use the tag string
-  
-  const lock = LockService.getScriptLock();
-  lock.waitLock(15000);
+  return withSheetLock_(() => {
+    const gameId = body.gameId;
+    const targetTag = body.tag; // Now we use the tag string
+    try {
+      const ss = SpreadsheetApp.getActiveSpreadsheet();
+      const sh = ss.getSheetByName(SHEET_NAME);
+      const data = sh.getDataRange().getValues();
+      const colMap = getHeaderMap_(data[0]);
 
-  try {
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const sh = ss.getSheetByName(SHEET_NAME);
-    const data = sh.getDataRange().getValues();
-    const colMap = getHeaderMap_(data[0]);
-
-    // Safety Check: Ensure "tag" column exists
-    if (!colMap["tag"]) {
-      return json_({ ok: false, error: "MISSING_TAG_COLUMN" }, 400);
-    }
-
-    const targetRows = [];
-    const positions = []; 
-
-    // 1. Identify all assets matching the GameID AND the Tag
-    for (let i = 1; i < data.length; i++) {
-      const row = data[i];
-      const gid = String(row[colMap["gameId"] - 1]);
-      const assetTag = String(row[colMap["tag"] - 1] ?? "");
-      const assetTagsArray = String(row[colMap["tag"] - 1] ?? "").split(',').map(t => t.trim());
-
-      if (gid === gameId && assetTagsArray.includes(targetTag)) {
-        targetRows.push({ rowIndex: i + 1 });
-        positions.push({
-          x: row[colMap["x"] - 1],
-          y: row[colMap["y"] - 1],
-          z: row[colMap["z"] - 1],
-          ownerId: row[colMap["ownerId"] - 1],
-          rotationDeg: row[colMap["rotationDeg"] - 1],
-          region: row[colMap["region"] - 1]
-        });
+      // Safety Check: Ensure "tag" column exists
+      if (!colMap["tag"]) {
+        return json_({ ok: false, error: "MISSING_TAG_COLUMN" }, 400);
       }
+
+      const targetRows = [];
+      const positions = [];
+
+      // 1. Identify all assets matching the GameID AND the Tag
+      for (let i = 1; i < data.length; i++) {
+        const row = data[i];
+        const gid = String(row[colMap["gameId"] - 1]);
+        const assetTag = String(row[colMap["tag"] - 1] ?? "");
+        const assetTagsArray = String(row[colMap["tag"] - 1] ?? "").split(',').map(t => t.trim());
+
+        if (gid === gameId && assetTagsArray.includes(targetTag)) {
+          targetRows.push({ rowIndex: i + 1 });
+          positions.push({
+            x: row[colMap["x"] - 1],
+            y: row[colMap["y"] - 1],
+            z: row[colMap["z"] - 1],
+            ownerId: row[colMap["ownerId"] - 1],
+            rotationDeg: row[colMap["rotationDeg"] - 1],
+            region: row[colMap["region"] - 1]
+          });
+        }
+      }
+
+      if (targetRows.length === 0) {
+        return json_({ ok: false, error: "NO_ASSETS_FOUND_WITH_TAG" }, 404);
+      }
+
+      // 2. Shuffle positions (Fisher-Yates)
+      for (let i = positions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [positions[i], positions[j]] = [positions[j], positions[i]];
+      }
+
+      // 3. Perform a Bulk Update
+      // Instead of looping individual setValue calls, we create an update array
+      const now = new Date().toISOString();
+
+      targetRows.forEach((row, index) => {
+        const newPos = positions[index];
+
+        // Update the specific row
+        sh.getRange(row.rowIndex, colMap["facedown"]).setValue("TRUE");
+        sh.getRange(row.rowIndex, colMap["x"]).setValue(newPos.x);
+        sh.getRange(row.rowIndex, colMap["y"]).setValue(newPos.y);
+        sh.getRange(row.rowIndex, colMap["z"]).setValue(newPos.z);
+        sh.getRange(row.rowIndex, colMap["ownerId"]).setValue(newPos.ownerId);
+        sh.getRange(row.rowIndex, colMap["rotationDeg"]).setValue(newPos.rotationDeg);
+        sh.getRange(row.rowIndex, colMap["region"]).setValue(newPos.region);
+        sh.getRange(row.rowIndex, colMap["updatedAt"]).setValue(now);
+      });
+
+      return json_({ ok: true, count: targetRows.length });
+    } finally {
     }
-
-    if (targetRows.length === 0) {
-      return json_({ ok: false, error: "NO_ASSETS_FOUND_WITH_TAG" }, 404);
-    }
-
-    // 2. Shuffle positions (Fisher-Yates)
-    for (let i = positions.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [positions[i], positions[j]] = [positions[j], positions[i]];
-    }
-
-    // 3. Perform a Bulk Update
-    // Instead of looping individual setValue calls, we create an update array
-    const now = new Date().toISOString();
-    
-    targetRows.forEach((row, index) => {
-      const newPos = positions[index];
-      
-      // Update the specific row
-      sh.getRange(row.rowIndex, colMap["facedown"]).setValue("TRUE");
-      sh.getRange(row.rowIndex, colMap["x"]).setValue(newPos.x);
-      sh.getRange(row.rowIndex, colMap["y"]).setValue(newPos.y);
-      sh.getRange(row.rowIndex, colMap["z"]).setValue(newPos.z);
-      sh.getRange(row.rowIndex, colMap["ownerId"]).setValue(newPos.ownerId);
-      sh.getRange(row.rowIndex, colMap["rotationDeg"]).setValue(newPos.rotationDeg);
-      sh.getRange(row.rowIndex, colMap["region"]).setValue(newPos.region);
-      sh.getRange(row.rowIndex, colMap["updatedAt"]).setValue(now);
-    });
-
-    return json_({ ok: true, count: targetRows.length });
-
-  } finally {
-    lock.releaseLock();
-  }
+  });
 }
 
 /***** HELPERS *****/
-
 /**
  * Creates a mapping of Header Names to 1-based Column Indices.
  * @param {Array} headerRow - The first row of your data array.
@@ -258,15 +353,15 @@ function loadAll_(gameId) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const sh = ss.getSheetByName(SHEET_NAME);
   if (!sh) return [];
-  
-  const data = sh.getDataRange().getValues(); 
+
+  const data = sh.getDataRange().getValues();
   if (data.length < 2) return []; // No data rows
-  
+
   // 1. Generate the map dynamically from the header row (index 0)
   const colMap = getHeaderMap_(data[0]);
   const out = [];
 
-  for (let i = 1; i < data.length; i++) { 
+  for (let i = 1; i < data.length; i++) {
     const r = data[i];
     // Safe evaluation using Nullish Coalescing (??) instead of Logical OR (||)
     const gid = (r[colMap["gameId"] - 1] ?? "").toString();
@@ -280,6 +375,7 @@ function loadAll_(gameId) {
       facedown: coerceBool_(r[colMap["facedown"] - 1]),
       region: (r[colMap["region"] - 1] ?? "TABLE").toString(),
       ownerId: (r[colMap["ownerId"] - 1] ?? "").toString(),
+      tag: (r[colMap["tag"] - 1] ?? "").toString(),
       x: Number(r[colMap["x"] - 1] || 0),
       y: Number(r[colMap["y"] - 1] || 0),
       rotationDeg: Number(r[colMap["rotationDeg"] - 1] || 0),
@@ -300,7 +396,7 @@ function findRowIndex_(data, colMap, gameId, assetId) {
     // Use colMap here
     const gid = (r[colMap["gameId"] - 1] ?? "").toString();
     const aid = (r[colMap["assetId"] - 1] ?? "").toString();
-    if (gid === gameId && aid === assetId) return i + 1; 
+    if (gid === gameId && aid === assetId) return i + 1;
   }
   return -1;
 }
@@ -328,11 +424,19 @@ function coerceBool_(v) {
   return false;
 }
 
-// Left intact for your doPost routine
 function json_(obj, status) {
   const out = ContentService
     .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
   if (status) out.setContent(JSON.stringify({ ...obj, status }));
   return out;
+}
+function withSheetLock_(fn) {
+  const lock = LockService.getScriptLock();
+  lock.waitLock(15000); // or shorter, like 5000–10000
+  try {
+    return fn();
+  } finally {
+    lock.releaseLock();
+  }
 }
