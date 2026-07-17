@@ -2280,7 +2280,8 @@
     function onPointerDown(e) {
       e.preventDefault();
       lastInteraction = new Date();
-      usePointerEvents = true;
+      if (!chkPinchToZoom.checked){usePointerEvents = true;}
+      
       activePan = true;
 
       contextTarget.style.display = 'none';

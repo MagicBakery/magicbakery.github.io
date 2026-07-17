@@ -2277,17 +2277,16 @@
         }
       }
     }
-
-
     function onPointerDown(e) {
       e.preventDefault();
       lastInteraction = new Date();
-      //usePointerEvents = true;
+      if (!chkPinchToZoom.checked){usePointerEvents = true;}
+      
       activePan = true;
 
       contextTarget.style.display = 'none';
       const rect = canvas.getBoundingClientRect();
-      const sx = e.clientX - rect.left; 
+      const sx = e.clientX - rect.left;
       const sy = e.clientY - rect.top;
       const viewport = getViewportForPointer(sx, sy);
 
