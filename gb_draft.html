@@ -1040,6 +1040,7 @@
       assets.forEach(a => {
         markAssetPending(a.assetId);
         a.region = "BOX";
+        a.ownerId = "";
       });
       updateTrackedUIs();
       draw();
