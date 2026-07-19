@@ -135,6 +135,15 @@
       border: none;
     }
 
+    #setupPanel .panel-top {
+      display: none;
+      flex: 1;
+    }
+
+    #setupPanel:not(.collapsed) .panel-top {
+      display: block;
+    }
+
     .panel-header {
       display: flex;
       align-items: center;
@@ -151,14 +160,14 @@
     #setupPanel:not(.collapsed) .panel-header {
       width: 100%;
       justify-content: flex-start;
-      padding-left: 4px;
+      padding-left: 0px 4px 0px -1px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       background: rgba(255, 255, 255, 0.04);
     }
 
 
     .panel-content {
-      padding: 14px;
+      padding: 0px 14px 14px 14px;
       display: block;
     }
 
@@ -195,10 +204,14 @@
     }
 
     .tab-btn.active {
-      color: #1f6feb;
-      border-bottom: 2px solid #1f6feb;
+      color: gold;
+      border-bottom: 2px solid gold;
       border-radius: 0;
       background: transparent;
+    }
+
+    #setupPanel.collapsed .tab-btn.active {
+      border: none;
     }
 
     .tab-buttons {
@@ -245,12 +258,12 @@
 
     input[type="range"] {
       flex-grow: 1;
-      accent-color: #1f6feb;
+      accent-color: gold;
       cursor: pointer;
     }
 
     button.action-btn {
-      background: #1f6feb;
+      background: #1f6feb80;
       color: #fff;
       border: 0;
       border-radius: 8px;
@@ -671,34 +684,33 @@
     </div>
   </div>
   <div id="hud-left">
-    <div class="panel collapsed" id="setupPanel">
-      <div class="panel-header" id="btnToggleSetup">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-          stroke-linecap="round" stroke-linejoin="round">
-          <line x1="4" x2="20" y1="12" y2="12"></line>
-          <line x1="4" x2="20" y1="6" y2="6"></line>
-          <line x1="4" x2="20" y1="18" y2="18"></line>
-        </svg>
-      </div>
-      <div class="panel-content">
-
+    <div class="panel" id="setupPanel">
+      <div style="display:flex">
+        <div class="panel-header" id="btnToggleSetup">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="12" y2="12"></line>
+            <line x1="4" x2="20" y1="6" y2="6"></line>
+            <line x1="4" x2="20" y1="18" y2="18"></line>
+          </svg>
+        </div>
         <div class="tab-bar">
           <div class="tab-buttons">
             <button class="tab-btn active" data-tab="tab-general">Lobby</button>
-            <!--<button class="tab-btn" data-tab="tab-actions">Actions</button>-->
             <button class="tab-btn" data-tab="tab-box">Items</button>
             <button class="tab-btn" data-tab="tab-settings">Settings</button>
           </div>
           <div class="version-display" style="text-align: right;" id="versionDisplay"></div>
         </div>
-
+      </div>
+      <div class="panel-content">
         <div class="tab-pane active" id="tab-general">
           <div class="row">
-            <label style="font-size:12px; opacity:.9; width: 60px;">Room</label>
+            <label style="font-size:12px; opacity:.9; width: 70px;">Room Name</label>
             <input type="text" id="gameId" value="lunch" />
           </div>
           <div class="row">
-            <label style="font-size:12px; opacity:.9; width: 60px;">Name</label>
+            <label style="font-size:12px; opacity:.9; width: 70px;">Player Name</label>
             <input type="text" id="playerName" value="" />
           </div>
           <div class="row" style="margin-top:10px;">
@@ -827,7 +839,7 @@
     const useCheckbox = document.getElementById("useWallpaper");
     // Background Image ED
     let selected = "v30";
-    const VERSIONID = "20260718221150";
+    const VERSIONID = "20260719001647";
     const API_BASE = APPS_SCRIPTS.find(x => x.id === selected)?.url ?? APPS_SCRIPTS[0].url;
     const btnRotLeft = document.getElementById('btnRotLeft');
     const btnRotRight = document.getElementById('btnRotRight');
@@ -911,7 +923,7 @@
       selectedAssets.forEach((a, i) => {
         if (a.region != "HAND") {
           markAssetPending(a.assetId);
-          
+
         }
         a.z = minZUnselected - minDelta - (selectedAssets.length - 1 - i); // push below unselected
         markAssetSelected(a.assetId, true);
@@ -943,7 +955,7 @@
         }
         a.z = maxZUnselected + minDelta + i; // mutate only selected
       });
-      
+
       draw();
     }
     function Grab(boxEl, e) {
@@ -1201,9 +1213,9 @@
               lastAutoSync = t;
             }
           }
-        } else {          
+        } else {
           autoSyncStart(false);
-        }        
+        }
       }, 500);
     }
     function countPlayers() {
@@ -1226,7 +1238,7 @@
         greys = ["#00000060", "#000000A0", "#00000080", "#000000A0", "#00000080", "#000000A0"];
       }
 
-      const r0 = withBG ? 1000 : 400; // Player area limit
+      const r0 = withBG ? 2000 : 400; // Player area limit
       const r1 = 100; // Compass Radius
       const r2 = 5; // 100
       const r3 = 20; // 118
@@ -1277,12 +1289,42 @@
 
         // The dark disk sections.
         let cr = (i * 2 * step) + rot + Math.PI / 2;
+
+        /*
         ctx.lineWidth = withBG ? 900 * view.table.zoom : 300 * view.table.zoom;
         //ctx.strokeStyle = withBG? "#00000060": greys[i];
         ctx.strokeStyle = greys[i];
         ctx.beginPath();
         ctx.arc(ctr.x, ctr.y, (r1 + (r0 - r1) / 2) * view.table.zoom, cr - step, cr + step);
-        ctx.stroke();
+        ctx.stroke();*/
+
+
+        const zoom = view.table.zoom;
+
+        // geometry in screen space
+        const R = (r1 + (r0 - r1) / 2) * zoom; // you were using the mid radius for the stroke
+        const outerR = r0 * zoom;
+        const innerR = (r1 + 5) * zoom;
+
+        // If your r0/r1 are “inner/outer” already, great.
+        // If they’re reversed, swap outerR/innerR below.
+        ctx.fillStyle = greys[i];
+
+        // Wedge angles
+        const a0 = cr - step;
+        const a1 = cr + step;
+
+        // Build an annulus slice path: outer arc (a0->a1) then inner arc (a1->a0)
+        const wedge = new Path2D();
+        wedge.moveTo(ctr.x + outerR * Math.cos(a0), ctr.y + outerR * Math.sin(a0));
+        wedge.arc(ctr.x, ctr.y, outerR, a0, a1, false);
+        wedge.lineTo(ctr.x + innerR * Math.cos(a1), ctr.y + innerR * Math.sin(a1));
+        wedge.arc(ctr.x, ctr.y, innerR, a1, a0, true);
+        wedge.closePath();
+
+        ctx.fill(wedge);
+
+
 
         // The color arcs.
         ctx.lineWidth = 10 * view.table.zoom;
@@ -1361,6 +1403,66 @@
       }
 
     }
+    function handleDragMove(e) {
+      if (!drag) return false;
+      const rect = canvas.getBoundingClientRect();
+      let clientX, clientY;
+
+      // Touch move
+      if (e.touches && e.touches.length) {
+        // Find the touch that belongs to this drag
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else if (e.changedTouches && e.changedTouches.length) { // fallback
+        clientX = e.changedTouches[0].clientX;
+        clientY = e.changedTouches[0].clientY;
+      } else {                                         // mouse
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+      //console.log(1423 + " " + clientX + " " + clientY);
+      const currentX = clientX - rect.left;
+      const currentY = clientY - rect.top;
+      pointer.x = currentX;
+      pointer.y = currentY;
+      drag.hasMovedSignificantAmount = true;
+      markAssetSelected(drag.assetId);
+      BringToTop();
+
+      const currentVp = getViewportForPointer(pointer.x, pointer.y);
+      const a = assetById.get(drag.assetId);
+
+      // Detect if we crossed the border
+      if (currentVp !== drag.viewport && a) {
+        drag.viewport = currentVp;
+        a.region = currentVp === "hand" ? "HAND" : "TABLE";
+
+        if (a.region === "HAND") {
+          a.rotationDeg = 0; // Upright to player in hand
+        } else {
+          // Rotate to match table orientation
+          if (chkCourtesyFlip.checked) {
+            a.rotationDeg = (360 - getSeatOrientationDegrees() + 180) % 360;
+          } else {
+            a.rotationDeg = (360 - getSeatOrientationDegrees()) % 360;
+          }
+        }
+      }
+      if (a && a.region === "TABLE") {
+        markAssetPending(drag.assetId);
+      }
+
+      // Apply movement
+      const world = screenToWorld(drag.viewport, pointer.x, pointer.y);
+      if (a) {
+        a.x = drag.startAsset.x + (world.x - drag.startPointerWorld.x);
+        a.y = drag.startAsset.y + (world.y - drag.startPointerWorld.y);
+        draw();
+      }
+
+      return true;
+    }
+
     function isSelected(id) {
       return Array.isArray(selectedIds) && selectedIds.includes(id);
     }
@@ -1421,7 +1523,7 @@
           mLabel.innerHTML = "";
         }
         updateSyncStatus("normal");
-        
+
         return;
       }
       if (!id) return;
@@ -1528,8 +1630,8 @@
     }
     function spawnBubbleLayerBubble({
       containerId = "bubbleLayer",
-      minSize = 14,
-      maxSize = 48,
+      minSize = 16,
+      maxSize = 64,
       minRiseMs = 3500,
       maxRiseMs = 9000,
       minLifetimeMs = 2500,
@@ -1542,7 +1644,6 @@
       const cs = getComputedStyle(container);
       if (cs.position === "static") container.style.position = "relative";
       container.style.overflow = cs.overflow === "visible" ? "visible" : "hidden";
-      container.style.zIndex = container.style.zIndex || "1000";
 
       const rect = container.getBoundingClientRect();
       if (rect.height <= 0) {
@@ -1554,7 +1655,7 @@
       const rint = (a, b) => Math.floor(rand(a, b));
 
       const size0 = rand(minSize, maxSize);
-      const size1 = rand(minSize * 0.55, maxSize * 1.05);
+      const size1 = rand(minSize * 0.50, maxSize * 2);
       const riseMs = rint(minRiseMs, maxRiseMs);
       const lifetimeMs = rint(minLifetimeMs, maxLifetimeMs);
 
@@ -1570,7 +1671,7 @@
 
       bubble.style.position = "absolute";
       bubble.style.left = `${x}px`;
-      bubble.style.bottom = `0px`;
+      bubble.style.bottom = rint(-100, -50) + "px";
       bubble.style.width = `${size0}px`;
       bubble.style.height = `${size0}px`;
       bubble.style.borderRadius = "50%";
@@ -1748,7 +1849,7 @@
 
     const setupPanel = document.getElementById('setupPanel');
     document.getElementById('btnToggleSetup').addEventListener('click', () => {
-      setupPanel.classList.toggle('collapsed');
+      setupPanel.classList.toggle('collapsed'); spawnBubbleLayerBubble();
     });
 
     const tabButtons = document.querySelectorAll('.tab-btn');
@@ -1818,15 +1919,15 @@
             : (Math.floor(idxFloat) + players) % players;
           next = idx * step;
           next = (next + 360) % 360;
-          
-          for(i=0;i<step/15;i++){
+
+          for (i = 0; i < step / 15; i++) {
             spawnBubbleLayerBubble();
           }
         }
 
 
 
-        
+
         seatSlider.value = next;
         seatDisplay.textContent = `${next}°`;
         localStorage.setItem("sandbox_seat_value", next);
@@ -1930,17 +2031,14 @@
     function screenToWorld(viewport, sx, sy) {
       const r = viewport === 'table' ? tableRect() : handRect();
       const v = view[viewport];
-
       let dx = sx - r.x - r.w * 0.5;
       let dy = sy - r.y - r.h * 0.5;
-
       if (viewport === 'table') {
         const angleRad = -getSeatOrientationDegrees() * Math.PI / 180;
         const rx = dx * Math.cos(angleRad) - dy * Math.sin(angleRad);
         const ry = dx * Math.sin(angleRad) + dy * Math.cos(angleRad);
         dx = rx; dy = ry;
       }
-
       return { x: (dx - v.panX) / v.zoom, y: (dy - v.panY) / v.zoom };
     }
 
@@ -2575,7 +2673,7 @@
       await Promise.all(unique.map(loadImage));
     }
 
-    function draw() {      
+    function draw() {
       ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
       const midY = canvas.clientHeight * getTableSplitFactor();
       // Create a list of assets that ARE NOT being dragged
@@ -2712,53 +2810,16 @@
     }
 
     function onPointerMove(e) {
-      if (!activePan || !usePointerEvents) return;
+      if (!activePan) return;
       const rect = canvas.getBoundingClientRect();
       const currentX = e.clientX - rect.left;
       const currentY = e.clientY - rect.top;
       pointer.x = currentX;
       pointer.y = currentY;
 
-      if (drag) {
-        drag.hasMovedSignificantAmount = true;
-        markAssetSelected(drag.assetId);
-        BringToTop();
+      if (handleDragMove(e)) { return; }
 
-
-        // Detect if we crossed the border
-        const currentVp = getViewportForPointer(pointer.x, pointer.y);
-        const a = assetById.get(drag.assetId);
-
-        if (currentVp !== drag.viewport && a) {
-          // Crossing border: Update region and rotation immediately
-          drag.viewport = currentVp;
-          a.region = currentVp === "hand" ? "HAND" : "TABLE";
-
-          if (a.region === "HAND") {
-            a.rotationDeg = 0; // Upright to player in hand
-          } else {
-            // Rotate to match table orientation
-            if (chkCourtesyFlip.checked) {
-              a.rotationDeg = (360 - getSeatOrientationDegrees() + 180) % 360;
-            } else {
-              a.rotationDeg = (360 - getSeatOrientationDegrees()) % 360;
-            }
-
-          }
-        }
-        if (a.region === "TABLE") {
-          markAssetPending(drag.assetId);
-        }
-
-        // Apply movement
-        const world = screenToWorld(drag.viewport, pointer.x, pointer.y);
-        if (a) {
-          a.x = drag.startAsset.x + (world.x - drag.startPointerWorld.x);
-          a.y = drag.startAsset.y + (world.y - drag.startPointerWorld.y);
-          draw();
-        }
-        return;
-      }
+      
       if (panDrag) {
         const v = view[panDrag.viewport];
 
@@ -2785,6 +2846,7 @@
     function onPointerDown(e) {
       e.preventDefault();
       lastInteraction = new Date();
+      //usePointerEvents = true;
       if (!chkPinchToZoom.checked) { usePointerEvents = true; }
 
       activePan = true;
@@ -2956,18 +3018,16 @@
     canvas.addEventListener('wheel', onWheel, { passive: false });
     canvas.addEventListener('touchstart', (e) => {
       // If we are already dragging a card (from your existing logic), don't pan/zoom
-      lastInteraction = new Date();
+      lastInteraction = new Date();      
       if (!chkPinchToZoom.checked && e.touches.length !== 1) return;
       if (drag) return;
-
-
       if (e.touches.length > 0) {
         touchGesture.active = true;
         touchGesture.lastTouches = Array.from(e.touches);
 
         // Determine if we are interacting with Table or Hand
         const firstY = e.touches[0].clientY;
-        touchGesture.targetView = (firstY < canvas.clientHeight * getTableSplitFactor()) ? 'table' : 'hand';
+        touchGesture.targetView = getViewportForPointer(e.touches[0].clientX,e.touches[0].clientY);
 
         if (e.touches.length === 2) {
           touchGesture.didPinch = true;
@@ -2977,15 +3037,16 @@
       spawnBubbleLayerBubble();
     }, { passive: false });
     canvas.addEventListener('touchmove', (e) => {
+
       if (usePointerEvents) return;
 
       if (!activePan) return;
       const t = e.touches[0];
-      if (!touchGesture.active || drag) return;
+      if (!touchGesture.active && !drag) return;
       if (e.cancelable) e.preventDefault();
 
       const v = view[touchGesture.targetView];
-
+      if (handleDragMove(e)) { return; }
       // Panning (1 finger)
       if (e.touches.length === 1) {
         const dx = e.touches[0].clientX - touchGesture.lastTouches[0].clientX;
@@ -2998,12 +3059,13 @@
 
       }
       // Zooming (2 fingers)
-      else if (e.touches.length === 2) { // Disabled for now. Buggy.
+      else if (e.touches.length === 2) { 
         if (!chkPinchToZoom.checked) return;
         if (!isHandHidden && touchGesture.targetView !== 'table') return;
         const dist = getDistance(e.touches[0], e.touches[1]);
         const zoomDelta = dist / touchGesture.lastDistance;
         v.zoom *= zoomDelta;
+        v.zoom = Math.min(3,Math.max(0.5,v.zoom));
         touchGesture.lastDistance = dist;
       }
 
@@ -3219,7 +3281,9 @@
       loadFromStorage();
 
       // Remove splash screen
+
       splashViewer.classList.remove('active');
+
 
     };
   </script>
