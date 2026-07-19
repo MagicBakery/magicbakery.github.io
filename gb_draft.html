@@ -830,17 +830,20 @@
       { id: "v28", label: "v28 Fetch All for Hand Count", url: "https://script.google.com/macros/s/AKfycbxg3c7y-REebdm4mkL1qJKzZmevf0kM-iC6EZtzctmJhCm22_-zcEmhdtoWEbk_ncRO/exec" },
       { id: "v29", label: "v29 Output tag", url: "https://script.google.com/macros/s/AKfycbyKOHtQ3Mv63LFLV9TM4ihLUtymbtQBgZf1XTQK2GrmvsIgfXQUdG7lA4d6chk_OyXD/exec" },
       { id: "v30", label: "v30 Shuffle and Distribute", url: "https://script.google.com/macros/s/AKfycbxBEaxxHoISMMx607NCwZz531b7Nw4rlKXYGvJwl9VNy5vwohrusGJC5sDG3LY11J4q/exec" }
+      { id: "v31", label: "v31 Shuffle Bug Fix", url: "https://script.google.com/macros/s/AKfycbzmSNuHPon2M0fSFJl2fo2fA975Jsu54Md0wIKBGI9Pyw0PqZsxNjOgIyj3Nr8tmI8J/exec" }
 
+      
     ];
+    let selected = "v31";
+    const VERSIONID = "20260719001647";
+    const API_BASE = APPS_SCRIPTS.find(x => x.id === selected)?.url ?? APPS_SCRIPTS[0].url;
     // Background Image ST
     const STORAGE_URL_KEY = "wallpaperImageUrl";
     const STORAGE_USE_KEY = "wallpaperEnabled";
     const urlInput = document.getElementById("wallpaperUrl");
     const useCheckbox = document.getElementById("useWallpaper");
     // Background Image ED
-    let selected = "v30";
-    const VERSIONID = "20260719001647";
-    const API_BASE = APPS_SCRIPTS.find(x => x.id === selected)?.url ?? APPS_SCRIPTS[0].url;
+    
     const btnRotLeft = document.getElementById('btnRotLeft');
     const btnRotRight = document.getElementById('btnRotRight');
     const chkCourtesyFlip = document.getElementById('courtesy-flip');
