@@ -144,6 +144,51 @@ const QuestSDK = {
     return dt.toISOString();
   },
 }
+const WakeLock = (() => {
+  // Usage:
+  // await WakeLock.requestScreen();
+  // await WakeLock.release();
+  let wakeLock = null;
+  let requested = false;
+
+  async function requestScreen() {
+    if (!('wakeLock' in navigator)) return false;
+    if (wakeLock) return true;
+    if (requested) return false;
+
+    requested = true;
+    try {
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeLock.addEventListener('release', () => {
+        wakeLock = null;
+      });
+      return true;
+    } catch (e) {
+      wakeLock = null;
+      return false;
+    } finally {
+      requested = false;
+    }
+  }
+
+  async function release() {
+    if (!wakeLock) return;
+    try {
+      await wakeLock.release();
+    } finally {
+      wakeLock = null;
+    }
+  }
+
+  return {
+    requestScreen,
+    release,
+    isActive: () => !!wakeLock
+  };
+})();
+
+
+
 // Helper Functions in Alphabetical Order
 function CommentsFilterByTag(elBtn) {
   const entry = elBtn.closest('.log-item');

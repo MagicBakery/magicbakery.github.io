@@ -4,8 +4,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
-  <link rel="manifest" href="/qb_manifest.json">
+  <link rel="manifest" href="/qb_manifest.json">  
   <title>Playground</title>
+  <script src="qsdk.js"></script>  
   <style>
     html,
     body {
@@ -646,7 +647,7 @@
     </div>
     <div class="footerBtnBar" style="justify-content: space-between;">
       <button id="btnToggleHand" class="btn" title="Toggle Hand Visibility" style="margin-bottom:-6px"
-        onclick="isHandHidden=!isHandHidden;draw()" ondblclick="SortInHand()">
+        onclick="isHandHidden=!isHandHidden;draw();if(WakeLock.isActive()){spawnBubbleLayerBubble()}" ondblclick="SortInHand();">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           stroke-linecap="round" stroke-linejoin="round">
           <defs>
@@ -715,7 +716,7 @@
             <input type="text" id="playerName" value="" />
           </div>
           <div class="row" style="margin-top:10px;">
-            <button class="action-btn" id="btnJoin" style="width: 80%;">ENTER</button>
+            <button class="action-btn" id="btnJoin" style="width: 80%;" onclick="GameEnter()">ENTER</button>
             <button class="action-btn" style="width: 20%;"
               onclick="triggerSplashView(null,false,'https://api.qrserver.com/v1/create-qr-code/?size=150x150&bgcolor=000000&color=FFFFFF&data=https://magicbakery.github.io/gb.html')">QR</button>
           </div>
@@ -834,7 +835,7 @@
       { id: "v31", label: "v31 Shuffle Bug Fix", url: "https://script.google.com/macros/s/AKfycbzmSNuHPon2M0fSFJl2fo2fA975Jsu54Md0wIKBGI9Pyw0PqZsxNjOgIyj3Nr8tmI8J/exec" }
     ];
     let selected = "v31";
-    const VERSIONID = "20260719001647";
+    const VERSIONID = "20260719161307";
     const API_BASE = APPS_SCRIPTS.find(x => x.id === selected)?.url ?? APPS_SCRIPTS[0].url;
     // Background Image ST
     const STORAGE_URL_KEY = "wallpaperImageUrl";
@@ -959,6 +960,23 @@
       });
 
       draw();
+    }
+    async function GameEnter(){
+      const gid = (gameIdEl.value || "").trim();
+      if (!gid) return;
+      gameId = gid; myJoined = true; btnJoin.disabled = true;
+      msgEl.textContent = "Joining…";
+      updateSyncStatus("saving");
+      await WakeLock.requestScreen();
+      try {
+        await fetchState(); await warmImages(); draw();
+        msgEl.textContent = "Connected."; btnResync.disabled = false;
+        setupPanel.classList.add('collapsed');
+        updateSyncStatus("normal");
+      } catch (err) {
+        msgEl.textContent = `Join failed: ${err.message || err}`; btnJoin.disabled = false;
+        //updateSyncStatus("error");
+      }
     }
     function Grab(boxEl, e) {
       if (!boxEl) return;
@@ -1464,7 +1482,6 @@
 
       return true;
     }
-
     function isSelected(id) {
       return Array.isArray(selectedIds) && selectedIds.includes(id);
     }
@@ -1745,6 +1762,7 @@
       if (i >= 0) list.splice(i, 1);
       else list.push(id);
     }
+    
     function wrapText(ctx, text, maxWidth) {
       const words = String(text).split(/\s+/);
       const lines = [];
@@ -3237,25 +3255,7 @@
       const a = assetById.get(selectedId); if (!a) return;
     });
 
-    btnJoin.addEventListener('click', async () => {
-      const gid = (gameIdEl.value || "").trim();
-      if (!gid) return;
-      gameId = gid; myJoined = true; btnJoin.disabled = true;
-      msgEl.textContent = "Joining…";
-      updateSyncStatus("saving");
-
-      try {
-        await fetchState(); await warmImages(); draw();
-        msgEl.textContent = "Connected."; btnResync.disabled = false;
-        setupPanel.classList.add('collapsed');
-        updateSyncStatus("normal");
-      } catch (err) {
-        msgEl.textContent = `Join failed: ${err.message || err}`; btnJoin.disabled = false;
-        //updateSyncStatus("error");
-      }
-    });
-
-
+    
     async function ResyncButton() {
       selectAsset(null);
       if (hasPendingUpdates()) {
