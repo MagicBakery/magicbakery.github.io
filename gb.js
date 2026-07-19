@@ -279,14 +279,15 @@ function batchShuffleAssets_(body) {
       }
 
       const targetRows = [];
-      const positions = [];
+      const positions = []; // will store spatial/rotation + original ownerId/region for inspection
 
-      // 1. Identify all assets matching the GameID AND the Tag
+      // 1) Identify all assets matching the GameID AND the Tag
       for (let i = 1; i < data.length; i++) {
         const row = data[i];
         const gid = String(row[colMap["gameId"] - 1]);
-        const assetTag = String(row[colMap["tag"] - 1] ?? "");
-        const assetTagsArray = String(row[colMap["tag"] - 1] ?? "").split(',').map(t => t.trim());
+        const assetTagsArray = String(row[colMap["tag"] - 1] ?? "")
+          .split(',')
+          .map(t => t.trim());
 
         if (gid === gameId && assetTagsArray.includes(targetTag)) {
           targetRows.push({ rowIndex: i + 1 });
@@ -305,27 +306,77 @@ function batchShuffleAssets_(body) {
         return json_({ ok: false, error: "NO_ASSETS_FOUND_WITH_TAG" }, 404);
       }
 
-      // 2. Shuffle positions (Fisher-Yates)
-      for (let i = positions.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [positions[i], positions[j]] = [positions[j], positions[i]];
+      // ---- NEW: OwnerId assignment before spatial shuffle ----
+
+      const m = positions.length;
+
+      // list of existing ownerId values among the shuffle objects
+      // (distinct, non-empty-ish)
+      const ownerIdSet = new Set();
+      positions.forEach(p => {
+        if (p.ownerId !== null && p.ownerId !== "" && p.ownerId !== undefined) {
+          ownerIdSet.add(String(p.ownerId));
+        }
+      });
+
+      const ownerIds = Array.from(ownerIdSet); // e.g. ["A","B","C"]
+      if (ownerIds.length === 0) {
+        // If there are no ownerIds present, keep behavior predictable:
+        // just shuffle spatial values and set region to HAND.
       }
 
-      // 3. Perform a Bulk Update
-      // Instead of looping individual setValue calls, we create an update array
+      // Randomize order of ownerIds used for the "remainder" distribution
+      // so "evenly assign" is not biased by ownerId ordering.
+      for (let i = ownerIds.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [ownerIds[i], ownerIds[j]] = [ownerIds[j], ownerIds[i]];
+      }
+
+      // Evenly assign ownerId to each shuffle object
+      // base: how many each owner gets, remainder: the first `rem` owners get +1
+      const ownerAssignments = new Array(m);
+
+      if (ownerIds.length > 0) {
+        const k = ownerIds.length;
+        const base = Math.floor(m / k);
+        const rem = m % k;
+
+        // Build assignment list
+        let idx = 0;
+        for (let o = 0; o < k; o++) {
+          const count = base + (o < rem ? 1 : 0);
+          for (let c = 0; c < count; c++) {
+            ownerAssignments[idx++] = ownerIds[o];
+          }
+        }
+
+        // Randomly permute assignments across the target rows
+        // so the assignment isn't tied to any sheet ordering.
+        for (let i = m - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [ownerAssignments[i], ownerAssignments[j]] = [ownerAssignments[j], ownerAssignments[i]];
+        }
+      }
+
+      // 3) Perform a Bulk Update (still using setValue per cell)
       const now = new Date().toISOString();
 
       targetRows.forEach((row, index) => {
-        const newPos = positions[index];
-
-        // Update the specific row
         sh.getRange(row.rowIndex, colMap["facedown"]).setValue("TRUE");
-        sh.getRange(row.rowIndex, colMap["x"]).setValue(newPos.x);
-        sh.getRange(row.rowIndex, colMap["y"]).setValue(newPos.y);
-        sh.getRange(row.rowIndex, colMap["z"]).setValue(newPos.z);
-        sh.getRange(row.rowIndex, colMap["ownerId"]).setValue(newPos.ownerId);
-        sh.getRange(row.rowIndex, colMap["rotationDeg"]).setValue(newPos.rotationDeg);
-        sh.getRange(row.rowIndex, colMap["region"]).setValue(newPos.region);
+        sh.getRange(row.rowIndex, colMap["x"]).setValue(0);
+        sh.getRange(row.rowIndex, colMap["y"]).setValue(0);
+        sh.getRange(row.rowIndex, colMap["z"]).setValue(0);
+
+        // Apply even/random ownerId assignment
+        if (ownerAssignments.length > 0) {
+          sh.getRange(row.rowIndex, colMap["ownerId"]).setValue(ownerAssignments[index]);
+        }
+
+        sh.getRange(row.rowIndex, colMap["rotationDeg"]).setValue(0);
+
+        // Set region to HAND for every shuffle object
+        sh.getRange(row.rowIndex, colMap["region"]).setValue("HAND");
+
         sh.getRange(row.rowIndex, colMap["updatedAt"]).setValue(now);
       });
 
@@ -334,6 +385,7 @@ function batchShuffleAssets_(body) {
     }
   });
 }
+
 
 /***** HELPERS *****/
 /**
