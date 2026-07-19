@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+  <link rel="manifest" href="/qb_manifest.json">
   <title>Playground</title>
   <style>
     html,
@@ -3050,6 +3051,8 @@
       if (handleDragMove(e)) { return; }
       // Panning (1 finger)
       if (e.touches.length === 1) {
+        if(touchGesture.targetView==="hand"){return}
+
         const dx = e.touches[0].clientX - touchGesture.lastTouches[0].clientX;
         const dy = e.touches[0].clientY - touchGesture.lastTouches[0].clientY;
         const angleRad = getSeatOrientationDegrees() * Math.PI / 180;
