@@ -11,14 +11,14 @@
       margin: 0;
       height: 100%;
       overflow: hidden;
-      background: #000;
+      background: #222;
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
       color: #eee;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
       --card-radius: 6px;
-      /*padding-bottom: 60px;*/
+      padding-bottom: 60px;
       cursor: pointer;
       /* Add this line to remove the blue flash */
       -webkit-tap-highlight-color: transparent;
@@ -59,17 +59,9 @@
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      margin-right: 5px;
+      gap: 10px;
       pointer-events: none;
       z-index: 100;
-    }
-
-    #hud-right .btn {
-      background: none;
-      border: none;
-      color: #FFFFFFC0;
-      height: 80%;
-      pointer-events: auto;
     }
 
     #footerBar {
@@ -84,16 +76,13 @@
       justify-content: space-evenly;
       /* Pushes items to opposite ends */
       align-items: center;
-      padding: 0;
-      margin-bottom: -5px;
+      padding: 0 15px;
       /* Adds space from the edges of the screen */
-      /*background: rgba(30, 30, 30, 0.9);*/
+      background: rgba(30, 30, 30, 0.9);
       /* Semi-transparent dark background */
-      /*border-top: 1px solid #444;*/
+      border-top: 1px solid #444;
       box-sizing: border-box;
-      z-index: 100;
-      pointer-events: none;
-      touch-action: none;
+      z-index: 1000;
     }
 
     .footerBtnBar {
@@ -104,58 +93,55 @@
       width: 100%;
     }
 
+
     #footerBar .btn {
       background: none;
       border: none;
-      color: #FFFFFFC0;
+      color: #606060;
       height: 80%;
-      pointer-events: auto;
-      touch-action: auto;
+
     }
 
     .panel {
       pointer-events: auto;
-      background: rgba(0, 0, 0, .25);
+      background: rgba(0, 0, 0, .75);
       border: 1px solid rgba(255, 255, 255, .12);
       border-radius: 10px;
-
+      backdrop-filter: blur(12px);
       box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
       overflow: hidden;
       transition: width 0.2s ease, height 0.2s ease, border-radius 0.2s ease;
     }
 
-    #setupPanel:not(.collapsed) {
-      backdrop-filter: blur(12px);
-    }
-
     #setupPanel.collapsed {
-      width: 32px;
-      height: 32px;
+      width: 50px;
+      height: 50px;
       border-radius: 10px;
-      border: none;
     }
 
     .panel-header {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 32px;
-      height: 32px;
+      width: 50px;
+      height: 50px;
       cursor: pointer;
       user-select: none;
       background: rgba(255, 255, 255, 0.02);
       box-sizing: border-box;
-      color: #FFFFFFC0;
     }
 
     #setupPanel:not(.collapsed) .panel-header {
       width: 100%;
       justify-content: flex-start;
-      padding-left: 4px;
+      padding-left: 16px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       background: rgba(255, 255, 255, 0.04);
     }
 
+    .panel-header:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
 
     .panel-content {
       padding: 14px;
@@ -208,8 +194,6 @@
 
     .tab-pane {
       display: none;
-      max-height: calc(100vh - 145px);
-      overflow-y: auto;
     }
 
     .tab-pane.active {
@@ -281,14 +265,14 @@
     }
 
     #btnResync.auto {
-      color: #00C000;
+      color: green;
       animation: blink-animation 5s ease-in-out infinite;
     }
 
     .icon-btn[data-status="normal"] {}
 
     .icon-btn[data-status="reload"] {
-      color: #00C000 !important;
+      color: green !important;
     }
 
     .icon-btn[data-status="pending"],
@@ -449,10 +433,10 @@
 
     #btnResync>div>.label {
       position: absolute;
-      top: 75%;
-      left: 75%;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 20px;
+      font-size: 12px;
       font-weight: 700;
       line-height: 1;
       color: currentColor;
@@ -469,22 +453,6 @@
       color: white;
       border-radius: 50%;
       cursor: pointer;
-    }
-
-    #bubbleLayer {
-      position: fixed;
-      /* full screen regardless of scroll */
-      inset: 0;
-      /* top:0 right:0 bottom:0 left:0 */
-      width: 100vw;
-      height: 100vh;
-
-      pointer-events: none;
-      /* so bubbles don’t block UI unless they handle click themselves */
-      overflow: hidden;
-      /* prevent bubbles leaving the screen */
-
-      /* adjust if needed */
     }
 
     #contextTarget {
@@ -507,8 +475,9 @@
       background: rgba(5, 5, 5, 0.85);
       backdrop-filter: blur(12px);
       z-index: 2000;
+      display: flex;
       align-items: center;
-      justify-content: space-around;
+      justify-content: center;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.2s ease;
@@ -526,79 +495,154 @@
       border-radius: 12px;
       display: block;
     }
-
-    .hidden {
-      display: none;
-    }
   </style><!--#CSS-->
 </head>
 
 <body>
-  <div id="bubbleLayer">
-
-  </div>
   <div id="app">
     <img id="contextTarget" src="" alt="card proxy" />
-    <canvas id="c" style="z-index: 10;"></canvas>
+    <canvas id="c"></canvas>
 
-  </div>
-  <div id="hud-right">
-    <button class="btn" title="Zoom In" onclick="TableZoom(0.25)">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="11" cy="11" r="7"></circle>
-        <line x1="11" y1="8" x2="11" y2="14"></line>
-        <line x1="8" y1="11" x2="14" y2="11"></line>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-      </svg>
+    <div id="hud-left">
+      <div class="panel collapsed" id="setupPanel">
+        <div class="panel-header" id="btnToggleSetup">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="12" y2="12"></line>
+            <line x1="4" x2="20" y1="6" y2="6"></line>
+            <line x1="4" x2="20" y1="18" y2="18"></line>
+          </svg>
+        </div>
+        <div class="panel-content">
 
-    </button>
-    <div style="width: 80px;
-    margin: -14px -14px -10px 0px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;">
-      <button id="btnRotLeft" class="btn" title="Rotate Left"
-        ondblclick="event.preventDefault();rotateSelected(-1,true)">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <path d="M1 4v6h6" />
-          <path d="M3.51 15a9 9 0 1 0 2.12-9.36L1 10" />
-        </svg>
-      </button>
-      <button id="btnRotRight" class="btn" title="Rotate Right"
-        ondblclick="event.preventDefault();rotateSelected(1,true)">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <path d="M23 4v6h-6" />
-          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
-        </svg>
-      </button>
+          <div class="tab-bar">
+            <div class="tab-buttons">
+              <button class="tab-btn active" data-tab="tab-general">Lobby</button>
+              <!--<button class="tab-btn" data-tab="tab-actions">Actions</button>-->
+              <button class="tab-btn" data-tab="tab-box">Items</button>
+              <button class="tab-btn" data-tab="tab-settings">Settings</button>
+            </div>
+            <div class="version-display" style="text-align: right;" id="versionDisplay"></div>
+          </div>
+
+          <div class="tab-pane active" id="tab-general">
+            <div class="row">
+              <label style="font-size:12px; opacity:.9; width: 60px;">Room</label>
+              <input type="text" id="gameId" value="lunch" />
+            </div>
+            <div class="row">
+              <label style="font-size:12px; opacity:.9; width: 60px;">Name</label>
+              <input type="text" id="playerName" value="" />
+            </div>
+            <div class="row" style="margin-top:10px;">
+              <button class="action-btn" id="btnJoin" style="width: 100%;">Join Room</button>
+            </div>
+
+            <div id="msg"></div>
+            <div class="qr-container">
+              <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://magicbakery.github.io/gb.html&bgcolor=000000&color=FFFFFF"
+                alt="QR Code for this App" />
+            </div>
+
+
+          </div>
+
+          <div class="tab-pane" id="tab-actions">
+            <div style="padding: 6px 0;">
+            </div>
+          </div>
+
+          <div class="tab-pane" id="tab-box">
+            <div style="display:flex;justify-content: space-evenly;">
+              <button class="action-btn" onclick="StowAll()">Stow All</button>
+              <button class="action-btn" onclick="SpillAll()">Spill All</button>
+              <button class="action-btn" onclick="shuffleAssets()">Reshuffle</button>
+            </div>
+            <div class="tracking-section-title">Items in Hands</div>
+            <div id="countsContainer" style="max-height: 120px; overflow-y: auto; margin-bottom: 6px;">
+              <div style="font-size: 11px; opacity: 0.5; font-style: italic;">No active card connections found...</div>
+            </div>
+            <div class="tracking-section-title" style="margin-top: 0;">Items in Box</div>
+            <div id="boxContainer" style="max-height: 160px; overflow-y: auto;">
+              <div style="font-size: 11px; opacity: 0.5; font-style: italic;">Box is currently empty...</div>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="tab-settings">
+            <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px; color: rgba(255,255,255,0.7);">
+              Table : Hand Ratio
+            </div>
+            <div class="row" style="gap: 12px; margin-bottom: 12px;">
+              <input type="range" id="ratioSlider" min="0" max="6" step="1" value="2" />
+              <span id="ratioDisplay"
+                style="font-family: monospace; font-size: 13px; font-weight: 700; width: 30px; text-align: right;">33%</span>
+            </div>
+
+            <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px; color: rgba(255,255,255,0.7);">
+              Seat Orientation
+            </div>
+            <div class="row" style="gap: 12px;">
+              <input type="range" id="seatSlider" min="0" max="360" step="1" value="0" />
+              <span id="seatDisplay"
+                style="font-family: monospace; font-size: 13px; font-weight: 700; width: 45px; text-align: right;">0°</span>
+            </div>
+            <label>
+              <input type="checkbox" id="seating-compass"
+                onchange="localStorage.setItem('seatingCompass', event.target.checked);">
+              Show seating compass
+            </label><br>
+            <label>
+              <input type="checkbox" id="pinch-to-zoom"
+                onchange="localStorage.setItem('pinch-to-zoom', event.target.checked);">
+              Pinch to Zoom
+            </label><br>
+            <label>
+              <input type="checkbox" id="chkAutoHideSplash"> Hide hand when showing card
+            </label><br>
+            <label>
+              <input type="checkbox" id="courtesy-flip"
+                onchange="localStorage.setItem('courtesyFlip', event.target.checked);">
+              Courtesy flip
+            </label><br>
+            <label>
+              <input id="useWallpaper" type="checkbox"
+                onchange="localStorage.setItem(STORAGE_USE_KEY, String(useCheckbox.checked));applyBackground();">
+              Use wallpaper background
+
+            </label><br>
+            <label>
+              <input id="wallpaperUrl" type="url"
+                placeholder="https://substackcdn.com/image/fetch/$s_!hwJo!,w_1272,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe2d77ecd-00d7-49ca-93a6-9ecd056768be_1537x1023.png"
+                oninput="localStorage.setItem(STORAGE_URL_KEY, urlInput.value.trim());applyBackground();">
+              <button class="action-btn" onclick="triggerSplashView(null,true,urlInput.value)">Wallpaper QR
+                code</button>
+            </label>
+
+            <div class="debug-info"><!--</div>style="display:none">-->
+              <div>Assets: <span id="debugCount">0</span></div>
+              <div>Table Pan: <span id="debugTablePan">0, 0</span> | Zoom: <span id="debugTableZoom">1.0</span>x</div>
+              <div>Hand Pan: <span id="debugHandPan">0, 0</span> | Zoom: <span id="debugHandZoom">1.0</span>x</div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
     </div>
-    <button class="btn" title="Zoom Out" onclick="TableZoom(-0.25)">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="none"
-        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="11" cy="11" r="7"></circle>
-        <line x1="8" y1="11" x2="14" y2="11"></line>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-      </svg>
-    </button>
-    <button class="btn" id="btnFlipSelected" onclick="flipSelectedAssets()" ondblclick="BringToBottom()"
-      title="Flip the Selected">
-      <svg width="36" height="36" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round">
 
-        <rect x="4" y="4" width="16" height="16" rx="1" />
-        <path d="M4 4h16v16z" fill="currentColor" />
-      </svg>
-    </button>
+    <div id="hud-right">
+
+    </div>
+
   </div>
-  <div id="footerBar">
-    <div class="footerBtnBar" style="display:none;margin-top:10px;margin-bottom:-5px;justify-content: space-between;">
 
-      <button class="btn" title="Sort Cards in Hand" onclick="SortInHand()" oncontextmenu="return false">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="curren
-          tColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <div id="footerBar">
+    <div class="footerBtnBar" style="margin-top:10px;margin-bottom:-5px;justify-content: space-evenly;">
+      <button class="btn" title="Sort Cards in Hand" onclick="SortInHand()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <!-- Top: left-to-right arrow -->
           <path d="M4 7h10"></path>
           <path d="M18 5l2 2-2 2"></path>
@@ -616,8 +660,28 @@
 
 
       </button>
+      <button class="btn" title="Zoom Out" onclick="TableZoom(-0.25)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="8" y1="11" x2="14" y2="11"></line>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+
+
+      <button class="btn" title="Zoom In" onclick="TableZoom(0.25)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"></circle>
+          <line x1="11" y1="8" x2="11" y2="14"></line>
+          <line x1="8" y1="11" x2="14" y2="11"></line>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+
+      </button>
       <button class="btn" title="Bring to Bottom/Stow" onclick="BringToBottom()" ondblclick="Stow()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="none"
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none"
           stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <!-- Fat arrow down -->
           <path d="M12 4v12"></path>
@@ -631,34 +695,29 @@
       </button>
     </div>
     <div class="footerBtnBar" style="justify-content: space-between;">
-      <button id="btnToggleHand" class="btn" title="Toggle Hand Visibility" style="margin-bottom:-6px"
-        onclick="isHandHidden=!isHandHidden;draw()" ondblclick="SortInHand()">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      <button id="btnRotLeft" class="btn" title="Rotate Left">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           stroke-linecap="round" stroke-linejoin="round">
-          <defs>
-            <mask id="cut" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
-              <!-- start: keep everything -->
-              <rect x="0" y="0" width="24" height="24" fill="white" />
+          <path d="M1 4v6h6" />
+          <path d="M3.51 15a9 9 0 1 0 2.12-9.36L1 10" />
+        </svg>
+      </button>
 
-              <!-- remove anything inside the filled rect regions -->
-              <rect x="3" y="3" width="12" height="16" rx="2" ry="2" transform="rotate(-15 9 11)" fill="black" />
-              <rect x="6" y="1" width="12" height="16" rx="2" ry="2" fill="black" />
-              <rect x="9" y="3" width="12" height="16" rx="2" ry="2" transform="rotate(15 15 11)" fill="black" />
-            </mask>
-          </defs>
 
-          <!-- strokes only, with the “fill-hidden” parts removed -->
-          <g mask="url(#cut)">
-            <rect x="3" y="3" width="12" height="16" rx="2" ry="2" transform="rotate(-15 9 11)" fill="none" />
-            <rect x="6" y="1" width="12" height="16" rx="2" ry="2" fill="none" stroke-width="2.5" />
-            <rect x="9" y="3" width="12" height="16" rx="2" ry="2" transform="rotate(15 15 11)" fill="none" />
-          </g>
+      <button id="btnToggleHand" class="btn" title="Toggle Hand Visibility" onclick="isHandHidden=!isHandHidden;draw()">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="12" height="16" rx="2" ry="2" transform="rotate(-15 9 11)" fill="#202020" />
+
+          <rect x="6" y="1" width="12" height="16" rx="2" ry="2" fill="#202020" stroke-width="2.5" />
+
+          <rect x="9" y="3" width="12" height="16" rx="2" ry="2" transform="rotate(15 15 11)" fill="#202020" />
         </svg>
       </button>
       <button id="btnResync" class="icon-btn btn" title="Refresh State" data-status="normal" disabled
-        style="margin-right:24px;margin-bottom:24px" onclick="ResyncButton()">
+        onclick="ResyncButton()">
         <div class="btn-resync-content">
-          <svg class="icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          <svg class="icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
             <path d="M3 3v5h5" />
@@ -668,143 +727,31 @@
           <span id="btnResyncCount" class="label"></span>
         </div>
       </button>
-    </div>
-  </div>
-  <div id="hud-left">
-    <div class="panel collapsed" id="setupPanel">
-      <div class="panel-header" id="btnToggleSetup">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+      <button class="btn" id="btnFlipSelected" onclick="flipSelectedAssets()" title="Flip the Selected">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           stroke-linecap="round" stroke-linejoin="round">
-          <line x1="4" x2="20" y1="12" y2="12"></line>
-          <line x1="4" x2="20" y1="6" y2="6"></line>
-          <line x1="4" x2="20" y1="18" y2="18"></line>
+
+          <rect x="4" y="2" width="16" height="20" rx="1" />
+
+          <line x1="12" y1="0" x2="12" y2="26" stroke-dasharray="2 4" />
         </svg>
-      </div>
-      <div class="panel-content">
+      </button>
 
-        <div class="tab-bar">
-          <div class="tab-buttons">
-            <button class="tab-btn active" data-tab="tab-general">Lobby</button>
-            <!--<button class="tab-btn" data-tab="tab-actions">Actions</button>-->
-            <button class="tab-btn" data-tab="tab-box">Items</button>
-            <button class="tab-btn" data-tab="tab-settings">Settings</button>
-          </div>
-          <div class="version-display" style="text-align: right;" id="versionDisplay"></div>
-        </div>
+      <button id="btnRotRight" class="btn" title="Rotate Right">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 4v6h-6" />
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+        </svg>
+      </button>
 
-        <div class="tab-pane active" id="tab-general">
-          <div class="row">
-            <label style="font-size:12px; opacity:.9; width: 60px;">Room</label>
-            <input type="text" id="gameId" value="lunch" />
-          </div>
-          <div class="row">
-            <label style="font-size:12px; opacity:.9; width: 60px;">Name</label>
-            <input type="text" id="playerName" value="" />
-          </div>
-          <div class="row" style="margin-top:10px;">
-            <button class="action-btn" id="btnJoin" style="width: 80%;">ENTER</button>
-            <button class="action-btn" style="width: 20%;"
-              onclick="triggerSplashView(null,false,'https://api.qrserver.com/v1/create-qr-code/?size=150x150&bgcolor=000000&color=FFFFFF&data=https://magicbakery.github.io/gb.html')">QR</button>
-          </div>
-
-          <div id="msg"></div>
-        </div>
-
-        <div class="tab-pane" id="tab-actions">
-          <div style="padding: 6px 0;">
-          </div>
-        </div>
-
-        <div class="tab-pane" id="tab-box">
-          <div style="display:flex;justify-content: space-evenly;">
-            <button class="action-btn" onclick="StowAll()">Stow All</button>
-            <button class="action-btn" onclick="Stow()">Stow Selected</button>
-            <button class="action-btn" onclick="SpillAll()">Spill All</button>
-            <button class="action-btn" onclick="shuffleAssets()">Reshuffle</button>
-
-          </div>
-          <div class="tracking-section-title">Items in Hands</div>
-          <div id="countsContainer" style="max-height: 120px; overflow-y: auto; margin-bottom: 6px;">
-            <div style="font-size: 11px; opacity: 0.5; font-style: italic;">No active card connections found...</div>
-          </div>
-          <div class="tracking-section-title" style="margin-top: 0;">Items in Box</div>
-          <div id="boxContainer" style="max-height: 160px; overflow-y: auto;">
-            <div style="font-size: 11px; opacity: 0.5; font-style: italic;">Box is currently empty...</div>
-          </div>
-        </div>
-
-        <div class="tab-pane" id="tab-settings">
-          <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px; color: rgba(255,255,255,0.7);">
-            Table : Hand Ratio
-          </div>
-          <div class="row" style="gap: 12px; margin-bottom: 12px;">
-            <input type="range" id="ratioSlider" min="0" max="6" step="1" value="2" />
-            <span id="ratioDisplay"
-              style="font-family: monospace; font-size: 13px; font-weight: 700; width: 30px; text-align: right;">33%</span>
-          </div>
-
-          <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px; color: rgba(255,255,255,0.7);">
-            Seat Orientation
-          </div>
-          <div class="row" style="gap: 12px;">
-            <input type="range" id="seatSlider" min="0" max="360" step="1" value="0" />
-            <span id="seatDisplay"
-              style="font-family: monospace; font-size: 13px; font-weight: 700; width: 45px; text-align: right;">0°</span>
-          </div>
-          <label>
-            <input type="checkbox" id="seating-compass"
-              onchange="localStorage.setItem('seatingCompass', event.target.checked);">
-            Show seating compass
-          </label><br>
-          <label>
-            <input type="checkbox" id="pinch-to-zoom"
-              onchange="localStorage.setItem('pinch-to-zoom', event.target.checked);">
-            Pinch to Zoom
-          </label><br>
-          <label>
-            <input type="checkbox" id="chkAutoHideSplash"> Hide hand when showing card
-          </label><br>
-          <label>
-            <input type="checkbox" id="courtesy-flip"
-              onchange="localStorage.setItem('courtesyFlip', event.target.checked);">
-            Courtesy flip
-          </label><br>
-          <label>
-            <input id="useWallpaper" type="checkbox"
-              onchange="localStorage.setItem(STORAGE_USE_KEY, String(useCheckbox.checked));applyBackground();">
-            Use wallpaper background
-
-          </label><br>
-          <label>
-            <input id="wallpaperUrl" type="url" placeholder="Wallpaper url"
-              oninput="localStorage.setItem(STORAGE_URL_KEY, urlInput.value.trim());applyBackground();">
-            <button class="action-btn" onclick="triggerSplashView(null,true,urlInput.value)">Wallpaper QR
-              code</button>
-          </label>
-
-          <div class="debug-info"><!--</div>style="display:none">-->
-            <div>Assets: <span id="debugCount">0</span></div>
-            <div>Table Pan: <span id="debugTablePan">0, 0</span> | Zoom: <span id="debugTableZoom">1.0</span>x</div>
-            <div>Hand Pan: <span id="debugHandPan">0, 0</span> | Zoom: <span id="debugHandZoom">1.0</span>x</div>
-          </div>
-        </div>
-
-
-
-      </div>
     </div>
+
   </div>
-  <div id="splashViewer" class="splashViewer active">
+  <div id="splashViewer" class="splashViewer">
     <a id="splashLink" href="#" target="_blank" rel="noopener noreferrer" style="display:block;">
-      <canvas id="splashCanvas" class="hidden"></canvas>
+      <canvas id="splashCanvas"></canvas>
     </a>
-    <img id="splashWallpaperImg" style="
-      object-fit:cover;
-      object-position:center;
-      z-index:2;
-      pointer-events:none;
-      display:none;
-    " alt="">
   </div>
 
   <script>
@@ -827,7 +774,7 @@
     const useCheckbox = document.getElementById("useWallpaper");
     // Background Image ED
     let selected = "v30";
-    const VERSIONID = "20260718221150";
+    const VERSIONID = "20260716094421";
     const API_BASE = APPS_SCRIPTS.find(x => x.id === selected)?.url ?? APPS_SCRIPTS[0].url;
     const btnRotLeft = document.getElementById('btnRotLeft');
     const btnRotRight = document.getElementById('btnRotRight');
@@ -840,7 +787,7 @@
     const DOUBLE_TAP_MS = 300;
     let lastTapTs = 0;
     let ignoreNextClick = false;
-    let isHandHidden = true;
+    let isHandHidden = false;
     let rotInterval = null;
     let originalState = null;
     let pendingUpdates = [];
@@ -868,7 +815,6 @@
           assets.push(s);
           assetById.set(id, s);
           cat1++;
-          spawnBubbleLayerBubble();
           continue;
         }
         // Step 2: s.region==="HAND" and s.ownerId != complexOwnerId, set a.region="HAND" and remove that id from pendingUpdates
@@ -911,10 +857,8 @@
       selectedAssets.forEach((a, i) => {
         if (a.region != "HAND") {
           markAssetPending(a.assetId);
-          
         }
         a.z = minZUnselected - minDelta - (selectedAssets.length - 1 - i); // push below unselected
-        markAssetSelected(a.assetId, true);
       });
 
       draw();
@@ -943,7 +887,6 @@
         }
         a.z = maxZUnselected + minDelta + i; // mutate only selected
       });
-      
       draw();
     }
     function Grab(boxEl, e) {
@@ -1082,7 +1025,7 @@
         a.rotationDeg = 0;
         a.z = 0;
         a.x = targetScreenX / zoom - panX - canvas.clientWidth / 2;
-        a.y = targetScreenY / zoom - panY - targetScreenY;// - canvas.clientHeight*(1-getTableSplitFactor())/2;
+        a.y = targetScreenY / zoom - panY - targetScreenY - 40;
       });
 
       saveHandToLocalStorage();
@@ -1097,7 +1040,6 @@
         // Only spill items with the 
         if (assetId) {
           moveAssetToTable(assetId);
-          spawnBubbleLayerBubble();
         }
       });
 
@@ -1134,7 +1076,6 @@
 
       updateTrackedUIs?.();
       draw?.();
-      spawnBubbleLayerBubble();
     }
     function TableZoom(delta, { minZoom = 0.5, maxZoom = 3 } = {}) {
       const z = Number(view.table.zoom || 1);
@@ -1195,15 +1136,14 @@
         } else if (!hasPendingUpdates()) {
           mLabel.innerHTML = Math.floor(diff / 1000);
           if (btnResync.dataset.status === 'normal') {
-            if (t - lastAutoSync >= 3000) {
-              spawnBubbleLayerBubble();
+            if (t - lastAutoSync >= 5000) {
               resync();
               lastAutoSync = t;
             }
           }
-        } else {          
+        } else {
           autoSyncStart(false);
-        }        
+        }
       }, 500);
     }
     function countPlayers() {
@@ -1307,6 +1247,7 @@
       img.crossOrigin = "anonymous";
       img.decoding = "async";
 
+      console.log(1250);
       const p = new Promise((resolve, reject) => {
         img.onload = () => {
           const entry = { _image: img, _loaded: true, _promise: p };
@@ -1317,10 +1258,13 @@
           reject(new Error(`Image failed to load: ${url}`));
         };
       });
+      console.log(1261);
 
       // placeholder entry
       imgCache.set(url, { _image: null, _loaded: false, _promise: p });
+      console.log(1265);
       img.src = url;
+      console.log(1266);
       return p;
     }
     function getOrCreateSplashWallpaperImg() {
@@ -1341,6 +1285,7 @@
       img.style.zIndex = '2';
       img.style.pointerEvents = 'none';   // don’t block clicks
 
+      const splashViewer = document.getElementById('splashViewer');
       // ensure stacking works
       splashViewer.style.position = 'relative';
       splashViewer.appendChild(img);
@@ -1374,12 +1319,13 @@
       return Array.isArray(selectedIds) && selectedIds.length > 0;
     }
     function loadFromStorage() {
-      const savedUrl = localStorage.getItem(STORAGE_URL_KEY) || "https://substackcdn.com/image/fetch/$s_!hwJo!,w_1537,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe2d77ecd-00d7-49ca-93a6-9ecd056768be_1537x1023.png";
+      const savedUrl = localStorage.getItem(STORAGE_URL_KEY) || "";
       const savedEnabled = localStorage.getItem(STORAGE_USE_KEY);
+
       urlInput.value = savedUrl;
 
       // Default behavior: if not set yet, don't enable wallpaper
-      useCheckbox.checked = savedEnabled ? (savedEnabled === "true") : true;
+      useCheckbox.checked = savedEnabled === "true";
 
       applyBackground();
     }
@@ -1421,7 +1367,6 @@
           mLabel.innerHTML = "";
         }
         updateSyncStatus("normal");
-        
         return;
       }
       if (!id) return;
@@ -1442,7 +1387,6 @@
         }
         if (!isPendingUpdate(id)) {
           pendingUpdates.push(id);
-          spawnBubbleLayerBubble();
         }
       }
 
@@ -1456,13 +1400,11 @@
         updateSyncStatus("normal");
       }
     }
-    function markAssetSelected(id, bRemove) {
+    function markAssetSelected(id) {
       if (!id) return;
       if (!Array.isArray(selectedIds)) return;
       selectedIds = selectedIds.filter(x => x !== id);
-      if (!bRemove) {
-        selectedIds.push(id);
-      }
+      selectedIds.push(id);
       selectedId = selectedIds.length ? selectedIds[selectedIds.length - 1] : null;
     }
     function moveAssetToTable(assetId, bPrecise) {
@@ -1526,117 +1468,6 @@
       imgEl.style.width = `${Math.round(widthPx)}px`;
       imgEl.style.height = `${Math.round(heightPx)}px`;
     }
-    function spawnBubbleLayerBubble({
-      containerId = "bubbleLayer",
-      minSize = 14,
-      maxSize = 48,
-      minRiseMs = 3500,
-      maxRiseMs = 9000,
-      minLifetimeMs = 2500,
-      maxLifetimeMs = 12000,
-      clickToDestroy = true,
-    } = {}) {
-      const container = document.getElementById(containerId);
-      if (!container) return;
-
-      const cs = getComputedStyle(container);
-      if (cs.position === "static") container.style.position = "relative";
-      container.style.overflow = cs.overflow === "visible" ? "visible" : "hidden";
-      container.style.zIndex = container.style.zIndex || "1000";
-
-      const rect = container.getBoundingClientRect();
-      if (rect.height <= 0) {
-        console.warn(`#${containerId} has height ${rect.height}. Bubbles won't be visible.`);
-        return;
-      }
-
-      const rand = (a, b) => a + Math.random() * (b - a);
-      const rint = (a, b) => Math.floor(rand(a, b));
-
-      const size0 = rand(minSize, maxSize);
-      const size1 = rand(minSize * 0.55, maxSize * 1.05);
-      const riseMs = rint(minRiseMs, maxRiseMs);
-      const lifetimeMs = rint(minLifetimeMs, maxLifetimeMs);
-
-      const x = rand(0, Math.max(0, rect.width - size0));
-      const risePx = Math.max(60, rect.height * rand(0.35, 0.85));
-
-      // keep alpha as-is (low)
-      const alpha = rand(0.08, 0.22); // low alpha for the fill (tweak if needed)
-      // const hue = rint(180, 320); // no longer needed
-
-      const bubble = document.createElement("div");
-      const animName = `bubbleRise_${Math.random().toString(16).slice(2)}`;
-
-      bubble.style.position = "absolute";
-      bubble.style.left = `${x}px`;
-      bubble.style.bottom = `0px`;
-      bubble.style.width = `${size0}px`;
-      bubble.style.height = `${size0}px`;
-      bubble.style.borderRadius = "50%";
-      bubble.style.pointerEvents = "auto";
-      bubble.style.cursor = "none";
-
-      // White fill with low alpha
-      bubble.style.background = `rgba(255, 255, 255, ${alpha})`;
-
-      // White border (slightly transparent)
-      bubble.style.border = `2px solid rgba(255, 255, 255, ${Math.min(1, alpha * 1.8)})`;
-
-      // White glow
-      bubble.style.boxShadow = `0 0 18px rgba(255, 255, 255, ${Math.min(1, alpha * 1.0)})`;
-
-      bubble.style.backdropFilter = "blur(2px)";
-      bubble.style.opacity = "1";
-
-      const style = document.createElement("style");
-      style.textContent = `
-    @keyframes ${animName} {
-      0% {
-        transform: translate3d(0, 0, 0) scale(1);
-        width: ${size0}px;
-        height: ${size0}px;
-        opacity: 1;
-      }
-      100% {
-        transform: translate3d(0, ${-risePx}px, 0) scale(1);
-        width: ${size1}px;
-        height: ${size1}px;
-        opacity: 0;
-      }
-    }
-  `;
-      document.head.appendChild(style);
-
-      let destroyed = false;
-      const destroy = () => {
-        if (destroyed) return;
-        destroyed = true;
-        bubble.removeEventListener("click", destroy);
-        bubble.removeEventListener("pointerdown", destroy);
-        bubble.remove();
-        style.remove();
-      };
-
-      bubble.style.animation = `${animName} ${riseMs}ms linear forwards`;
-
-      const timer = setTimeout(destroy, lifetimeMs);
-
-      if (clickToDestroy) {
-        bubble.addEventListener("click", () => {
-          clearTimeout(timer);
-          destroy();
-        }, { once: true });
-
-        bubble.addEventListener("pointerdown", () => {
-          clearTimeout(timer);
-          destroy();
-        }, { once: true });
-      }
-
-      container.appendChild(bubble);
-    }
-
     function toggleInList(list, id) {
       const i = list.indexOf(id);
       if (i >= 0) list.splice(i, 1);
@@ -1761,7 +1592,6 @@
 
         btn.classList.add('active');
         document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
-        spawnBubbleLayerBubble();
       });
     });
 
@@ -1795,10 +1625,8 @@
     });
 
     // Update the button handlers
-    function rotateSelected(delta, bToNext) {
+    function rotateSelected(delta) {
       // Rotate all selected cards
-      const players = countPlayers();
-      const rOriginal = seatSlider.value;
       if (Array.isArray(selectedIds) && selectedIds.length) {
         for (const id of selectedIds) {
           const a = assetById.get(id);
@@ -1810,35 +1638,12 @@
         // Nothing selected -> rotate the table
         let current = parseInt(seatSlider.value, 10);
         let next = (current + delta + 360) % 360;
-        if (bToNext && players > 1) {
-          const step = 360 / players;
-          const idxFloat = next / step;
-          const idx = (delta >= 0)
-            ? Math.ceil(idxFloat) % players
-            : (Math.floor(idxFloat) + players) % players;
-          next = idx * step;
-          next = (next + 360) % 360;
-          
-          for(i=0;i<step/15;i++){
-            spawnBubbleLayerBubble();
-          }
-        }
 
-
-
-        
         seatSlider.value = next;
         seatDisplay.textContent = `${next}°`;
         localStorage.setItem("sandbox_seat_value", next);
-
-        // Fix the world center as if the player is going around the center, and not the player looking around.
-        const deltaDeg = ((next - current + 360) % 360);
-        const d = -(deltaDeg * Math.PI) / 180;
-        const { panX, panY } = view.table;
-        view.table.panX = panX * Math.cos(d) - panY * Math.sin(d);
-        view.table.panY = panX * Math.sin(d) + panY * Math.cos(d);
       }
-      spawnBubbleLayerBubble();
+
       draw();
     }
 
@@ -1857,7 +1662,7 @@
     [btnRotLeft, btnRotRight].forEach(btn => {
       const delta = (btn === btnRotLeft) ? -5 : 5;
       btn.addEventListener('mousedown', () => startRotation(delta));
-      btn.addEventListener('touchstart', (e) => { startRotation(delta); });
+      btn.addEventListener('touchstart', (e) => { e.preventDefault(); startRotation(delta); });
       btn.addEventListener('mouseup', stopRotation);
       btn.addEventListener('mouseleave', stopRotation);
       btn.addEventListener('touchend', stopRotation);
@@ -1914,11 +1719,7 @@
     resize();
 
     function tableRect() {
-      if (isHandHidden) {
-        return { x: 0, y: 0, w: canvas.clientWidth, h: canvas.clientHeight };
-      } else {
-        return { x: 0, y: 0, w: canvas.clientWidth, h: canvas.clientHeight * getTableSplitFactor() };
-      }
+      return { x: 0, y: 0, w: canvas.clientWidth, h: canvas.clientHeight * getTableSplitFactor() };
     }
     function handRect() {
       const r = tableRect();
@@ -2233,6 +2034,10 @@
       const { w, h, isPlaceholder, config } = getAssetDimensions(card);
       const radius = getCardRadiusFromCSS();
 
+
+      console.log("1886: DRAW URL:", card.imageUrl);
+
+
       context.save();
       context.translate(x, y);
       context.scale(scale, scale);
@@ -2408,7 +2213,6 @@
       const imageUrl = normalizeImageUrl((hasCard && card.imageUrl) ? card.imageUrl : iImageURL);
 
       console.log("2170: PRELOAD URL:", imageUrl);
-      const splashWallpaperImg = document.getElementById('splashWallpaperImg');
 
       try {
         if (!card && imageUrl) {
@@ -2464,24 +2268,13 @@
       splashCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
       splashCtx.clearRect(0, 0, splashCanvas.width, splashCanvas.height);
 
+
+
       const scaleRender = (finalW * targetScale) / (w || finalW);
+      // Render card (or a minimal mock if card is missing)
 
-      // ---- Wallpaper overlay for "card is null" case ----
-      if (!card && imageUrl) {
-        // match what you show in the canvas sizing
-        const overlayW = Math.floor(finalW * targetScale);
-        const overlayH = Math.floor(finalH * targetScale);
 
-        splashCanvas.style.display = 'none';
-        splashWallpaperImg.style.display = 'block';
-        splashWallpaperImg.src = imageUrl;
-        splashWallpaperImg.style.width = `${overlayW}px`;
-        splashWallpaperImg.style.height = `${overlayH}px`;
-      } else {
-        splashWallpaperImg.style.display = 'none';
-        splashCanvas.style.display = 'block';
-        splashWallpaperImg.src = '';
-      }
+
 
       const container = document.getElementById('splashViewer');
       const containerWidth = container.getBoundingClientRect().width;
@@ -2536,6 +2329,7 @@
         qrContainer.style.display = 'flex';
         qrContainer.style.justifyContent = 'center';
         qrContainer.style.marginTop = '10px';
+        qrContainer.style.zIndex = '1'; // keep it under the overlay img
         splashViewer.appendChild(qrContainer);
       }
 
@@ -2556,7 +2350,6 @@
         qrImg.height = 150;
         qrContainer.appendChild(qrImg);
       }
-      splashCanvas.classList.remove('hidden');
 
       if (chkAutoHide.checked) {
         isHandHidden = true;
@@ -2575,7 +2368,7 @@
       await Promise.all(unique.map(loadImage));
     }
 
-    function draw() {      
+    function draw() {
       ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
       const midY = canvas.clientHeight * getTableSplitFactor();
       // Create a list of assets that ARE NOT being dragged
@@ -2634,6 +2427,9 @@
       } else {
         return null;
       }
+
+
+
       // We use the view associated with the region name
       const v = view[regionName.toLowerCase()];
       const ordered = cards.slice().sort((a, b) => Number(a.z || 0) - Number(b.z || 0)).reverse();
@@ -2796,6 +2592,7 @@
       const viewport = getViewportForPointer(sx, sy);
 
       const hit = hitTest(sx, sy);
+
       // Record panning start coordinate
       if (!hit) {
         selectAsset(null);
@@ -2831,7 +2628,6 @@
         },
         mouseOffsetScreen: { x: sx - sc.x, y: sy - sc.y }
       };
-      spawnBubbleLayerBubble();
     }
 
     function onPointerUp(e) {
@@ -2974,7 +2770,6 @@
           touchGesture.lastDistance = getDistance(e.touches[0], e.touches[1]);
         }
       }
-      spawnBubbleLayerBubble();
     }, { passive: false });
     canvas.addEventListener('touchmove', (e) => {
       if (usePointerEvents) return;
@@ -3103,7 +2898,6 @@
             facedown: a.facedown, region: a.region, ownerId: a.ownerId
           }
         });
-        spawnBubbleLayerBubble();
       }
 
       if (moves.length === 0) {
@@ -3205,22 +2999,7 @@
       }
     }
     window.onload = () => {
-      // Auto Cache-bust
-      const u = new URL(location.href);
-      if (!new URLSearchParams(location.search).has('cb')) {
-        // If there is no URL param, reload with a cache busting URL PARAM cb=Date.now
-        u.searchParams.set('cb', Date.now());
-        history.pushState({}, '', u.pathname + u.search + u.hash);
-        location.reload();
-      } else {
-        // If it arrive with the cb URL param, clear the URL param
-        history.pushState({}, '', u.pathname + u.hash);
-      }
       loadFromStorage();
-
-      // Remove splash screen
-      splashViewer.classList.remove('active');
-
     };
   </script>
 </body>
