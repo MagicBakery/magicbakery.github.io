@@ -861,7 +861,6 @@
     let pendingUpdates = [];
     let activePan = false;
     let autoSyncTimer = null;
-    let lastInteraction = new Date();
     let lastAutoSync = new Date();
     let panViewport = null;
     let serverCopy = [];
@@ -1218,10 +1217,10 @@
       }
       if (autoSyncTimer) return;
       btnResync.classList.add('auto');
-      lastInteraction = new Date();
+      WakeLock.requestScreen();
       autoSyncTimer = setInterval(() => {
         const t = new Date();
-        const diff = 120_000 - (t - lastInteraction);
+        const diff = 120_000 - (t - WakeLock.lastInteraction);
         if (diff <= 0) {
           autoSyncStart(false);
         } else if (!hasPendingUpdates()) {
@@ -2865,7 +2864,7 @@
     }
     function onPointerDown(e) {
       e.preventDefault();
-      lastInteraction = new Date();
+      WakeLock.requestScreen();
       //usePointerEvents = true;
       if (!chkPinchToZoom.checked) { usePointerEvents = true; }
 
@@ -3038,7 +3037,7 @@
     canvas.addEventListener('wheel', onWheel, { passive: false });
     canvas.addEventListener('touchstart', (e) => {
       // If we are already dragging a card (from your existing logic), don't pan/zoom
-      lastInteraction = new Date();      
+      WakeLock.requestScreen();
       if (!chkPinchToZoom.checked && e.touches.length !== 1) return;
       if (drag) return;
       if (e.touches.length > 0) {

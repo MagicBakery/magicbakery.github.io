@@ -150,8 +150,10 @@ const WakeLock = (() => {
   // await WakeLock.release();
   let wakeLock = null;
   let requested = false;
+  let lastInteraction = new Date();
 
   async function requestScreen() {
+    lastInteraction = new Date();
     if (!('wakeLock' in navigator)) return false;
     if (wakeLock) return true;
     if (requested) return false;
@@ -181,6 +183,7 @@ const WakeLock = (() => {
   }
 
   return {
+    lastInteraction,
     requestScreen,
     release,
     isActive: () => !!wakeLock
