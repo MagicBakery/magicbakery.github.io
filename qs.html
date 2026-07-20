@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="qs.css">
     <title>Quest App</title>
     <script>const APP_VERSION = "20260710014316";</script>
     <script src="config.js"></script>
@@ -497,10 +498,6 @@
 
         .nav-btn.active .nav-icon {
             fill: #ffffff;
-        }
-
-        .hidden {
-            display: none !important;
         }
 
 
@@ -1161,6 +1158,7 @@
                             style="width: 32px;height: 23px;background: none;border-radius: 5px;border: none;color:#808080;padding: 0;">
                             UTC
                         </button>
+                        <button class="text btn" type="button" title="Toggle Edit Mode" onclick="Mode.edit = !Mode.edit;body.classList.toggle('edit',Mode.edit)">EDIT</button>
                     </div>
                     <textarea id="Notepad" placeholder="Notes..."
                         style="resize:vertical; height:100%;border: 1px solid black;border-radius: 5px;"
@@ -1803,12 +1801,14 @@
             // 20260707: StarTree: No need to fetch, just use the current data.
             var list = document.getElementById('ledgerOutput');
             var locEntries = list.querySelectorAll(`.log-item.geo[data-quest-id='${questId}'], .log-item.geo[data-timestamp='${questId}']`);
-
+            const questEntry = document.querySelector(`.log-item[data-timestamp='${questId}']`);
 
             const bounds = [];
             locEntries.forEach(entry => {
                 // Skip the done sightings.
                 if (entry.querySelector('.entry-titlebar').querySelector('.entry-status')?.textContent === "Done") { return; }
+                // If the current node is expanded, skip the sightings that are not in view.
+                if(questEntry?.classList.contains('showing-comments') && entry.classList.contains('hidden')){return;}
                 // Skip the sightings not in the same scope.
                 if (!mScope === "all" && !entry.classList.contains(mScope)) { return; }
                 const lat = parseFloat(entry.dataset.latitude);

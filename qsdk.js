@@ -5,6 +5,13 @@ const modules = {
   form: { elementId: 'formSection', btnId: 'btnShowForm' },
   settings: { elementId: 'settingsSection', btnId: 'btnShowSettings' }
 };
+const Mode=(()=>{
+  let edit = false;
+  return {
+    get edit(){return edit;},    
+    set edit(value){edit = Boolean(value);},
+  };
+})
 const QuestSDK = {
   // 1. Initialize the SDK with the user's specific configuration
   init(config) {

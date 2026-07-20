@@ -1,0 +1,16 @@
+/* Quest Society Default Style Sheet */
+
+
+.btn.text{
+  width: 32px;
+  height: 23px;
+  background: none;
+  border-radius: 5px;
+  border: none;
+  color:#808080;
+  padding: 0;
+}
+
+.hidden{
+  display:none !important;
+}

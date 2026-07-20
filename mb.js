@@ -10576,9 +10576,10 @@ function TallyEL(elSource,elDisplay){
     }
     mEXPString += name + " ";    
     mTotalEXP += totalEXP;
+    const mCrown = MacroIcons(null,"👑");    
     if(mTopThree > 0){
       if(mTopThree ==3){
-        mTopThreeHTML += "<div style='display:inline-block'><div style='margin-bottom: -38px;position:relative;'>👑</div><br>";
+        mTopThreeHTML += `<div style='display:inline-block'><div style='margin-bottom: -38px;position:relative;'>${mCrown}</div><br>`;
         mTopThreeHTML += "<div class='mbav50t mb" + name;
         mTopThreeHTML += "'><br><div style='line-height:40px'>&nbsp;</div><b>"+totalEXP+"</b></div></div>";
       }else{
