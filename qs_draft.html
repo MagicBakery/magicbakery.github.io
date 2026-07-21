@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="qs.css">
     <title>Quest App</title>
     <script>const APP_VERSION = "20260710014316";</script>
     <script src="config.js"></script>
@@ -499,10 +500,6 @@
             fill: #ffffff;
         }
 
-        .hidden {
-            display: none !important;
-        }
-
 
         .checkbox-container {
             color: #ffffff;
@@ -652,14 +649,190 @@
             color: gold;
             opacity: 1;
         }
-        .entry-childTags{
-        }
+
+        .entry-childTags {}
 
         .entry-content {
             padding: 5px 5px 5px 5px;
         }
 
         .entry-dismiss-btn {
+            color: gold;
+            margin-left: 2px;
+            padding: 0px 2px;
+
+        }
+
+
+        .entry-tagsList {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+                <option value="guild">Guild</option>
+                <option value="personal">Self</option>
+                <option value="all">All</option>
+            </select>
+            <!--//onclick="fetchFromCacheOnFirstStart();"-->
+            <select id="messageBoardFilter" onchange="fetchFromCacheOnFirstStart();filterMessageBoard()">
+                <option value="SHOW ALL">All</option>
+                <option value="about">About</option>
+                <option value="quest">Quests</option>
+                <option value="sighting">Sightings</option>
+                <option value="selected">Selected</option>
+                <!--<option value="comment">Comments</option>-->
+                <option value="dismissed">Dismissed</option>
+                        <option value="draft" selected>Draft</option>
+                    </select>
+                    <button type="submit" id="submitBtn" class="submit-btn">Send</button>
+                </div>
+            </div>
+            <div class="form-row hidden">
+                <div onclick="ListShowReOnly()" style="color:gold;font-size:12px;margin:-7px 0px 0px 3px"><span id="MsgFormReAction">Re</span>: <span
+                        id="MsgFormReAPI"></span>: <span id="MsgFormReTitle"></span></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-50">
+                    <input style="font-size:12px;padding:8px" type="text" id="questId" placeholder="Parent ID">
+                </div>
+                            </svg>
+                        </button>
+                        <button id="EditURLStrip" type="button" class="btn" onclick="TEST()" title="Test Button"
+                            style="width: 32px;height: 23px;background: none;border-radius: 5px;border: none;color:#808080;padding: 0;">
+                            UTC
+                        </button>
+                        <button class="text btn edit" type="button" title="Toggle Edit Mode"
+                            onclick="Mode.edit = !Mode.edit;body.classList.toggle('edit',Mode.edit)">EDIT</button>
+                    </div>
+                    <textarea id="Notepad" placeholder="Notes..."
+                        style="resize:vertical; height:100%;border: 1px solid black;border-radius: 5px;"
+                        oninput="MEMValue('Notepad')"></textarea>
+                </div>
+                <div id="tabAPISettings" class="tab hidden">
+            event.returnValue = '';
+        });
+        // Listeners in #alphabetical order
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // Load API settings from Quest SDK.
+            Settings_SetValue('publicQuestAPIURL', QuestSDK.archives.public.api);
+            Settings_SetValue('guildQuestAPIURL', QuestSDK.archives.guild.api);
+            Settings_SetValue('personalQuestAPIURL', QuestSDK.archives.personal.api);
+            QuestSDK.APIGet(null, document.getElementById('apiSource'), document.getElementById('apiDest'));
+
+            const clientBD = localStorage.getItem("clientBD");
+            let clientLV = localStorage.getItem("clientLV");
+            if (!clientBD) {
+                // 1) Set defaults if clientBD does not exist
+                ledger.classList.remove("hidden");
+            } else {
+                ledger.classList.add("hidden");
+            }
+
+        }
+        function MEMForm(bLoad) {
+            // @@3
+            // 20260704: StarTree: Load or Save the form content.
+            MEMValue('MsgFormImg', bLoad);
+            MEMValue('MsgFormQuester', bLoad);
+            MEMValue('MsgFormTags', bLoad);
+
+            const bounds = [];
+            locEntries.forEach(entry => {
+                // Skip the done sightings.
+                if (entry.querySelector('.entry-titlebar').querySelector('.entry-status')?.textContent === "Done") { return; }
+                // If the current node is expanded, skip the sightings that are not in view.
+                if (questEntry?.classList.contains('showing-comments') && entry.classList.contains('hidden')) { return; }
+                // Skip the sightings not in the same scope.
+                if (!mScope === "all" && !entry.classList.contains(mScope)) { return; }
+                const lat = parseFloat(entry.dataset.latitude);
+                const lng = parseFloat(entry.dataset.longitude);
+                if (!isNaN(lat) && !isNaN(lng)) {
+                    const marker = L.circleMarker([lat, lng], {
+                    const ms = String(startDate.getUTCMilliseconds()).padStart(3, '0');
+                    clientBD = `${yyyy}${mm}${dd}${hh}${min}${ss}${ms}`;
+                }
+            }
+            const frmTimer = document.querySelector('.timer-control');
+            // @@1
+            const timestamp = document.getElementById('MsgFormReTitle').innerText;
+            const statusMsg = document.getElementById('statusMessage');
+            const questId = document.getElementById('questId').value;
+            const status = document.getElementById('status').value || "";
+            const imgField = document.getElementById('MsgFormImg').value;
+            const urlField = document.getElementById('MsgFormUrl').value;
+            const tags = document.getElementById('MsgFormTags').value;
+            formData.append('eventText', eventText);
+            formData.append('lat', lat);
+            formData.append('lng', lng);
+            formData.append('cId', clientBD);
+            formData.append('cLv', clientLV);
+            formData.append('title', title);
+            if(Mode.edit){
+                formData.append('action','edit');
+                formData.append('timestamp',timestamp);
+            }
+            try {
+                await fetch(precheck, {
+                    method: "POST",
+                    body: formData.toString(),
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" }
+                });
+            }
+            var precheck = iSpecificAPI;
+            if (!precheck) {
+                precheck = QuestSDK.APIGet(true);
+                if (!precheck) { return; }
+                if (precheck === "all") {
+                    await QuestSDK.Fetch();
+
+                    container.innerHTML = "";
+                    totalDisplay.textContent = 0;
+                    pendingDisplay.textContent = 0;
+                    if (QuestSDK.archives.public.api) {
+                        await fetchLatestEntries(bCacheBust, QuestSDK.archives.public.api, "public");
+                    }
+                    if (QuestSDK.archives.guild.api) {
+                        await fetchLatestEntries(bCacheBust, QuestSDK.archives.guild.api, "guild");
+                    }
+                    if (QuestSDK.archives.personal.api) {
+                        await fetchLatestEntries(bCacheBust, QuestSDK.archives.personal.api, "personal");
+                    }
+                    MEMSelected(null, null, true);
+                    filterMessageBoard();
+                    return;
+                } else {
+                    totalDisplay.textContent = 0;
+                refreshBtn.style.cursor = 'wait';
+            }
+
+
+            const useCacheBuster = document.getElementById('useCacheBuster').checked;
+            const showSightingsCheckbox = document.getElementById('showSightingsInFeed');
+            const allowSightingsInFeed = true;
+
+            if (!iSpecificAPI) {
+                container.innerHTML = "<p style='text-align:center;color:#a0aec0; font-size:16px;'>Loading from server...</p>";
+            }
+            try {
+                let archive = null;
+                let result = null;                
+                if (mScope === "public" || mScope==="guild" || mScope==="personal") {
+                    QuestSDK.archives.public.Fetch(bCacheBust);
+                    archive = QuestSDK.archives[mScope];
+                } else {
+                    archive = new Archive(precheck);
+                }
+                await archive.Fetch(bCacheBust);
+                result = archive.result;
+
+
+                if (result.status === "success") {
+                    hasFetchedFromApi = true;
+                    totalDisplay.textContent = String(Number(totalDisplay.textContent || 0) + Number(result.totalRows || 0));
+                    pendingDisplay.textContent = String(Number(pendingDisplay.textContent || 0) + Number(result.pendingCount || 0));
+
             background: #202020;
             border: 1px solid #202020;
             border-radius: 3px;
@@ -684,19 +857,6 @@
 
         .entry-status {
             background: none;
-            color: gold;
-            margin-left: 2px;
-            padding: 0px 2px;
-
-        }
-
-        
-        .entry-tagsList {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-        }
-
         .entry-text {
             color: #ffffff;
             font-size: 14px;
@@ -988,19 +1148,6 @@
             <select id="apiSource" class="scope-selector public"
                 onchange="hasFetchedFromApi=false;ScopeSelect(this);fetchFromCacheOnFirstStart()">
                 <option value="public">Public</option>
-                <option value="guild">Guild</option>
-                <option value="personal">Self</option>
-                <option value="all">All</option>
-            </select>
-            <!--//onclick="fetchFromCacheOnFirstStart();"-->
-            <select id="messageBoardFilter" onchange="fetchFromCacheOnFirstStart();filterMessageBoard()">
-                <option value="SHOW ALL">All</option>                
-                <option value="about">About</option>
-                <option value="quest">Quests</option>
-                <option value="sighting">Sightings</option>
-                <option value="selected">Selected</option>
-                <!--<option value="comment">Comments</option>-->
-                <option value="dismissed">Dismissed</option>
             </select>
 
             <input id="messageBoardTextSearch" oninput="MsgBoardTextFilter(this)" onblur="this.value=''"
@@ -1035,19 +1182,6 @@
                         <option value="public">To Public</option>
                         <option value="guild">To Guild</option>
                         <option value="personal">To Self</option>
-                        <option value="draft" selected>Draft</option>
-                    </select>
-                    <button type="submit" id="submitBtn" class="submit-btn">Send</button>
-                </div>
-            </div>
-            <div class="form-row hidden">
-                <div onclick="ListShowReOnly()" style="color:gold;font-size:12px;margin:-7px 0px 0px 3px">Re: <span
-                        id="MsgFormReAPI"></span>: <span id="MsgFormReTitle"></span></div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-50">
-                    <input style="font-size:12px;padding:8px" type="text" id="questId" placeholder="Parent ID">
-                </div>
                 <div class="form-group col-25">
                     <input type="text" id="status" value="" placeholder="Status" style="text-align: center;">
                 </div>
@@ -1155,18 +1289,6 @@
                                 stroke="currentColor" stroke-width="1" fill="currentColor">
                                 <rect x="3.5" y="10" width="11" height="4" rx="0" />
                                 <rect x="16.5" y="10" width="4" height="4" rx="0" />
-                            </svg>
-                        </button>
-                        <button id="EditURLStrip" type="button" class="btn" onclick="TEST()" title="Test Button"
-                            style="width: 32px;height: 23px;background: none;border-radius: 5px;border: none;color:#808080;padding: 0;">
-                            UTC
-                        </button>
-                    </div>
-                    <textarea id="Notepad" placeholder="Notes..."
-                        style="resize:vertical; height:100%;border: 1px solid black;border-radius: 5px;"
-                        oninput="MEMValue('Notepad')"></textarea>
-                </div>
-                <div id="tabAPISettings" class="tab hidden">
                     <label for="publicQuestAPIURL">Public Quest API URL</label>
                     <input id="publicQuestAPIURL" type="text" class="form-control"
                         placeholder="Public Quest Ledger (Unassigned)"
@@ -1289,21 +1411,6 @@
 
         window.addEventListener('beforeunload', (event) => {
             event.preventDefault();
-            event.returnValue = '';
-        });
-        // Listeners in #alphabetical order
-        document.addEventListener("DOMContentLoaded", () => {
-
-            // Load API settings from Quest SDK.
-            Settings_SetValue('publicQuestAPIURL', QuestSDK.publicAPI);
-            Settings_SetValue('guildQuestAPIURL', QuestSDK.guildAPI);
-            Settings_SetValue('personalQuestAPIURL', QuestSDK.personalAPI);
-            QuestSDK.APIGet(null, document.getElementById('apiSource'), document.getElementById('apiDest'));
-
-            const clientBD = localStorage.getItem("clientBD");
-            let clientLV = localStorage.getItem("clientLV");
-            if (!clientBD) {
-                // 1) Set defaults if clientBD does not exist
                 localStorage.setItem("clientLV", "0");
                 localStorage.setItem("clientBD", Date.now().toString()); // UTC Timestamp in ms
             } else {
@@ -1577,55 +1684,6 @@
             selectedOption.text = `${baseText} (${visibleCount})`;
 
             if (visibleCount > 0) {
-                ledger.classList.remove("hidden");
-            } else {
-                ledger.classList.add("hidden");
-            }
-
-        }
-        function FormSetQuest(questId, btn) {
-            // 20260702: StarTree: This is called to set the Quest ID of a form. (such as when the user clicked on the add comment button.)
-
-            const formSection = document.getElementById('formSection');
-            if (!formSection) return;
-            toggleModule('form', true)
-
-            // Prefill the Form Fields
-            reTargetUTC = "";
-            document.getElementById('questId').value = questId;
-            document.getElementById('MsgFormTags').value = "comment";
-
-            // Smoothly scroll the logging form view into target viewport view segment if needed
-            formSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            const reTitle = document.getElementById('MsgFormReTitle');
-            const reAPI = document.getElementById('MsgFormReAPI');
-
-            if (btn) {
-                const logItem = btn.closest('.log-item');
-                if (logItem) {
-                    logItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    reTargetUTC = logItem.dataset.timestamp;
-                }
-                // Sets the gold border.
-                if (logItem && activeEntry != logItem) {
-                    EntrySetActive(logItem);
-                    return;
-                } else {
-                    activeEntry.classList.remove('active');
-                    activeEntry = null;
-                    document.getElementById('questId').value = "";
-                }
-            }
-            reAPI.innerText = "";
-            reTitle.innerText = "";
-            reTitle.closest('.form-row').classList.add("hidden");
-        }
-        function MEMForm(bLoad) {
-            // @@3
-            // 20260704: StarTree: Load or Save the form content.
-            MEMValue('MsgFormImg', bLoad);
-            MEMValue('MsgFormQuester', bLoad);
-            MEMValue('MsgFormTags', bLoad);
             MEMValue('MsgFormText', bLoad);
             MEMValue('MsgFormTitle', bLoad);
             MEMValue('MsgFormUrl', bLoad);
@@ -1803,18 +1861,7 @@
             // 20260707: StarTree: No need to fetch, just use the current data.
             var list = document.getElementById('ledgerOutput');
             var locEntries = list.querySelectorAll(`.log-item.geo[data-quest-id='${questId}'], .log-item.geo[data-timestamp='${questId}']`);
-
-
-            const bounds = [];
-            locEntries.forEach(entry => {
-                // Skip the done sightings.
-                if (entry.querySelector('.entry-titlebar').querySelector('.entry-status')?.textContent === "Done") { return; }
-                // Skip the sightings not in the same scope.
-                if (!mScope === "all" && !entry.classList.contains(mScope)) { return; }
-                const lat = parseFloat(entry.dataset.latitude);
-                const lng = parseFloat(entry.dataset.longitude);
-                if (!isNaN(lat) && !isNaN(lng)) {
-                    const marker = L.circleMarker([lat, lng], {
+            const questEntry = document.querySelector(`.log-item[data-timestamp='${questId}']`);
                         radius: 6,
                         fillColor: '#ffd700',
                         color: '#000000',
@@ -2137,18 +2184,6 @@
                     const hh = String(startDate.getUTCHours()).padStart(2, '0');
                     const min = String(startDate.getUTCMinutes()).padStart(2, '0');
                     const ss = String(startDate.getUTCSeconds()).padStart(2, '0');
-                    const ms = String(startDate.getUTCMilliseconds()).padStart(3, '0');
-                    clientBD = `${yyyy}${mm}${dd}${hh}${min}${ss}${ms}`;
-                }
-            }
-            const frmTimer = document.querySelector('.timer-control');
-            // @@1
-            const statusMsg = document.getElementById('statusMessage');
-            const questId = document.getElementById('questId').value;
-            const status = document.getElementById('status').value || "";
-            const imgField = document.getElementById('MsgFormImg').value;
-            const urlField = document.getElementById('MsgFormUrl').value;
-            const tags = document.getElementById('MsgFormTags').value;
             const lat = document.getElementById('latField').value;
             const lng = document.getElementById('lngField').value;
             const duration = frmTimer.dataset.accMs;
@@ -2179,19 +2214,6 @@
             formData.append('img', imgField);
             formData.append('url', urlField);
             formData.append('tags', tags);
-            formData.append('eventText', eventText);
-            formData.append('lat', lat);
-            formData.append('lng', lng);
-            formData.append('cId', clientBD);
-            formData.append('cLv', clientLV);
-            formData.append('title', title);
-
-            try {
-                await fetch(precheck, {
-                    method: "POST",
-                    body: formData.toString(),
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" }
-                });
                 //var now = new Date();
                 //statusMsg.textContent = "Saved " + now + "!";
                 statusMsg.textContent = "";
@@ -2246,29 +2268,6 @@
             var mScope = iScope;
             if (!mScope) {
                 mScope = document.getElementById('apiSource').value;
-            }
-            var precheck = iSpecificAPI;
-            if (!precheck) {
-                precheck = QuestSDK.APIGet(true);
-                if (!precheck) { return; }
-                if (precheck === "all") {
-                    container.innerHTML = "";
-                    totalDisplay.textContent = 0;
-                    pendingDisplay.textContent = 0;
-                    if (QuestSDK.publicAPI) {
-                        await fetchLatestEntries(bCacheBust, QuestSDK.publicAPI, "public");
-                    }
-                    if (QuestSDK.guildAPI) {
-                        await fetchLatestEntries(bCacheBust, QuestSDK.guildAPI, "guild");
-                    }
-                    if (QuestSDK.personalAPI) {
-                        await fetchLatestEntries(bCacheBust, QuestSDK.personalAPI, "personal");
-                    }
-                    MEMSelected(null, null, true);
-                    filterMessageBoard();
-                    return;
-                } else {
-                    totalDisplay.textContent = 0;
                     pendingDisplay.textContent = 0;
                 }
             }
@@ -2277,32 +2276,6 @@
             if (refreshBtn) {
                 refreshBtn.disabled = true;
                 refreshBtn.style.opacity = '0.25';
-                refreshBtn.style.cursor = 'wait';
-            }
-
-
-            const useCacheBuster = document.getElementById('useCacheBuster').checked;
-            const showSightingsCheckbox = document.getElementById('showSightingsInFeed');
-            //const allowSightingsInFeed = showSightingsCheckbox ? showSightingsCheckbox.checked : false;
-            const allowSightingsInFeed = true;
-            //bCacheBust &= useCacheBuster;
-
-            if (!iSpecificAPI) {
-                container.innerHTML = "<p style='text-align:center;color:#a0aec0; font-size:16px;'>Loading from server...</p>";
-            }
-
-
-            try {
-                //const response = await fetch(QuestSDK.publicAPI + ((bCacheBust || !hasFetchedFromApi) ? '?t=' + Date.now() : ''));
-                const response = await fetch(precheck + ((bCacheBust) ? '?t=' + Date.now() : ''));
-
-                const result = await response.json();
-
-                if (result.status === "success") {
-                    hasFetchedFromApi = true;
-                    totalDisplay.textContent = String(Number(totalDisplay.textContent || 0) + Number(result.totalRows || 0));
-                    pendingDisplay.textContent = String(Number(pendingDisplay.textContent || 0) + Number(result.pendingCount || 0));
-
                     if (pendingDisplay.textContent === "0") {
                         pendingDisplay.parentElement.classList.add('hidden');
                     } else {

@@ -15,10 +15,15 @@ function doPost(e) {
       visibilityStatus = "Public";
       approvalComment = "Auto Approve Lv 1";
     }
+
+    // --- FIX: Get the active spreadsheet's specific timezone (California) ---
+    var sheetTimeZone = SpreadsheetApp.getActiveSpreadsheet().getSpreadsheetTimeZone();
     
+    // Format the date string matching the Sheet's timezone precisely
+    var formattedDate = Utilities.formatDate(new Date(), sheetTimeZone, "yyyy-MM-dd HH:mm:ss.SSS");
     // Map the incoming keys to the exact sheet headers dynamically
     var payloadMap = {
-      "Timestamp": new Date(),
+      "Timestamp": formattedDate,
       "Submitter ID": params.submitterId,
       "Quest ID": params.questId,
       "URL": params.url,
@@ -63,9 +68,6 @@ function doGet() {
     var sheet = ss.getSheetByName("AIR");
     var lastRow = sheet.getLastRow();
     
-    // Dynamically retrieve the spreadsheet's exact time zone
-    var sheetTimeZone = ss.getSpreadsheetTimeZone();
-    
     // Total data rows starting from the 3rd row (skips Header Row 1 and Unused Filter Row 2)
     var totalRowsCount = Math.max(0, lastRow - 2);
     var pendingReviewCount = 0;
@@ -90,7 +92,7 @@ function doGet() {
     }
 
     // Step 2: Extract data chunks from the bottom up to isolate the public logs
-    var chunkSize = 200;
+    var chunkSize = 20000;
     var endRow = lastRow;
 
     while (publicEntries.length < chunkSize && endRow > 2) {
@@ -115,13 +117,7 @@ function doGet() {
 
             var camelKey = headers[j].toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g, (m, chr) => chr.toUpperCase());
             
-            // --- TIMEZONE FIX ---
-            // If the cell contains a JavaScript Date object, force-format it from the Sheet's Timezone to UTC
-            if (row[j] instanceof Date) {
-              entry[camelKey] = Utilities.formatDate(row[j], "UTC", "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-            } else {
-              entry[camelKey] = row[j];
-            }
+            entry[camelKey] = row[j];
           }
           
           publicEntries.push(entry);

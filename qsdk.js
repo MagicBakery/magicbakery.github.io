@@ -1,41 +1,97 @@
 // qsdk.js
+class Archive {
+  constructor(api = null, response = null, result = null) {
+    this.api = api;
+    this.response = response;
+    this.result = result;
+  }
+
+  async Fetch(bCacheBust = false) {
+    this.response = null;
+    this.result = null;
+
+    if (!this.api) return null;
+    try {
+      let url = this.api;
+
+      if (bCacheBust) {
+        const sep = url.includes("?") ? "&" : "?";
+        url = `${url}${sep}cachebust=${Date.now()}`;
+      }
+      this.response = await fetch(url);
+      this.result = await this.response.json();
+      return this.result;
+    } catch (error) {
+      this.response = null;
+      this.result = null;
+      this.error = error;
+      return null;
+    }
+  }
+  async FetchById(id, bCacheBust = false) {
+    if (this.result === null) {
+      await this.Fetch(bCacheBust); // fetch once
+    }
+    if (!Array.isArray(this.result.data)) return null;
+    const first = this.result.data[0];
+    return this.result.data.find(entry => entry?.timestamp === id) ?? null;
+  }
+}
 const modules = {
   map: { elementId: 'mapSection', btnId: 'btnShowMap' },
   query: { elementId: 'querySection', btnId: 'btnShowQuery' },
   form: { elementId: 'formSection', btnId: 'btnShowForm' },
   settings: { elementId: 'settingsSection', btnId: 'btnShowSettings' }
 };
-const Mode=(()=>{
+const Mode = (() => {
   let edit = false;
   return {
-    get edit(){return edit;},    
-    set edit(value){edit = Boolean(value);},
+    get edit() { return edit; },
+    set edit(value) { edit = Boolean(value); },
   };
 })
 const QuestSDK = {
   // 1. Initialize the SDK with the user's specific configuration
   init(config) {
-
+    this.archives = this.archives || {};
     // First load from local storage.
+    this.archives.public = new Archive(
+      localStorage.getItem("questSDKpublicAPI"),
+      null,
+      null
+    );
+    this.archives.guild = new Archive(
+      localStorage.getItem("questSDKguildAPI"),
+      null,
+      null
+    );
+    this.archives.personal = new Archive(
+      localStorage.getItem("questSDKpersonalAPI"),
+      null,
+      null
+    );
+
+    /*
     this.publicAPI = localStorage.getItem("questSDKpublicAPI");
     this.guildAPI = localStorage.getItem("questSDKguildAPI");
-    this.personalAPI = localStorage.getItem("questSDKpersonalAPI");
+    this.personalAPI = localStorage.getItem("questSDKpersonalAPI");*/
 
     // If public API is blank, load from config.
-    if (!this.publicAPI) {
+    if (!this.archives.public.api) {
       if (!config || !config.API_URL) {
         console.error("QuestSDK Error: API_URL is required inside init().");
         return;
       }
-      this.publicAPI = config.API_URL;
+      this.archives.public.api = config.API_URL;
     }
   },
   APIGet(bFetch, elSource, elDest) {
     // 20260703: StarTree: The control's value specifies the destination.
     // When bFetch is TRUE, return API URL for fetching.
-    // When bFetch is FALSE, return the API RUL for sending.
+    // When bFetch is FALSE, return the API URL for sending.
     if (elDest) { this.apiDestControl = elDest; }
     if (elSource) { this.apiSourceControl = elSource; }
+
     if (bFetch && !this.apiSourceControl) {
       confirm('Cannot fetch data because the source scope is unknown.');
       return null;
@@ -44,22 +100,25 @@ const QuestSDK = {
       confirm('Cannot send data because the destination scope is unknown.');
       return null;
     }
-    var mScope = bFetch ? this.apiSourceControl.value.toLowerCase() : this.apiDestControl.value.toLowerCase();
+
+    var mScope = bFetch
+      ? this.apiSourceControl.value.toLowerCase()
+      : this.apiDestControl.value.toLowerCase();
+
+    const getArchiveAPI = (key) => this.archives?.[key]?.api;
+
     if (mScope === "public") {
-      if (!this.publicAPI) {
-        confirm("Public API is not set.");
-      }
-      return this.publicAPI;
+      const api = getArchiveAPI("public");
+      if (!api) confirm("Public API is not set.");
+      return api || null;
     } else if (mScope === "guild") {
-      if (!this.guildAPI) {
-        confirm("Guild API is not set.");
-      }
-      return this.guildAPI;
+      const api = getArchiveAPI("guild");
+      if (!api) confirm("Guild API is not set.");
+      return api || null;
     } else if (mScope === "personal") {
-      if (!this.personalAPI) {
-        confirm("Personal API is not set.");
-      }
-      return this.personalAPI;
+      const api = getArchiveAPI("personal");
+      if (!api) confirm("Personal API is not set.");
+      return api || null;
     } else if (mScope === "draft") {
       if (bFetch === false) {
         confirm("The message is in draft. Please set a destination.");
@@ -68,34 +127,42 @@ const QuestSDK = {
       }
       return null;
     } else if (mScope === "all") {
-      if (!this.publicAPI && !this.guildAPI && !this.personalAPI) {
+      const publicAPI = getArchiveAPI("public");
+      const guildAPI = getArchiveAPI("guild");
+      const personalAPI = getArchiveAPI("personal");
+
+      if (!publicAPI && !guildAPI && !personalAPI) {
         confirm("Destination API is not set.");
         return null;
       }
       return "all";
     }
+
     confirm("Destination API is not set.");
     return null;
   },
   APISet(iScope, elTextbox, iURL) {
-    // 20260703: StarTree: Saves the API URL for the scope.    
+    // 20260703: StarTree: Saves the API URL for the scope.
     // Read from textbox if iURL is not specified.
-    if (!iURL) { iURL = elTextbox.value };
+    if (!iURL) { iURL = elTextbox.value; }
     iURL = iURL.trim();
+
     const lScope = iScope.toLowerCase();
+
     if (lScope === "public") {
-      this.publicAPI = iURL;
+      this.archives.public.api = iURL;
       localStorage.setItem("questSDKpublicAPI", iURL);
       return;
     } else if (lScope === "guild") {
-      this.guildAPI = iURL;
+      this.archives.guild.api = iURL;
       localStorage.setItem("questSDKguildAPI", iURL);
       return;
     } else if (lScope === "personal") {
-      this.personalAPI = iURL;
+      this.archives.personal.api = iURL;
       localStorage.setItem("questSDKpersonalAPI", iURL);
       return;
     }
+
   },
   BDtoQSID(BD) {
     if (!BD) { return ""; }
@@ -111,6 +178,23 @@ const QuestSDK = {
       BD = `${yyyy}${mm}${dd}${hh}${min}${ss}${ms}`;
     }
     return BD;
+  },
+  async Fetch(bCacheBust = false) {
+    const archives = this.archives || {};
+    await Promise.all(
+      Object.values(archives).map(async (a) => {
+        if (a?.Fetch) await a.Fetch(bCacheBust);
+      })
+    );
+  },
+  async FetchById(id, bCacheBust = false) {
+    const archives = this.archives || {};
+    for (const a of Object.values(archives)) {
+      if (!a || typeof a.FetchById !== "function") continue;
+      const found = await a.FetchById(id, bCacheBust);
+      if (found) return found;
+    }
+    return null;
   },
   QSID(isoUtc) {
     // isoUtc: ISO string in UTC, e.g. "2026-07-04T06:16:22.713Z"
@@ -196,8 +280,6 @@ const WakeLock = (() => {
     isActive: () => !!wakeLock
   };
 })();
-
-
 
 // Helper Functions in Alphabetical Order
 function CommentsFilterByTag(elBtn) {
@@ -385,15 +467,15 @@ function EntryQuickLogBtnHTML(entry) {
     <span class="starCount"></span>
   </button></div>`;
 }
-function EntryQuickQuestCount(entry){
+function EntryQuickQuestCount(entry) {
   // 20260709: StarTree: If the entry is Quick Quest, count the log entries for today.
-  if(!entry.classList.contains('tag-quick') || !entry.classList.contains('tag-quest')){return;}
+  if (!entry.classList.contains('tag-quick') || !entry.classList.contains('tag-quest')) { return; }
   var logs = entry.querySelectorAll('.log-item.tag-quick.tag-log');
   const counter = entry.querySelector('.starCount');
   var count = 0;
-  logs.forEach(log=>{
-    
-    if(DateSameLocalDay(log.dataset.timestamp,null)){
+  logs.forEach(log => {
+
+    if (DateSameLocalDay(log.dataset.timestamp, null)) {
       count++;
     }
   });
@@ -574,7 +656,6 @@ function EntryURL(entry) {
     return ` <a class="entry-url" href="${safeUrl}" target="_blank" onclick="window.open(this.href, '_blank'); return false;">${label}</a>`;
   }).join("");
 }
-
 function formatUTCYYYMMDDhhmmssuuu(q) {
   const p = parseQidToUTC(q);
   if (!p) return null;
@@ -596,7 +677,106 @@ function formatUTCYYYMMDDhhmmssuuu(q) {
     uuu3
   );
 }
+async function FormSetEdit(btn, id) {
+  // 20260720: LRRH: Populate the form with the current content of a node to be edited.
+  const formSection = document.getElementById('formSection');
 
+  if (!formSection) return;
+  let logItem = null;
+  if (btn) {
+    logItem = btn.closest(".log-item");
+    id = logItem.dataset.timestamp;
+  } else {
+    if (!id) {
+
+    }
+    return
+  }
+
+  let node = await QuestSDK.FetchById(id);
+  if (!node) { return; }
+
+
+  toggleModule('form', true)
+
+  // Prefill the Form Fields
+  reTargetUTC = node.timestamp;
+  document.getElementById('questId').value = node.questId || "";
+  document.getElementById('status').value = node.status || "";
+  document.getElementById('MsgFormQuester').value = node.submitterId || "";
+  document.getElementById('MsgFormTitle').value = node.title || "";
+  document.getElementById('MsgFormText').value = node.eventText || "";
+  document.getElementById('MsgFormTags').value = node.tags || "";
+  document.getElementById('MsgFormUrl').value = node.url || "";
+  document.getElementById('MsgFormImg').value = node.img || "";
+  document.getElementById('latField').value = node.latitude || "";
+  document.getElementById('lngField').value = node.longitude || "";
+
+  formSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  if (btn) {
+    // Sets the gold border.
+    if (logItem && activeEntry != logItem) {
+      EntrySetActive(logItem);
+    } else {
+      activeEntry?.classList.remove('active');
+      activeEntry = null;
+    }
+  }
+  const reTitle = document.getElementById('MsgFormReTitle');
+  const reAPI = document.getElementById('MsgFormReAPI');
+  document.getElementById('MsgFormReAction').innerText = "Edit";
+  if (activeEntry) {
+    reAPI.innerText = EntryScope(activeEntry);
+  } else if (logItem) {
+    reAPI.innerText = EntryScope(logItem);
+  } else {
+    reAPI.innerText = "";
+  }
+  reTitle.innerText = node.timestamp;
+  reTitle.closest('.form-row').classList.remove("hidden");
+}
+function FormSetQuest(questId, btn) {
+  // 20260702: StarTree: This is called to set the Quest ID of a form. (such as when the user clicked on the add comment button.)
+  if (Mode.edit) { return FormSetEdit(btn, questId); }
+
+
+  const formSection = document.getElementById('formSection');
+  if (!formSection) return;
+  toggleModule('form', true)
+
+  // Prefill the Form Fields
+  reTargetUTC = "";
+  document.getElementById('questId').value = questId;
+  document.getElementById('MsgFormTags').value = "comment";
+
+  // Smoothly scroll the logging form view into target viewport view segment if needed
+  formSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  const reTitle = document.getElementById('MsgFormReTitle');
+  const reAPI = document.getElementById('MsgFormReAPI');
+  document.getElementById('MsgFormReAction').innerText = "Re";
+
+  if (btn) {
+    const logItem = btn.closest('.log-item');
+    if (logItem) {
+      logItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      reTargetUTC = logItem.dataset.timestamp;
+    }
+    // Sets the gold border.
+    if (logItem && activeEntry != logItem) {
+      EntrySetActive(logItem);
+      return;
+    } else {
+      activeEntry.classList.remove('active');
+      activeEntry = null;
+      document.getElementById('questId').value = "";
+    }
+  }  
+  reAPI.innerText = "";
+  reTitle.innerText = "";
+  reTitle.closest('.form-row').classList.add("hidden");
+
+}
 function isISOZTimestamp(s) {
   return typeof s === 'string'
     && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/.test(s)
@@ -793,7 +973,7 @@ function ToggleListComments(elBar, bShow) {
       childTagsDiv.innerHTML = '';
       const comSec = elEntry.querySelector('.commentsSection');
       const tagEls = comSec.querySelectorAll('.log-item .tag'); // adjust scope if needed
-      const counts = new Map();      
+      const counts = new Map();
 
       tagEls.forEach(t => {
         const txt = (t.textContent || '').trim(); // expected like "#something"
@@ -859,4 +1039,12 @@ function ToggleTab(elID) {
     tab.classList.add('hidden');
   });
   elTab.classList.remove('hidden');
+}
+// #HELPER FUNCTION
+function getTagClasses(el) {
+  const classes = (el?.classList ? [...el.classList] : []);
+  return classes
+    .filter(c => c.startsWith('tag-'))
+    .map(c => c.slice(4)) // remove "tag-"
+    .join(' ');
 }

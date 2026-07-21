@@ -1,7 +1,7 @@
 {
   "name": "Quest Board",
   "short_name": "Quest",
-  "start_url": "/qb.html",
+  "start_url": "/gb.html",
   "display": "standalone",
   "scope": "/",
   "background_color": "#000000",

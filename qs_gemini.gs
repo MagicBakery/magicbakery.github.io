@@ -1,9 +1,11 @@
 function doPost(e) {
   try {
-    // Read directly from the incoming form parameters
     var params = e.parameter;
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("AIR");
-    
+
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName("AIR");
+    var accessSheet = ss.getSheetByName("Access");
+
     var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
     var newRow = new Array(headers.length);
 
@@ -15,10 +17,12 @@ function doPost(e) {
       visibilityStatus = "Public";
       approvalComment = "Auto Approve Lv 1";
     }
-    
-    // Map the incoming keys to the exact sheet headers dynamically
+
+    var sheetTimeZone = ss.getSpreadsheetTimeZone();
+    var formattedDate = Utilities.formatDate(new Date(), sheetTimeZone, "yyyy-MM-dd HH:mm:ss.SSS");
+
     var payloadMap = {
-      "Timestamp": new Date(),
+      "Timestamp": formattedDate,
       "Submitter ID": params.submitterId,
       "Quest ID": params.questId,
       "URL": params.url,
@@ -32,30 +36,123 @@ function doPost(e) {
       "Latitude": params.lat || params.latitude || params.latField || "",
       "Longitude": params.lng || params.longitude || params.lngField || "",
       "Client BD": params.cId || params.clientBD,
-      "Client LV": params.cLv ||params.clientLV,
+      "Client LV": params.cLv || params.clientLV,
     };
 
     for (var i = 0; i < headers.length; i++) {
       var headerName = headers[i];
-      if (payloadMap.hasOwnProperty(headerName)) {
-        newRow[i] = payloadMap[headerName];
-      } else {
-        newRow[i] = "";
-      }
+      newRow[i] = payloadMap.hasOwnProperty(headerName) ? payloadMap[headerName] : "";
     }
-    
-    // Instead of appendRow, manually find the next row ensuring we never touch Row 2
+
+    var action = (params.action || "").toLowerCase();
+    var clientBD = params.cId || params.clientBD || "";
+
+    // ---- EDIT AUTH + LOOKUP (from Access sheet) ----
+    if (action === "edit") {
+      if (!clientBD) {
+        return ContentService.createTextOutput(JSON.stringify({
+          status: "error",
+          error: "Missing clientBD (parameter 'cId' or 'clientBD') for edit."
+        })).setMimeType(ContentService.MimeType.JSON);
+      }
+
+      if (!accessSheet) {
+        throw new Error("Sheet 'Access' not found.");
+      }
+
+      var accessHeaders = accessSheet.getRange(1, 1, 1, accessSheet.getLastColumn()).getValues()[0];
+      var clientBdColIdx = accessHeaders.indexOf("Client BD");
+      // Try common names for the level column; adjust if your header differs.
+      var levelColIdx =
+        accessHeaders.indexOf("Level") !== -1 ? accessHeaders.indexOf("Level")
+        : (accessHeaders.indexOf("Client LV") !== -1 ? accessHeaders.indexOf("Client LV")
+        : (accessHeaders.indexOf("Client Level") !== -1 ? accessHeaders.indexOf("Client Level")
+        : -1));
+
+      if (clientBdColIdx === -1) throw new Error("No 'Client BD' column found in 'Access' header row.");
+      if (levelColIdx === -1) throw new Error("No level column found in 'Access' header row (expected 'Level').");
+
+      var accessLastRow = accessSheet.getLastRow();
+      var accessStartRow = 2; // assume headers in row 1
+      var accessNumRows = accessLastRow >= accessStartRow ? (accessLastRow - accessStartRow + 1) : 0;
+
+      var permittedLevel = null;
+
+      if (accessNumRows > 0) {
+        var accessRange = accessSheet.getRange(accessStartRow, 1, accessNumRows, accessSheet.getLastColumn());
+        var accessValues = accessRange.getValues(); // 2D
+
+        for (var r = 0; r < accessValues.length; r++) {
+          var rowClientBD = accessValues[r][clientBdColIdx];
+          if (String(rowClientBD) === String(clientBD)) {
+            permittedLevel = parseInt(accessValues[r][levelColIdx], 10);
+            break;
+          }
+        }
+      }
+
+      if (permittedLevel === null || isNaN(permittedLevel) || permittedLevel < 5) {
+        return ContentService.createTextOutput(JSON.stringify({
+          status: "error",
+          error: "Edit not permitted. Client BD Level must be >= 5."
+        })).setMimeType(ContentService.MimeType.JSON);
+      }
+
+      // ---- Timestamp lookup + row update ----
+      var timestampToFind = params.timestamp || params.timeStamp || params.Timestamp;
+      if (!timestampToFind) {
+        return ContentService.createTextOutput(JSON.stringify({
+          status: "error",
+          error: "Missing required 'timestamp' parameter for edit."
+        })).setMimeType(ContentService.MimeType.JSON);
+      }
+
+      var timestampColIndex = headers.indexOf("Timestamp"); // 0-based
+      if (timestampColIndex === -1) throw new Error("No 'Timestamp' column found in 'AIR' header row.");
+
+      var lastRow = sheet.getLastRow();
+      var startRow = 3; // never touch row 2
+      if (lastRow >= startRow) {
+        var numRows = lastRow - startRow + 1;
+
+        var timestampRange = sheet.getRange(startRow, timestampColIndex + 1, numRows, 1);
+        var timestampValues = timestampRange.getValues(); // [ [ts], [ts], ... ]
+
+        var targetRowOffset = -1;
+        for (var rr = 0; rr < timestampValues.length; rr++) {
+          if (String(timestampValues[rr][0]) === String(timestampToFind)) {
+            targetRowOffset = rr;
+            break;
+          }
+        }
+
+        if (targetRowOffset !== -1) {
+          var targetRow = startRow + targetRowOffset;
+
+          sheet.getRange(targetRow, 1, 1, newRow.length).setValues([newRow]);
+
+          return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+            .setMimeType(ContentService.MimeType.JSON);
+        }
+      }
+
+      // If timestamp not found, append (still never touches row 2)
+      // (Remove this block and return an error instead if you prefer strict editing.)
+    }
+
+    // ---- APPEND LOGIC (default) ----
     var nextRow = Math.max(3, sheet.getLastRow() + 1);
     sheet.getRange(nextRow, 1, 1, newRow.length).setValues([newRow]);
-    
-    // Return a clean CORS-approved response wrapper
-    return ContentService.createTextOutput(JSON.stringify({"status": "success"}))
-                         .setMimeType(ContentService.MimeType.JSON);
-  } catch(error) {
-    return ContentService.createTextOutput(JSON.stringify({"status": "error", "error": error.toString()}))
-                         .setMimeType(ContentService.MimeType.JSON);
+
+    return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", error: error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
   }
 }
+
 
 function doGet() {
   try {

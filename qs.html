@@ -649,8 +649,8 @@
             color: gold;
             opacity: 1;
         }
-        .entry-childTags{
-        }
+
+        .entry-childTags {}
 
         .entry-content {
             padding: 5px 5px 5px 5px;
@@ -687,7 +687,7 @@
 
         }
 
-        
+
         .entry-tagsList {
             display: flex;
             flex-wrap: wrap;
@@ -991,7 +991,7 @@
             </select>
             <!--//onclick="fetchFromCacheOnFirstStart();"-->
             <select id="messageBoardFilter" onchange="fetchFromCacheOnFirstStart();filterMessageBoard()">
-                <option value="SHOW ALL">All</option>                
+                <option value="SHOW ALL">All</option>
                 <option value="about">About</option>
                 <option value="quest">Quests</option>
                 <option value="sighting">Sightings</option>
@@ -1038,7 +1038,7 @@
                 </div>
             </div>
             <div class="form-row hidden">
-                <div onclick="ListShowReOnly()" style="color:gold;font-size:12px;margin:-7px 0px 0px 3px">Re: <span
+                <div onclick="ListShowReOnly()" style="color:gold;font-size:12px;margin:-7px 0px 0px 3px"><span id="MsgFormReAction">Re</span>: <span
                         id="MsgFormReAPI"></span>: <span id="MsgFormReTitle"></span></div>
             </div>
             <div class="form-row">
@@ -1158,7 +1158,8 @@
                             style="width: 32px;height: 23px;background: none;border-radius: 5px;border: none;color:#808080;padding: 0;">
                             UTC
                         </button>
-                        <button class="text btn" type="button" title="Toggle Edit Mode" onclick="Mode.edit = !Mode.edit;body.classList.toggle('edit',Mode.edit)">EDIT</button>
+                        <button class="text btn edit" type="button" title="Toggle Edit Mode"
+                            onclick="Mode.edit = !Mode.edit;body.classList.toggle('edit',Mode.edit)">EDIT</button>
                     </div>
                     <textarea id="Notepad" placeholder="Notes..."
                         style="resize:vertical; height:100%;border: 1px solid black;border-radius: 5px;"
@@ -1293,9 +1294,9 @@
         document.addEventListener("DOMContentLoaded", () => {
 
             // Load API settings from Quest SDK.
-            Settings_SetValue('publicQuestAPIURL', QuestSDK.publicAPI);
-            Settings_SetValue('guildQuestAPIURL', QuestSDK.guildAPI);
-            Settings_SetValue('personalQuestAPIURL', QuestSDK.personalAPI);
+            Settings_SetValue('publicQuestAPIURL', QuestSDK.archives.public.api);
+            Settings_SetValue('guildQuestAPIURL', QuestSDK.archives.guild.api);
+            Settings_SetValue('personalQuestAPIURL', QuestSDK.archives.personal.api);
             QuestSDK.APIGet(null, document.getElementById('apiSource'), document.getElementById('apiDest'));
 
             const clientBD = localStorage.getItem("clientBD");
@@ -1581,43 +1582,6 @@
             }
 
         }
-        function FormSetQuest(questId, btn) {
-            // 20260702: StarTree: This is called to set the Quest ID of a form. (such as when the user clicked on the add comment button.)
-
-            const formSection = document.getElementById('formSection');
-            if (!formSection) return;
-            toggleModule('form', true)
-
-            // Prefill the Form Fields
-            reTargetUTC = "";
-            document.getElementById('questId').value = questId;
-            document.getElementById('MsgFormTags').value = "comment";
-
-            // Smoothly scroll the logging form view into target viewport view segment if needed
-            formSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            const reTitle = document.getElementById('MsgFormReTitle');
-            const reAPI = document.getElementById('MsgFormReAPI');
-
-            if (btn) {
-                const logItem = btn.closest('.log-item');
-                if (logItem) {
-                    logItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                    reTargetUTC = logItem.dataset.timestamp;
-                }
-                // Sets the gold border.
-                if (logItem && activeEntry != logItem) {
-                    EntrySetActive(logItem);
-                    return;
-                } else {
-                    activeEntry.classList.remove('active');
-                    activeEntry = null;
-                    document.getElementById('questId').value = "";
-                }
-            }
-            reAPI.innerText = "";
-            reTitle.innerText = "";
-            reTitle.closest('.form-row').classList.add("hidden");
-        }
         function MEMForm(bLoad) {
             // @@3
             // 20260704: StarTree: Load or Save the form content.
@@ -1808,7 +1772,7 @@
                 // Skip the done sightings.
                 if (entry.querySelector('.entry-titlebar').querySelector('.entry-status')?.textContent === "Done") { return; }
                 // If the current node is expanded, skip the sightings that are not in view.
-                if(questEntry?.classList.contains('showing-comments') && entry.classList.contains('hidden')){return;}
+                if (questEntry?.classList.contains('showing-comments') && entry.classList.contains('hidden')) { return; }
                 // Skip the sightings not in the same scope.
                 if (!mScope === "all" && !entry.classList.contains(mScope)) { return; }
                 const lat = parseFloat(entry.dataset.latitude);
@@ -2143,6 +2107,7 @@
             }
             const frmTimer = document.querySelector('.timer-control');
             // @@1
+            const timestamp = document.getElementById('MsgFormReTitle').innerText;
             const statusMsg = document.getElementById('statusMessage');
             const questId = document.getElementById('questId').value;
             const status = document.getElementById('status').value || "";
@@ -2185,7 +2150,10 @@
             formData.append('cId', clientBD);
             formData.append('cLv', clientLV);
             formData.append('title', title);
-
+            if(Mode.edit){
+                formData.append('action','edit');
+                formData.append('timestamp',timestamp);
+            }
             try {
                 await fetch(precheck, {
                     method: "POST",
@@ -2252,17 +2220,19 @@
                 precheck = QuestSDK.APIGet(true);
                 if (!precheck) { return; }
                 if (precheck === "all") {
+                    await QuestSDK.Fetch();
+
                     container.innerHTML = "";
                     totalDisplay.textContent = 0;
                     pendingDisplay.textContent = 0;
-                    if (QuestSDK.publicAPI) {
-                        await fetchLatestEntries(bCacheBust, QuestSDK.publicAPI, "public");
+                    if (QuestSDK.archives.public.api) {
+                        await fetchLatestEntries(bCacheBust, QuestSDK.archives.public.api, "public");
                     }
-                    if (QuestSDK.guildAPI) {
-                        await fetchLatestEntries(bCacheBust, QuestSDK.guildAPI, "guild");
+                    if (QuestSDK.archives.guild.api) {
+                        await fetchLatestEntries(bCacheBust, QuestSDK.archives.guild.api, "guild");
                     }
-                    if (QuestSDK.personalAPI) {
-                        await fetchLatestEntries(bCacheBust, QuestSDK.personalAPI, "personal");
+                    if (QuestSDK.archives.personal.api) {
+                        await fetchLatestEntries(bCacheBust, QuestSDK.archives.personal.api, "personal");
                     }
                     MEMSelected(null, null, true);
                     filterMessageBoard();
@@ -2283,20 +2253,23 @@
 
             const useCacheBuster = document.getElementById('useCacheBuster').checked;
             const showSightingsCheckbox = document.getElementById('showSightingsInFeed');
-            //const allowSightingsInFeed = showSightingsCheckbox ? showSightingsCheckbox.checked : false;
             const allowSightingsInFeed = true;
-            //bCacheBust &= useCacheBuster;
 
             if (!iSpecificAPI) {
                 container.innerHTML = "<p style='text-align:center;color:#a0aec0; font-size:16px;'>Loading from server...</p>";
             }
-
-
             try {
-                //const response = await fetch(QuestSDK.publicAPI + ((bCacheBust || !hasFetchedFromApi) ? '?t=' + Date.now() : ''));
-                const response = await fetch(precheck + ((bCacheBust) ? '?t=' + Date.now() : ''));
+                let archive = null;
+                let result = null;                
+                if (mScope === "public" || mScope==="guild" || mScope==="personal") {
+                    QuestSDK.archives.public.Fetch(bCacheBust);
+                    archive = QuestSDK.archives[mScope];
+                } else {
+                    archive = new Archive(precheck);
+                }
+                await archive.Fetch(bCacheBust);
+                result = archive.result;
 
-                const result = await response.json();
 
                 if (result.status === "success") {
                     hasFetchedFromApi = true;
