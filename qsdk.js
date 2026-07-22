@@ -883,9 +883,9 @@ async function QuickLog(e, elBtn) {
   const scope = EntryScope(entry).toLocaleLowerCase();
 
   var api = "";
-  if (scope === "public") { api = QuestSDK.publicAPI; }
-  if (scope === "guild") { api = QuestSDK.guildAPI; }
-  if (scope === "personal") { api = QuestSDK.personalAPI; }
+  if (scope === "public") { api = QuestSDK.archives.public.api; }
+  if (scope === "guild") { api = QuestSDK.archives.guild.api; }
+  if (scope === "personal") { api = QuestSDK.archives.personal.api; }
   if (!api) { alert(`The ${scope} API URL is missing.`); return; }
 
   // Add a cooldown timer of 5 seconds after each click, so the user cannot click it again immediately.
