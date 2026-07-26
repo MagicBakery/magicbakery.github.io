@@ -543,18 +543,7 @@
             line-height: 1;
         }
 
-        .btn {
-            align-items: center;
-            border-radius: 3px;
-            border: 1px solid black;
-            color: white;
-            cursor: pointer;
-            display: inline-flex;
-            height: 18px;
-            justify-content: center;
-            padding: 0px;
-            width: 24px;
-        }
+        
 
         .btn.comment-add {
             background: none;
@@ -1160,6 +1149,8 @@
                         </button>
                         <button class="text btn edit" type="button" title="Toggle Edit Mode"
                             onclick="Mode.edit = !Mode.edit;body.classList.toggle('edit',Mode.edit)">EDIT</button>
+                        <button class="text btn" type="button" title="Spawn iframe panel"
+                            onclick="PanelSpawn(this)">PNL</button>
                     </div>
                     <textarea id="Notepad" placeholder="Notes..."
                         style="resize:vertical; height:100%;border: 1px solid black;border-radius: 5px;"
@@ -2318,6 +2309,7 @@
                         // Save the Quest ID
                         element.dataset.questId = item.questId;
                         element.dataset.timestamp = item.timestamp;
+                        element.dataset.quester = item.submitterId;
                         const hasCoords = item.latitude && item.longitude;
                         if (hasCoords) {
                             element.classList.add('geo')
@@ -2343,7 +2335,9 @@
                         html += " " + EntryStatus(item);
                         html += `</div><div class="entry-content hidden">`;
                         html += EntryThumbnail(item, "entry-thumbnail");
-                        html += `<span style="float:right; color: #ffffff;">${item.submitterId || 'User'} ${EntryStandardButtons(item)}</span>`;
+                        html += `<span style="float:right; color: #ffffff;">`;
+                        html += EntryLikeButtonHTML(element);
+                        html += `${item.submitterId || 'User'} ${EntryStandardButtons(item)}</span>`;
                         html += EntryParentButton(item);
                         html += htmlTags
                         html += `<div class="entry-text">${item.eventText} ${EntryURL(item)}</div>`;

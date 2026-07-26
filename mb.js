@@ -20,8 +20,8 @@ jQuery.expr[':'].contains = function(a, i, m) {
 };
 function AC_Archetype(el){
   // 20250213: StarTree: For Adventure Call
-  var elControl = SearchPS(el, 'control');
-  var elMode = elControl.querySelector('[AC_Mode]');
+  let elControl = SearchPS(el, 'control');
+  let elMode = elControl.querySelector('[AC_Mode]');
 
   // READY MODE: (This is the only mode with effects)
   if(elMode.innerText.search("✅")>-1){
@@ -29,7 +29,7 @@ function AC_Archetype(el){
     elMode.innerHTML = el.innerHTML;
     elMode.style.fontSize="100px";
     // Hide all other Archetype Rows
-    var mArchetypes = elControl.querySelectorAll('[AC_Archetype]');
+    let mArchetypes = elControl.querySelectorAll('[AC_Archetype]');
     mArchetypes.forEach((mTag)=>{
       if(mTag.firstElementChild!=el){
         mTag.classList.add("mbhide");
@@ -40,8 +40,8 @@ function AC_Archetype(el){
 }
 function AC_ArchStar(el){
   // 20250213: StarTree: For Adventure Call
-  var elControl = SearchPS(el, 'control');
-  var elMode = elControl.querySelector('[AC_Mode]');
+  let elControl = SearchPS(el, 'control');
+  let elMode = elControl.querySelector('[AC_Mode]');
 
   // 20250215: StarTree: Allow the level up star to turn into a star in all modes.
   let mSkillLevel = el.parentNode.getAttribute("Level");
@@ -93,11 +93,11 @@ function AC_ArchStar(el){
   let mAvailableStarCount = (el.parentNode.innerHTML.split("⭐").length)-1;    
   
   // 20250215: StarTree: Checking the setting about the roll style
-  var mRollStyle = elControl.querySelector("[AC_RollStyle]");
-  var bCardinalStyle = mRollStyle.innerText.search("✅")>-1;
-  var mExistingRoll = elMode.innerHTML.split("⭐").length-1; 
-  var mRoll = 0;
-  var mBonusRoll = 0; 
+  let mRollStyle = elControl.querySelector("[AC_RollStyle]");
+  let bCardinalStyle = mRollStyle.innerText.search("✅")>-1;
+  let mExistingRoll = elMode.innerHTML.split("⭐").length-1; 
+  let mRoll = 0;
+  let mBonusRoll = 0; 
   elMode.innerHTML="";
 
   if(bCardinalStyle){
@@ -118,7 +118,7 @@ function AC_ArchStar(el){
   }
   //if(getRandomInt(1,2**mSkillCount,true)>1){
   elMode.style.fontSize = "78px";
-  var mTotalRoll = mRoll + mExistingRoll + mBonusRoll;
+  let mTotalRoll = mRoll + mExistingRoll + mBonusRoll;
   if(mTotalRoll>0){
     let mRows = Math.floor(mTotalRoll/3);
     elMode.innerHTML += (MacroIcons(null,"⭐").repeat(3)+"<br>").repeat(mRows);
@@ -152,8 +152,8 @@ function AC_ArchStar(el){
     bLevelNow = mRoll >= parseInt(mSkillLevel);
   }
   if(!bLeveled && bLevelNow){
-    var mArchStars = el.parentNode;
-    var mAStar = mArchStars.firstElementChild;
+    let mArchStars = el.parentNode;
+    let mAStar = mArchStars.firstElementChild;
     while(NotBlank(mAStar)){
       if(mAStar.style.opacity==0){
         mAStar.style.opacity=1;
@@ -167,8 +167,8 @@ function AC_ArchStar(el){
 function AC_Mode(el){
   // 20250213: StarTree: Adventure Calls Mode button
 
-  var elControl = SearchPS(el, 'control');
-  var mStars = elControl.querySelector('[AC_QuestStars]');
+  let elControl = SearchPS(el, 'control');
+  let mStars = elControl.querySelector('[AC_QuestStars]');
   
   // BLANK: SETTING MODE
   // If the Blank Check box is clicked, change from Setting to Ready mode.
@@ -236,7 +236,7 @@ function AC_Mode(el){
   el.style.fontSize="36px";
   el.innerHTML = MacroIcons(null,"✅");
   // Show all Archetype Rows 
-  var mArchetypes = elControl.querySelectorAll('[AC_Archetype]');
+  let mArchetypes = elControl.querySelectorAll('[AC_Archetype]');
   mArchetypes.forEach((mTag)=>{
     mTag.classList.remove("mbhide");    
   });
@@ -244,7 +244,7 @@ function AC_Mode(el){
 
 function ACLoadAll_20240508_DELETE(bReport){
   // 20240508: Natalie: Load all archives.
-  var elArchives = document.querySelector('archives');
+  let elArchives = document.querySelector('archives');
   $(document).ready(function(){
     for(let i=1;i<=ArchiveNum();i++){
       let elArchive = elArchives.querySelector('archive'+i);
@@ -267,7 +267,7 @@ function AtGitHub(){
 function AttributeCopy(elTarget,elSource,iAttribute){
   // 20251118: StarTree: Copies an attribute if it exists in the source.
   // Return the value of the attribute.
-  var mValue = null;
+  let mValue = null;
   if(elSource.hasAttribute(iAttribute)){
     mValue = elSource.getAttribute(iAttribute);
     elTarget.setAttribute(iAttribute,mValue);
@@ -285,9 +285,9 @@ function AuthorButton(elAuthor){
   // 3) [1:List] >> SHOW SIDEPANEL 
   // 4) [0:Both] >> HIDE BANNER
   
-  var elBoard = SearchPS(elAuthor,"board");
-  var elBanner = elBoard.querySelector("[Banner]");
-  var elSidePanel = elBoard.querySelector("[SidePanel]");
+  let elBoard = SearchPS(elAuthor,"board");
+  let elBanner = elBoard.querySelector("[Banner]");
+  let elSidePanel = elBoard.querySelector("[SidePanel]");
 
   // If both lists are empty, just return.
   if(IsBlank(elBanner) && IsBlank(elSidePanel)){return;}
@@ -297,7 +297,7 @@ function AuthorButton(elAuthor){
   if(IsBlank(elSidePanel)){ToggleHide(elBanner);return;}
 
   // If Both List Exist, Cycle through them.
-  var mState = 0;
+  let mState = 0;
   if(elBanner.classList.contains("mbhide")){mState += 2;}
   if(elSidePanel.classList.contains("mbhide")){mState += 1;}
 
@@ -334,27 +334,27 @@ function BasePath(){
 }
 function BoardAdd(el){
   // 20230821: StarTree: Adds a container immediately below the control section
-  var elTemp = document.createElement("div");
+  let elTemp = document.createElement("div");
   elTemp.classList.add('mbscroll');
 
   // STEP: Add the close button.
-  var mHTML = "<div control>";
+  let mHTML = "<div control>";
   mHTML += "<span class='mbRef'><a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>:Close:</a></span>";
   mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
   MacroIcons(elTemp);
   elTemp.style.marginBottom = "0px";
-  var mControl = SearchPS(el,'control');
+  let mControl = SearchPS(el,'control');
   mControl.nextElementSibling.prepend(elTemp);
   return elTemp;
 }
 function BoardAddBefore(el){
   // 20231030: StarTree: Add a board before el (which should also be a board)
-  var elTemp = document.createElement("div");
+  let elTemp = document.createElement("div");
   elTemp.classList.add('mbscroll');
 
   // STEP: Add the close button.
-  var mHTML = "<div control>";
+  let mHTML = "<div control>";
   mHTML += "<span class='mbRef'><a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>:Close:</a></span>";
   mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
@@ -365,11 +365,11 @@ function BoardAddBefore(el){
 }
 function BoardAddAfter(el){
   // 20231115: Ivy: Add a board after el (which should also be a board)
-  var elTemp = document.createElement("div");
+  let elTemp = document.createElement("div");
   elTemp.classList.add('mbscroll');
 
   // STEP: Add the close button.
-  var mHTML = "<div control>";
+  let mHTML = "<div control>";
   mHTML += "<span class='mbRef'><a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>:Close:</a></span>";
   mHTML += "</div><div class='mbCB'></div>";
   elTemp.innerHTML= mHTML;
@@ -390,8 +390,8 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll,elArchives){
 
   // STEP: Create a container within the Board after the control section for the content.
   //       ((The board itself has a close button))
-  var elContainer = document.createElement("span");
-  var mQuery = "#P" + iNodeID;
+  let elContainer = document.createElement("span");
+  let mQuery = "#P" + iNodeID;
 
   // 20240509: Skyle: For Offline Mode
   if(IsBlank(elArchives)){elArchives = Offline()}
@@ -415,14 +415,14 @@ function BoardFill(elBoard,iNodeID,iDoNotScroll,elArchives){
   //   <div class="mbCB"></div> // // This is also for displaying the discussion section. 
   
   // STEP: Get Archive
-  var mArchive = ArchiveSelect(iNodeID);
+  let mArchive = ArchiveSelect(iNodeID);
   
 
   // STEP: JQuery
   $(document).ready(function(){
     $(elContainer).load(mArchive + mQuery, function(){	
       // elContainer contains the node outer div.
-      var elRecord = elContainer.firstElementChild; 
+      let elRecord = elContainer.firstElementChild; 
       BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll);
     }); // END JQuery Load
   }); // END Document ready
@@ -437,18 +437,18 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   // 20240720: StarTree: This function fills a board with content.
   // 20240509: Skyle: Added to handle Offline Archive.
   // 20231224: StarTree: If the node has a <content> section, then assume that this is the new node style that has <node>, <content>, and <ref> sections.
-  var elBanner; try{elBanner = elRecord.querySelector('banner');}catch(error){}        
-  var elContent = elRecord.querySelector('content');
+  let elBanner; try{elBanner = elRecord.querySelector('banner');}catch(error){}        
+  let elContent = elRecord.querySelector('content');
 
-  var elNode = elRecord.querySelector('node');
-  var mNodeID = "";
-  //var mProfile = Default(elRecord.getAttribute("data-Profile"),"");
+  let elNode = elRecord.querySelector('node');
+  let mNodeID = "";
+  //let mProfile = Default(elRecord.getAttribute("data-Profile"),"");
   // 20251118: StarTree: Retain the data-page attribute
-  var mPage = AttributeCopy(elBoard,elRecord,'data-page');
+  let mPage = AttributeCopy(elBoard,elRecord,'data-page');
   
   if(!IsBlank(elContent) && !IsBlank(elNode)){ 
     // 20231224: StarTree: New Format
-    var mJSON = JSON.parse(elNode.innerHTML);
+    let mJSON = JSON.parse(elNode.innerHTML);
     mNodeID = mJSON.id;
 
 
@@ -462,7 +462,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       elContent.innerHTML += Default(localStorage.getItem(mNodeID + "-N"),"");
     }
 
-    var mHTMLInner = "<span class='mbDayHeader'></span>";
+    let mHTMLInner = "<span class='mbDayHeader'></span>";
     // 20240908: Sylvia: If the node is a profile, use the short title at the top.
     // 20240909: StarTree: If the node is a profile, Show the avatar. 
     if(elRecord.hasAttribute("data-profile")){
@@ -545,10 +545,10 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     mHTMLInner += "<hide><h1>"+mJSON.title+"</h1></hide>";
 
     // CARD / Gallery Section
-    var mCardList = ResCardList(elRecord);
+    let mCardList = ResCardList(elRecord);
     // RES LIST SEARCH SECTION
-    //var mResList = ResList(elRecord, IsBlank(mCardList)); 
-    var mResList = ResList(elRecord,true); 
+    //let mResList = ResList(elRecord, IsBlank(mCardList)); 
+    let mResList = ResList(elRecord,true); 
     
     // 20251102: StarTree: Do not add a ResList when there is no author or image for the big button.
     if(NotBlank(mJSON.author) || NotBlank(mJSON.img)){
@@ -558,13 +558,13 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
 
     
     // 20240731: StarTree: If there is no RES or Card, but there is INV, show the content of INV.
-    var mInv = elRecord.querySelector("inv");
+    let mInv = elRecord.querySelector("inv");
     if(IsBlank(mResList) && IsBlank(mCardList) && NotBlank(mInv)){
       mHTMLInner += "<div Banner>" + mInv.innerHTML + "</div>";
     }
     // 20240329: StarTree: if there is no card at all, don't show the author badge.
     mHasCard = false;
-    var elCard;
+    let elCard;
     try{
       elCard = elRecord.querySelector('card');
     }catch(error){
@@ -618,7 +618,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     }
 
 
-    var elRef = elRecord.querySelector('ref');
+    let elRef = elRecord.querySelector('ref');
     
     // REF SECTION
     if(!IsBlank(elRef)){
@@ -642,9 +642,9 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       // STEP: Follow the tags section with the children section.
       // 20240405: StarTree: include the tag.
       if(NotBlank(mJSON.kids)){
-        var mJSONKids = mJSON.kids.split(',');
-        var mKid = "";
-        var mKidHTML = "";
+        let mJSONKids = mJSON.kids.split(',');
+        let mKid = "";
+        let mKidHTML = "";
         for(let i=0;i<mJSONKids.length;i++){
           mKid = mJSONKids[i].replaceAll(" ","");
           if(i!=0){mKidHTML += ","}
@@ -655,9 +655,9 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
 
       // 20240403: StarTree: Trial: Listing all tags (starts with data-)
       // 20240406: StarTree: Start with the tags section. 
-      var elAttr = elRecord.attributes;
+      let elAttr = elRecord.attributes;
       let mTags = [];
-      var mTagHTML = ""       
+      let mTagHTML = ""       
       for(j=0;j<elAttr.length;j++){
         if(elAttr[j].name.startsWith('data-')){
           mTags.push(elAttr[j].name.replace('data-',''));              
@@ -705,7 +705,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
 
   // 20240324: StarTree: If there is already content, remove it.
   try{
-    var elnextelement = elBoard.firstElementChild.nextElementSibling;
+    let elnextelement = elBoard.firstElementChild.nextElementSibling;
     if(elnextelement.nodeName!="DIV"){
       elnextelement.remove();
     }
@@ -717,7 +717,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   // 20240905: Skyle: Don't auto sort for the Scoreboard.  
   if(mNodeID != "202301251008"){// 202301251008 is the scoreboard node
     try{
-      var elControl = elContainer.querySelector("[control]");
+      let elControl = elContainer.querySelector("[control]");
       QSLSortByUpdate(elControl.firstElementChild);   
       QSLSortByUpdate(elControl.firstElementChild);      
       QSLShowTag(elControl.nextElementSibling);
@@ -752,9 +752,9 @@ function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget,elArchives){
   }
 
   // 20231006: Black: Make a board in the current column panel given the ID.
-  var mBoard="";
-  var elBoard;
-  var curBoardID;
+  let mBoard="";
+  let elBoard;
+  let curBoardID;
 
   // STEP: Check if the target ID is the same as the current board.
   try{
@@ -770,7 +770,7 @@ function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget,elArchives){
   // 20240325: StarTree: Find the target panel if there is one.
   // Do not retarget if the iNoReTarget flag is set.
   if((!iNoReTarget) && (curBoardID!=iNodeID)){
-    var elPanel = PanelGetTarget();
+    let elPanel = PanelGetTarget();
     if(NotBlank(elPanel)){
       el = elPanel.firstElementChild;
     }else{
@@ -810,7 +810,7 @@ function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget,elArchives){
     
   }catch(error){
     // STEP: Search up for the column control panel
-    var mControl = SearchPS(el,'panel').firstElementChild;
+    let mControl = SearchPS(el,'panel').firstElementChild;
     // STEP: Create a new container with a close button.
     elBoard = BoardAdd(mControl);  
   }
@@ -822,18 +822,18 @@ function BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget,elArchives){
   }
 
   BoardFill(elBoard,iNodeID,iDoNotScroll,elArchives);
-  var elContainer = document.getElementById('MBJQSW');  
-  var prevHTML = $(elContainer).html();
-  //var prevHTML = document.body;
-  /*@@P4*/var nextState = {"html":prevHTML};
+  let elContainer = document.getElementById('MBJQSW');  
+  let prevHTML = $(elContainer).html();
+  //let prevHTML = document.body;
+  /*@@P4*/let nextState = {"html":prevHTML};
   /*@@P4*/window.history.pushState(nextState, '', "/?id=P" + iNodeID);  
 }
 function BoardLoadDTS(el,iDTS,iDoNotScroll,iNoReTarget){
   // 20240507: Sasha: Fine the DTS's nodeID, then call BoardLoad with the Node ID.
   
   // STEP: First check if there is a recent archive
-  var elArchives = Offline();
-  var elDTS = "";
+  let elArchives = Offline();
+  let elDTS = "";
   if(elArchives){
     elDTS = elArchives.querySelector("[dts='"+iDTS+"']");
     if(NotBlank(elDTS)){
@@ -878,7 +878,7 @@ function BoardLoadPL(el,iNodeID, iDoNotScroll){
 }
 function BoardRemove(el){
   // 20231119: StarTree: Need to do it for "board"
-  var mBoard = SearchPS(el,'board');
+  let mBoard = SearchPS(el,'board');
   mBoard.remove();
 }
 function BoardToggleHeight(elButton){
@@ -886,9 +886,9 @@ function BoardToggleHeight(elButton){
   // Full size: height:auto;overflow-y:visible
   // Half Size: height:50%;overflow-y:auto
   // STEP: Index to the element that has the height data
-  var elBoard = SearchPS(elButton,'board');
-  var mCurHeight = elBoard.style.maxHeight;  
-  var mDefault = false;
+  let elBoard = SearchPS(elButton,'board');
+  let mCurHeight = elBoard.style.maxHeight;  
+  let mDefault = false;
   switch(mCurHeight){
     case "": // Full to 1/2 or 3/4 depending on initial state
       if(elButton.innerHTML=="½"){
@@ -999,11 +999,11 @@ function DTCYear(mDTS,mDTC){
 }
 function JSONPartiStr(mJSON){
   // 20240404: StarTree: For new chat node format.
-  var mHTML = ""
+  let mHTML = ""
   try{
-    var mParticipants = mJSON.participants.split(', ');
-    var mPartiStr = "";
-    for(var i=1;i<mParticipants.length;i++){
+    let mParticipants = mJSON.participants.split(', ');
+    let mPartiStr = "";
+    for(let i=1;i<mParticipants.length;i++){
       mPartiStr += "<div class='mbavem mb" + mParticipants[i] + "'></div> ";
     }
     mHTML += "<button class='mbbutton' onclick='ShowNextInline(this)'><div class='mbavem mb" + mJSON.author + "'></div><small>⭐"+ (mParticipants.length-1) +"</small></button>";
@@ -1014,8 +1014,8 @@ function JSONPartiStr(mJSON){
 function DateStrFromID(mID){
   // 20240404: StarTree: For new chat node format.
   // https://stackoverflow.com/questions/1833892/converting-a-string-formatted-yyyymmddhhmmss-into-a-javascript-date-object
-  var mDate = new Date(mID.replace(/^(\d{4})(\d{2})(\d{2})(\d\d)(\d\d)$/,'$4:$5 $2/$3/$1'));
-  var options = { weekday: 'short', year: 'numeric', month: 'short', day: '2-digit', hour12:'true', hour:'2-digit',minute:'2-digit' };
+  let mDate = new Date(mID.replace(/^(\d{4})(\d{2})(\d{2})(\d\d)(\d\d)$/,'$4:$5 $2/$3/$1'));
+  let options = { weekday: 'short', year: 'numeric', month: 'short', day: '2-digit', hour12:'true', hour:'2-digit',minute:'2-digit' };
   mDateString = mDate.toLocaleDateString("en-US", options);
   mDateString = mDateString.replace(/,/g,"");
   mDateString = mDateString.toUpperCase();
@@ -1023,7 +1023,7 @@ function DateStrFromID(mID){
 }
 function ChatNodeContent(elAttr,mJSON){
   // 20240405: StarTree: For the new chat node format.
-  var mHTMLInner = "";
+  let mHTMLInner = "";
 
   if(elAttr.hasAttribute('data-chat')){
 
@@ -1050,11 +1050,11 @@ function ChatNodeContent(elAttr,mJSON){
 }
 function ExportForAI(elThis){
   // 20250909: Sasha: Copy the text of a node for AI.
-  var elBoard = SearchPS(elThis,"board").cloneNode(true);
+  let elBoard = SearchPS(elThis,"board").cloneNode(true);
   //SectionAssign(elBoard);
 
   // Skip to the part that is needed:
-  var elCopy = elBoard.querySelector('[contentarea]');
+  let elCopy = elBoard.querySelector('[contentarea]');
   elCopy.firstElementChild.remove();
 
   if(true){ 
@@ -1100,8 +1100,8 @@ function ExportForAI(elThis){
 
     // REPLACE All links with just its HREF URL
     elements = elCopy.querySelectorAll('a').forEach(function(a) {
-      var url = a.href;
-      var urlNode = document.createTextNode(url);
+      let url = a.href;
+      let urlNode = document.createTextNode(url);
       a.parentNode.replaceChild(urlNode, a);
     });
 
@@ -1176,7 +1176,7 @@ function ExportForAI(elThis){
       parent.removeChild(div);
     });
   }
-  var mHTML = elCopy.innerHTML;
+  let mHTML = elCopy.innerHTML;
   if(true){ // POST PROCESSING SECTION 4
     mHTML = mHTML.replace(/^\s*[\r\n]/gm, '');// Remove all blank lines
     mHTML = mHTML.replace(/<hide.+?">/g, ''); // Remove all <hide> tags
@@ -1201,9 +1201,9 @@ function ExportForAI(elThis){
 
   // OUTPUT
   // Get the Title
-  var mTitle = elBoard.querySelector('h1');
-  var mHTMLOuter = "<div class='mbscroll'";
-  var mVersion = DTSNow();
+  let mTitle = elBoard.querySelector('h1');
+  let mHTMLOuter = "<div class='mbscroll'";
+  let mVersion = DTSNow();
   mHTMLOuter += " dts='" + mVersion + "'";
   mHTMLOuter += "><h1>" + mTitle.innerText + "</h1><hr>";
   mHTMLOuter += mHTML;
@@ -1215,14 +1215,14 @@ function ExportForAI(elThis){
 }
 function GetInputBoxValue(el){
   // 20230821: StarTree: This gets the first input box within the control section.
-  var mControl = SearchPS(el,'control');
-  var elIB = mControl.getElementsByTagName('input')[0];
+  let mControl = SearchPS(el,'control');
+  let elIB = mControl.getElementsByTagName('input')[0];
   return elIB.value;
 }
 function IFrameFeedback(el){
   // 20231029: Black: Spawn a feedback form
-  var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
-  var mHTML = "<span class='mbRef'><a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'><span class=\"mbIcon\" style=\"background-image:url('https://github.com/MagicBakery/Icons/blob/main/Close.png?raw=true')\"></span></a></span>";
+  let mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
+  let mHTML = "<span class='mbRef'><a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'><span class=\"mbIcon\" style=\"background-image:url('https://github.com/MagicBakery/Icons/blob/main/Close.png?raw=true')\"></span></a></span>";
 
   //mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>⅔</button>";
   mHTML += "<a onClick='IFrameFeedback(this.parentNode)' title='Feedback Form'>💌</a> <a class='mbbutton' onClick='HideNext(this)' title='Feedback Form'>Feedback Form</a>";
@@ -1230,13 +1230,13 @@ function IFrameFeedback(el){
   
   el.innerHTML = mHTML;
   el.setAttribute('Board','');
-  /*var elTemp = document.createElement("div");
+  /*let elTemp = document.createElement("div");
   elTemp.innerHTML = mHTML;
   elTemp.classList.add('mbscroll');
   elTemp.setAttribute('Board','');
   elTemp.style.marginBottom = "0px";*/
   
-  var mPanel;
+  let mPanel;
   try{
     mPanel = SearchPS(el,'panel');
   }catch(error){
@@ -1248,36 +1248,43 @@ function IFrameFeedback(el){
     return;
   }
 }
-function IFrameRefresh(el,mNodeID){
+function IFrameRefresh(el,mInput){
   // 20230916: StarTree: Refresh the content of Iframe when user clicks elButton.
-  var elIF = el.parentNode.getElementsByTagName("iframe")[0];
-  elIF.src = "https://panarcana.blogspot.com/p/viewer.html?id=P" + mNodeID;
+  let elIF = el.parentNode.getElementsByTagName("iframe")[0];
+  if(!mInput.includes(".")){
+    elIF.src = "https://panarcana.blogspot.com/p/viewer.html?id=P" + mInput;
+  }else{
+    elIF.src = mInput;
+  }
+  
 }
 function IFrameURLSet(el){
   // 20230723: StarTree: This function is for GitHub Website
-  var mControl = SearchPS(el,'control');
-  
-  var mInput = GetInputBoxValue(el);
+  let mControl = SearchPS(el,'control');
+  let mInput = GetInputBoxValue(el);
   // 20230723: StarTree If the URL does not contain a dot, assume that it is a node ID.
-  // 20230916: Just get the last 12 in order to show node ID on title
-  
-  var mNodeID = mInput.substr(mInput.length - 12);  
+  // 20230916: Just get the last 12 in order to show node ID on title  
+  let mNodeID = mInput.substr(mInput.length - 12); 
+  let mTitle = "Iframe Panel";
+  let mTip = "Iframe to your URL";
+  let mIcon = "🕰️";
   if(IsBlank(mNodeID)){mNodeID = "202303052122";}
-
   // 20250515: StarTree: Reenable Full URL to test Drupal frame. >> Can't embed.
   if(!mInput.includes(".")){
     mInput = "https://panarcana.blogspot.com/p/viewer.html?id=P" + mNodeID;
+    mTip = "Data from Old Blogspot Site";
+    mTitle = "Blogspot Node " + mNodeID;
+  }else{
+    mTip = mInput;
+    if(mInput.length < 20){
+      mTitle = mInput;
+    }
   }
-  
   // 20230916: Always make a new iFrame 
-  // <div>
-  //   <button class='mbbutton' onClick='RemoveParent(this)' style='float:right;margin-bottom:-20px;margin-right:20px;position:relative;z-index:1' title='Close'>:Close:</button>
-  //   <iframe src='https://panarcana.blogspot.com/p/viewer.html?id=P202303052122' title='Blogspot Node' style='margin:0px -3px;border:none;width:100%;height:calc(100vh - 136px)' allow='clipboard-read; clipboard-write'></iframe>
-  // </div>
-  var mHTML = "<span class='mbRef'><a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>:Close:</a></span>";
-  mHTML += "<a onClick='IFrameRefresh(this," + mNodeID + ")' title='Refresh'>🕰️</a> <a class='mbbutton' onClick='HideNext(this)' title='Data from Blogspot'>Blogspot " + mNodeID + "</a>";
-  mHTML += "<iframe src='" + mInput + "' title='Blogspot Node' style='border:none;width:100%;height:calc(100vh - 190px)' allow='clipboard-read; clipboard-write'></iframe>";
-  var elTemp = document.createElement("div");
+  let mHTML = "<span class='mbRef'><a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>:Close:</a></span>";
+  mHTML += `<a onClick='IFrameRefresh(this,"${mInput}")' title='Refresh'>${mIcon}</a> <a class='mbbutton' onClick='HideNext(this)' title='${mTip}'>${mTitle}</a>`;
+  mHTML += `<iframe src='${mInput}' title='${mTitle}}' style='border:none;width:100%;height:calc(100vh - 190px)' allow='clipboard-read; clipboard-write'></iframe>`;
+  let elTemp = document.createElement("div");
   elTemp.innerHTML = mHTML;
   elTemp.classList.add('mbscroll');
   elTemp.setAttribute("Board","");
@@ -1296,9 +1303,9 @@ function JQAdd(el,iNoReTarget){
 
   // STEP: Reading the content of the input box
   // 20240507: Sasha: Making the code work for DTS number.
-  var mInput = GetInputBoxValue(el).toLowerCase();  
-  var mNodeIDs = mInput.split('p');
-  var mNodeID = mNodeIDs[mNodeIDs.length-1];
+  let mInput = GetInputBoxValue(el).toLowerCase();  
+  let mNodeIDs = mInput.split('p');
+  let mNodeID = mNodeIDs[mNodeIDs.length-1];
   
   // 20240610: StarTree: For Panel
   // BoardLoad(el,iNodeID,iDoNotScroll,iNoReTarget,elArchives){
@@ -1323,7 +1330,7 @@ function Offline(elArchives,bToggle,bReload){
     $(document).ready(function(){
       elArchives = document.createElement('archives');
       document.body.after(elArchives);
-      var mHTML = "";
+      let mHTML = "";
       for(let i=1;i<=ArchiveNum();i++){
         mHTML += "<archive" + i+" archive class=\"mbhide\"></archive" + i+">";
       }
@@ -1332,7 +1339,7 @@ function Offline(elArchives,bToggle,bReload){
     });
     return false;
   }
-  var bOffline = elArchives.hasAttribute('offline');
+  let bOffline = elArchives.hasAttribute('offline');
   // STEP: Handle Toggle Request;
   if(bToggle){
     if(bOffline && confirm("Disable offline mode?")){
@@ -1365,8 +1372,8 @@ function Offline(elArchives,bToggle,bReload){
     return elArchives;
   }
   // STEP: Report the status
-  var elIndicator = document.body.querySelector('[d-offline]');
-  var mLoaded = elArchives.getAttribute('loaded');
+  let elIndicator = document.body.querySelector('[d-offline]');
+  let mLoaded = elArchives.getAttribute('loaded');
   if(bOffline){
     elIndicator.innerHTML = "[ OFFLINE " + mLoaded + " ]";
     return elArchives;
@@ -1378,8 +1385,8 @@ function Offline(elArchives,bToggle,bReload){
 function OLButton_20240508_DELETE(){
   // 20240508: Natalie: Offline mode button. 
   // Save the current mode at the attributes of Archives.
-  var elArchives = document.querySelector('archives');
-  var bOffline = elArchives.hasAttribute('offline');
+  let elArchives = document.querySelector('archives');
+  let bOffline = elArchives.hasAttribute('offline');
   if(bOffline){
     if(confirm("Disable offline mode?")){
       elArchives.removeAttribute('offline');
@@ -1398,7 +1405,7 @@ function OLButton_20240508_DELETE(){
 
 function OLReport_20240508_DELETE(mDTS,mActive){ 
   // 20240508: StarTree: Offline mode indicator.
-  var elReport = document.body.querySelector('[d-offline]');
+  let elReport = document.body.querySelector('[d-offline]');
   if(!mActive){
     elReport.innerHTML = "";
     return;
@@ -1408,9 +1415,9 @@ function OLReport_20240508_DELETE(mDTS,mActive){
 }
 function PanelAdd(){
   // 20230722: StarTree
-  var elMA = document.getElementById("MainArea");
-  var elNPT = document.getElementById("NewPanelTemplate");
-  var elTemp = document.createElement("div");
+  let elMA = document.getElementById("MainArea");
+  let elNPT = document.getElementById("NewPanelTemplate");
+  let elTemp = document.createElement("div");
   elTemp.innerHTML = elNPT.innerHTML;
   elTemp.classList.add('mbPanel');
   elTemp.setAttribute("panel","");
@@ -1420,7 +1427,7 @@ function PanelAdd(){
 
   // 20240325: StarTree: Default the first panel to be the serving panel.
   // 20240414: Arcacia: If this is the only panel, default its width to wide and set as serve target.
-  var mOtherPanel = document.querySelector('panel');
+  let mOtherPanel = document.querySelector('panel');
   if(IsBlank(mOtherPanel)){
     elTemp.style.flex = "50%";
     PanelToggleServe(elTemp.firstElementChild);
@@ -1430,9 +1437,9 @@ function PanelAdd(){
 }
 function PanelAddAfter(el){
   // 20231030: StarTree
-  var mPanel = SearchPS(el,"panel");
-  var elNPT = document.getElementById("NewPanelTemplate");
-  var elTemp = document.createElement("div");
+  let mPanel = SearchPS(el,"panel");
+  let elNPT = document.getElementById("NewPanelTemplate");
+  let elTemp = document.createElement("div");
   elTemp.innerHTML = elNPT.innerHTML;
   elTemp.classList.add('mbPanel');
   elTemp.setAttribute("panel","");
@@ -1441,9 +1448,9 @@ function PanelAddAfter(el){
 }
 function PanelAddBefore(el){
   // 20231030: StarTree
-  var mPanel = SearchPS(el,"panel");
-  var elNPT = document.getElementById("NewPanelTemplate");
-  var elTemp = document.createElement("div");
+  let mPanel = SearchPS(el,"panel");
+  let elNPT = document.getElementById("NewPanelTemplate");
+  let elTemp = document.createElement("div");
   elTemp.innerHTML = elNPT.innerHTML;
   elTemp.classList.add('mbPanel');
   elTemp.setAttribute("panel","");
@@ -1452,7 +1459,7 @@ function PanelAddBefore(el){
 }
 function PanelGetFirst(){
   // 20240324: StarTree: Return the first panel. Add if necessary
-  var elPanel = document.querySelector('[panel]');
+  let elPanel = document.querySelector('[panel]');
   // STEP: If there is no panel, add a panel
   if(IsBlank(elPanel)){
     elPanel = PanelAdd();
@@ -1461,9 +1468,9 @@ function PanelGetFirst(){
 }
 function PanelGetLast(){
   // 20240324: StarTree: Return the last panel. Add if necessary
-  var elPanelList = document.querySelectorAll('[panel]');
-  var elPanel = elPanelList[elPanelList.length-1];
-  //var elPanel = document.querySelectorAll('[panel]:last-child');
+  let elPanelList = document.querySelectorAll('[panel]');
+  let elPanel = elPanelList[elPanelList.length-1];
+  //let elPanel = document.querySelectorAll('[panel]:last-child');
   // STEP: If there is no panel, add a panel
   if(IsBlank(elPanel)){
     elPanel = PanelAdd();
@@ -1472,7 +1479,7 @@ function PanelGetLast(){
 }
 function PanelGetTarget(){
   // 20240325: StarTree: Return the target panel if there is one.
-  var mPanelList = document.querySelectorAll('[panel]');
+  let mPanelList = document.querySelectorAll('[panel]');
   for(i=0;i<mPanelList.length;i++){
     if(mPanelList[i].hasAttribute('serve')){
       return mPanelList[i];
@@ -1485,10 +1492,10 @@ function PanelToggleHeight(elButton){
   // Full size: height:calc(-130px + 100vh)
   // Half Size: height:50vh
   // STEP: Index to the element that has the height data
-  var elPanel = SearchPS(elButton,'panel');
-  var elContainer = elPanel.firstElementChild.nextElementSibling;
-  var mCurHeight = elContainer.style.height;  
-  var mPanelHeight="";
+  let elPanel = SearchPS(elButton,'panel');
+  let elContainer = elPanel.firstElementChild.nextElementSibling;
+  let mCurHeight = elContainer.style.height;  
+  let mPanelHeight="";
   if(mCurHeight!="calc(-130px + 100vh)"){
     mCurHeight = "calc(-130px + 100vh)";
     mPanelHeight = "auto";
@@ -1502,15 +1509,15 @@ function PanelToggleHeight(elButton){
 function PanelRemove(el){
   // 20230722: StarTree
   // 20231119: StarTree: Need to do it for "panel"
-  var mPanel = SearchPS(el,'panel');  
+  let mPanel = SearchPS(el,'panel');  
   mPanel.remove();
 }
 function PanelToggleServe(el){
   // 20240324: StarTree: Setting the target panel for serving nodes
   // STEP: Loop through all panels and only set this panel's icon to a plate.
-  var mTargetPanel = SearchPS(el,'panel');
-  var mPanelList = document.querySelectorAll('[panel]');
-  var aIcon;
+  let mTargetPanel = SearchPS(el,'panel');
+  let mPanelList = document.querySelectorAll('[panel]');
+  let aIcon;
   for(i=0;i<mPanelList.length;i++){
     aIcon=mPanelList[i].firstElementChild.lastElementChild.previousElementSibling;
     
@@ -1527,7 +1534,7 @@ function PanelToggleServe(el){
 }
 function PanelToggleWidth(el){
   // 20240303: StarTree: Added to help display slides on desktop.
-  var mPanel = SearchPS(el,'panel');
+  let mPanel = SearchPS(el,'panel');
   if(IsBlank(mPanel.style.flex)){
     mPanel.style.flex= "50%";
   }else{
@@ -1537,7 +1544,7 @@ function PanelToggleWidth(el){
 }
 function Pin2Code(mJSON){
   // 20240405: StarTree: Creates the HTML for the node pin.
-  var mHTML="";
+  let mHTML="";
   mHTML += "<macro>{\"cmd\":\"PIN2\",\"node\":\"" +mJSON.id +"\"";
   if(NotBlank(mJSON.music) || NotBlank(mJSON.yt)){
     if(NotBlank(mJSON.music)){
@@ -1558,8 +1565,8 @@ function RemoveParent(el){
 //==IMPORTED FUNCTIONS===
 function DTSInc(mDTS){
   // 20240427: Sasha: Increments the number as a DTS value.
-  var mNewDTS = Number(mDTS)+1;
-  var sNewDTS = String(mNewDTS);
+  let mNewDTS = Number(mDTS)+1;
+  let sNewDTS = String(mNewDTS);
   if(sNewDTS.slice(12,14)=="60"){
     mNewDTS = Number(sNewDTS.slice(0,12))+1;
     sNewDTS = String(mNewDTS);
@@ -1591,14 +1598,14 @@ function ArchiveCacheAll_20240508_DELETE(){
   //**/return false;
   Offline();
   return false;
-  var bPreempt = false; // Set to true to not load the default node.
+  let bPreempt = false; // Set to true to not load the default node.
   
   $(document).ready(function(){
-    var elArchives = document.createElement('archives');
+    let elArchives = document.createElement('archives');
     document.body.after(elArchives);
 
-    var mSingleArchive = 101;
-    var mHTML = "";
+    let mSingleArchive = 101;
+    let mHTML = "";
     // STEP: Create the containers
     for(let i=1;i<=ArchiveNum();i++){
       mHTML += "<archive" + i+" archive class=\"mbhide\"></archive" + i+">";
@@ -1624,7 +1631,7 @@ function ArchiveCacheAll_20240508_DELETE(){
 
         // 20240427: Sasha: To fix Cards
         /*
-        var elCards =elTemp.querySelectorAll(".mbCharCard"); 
+        let elCards =elTemp.querySelectorAll(".mbCharCard"); 
         elCards.forEach((elCard)=>{
           try{
             let mTitle = elCard.querySelector(".mbCharCardTitle2").innerHTML;
@@ -1643,9 +1650,9 @@ function ArchiveCacheAll_20240508_DELETE(){
         });*/
 
         /* 20240428: Melody: Searching for the extra small
-        var elSmalls = elArchive.querySelectorAll("small");
-        var mMax = 0;
-        var mInner = "";
+        let elSmalls = elArchive.querySelectorAll("small");
+        let mMax = 0;
+        let mInner = "";
         elSmalls.forEach((elSmall)=>{
           let mLen = elSmall.innerHTML.length;
           if(mMax<mLen){
@@ -1672,7 +1679,7 @@ function ArchiveNum(){
 }
 function ArchiveNumSelect(iNodeID){
   // 20240111: StarTree: Returns just the Archive number.
-  var iDate = iNodeID.substring(0,8);
+  let iDate = iNodeID.substring(0,8);
   if(parseInt(iDate) < 20230101){
 	  return "1";
   }else if(parseInt(iDate) < 20240101){
@@ -1690,9 +1697,9 @@ function ArchiveSelect(iNodeID){
 function CH15LoadThisMonth(){
   const monthNames = ["January","February","March","April","May","June","July",
                     "August","September","October","November","December"];
-  var today = new Date();
-  var pageID = monthNames[today.getMonth()];
-  var page = document.getElementById(pageID);
+  let today = new Date();
+  let pageID = monthNames[today.getMonth()];
+  let page = document.getElementById(pageID);
   //if(page!=null){
     Peekaboo("SideViewer",pageID); 
     return true;
@@ -1751,10 +1758,10 @@ function DefaultEL(el,mAttribute,mMissing,mBlank){
 function DefaultView_15(){
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
-  var day = urlParams.get('day');
-  var month = urlParams.get('month'); 
-  var pageID = "Day"+day
-  var page = document.getElementById(pageID);
+  let day = urlParams.get('day');
+  let month = urlParams.get('month'); 
+  let pageID = "Day"+day
+  let page = document.getElementById(pageID);
   if(page!=null){
     Peekaboo("CalendarViewerCH15",pageID); 
     return;
@@ -1767,7 +1774,7 @@ function DefaultView_15(){
     return;
   }
   
-  var today = new Date();
+  let today = new Date();
   pageID = "Day"+String(GetDayNumber(today));
   page = document.getElementById(pageID);
   if(page!=null){
@@ -1796,9 +1803,9 @@ function FlexShow(elThis){
   /*
   /* Replacing HTML DOM: https://www.javascripttutorial.net/dom/manipulating/replace-a-dom-element/
   /*/
-  var eTar = elThis.nextElementSibling;  
-  var elImage = elThis.firstElementChild;
-  var elParent = elThis.parentNode;
+  let eTar = elThis.nextElementSibling;  
+  let elImage = elThis.firstElementChild;
+  let elParent = elThis.parentNode;
 
   if(eTar==null){Macro(elThis);return;}
 
@@ -1823,8 +1830,8 @@ function FlexShow(elThis){
 
     Macro(eTar);
     /*
-    var z = elNext.getElementsByTagName("jq");
-    var elJQ, i, elNew;
+    let z = elNext.getElementsByTagName("jq");
+    let elJQ, i, elNew;
     for (i=0;i<z.length;i++){
       elJQ = z[i];
       QueryAllReplace(elJQ,elJQ.innerHTML);
@@ -1862,17 +1869,17 @@ function FortuneCookie(elViewer,isRandom){
   // 20230201: StarTree: The Fortune Cookies node is 202302011021!
   $(document).ready(function(){
     $(elViewer).load(ArchiveSelect("20230201") + "#P202302011021", function(){
-      var cookies = elViewer.querySelectorAll('.mbFC');
-      var cookiesNum = cookies.length;
-      var idx = 0;
+      let cookies = elViewer.querySelectorAll('.mbFC');
+      let cookiesNum = cookies.length;
+      let idx = 0;
       if(!isRandom){
-		    var daynum = RandomToday();
+		    let daynum = RandomToday();
 		    idx = Math.floor(daynum * cookiesNum) % cookiesNum;
       }else{
         idx = Math.floor(Math.random()*cookies.length);
       }
-	    var message = cookies[idx].innerText;
-      var backup = elViewer.innerText;
+	    let message = cookies[idx].innerText;
+      let backup = elViewer.innerText;
       elViewer.innerText = message;   
       $(elViewer).show();            
     });
@@ -1880,19 +1887,19 @@ function FortuneCookie(elViewer,isRandom){
 }
 function FortuneCookieNext(elThis,isRandom){
   // 20230201: StarTree: Modified for Fortune Cookie node
-  var elViewer = elThis.nextElementSibling;
+  let elViewer = elThis.nextElementSibling;
   FortuneCookie(elViewer,isRandom);  
 }
 function FortuneCookieP(elThis,isRandom){
   // P = Parent here
   // 20230201: StarTree: Modified for Fortune Cookie node
-  var elViewer = elThis.parentNode;
+  let elViewer = elThis.parentNode;
   FortuneCookie(elViewer,isRandom);  
 }
 function FortuneCookiePNC2(elThis,isRandom){
   // P = Parent here
   // 20230201: StarTree: Modified for Fortune Cookie node
-  var elViewer = elThis.parentNode;
+  let elViewer = elThis.parentNode;
   elViewer = elViewer.nextElementSibling;
   elViewer = elViewer.firstElementChild;
   elViewer = elViewer.firstElementChild;
@@ -1900,27 +1907,27 @@ function FortuneCookiePNC2(elThis,isRandom){
 }
 function FortuneCookiePrev(elThis,isRandom){
   // 20230201: StarTree: Modified for Fortune Cookie node
-  var elViewer = elThis.previousElementSibling;
+  let elViewer = elThis.previousElementSibling;
   FortuneCookie(elViewer,isRandom);  
 }
 function GetDayNumber(date){
-  var MonthLUT = Object.freeze([0,31,60,91,121,152,182,213,243,274,305,335]);
-  var mm = date.getMonth();
-  var dd = date.getDate();
+  let MonthLUT = Object.freeze([0,31,60,91,121,152,182,213,243,274,305,335]);
+  let mm = date.getMonth();
+  let dd = date.getDate();
   return MonthLUT[mm]+dd;
 }
 function GetDayText(iDate){
-  var WeekdayLUT = Object.freeze(['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']);
+  let WeekdayLUT = Object.freeze(['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']);
   return WeekdayLUT[iDate.getDay()];
 }
 function GetMonthText(iDate){
-  var MonthLUT = Object.freeze(['January','February','March','April','May','June','July','August','September','October','November','December']);
+  let MonthLUT = Object.freeze(['January','February','March','April','May','June','July','August','September','October','November','December']);
   return MonthLUT[iDate.getMonth()];
 }
 function GuessContainerWidth(el){
   // 20230225: StarTree
-  var mCheckNode = el;
-  var mFrameWidth = 0;
+  let mCheckNode = el;
+  let mFrameWidth = 0;
   while(mFrameWidth==0 && mCheckNode != null){
     mCheckNode = mCheckNode.parentNode;
     try{
@@ -1943,13 +1950,13 @@ function HideEl(el){
 }
 function HideFP(el){
   // 20240422: StarTree
-  var elFP = SearchPS(el,'FP');
+  let elFP = SearchPS(el,'FP');
   elFP.classList.add('mbhide');
   elFP.style.zIndex = 0;
   ShowWidgets();
 }
 function HideNext(el) {
-  var eNext = el.nextElementSibling;
+  let eNext = el.nextElementSibling;
   if (eNext.style.display != "none") {
       eNext.style.display = "none";
   } else {
@@ -1957,7 +1964,7 @@ function HideNext(el) {
   }
 }
 function HideNextInline(el) {
-  var eNext = el.nextElementSibling;
+  let eNext = el.nextElementSibling;
   if (eNext.style.display != "none") {
       eNext.style.display = "none";
   } else {
@@ -1992,9 +1999,9 @@ function LatestDate(elScope){
   // 20240725: Patricia: Given a scope, return the largest DTS within.  
   // 20240925: StarTree: Don't use the DTC value if there is DTS.
   
-  var mDTSmax = Number(Default(elScope.getAttribute("dts"),0));  
-  var elDTS = elScope.querySelectorAll("[dts]");
-  var mDTScur = 0;
+  let mDTSmax = Number(Default(elScope.getAttribute("dts"),0));  
+  let elDTS = elScope.querySelectorAll("[dts]");
+  let mDTScur = 0;
   for(i=0;i<elDTS.length;i++){
     mDTScur = Number(elDTS[i].getAttribute("dts"));
     mDTSmax = Math.max(mDTSmax,mDTScur);
@@ -2009,13 +2016,13 @@ function LatestDate(elScope){
 }
 function LatestUpdate(){
   // 20240818: StarTree
-  var elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20260514 Reverse Filter";
+  let elContainer = document.body.querySelector("LatestUpdate");
+  elContainer.innerHTML = "20260725 Enable IFrame";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
   // 20230323: Ivy: For QSL. <lnk>
-  var mHTML="";
+  let mHTML="";
 
   // 20240330: StarTree: Display Node Marking
   if(bMark==true){    
@@ -2023,7 +2030,7 @@ function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
     if(iIcon==false){
       mHTML = NodeMarkCode(iID,iDesc);
     }else{
-      var mButtonStyle = "";
+      let mButtonStyle = "";
       if(IsBlank(iDesc)){ mButtonStyle=" mbbutton";}
       mHTML = "<span class='mbILB30'>" + NodeMarkCode(iID,iDesc) + "<hide>"+ iID+"</hide></span>";
     }
@@ -2045,8 +2052,8 @@ function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
   return mHTML;
 }
 function MacroAlias(elScope){
-  var z = elScope.getElementsByTagName("alias");
-  var elJQ, i;
+  let z = elScope.getElementsByTagName("alias");
+  let elJQ, i;
   for (i=0;i<z.length;i++){
     elJQ = z[i];
     QueryAllReplace(elJQ,elJQ.innerHTML);
@@ -2098,7 +2105,7 @@ function MacroBullet(el){
           </hide>
         </li>
   */
-  var mTags = el.querySelectorAll('bullet');
+  let mTags = el.querySelectorAll('bullet');
   mTags.forEach((mTag)=>{    
     let mDTS = mTag.getAttribute("dts");
     let mTitle = Default(mTag.getAttribute("title"),"New Bullet");
@@ -2146,7 +2153,7 @@ function MacroCard(el){
         </a>
       </div>
     */
-  var mTags = el.querySelectorAll('card');
+  let mTags = el.querySelectorAll('card');
   mTags.forEach((mTag)=>{    
 
     if(MacroCard2(mTag)){return;}
@@ -2218,7 +2225,7 @@ function MacroIcons(el,iHTMLInner){
   // 20240810: Black: Replace emoji in the scope or the entire document.
   
   if(IsBlank(el)){el = document.body;}
-  var mHTMLInner="";
+  let mHTMLInner="";
   if(IsBlank(iHTMLInner)){
     mHTMLInner = el.innerHTML;  
   } else{
@@ -2494,13 +2501,13 @@ function MacroIcons(el,iHTMLInner){
   ];
   //*/
   for(i=0;i<mIconList.length;i++){
-    var mSearchIcon = mIconList[i][1];
-    var mImgCode = mIconList[i][0];
-    var mStart = 0;
-    var mPos = 0;  
-    var mLookAround1 = "";
-    var mLookAround = "";
-    var mSubstitute = "";
+    let mSearchIcon = mIconList[i][1];
+    let mImgCode = mIconList[i][0];
+    let mStart = 0;
+    let mPos = 0;  
+    let mLookAround1 = "";
+    let mLookAround = "";
+    let mSubstitute = "";
 
     while(true){
       mPos = mHTMLInner.indexOf(mSearchIcon,mStart);
@@ -2577,7 +2584,7 @@ function MacroNote(el){
         <a class="mbbutton" onclick="ShowNextInline(this)">Icon Title Subtitle</a>
         <hide>...</hide>
       </span>*/
-  var mTags = el.querySelectorAll('note');
+  let mTags = el.querySelectorAll('note');
   for(let i=mTags.length-1;i>-1;i--){
     let mTag = mTags[i];
     let mDTS = mTag.getAttribute("dts");
@@ -2649,12 +2656,12 @@ function MacroRes(el){
   // it fetches the archive.
   // Format:
   // <res DTS="###" src="..." class="..." style="...">...</res>
-  var mTags = el.querySelectorAll('res');
+  let mTags = el.querySelectorAll('res');
   //for(let i=mTags.length-1;i>-1;i--){ 
   // 20240428: Zoey: Does not need reverse order to process nested resources.
   
   // TEMP
-  //var mConvert = "";
+  //let mConvert = "";
   
   for(let i=0;i<mTags.length;i++){
     let mTag = mTags[i];    
@@ -2827,7 +2834,7 @@ function MacroResItem(mTag){
   }
 
 
-  var bSpoiler = mTag.hasAttribute('spoiler');
+  let bSpoiler = mTag.hasAttribute('spoiler');
   
   // Save the Title in the name field for sorting.
   //let mHTML = "<div class=\"mbscroll\" item date=\""+mDate +"\" dts=\"" + mDTS + "\"";
@@ -2933,7 +2940,7 @@ function MacroResItem(mTag){
   }  
   // Node Link in the Side Panel
   if(NotBlank(mTag.getAttribute('node'))){
-    var mArchiveNum = ArchiveNumSelect(mNode);
+    let mArchiveNum = ArchiveNumSelect(mNode);
     mHTML += LnkCode(mNode,":Archive"+mArchiveNum+":","") +"<br>";
   }else{
     mHTML += "🥚<br>"
@@ -2941,7 +2948,7 @@ function MacroResItem(mTag){
 
   // == Star Pattern == (Show as part of tags)
   
-  var mStarPattern = StarPattern(mStarCode);
+  let mStarPattern = StarPattern(mStarCode);
   /*if(NotBlank(mStarPattern)){
     mHTML += "<center>" + mStarPattern + "</center>";
   }*/
@@ -3078,7 +3085,7 @@ function MacroTopic(el){
         </div>
       </div>
   */
-  var mTags = el.querySelectorAll('topic');
+  let mTags = el.querySelectorAll('topic');
   for(let i=mTags.length-1;i>-1;i--){
     let mTag = mTags[i];
     let mDTS = mTag.getAttribute("dts");
@@ -3189,16 +3196,16 @@ function MemberHPBar(iMember,mHPMax,mHPCur){
     mHPCur = getRandomInt(0,mHPMax,true); // 20240909: StarTree: Temproary code.
   }
   
-  var mHTML = "<span HPMax=\""+mHPMax+"\" HPCur=\""+mHPCur+"\" style=\"font-size:16px\">" + "<a class=\"mbbutton\" onclick=\"MemberHPClick(this)\">❤️</a>".repeat(mHPCur) + "<a class=\"mbbutton\" onclick=\"MemberHPClick(this)\">🤍</a>".repeat(mHPMax-mHPCur) + "</span>" ;
+  let mHTML = "<span HPMax=\""+mHPMax+"\" HPCur=\""+mHPCur+"\" style=\"font-size:16px\">" + "<a class=\"mbbutton\" onclick=\"MemberHPClick(this)\">❤️</a>".repeat(mHPCur) + "<a class=\"mbbutton\" onclick=\"MemberHPClick(this)\">🤍</a>".repeat(mHPMax-mHPCur) + "</span>" ;
   return mHTML;
 }
 function MemberHPClick(el){
   // 20240909: StarTree: This function is applied to each heart of an HP Bar.
   // If the click is on a full heart, the current HP decreases.
   // If the click is on an empty heart, the current HP increases.
-  var elHPBar = SearchPS(el,"HPMax");
-  var mHPMax = Number.parseInt(elHPBar.getAttribute("HPMax"));
-  var mHPCur = Number.parseInt(elHPBar.getAttribute("HPCur"));
+  let elHPBar = SearchPS(el,"HPMax");
+  let mHPMax = Number.parseInt(elHPBar.getAttribute("HPMax"));
+  let mHPCur = Number.parseInt(elHPBar.getAttribute("HPCur"));
   if(el.innerHTML.search("❤️")!=-1){
     mHPCur = Math.max(0,mHPCur-1);
   }else{
@@ -3213,7 +3220,7 @@ function MemberLevel(iMember){
 }
 function GetURLCode(mURL,mDesc, mLang){
   // 20240504: Sylvia: mDesc argument is optional.
-  var bIcon = false;
+  let bIcon = false;
   let mAIURL = "" ;
   
   if(IsBlank(mDesc)){
@@ -3351,7 +3358,7 @@ function FullTitleStrNS_DELETE20240528(mTitle,mPrefix,mSubtitle){
 function MacroMsg(el){
   // STEP: Interpret the context and compose the html code
   // 20240420: StarTree: If this is the first bubble in a topic, use the "ENTER" format.
-  var mBubbles = el.querySelectorAll('msg');
+  let mBubbles = el.querySelectorAll('msg');
   mBubbles.forEach((mTag)=>{
     // STEP: Processing Attributes
 
@@ -3493,15 +3500,15 @@ function MSScanFor(elDisplay,mStart,mEnd,elHeader,bGroupByTopic){
   let elCache = document.createElement("div");
   $(document).ready(function(){
     // STEP: If it is Offline Mode, populate the archives with cache data.
-    var elArchives = Offline();
-    var mMsgList = [];    
+    let elArchives = Offline();
+    let mMsgList = [];    
     if(NotBlank(elArchives)){
       let elMsgs = elArchives.querySelectorAll("MSG[dts]");
       MSScanForPush(mMsgList,elMsgs,mStart,mEnd);
       MSScanForEL(elDisplay,mMsgList,elHeader,bGroupByTopic,mStart,mEnd)
       return;
     }
-    var mDone = 0;  
+    let mDone = 0;  
     for(let i=1; i<=ArchiveNum();i++){
       // 20240427: Black: Expanding the query to get the context.
 
@@ -3534,9 +3541,9 @@ function MSScanForPush(mMsgList,elMsgs,mStart,mEnd){
 }
 function MSScanForEL(elDisplay,mMsgList,elHeader, bGroupByTopic, mStart, mEnd){
   // 20240509: Black: The inner function of MSScanFor, shared between online and offline mode.
-  var mHTML = "";
-  var mHeaderHTML = ""
-  var mModeTally = [[0,0,0],[0,0,0],[0,0,0]]; 
+  let mHTML = "";
+  let mHeaderHTML = ""
+  let mModeTally = [[0,0,0],[0,0,0],[0,0,0]]; 
   // This is an array of mode tally. 0=Academy, 1=Guild, 2=Help
   // Then 0=maintenance, 1=upgrade, 2=service
 
@@ -3644,7 +3651,7 @@ function MSScanForEL(elDisplay,mMsgList,elHeader, bGroupByTopic, mStart, mEnd){
 }
 function MSModeShow(elStruct){
   // 20240505: Sasha: Returns an HTML string.
-  var mHTML = "<span class=\"mbhide\" d-mode>";
+  let mHTML = "<span class=\"mbhide\" d-mode>";
   const mMode = ["mbMaintenanceTx","mbUpgradeTx","mbServiceTx"];
   let i = 0;
   for(let i=0;i<3;i++){
@@ -3662,10 +3669,10 @@ function MSModeShow(elStruct){
 }
 function MSSortTopics(el,bFL){
   // 20240430: Sylvia
-  var elDisplay = SearchPS(el,'widget').querySelector('[display]');
-  var mTopics = elDisplay.querySelectorAll('[topic]');
-  var mTopicList=[];
-  var mOrder = "";
+  let elDisplay = SearchPS(el,'widget').querySelector('[display]');
+  let mTopics = elDisplay.querySelectorAll('[topic]');
+  let mTopicList=[];
+  let mOrder = "";
   mTopics.forEach((mTopic)=>{    
     // This assumes that the topic is already sorted internally.
     if(bFL){
@@ -3693,7 +3700,7 @@ function MSSortTopics(el,bFL){
 }
 function TextBetween(iStr,iHead,iTail){
   // 20240906: StarTree: For parsing URL
-  var mSplit = iStr.split(iHead);
+  let mSplit = iStr.split(iHead);
   if(mSplit.length>1){
     iStr = mSplit[1];
   }
@@ -3766,9 +3773,9 @@ function GetLocalTitle(elMsg, elNode){
   // 20240429: Cardinal: Search up to the node to get the first local title
   // STEP: Get the node to know when to stop (currently passed as argument)
 
-  var mPtr = elMsg;
-  var mPrefix = "";
-  var mSubtitle = "";
+  let mPtr = elMsg;
+  let mPrefix = "";
+  let mSubtitle = "";
   while(mPtr != elNode){
     if(mPtr.hasAttribute('title')){
       return FullTitle(mPtr,mPrefix,mSubtitle);
@@ -3800,23 +3807,23 @@ function GetNodeArea(elNode){
 }
 function GetNodeTitle(elNode,mPrefix,mSubtitle){
   // 20240427: Black: Returns the title of the node given the element. 
-  var elJSON = elNode.querySelector('node'); // get the JSON element.
+  let elJSON = elNode.querySelector('node'); // get the JSON element.
   if(IsBlank(elJSON)){return "???";}
-  var mJSON = JSON.parse(elJSON.innerHTML);
+  let mJSON = JSON.parse(elJSON.innerHTML);
   return FullTitleStr(mJSON.title,mPrefix,mSubtitle);
 }
 function MSScan(elButton){
   // 20240426: StarTree: Implements the Message Scanner
   // It is assumed that within the control there are date input fields with titles "Start" and "End"
-  var elWidget = SearchPS(elButton,'widget');
-  var elControl = SearchPS(elButton,'control');
-  var elStart = elControl.querySelector('[title="Start"]');
-  var elEnd = elControl.querySelector('[title="End"]');
-  var elDisplay = elWidget.querySelector('[display]');
-  var elHeader = elWidget.querySelector('[header]');
+  let elWidget = SearchPS(elButton,'widget');
+  let elControl = SearchPS(elButton,'control');
+  let elStart = elControl.querySelector('[title="Start"]');
+  let elEnd = elControl.querySelector('[title="End"]');
+  let elDisplay = elWidget.querySelector('[display]');
+  let elHeader = elWidget.querySelector('[header]');
 
   // STEP: Process the inputs
-  var mStart = elStart.value; 
+  let mStart = elStart.value; 
   if(IsBlank(mStart)){
     // 20240426: Patricia: Default start is the start of today.
     let mNow = DTSNow();
@@ -3824,7 +3831,7 @@ function MSScan(elButton){
   }else{
     mStart = Number(DTSFormatStr(mStart));
   }
-  var mEnd = elEnd.value;
+  let mEnd = elEnd.value;
   if(IsBlank(mEnd)){
     mEnd = Number(DTSNow()); 
   }else{
@@ -3841,19 +3848,19 @@ function RenderStart(el){
 
   // 20240521: StarTree: If the first character is not alphabet, return a normal bubble.
   // 20240726: Evelyn: We need code that can automatically bold all beginning capitalized words.
-  var mTextFC = el.innerHTML.slice(0,1);
-  var mFirst3 = el.innerHTML.slice(0,3);
+  let mTextFC = el.innerHTML.slice(0,1);
+  let mFirst3 = el.innerHTML.slice(0,3);
 
   if(mFirst3.toLowerCase() != "<b>" &&  mTextFC.toLowerCase() == mTextFC.toUpperCase()){
   //  if( mTextFC.toLowerCase() == mTextFC.toUpperCase()){
     return RenderMsg(el);
   }
 
-  var mHTML="";
+  let mHTML="";
   // STEP: Show the Avatar with optional EXP icon.
-  var mSPK = Default(SPKAvatar(el),"");
-  var mEXP = RenderExp(el);
-  var mIcon = Default(el.getAttribute("Icon"),"⭐");
+  let mSPK = Default(SPKAvatar(el),"");
+  let mEXP = RenderExp(el);
+  let mIcon = Default(el.getAttribute("Icon"),"⭐");
   
   // 20240726: Evelyn: Hide the avatar in Start format.
   //if(NotBlank(mSPK)){
@@ -3880,21 +3887,21 @@ function ResCardList(elRecord){
   // 20240730: StarTree: Given a record, return a section HTML code for displaying cards.
 
   // STEP: Applicability: 20240731: Vivi: Query for all cards in the node, not just from the INV section.
-  //var elInv = elRecord.querySelector("Inv");
+  //let elInv = elRecord.querySelector("Inv");
   //if(IsBlank(elInv)){return "";}
-  var elCardList = elRecord.querySelectorAll("Card");
+  let elCardList = elRecord.querySelectorAll("Card");
   if(elCardList.length==0){return "";}
 
   // STEP: Make the Card section
   // 20240730: StarTree: Milestone 1: Just display the first card.
-  var mHTML = "<div SidePanel class='mbCardRM";
+  let mHTML = "<div SidePanel class='mbCardRM";
   // 20240908: Ledia: If the node is a profile node, don't show the res section initially.
   if(elRecord.hasAttribute("data-profile")){
    mHTML += " mbhide";
   }
   mHTML += "'>";
   mHTML += "<div>" + elCardList[0].outerHTML + "</div>";
-  var mIndex=""
+  let mIndex=""
   if(elCardList.length>1){ // Gallery Code
     mHTML += "<div>";
     for(i=0;i<elCardList.length;i++){
@@ -3912,7 +3919,7 @@ function ResIcon(mRes){
   // 20240731: StarTree: Returns an icon based on the content of the RES object.
 
   // RULE: If the RES contains any icon field with a pin, use the pin as the icon.
-  var mPins = mRes.querySelectorAll("[icon=📌]");
+  let mPins = mRes.querySelectorAll("[icon=📌]");
   if(mPins.length > 0){return "📌";}
 
   // RULE: If the RES has one of these status attribute, then ignore any specified icon.
@@ -3944,15 +3951,15 @@ function ResList(elRecord,bShow){
   
   // STEP: Applicability Check: If the record does not have a RES items in the INV section, return an empty string.
   // 20240731: Vivi: Get RES items from the whole node, not just the INV section.
-  //var elInv = elRecord.querySelector("Inv");
+  //let elInv = elRecord.querySelector("Inv");
   //if(IsBlank(elInv)){return "";}
-  //var elResList = elRecord.querySelectorAll("Res[item]");
-  var elResList = elRecord.querySelectorAll("Res");
+  //let elResList = elRecord.querySelectorAll("Res[item]");
+  let elResList = elRecord.querySelectorAll("Res");
   if(elResList.length==0){return "";}
 
   // STEP: There is content, so make the searchable RES List.
   // Sub Step: Concatenate the Res Items.
-  var mResPack = "";
+  let mResPack = "";
   elResList.forEach((item)=>{
     // 20240925: StarTree: Don't include Calendar objects
     if(item.getAttribute("type")=="calendar"){return;}
@@ -3986,9 +3993,9 @@ function ModeCSS(mMode){
 }
 function RenderAvXP(mSPK,mEXP,mIcon,mRank,mMode,mDTS){
   // 20240426: Skyle: Function called by other render functions
-  var mHTML="";
+  let mHTML="";
   
-  var mSPKFirst = Default(SPKAvatar(null,mSPK),"???");
+  let mSPKFirst = Default(SPKAvatar(null,mSPK),"???");
   mHTML = "<div class=\"mbav50e mb" + mSPKFirst;
   let mModeCSS = ModeCSS(mMode);
   if(NotBlank(mModeCSS)){mHTML += " mb" + mModeCSS;}
@@ -4016,13 +4023,13 @@ function RenderAvXP(mSPK,mEXP,mIcon,mRank,mMode,mDTS){
 }
 function RenderEnter(el){
   // 20240420: StarTree: Renders a bubble in the a traditional ENTER format.
-  var mHTML="";
+  let mHTML="";
   // STEP: Show the Avatar with optional EXP icon.
-  var mSPK = el.getAttribute("SPK");
-  var mSPKFirst = Default(SPKAvatar(el),"???");
-  var mEXP = RenderExp(el);
-  var mTitle = el.getAttribute("Title");
-  var mIcon = Default(el.getAttribute("Icon"),"⭐");
+  let mSPK = el.getAttribute("SPK");
+  let mSPKFirst = Default(SPKAvatar(el),"???");
+  let mEXP = RenderExp(el);
+  let mTitle = el.getAttribute("Title");
+  let mIcon = Default(el.getAttribute("Icon"),"⭐");
   mHTML = "<div class=\"mbCL\"></div>"
   mHTML += RenderAvXP(mSPK,mEXP,mIcon,el.getAttribute('rank'),el.getAttribute('mode'),el.getAttribute('dts'));
   if(el.hasAttribute('DTS')){
@@ -4040,8 +4047,8 @@ function RenderEnter(el){
 }
 function RenderExp(el){
   // 20240420: StarTree: Interpret and create the short EXP string that is used in Bubble or Enter
-  var mHasEXP =  el.hasAttribute("EXP");
-  var mEXP = 0;
+  let mHasEXP =  el.hasAttribute("EXP");
+  let mEXP = 0;
   if(mHasEXP){
     mEXP = Default(el.getAttribute("EXP"),1);
   }
@@ -4051,15 +4058,15 @@ function MsgContext(el){
   // 20240427: Black: Shows context information. 
   // el is the button.
   // STEP: If the previous element is not a context element, create it.
-  var mContext = el.nextElementSibling;
+  let mContext = el.nextElementSibling;
   if(IsBlank(mContext) || !mContext.hasAttribute('context')){
     mContext = document.createElement('span');
     mContext.setAttribute('context',"");
     mContext.classList.add('mbContext');
     // Populate with context information.
-    var elDTS = SearchPS(el,'dts');
-    var mParent = elDTS.getAttribute('parent');
-    var mParentName = elDTS.getAttribute('parentName');
+    let elDTS = SearchPS(el,'dts');
+    let mParent = elDTS.getAttribute('parent');
+    let mParentName = elDTS.getAttribute('parentName');
     
     if(IsBlank(mParent)){
       let elBoard = SearchPS(el,'board');
@@ -4093,7 +4100,7 @@ function RenderMsg(el){
   // <msg DTS="202404141904" SPK="StarTree" EXP="2" Icon="🍍">Testing Testing.</msg>
   // Into:
   // <button class='mbbutton' onclick='ShowNextInline(this)' DTS='202404141904' EXP='2' Icon='🍍'>🍍<small>2</small><div class='mbavem mbStarTree"></div></button><hide> <b>StarTree:</b> Testing Testing.</hide>
-  var mHTML = "";
+  let mHTML = "";
   let mDTS = el.getAttribute("DTS");
   if(NotBlank(mDTS)){mHTML += " DTS='" + mDTS + "'";}
   let mSPK = SPKAvatar(el);  
@@ -4153,14 +4160,14 @@ function RenderMsg(el){
   return mHTML;
 }
 function MacroID(eScopeID){
-  var elScope = getElementById(eScopeID);
+  let elScope = getElementById(eScopeID);
   Macro(elScope);
 }
 function MacroJQ(elScope){
   // 2022-10-15: Zoey: Separated MacroJQ from Macro
-  var z = elScope.getElementsByTagName("jq");
-  var elJQ, i;
-  var hit = z.length;
+  let z = elScope.getElementsByTagName("jq");
+  let elJQ, i;
+  let hit = z.length;
   for (i=0;i<hit;i++){
     elJQ = z[i];
     QueryAllReplace(elJQ,elJQ.innerHTML);  
@@ -4178,8 +4185,8 @@ function MacroLL(el,mMacro){
   if(mMacro.desc==null){mMacro.desc = mMacro.en;}
   if(mMacro.desc==null){mMacro.desc = "💬";}
   mDescStr = "<hr class=\"mbhr0\">" + mMacro.desc;
-  var elTemp = document.createElement("div");  
-  var mHTML = "<span>";
+  let elTemp = document.createElement("div");  
+  let mHTML = "<span>";
   mHTML += "<div class=\"mbpointer mbav50r mb" + mAuthor + "\" onclick=\"ShowLPN(this)\">";
   mHTML += "<hide>" + mDescStr + "</hide></div>";
   mHTML += "<small style=\"margin-right:5px\"><b>" + mDate + mTime + "</b></small>";
@@ -4224,11 +4231,11 @@ function MacroLnk(elScope){
   /* 20230310: Cardinal: Load to main area if the device is not a mobile.
       <a class="mbbutton" href="https://panarcana.blogspot.com/p/viewer.html?id=P202302201503" onclick="" + InterLink() + "'#P202301251008');return false;" >🔮</a>
   */
-  var z = elScope.getElementsByTagName("lnk");
-  var elJQ, i;
-  var hit = z.length;
-  var bMark = NodeMarkCookieCheck();
-  var bMarkLocal = bMark;
+  let z = elScope.getElementsByTagName("lnk");
+  let elJQ, i;
+  let hit = z.length;
+  let bMark = NodeMarkCookieCheck();
+  let bMarkLocal = bMark;
 
   for (i=0;i<hit;i++){
     elJQ = z[i];
@@ -4241,7 +4248,7 @@ function MacroLnk(elScope){
     if(bMark){
       bMarkLocal = bMark;
       try{
-        var elQB = SearchPS(elJQ,'questboard');
+        let elQB = SearchPS(elJQ,'questboard');
         if(NotBlank(elQB)){
           bMarkLocal = false;
         }
@@ -4249,8 +4256,8 @@ function MacroLnk(elScope){
     }
     
     // 20241005: StarTree: Adding optional Title
-    var mTitle = elJQ.getAttribute("title");
-    var elNew = AddElement(elJQ,"span",LnkCode(cmds[0],cmds[1],"",bMarkLocal,mTitle));
+    let mTitle = elJQ.getAttribute("title");
+    let elNew = AddElement(elJQ,"span",LnkCode(cmds[0],cmds[1],"",bMarkLocal,mTitle));
     elNew.style.display="inline-block";
     /*
     mQB = "";
@@ -4258,7 +4265,7 @@ function MacroLnk(elScope){
       mQB = " onclick=\"" + InterLink() + "'" + cmds[0] + "');return false;\"";
     }
     elTemp.innerHTML = "<a class='mbbuttonIn' href='" + ViewerPath() + "?id=P"+cmds[0]+"'"+mQB+">"+cmds[1]+"</a>";
-    var elTemp = document.createElement("span");
+    let elTemp = document.createElement("span");
     elJQ.after(elTemp);
     */
     
@@ -4273,10 +4280,10 @@ function MacroMacro(elScope){
   // 20230222: Mikela: Added for <macro>
   // Arguments: cmd, node, desc
 
-  var z = elScope.getElementsByTagName("macro");
-  var hit = z.length;
+  let z = elScope.getElementsByTagName("macro");
+  let hit = z.length;
   if(hit<=0){return;}
-  var i;
+  let i;
   for (i=0;i<hit;i++){
     try{
       MMInner(z[i],JSON.parse(z[i].innerHTML));
@@ -4304,7 +4311,7 @@ function MC3Resize(el){
 }
 function MMInner(el,mMacro){
   // 20230223: StarTree
-  var mHTML = "";
+  let mHTML = "";
   mCmd = "";
   mNode = mMacro.node;
   mInner = "";
@@ -4332,7 +4339,7 @@ function MMInner(el,mMacro){
   }
   if(mMacro.cmd=="Wide"){
     if(GuessContainerWidth(el) >= 750){
-      var elTar = el.nextElementSibling;
+      let elTar = el.nextElementSibling;
       if(mMacro.display != null){ elTar.style.display = mMacro.display;}
       if(mMacro.flex != null){ elTar.style.flex = mMacro.flex;}
       if(mMacro.float != null){ elTar.style.float = mMacro.float;}
@@ -4363,7 +4370,7 @@ function MMInner(el,mMacro){
     // <div class="mbscroll">
     //   <div class="mbbutton" onclick="LAP3N(this,'P202207101102')">🍹 Jamba You</div>
     // </div>
-    var elTemp = document.createElement("div");
+    let elTemp = document.createElement("div");
     elTemp.classList.add("mbscroll");
     mHTML = "<div class=\"mbbutton\" onclick=\"" + mCmd;
     mHTML += "(this,\'" + mNode + "\'" + mInner + " )\">" + mMacro.desc + "</div>";
@@ -4375,7 +4382,7 @@ function MMInner(el,mMacro){
     mLang = mMacro.lang; if(IsBlank(mLang)){mLang="EN"}; mLang = mLang.toUpperCase();
     mChapter = mMacro.chapter;
     mHTML = LangIcon(mLang) + " ";
-    for(var i=mStart;i<=mEnd;i++){
+    for(let i=mStart;i<=mEnd;i++){
       mPad = i.toString().padStart(2,'0');
       mImgFileName= "";
       if(mMacro.cmd=="mangapages2"){ // New Format of Chapter 15
@@ -4394,7 +4401,7 @@ function MMInner(el,mMacro){
           <img src="https://github.com/MagicBakery/Images/blob/main/CH16_EN_00.png?raw=true">
         </hide>*/
     }
-    var elTemp = document.createElement("div"); //<div style="text-align:center">
+    let elTemp = document.createElement("div"); //<div style="text-align:center">
     elTemp.style.textAlign="center";
     elTemp.innerHTML = mHTML;
     el.after(elTemp);
@@ -4420,8 +4427,8 @@ function MMInner(el,mMacro){
     // 20230412: Evelyn: Default: make a 10x10 area.
     // <div class="mbpointer" onclick="ColorSquare(this)" style="display:inline-block;height:30px;width:30px;background-color: brown;"></div>
     mHTML = "";
-    for(var c=0;c<10;c++){
-      for(var r=0;r<10;r++){
+    for(let c=0;c<10;c++){
+      for(let r=0;r<10;r++){
         mHTML += "<div class='mbpointer' onclick='ColorSquare(this)' style='display:inline-block;height:25px;width:25px;background-color:";
         mHTML += getRandomColor1("");
         mHTML += "'></div>";
@@ -4449,12 +4456,12 @@ function MMInner(el,mMacro){
     //     ...
     //   </div>
 
-    var mActivities = mMacro.activities;
+    let mActivities = mMacro.activities;
     mRankCur = "";
     mToday = Number(mMacro.today);
 
     // Sort the list first by rank, then by updates, last by update date.
-    var mChange = false;
+    let mChange = false;
     do{
       mChange = false;
       for(i=1;i<mActivities.length;i++){
@@ -4508,7 +4515,7 @@ function MMInner(el,mMacro){
       mHTML += "&nbsp;</a> ";
       
     }
-    var elTemp = AddElement(el,"div",mHTML);
+    let elTemp = AddElement(el,"div",mHTML);
     elTemp.style.padding="10px 0px 10px 25px";
     return;
   }
@@ -4551,7 +4558,7 @@ function MMInner(el,mMacro){
     { // CHARTER SCORES (daisy)
       mActivities = mMacro.activities;
       mRankCur = "";  
-      var mChange = false;
+      let mChange = false;
       mHTML += "<div style='padding: 10px 0px 10px 25px;''>";
       do{
         mChange = false;
@@ -4646,7 +4653,7 @@ function MMInner(el,mMacro){
   }
   if(mMacro.cmd=="img"){ //IMG
     // Old code
-    /*var elTemp = document.createElement("img");
+    /*let elTemp = document.createElement("img");
     elTemp.src = mMacro.src;
     if(NotBlank(mMacro.maxwidth)){elTemp.style.maxWidth = mMacro.maxwidth;}
     el.after(elTemp);*/
@@ -4669,7 +4676,7 @@ function MMInner(el,mMacro){
       mHTML += " width='"+ mMacro.width + "'";
     }
     mHTML += ">";
-    var elTemp = AddElement(el,"div",mHTML);
+    let elTemp = AddElement(el,"div",mHTML);
     if(NotBlank(mMacro.maxwidth)){elTemp.style.maxWidth = mMacro.maxwidth;}
     
     if(NotBlank(mMacro.scale)){
@@ -4709,7 +4716,7 @@ function MMInner(el,mMacro){
     /*<a onclick="QueryBanner('202208161957')" class="mbListCapILB mbRankNone">✅</a>
       <span class="mbListCapILB mbRankQty">7</span> 
       <a class="mbbutton" onclick="ShowNext(this)"><span class="mbILB25"><div class="mbavem mbNatalie"></div></span> @Paladin</a>*/
-    var mUpdates = mMacro.updates;
+    let mUpdates = mMacro.updates;
 
     mRank = mMacro.rank;
     if(IsBlank(mRank)){
@@ -4766,7 +4773,7 @@ function MMInner(el,mMacro){
       &nbsp;<small><b>202302201503</b></small><a class="mbbuttonIn" href="" + ViewerPath() + "?id=P202302201503"><small>📌</small></a> 
     </span>
     */
-    var elTemp = document.createElement("span");
+    let elTemp = document.createElement("span");
     elTemp.style.float = "right";
     elTemp.style.marginBottom = "-10px";
     elTemp.innerHTML = "&nbsp;<small><b>" + mNode + "</b></small><a class=\"mbbuttonIn\" href=\"" + ViewerPath() + "?id=P" + mNode + "\"><small>📌</small></a>";
@@ -4782,7 +4789,7 @@ function MMInner(el,mMacro){
         <a class="mbbutton" onclick="ClipboardAlert('202302201503')" title="202302201503">📋</a>  
       </span>  
     */
-    var elTemp = document.createElement("span");
+    let elTemp = document.createElement("span");
     elTemp.classList.add("mbRef");    
     elTemp.style.margintop = "4px";
     elTemp.title = mNode;
@@ -4791,7 +4798,7 @@ function MMInner(el,mMacro){
     }
     // 20231229: Patricia: Open Youtube link to music player.
     if(NotBlank(mMacro.yt)){
-      var mURL = "https://www.youtube.com/watch?v=" + mMacro.yt + "&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx";
+      let mURL = "https://www.youtube.com/watch?v=" + mMacro.yt + "&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx";
       elTemp.innerHTML += "<a class='mbbuttonEx' onclick=\"ExURL('"+ mURL + "');return false;\" href='" +mURL+"'>🎧</a> ";
 
     }
@@ -4925,23 +4932,23 @@ function MMInner(el,mMacro){
     //  Into:
     //   <a class="mbbutton" title="202309200912" href="" + ViewerPath() + "?id=P202309200912" onclick="QueryAllPSN(this,'#P202309200912',true );return false;">2009 Ditch</a>
     mHTML = "<a class='mbbutton' title='" + mNode + "' href='" + ViewerPath() + "?id=P" + mNode + "' onclick=\"QueryAllPSN(this,'#P" + mNode + "',true);return false;\">" + mMacro.desc + "</a>";
-    var elTemp = document.createElement("span");
+    let elTemp = document.createElement("span");
     elTemp.innerHTML = mHTML;el.after(elTemp);return;
   } // <a>
   if(mMacro.cmd=="quest"){
     // 20230309: Cardinal
     // <macro>{"cmd":"quest","title":"Layout Update","icon":"🥾","status":"";"info":"0304"}</macro>
     // 🥾 <small><a class="mbbutton" onclick="ShowNextInline(this)">✅1</a>       <hide>0304</hide></small> Layout Update<br>
-    var mTitle = mMacro.title;
-    var mIcon = mMacro.icon; if(IsBlank(mIcon)){mIcon="⭐";}
+    let mTitle = mMacro.title;
+    let mIcon = mMacro.icon; if(IsBlank(mIcon)){mIcon="⭐";}
     /*if(mIcon.length>3){
       mIcon = "<div class='mbIcon i"+mIcon+"'></div>";
     }*/
     
-    var mInfo = mMacro.info; if(IsBlank(mInfo)){mInfo="";}
-    var mLog = mMacro.log; if(IsBlank(mLog)){mLog="";}
-    var mStatus = mMacro.status;    
-    var mPriority = mMacro.priority;
+    let mInfo = mMacro.info; if(IsBlank(mInfo)){mInfo="";}
+    let mLog = mMacro.log; if(IsBlank(mLog)){mLog="";}
+    let mStatus = mMacro.status;    
+    let mPriority = mMacro.priority;
     if(IsBlank(mStatus)){
       if(NotBlank(mLog)){
         mStatus="✅";
@@ -5055,7 +5062,7 @@ function MMInner(el,mMacro){
       mHTML += "<lnk>" + mMacro.node + "|🥨</lnk>";
     }
     mHTML += mMacro.name;
-    var elTemp = document.createElement("div");
+    let elTemp = document.createElement("div");
     elTemp.innerHTML = mHTML;el.after(elTemp);return;
   }
   if(mMacro.cmd=="url"){ // SPAN
@@ -5074,13 +5081,13 @@ function Music(eMusicID){
   }
   if(AtGitHub()){
     // 20231029: StarTree: Default to not loop.
-    var mURL = MusicURL(eMusicID);
+    let mURL = MusicURL(eMusicID);
     // 20250113: StarTree: Change to get the last one.
-    var mDivs = document.querySelectorAll('#MBBGM');
+    let mDivs = document.querySelectorAll('#MBBGM');
     //DEBUG(mDivs.length);
-    var mDiv = mDivs[mDivs.length-1];
-    //var mDiv = document.getElementById('MBBGM');    
-    var mLoop = "";
+    let mDiv = mDivs[mDivs.length-1];
+    //let mDiv = document.getElementById('MBBGM');    
+    let mLoop = "";
     if(eMusicID.search("_Loop")>-1){
       mLoop = " loop";
     }
@@ -5090,8 +5097,8 @@ function Music(eMusicID){
 }
 function MusicEL(el,eMusicID){
   // 20250113: StarTree: To allow multiple music players.
-  var mURL = MusicURL(eMusicID);
-  var mLoop = "";
+  let mURL = MusicURL(eMusicID);
+  let mLoop = "";
   if(eMusicID.search("_Loop")>-1){
     mLoop = " loop";
   }
@@ -5103,7 +5110,7 @@ function MusicPP(el,eMusicID){
 }
 function MusicURL(eMusicID){
   // 20231029: StarTree: Maps MusicID to URL.
-  var mMusicID = eMusicID.replace("_Loop","");
+  let mMusicID = eMusicID.replace("_Loop","");
   switch(mMusicID){
     case "ArcacianSky": return "https://github.com/MagicBakery/Music/blob/main/Arcacian%20Sky%20(20221001)%20Climax%20Reverb.mp3?raw=true";
     case "CookingWithArcacia": return "https://github.com/MagicBakery/Music/blob/fce1794cee034fe2535579ad4f18dd091bb613cf/Cooking%20with%20Arcacia%20(20220510).mp3?raw=true";
@@ -5144,8 +5151,8 @@ function MusicNext(elTest,eMusicID){
 function NodeTypeHTML(elRecord){
   // 20241005: StarTree: This function returns the html code.
   // 20240912: StarTree: If a node is a help node, show a handshake icon.
-  var mIcon = "🥨";
-  var mTitle = "Guild Node";
+  let mIcon = "🥨";
+  let mTitle = "Guild Node";
   if(elRecord.hasAttribute('data-festive')){
     mIcon = "🍰";
     mTitle = "Festive Node";
@@ -5215,10 +5222,10 @@ function PNDInner(el,mJSON){
 function ProcessNodeData(elScope){
   // 20230621: StarTree: Adding first for chat post.
   // A node is supposed to have only one <node> data, but this function could be called from a scope that has a list of nodes.
-  var z = elScope.getElementsByTagName("node");
-  var hit = z.length;
+  let z = elScope.getElementsByTagName("node");
+  let hit = z.length;
   if(hit<=0){return;}
-  var i;
+  let i;
   for (i=0;i<hit;i++){
     try{
       PNDInner(z[i],JSON.parse(z[i].innerHTML));  
@@ -5246,7 +5253,7 @@ function SearchPS(el,iAttribute){
   // 20230308: LRRH: changed the check for missing iAttribute to undefined.
   try{
     if(iAttribute==undefined || iAttribute==""){iAttribute="top";}
-    var elTarget = el;
+    let elTarget = el;
     while(elTarget != null && elTarget.getAttribute(iAttribute)==null){
       elTarget = elTarget.parentNode;
     }
@@ -5258,13 +5265,13 @@ function SearchPS(el,iAttribute){
 function SearchRecount(el){
   // 20241005: StarTree: Recount and display the number of visible topics in the search result list.
   //el.innerHTML = "[###]";
-  var elControl = SearchPS(el,"control");
-  var elListArea = elControl.nextElementSibling;
-  var elCount = elControl.querySelector("[count]");
+  let elControl = SearchPS(el,"control");
+  let elListArea = elControl.nextElementSibling;
+  let elCount = elControl.querySelector("[count]");
   if(IsBlank(elCount)){return;}
   elCount.innerHTML = "[None]";
-  var elTopics = elListArea.querySelectorAll("[topic]");
-  var mCount = 0;
+  let elTopics = elListArea.querySelectorAll("[topic]");
+  let mCount = 0;
   elTopics.forEach((mTopic)=>{
     if(mTopic.parentNode==elListArea && !mTopic.classList.contains("mbhide") && mTopic.style.display!="none"){
       mCount++;
@@ -5282,11 +5289,11 @@ function SearchRecount(el){
 }
 function SearchWrapper(elScope,iInner,bShow,mCount){
   // 20240722: StarTree: Wraps the Inner content with a search frame.
-  var mHideClass = "";
+  let mHideClass = "";
   if(!bShow){
     mHideClass = " class=\"mbhide\"";
   }
-  var mHTML = "<div banner"+ mHideClass +" style=\"margin-bottom:5px\"><div control>" + 
+  let mHTML = "<div banner"+ mHideClass +" style=\"margin-bottom:5px\"><div control>" + 
   "<input type=\"text\" onclick=\"TextSearchPN(this)\" onkeyup=\"TextSearchPN(this)\" placeholder=\"Search...\" title=\"Input a keyword\" style=\"width:100px\"> " + 
   "<span>" + 
   "<a class=\"mbbutton\" style=\"float:right\" onclick=\"QSLSortRandom(this)\">🎲</a>" + 
@@ -5300,7 +5307,7 @@ function SearchWrapper(elScope,iInner,bShow,mCount){
 
   // 20240720: StarTree: If there is a search section, add it here.
   try{
-    var elSearch = elScope.querySelector('Search');
+    let elSearch = elScope.querySelector('Search');
     mHTML += elSearch.innerHTML;
   }catch(error){          
   }
@@ -5350,7 +5357,7 @@ function SectionAssign(elContainer, aPrefix='',aIndex=1){
   }
 }
 function ShowSkip(el) {
-  var eNext = el.nextElementSibling.nextElementSibling;
+  let eNext = el.nextElementSibling.nextElementSibling;
   if (eNext.style.display != "block") {
       Macro(eNext);
       eNext.style.display = "block";
@@ -5364,28 +5371,28 @@ function SPKAvatar(el,iSPK){
   // .. 1) SPK="StarTree"
   // .. 2) SPK="|StarTree|Tanya|"
   // 20251101: StarTree: if iSPK is specified, just use it.
-  var mSPK = iSPK;
+  let mSPK = iSPK;
   if(IsBlank(mSPK)){mSPK = el.getAttribute("SPK"); }  
   if(IsBlank(mSPK)){return "";}
-  var mSPKs = mSPK.split("|");
+  let mSPKs = mSPK.split("|");
   if(mSPKs.length==1){return mSPK;} // Case 1
   return mSPKs[1];
 }
 function SPKPlus(el){
   // 20240803: StarTree: Returns a mark string to indicate that the entry EXP applies to multiple persons.
-  var mSPK = el.getAttribute('SPK');
+  let mSPK = el.getAttribute('SPK');
   if(IsBlank(mSPK)){return ""}
-  var mSPKs = mSPK.split("|");
+  let mSPKs = mSPK.split("|");
   if(mSPKs.length<=2){return ""}
   return " <small><b>" + String(mSPKs.length-2)+"</b></small> ";
 }
 function SPKMultiStr(el){
   // 20240803: StarTree: Returns a string listing the SPK if it contains multiple.
-  var mSPK = el.getAttribute("SPK");
+  let mSPK = el.getAttribute("SPK");
   if(IsBlank(mSPK)){return ":"}
-  var mSPKs = mSPK.split("|");
+  let mSPKs = mSPK.split("|");
   if(mSPKs.length<=2){return ":"}
-  var mHTML="";
+  let mHTML="";
   mHTML = mSPK.replace("|"+mSPKs[1]+"|","");
   mHTML = mHTML.slice(0,mHTML.length-1).replaceAll("|",", ");
 
@@ -5405,24 +5412,24 @@ function StarPattern(iCode1,iCode2,bCheckMark){
   if(IsBlank(iCode1)){return "";}
 
   // If only Code 1 is provided, interpret it as the combined code and decompose it.
-  var bFilledLast = true;
+  let bFilledLast = true;
   if(IsBlank(iCode2) && iCode2 != 0){
     bFilledLast = false;
     iCode2 = iCode1 %10;
     iCode1 = Math.floor(iCode1/10);
   }
 
-  var mNumEmptyStar = iCode1 - iCode2;
-  var mNumFilledStar = iCode1 - mNumEmptyStar;
-  var mEmptyStar = MacroIcons(null,":StarEmpty:");
-  var mFilledStar = MacroIcons(null,"⭐");
+  let mNumEmptyStar = iCode1 - iCode2;
+  let mNumFilledStar = iCode1 - mNumEmptyStar;
+  let mEmptyStar = MacroIcons(null,":StarEmpty:");
+  let mFilledStar = MacroIcons(null,"⭐");
 
   if(bCheckMark){
     mEmptyStar = "<div class='mbbutton mbIB' icon=':StarEmpty:' onclick=ToggleCheckMark(this)>" + mEmptyStar + "</div>";
     mFilledStar = "<div class='mbbutton mbIB' icon='⭐' onclick=ToggleCheckMark(this)>" + mFilledStar + "</div>";
   }
 
-  var mStarPattern = mFilledStar.repeat(mNumFilledStar);
+  let mStarPattern = mFilledStar.repeat(mNumFilledStar);
   if(bFilledLast){
     mStarPattern = mEmptyStar.repeat(mNumEmptyStar) + mStarPattern;
   }else{
@@ -5432,7 +5439,7 @@ function StarPattern(iCode1,iCode2,bCheckMark){
 }
 function HideN3Inline(el) {
   // 20230213: StarTree: For Vacation Island
-  var eNext = el.nextElementSibling;
+  let eNext = el.nextElementSibling;
   eNext = eNext.nextElementSibling;
   eNext = eNext.nextElementSibling;
   if (eNext.style.display != "none") {
@@ -5442,7 +5449,7 @@ function HideN3Inline(el) {
   }
 }
 function HidePP(elThis){
-  var eTar = elThis.parentNode.previousElementSibling;
+  let eTar = elThis.parentNode.previousElementSibling;
   if(eTar.classList.contains('mbhide')){
     eTar.classList.remove('mbhide');
   }else{
@@ -5455,7 +5462,7 @@ function HidePP(elThis){
   }*/
 }
 function HideP2(elThis){
-  var eTar = elThis.parentNode.parentNode;
+  let eTar = elThis.parentNode.parentNode;
   if (eTar.style.display != "none") {
     eTar.style.display = "none";
   } else {
@@ -5463,7 +5470,7 @@ function HideP2(elThis){
   }
 }
 function HideP2P(elThis){
-  var eTar = elThis.parentNode.parentNode.previousElementSibling;
+  let eTar = elThis.parentNode.parentNode.previousElementSibling;
   if (eTar.style.display != "none") {
     eTar.style.display = "none";
   } else {
@@ -5472,7 +5479,7 @@ function HideP2P(elThis){
 }
 function ShowP2P(elThis){
   // 20230220: Fina: Fixed the double click bug with getComputedStyle
-  var eTar = elThis.parentNode.parentNode.previousElementSibling;
+  let eTar = elThis.parentNode.parentNode.previousElementSibling;
   if(window.getComputedStyle(eTar).display === "none"){
     eTar.classList.remove("mbhide");
     //eTar.style.display = "block";
@@ -5482,7 +5489,7 @@ function ShowP2P(elThis){
   }  
 }
 function HidePrev(elThis){
-  var eTar = elThis.previousElementSibling;
+  let eTar = elThis.previousElementSibling;
   if (eTar.style.display != "none") {
     eTar.style.display = "none";
   } else {
@@ -5494,7 +5501,7 @@ function HideParent(elThis){
   elThis.parentNode.classList.add("mbhide");
 }
 function HideTarget(elAID) {
-  var eToHide = document.getElementById(elAID);
+  let eToHide = document.getElementById(elAID);
   if (eToHide.style.display != "none") {
       eToHide.style.display = "none";
   } else {
@@ -5513,11 +5520,11 @@ function ShowImg(chapter,page){
   //Assumes that the image exists.
   chapter=Number(chapter);
   page=Number(page);
-  var eFrame = document.getElementById("MangaImg");
+  let eFrame = document.getElementById("MangaImg");
   eFrame.src = document.getElementById(ImgName(chapter,page)).src;
   eFrame.onclick=function(){ShowImg(chapter,page+1)};
   
-  var ePrev = document.getElementById("btnPrev");
+  let ePrev = document.getElementById("btnPrev");
   if(ImgCheck(chapter,page-1)){
     ePrev.onclick = function(){ShowImg(chapter, page-1)};
     ePrev.innerHTML="Prev";
@@ -5526,7 +5533,7 @@ function ShowImg(chapter,page){
     ePrev.innerHTML="----";
   }
 
-  var eNext = document.getElementById("btnNext");
+  let eNext = document.getElementById("btnNext");
   if(ImgCheck(chapter,page+1)){
     eNext.onclick = function(){ShowImg(chapter, page+1)};
     eNext.innerHTML="Next";
@@ -5535,20 +5542,20 @@ function ShowImg(chapter,page){
     eNext.innerHTML="----";
   }
   
-  var eChapter = document.getElementById("btnChapter");
+  let eChapter = document.getElementById("btnChapter");
   eChapter.innerHTML= "Chapter " + chapter;
     
-  var ePage = document.getElementById("btnPage");
+  let ePage = document.getElementById("btnPage");
   ePage.innerHTML = "Page " + page; 
   ePage.href="?chapter="+chapter+"&page="+page+"#manga";
   
-  var eViewer = document.getElementById("MainViewer");
+  let eViewer = document.getElementById("MainViewer");
   eViewer.style.display = "block";
   
   
 }
 function Skill(eContainerID,eSkillID){
-var elContainer = document.getElementById(eContainerID);
+let elContainer = document.getElementById(eContainerID);
 LoadDivEL(elContainer,SkillArchive(),eSkillID);
 }
 function SkillArchive(){
@@ -5561,7 +5568,7 @@ function ImgName(chapter,page){
   return "IMG_CH"+chapter+"_"+page;
 }
 function ImgCheck(chapter,page){
-    var eImg = document.getElementById(ImgName(chapter,page));
+    let eImg = document.getElementById(ImgName(chapter,page));
     if(eImg==null){
       return false; 
     }
@@ -5569,7 +5576,7 @@ function ImgCheck(chapter,page){
 }
 function LoadArchivePost(eContainer, eID, iInner){
   // JQUERY
-  var elContainer = document.getElementById(eContainer);
+  let elContainer = document.getElementById(eContainer);
   LoadArchivePostEl(elContainer, eID, iInner);
 }
 function LoadArchivePostEl(elContainer, eID,iInner){
@@ -5579,33 +5586,33 @@ function LoadArchivePostEl(elContainer, eID,iInner){
   // 20230315: James: Tolerate the eID to have no leading P.
   if(eID.substring(0,1)!="P"){eID = "P" + eID;}
 
-  var eDate= eID.substring(1,9);
-  var eTime= eID.substring(9);
-  var qArchive = ArchiveSelect(eDate);
-  var eQuery = "#" + eID;
+  let eDate= eID.substring(1,9);
+  let eTime= eID.substring(9);
+  let qArchive = ArchiveSelect(eDate);
+  let eQuery = "#" + eID;
   $(document).ready(function(){
-    var backup = $(elContainer).html();
+    let backup = $(elContainer).html();
     $(elContainer).load(qArchive + eQuery, function(){	
       NodeFormatter(elContainer);
       Macro(elContainer);
-      var backup2 = $(elContainer).html();
+      let backup2 = $(elContainer).html();
       if(backup == backup2 && $(elContainer).is(':visible') ){
         
         $(elContainer).hide();
       }else{
         
         $(elContainer).show();
-        var elID = document.getElementById(eID);
-        var elIDChild = elID.firstElementChild;
+        let elID = document.getElementById(eID);
+        let elIDChild = elID.firstElementChild;
         // 20230220: StarTree: If the child is mbDayHeader, just apply macro and show the node.
         if(elIDChild.classList.contains("mbDayHeader")){
           Macro(elContainer);
           if(iInner){elContainer.firstElementChild.classList.remove("mbscroll");}
           return;
         }
-        var elIDChildNext = elIDChild.nextElementSibling;
+        let elIDChildNext = elIDChild.nextElementSibling;
         if ( elIDChildNext != null) {
-          var ePostText = elIDChildNext.nextElementSibling;
+          let ePostText = elIDChildNext.nextElementSibling;
           if(ePostText!=null){
             if(elIDChild.tagName=="BUTTON"){
               Macro(ePostText);
@@ -5622,7 +5629,7 @@ function LoadArchivePostEl(elContainer, eID,iInner){
             ePostText.style.display = "block";
           }
         }else{
-          var elFlexContent = elIDChild.firstElementChild
+          let elFlexContent = elIDChild.firstElementChild
           Macro(elContainer);
           if (elFlexContent!=null){
             FlexShow(elFlexContent);
@@ -5637,20 +5644,20 @@ function LoadArchivePostEl(elContainer, eID,iInner){
 }
 function LAPN(elThis, eID,iInner){
   // JQUERY
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.nextElementSibling;
   LoadArchivePostEl(elTarget, eID,iInner);
 }
 function LAP2N(elThis, eID){
   // JQUERY
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.nextElementSibling;
   LoadArchivePostEl(elTarget, eID);
 }
 function LAP3N(elThis, eID, iInner){
   // JQUERY
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.nextElementSibling;
@@ -5658,7 +5665,7 @@ function LAP3N(elThis, eID, iInner){
 }
 function LAP4N(elThis, eID,iInner){
   // JQUERY
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
@@ -5666,19 +5673,19 @@ function LAP4N(elThis, eID,iInner){
   LoadArchivePostEl(elTarget, eID,iInner);
 }
 function LoadDiv(eContainer, eHTML, eDIV){
-  var elContainer = document.getElementById(eContainer);	
+  let elContainer = document.getElementById(eContainer);	
   LoadDivEL(elContainer, eHTML, eDIV);
 }
 function LoadDivEL(elContainer, eHTML, eDIV){
   // JQUERY
-  var qHTML = eHTML + ".html";
+  let qHTML = eHTML + ".html";
   if(eHTML==""){qHTML="";}
-  var qDIV = " #"+eDIV;
+  let qDIV = " #"+eDIV;
   if(eDIV==""){qDIV="";}
   $(document).ready(function(){
-    var backup = $(elContainer).html();
+    let backup = $(elContainer).html();
 	$(elContainer).load(qHTML + qDIV, function(){	
-  	  var backup2 = $(elContainer).html();
+  	  let backup2 = $(elContainer).html();
 	  if(backup == backup2 && $(elContainer).is(':visible') ){
   		$(elContainer).hide();
 	  }else{
@@ -5733,25 +5740,25 @@ function LoadDivPN2(elThis, eHTML, eDIV){
 	LoadDivN2(elThis.parentNode, eHTML, eDIV);
 }
 function LoadDivPrev(elThis, eHTML, eDIV){
-  var elContainer = elThis.previousElementSibling;
+  let elContainer = elThis.previousElementSibling;
   LoadDivEL(elContainer, eHTML, eDIV);
 }
 function LoadDivPrev2(elThis, eHTML, eDIV){
-  var elContainer = elThis.previousElementSibling;
+  let elContainer = elThis.previousElementSibling;
   LoadDivPrev(elContainer, eHTML, eDIV);
 }
 function LoadDivNext(elThis, eHTML, eDIV){
-  var elContainer = elThis.nextElementSibling;
+  let elContainer = elThis.nextElementSibling;
   LoadDivEL(elContainer, eHTML, eDIV);
 }
 function LoadQuery(eContainer, eHTML, eQuery){
   // JQUERY
-  var qHTML = eHTML + ".html ";
+  let qHTML = eHTML + ".html ";
   if(eHTML==""){qHTML="";}
   $(document).ready(function(){
-    var backup = $("#"+ eContainer).html();
+    let backup = $("#"+ eContainer).html();
 	$("#"+ eContainer).load(qHTML + eQuery, function(){	
-	  var backup2 = $("#"+ eContainer).html();
+	  let backup2 = $("#"+ eContainer).html();
 	  if(backup == backup2 && $("#"+ eContainer).is(':visible') ){
 		$("#"+ eContainer).hide();
 	  }else{
@@ -5762,28 +5769,28 @@ function LoadQuery(eContainer, eHTML, eQuery){
 }
 function LoadQueryPuzzle(eContainer, eID){
   // JQUERY
-  var eDate= eID.substring(0,8);
-  var eTime= eID.substring(8);
-  var qArchive = ArchiveSelect(eDate);
-  var eQuery = "[date='" + eDate + "'][time='" + eTime + "']";
+  let eDate= eID.substring(0,8);
+  let eTime= eID.substring(8);
+  let qArchive = ArchiveSelect(eDate);
+  let eQuery = "[date='" + eDate + "'][time='" + eTime + "']";
   $(document).ready(function(){
-    var backup = $("#"+ eContainer).html();
+    let backup = $("#"+ eContainer).html();
 	$("#"+ eContainer).load(qArchive + eQuery, function(){	
-	  var backup2 = $("#"+ eContainer).html();
+	  let backup2 = $("#"+ eContainer).html();
 	  if(backup == backup2 && $("#"+ eContainer).is(':visible') ){
 		$("#"+ eContainer).hide();
 	  }else{
 		$("#"+ eContainer).show();
-		var ePuzzleText = document.getElementById(eID).nextElementSibling.nextElementSibling;
+		let ePuzzleText = document.getElementById(eID).nextElementSibling.nextElementSibling;
 		ePuzzleText.style.display = "block";
 	  }	
 	});
   });
 }
 function LoadQueryNext(elThis, eHTML, eQuery){
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   // JQUERY
-  var qHTML = eHTML + ".html ";
+  let qHTML = eHTML + ".html ";
   if(eHTML==""){qHTML="";}
   $(document).ready(function(){
     $(elNext).load(qHTML + eQuery); 
@@ -5793,7 +5800,7 @@ function LoadQueryNext(elThis, eHTML, eQuery){
 }
 function LoadQueryTab(eContainer, eHTML, eQuery){
   // JQUERY. Same as LoadDiv but does not hide.
-  var qHTML = eHTML + ".html ";
+  let qHTML = eHTML + ".html ";
   if(eHTML==""){qHTML="";}
   $(document).ready(function(){
 	$("#"+ eContainer).load(qHTML + eQuery, function(){	
@@ -5803,9 +5810,9 @@ function LoadQueryTab(eContainer, eHTML, eQuery){
 }
 function LoadTab(eContainer, eHTML, eDIV){
   // JQUERY. Same as LoadDiv but does not hide.
-  var qHTML = eHTML + ".html";
+  let qHTML = eHTML + ".html";
   if(eHTML==""){qHTML="";}
-  var qDIV = " #"+eDIV;
+  let qDIV = " #"+eDIV;
   if(eDIV==""){qDIV="";}
   $(document).ready(function(){
 	$("#"+ eContainer).load(qHTML + qDIV, function(){	
@@ -5820,7 +5827,7 @@ function LoadTab(eContainer, eHTML, eDIV){
 /*    And if it is blank, get default content. 
 /*/
 function Peekaboo(frameID,contentID) {
-  var elFrame = document.getElementById(frameID);
+  let elFrame = document.getElementById(frameID);
   if(elFrame.style.display=="block"){
     elFrame.style.display = "none";
   }else{
@@ -5831,22 +5838,22 @@ function Peekaboo(frameID,contentID) {
   }
 }
 function Pin(elSourceID){
-  var elSource = document.getElementById(elSourceID);
-  var eTarget = document.getElementById('MBJQSW');
+  let elSource = document.getElementById(elSourceID);
+  let eTarget = document.getElementById('MBJQSW');
   ShowTextInWndEL(elSource,eTarget);
 }
 function PinNext(elThis){
-  var elNext = elThis.nextElementSibling;
-  var eTarget = document.getElementById('MBJQSW');
+  let elNext = elThis.nextElementSibling;
+  let eTarget = document.getElementById('MBJQSW');
   ShowTextInWndEL(elNext,eTarget);
 }
 function PlayNext(elThis){
-  var elAudio = elThis.nextElementSibling;
+  let elAudio = elThis.nextElementSibling;
   elAudio.currentTime = 0; // 20230119: StarTree: So it can repeat!
   elAudio.play();
 }
 function PlayNextShift(elThis,iShift){
-  var elAudio = elThis.nextElementSibling;
+  let elAudio = elThis.nextElementSibling;
   elAudio.currentTime = iShift; // 20230119: StarTree: So it can repeat!
   elAudio.play();
 }
@@ -5875,7 +5882,7 @@ function YoutubeEL(el,iLink,iPlaylist){
       mCBText = YouTubeDecode(mCBText);
 
       // 20250113: StarTree: Compare the link with what is saved. If they are the same and the element is shown, just hide the element.
-      var mCBTextCur = el.getAttribute("mTestString");
+      let mCBTextCur = el.getAttribute("mTestString");
       if(mCBTextCur == mCBText && !(el.classList.contains("mbhide"))){
         ToggleHide(el);
         el.setAttribute('mTestString',"");
@@ -5887,7 +5894,7 @@ function YoutubeEL(el,iLink,iPlaylist){
     });
   }
 
-  var elTarget = el;
+  let elTarget = el;
 
 
   if(elTarget.getAttribute("mQueryString") == iLink || elTarget.getAttribute("mQueryString") == iPlaylist){
@@ -5902,7 +5909,7 @@ function YoutubeEL(el,iLink,iPlaylist){
       return;
     }
   }
-  var mHTML = "";
+  let mHTML = "";
   //mHTML = "https://www.youtube.com/embed/" + iLink + "?version=3&loop=1&autoplay=1&list=PL77IbAOrvAb9mGTlEOnDpCi4pVYngX0yx";
   // 20231008: Mikela: Don't include the list
 
@@ -5940,7 +5947,7 @@ function YoutubeEL(el,iLink,iPlaylist){
 }
 function YoutubeMBBGM(iLink){
   // 20231229: Patricia: Added for playing youtube
-  var el = document.getElementById('MBBGM');
+  let el = document.getElementById('MBBGM');
   YoutubeEL(el,iLink)
 }
 function YoutubePN(el,iLink){
@@ -5961,10 +5968,10 @@ function YoutubePrev(el,iLink,iPlaylist){
 }
 function YoutubeSpawnELBefore(el,iTitle,iLink,iPlaylist){
   // 20250118: StarTree: Spawns a Youtube frame before the el (Refactored from YoutubeSpawnPC).
-  var elTemp = document.createElement("span");
-  var mHTML = "<span control style='text-align:left;font-size:14px;word-wrap:break-word;'>";
+  let elTemp = document.createElement("span");
+  let mHTML = "<span control style='text-align:left;font-size:14px;word-wrap:break-word;'>";
   
-  //var mHTML = "<span control class='mbCharCardSubtitle'>";
+  //let mHTML = "<span control class='mbCharCardSubtitle'>";
   
 
   //mHTML += "<span class='mbRef'><a class='mbbutton' onClick='Remove(this,\"viewer\")' style='float:right' title='Close'>:Close:</a></span>";
@@ -5980,7 +5987,7 @@ function YoutubeSpawnELBefore(el,iTitle,iLink,iPlaylist){
 }
 function YoutubeSpawnFP(el,iTitle,iLink,iPlaylist){
   // 20250118: StarTree: If the music player FP is found, spawn there. Otherwise, spawn before the control div.
-  var elFP = document.querySelector("[fp='20240904213516']");  
+  let elFP = document.querySelector("[fp='20240904213516']");  
   if(IsBlank(elFP) || !IsDisplayed(elFP)){ // If not found, just spawn before the control div.
     YoutubeSpawnPC(el,iTitle,iLink,iPlaylist);
     return;
@@ -5990,7 +5997,7 @@ function YoutubeSpawnFP(el,iTitle,iLink,iPlaylist){
 }
 function YoutubeSpawnPC(el,iTitle,iLink,iPlaylist){
   // 20250113: StarTree: Spawns a Youtube frame before the Control div.
-  var elControl = SearchPS(el,"Control");
+  let elControl = SearchPS(el,"Control");
   if(NotBlank(elControl)){YoutubeSpawnELBefore(elControl,iTitle,iLink,iPlaylist);return;}
   
   // Next try to spawn it just before the card mat if it is in a sidepanel.
@@ -6003,12 +6010,12 @@ function YoutubeSpawnPC(el,iTitle,iLink,iPlaylist){
 }
 function Remove(el,iScope){
   // 20250113: StarTree
-  var mDiv = SearchPS(el,iScope);  
+  let mDiv = SearchPS(el,iScope);  
   mDiv.remove();
 }
 function QueryAll(eContainerID, eQuery, iInner){
   // JQUERY
-  var elContainer = document.getElementById(eContainerID);
+  let elContainer = document.getElementById(eContainerID);
   QueryAllEL(elContainer, eQuery, iInner);
 }
 function QueryBanner(eQuery){
@@ -6016,11 +6023,11 @@ function QueryBanner(eQuery){
   
   // 20230302: StarTree: The banner data is an element of type "node" somewhere in the first child of the results  
   const InnerCache = [];
-  var Hit = 0;
-  var elContainer = document.getElementById('MBJQSW');  
+  let Hit = 0;
+  let elContainer = document.getElementById('MBJQSW');  
   $(document).ready(function(){
-    var prevHTML = $(elContainer).html();
-    /*@@P4*/var nextState = {"html":prevHTML};
+    let prevHTML = $(elContainer).html();
+    /*@@P4*/let nextState = {"html":prevHTML};
     /*@@P4*/window.history.replaceState(nextState, '', window.location.href);
     /*@@P4*/window.onpopstate = (event) => {
     /*@@P4*/  if(event.state && event.state.html.length > 0){
@@ -6038,22 +6045,22 @@ function QueryBanner(eQuery){
           
           $(elContainer).html(InnerCache.join(""));
           Macro(elContainer);
-          var elNode = elContainer.getElementsByTagName('node');
+          let elNode = elContainer.getElementsByTagName('node');
           if(elNode.length==0){
             $(elContainer).html("<div class='mbbg'><div class='mbbanner'>"+ $(elContainer).html() + "</div></div>");
             $(elContainer).show();
           }else{
-            var elDH = elContainer.firstElementChild.firstElementChild;
+            let elDH = elContainer.firstElementChild.firstElementChild;
             if(elDH != null && elDH.classList.contains("mbDayHeader")){
               elDH.innerHTML="";
             }
-            var mJSON = JSON.parse(elNode[0].innerHTML); 
+            let mJSON = JSON.parse(elNode[0].innerHTML); 
             if(mJSON.type == "chat"){
               // 20230621: StarTree: If the node data is for a chat node, process as if there is no node data.
               $(elContainer).html("<div class='mbbg'><div class='mbbanner'>"+ $(elContainer).html() + "</div></div>");
               $(elContainer).show();
             }else{
-              var mHTML = ""
+              let mHTML = ""
               if(IsBlank(mJSON.subtitle)){
                 mHTML = "<div class=\"mbav50pr\" style=\"background-image:url('" + mJSON.img + "')\"></div>";
               }else{
@@ -6109,8 +6116,8 @@ function QueryBanner(eQuery){
 }
 function QSLI(iQuery){
   // 20230623: Ivy: Query for Search List at MBQSL
-  var el = document.getElementById("MBQSL");
-  var mHTML = "<hr><div control>";
+  let el = document.getElementById("MBQSL");
+  let mHTML = "<hr><div control>";
     mHTML += "<input type='text' onclick='TextSearchPN(this)' onkeyup='TextSearchPN(this)' placeholder='Search...' title='Input a keyword'>";
     mHTML += " </div><!--CONTROLS-->";
     mHTML += "<div class='mbpuzzle' onclick='MC3Resize(this)' >";
@@ -6122,16 +6129,16 @@ function QSLI(iQuery){
 function DTSPadding(mDTS){
   // 20240414: StarTree: Pads the number with trailing zeroes as needed.
   // The DTS format number has 14 digits YYYYMMDDhhmmss
-  var mStr = mDTS.toString();
-  var mPow = 14 - mStr.length;
+  let mStr = mDTS.toString();
+  let mPow = 14 - mStr.length;
   mPow = Math.max(0,mPow);
   mStr += "0".repeat(mPow);
   return parseInt(mStr);
 }
 function DTSGetLatest(el){
   // 20240414: StarTree: Return the latest DTS within the element.
-  var mElements = el.querySelectorAll('[date],[dts]');
-  var mDTS = DTSGet(el);
+  let mElements = el.querySelectorAll('[date],[dts]');
+  let mDTS = DTSGet(el);
   
   for(let i=0;i<mElements.length;i++){
     let mElDTS = DTSGet(mElements[i]);
@@ -6146,20 +6153,20 @@ function DTSGet(el){
   
 
   // RULE: If the element has a DTS value, then use the DTS value
-  var mDTS = el.getAttribute('dts');
+  let mDTS = el.getAttribute('dts');
   if(NotBlank(mDTS)){
     return DTSPadding(mDTS);
   }
   
   // RULE: Next, use the Date and Time values if they exist.
-  var mDate = Default(el.getAttribute('date'),0);
+  let mDate = Default(el.getAttribute('date'),0);
   if(mDate != 0){
-    var mTime = Default(el.getAttribute('time'),0);
+    let mTime = Default(el.getAttribute('time'),0);
     return parseInt(mDate) * 1000000 + parseInt(mTime*100);
   }
   /*
   // RULE: Return the number portion of the ID if it is the traditional 13 letter string 
-  var mID = Default(el.id,"0");
+  let mID = Default(el.id,"0");
   if(mID != 0){
     return parseInt(mID.replace("P",""));
   }*/
@@ -6178,7 +6185,7 @@ function QSLEL(elSearchList,iQuery,elArchives,bOffline){
     }
     if(IsBlank(elArchives)){
       elArchives = document.querySelector('archives');
-      var mHit = 0; // Archive Hit Counter
+      let mHit = 0; // Archive Hit Counter
       for(let i=ArchiveNum(); i>0;i--){  
         let elArchive = elArchives.querySelector('archive'+i);
         $(elArchive).load(ArchiveIndex(i) + iQuery, function(){
@@ -6193,11 +6200,11 @@ function QSLEL(elSearchList,iQuery,elArchives,bOffline){
     }
     // STEP: The archive argument is not blank. Just get the data from the archive.
     // 20240510: Skyle: The data in the archive may not be complete.
-    //var elRecords = elArchives.querySelectorAll(iQuery);
-    //var elRecords = $(elArchives, "archives >" + iQuery);
-    //var elRecords = $("html > archives > [archive] > " + iQuery);
-    var elRecords = $(elArchives).find(iQuery);
-    //var elRecords = $(iQuery);
+    //let elRecords = elArchives.querySelectorAll(iQuery);
+    //let elRecords = $(elArchives, "archives >" + iQuery);
+    //let elRecords = $("html > archives > [archive] > " + iQuery);
+    let elRecords = $(elArchives).find(iQuery);
+    //let elRecords = $(iQuery);
     // Loop through and add each child.
 
     QSLContentCompose(bOffline,elRecords,elSearchList);
@@ -6212,7 +6219,7 @@ function TitleToTag(mTitle){
 }
 function RND_CoinFlip(el){
   // 20230716: StarTree: For gaming
-  var elResultSpace = SearchPS(el,"control").nextElementSibling;
+  let elResultSpace = SearchPS(el,"control").nextElementSibling;
   if(Math.random()<0.5){
     mToss = "➕" ;
   }else{
@@ -6222,18 +6229,18 @@ function RND_CoinFlip(el){
 }
 function RND_Copy(el){
   // 20250607: StarTree: Copy the text content to clipboard.
-  var elResultSpace = SearchPS(el,"control").nextElementSibling;
+  let elResultSpace = SearchPS(el,"control").nextElementSibling;
   navigator.clipboard.writeText(elResultSpace.innerText);
 }
 function RND_DragonDice(el){
   // 20250607: StarTree: For Gaming.
-  var elResultSpace = SearchPS(el,"control").nextElementSibling;
+  let elResultSpace = SearchPS(el,"control").nextElementSibling;
 
   // 20250607: StarTree: If the target is blank, change its font size to 36px.
   if(IsBlank(elResultSpace.innerHTML)){
     elResultSpace.style.fontSize = "36px";
   }
-  var mRoll="";
+  let mRoll="";
   switch(getRandomInt(1,6,true)){
     case 1: mRoll = ":D6Dragon:";break;
     case 2: mRoll = ":D6Key:";break;
@@ -6250,15 +6257,15 @@ function RND_One(mList){
 }
 function RND_OneStruct(mList,mAffinity,mHostility){
   // 20250216: StarTree: Pick one randomly from a list.
-  var mStruct = RND_One(mList);
-  var mWord = mStruct[0];
+  let mStruct = RND_One(mList);
+  let mWord = mStruct[0];
   mAffinity = mStruct[1] + mAffinity;
   mHostility = Math.max(mHostility,parseInt(Default(mStruct[2],0)));
   return [mWord,mAffinity,mHostility];
 }
 function RND_QSCardCode(el,bShowIcon){
   // 20250104: Tanya: Give a random QS card code with replenish
-  var elResultSpace = SearchPS(el,"control").nextElementSibling;
+  let elResultSpace = SearchPS(el,"control").nextElementSibling;
   if(NotBlank(elResultSpace.innerHTML)){elResultSpace.innerHTML += "<br>"}
   elResultSpace.innerHTML += RND_QSCardCodeStr(bShowIcon);
   return;
@@ -6267,7 +6274,7 @@ function RND_QSCardCode(el,bShowIcon){
 }
 function RND_QSCardCodeStr(bShowIcon,mArchetype,mCode1,mCode2,bCheckMark){
   // 20250104: Tanya: Give a random QS card code with replenish
-  var mHTML = "";
+  let mHTML = "";
   // 20250216: StarTree: Upgrade to allow partial initialization.
   if(IsBlank(mArchetype)|| mArchetype=="+"){
     mArchetype = Math.ceil(Math.random()*6)-1;
@@ -6289,18 +6296,18 @@ function RND_QSCardCodeStr(bShowIcon,mArchetype,mCode1,mCode2,bCheckMark){
   if(IsBlank(mCode2) && mCode2!=0){
     mCode2 = Math.ceil(Math.random()*mCode1);
   }
-  var aArchetypes = ["P","C","H","A","O","M"];
-  var aArchetypeIcons = [":Paladin:","❤️","📯","🍀","🔮","🎩"];
-  var mResult = aArchetypes[mArchetype] + mCode1.toString() + mCode2.toString();
+  let aArchetypes = ["P","C","H","A","O","M"];
+  let aArchetypeIcons = [":Paladin:","❤️","📯","🍀","🔮","🎩"];
+  let mResult = aArchetypes[mArchetype] + mCode1.toString() + mCode2.toString();
   if(!bShowIcon){
     mHTML = mResult;
   }else{
-    //var mNumEmptyStar = mCode1 - mCode2;
-    //var mNumStar = mCode1 - mNumEmptyStar;
-    //var mEmptyStar = ":StarEmpty:";
-    //var mStar = "⭐";
-    //var mResultIcon = aArchetypeIcons[mArchetype] + mEmptyStar.repeat(mNumEmptyStar) + mStar.repeat(mNumStar);
-    var mResultIcon = aArchetypeIcons[mArchetype] + StarPattern(mCode1, mCode2,bCheckMark);
+    //let mNumEmptyStar = mCode1 - mCode2;
+    //let mNumStar = mCode1 - mNumEmptyStar;
+    //let mEmptyStar = ":StarEmpty:";
+    //let mStar = "⭐";
+    //let mResultIcon = aArchetypeIcons[mArchetype] + mEmptyStar.repeat(mNumEmptyStar) + mStar.repeat(mNumStar);
+    let mResultIcon = aArchetypeIcons[mArchetype] + StarPattern(mCode1, mCode2,bCheckMark);
     mResultIcon = MacroIcons(null,mResultIcon);    
     mHTML += "<span class='mbILB40' style='text-align:left'>" + mResult + "</span>";
     mHTML += mResultIcon;
@@ -6310,8 +6317,8 @@ function RND_QSCardCodeStr(bShowIcon,mArchetype,mCode1,mCode2,bCheckMark){
 }
 function RND_QuestPrompt(el){
   // 20250211: StarTree
-  var elControl = SearchPS(el,"control");  
-  var elResultSpace = elControl.nextElementSibling;
+  let elControl = SearchPS(el,"control");  
+  let elResultSpace = elControl.nextElementSibling;
   elResultSpace.innerHTML=  RandomQuest(elControl) + elResultSpace.innerHTML;
 }
 function RND_QuestSchema(){
@@ -7122,7 +7129,7 @@ function RND_QuestVerb(mAffinity,mHostility){
 }
 function RND_Reset(el){
   // 20230716: StarTree: For gaming
-  var elResultSpace = SearchPS(el,"control").nextElementSibling;
+  let elResultSpace = SearchPS(el,"control").nextElementSibling;
   // 20250607: StarTree: Reset the font size to 18px because Dragon Dice could set it to 36px.
   elResultSpace.style.fontSize = "18px";
   elResultSpace.innerHTML = "";
@@ -7131,7 +7138,7 @@ function RND_Reset(el){
 function ScrollIntoView(el){
   // 20231118: StarTree: Trying to fix the scrolling issue on phones
   // el is the board. But before scrolling the board into view, first scroll the panel into view.
-  var mPanel = SearchPS(el,"panel");
+  let mPanel = SearchPS(el,"panel");
   try{
     mPanel.style.scrollMarginTop = "100px";
     mPanel.scrollIntoView(true);
@@ -7173,7 +7180,7 @@ function QSL(el,iQuery,iMonthly){
     }
   }
 
-  var elSearchList = SearchPS(el,"control").nextElementSibling.lastElementChild;
+  let elSearchList = SearchPS(el,"control").nextElementSibling.lastElementChild;
   elSearchList.parentNode.classList.remove('mbhide');
   QSLEL(elSearchList,iQuery);  
 }
@@ -7182,7 +7189,7 @@ function QSLThisMonth(el,iQuery){
 }
 function QSLShowTag(elList,iTag){
   // 20241006: Mikela: Show the tag for the end text. If iTag is not specified, show the first tag.  
-  var elItems = elList.querySelectorAll("[topic]");
+  let elItems = elList.querySelectorAll("[topic]");
   
   
   if(NotBlank(iTag)){
@@ -7192,10 +7199,10 @@ function QSLShowTag(elList,iTag){
     if(item.parentNode != elList){return;}
     let mFirstTag = "";
 
-    var elTags= item.querySelector("[tags]");
+    let elTags= item.querySelector("[tags]");
     if(IsBlank(elTags)){return;}
-    var mTags = elTags.innerHTML;    
-    var mTagsPlus = "+"+iTag+"+";
+    let mTags = elTags.innerHTML;    
+    let mTagsPlus = "+"+iTag+"+";
     mFirstTag = mTags.split("+")[1].replaceAll("_"," ");  
 
     
@@ -7210,9 +7217,9 @@ function QSLShowTag(elList,iTag){
 function QSLSortBy(el,iAttribute){
   // 20240413: StarTree: This sort function assumes that the attribute is already set.
   // 20240420: StarTree: If the sort type had just change into this type, just show the stats without sorting.
-  var elContainer = QSLGetContainer(el);
-  var bReversed = QSLSortReverseIfSet(elContainer,iAttribute);
-  var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
+  let elContainer = QSLGetContainer(el);
+  let bReversed = QSLSortReverseIfSet(elContainer,iAttribute);
+  let elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
   elEntries.forEach((item)=>{
     // 20250118: StarTree: Show Star Pattern if the attribute is star.
     let mSortValue = item.getAttribute(iAttribute);
@@ -7237,10 +7244,10 @@ function QSLSortBy(el,iAttribute){
 function QSLSortByDate(el){
   // 20241013: StarTree: This function sort the entries in a QSL by its event date stored as "date".
   // .. In the Res data, this is the "date" attribute value.
-  var elContainer = QSLGetContainer(el);
+  let elContainer = QSLGetContainer(el);
   if(IsBlank(elContainer)){return;}
-  var bReversed = QSLSortReverseIfSet(elContainer,'date');
-  var elEntries = elContainer.querySelectorAll(".mbSearch > div[date]");
+  let bReversed = QSLSortReverseIfSet(elContainer,'date');
+  let elEntries = elContainer.querySelectorAll(".mbSearch > div[date]");
   elEntries.forEach((item)=>{
     let mDate = item.getAttribute('date');
     item.firstElementChild.innerHTML = mDate;
@@ -7257,10 +7264,10 @@ function QSLSortByUpdate(el){
   // 20240407: Ledia: This function sort the entries in a QSL by date.
   // .. To get the last updated date, it checks the attribute "updated" if it exists.
   // .. If not, it uses the node ID as the date.
-  var elContainer = QSLGetContainer(el);
+  let elContainer = QSLGetContainer(el);
   if(IsBlank(elContainer)){return;}
-  var bReversed = QSLSortReverseIfSet(elContainer,'update');
-  var elEntries = elContainer.querySelectorAll(".mbSearch > div[update]");
+  let bReversed = QSLSortReverseIfSet(elContainer,'update');
+  let elEntries = elContainer.querySelectorAll(".mbSearch > div[update]");
   elEntries.forEach((item)=>{
     let mDate = item.getAttribute('update');
     item.firstElementChild.innerHTML = mDate;
@@ -7272,9 +7279,9 @@ function QSLSortByUpdate(el){
 function QSLSortByIcon(el,iIcon){
   // 20240608: Patricia: Counts the icons within the item and sort by that number.
   // If the sort type had just change into this type, just show the stats without sorting.
-  var elContainer = QSLGetContainer(el);
-  var bReversed = QSLSortReverseIfSet(elContainer,iIcon);
-  var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
+  let elContainer = QSLGetContainer(el);
+  let bReversed = QSLSortReverseIfSet(elContainer,iIcon);
+  let elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
   let mTotalCount = 0;
   elEntries.forEach((item)=>{
     // STEP: Count the number of such icon in the item.
@@ -7310,17 +7317,17 @@ function QSLSortByIcon(el,iIcon){
     SearchRecount(el);
   });
   elContainer.scrollTop = -elContainer.scrollHeight;
-  var elControlText = SearchPS(el,"control").firstElementChild;
+  let elControlText = SearchPS(el,"control").firstElementChild;
   elControlText.innerHTML = "<small><b>Found " + mTotalCount + "</b></small><div  style='display:inline-block;font-size:12px;vertical-align:-0.25em'>" + MacroIcons(null,iIcon) + "</div>"
 
 }
 function QSLSortByName(el){
   // 20240407: Ledia: This function sort the entries recursivly in a QSL by name.
-  var elContainer = QSLGetContainer(el);
+  let elContainer = QSLGetContainer(el);
   let bReversed = QSLSortReverseIfSet(elContainer,'name');
-  var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
+  let elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
   // STEP: Create an array of pairs to for the name and address.
-  var mKV = [];
+  let mKV = [];
   elEntries.forEach((item)=>{
     // 20240622: Arcacia: Made the sort order more intuitive by using lower case and adding a space in the end.
     mKV.push([item.getAttribute('name').toLowerCase()+" ",item]);
@@ -7358,12 +7365,12 @@ function QSLSortReverseIfSet(elContainer,iSortBy){
 function QSLSortRandom(el){
   // 20240407: Ledia: This function sorts the entries in a QSL randomly.
   // STEP: Locate the container:
-  var elContainer = QSLGetContainer(el);
+  let elContainer = QSLGetContainer(el);
   elContainer.setAttribute('sortby','random');
   elContainer.style.flexDirection = 'column';
   // STEP: For each Div in elContainer that has a name and with a parent node that has mbSearch class, assign a random order number.
   // https://www.w3schools.com/jquery/jquery_ref_selectors.asp
-  var elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
+  let elEntries = elContainer.querySelectorAll(".mbSearch > div[name]");
   for(let i=0;i<elEntries.length;i++){
     let mRand = getRandomInt(1,Math.max(99,elEntries.length+10));
     elEntries[i].style.order = mRand;
@@ -7373,9 +7380,9 @@ function QSLSortRandom(el){
 }
 function QSLGetContainer(el){
   // 20240407: Ledia: Return the QSL container that has the mbSearch class.
-  var elControl = SearchPS(el,'control');
+  let elControl = SearchPS(el,'control');
   if(IsBlank(elControl)){return;}
-  var elControlNext = elControl.nextElementSibling;
+  let elControlNext = elControl.nextElementSibling;
   if(elControlNext.classList.contains('mbSearch')){
     return elControlNext;}
 
@@ -7384,15 +7391,15 @@ function QSLGetContainer(el){
 
 function QSLBL(el,iQuery){
   // 20240404: StarTree For automatically showing tags of a node.
-  var elContainer = SearchPS(el,"board").querySelector('[qsl][bl]');
+  let elContainer = SearchPS(el,"board").querySelector('[qsl][bl]');
   elContainer.parentNode.classList.remove('mbhide');
   QSLEL(elContainer,iQuery);  
 }
 function Cap(mStr){
   // 20240407: Skyle: Updated to avoid function name conflict and capitalizes every word.
   try{
-    var mCapNext = true;
-    var rStr = "";    
+    let mCapNext = true;
+    let rStr = "";    
     for(i=0;i<mStr.length;i++){
       if(mCapNext){
         rStr += mStr.charAt(i).toUpperCase();
@@ -7411,7 +7418,7 @@ function Cap(mStr){
 }
 function QSLRollingKudo(el,mDate){
   // 20240804: Skyle: Query for the rolling kudos diary.
-  var elSearchList = SearchPS(el,"control").nextElementSibling.lastElementChild;
+  let elSearchList = SearchPS(el,"control").nextElementSibling.lastElementChild;
   elSearchList.parentNode.classList.remove('mbhide');
   QSLRollingKudoEL(elSearchList,mDate);
 }
@@ -7420,8 +7427,8 @@ function QSLRollingKudoEL(elSearchList,mDate,elArchives,bOffline){
   // .. First query all entries with date or dts with the mDate substring, 
   // .. then check for correcty matches.
   
-  var iQuery = "[date*='"+mDate+"'][data-happy],[id][date][time]:has([dts*='"+mDate+"'][icon='💟'],[dts*='"+mDate+"'][icon='💗'],mbkudo[dts*='"+mDate+"'])";
-  var iQuery2 = "[date*='"+mDate+"'][data-happy],[dts*='"+mDate+"'][icon='💟'],[dts*='"+mDate+"'][icon='💗'],mbkudo[dts*='"+mDate+"']";
+  let iQuery = "[date*='"+mDate+"'][data-happy],[id][date][time]:has([dts*='"+mDate+"'][icon='💟'],[dts*='"+mDate+"'][icon='💗'],mbkudo[dts*='"+mDate+"'])";
+  let iQuery2 = "[date*='"+mDate+"'][data-happy],[dts*='"+mDate+"'][icon='💟'],[dts*='"+mDate+"'][icon='💗'],mbkudo[dts*='"+mDate+"']";
 
   elSearchList.previousElementSibling.innerHTML = "<small>Loading " + iQuery + "... </small>" + WaitIcon();
   elSearchList.innerHTML="";
@@ -7435,7 +7442,7 @@ function QSLRollingKudoEL(elSearchList,mDate,elArchives,bOffline){
     }
     if(IsBlank(elArchives)){
       elArchives = document.querySelector('archives');
-      var mHit = 0; // Archive Hit Counter
+      let mHit = 0; // Archive Hit Counter
       for(let i=ArchiveNum(); i>0;i--){  
         let elArchive = elArchives.querySelector('archive'+i);
         $(elArchive).load(ArchiveIndex(i) + iQuery, function(){
@@ -7449,7 +7456,7 @@ function QSLRollingKudoEL(elSearchList,mDate,elArchives,bOffline){
       return;
     }
     // STEP: Process the content in the cached archives.
-    var elRecords = $(elArchives).find(iQuery2);
+    let elRecords = $(elArchives).find(iQuery2);
     QSLContentCompose(bOffline,elRecords,elSearchList,mDate);
   });// END Document Ready
 }
@@ -7457,11 +7464,11 @@ function QSLContentCompose(bOffline,elRecords,elSearchList,mDate){
   // 20240804: Skyle: Check the date if it is specified.
   
   setTimeout(function(){
-    var bMark = NodeMarkCookieCheck();
-    var mCount = 0;
-    var mHTML = "";
-    var bDate = NotBlank(mDate);
-    var elDivPrev = "";
+    let bMark = NodeMarkCookieCheck();
+    let mCount = 0;
+    let mHTML = "";
+    let bDate = NotBlank(mDate);
+    let elDivPrev = "";
     for(let i=0;i<elRecords.length;i++){
       let elDiv = elRecords[i];
 
@@ -7579,7 +7586,7 @@ function QSLContentCompose(bOffline,elRecords,elSearchList,mDate){
       for(let k=0;k<mKids.length;k++){
         mCount ++;
         mHTML += "<div name='"+ mTitle + "'";
-        //var mUpdated = elDiv.getAttribute("date");
+        //let mUpdated = elDiv.getAttribute("date");
 
         let mUpdated = DTSGetLatest(elDiv).toString().slice(0,8);
         
@@ -7631,10 +7638,10 @@ function QSLContentCompose(bOffline,elRecords,elSearchList,mDate){
 }
 function QSLTree(el,iQuery){
   // 20240331: StarTree: Customized QSL for Sitemap display  
-  var elContainer = SearchPS(el,"control").nextElementSibling;
+  let elContainer = SearchPS(el,"control").nextElementSibling;
   
   // STEP: Check current folder mode for expand/collapse
-  var mFolder = el.innerHTML;
+  let mFolder = el.innerHTML;
   if(mFolder == "📖"){
     elContainer.classList.add('mbhide');
     el.innerHTML = "📙";
@@ -7651,14 +7658,14 @@ function QueryAllEL(elContainer, eQuery,iInner){
   // 20230220: Ivy: If the container is a flex class, add the spacers in the end.
   // 20230225: StarTree: saves the query string. if the query string is the same as before, hide if it is shown.
   const InnerCache = [];
-  var Hit = 0;
-  //var bFlex = (window.getComputedStyle(elContainer).display ==="flex");
-  var mFlex = "";
-  var mQuery;
+  let Hit = 0;
+  //let bFlex = (window.getComputedStyle(elContainer).display ==="flex");
+  let mFlex = "";
+  let mQuery;
   if(elContainer.hasAttribute('mQueryString')){
     mQuery = elContainer.getAttribute("mQueryString");
   }
-  var mDisplay = window.getComputedStyle(elContainer).display;
+  let mDisplay = window.getComputedStyle(elContainer).display;
   if(mQuery==eQuery && mDisplay!="none"){
     elContainer.setAttribute("mDefaultDisplay",elContainer.style.display);
     elContainer.style.display = "none";
@@ -7673,10 +7680,10 @@ function QueryAllEL(elContainer, eQuery,iInner){
   $(document).ready(function(){
     for(let i=1; i<=ArchiveNum();i++){
       $(elContainer).hide();
-      var backup = $(elContainer).html();
+      let backup = $(elContainer).html();
       $(elContainer).load(ArchiveIndex(i) + eQuery, function(){
         if(iInner){
-          var elChild = elContainer.firstElementChild;
+          let elChild = elContainer.firstElementChild;
           if(elChild != null){
             InnerCache[i]=elChild.innerHTML;
           }
@@ -7711,9 +7718,9 @@ function QueryAllEL(elContainer, eQuery,iInner){
 }
 function XP_Counter(iCache,iFrame,iCode,iName){
   // 20230210: StarTree
-  var mSum = 0;
+  let mSum = 0;
   $(iCache).children("[data-" + iCode + "-" + iName + "]").each(function(){
-    var mCount = Math.max(1,Number(this.getAttribute("data-"+ iCode +"-"+ iName)));
+    let mCount = Math.max(1,Number(this.getAttribute("data-"+ iCode +"-"+ iName)));
     iFrame.setAttribute(iCode, Number(iFrame.getAttribute(iCode))+mCount);
     mSum += mCount;
   });
@@ -7721,11 +7728,11 @@ function XP_Counter(iCache,iFrame,iCode,iName){
 }
 function XP_Counter2(iCache,iFrame,iCode1,iCode2,iCodeName, iName){
   // 20230212: StarTree: Query entries with both.
-  var mSum = 0;
+  let mSum = 0;
   $(iCache).children("[data-" + iCode1 + "-" + iName + "]"+"[data-" + iCode2 + "-" + iName + "]").each(function(){
-    var mCount1 = Math.max(1,Number(this.getAttribute("data-"+ iCode1 +"-"+ iName)));
-    var mCount2 = Math.max(1,Number(this.getAttribute("data-"+ iCode2 +"-"+ iName)));
-    var mCount = Math.min(mCount1,mCount2);
+    let mCount1 = Math.max(1,Number(this.getAttribute("data-"+ iCode1 +"-"+ iName)));
+    let mCount2 = Math.max(1,Number(this.getAttribute("data-"+ iCode2 +"-"+ iName)));
+    let mCount = Math.min(mCount1,mCount2);
     iFrame.setAttribute(iCodeName, Number(iFrame.getAttribute(iCodeName))+mCount);
     mSum += mCount;
   });
@@ -7733,7 +7740,7 @@ function XP_Counter2(iCache,iFrame,iCode1,iCode2,iCodeName, iName){
 }
 function XP_Count(iCache,iName){
   // 20240414: StarTree: This function counts the EXP value for the SPK in the archive cache. It doesn't care what icon is used.
-  var mCount = 0;
+  let mCount = 0;
   iCache.querySelectorAll("[EXP][SPK='"+iName+"'],[EXP][SPK*='|"+iName+"|']").forEach((item)=>{
     let mXP = Default(item.getAttribute('exp'),1);
     mCount += Number(mXP);
@@ -7742,9 +7749,9 @@ function XP_Count(iCache,iName){
 }
 function XP_CounterNF(iCache,iCode,iName){
   // 20230210: StarTree
-  var mSum = 0;
+  let mSum = 0;
   $(iCache).children("[data-" + iCode + "-" + iName + "]").each(function(){
-    var mCount = Math.max(1,Number(this.getAttribute("data-"+ iCode +"-"+ iName)));
+    let mCount = Math.max(1,Number(this.getAttribute("data-"+ iCode +"-"+ iName)));
     mSum += mCount;
   });
   return mSum;
@@ -7757,89 +7764,89 @@ function XP_Display(elAvatar,bOrder){
 }
 function XP_DisplayEL(elFrame,bOrder){
   // 20230221: StarTree: elFrame is the actual frame where data is stored and displayed.
-  var elScoreBoard = elFrame.parentNode;
-  var mSortedBy = elScoreBoard.getAttribute("sortedby");
-  var mSortOrder = elScoreBoard.getAttribute("sortorder");
+  let elScoreBoard = elFrame.parentNode;
+  let mSortedBy = elScoreBoard.getAttribute("sortedby");
+  let mSortOrder = elScoreBoard.getAttribute("sortorder");
   if(IsBlank(mSortedBy) && !(bOrder==false)){
     mSortedBy = "totalxp";
     mSortOrder = -1;
     elScoreBoard.setAttribute("sortedby",mSortedBy);
     elScoreBoard.setAttribute("sortorder",mSortOrder);
   }  
-  var CountTXP = 0; elFrame.setAttribute("TXP",0); // TOTAL EXP
-  var CountAXP = 0; elFrame.setAttribute("AXP",0); // Arcacian Award
-  var CountBXP = 0; elFrame.setAttribute("BXP",0); // Blog / Beauty / Usability
-  var CountCXP = 0; elFrame.setAttribute("CXP",0); // Concept / Philosophy
-  var CountCoXP = 0; elFrame.setAttribute("CoXP",0); // 🦁 Courage
-  var CountDXP = 0; elFrame.setAttribute("DXP",0); // Idea
-  var CountGXP = 0; elFrame.setAttribute("GXP",0); // Gem / Memories and Past / Consolidation
-  var CountGaXP = 0; elFrame.setAttribute("GaXP",0); // 🍎 Grocery 
-  var CountGcXP = 0; elFrame.setAttribute("GcXP",0); // 🥘 Cooking
-  var CountHXP = 0; elFrame.setAttribute("HXP",0); // 📯 Herald / Call for Help
-  var CountIXP = 0; elFrame.setAttribute("IXP",0); // 🔍 Investigation
-  var CountJXP = 0; elFrame.setAttribute("JXP",0); // ⚖️ Judging
-  var CountKXP = 0; elFrame.setAttribute("KXP",0); // 🎩 Surprise, entertainment
-  var CountLXP = 0; elFrame.setAttribute("LXP",0); // 🔔 Reminder
-  var CountLemonXP = 0; elFrame.setAttribute("LemonXP",0); // 🍋 Weapon: Sour Lemon
-  var CountLnXP = 0; elFrame.setAttribute("LnXP",0); // ⚡ Weapon: Lightning
-  var CountLuckXP = 0; elFrame.setAttribute("LuckXP",0);// 🍀 
-  var CountMXP = 0; elFrame.setAttribute("MXP",0); // 🎨 Manga
-  var CountOXP = 0; elFrame.setAttribute("OXP",0); // Oracle / Error Catching / Error Prevention
-  var CountPXP = 0; elFrame.setAttribute("PXP",0); // 📌 Goal, milestone, objective setting.
-  var CountPhotoXP = 0; elFrame.setAttribute("PhotoXP",0); // 📷 Photo, Picture, Screenshot
-  var CountQXP = 0; elFrame.setAttribute("QXP",0); // 🎪,⭐ Quest
-  var CountRXP = 0; elFrame.setAttribute("RXP",0); // 🚨 Alarm 
-  var CountRcXP = 0; elFrame.setAttribute("RcXP",0); // ♻️ Recycle 
-  var CountRecXP = 0; elFrame.setAttribute("RecXP",0); // 🏅 Quest 
-  var CountSXP = 0; elFrame.setAttribute("SXP",0); // 🎓 Studying 
-  var CountTXP = 0; elFrame.setAttribute("TXP",0); // 🧹 Tidying 
-  var CountTeaXP= 0; elFrame.setAttribute("TeaXP",0); // 🍵 Tea/Japanese/Chill
-  var CountUXP = 0; elFrame.setAttribute("UXP",0); // 🍮 Self-Fault
-  var CountVXP = 0; elFrame.setAttribute("VXP",0); // 🗃️ Archival / Clerical
-  var CountWarpXP= 0; elFrame.setAttribute("WarpXP",0); // 🌀 Warp
-  var CountWaterXP= 0; elFrame.setAttribute("WaterXP",0); // 🌊 Water
-  var CountWbXP= 0; elFrame.setAttribute("WbXP",0); // 💣 Weapon: Bomb
-  var CountWdXP= 0; elFrame.setAttribute("WdXP",0); // 🗡️ Weapon: Dagger
-  var CountWgXP= 0; elFrame.setAttribute("WgXP",0); // 🔫 Weapon: Firearm
-  var CountWjXP= 0; elFrame.setAttribute("WjXP",0); // 🥋 Weapon: Dojo/Grapple
-  var CountWkXP= 0; elFrame.setAttribute("WkXP",0); // 🚀 Weapon: Rocket
-  var CountWpXP= 0; elFrame.setAttribute("WpXP",0); // 🍍 Weapon: Plant based
-  var CountWrXP= 0; elFrame.setAttribute("WrXP",0); // 🏹 Weapon: Ranged
-  var CountWsXP= 0; elFrame.setAttribute("WsXP",0); // ⚔️ Weapon: Sword
-  var CountWwXP= 0; elFrame.setAttribute("WwXP",0); // 🐾 Weapon: Wolf/Paw
-  var CountZXP = 0; elFrame.setAttribute("ZXP",0); // 🧩 Puzzle XP
+  let CountTXP = 0; elFrame.setAttribute("TXP",0); // TOTAL EXP
+  let CountAXP = 0; elFrame.setAttribute("AXP",0); // Arcacian Award
+  let CountBXP = 0; elFrame.setAttribute("BXP",0); // Blog / Beauty / Usability
+  let CountCXP = 0; elFrame.setAttribute("CXP",0); // Concept / Philosophy
+  let CountCoXP = 0; elFrame.setAttribute("CoXP",0); // 🦁 Courage
+  let CountDXP = 0; elFrame.setAttribute("DXP",0); // Idea
+  let CountGXP = 0; elFrame.setAttribute("GXP",0); // Gem / Memories and Past / Consolidation
+  let CountGaXP = 0; elFrame.setAttribute("GaXP",0); // 🍎 Grocery 
+  let CountGcXP = 0; elFrame.setAttribute("GcXP",0); // 🥘 Cooking
+  let CountHXP = 0; elFrame.setAttribute("HXP",0); // 📯 Herald / Call for Help
+  let CountIXP = 0; elFrame.setAttribute("IXP",0); // 🔍 Investigation
+  let CountJXP = 0; elFrame.setAttribute("JXP",0); // ⚖️ Judging
+  let CountKXP = 0; elFrame.setAttribute("KXP",0); // 🎩 Surprise, entertainment
+  let CountLXP = 0; elFrame.setAttribute("LXP",0); // 🔔 Reminder
+  let CountLemonXP = 0; elFrame.setAttribute("LemonXP",0); // 🍋 Weapon: Sour Lemon
+  let CountLnXP = 0; elFrame.setAttribute("LnXP",0); // ⚡ Weapon: Lightning
+  let CountLuckXP = 0; elFrame.setAttribute("LuckXP",0);// 🍀 
+  let CountMXP = 0; elFrame.setAttribute("MXP",0); // 🎨 Manga
+  let CountOXP = 0; elFrame.setAttribute("OXP",0); // Oracle / Error Catching / Error Prevention
+  let CountPXP = 0; elFrame.setAttribute("PXP",0); // 📌 Goal, milestone, objective setting.
+  let CountPhotoXP = 0; elFrame.setAttribute("PhotoXP",0); // 📷 Photo, Picture, Screenshot
+  let CountQXP = 0; elFrame.setAttribute("QXP",0); // 🎪,⭐ Quest
+  let CountRXP = 0; elFrame.setAttribute("RXP",0); // 🚨 Alarm 
+  let CountRcXP = 0; elFrame.setAttribute("RcXP",0); // ♻️ Recycle 
+  let CountRecXP = 0; elFrame.setAttribute("RecXP",0); // 🏅 Quest 
+  let CountSXP = 0; elFrame.setAttribute("SXP",0); // 🎓 Studying 
+  let CountTeaXP= 0; elFrame.setAttribute("TeaXP",0); // 🍵 Tea/Japanese/Chill
+  let CountTiXP = 0; elFrame.setAttribute("TiXP",0); // 🧹 Tidying 
+  let CountUXP = 0; elFrame.setAttribute("UXP",0); // 🍮 Self-Fault
+  let CountVXP = 0; elFrame.setAttribute("VXP",0); // 🗃️ Archival / Clerical
+  let CountWarpXP= 0; elFrame.setAttribute("WarpXP",0); // 🌀 Warp
+  let CountWaterXP= 0; elFrame.setAttribute("WaterXP",0); // 🌊 Water
+  let CountWbXP= 0; elFrame.setAttribute("WbXP",0); // 💣 Weapon: Bomb
+  let CountWdXP= 0; elFrame.setAttribute("WdXP",0); // 🗡️ Weapon: Dagger
+  let CountWgXP= 0; elFrame.setAttribute("WgXP",0); // 🔫 Weapon: Firearm
+  let CountWjXP= 0; elFrame.setAttribute("WjXP",0); // 🥋 Weapon: Dojo/Grapple
+  let CountWkXP= 0; elFrame.setAttribute("WkXP",0); // 🚀 Weapon: Rocket
+  let CountWpXP= 0; elFrame.setAttribute("WpXP",0); // 🍍 Weapon: Plant based
+  let CountWrXP= 0; elFrame.setAttribute("WrXP",0); // 🏹 Weapon: Ranged
+  let CountWsXP= 0; elFrame.setAttribute("WsXP",0); // ⚔️ Weapon: Sword
+  let CountWwXP= 0; elFrame.setAttribute("WwXP",0); // 🐾 Weapon: Wolf/Paw
+  let CountZXP = 0; elFrame.setAttribute("ZXP",0); // 🧩 Puzzle XP
   
-  var CountPlayed = 0; // For Detective Level Calculation
-  var CountWIN = 0; elFrame.setAttribute("DXP-WIN",0); 
-  var CountLOS = 0; elFrame.setAttribute("DXP-LOS",0); 
-  var CountCHA = 0; elFrame.setAttribute("DXP-CHA",0); // DXP-CHA. Challenge. 20230205: Ledia
-  var CountCHAWIN = 0; elFrame.setAttribute("DXP-CHAWIN",0); // DXP-CHA & DXP-WIN. Challenge WIN. 20230205: Tanya
+  let CountPlayed = 0; // For Detective Level Calculation
+  let CountWIN = 0; elFrame.setAttribute("DXP-WIN",0); 
+  let CountLOS = 0; elFrame.setAttribute("DXP-LOS",0); 
+  let CountCHA = 0; elFrame.setAttribute("DXP-CHA",0); // DXP-CHA. Challenge. 20230205: Ledia
+  let CountCHAWIN = 0; elFrame.setAttribute("DXP-CHAWIN",0); // DXP-CHA & DXP-WIN. Challenge WIN. 20230205: Tanya
 
-  var done = 0;
+  let done = 0;
   
-  var mName = elFrame.getAttribute("name"); if(mName == null){return;}
+  let mName = elFrame.getAttribute("name"); if(mName == null){return;}
   // 20230128: Ledia: Made Nick functional.
-  var mNick = elFrame.getAttribute("nick"); if(mNick == null){mNick = mName};
+  let mNick = elFrame.getAttribute("nick"); if(mNick == null){mNick = mName};
   // 20230128: Ledia: Added Archetype
-  var mArch = elFrame.getAttribute("archetype"); if(mArch == null){mArch = "???"};
+  let mArch = elFrame.getAttribute("archetype"); if(mArch == null){mArch = "???"};
   // 20230806: Ledia: Add link to profile
-  var mProfile = elFrame.getAttribute("profile"); 
+  let mProfile = elFrame.getAttribute("profile"); 
 
-  var mCXPTitle= elFrame.getAttribute("CXPTitle"); 
+  let mCXPTitle= elFrame.getAttribute("CXPTitle"); 
   if(mCXPTitle == null){mCXPTitle = "Philosopher";}
   
-  var mDetective= elFrame.getAttribute("detective"); 
+  let mDetective= elFrame.getAttribute("detective"); 
   if(mDetective == null){mDetective = "Detective";}
   
-  var mQXPTitle= elFrame.getAttribute("QXPTitle");
+  let mQXPTitle= elFrame.getAttribute("QXPTitle");
   if(mQXPTitle == null){mQXPTitle = "Quester";}
   
-  var mStar = "⭐";
+  let mStar = "⭐";
 
-  var mQueryStr = XP_QueryStr(mName);
-  var mEXPList="";
-  var mEXPMap = new Map();
-  var mEXPDetective=0;
+  let mQueryStr = XP_QueryStr(mName);
+  let mEXPList="";
+  let mEXPMap = new Map();
+  let mEXPDetective=0;
  
 
   for(let i=1; i<=ArchiveNum();i++){
@@ -7866,8 +7873,8 @@ function XP_DisplayEL(elFrame,bOrder){
           });
           mEXPArray.sort((a,b)=>{return a[0] - b[0];});
           mEXPArray.reverse();
-          var mEXPTotal = 0;
-          var mEXPStr = "";
+          let mEXPTotal = 0;
+          let mEXPStr = "";
           mEXPArray.forEach((pair)=>{
             mEXPStr += pair[1] + pair[0] + " ";
             mEXPTotal += pair[0];
@@ -8071,8 +8078,8 @@ function SortPN(el,iAttribute){
 function SortEL(el,iAttribute){
   // 20230312: Ledia: For Scoreboard
   iAttribute = iAttribute.toLowerCase();  
-  var mSortedBy = el.getAttribute("sortedby");
-  var mSortOrder = Number(el.getAttribute("sortorder"));
+  let mSortedBy = el.getAttribute("sortedby");
+  let mSortOrder = Number(el.getAttribute("sortorder"));
   if(IsBlank(mSortOrder)||mSortOrder==0){mSortOrder = -1;}
   if(mSortOrder != -1){mSortOrder = 1;}
   if(mSortedBy == iAttribute){
@@ -8083,7 +8090,7 @@ function SortEL(el,iAttribute){
 
   
   el.setAttribute("sortorder",mSortOrder);
-  var mEntry = el.firstElementChild;
+  let mEntry = el.firstElementChild;
   while(mEntry != null){
     if(!mEntry.classList.contains("spacer")){
       // Skip Spacers
@@ -8103,10 +8110,10 @@ function DXP(elContainer,iPlayer){
   // JQUERY count data-DXP-iPlayer
   // 20221220: Ivy: Created for @Detective EXP
   // 20221221: Sasha: Adding CountWIN and CountLOS
-  var CountEXP = 0;
-  var CountWIN = 0;
-  var CountLOS = 0;
-  var done=0;
+  let CountEXP = 0;
+  let CountWIN = 0;
+  let CountLOS = 0;
+  let done=0;
   for(let i=1; i<=ArchiveNum();i++){
     $(document).ready(function(){
       $(elContainer).hide();
@@ -8146,7 +8153,7 @@ function DXP(elContainer,iPlayer){
 function GuildEXP(iMember){
   // 20230129: Ledia: Added for total EXP.
   // #GuildEXP
-  var dict={
+  let dict={
 "3B": 8767,
 "44": 1099,
 "Albatross": 4911,
@@ -8267,14 +8274,14 @@ function XP_QueryStr(iName){
 }
 function XP_Tally(elContainer){
   // 20230117: StarTree: To tally and copy PXP scores to Guild Log
-  var elCache = document.createElement("div");
+  let elCache = document.createElement("div");
   const mRosterSize = Roster(-1);
   const mTally = [];
   const mDone = [];
   const mXPQueryStr = [];
-  var done = 0;
+  let done = 0;
   const mArchiveSize = ArchiveNum();
-  var elStatus = elContainer.previousElementSibling;
+  let elStatus = elContainer.previousElementSibling;
 
   for(let j=0;j<mRosterSize;j++){ // For each member
     mTally[j]=0;
@@ -8338,7 +8345,7 @@ function XP_Tally(elContainer){
           DEBUG(Roster(j) + "(" + mDone[j] + "/" + mArchiveSize + "): " + mTally[j]);
         }
         if(done >= mRosterSize){
-          var mResult="";
+          let mResult="";
           for(let k=0;k<mRosterSize;k++){
             mResult = mResult + mTally[k] + "\n";
           }
@@ -8357,7 +8364,7 @@ function XP_Tally(elContainer){
 }
 function XP_TallyAllPN(el,bHideSelf){
   // 20230221: StarTree: Added for score board
-  var elFrame = el.parentNode.nextElementSibling;
+  let elFrame = el.parentNode.nextElementSibling;
   if(bHideSelf){el.classList.add("mbhide");}
   XP_TallyAllEL(elFrame);
   
@@ -8370,8 +8377,8 @@ function XP_TallyAllPSN(el,bHideSelf,iSearch){
 }
 function XP_TallyAllEL(elFrame){
   // 20230221: StarTree: Added for score board
-  var elTar = elFrame.firstElementChild;
-  var mCount = 0;
+  let elTar = elFrame.firstElementChild;
+  let mCount = 0;
   while(elTar != null){
     if(elTar.getAttribute("name") != null ){
       XP_DisplayEL(elTar);
@@ -8380,25 +8387,25 @@ function XP_TallyAllEL(elFrame){
   }
 }
 function QueryAllPP(elThis,eQuery,iInner){
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.previousElementSibling;
   QueryAllEL(elTarget,eQuery,iInner);
 }
 function QueryAllP2P(elThis,eQuery,iInner){
   // 20221210: StarTree: Place Node Single Click upgrade
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.previousElementSibling;
   QueryAllEL(elTarget,eQuery,iInner);
 }
 function QueryAllPN(elThis,eQuery,iInner){
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.nextElementSibling;
   QueryAllEL(elTarget,eQuery,iInner);
 }
 function HC(el){
   // 20231118: StarTree: Hide control
-  var mControl = SearchPS(el,'control');
+  let mControl = SearchPS(el,'control');
   mControl.classList.add('mbhide');
 }
 function HideOnPhone(elThis){
@@ -8416,21 +8423,21 @@ function AtMobile(){
 }
 function QueryAllPNH(elThis,eQuery,iInner){
   // 20230213: StarTree: checks frame size and hide
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   HideOnPhone(elTarget);
   elTarget = elTarget.nextElementSibling;
   QueryAllEL(elTarget,eQuery,iInner);
 }
 function QueryAllP2N(elThis,eQuery,iInner){
   // 20221124: Evelyn: Added for Happy Calendar
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.nextElementSibling;
   QueryAllEL(elTarget,eQuery,iInner);
 }
 function QueryAllP2NH(elThis,eQuery,iInner){
   // 20230219: Natalie
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   HideOnPhone(elTarget);
   elTarget = elTarget.nextElementSibling;
@@ -8440,16 +8447,16 @@ function QueryAllP2NH(elThis,eQuery,iInner){
 function RefreshPS(el){
   // 20230316: Black: Goes up parents and requery the element that has mQueryString
   // Created for Pinned Board.
-  var elFrame = SearchPS(el,"mQueryString");
-  var mQuery = elFrame.getAttribute("mQueryString");
-  var mInner = elFrame.getAttribute("mInner");
+  let elFrame = SearchPS(el,"mQueryString");
+  let mQuery = elFrame.getAttribute("mQueryString");
+  let mInner = elFrame.getAttribute("mInner");
   if(IsBlank(mQuery)){HideEl(elFrame);}
   elFrame.setAttribute("mQueryString","");
   QueryAllEL(elFrame,mQuery,mInner);
 }
 function QueryAllP3N(elThis,eQuery,iInner){
   // 20221210: StarTree: Place Node Single Click upgrade
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.nextElementSibling;
@@ -8457,7 +8464,7 @@ function QueryAllP3N(elThis,eQuery,iInner){
 }
 function QueryAllP3NH(elThis,eQuery, iInner){
   // 20230213: StarTree: checks frame size and hide
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   HideOnPhone(elTarget);
@@ -8466,7 +8473,7 @@ function QueryAllP3NH(elThis,eQuery, iInner){
 }
 
 function QueryAllP4N(elThis,eQuery,iInner){
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
@@ -8474,7 +8481,7 @@ function QueryAllP4N(elThis,eQuery,iInner){
   QueryAllEL(elTarget,eQuery,iInner);
 }
 function QueryAllP4NH(elThis,eQuery,iInner){
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
@@ -8484,7 +8491,7 @@ function QueryAllP4NH(elThis,eQuery,iInner){
 }
 // 20221206: StarTree: For Node Calendar
 function QueryAllP5(elThis,eQuery,iInner){
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
@@ -8492,7 +8499,7 @@ function QueryAllP5(elThis,eQuery,iInner){
   QueryAllEL(elTarget,eQuery,iInner);
 }
 function QueryAllP5N(elThis,eQuery,  iInner){
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
@@ -8501,7 +8508,7 @@ function QueryAllP5N(elThis,eQuery,  iInner){
   QueryAllEL(elTarget,eQuery,iInner);
 }
 function QueryAllP6(elThis,eQuery,iInner){
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
@@ -8511,7 +8518,7 @@ function QueryAllP6(elThis,eQuery,iInner){
 }
 function QueryAllP6N(elThis,eQuery,iInner){
   // 20221210: Evelyn: For displaying kudos calendar in main calendar
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
@@ -8522,7 +8529,7 @@ function QueryAllP6N(elThis,eQuery,iInner){
 }
 // 20221206: StarTree: For Node Calendar
 function QueryAllP7(elThis,eQuery,iInner){
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
@@ -8533,7 +8540,7 @@ function QueryAllP7(elThis,eQuery,iInner){
 }
 // 20221206: StarTree: For Node Calendar
 function QueryAllP8(elThis,eQuery,iInner){
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
@@ -8547,9 +8554,9 @@ function QueryAllReplace(elNode, eQuery){
   // JQUERY
   // 2022-11-14: Ivy: Upgrade to support Archive2
   const InnerCache = [];
-  var Hit=0;
+  let Hit=0;
   for(let i=1; i<=ArchiveNum();i++){
-    var elTemp = document.createElement("div");
+    let elTemp = document.createElement("div");
     $(document).ready(function(){
       $(elTemp).load(ArchiveIndex(i) + eQuery, function(){
         NodeFormatter(elTemp);
@@ -8570,43 +8577,43 @@ function QueryAllReplace(elNode, eQuery){
 }
 function NodeEdit(el,mNodeID){
   // 20240804: StarTree: The NodeEdit button has been clicked.
-  var bNodeEdit = NodeEditModeCheck(el);
+  let bNodeEdit = NodeEditModeCheck(el);
   if(!bNodeEdit){return;}
   
   // STEP: NodeEdit mode is ON, pass the Node ID to be edited through main param,
   Parameter("NodeEditID",mNodeID);
   
   // STEP: NodeEdit mode is ON, show the NotePad widget.
-  var elWidgetButton = document.querySelector("button[BB][title='Notepad']");
+  let elWidgetButton = document.querySelector("button[BB][title='Notepad']");
   ShowNextFP(elWidgetButton,"20240330201200",true);
 }
 function NodeEditWidgetLoad(elWidget,mDTS){
   // 20240804: StarTree: If this widget is the notepad being loaded by NodeEdit button, populate the content with local storage content.
   if(mDTS != "20240330201200"){return;}
-  var mNodeID = Parameter("NodeEditID");
+  let mNodeID = Parameter("NodeEditID");
   if(IsBlank(mNodeID)){return}
   elWidget.setAttribute("NodeEditID",mNodeID);  
   // STEP: Remove the Honey Button.
-  var elButton = elWidget.querySelector("button[title='Use Cookie']");
+  let elButton = elWidget.querySelector("button[title='Use Cookie']");
   elButton.innerHTML = "✏️" + mNodeID;
-  var elTextArea = elWidget.querySelector("textarea[textarea]");
+  let elTextArea = elWidget.querySelector("textarea[textarea]");
   TextAreaLoad(elTextArea);
 }
 function NodeFormatter(elTemp){
   // 20231224: StarTree: Update: This function is also used by calendar when listing nodes.
-  var vDivs = elTemp.getElementsByTagName('div');
-  var vFirstDiv = vDivs[0];
+  let vDivs = elTemp.getElementsByTagName('div');
+  let vFirstDiv = vDivs[0];
   while( vFirstDiv != null){
-    var vTemps = vFirstDiv.getElementsByTagName('node-content');
-    var vContent = vFirstDiv.getElementsByTagName('content'); // 20231224: StarTree: New format
-    var vHTML="";
+    let vTemps = vFirstDiv.getElementsByTagName('node-content');
+    let vContent = vFirstDiv.getElementsByTagName('content'); // 20231224: StarTree: New format
+    let vHTML="";
     if( vTemps.length > 0)  {
-      var vID = vFirstDiv.id.substring(1);
-      var vNodeContent = vTemps[0].innerHTML;
+      let vID = vFirstDiv.id.substring(1);
+      let vNodeContent = vTemps[0].innerHTML;
       vTemps = vFirstDiv.getElementsByTagName('node-icon');
-      var vIcon = vTemps[0].innerHTML;
+      let vIcon = vTemps[0].innerHTML;
       vTemps = vFirstDiv.getElementsByTagName('node-title');
-      var vTitle = vTemps[0].innerHTML;
+      let vTitle = vTemps[0].innerHTML;
       vFirstDiv.innerHTML="<div><button class='mbbutton' onclick='ShowNext(this)'>" 
         + vIcon + " " + vTitle 
         + "</button><div class='mbCB mbscroll mbhide'>" 
@@ -8618,8 +8625,8 @@ function NodeFormatter(elTemp){
         + "</div></div>" ;
     }else if(!IsBlank(vContent)){
       // 20231224: StarTree: This is for the new format.
-      var vJSON = vFirstDiv.getElementsByTagName('node')[0];
-      var mJSON = JSON.parse(vJSON.innerHTML);
+      let vJSON = vFirstDiv.getElementsByTagName('node')[0];
+      let mJSON = JSON.parse(vJSON.innerHTML);
 
       // 20240405: StarTree: Don't show the picture if it is missing.
       vHTML = "";
@@ -8655,9 +8662,9 @@ function QueryAllReplace2(elNode, eQuery){
   // JQUERY
   // 2022-11-14: Ivy: Upgrade to support Archive2
   const InnerCache = [];
-  var Hit = 0;
+  let Hit = 0;
   for(let i=1; i<=ArchiveNum();i++){
-    var elTemp = document.createElement("div");
+    let elTemp = document.createElement("div");
     $(document).ready(function(){
     $(elTemp).load(ArchiveIndex(i) + eQuery, function(){
         NodeFormatter(elTemp);
@@ -8672,7 +8679,7 @@ function QueryAllReplace2(elNode, eQuery){
 }
 function QueryAllNext(elThis, eQuery){
   // JQUERY
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   /* 20220715: LRRH: Upgraded for loading quest list. */
   QueryAllEL(elNext, eQuery);
   return;
@@ -8690,7 +8697,7 @@ function QueryAllNext(elThis, eQuery){
 }
 function QueryAllNext20230312(elThis, eQuery, bRetain){
   // 20230312: Zoey: If bRetain is true, just hide/show the content if mQueryString is set.
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   if(bRetain && NotBlank(elNext.getAttribute("mQueryString"))){
     if(elNext.classList.contains("mbhide")){elNext.classList.remove("mbhide");}else{elNext.classList.add("mbhide");}
     return;
@@ -8701,13 +8708,13 @@ function QueryAllNext20230312(elThis, eQuery, bRetain){
 }
 function QueryAllP2CHT(el, eQuery){
   // 20230207: Tanya: Added for Scoreboard
-  var elTarget = el.parentNode.parentNode.firstElementChild;
+  let elTarget = el.parentNode.parentNode.firstElementChild;
   QueryAllEL(elTarget, eQuery);
   $(el).hide();
 }
 function QueryAllPrev(elThis, eQuery){
   // 20230207: Tanya: Added for Scoreboard
-  var elNext = elThis.previousElementSibling;
+  let elNext = elThis.previousElementSibling;
   if( $(elNext).html()=="" || !$(elNext).is(':visible')){
     QueryAllEL(elNext, eQuery);
   }else{
@@ -8716,13 +8723,13 @@ function QueryAllPrev(elThis, eQuery){
 }
 function QueryAllNextNT(elThis, eQuery){
   // 20230207: Tanya: for Scoreboard
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   QueryAllEL(elNext, eQuery);
   $(elThis).hide();
 }
 function QueryAllNextNR(elThis, eQuery){
   // 20230131: StarTree: NR: No Refresh
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   if( $(elNext).html()==""){
     QueryAllEL(elNext, eQuery);
   }else if(!$(elNext).is(':visible')){
@@ -8734,7 +8741,7 @@ function QueryAllNextNR(elThis, eQuery){
 function QueryAllNextClr(elThis, eQuery,iInner){
   // 20230120: StarTree: Clears the content when it hides. (For Embedded music player.)
   // JQUERY
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   /* 20220715: LRRH: Upgraded for loading quest list. */
   if( $(elNext).html()=="" || !$(elNext).is(':visible')){
     QueryAllEL(elNext, eQuery,iInner);
@@ -8744,12 +8751,12 @@ function QueryAllNextClr(elThis, eQuery,iInner){
 }
 function QueryDay(eContainer, eDate){
   // JQUERY
-  var elContainer = document.getElementById(eContainer);
+  let elContainer = document.getElementById(eContainer);
   QueryDayEl(elContainer,eDate);
 }
 // 20221206: StarTree: For Node Calendar
 function QueryDayP4N(elThis, eDate){
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
@@ -8758,7 +8765,7 @@ function QueryDayP4N(elThis, eDate){
 }
 // 20221206: StarTree: For Node Calendar
 function QueryDayP5N(elThis, eDate){
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
@@ -8768,7 +8775,7 @@ function QueryDayP5N(elThis, eDate){
 }
 // 20221206: StarTree: For Node Calendar
 function QueryDayP6N(elThis, eDate){
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
@@ -8779,7 +8786,7 @@ function QueryDayP6N(elThis, eDate){
 }
 // 20250922: Evelyn: For Auto Monthly Calendar
 function QueryDayP7N(elThis, eDate){
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
   elTarget = elTarget.parentNode;
@@ -8792,28 +8799,28 @@ function QueryDayP7N(elThis, eDate){
 // 20251102: StarTree: Preparing the code to merge the calendar to Quest Board.
 function QueryDayWLC(elThis, eDate){
   // Target the last child of the widget
-  var elTarget = SearchPS(elThis,'widget').lastElementChild;    
+  let elTarget = SearchPS(elThis,'widget').lastElementChild;    
   QueryDayEl(elTarget,eDate);
 }
 // 20221206: StarTree: For Node Calendar
 function QueryDayEl(elContainer,eDate){
   // 20251101: StarTree: This is the part that composes the date string to show what date is in display.
-  var sDate = new Date(eDate.substring(0,4) + "/" + eDate.substring(4,6) + "/" + eDate.substring(6,8));
-  var sDateString = GetMonthText(sDate).toUpperCase() + " " + sDate.getDate() + " " + GetDayText(sDate).toUpperCase();
+  let sDate = new Date(eDate.substring(0,4) + "/" + eDate.substring(4,6) + "/" + eDate.substring(6,8));
+  let sDateString = GetMonthText(sDate).toUpperCase() + " " + sDate.getDate() + " " + GetDayText(sDate).toUpperCase();
   
   try{
-    var elWidget = SearchPS(elContainer,'widget');
-    var elDisplay = elWidget.querySelector('[display]');
+    let elWidget = SearchPS(elContainer,'widget');
+    let elDisplay = elWidget.querySelector('[display]');
     elDisplay.innerHTML = "<div control class='mbpc'><hr><div class='mbbuttonc' onclick='TallyPSN(this)' title='Tally Scores'>" + sDateString + "</div><div></div></div><div class=\"mbStack\"></div>";
-    var elDisplayScanArea = elDisplay.firstChild.nextElementSibling;
+    let elDisplayScanArea = elDisplay.firstChild.nextElementSibling;
     MSScanFor(elDisplayScanArea,DTSPadding(eDate),DTSPadding(Number(eDate)+1),"",true);    
   }catch(e){}
-  var qArchive = ArchiveSelect(eDate);
-  var qDate = "[date='" + eDate + "'][id],[date='" + eDate + "'][time],[date='" + eDate + "'][data-happy]";
+  let qArchive = ArchiveSelect(eDate);
+  let qDate = "[date='" + eDate + "'][id],[date='" + eDate + "'][time],[date='" + eDate + "'][data-happy]";
   
   
   $(document).ready(function(){
-    var backup = $(elContainer).html();
+    let backup = $(elContainer).html();
 	  $(elContainer).load(qArchive + qDate, function(){	
       // 20251101: StarTree: If the loaded content is blank, just hide the container.
       if(IsBlank( $(elContainer).html())){
@@ -8822,10 +8829,10 @@ function QueryDayEl(elContainer,eDate){
       }
       
       NodeFormatter(elContainer);  
-      var sHeader = "<div class='mbpc'><b>" + sDateString + "</b></div><div class='mbbanner'>";
-      var sFooter = "</div>";
+      let sHeader = "<div class='mbpc'><b>" + sDateString + "</b></div><div class='mbbanner'>";
+      let sFooter = "</div>";
       $(elContainer).html(  sHeader +   $(elContainer).html() + sFooter)       
-      var backup2 = $(elContainer).html();
+      let backup2 = $(elContainer).html();
       if(backup == backup2 && $(elContainer).is(':visible') ){
         $(elContainer).hide();
       }else{
@@ -8854,9 +8861,9 @@ function QueryMain(eHTML, eDIV, bJump){
  
 }
 function PinCh(eCH,el){
-  var eHTML="https://panarcana.blogspot.com/2021/12/branch-bakery"
-  var bJump=0;
-  var mBanner = "";
+  let eHTML="https://panarcana.blogspot.com/2021/12/branch-bakery"
+  let bJump=0;
+  let mBanner = "";
   switch(eCH){
   case 5: mBanner="202403231454";break;
   case 7: mBanner="202310081703";break;
@@ -8902,19 +8909,19 @@ function QueryMainCh(eCH,el){
   PinCh(eCH,el);
 }
 function QueryMonth(eContainerID, eDate, eSection){
-  var elContainer = document.getElementById(eContainerID);
+  let elContainer = document.getElementById(eContainerID);
   QueryMonthEL(elContainer, eDate, eSection);
   
 }
 function QueryMonthEL(elContainer, eDate, eSection){
   // JQUERY
-  var qArchive = ArchiveSelect(eDate);
-  var qDate = "[date^='" + eDate.substring(0,6) + "']";
-  var qSec  = "[data-" + eSection + "]";
+  let qArchive = ArchiveSelect(eDate);
+  let qDate = "[date^='" + eDate.substring(0,6) + "']";
+  let qSec  = "[data-" + eSection + "]";
   $(document).ready(function(){
-    var backup = $(elContainer).html();
+    let backup = $(elContainer).html();
 	$(elContainer).load(qArchive + qDate + qSec, function(){	
-	  var backup2 = $(elContainer).html();
+	  let backup2 = $(elContainer).html();
 	  if(backup == backup2 && $(elContainer).is(':visible') ){
 		$(elContainer).hide();
 	  }else{
@@ -8928,18 +8935,18 @@ function QueryMonthEL(elContainer, eDate, eSection){
   });
 }
 function QueryMonthNext(elThis, eDate, eSection){
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   QueryMonthEL(elNext, eDate,eSection);
 }
 function QueryProfile(eContainerID,iCharID){
-  var elContainer = document.getElementById(eContainerID);
+  let elContainer = document.getElementById(eContainerID);
   QueryProfileEL(elContainer, iCharID);
 }
 function QueryProfileCustom(elContainer,iCharID){
   // JQUERY function to return the custom profile (HTML) section of a character.
-  var qArchive = SelectArchiveRoster(iCharID);	
-  var qProfile = "[data-profile-custom='" + iCharID + "']";
-  var sReturn;
+  let qArchive = SelectArchiveRoster(iCharID);	
+  let qProfile = "[data-profile-custom='" + iCharID + "']";
+  let sReturn;
   $(document).ready(function(){
   	$(elContainer).load(qArchive + qProfile, function(){	
 	alert($(elContainer).html());
@@ -8949,27 +8956,27 @@ function QueryProfileCustom(elContainer,iCharID){
 }
 function PinProfile(iCharID){
   // JQUERY function to compose character profile from stored data.
-  var elContainer = document.getElementById("MBJQSW");
+  let elContainer = document.getElementById("MBJQSW");
   QueryProfileEL(elContainer,iCharID);
   return;
 }
 function QueryProfileEL(elContainer,iCharID){
   // JQUERY function to compose character profile from stored data.
 
-  var qArchive = SelectArchiveRoster(iCharID);
-  var qProfile = "[data-profile-custom='" + iCharID + "']";
+  let qArchive = SelectArchiveRoster(iCharID);
+  let qProfile = "[data-profile-custom='" + iCharID + "']";
   $(document).ready(function(){
-    var backup = $(elContainer).html();
+    let backup = $(elContainer).html();
 	$(elContainer).hide();
     $(elContainer).load(qArchive + qProfile, function(){	
-      var sCusProfile = $(elContainer).html(); 
+      let sCusProfile = $(elContainer).html(); 
       qProfile = "[data-profile='" + iCharID + "']";
       $(elContainer).load(qArchive + qProfile, function(){	
   	    $(elContainer).load(qArchive + qProfile, function(){	
-          var sContent = "";
-          var sFullName =  $(qProfile).attr("data-fullname");
-		  var sLevel = $(qProfile).attr("data-level");
-		  var sArchetype = $(qProfile).attr("data-archetype");
+          let sContent = "";
+          let sFullName =  $(qProfile).attr("data-fullname");
+		  let sLevel = $(qProfile).attr("data-level");
+		  let sArchetype = $(qProfile).attr("data-archetype");
 		  if(sArchetype == "ALC"){
     	    sArchetype = "Alchemist";
 		  }else if (sArchetype == "CLR"){
@@ -8992,12 +8999,12 @@ function QueryProfileEL(elContainer,iCharID){
           sContent = sContent + "<hr><button class='mbbutton' onclick=\"QueryAllNext(this,'[data-moment-" + iCharID + "]')\">" + iCharID + " moments ⭐</button><hide></hide>";
 	    $(elContainer).html("<div class='mbCharPage'>" + sContent + "<div class='mbCB'></div></div>");  
 	    
-      var elMBJQSW = document.getElementById("MBJQSW");
+      let elMBJQSW = document.getElementById("MBJQSW");
       if (elContainer == elMBJQSW){
         Macro(elContainer);
         $(elContainer).show();
       }else{ 
-        var backup2 = $(elContainer).html();
+        let backup2 = $(elContainer).html();
 		    if(backup == backup2  ){
   		    $(elContainer).hide();
 			    $(elContainer).html("");
@@ -9012,16 +9019,16 @@ function QueryProfileEL(elContainer,iCharID){
   });
 }
 function QueryProfileNext(elThis, iCharID){
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   QueryProfileEL(elNext, iCharID);
 }
 function QueryTabEL_20240509_DELETE(elContainer, eQuery){
   // 20221213: Sasha: Same as QueryAll but does not hide.
   const InnerCache = [];
-  var Hit = 0;
+  let Hit = 0;
   for(let i=1; i<=ArchiveNum();i++){
     $(document).ready(function(){
-      var backup = $(elContainer).html();
+      let backup = $(elContainer).html();
     $(elContainer).load(ArchiveIndex(i) + eQuery, function(){	
       InnerCache[i]=$(elContainer).html();
       Hit = Hit + 1
@@ -9039,7 +9046,7 @@ function QueryTabEL_20240509_DELETE(elContainer, eQuery){
   }
 }
 function QueryTabPN_20240509_DELETE(elThis,eQuery){
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.nextElementSibling;
   QueryTabEL(elTarget,eQuery);
 }
@@ -9048,18 +9055,18 @@ function QueryTabPN_20240509_DELETE(elThis,eQuery){
 function RandomQuest(elControl) {  
  
   // Initialize the Affinity Lists
-  var mAffinity = ""; // Archetype Affinity
-  var mHostility = 0;
-  var mRQV, mRQSC, mRQP, mRQPC, mRQS, mRQSR, mRQI;
+  let mAffinity = ""; // Archetype Affinity
+  let mHostility = 0;
+  let mRQV, mRQSC, mRQP, mRQPC, mRQS, mRQSR, mRQI;
   
   [mRQV,mAffinity,mHostility] = RND_QuestVerb(mAffinity,mHostility);      
 
   if(mAffinity==""){mAffinity = "+"}
   if(mHostility<=0){mHostility = 3;}
   
-  var mReturn = mRQV;
-  var bWithSubject = false;
-  var mDifficulty = 0;
+  let mReturn = mRQV;
+  let bWithSubject = false;
+  let mDifficulty = 0;
 
   // 20250211: StarTree: Randomly decide to add the subject adjective.
   if(getRandomInt(0,1,true)==1){ // Add
@@ -9101,16 +9108,16 @@ function RandomQuest(elControl) {
       mReturn += " at the " + mRQP;
     }
   }
-  var mStar = MacroIcons(null,"<div class='mbbutton mbIB' icon='⭐' onclick='ToggleCheckMark(this)'>⭐</div>");
+  let mStar = MacroIcons(null,"<div class='mbbutton mbIB' icon='⭐' onclick='ToggleCheckMark(this)'>⭐</div>");
   
 
   // NEW:
-  var mNumStars = Math.max(mHostility,mAffinity.replaceAll("|","").length);
+  let mNumStars = Math.max(mHostility,mAffinity.replaceAll("|","").length);
   mDifficulty = mAffinity.length;
-  var mChaArchRND = (mAffinity.replaceAll("+","")).replaceAll("|","");
+  let mChaArchRND = (mAffinity.replaceAll("+","")).replaceAll("|","");
   if(mChaArchRND.length==0){mChaArchRND = RND_One(["P","C","H","A","O","M"])}
   
-  var mHTML = "<div viewer class='mbpuzzle' style='border:1px solid goldenrod;clear:right'><a class='mbbutton' style='float:right;' onClick='Remove(this,\"viewer\")'  title='Close'>:Close:</a> " + mStar.repeat(mNumStars);
+  let mHTML = "<div viewer class='mbpuzzle' style='border:1px solid goldenrod;clear:right'><a class='mbbutton' style='float:right;' onClick='Remove(this,\"viewer\")'  title='Close'>:Close:</a> " + mStar.repeat(mNumStars);
   mHTML += GUI_Notepad("Quest Details...","200px",);
   mHTML += "<hr>";
   //mHTML += "<textarea class='mbTextBox' style='height:44px' spellcheck='false' onkeyup='TextAreaRemember(this)' spellcheck='false'>"+mReturn+"</textarea>";
@@ -9120,7 +9127,7 @@ function RandomQuest(elControl) {
   mHTML += "<div class='mbCB'></div>"
 
   // For DEBUG
-  var elShowDebug = elControl.querySelector("[QG_DEBUG]");
+  let elShowDebug = elControl.querySelector("[QG_DEBUG]");
   if(elShowDebug.innerText.search("✅")>-1){
     mHTML += " <small><b>[" + mAffinity + mHostility ;
     mHTML += "](" + mChaArchRND +")";
@@ -9178,19 +9185,19 @@ function GUI_Notepad(aPlaceHolder,mHeight){
 }
 function RandomToday(){
   // Returns a "random" number between 0 to 1 (inclusive) 
-  var today = new Date();
-  var refUTC = new Date(Date.UTC(2022,1,20,0,0,0));
+  let today = new Date();
+  let refUTC = new Date(Date.UTC(2022,1,20,0,0,0));
   return Math.abs(Math.sin(Math.floor( (today.getTime()-refUTC.getTime())/(1000*3600*24) )));    
 }
 
 function RollCallList(el){
   // 20230202: StarTree: For Roll Call
-  var elContainer = el.parentNode.nextElementSibling;
-  var mRosterLen = Roster(-1);
-  var mContent = "<hr><div style='margin:5px -10px;'>";
-  var bCookieEnabled = (elContainer.getAttribute('CookieEnabled')=="true");
-  var mAvStr = "";
-  for(var i=0;i<mRosterLen;i++){
+  let elContainer = el.parentNode.nextElementSibling;
+  let mRosterLen = Roster(-1);
+  let mContent = "<hr><div style='margin:5px -10px;'>";
+  let bCookieEnabled = (elContainer.getAttribute('CookieEnabled')=="true");
+  let mAvStr = "";
+  for(let i=0;i<mRosterLen;i++){
     mName = Roster(i);
     mAvStr = "mbav50tr"; // Not selected
     mSelStr = "false";
@@ -9219,15 +9226,15 @@ function RollCallTally(el){
   // 20230204: StarTree: For Roll Call Feature
   // Create the comma separated string for clipboard.
   try{
-    var elRoster = el.parentNode.nextElementSibling.firstElementChild.nextElementSibling;
-    var elMember = elRoster.firstElementChild;
+    let elRoster = el.parentNode.nextElementSibling.firstElementChild.nextElementSibling;
+    let elMember = elRoster.firstElementChild;
   }catch(error){
     return;
   }
-  var mStatusStr = "Tallying...";
-  var mTallyStr = "";
-  var mCountTotal = 0;
-  var mCountSelected = 0;
+  let mStatusStr = "Tallying...";
+  let mTallyStr = "";
+  let mCountTotal = 0;
+  let mCountSelected = 0;
   while(elMember != null){
     
     mCountTotal ++;
@@ -9265,16 +9272,16 @@ function RollCallToggle(el){
   // 20230202: StarTree: For Roll Call
   mName = el.getAttribute("name");
   
-  var elContainer = el.parentNode.parentNode;
-  var bCookieEnabled = (elContainer.getAttribute('CookieEnabled')=="true");
-  var elListButton = el.parentNode.parentNode.previousElementSibling.firstElementChild;
+  let elContainer = el.parentNode.parentNode;
+  let bCookieEnabled = (elContainer.getAttribute('CookieEnabled')=="true");
+  let elListButton = el.parentNode.parentNode.previousElementSibling.firstElementChild;
 
   /*if(bCookieEnabled){
     bSelected = (localStorage.getItem("RollCall-" + mName) >0);
   }else{
     
   }*/
-  var bSelected = (el.getAttribute("selected")=="true");
+  let bSelected = (el.getAttribute("selected")=="true");
   
   if(!bSelected){
     el.setAttribute("selected","true");
@@ -9300,9 +9307,9 @@ function RollCallToggle(el){
 
 function RollCallUseCookie(el){
   // 20230203: StarTree: For Roll Call Feature
-  var elContainer = el.parentNode.nextElementSibling;
-  var elListButton = el.parentNode.firstElementChild;
-  var bCookieEnabled = (elContainer.getAttribute('CookieEnabled')=="true");
+  let elContainer = el.parentNode.nextElementSibling;
+  let elListButton = el.parentNode.firstElementChild;
+  let bCookieEnabled = (elContainer.getAttribute('CookieEnabled')=="true");
   if(!bCookieEnabled){
     bCookieEnabled = confirm("Would you allow saving roll call status to local storage on your browser?");
   }else{ // Cookie is enabled, does user want to disable?
@@ -9324,8 +9331,8 @@ function SelectArchiveRoster(iCharID){
 	return "../../p/roster.html ";
 }
 function ShowAHideB(elAID, elBID, iMode){
-	var eToShow = document.getElementById(elAID);
-	var eToHide = document.getElementById(elBID);
+	let eToShow = document.getElementById(elAID);
+	let eToHide = document.getElementById(elBID);
 	if(iMode==""){
 	  iMode = "inline";
 	}
@@ -9337,7 +9344,7 @@ function ShowAHideB(elAID, elBID, iMode){
 	}
 }
 function ShowAHideThis(elAID, iMode, eToHide){
-	var eToShow = document.getElementById(elAID);
+	let eToShow = document.getElementById(elAID);
 	eToShow.style.display= iMode;
 	eToHide.style.display="none";
 }
@@ -9347,22 +9354,22 @@ function ShowPP(el){
 }
 function ShowLCPSN(elThis){
   // 20250405: StarTree: Upgrade for showing matrix legends.
-  var elTarget = SearchPS(elThis, 'control').nextElementSibling;
-  var elNext = elThis.lastElementChild;  
+  let elTarget = SearchPS(elThis, 'control').nextElementSibling;
+  let elNext = elThis.lastElementChild;  
   elTarget.innerHTML = elNext.innerHTML;
   elTarget.style.display= "block";
   elTarget.setAttribute("mQueryString", "");
 }
 function ShowNext(el) {
   //20230220: Fina: Fixed the double click bug with getComputedStyle
-  var eTar = el.nextElementSibling;
+  let eTar = el.nextElementSibling;
   ShowEl(eTar);
 }
 
 function ShowWidgets(){
   //20240421: Arcacia Show all button class objects that are immediate children
-  var elButtons = document.querySelectorAll('[BB]');
-  var mNumHidden = 0;
+  let elButtons = document.querySelectorAll('[BB]');
+  let mNumHidden = 0;
   // Match the visibility status of the FP
   elButtons.forEach((mTag)=>{
     let elFP = mTag.nextElementSibling.querySelector('[FP]');
@@ -9373,7 +9380,7 @@ function ShowWidgets(){
 function HideAllFP(){
   // 20240421: Arcacia: Hide all FP.
   // .. Only hide the ones over half a screen tall.
-  var elFPs = document.querySelectorAll('[FP]');
+  let elFPs = document.querySelectorAll('[FP]');
   elFPs.forEach((mTag)=>{
     if(screen.availHeight< 2*$(mTag).height()){
       mTag.classList.add('mbhide');
@@ -9384,9 +9391,9 @@ function WidgetDockCycle(elButton){
   // 20240424: StarTree: Cycles among Left > Center > Right
   // elButton is the cycle button.
   // STEP: Get the Widget FP.
-  var elFP = SearchPS(elButton,"FP");
+  let elFP = SearchPS(elButton,"FP");
   // INFO: The frame that contains the property is the parent of the FP.
-  var mCurPos = elFP.parentNode.style.justifyContent;
+  let mCurPos = elFP.parentNode.style.justifyContent;
   
   // Move to right
   switch(mCurPos){
@@ -9403,16 +9410,16 @@ function BringToFrontFP(el){
   // The el in the input is a div within the FP.
   // 20240423: Sylvia: Restructured.
   // 20240424: P4: Bring to Top should not "show" the widget because it should already be shown.
-  var mCurMax = Number(FPGetTopZ());
-  var elFP = SearchPS(el,'FP');
+  let mCurMax = Number(FPGetTopZ());
+  let elFP = SearchPS(el,'FP');
   elFP.style.zIndex = mCurMax + 1;
   return;
 }
 function FPGetTopZ(){
   // 20240423: Sylvia: This function returns the top zIndex among the FP objects in display.
   //   And sets the zIndex of those not in display to 0.
-  var elFPs = document.querySelectorAll('[FP]');
-  var mZArray = [];
+  let elFPs = document.querySelectorAll('[FP]');
+  let mZArray = [];
   for(let i=0;i<elFPs.length;i++){
     if(elFPs[i].classList.contains('mbhide')){
       mZArray.push([0,elFPs[i]]);
@@ -9421,7 +9428,7 @@ function FPGetTopZ(){
     }
   }
   mZArray.sort();
-  var mCurMax=0;
+  let mCurMax=0;
   for(let i=0;i<elFPs.length;i++){
     if(mZArray[i][0] != 0){
       mCurMax ++;
@@ -9473,10 +9480,10 @@ function ShowNextFP(el,mDTS,bRefresh){
   // 20240424: P4: Reorganized
   // 20240804: StarTree: Added bRefresh to not hide the frame.
 
-  var elFP = el.nextElementSibling.querySelector('[FP]');
+  let elFP = el.nextElementSibling.querySelector('[FP]');
   // STEP: If the FP is already shown, either bring it to top or close it.
   if(!bRefresh && !elFP.classList.contains('mbhide')){
-    var mTopZ = FPGetTopZ();
+    let mTopZ = FPGetTopZ();
     if(elFP.style.zIndex == mTopZ){
       // Close it if it is at the top.
       FPHide(elFP);
@@ -9507,7 +9514,7 @@ function ShowNextFP(el,mDTS,bRefresh){
   // The following is for the case when the FP is on a phone.
 
   // STEP: Hide all FP.
-  var elFPs = document.querySelectorAll('[FP]');
+  let elFPs = document.querySelectorAll('[FP]');
   elFPs.forEach((mTag)=>{FPHide(mTag);});
   // STEP: Show only this FP.
   FPShow(elFP);
@@ -9522,17 +9529,17 @@ function WaitIcon(){
 }
 function ReloadFP(el){
   // 20240420: Skyle: Reload an FP that is in display.
-  var elFP = el;
+  let elFP = el;
   if(!elFP.hasAttribute('FP')){
     elFP = SearchPS(el,'FP');
   }  
   elFP.innerHTML = WaitIcon();
 
-  var mDTS = elFP.getAttribute('FP');
-  var mHTML="";
+  let mDTS = elFP.getAttribute('FP');
+  let mHTML="";
   // 20240421: Arcacia: Special handling for the Feedback Form.
   if(mDTS=="Feedback"){  
-    var mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
+    let mInput = "https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform";
     mHTML = "<span class='mbRef'><a class='mbbutton' onClick='HideFP(this);FPGetTopZ()' style='float:right' title='Close'><span class=\"mbIcon\" style=\"background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Close.png')\"></span></a></span>";
     // 20240924: Tanya: Widgets don't have height button and this button is not working properly.
     //mHTML += "<button class='mbbutton mbRef' style='opacity:0.2' title='Toggle Size' onclick='BoardToggleHeight(this)'>⅔</button>"
@@ -9547,7 +9554,7 @@ function ReloadFP(el){
     return;
   }
   // 20240509: Black
-  var elArchives = Offline();
+  let elArchives = Offline();
   $(document).ready(function(){
     // OFFLINE MODE
     if(NotBlank(elArchives)){
@@ -9601,8 +9608,8 @@ function ReloadFPEL(elWidget,elFP,mDTS,bOffline){
 function NodeIDClipboardButtonCode(mNodeID,mParentID,mIcon){
   // 20240422: V
   // 20240427: Black: Added mArchiveID for showing bubble context.
-  var mHTML = "<a class='mbbutton' onclick=\"ClipboardAlert('"+ mNodeID+"')\" title=\"" +  mNodeID+  " [";
-  var mArchiveNum = "0";
+  let mHTML = "<a class='mbbutton' onclick=\"ClipboardAlert('"+ mNodeID+"')\" title=\"" +  mNodeID+  " [";
+  let mArchiveNum = "0";
   if(IsBlank(mParentID)){
     mArchiveNum = ArchiveNumSelect(mNodeID);
   }else{
@@ -9623,7 +9630,7 @@ function ShowL(el){
 }
 function ShowN3(el) {
   // 20230213: StarTree: For Vacation Island
-  var eNext = el.nextElementSibling;
+  let eNext = el.nextElementSibling;
   eNext = eNext.nextElementSibling;
   eNext = eNext.nextElementSibling;
   if (eNext.style.display != "block") {
@@ -9636,56 +9643,56 @@ function ShowN3(el) {
 function ShowLPN(el){
   // 20230204: Tanya: Created for Cardinal Quest Dashboard.
   // Shows the last element child content at the parent's next sibling.
-  var elSource = el.lastElementChild;
-  var elTarget = el.parentNode.nextElementSibling;
+  let elSource = el.lastElementChild;
+  let elTarget = el.parentNode.nextElementSibling;
   elTarget.innerHTML = elSource.innerHTML;
 }
 function ShowLP2N(el){
   // 20230205: Tanya: Created for Cardinal Quest Dashboard.
   // Shows the last element child content at the grandparent's next sibling.
-  var elSource = el.lastElementChild;
-  var elTarget = el.parentNode.parentNode.nextElementSibling;
+  let elSource = el.lastElementChild;
+  let elTarget = el.parentNode.parentNode.nextElementSibling;
   elTarget.innerHTML = elSource.innerHTML;
 }
 function ShowLP2NH(el){
   // 20230219: Natalie: Created for Criminal Law concepts list.
   // Shows the last element child content at the target.
-  var elSource = el.lastElementChild;
-  var elTarget = el.parentNode.parentNode;
+  let elSource = el.lastElementChild;
+  let elTarget = el.parentNode.parentNode;
   HideOnPhone(elTarget);
   elTarget = elTarget.nextElementSibling;
   elTarget.innerHTML = elSource.innerHTML;
 }
 function ShowLP3N(el){
   // 20230222: Mikela: Added for Puzzle Plaza
-  var elSource = el.lastElementChild;
-  var elTarget = el.parentNode.parentNode.parentNode;
+  let elSource = el.lastElementChild;
+  let elTarget = el.parentNode.parentNode.parentNode;
   elTarget = elTarget.nextElementSibling;
   elTarget.innerHTML = elSource.innerHTML;
 }
 function ShowLP3NJ(el){
   // 20240205: StarTree: Scrolls to view
-  var elSource = el.lastElementChild;
-  var elTarget = el.parentNode.parentNode.parentNode;
+  let elSource = el.lastElementChild;
+  let elTarget = el.parentNode.parentNode.parentNode;
   elTarget = elTarget.nextElementSibling;
   elTarget.innerHTML = elSource.innerHTML;
   ScrollIntoView(elTarget);
 }
 function LAPSN(el,eID,iInner){
   // 20230301: Evelyn: Based on ShowLPSN but for QueryAllEL
-  var elTarget = SearchPS(el,"");
+  let elTarget = SearchPS(el,"");
   elTarget = elTarget.nextElementSibling;
   LoadArchivePostEl(elTarget,eID,iInner);
 }
 function QueryAllPS(el,eQuery,iInner,iAttribute){
   // 20231220: StarTree
-  var elTarget = SearchPS(el,iAttribute);
+  let elTarget = SearchPS(el,iAttribute);
   elTarget.setAttribute("mQueryString","");
   QueryAllEL(elTarget,eQuery,iInner);
 }
 function QueryAllPSL(el,eQuery,iInner,iAttribute){
   // 20231220: StarTree
-  var elTarget = SearchPS(el,iAttribute);
+  let elTarget = SearchPS(el,iAttribute);
   elTarget = elTarget.lastElementChild;
   elTarget.setAttribute("mQueryString","");
   QueryAllEL(elTarget,eQuery,iInner);
@@ -9694,39 +9701,39 @@ function QueryAllPSN(el,eQuery,iInner,iAttribute){
   // 20230301: Evelyn: Based on ShowLPSN but for QueryAllEL
   // Goes up the parents unit it has the attribute, then go to the next element.
   // 20230307: StarTree: Never hide the target.
-  var elTarget = SearchPS(el,iAttribute);
+  let elTarget = SearchPS(el,iAttribute);
   elTarget = elTarget.nextElementSibling;
   elTarget.setAttribute("mQueryString","");
   QueryAllEL(elTarget,eQuery,iInner);
 }
 function ShowLBL(el,iAttribute){
   // 20240604: Ledia: Added for profiles.
-  var elSource = el.lastElementChild;
-  var elTarget = SearchPS(el,"board").querySelector('[qsl][bl]');
+  let elSource = el.lastElementChild;
+  let elTarget = SearchPS(el,"board").querySelector('[qsl][bl]');
   elTarget.parentNode.classList.remove('mbhide');
   elTarget.innerHTML = elSource.innerHTML;
   elTarget.classList.remove("mbhide");
 }
 function ShowLPSL(el,iAttribute){
   // 20231220: StarTree: Goes up the parents until it has the attribute.
-  var elSource = el.lastElementChild;
-  var elTarget = SearchPS(el,iAttribute);
+  let elSource = el.lastElementChild;
+  let elTarget = SearchPS(el,iAttribute);
   elTarget = elTarget.lastElementChild;
   elTarget.innerHTML = elSource.innerHTML;
   elTarget.classList.remove("mbhide");
 }
 function ShowLPSN(el,iAttribute){
   // 20230225: StarTree: Goes up the parents until it has the attribute.
-  var elSource = el.lastElementChild;
-  var elTarget = SearchPS(el,iAttribute);
+  let elSource = el.lastElementChild;
+  let elTarget = SearchPS(el,iAttribute);
   elTarget = elTarget.nextElementSibling;
   elTarget.innerHTML = elSource.innerHTML;
   elTarget.classList.remove("mbhide");
 }
 function PrepLPSN(el,iAttribute){
   // 20230226: StarTree: Goes up the parents until it has the attribute. But do not display.
-  var elSource = el.lastElementChild;
-  var elTarget = el.parentNode;
+  let elSource = el.lastElementChild;
+  let elTarget = el.parentNode;
   while(elTarget != null && elTarget.getAttribute(iAttribute)==null){
     elTarget = elTarget.parentNode;
   }  
@@ -9737,40 +9744,40 @@ function PrepLPSN(el,iAttribute){
 function ShowLP3NH(el){
   // 20230214: Natalie: Created for Criminal Law concepts list.
   // Shows the last element child content at the target.
-  var elSource = el.lastElementChild;
-  var elTarget = el.parentNode.parentNode.parentNode;
+  let elSource = el.lastElementChild;
+  let elTarget = el.parentNode.parentNode.parentNode;
   HideOnPhone(elTarget);
   elTarget = elTarget.nextElementSibling;
   elTarget.innerHTML = elSource.innerHTML;
 }
 function ShowImgPP(elThis,iImgURL){
   // 20230311: StarTree: Created for displaying Manga pages.
-  var elTarget = elThis.parentNode.previousElementSibling;
+  let elTarget = elThis.parentNode.previousElementSibling;
   elTarget.innerHTML = "<img src='" + iImgURL + "'>";
   elTarget.classList.remove("mbhide");
 }
 function ShowNextPP(elThis){
   // 2022-10-31 Created for displaying Manga pages.
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.previousElementSibling;
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   elTarget.innerHTML = elNext.innerHTML;
   elTarget.style.display= "block";
   elTarget.setAttribute("mQueryString", "");
 }
 function ShowNextP2P(elThis){
   // 20230314: 3B: Created for manga display
-  var elTarget = elThis.parentNode.parentNode;
+  let elTarget = elThis.parentNode.parentNode;
   elTarget = elTarget.previousElementSibling;
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   elTarget.innerHTML = elNext.innerHTML;
   elTarget.style.display= "block";
   elTarget.setAttribute("mQueryString", "");
 }
 function ShowNextPN(elThis){
-  var elTarget = elThis.parentNode;
+  let elTarget = elThis.parentNode;
   elTarget = elTarget.nextElementSibling;
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   elTarget.innerHTML = elNext.innerHTML;
   elTarget.style.display= "block";
   elTarget.setAttribute("mQueryString", "");
@@ -9781,7 +9788,7 @@ function CookieCheck(el,iScope){
     iScope = "Widget";
   }
   try{
-    var elScope = SearchPS(el,iScope);
+    let elScope = SearchPS(el,iScope);
     return (elScope.getAttribute('CookieEnabled')=="true");
   }catch(error){
     DEBUG("NOT FOUND")
@@ -9790,11 +9797,11 @@ function CookieCheck(el,iScope){
 }
 function NodeMarkCode(iNodeID,iDesc){
   // 20240330: StarTree: Returns the HTML code for the node marking.
-  var mButtonStyle = "mbbutton";
+  let mButtonStyle = "mbbutton";
   if(IsBlank(iDesc)){ mButtonStyle="mbbutton";}
-  var mVDTS = NodeMarkLoadDTS(iNodeID);
-  var mSepia = 0;   
-  var mHTML = "";
+  let mVDTS = NodeMarkLoadDTS(iNodeID);
+  let mSepia = 0;   
+  let mHTML = "";
   mHTML += "<a class=\""+mButtonStyle+"\" id=\"P"+ iNodeID+"-V\" onclick=\"NodeMarkCycle(this,'" + iNodeID + "')\" title=\"Cycle node marking\" style=\"filter:sepia(" + mSepia + "%)\">";
   mHTML += NodeMarkLoad(iNodeID)+"</a>";
   return mHTML;
@@ -9811,9 +9818,9 @@ function NodeEditModeCheck(el){
   // 20240804: StarTree: Checks if the page should load local node content.
   // .. If el is Blank: Check if the page should load local node content.
   // .. Else: Show the dialog and update the parameter value.
-  var mParam = 'NodeEditMode';
+  let mParam = 'NodeEditMode';
   if(el==null){return Parameter(mParam);}
-  var bParam = Parameter(mParam);
+  let bParam = Parameter(mParam);
   bParam = confirm("Enable local node content?");
   if(bParam){Parameter(mParam,"true");}
   /*
@@ -9841,7 +9848,7 @@ function Parameter(mParam,mSet){
   // .. This function is overloaded. 
   // .. If mSet is blank, it checks the parameter.
   // .. If mSet is not blank, it sets the parameter.
-  var elMain = document.querySelector('[main]');
+  let elMain = document.querySelector('[main]');
   if(IsBlank(mSet)){    
     return (elMain.getAttribute(mParam));
   }
@@ -9852,8 +9859,8 @@ function TextAreaLoad(elTextArea){
   // 20240330: StarTree: For Cookie TextArea. Loads from Cookie when it is first activated.
   
   // STEP: If NodeEditID exists, load from local storage for that.
-  var elWidget = SearchPS(elTextArea,"widget");
-  var mNodeID = elWidget.getAttribute("NodeEditID");
+  let elWidget = SearchPS(elTextArea,"widget");
+  let mNodeID = elWidget.getAttribute("NodeEditID");
   if(NotBlank(mNodeID)){ // The Content is for a specific node.
     elTextArea.value = localStorage.getItem(mNodeID + "-N");
     return;
@@ -9864,7 +9871,7 @@ function TextAreaLoad(elTextArea){
   if(!CookieCheck(elTextArea)){return;}
 
   // STEP: Load from Local Storage
-  var mText = localStorage.getItem("TextArea-Value");
+  let mText = localStorage.getItem("TextArea-Value");
   if(NotBlank(mText)){
     elTextArea.value = mText;
   }
@@ -9877,8 +9884,8 @@ function TextAreaSave(elTextArea){
   // 20240330: StarTree: Saves the TextArea text to Local Storage.
   
   // STEP: 20240804: StarTree: Save content to NodeEdit if in that mode.
-  var elWidget = SearchPS(elTextArea,"widget");
-  var mNodeID = elWidget.getAttribute("NodeEditID");
+  let elWidget = SearchPS(elTextArea,"widget");
+  let mNodeID = elWidget.getAttribute("NodeEditID");
   if(NotBlank(mNodeID)){ // The Content is for a specific node.
     localStorage.setItem(mNodeID + "-N",elTextArea.value);
     return;
@@ -9889,15 +9896,15 @@ function TextAreaSave(elTextArea){
 }
 function NMDTC(el){
   // 20240504: StarTree: Creates a DTC or converts the number in Node ID to DTC.
-  var elWidget = SearchPS(el,"Widget");
-  var mDTS = Default(elWidget.querySelector('[NM-DTS]').value,DTSNow());
+  let elWidget = SearchPS(el,"Widget");
+  let mDTS = Default(elWidget.querySelector('[NM-DTS]').value,DTSNow());
   navigator.clipboard.writeText(DTC(mDTS));
 }
 function NMMsg(el,iIcon,bNoEXP){
   // 20240416: StarTree: Bubble code
-  var elControl = SearchPS(el,"Widget");
-  var mSPK = Default(elControl.querySelector('[NM-SPK]').value,"");
-  var elIcon = elControl.querySelector('[NM-Icon]');
+  let elControl = SearchPS(el,"Widget");
+  let mSPK = Default(elControl.querySelector('[NM-SPK]').value,"");
+  let elIcon = elControl.querySelector('[NM-Icon]');
 
   if(NotBlank(iIcon)){
     elIcon.value = iIcon;
@@ -9905,48 +9912,48 @@ function NMMsg(el,iIcon,bNoEXP){
     iIcon = elIcon.value;
   }
   if(bNoEXP){
-    var mEXPStr = "";
+    let mEXPStr = "";
   }else{
     mEXPStr = " EXP";
   }
-  var mHTML = "<msg DTS=\"" + DTSNow() + "\" SPK=\""+mSPK+"\""+mEXPStr;
+  let mHTML = "<msg DTS=\"" + DTSNow() + "\" SPK=\""+mSPK+"\""+mEXPStr;
   if(NotBlank(iIcon) && !bNoEXP){mHTML += " Icon=\""+iIcon+"\"";}
   mHTML += "></msg>";
   navigator.clipboard.writeText(mHTML);
 }
 function DTSFormatStr(mYYYYMMDD){
   // 20240426: StarTree: Formats a date object into a DTS string.
-  var mYear = mYYYYMMDD.slice(0,4);
-  var mMonth = mYYYYMMDD.slice(5,7);
-  var mDay = mYYYYMMDD.slice(8,10);
-  var mHour = mYYYYMMDD.slice(11,13);
-  var mMinute = mYYYYMMDD.slice(14,16);
+  let mYear = mYYYYMMDD.slice(0,4);
+  let mMonth = mYYYYMMDD.slice(5,7);
+  let mDay = mYYYYMMDD.slice(8,10);
+  let mHour = mYYYYMMDD.slice(11,13);
+  let mMinute = mYYYYMMDD.slice(14,16);
   return DTSPadding(mYear + mMonth + mDay + mHour + mMinute);
 }
 function DTSNow(){
   // 20240416: StarTree: Returns the current DTS string.
-  var mDate = new Date();
-  var mYear = String(mDate.getFullYear());
-  var mMonth = String(mDate.getMonth()+1).padStart(2,'0');
-  var mDay = String(mDate.getDate()).padStart(2,'0');
-  var mHour = String(mDate.getHours()).padStart(2,'0');
-  var mMin = String(mDate.getMinutes()).padStart(2,'0');
-  var mSec = String(mDate.getSeconds()).padStart(2,'0');
+  let mDate = new Date();
+  let mYear = String(mDate.getFullYear());
+  let mMonth = String(mDate.getMonth()+1).padStart(2,'0');
+  let mDay = String(mDate.getDate()).padStart(2,'0');
+  let mHour = String(mDate.getHours()).padStart(2,'0');
+  let mMin = String(mDate.getMinutes()).padStart(2,'0');
+  let mSec = String(mDate.getSeconds()).padStart(2,'0');
   return mYear + mMonth + mDay + mHour + mMin + mSec;
 }
 function NMCard(el){
   // 20240416: StarTree: Puts the card code to Clipboard.
-  var elControl = SearchPS(el,"Widget");
-  var mDTS = Default(elControl.querySelector('[NM-DTS]').value,DTSNow());
-  var mTitle = Default(elControl.querySelector('[NM-Title]').value,"Card Title");
-  var mSubTitle = Default(elControl.querySelector('[NM-ParentName]').value,"Subtitle");
+  let elControl = SearchPS(el,"Widget");
+  let mDTS = Default(elControl.querySelector('[NM-DTS]').value,DTSNow());
+  let mTitle = Default(elControl.querySelector('[NM-Title]').value,"Card Title");
+  let mSubTitle = Default(elControl.querySelector('[NM-ParentName]').value,"Subtitle");
 
-  var mImg = Default(elControl.querySelector('[NM-URL]').value,"https://cdn.pixabay.com/photo/2014/05/20/21/25/bird-349035_640.jpg");
+  let mImg = Default(elControl.querySelector('[NM-URL]').value,"https://cdn.pixabay.com/photo/2014/05/20/21/25/bird-349035_640.jpg");
   
   // 20240427: Skyle: New format
-  var mHTML = "<card DTS=\"" + mDTS + "\" title=\"" + mTitle + "\" subtitle=\"" + mSubTitle +"\"";
+  let mHTML = "<card DTS=\"" + mDTS + "\" title=\"" + mTitle + "\" subtitle=\"" + mSubTitle +"\"";
   mHTML += " img=\"" + mImg + "\"></card>";
-  /*var mHTML = "<div class='mbCharCard'>\n";
+  /*let mHTML = "<div class='mbCharCard'>\n";
   mHTML += "\t<div class='mbCharCardTitle2'>"+mTitle+"</div>\n";
   mHTML += "\t<div class='mbCharCardImg' style=\"background-position: 50% 50%; background-image:url('"+mImg+"')\"></div>\n";
   mHTML += "\t<div class='mbCharCardSubtitle'>"+mSubTitle+"</div>\n";
@@ -9963,11 +9970,11 @@ function NMCard(el){
 }
 function NMNote(el){
   // 20240502: Arcacia: Notes by default don't have icons and only has a subtitle.
-  var elWidget = SearchPS(el,"Widget");
-  var mDTS = DTSNow(); // Use new DTS by default.
-  var mSubTitle = Default(elWidget.querySelector('[NM-Title]').value,"Log");
-  var mIcon = elWidget.querySelector('[NM-Icon]').value;
-  var mHTML = "<note dts=\""+mDTS+"\" ";
+  let elWidget = SearchPS(el,"Widget");
+  let mDTS = DTSNow(); // Use new DTS by default.
+  let mSubTitle = Default(elWidget.querySelector('[NM-Title]').value,"Log");
+  let mIcon = elWidget.querySelector('[NM-Icon]').value;
+  let mHTML = "<note dts=\""+mDTS+"\" ";
   if(NotBlank(mIcon)){
     mHTML += "icon=\"" + mIcon + "\" ";
   }
@@ -9978,15 +9985,15 @@ function NMNote(el){
 function NMTopic(el,iSecIcon){
   // 20240416: StarTree: Puts a chat section to Clipboard.
   // 20240420: StarTree: Updated to use tag.
-  var elControl = SearchPS(el,"Widget");
+  let elControl = SearchPS(el,"Widget");
   if(IsBlank(iSecIcon)){
     iSecIcon = elControl.querySelector('[NM-Icon]').value;
   }else{
     elControl.querySelector('[NM-Icon]').value = iSecIcon;
   }
-  var mDTS = DTSNow(); // 20240502: Arcacia: Use new DTS by default.
-  var mTitle = Default(elControl.querySelector('[NM-Title]').value,"New Topic");
-  var mHTML = "<topic dts=\""+mDTS+"\" icon=\""+iSecIcon+"\" title=\""+mTitle+"\">\n"
+  let mDTS = DTSNow(); // 20240502: Arcacia: Use new DTS by default.
+  let mTitle = Default(elControl.querySelector('[NM-Title]').value,"New Topic");
+  let mHTML = "<topic dts=\""+mDTS+"\" icon=\""+iSecIcon+"\" title=\""+mTitle+"\">\n"
   
   // 20240417: StarTree: Special format for Initate node section.
   // 20240801: Black: Don't need this any more.
@@ -10003,9 +10010,9 @@ function NMTopic(el,iSecIcon){
 }
 function NMWidgetIcon(){
   // 20240823: Patricia: Returns the icon at the float panel Node Maker Widget.
-  var elWidget = document.querySelector(".footer [widget='20240416213800']");
+  let elWidget = document.querySelector(".footer [widget='20240416213800']");
   if(IsBlank(elWidget)){return ""}
-  var elIconBox = elWidget.querySelector("[nm-icon]");
+  let elIconBox = elWidget.querySelector("[nm-icon]");
   return elIconBox.value;
 }
 function IsMasteryIcon(iIcon){
@@ -10015,10 +10022,10 @@ function IsMasteryIcon(iIcon){
 function NMLI(el){
   // 20240417: StarTree
   // 20240420: StarTree: Changing to Bullet tag.
-  var elControl = SearchPS(el,"Widget");
-  var mIcon = elControl.querySelector('[NM-Icon]').value;
-  var mTitle = Default(elControl.querySelector('[NM-Title]').value,"New Bullet");
-  var mHTML = "";
+  let elControl = SearchPS(el,"Widget");
+  let mIcon = elControl.querySelector('[NM-Icon]').value;
+  let mTitle = Default(elControl.querySelector('[NM-Title]').value,"New Bullet");
+  let mHTML = "";
   if(NotBlank(mIcon)){
     mHTML = "<bullet icon=\""+mIcon+"\" title=\""+mTitle+"\">\n</bullet>";
   }else{
@@ -10030,17 +10037,17 @@ function NMLI(el){
 }
 function NMNodeSec(el,iSecIcon){
   // 20240416: StarTree: Puts a chat section to Clipboard.
-  var elControl = SearchPS(el,"Widget");
-  var mAuthor = Default(elControl.querySelector('[NM-SPK]').value,"");
+  let elControl = SearchPS(el,"Widget");
+  let mAuthor = Default(elControl.querySelector('[NM-SPK]').value,"");
   if(IsBlank(iSecIcon)){
     iSecIcon = elControl.querySelector('[NM-Icon]').value;
   }else{
     elControl.querySelector('[NM-Icon]').value = iSecIcon;
   }
-  var mDTS = Default(elControl.querySelector('[NM-DTS]').value,DTSNow());
+  let mDTS = Default(elControl.querySelector('[NM-DTS]').value,DTSNow());
   
-  var mTitle = "About";
-  var mHTML = "<div DTS=\""+mDTS+"\" class=\"mbscroll\">\n";
+  let mTitle = "About";
+  let mHTML = "<div DTS=\""+mDTS+"\" class=\"mbscroll\">\n";
   mHTML += "\t<div class=\"mbbutton\" onclick=\"ShowNext(this)\">"+iSecIcon+" "+mTitle+"</div>\n\t<hide><hr>";
 
   // 20240417: StarTree: Special format for Initate node section.
@@ -10060,7 +10067,7 @@ function NMNodeSec(el,iSecIcon){
 }
 function NMSetParent(el,mParentID,mParentName,mIcon){
   // 20240417: StarTree
-  var elControl = SearchPS(el,"Widget");
+  let elControl = SearchPS(el,"Widget");
   elControl.querySelector('[NM-ParentID]').value = mParentID;
   elControl.querySelector('[NM-ParentName]').value = mParentName;
   if(NotBlank(mIcon)){
@@ -10079,16 +10086,16 @@ function NMSetParent(el,mParentID,mParentName,mIcon){
 }
 function NMAddSPK(el){
   // 29249423: StarTree
-  var curSPK = el.value.replaceAll(/[\W]+/g,"");
+  let curSPK = el.value.replaceAll(/[\W]+/g,"");
   el.select();  
   if(IsBlank(curSPK)){curSPK = RandomMember();}
   if(NotBlank(el.value) && (el.value != curSPK)){el.value = curSPK;}
 
   // STEP: Check if the entered SPK is already on the list and if the list is full.
-  var elWidget = SearchPS(el,"Widget");
-  var elList = elWidget.querySelector('[NM-SPKList]');
-  var mCount = 0;
-  var mExist = false;
+  let elWidget = SearchPS(el,"Widget");
+  let elList = elWidget.querySelector('[NM-SPKList]');
+  let mCount = 0;
+  let mExist = false;
   elList.querySelectorAll('a').forEach((mTag)=>{
     if(mTag.firstElementChild.classList.contains('mb'+curSPK)){
       mTag.firstElementChild.classList.remove('mbav50t');
@@ -10108,9 +10115,9 @@ function NMAddSPK(el){
   //if(mCount >= 12){return;} // The cache list only fits 6 icons.
 
   // STEP: Add a new button. Highlight it only if it matches the name in the box.
-  var mAVStyle = "mbav50trg";
+  let mAVStyle = "mbav50trg";
   if(IsBlank(el.value)|| (el.value != curSPK)){mAVStyle= "mbav50t";}
-  var mHTML = "<a onclick=\"NMSetSPK(this,'"+curSPK+"')\"><div class='"+mAVStyle+" mb"+curSPK+"' ></div></a>";
+  let mHTML = "<a onclick=\"NMSetSPK(this,'"+curSPK+"')\"><div class='"+mAVStyle+" mb"+curSPK+"' ></div></a>";
   elList.innerHTML = mHTML + elList.innerHTML;
   NMMsg(el);
 }
@@ -10121,8 +10128,8 @@ function NMAddSPKev(e,el){
 }
 function NMNSPKRmv(el){
   // 20240429: Arcacia: Remove the selected speaker from the list.
-  var elWidget = SearchPS(el,"Widget");
-  var elFrame = elWidget.querySelector('[NM-SPKList]');
+  let elWidget = SearchPS(el,"Widget");
+  let elFrame = elWidget.querySelector('[NM-SPKList]');
   elFrame.querySelectorAll('a').forEach((mTag)=>{
     if(mTag.firstElementChild.classList.contains('mbav50trg')){
       mTag.remove();
@@ -10133,12 +10140,12 @@ function NMNSPKRmv(el){
 }
 function NMSetSPK(el,mSPK){
   // 20240423: StarTree: This is for when the user clicked on a SPK cache button.
-  var elControl = SearchPS(el,"Widget");
-  var curSPK = elControl.querySelector('[NM-SPK]').value;
+  let elControl = SearchPS(el,"Widget");
+  let curSPK = elControl.querySelector('[NM-SPK]').value;
 
   // STEP: If the button is already highlighted, and same as the input box, 
   // Clear the input box and remove the SPK cache button.
-  var elSPK = el.firstElementChild;
+  let elSPK = el.firstElementChild;
   
   
   /* 20240429: Arcacia: This feature is annoying so it is removed.
@@ -10150,7 +10157,7 @@ function NMSetSPK(el,mSPK){
 
   // STEP: Otherwise, set the SPK and set the highlight.
   elControl.querySelector('[NM-SPK]').value = mSPK;
-  var elFrame = SearchPS(el,'NM-SPKList');
+  let elFrame = SearchPS(el,'NM-SPKList');
   elFrame.querySelectorAll('a').forEach((mTag)=>{
     if(mTag == el){
       mTag.firstElementChild.classList.remove('mbav50t');
@@ -10166,39 +10173,39 @@ function NMSetSPK(el,mSPK){
 }
 function NMGetDTS(){
   // 20240423: StarTree: Puts DTS to the clipboard.
-  var mHTML = DTSNow();
+  let mHTML = DTSNow();
   navigator.clipboard.writeText(mHTML);
   return mHTML;
 }
 function NMNode(el,bChatChannel){
   // 20240416: StarTree: Put the code of a new node to Clipboard.
-  var elControl = SearchPS(el,"Widget");
-  var mDTS = Default(elControl.querySelector('[NM-DTS]').value,DTSNow());
+  let elControl = SearchPS(el,"Widget");
+  let mDTS = Default(elControl.querySelector('[NM-DTS]').value,DTSNow());
   mDTS = mDTS.padEnd(14,"0");
-  var mPrevID=elControl.querySelector('[NM-PrevID]').value;
-  var mNextID=elControl.querySelector('[NM-NextID]').value;
-  var mAuthor=Default(elControl.querySelector('[NM-SPK]').value,""); 
-  var mParentID=Default(elControl.querySelector('[NM-ParentID]').value,"202404162138"); 
-  var mParent=Default(elControl.querySelector('[NM-ParentName]').value,"Node Maker"); 
-  var mIcon=Default(elControl.querySelector('[NM-Icon]').value,"🐣"); 
-  var mImg = Default(elControl.querySelector('[NM-URL]').value,"");
+  let mPrevID=elControl.querySelector('[NM-PrevID]').value;
+  let mNextID=elControl.querySelector('[NM-NextID]').value;
+  let mAuthor=Default(elControl.querySelector('[NM-SPK]').value,""); 
+  let mParentID=Default(elControl.querySelector('[NM-ParentID]').value,"202404162138"); 
+  let mParent=Default(elControl.querySelector('[NM-ParentName]').value,"Node Maker"); 
+  let mIcon=Default(elControl.querySelector('[NM-Icon]').value,"🐣"); 
+  let mImg = Default(elControl.querySelector('[NM-URL]').value,"");
   if(bChatChannel){mImg=""};
 
-  var mID = mDTS.slice(0,12);
-  var mYYYYMMDD = mDTS.slice(0,8);
-  var mHHMM = mDTS.slice(8,12);
+  let mID = mDTS.slice(0,12);
+  let mYYYYMMDD = mDTS.slice(0,8);
+  let mHHMM = mDTS.slice(8,12);
 
-  var mTitle=Default(elControl.querySelector('[NM-Title]').value,"P" + mID); 
-  var mTags=Default(elControl.querySelector('[NM-Tags]').value,""); 
+  let mTitle=Default(elControl.querySelector('[NM-Title]').value,"P" + mID); 
+  let mTags=Default(elControl.querySelector('[NM-Tags]').value,""); 
   if(NotBlank(mTags)){mTags = " " + mTags;}
   // 20240426: Kisaragi
   if(bChatChannel && NotBlank(mParentID)){mTags += " data-" + mParentID;}
   if(bChatChannel){if(NotBlank(mPrevID)){mTags += " data-" + mPrevID;}}
 
-  //var mSubTitle = "Subtitle"; // 20240801: Black Removed.
-  var mKids="";
-  var mMusic="";
-  var mHTML = "<div id=\"P" + mID + "\" date=\"" + mYYYYMMDD +"\" time=\"" + mHHMM + "\"" + mTags;
+  //let mSubTitle = "Subtitle"; // 20240801: Black Removed.
+  let mKids="";
+  let mMusic="";
+  let mHTML = "<div id=\"P" + mID + "\" date=\"" + mYYYYMMDD +"\" time=\"" + mHHMM + "\"" + mTags;
   if(bChatChannel){mHTML += " data-chat data-happy";}
   mHTML += ">\n";
 
@@ -10238,12 +10245,12 @@ function NMNode(el,bChatChannel){
 }
 function NMRES(el){
   // 20240728: StarTree: Makes a generic RES object with the item code filled.
-  var elWidget = SearchPS(el,"Widget");
-  var mDTS = Default(elWidget.querySelector('[NM-DTS]').value,DTSNow());
+  let elWidget = SearchPS(el,"Widget");
+  let mDTS = Default(elWidget.querySelector('[NM-DTS]').value,DTSNow());
   // 20240802: StarTere: Don't add an icon by default.
   // 20250211: Patricia: Use the icon field by default per Mikela.
-  var mIcon = Default(elWidget.querySelector('[NM-Icon]').value,""); 
-  var mHTML = "";
+  let mIcon = Default(elWidget.querySelector('[NM-Icon]').value,""); 
+  let mHTML = "";
   if(NotBlank(mIcon)){
     mHTML = "<res icon=\""+mIcon+"\" item=\""+DTC(mDTS)+"\" title=\"Title\" star=\"\" tags=\"\">\n</res>";
   }else{
@@ -10253,18 +10260,18 @@ function NMRES(el){
 }
 function NMURL(el,mCBText){
   // 20241026: StarTree: This creates the URL html string and put it in the clipboard.
-  var mURL = "";  
+  let mURL = "";  
   // 20241026: StarTree: If the mCBText field is specified, use it and trim off the part after a question mark.
   // 20250120: StarTree: Don't do this if it is a YouTube link.
   if(NotBlank(mCBText)){    
     if(!(mCBText.includes("youtube.com"))){
-      var mSplit = mCBText.split("?");
+      let mSplit = mCBText.split("?");
       mURL = mSplit[0];
     }else{
       mURL = mCBText;
     }
   }else{
-    var elControl = SearchPS(el,"Widget");
+    let elControl = SearchPS(el,"Widget");
     mURL = elControl.querySelector('[NM-URL]').value;
   }
   
@@ -10275,7 +10282,7 @@ function NMURL(el,mCBText){
     })
     return;
   }
-  var mIcon="";//elControl.querySelector('[NM-Icon]').value;
+  let mIcon="";//elControl.querySelector('[NM-Icon]').value;
   if(IsBlank(mIcon)){
     if(mURL.includes("&list=")){
       mIcon = "🎧";
@@ -10293,17 +10300,17 @@ function NMURL(el,mCBText){
       mIcon = "🔗";
     }
   }
-  //var mHTML = "<macro>{\"cmd\":\"url\",\"url\":\""+mURL+"\",\"desc\":\""+mIcon+"\"}</macro>";  
-  var mHTML = "<url>" + mURL+ "</url>";  
+  //let mHTML = "<macro>{\"cmd\":\"url\",\"url\":\""+mURL+"\",\"desc\":\""+mIcon+"\"}</macro>";  
+  let mHTML = "<url>" + mURL+ "</url>";  
   navigator.clipboard.writeText(mHTML);
   return mHTML;
 }
 function NodeMarkCycle(el,iNodeID){
   // 20240330: StarTree: For saving the node marking
   
-  var curMark = el.innerHTML; 
+  let curMark = el.innerHTML; 
   // 20240823: Patricia: Get the icon at Node Maker widget.
-  var nextMark = Default(NMWidgetIcon(),"✅");
+  let nextMark = Default(NMWidgetIcon(),"✅");
   
 
 
@@ -10345,7 +10352,7 @@ function NodeMarkCycle(el,iNodeID){
 
   
   // STEP: 20240402: StarTree: change the icon for all instances on display.
-  var mVList = document.querySelectorAll('#P' + iNodeID + "-V");
+  let mVList = document.querySelectorAll('#P' + iNodeID + "-V");
   for(i=0;i<mVList.length;i++){
     mVList[i].innerHTML = curMark;
     mVList[i].style.filter = "sepia(0%)";
@@ -10358,7 +10365,7 @@ function NodeMarkCycle(el,iNodeID){
 function NodeMarkLoad(iNodeID){
   // 20240330: StarTree: For loading the node marking
   if(!NodeMarkCookieCheck){return;}
-  var mMark = localStorage.getItem(iNodeID + "-V");
+  let mMark = localStorage.getItem(iNodeID + "-V");
   if(NotBlank(mMark)){
     return mMark;
   }
@@ -10367,23 +10374,23 @@ function NodeMarkLoad(iNodeID){
 function NodeMarkLoadDTS(iNodeID){
   // 20240426: Zoey: Returns an integer.
   if(!NodeMarkCookieCheck){return;}
-  var mMark = localStorage.getItem(iNodeID + "-V-DTS");
+  let mMark = localStorage.getItem(iNodeID + "-V-DTS");
   if(NotBlank(mMark)){
     return DTSPadding(mMark);
   }
   return 0;
 }
 function NodeMarkUseCookie(el,iNoIcon){
-  var elMain = document.querySelector('[main]');
+  let elMain = document.querySelector('[main]');
   // 20240415: StarTree: When this is called at a banner, just ask once.
   /*if(iNoIcon){
-    var mAsked = elMain.getAttribute('asked');
+    let mAsked = elMain.getAttribute('asked');
     if(NotBlank(mAsked)){return;}
     elMain.setAttribute('asked',true);
   }*/
 
   // 20240330: StarTree: For saving the the node marking
-  var bCookieEnabled = NodeMarkCookieCheck();
+  let bCookieEnabled = NodeMarkCookieCheck();
   if(!bCookieEnabled){
     bCookieEnabled = confirm("Would you like to enable marking and showing where you have visited using local storage of your browser?");
   }else{ // Cookie is enabled, does user want to disable?
@@ -10401,8 +10408,8 @@ function NodeMarkUseCookie(el,iNoIcon){
 }
 function TACount(el,mInc){
   // 20240423: LRRH
-  var elTA = TAGet(el);
-  var mCurValue = Number(TAGetSelText(elTA));
+  let elTA = TAGet(el);
+  let mCurValue = Number(TAGetSelText(elTA));
   if(mInc == 0){
     TAReplace(elTA,String(0));
     mCurValue = 0;
@@ -10413,7 +10420,7 @@ function TACount(el,mInc){
 }
 function TAFetchJSON(el){
   // 20250519: StarTree: Fetch JSON data and display at the text area.  
-  var elTA = TAGet(el);
+  let elTA = TAGet(el);
   fetch('https://jsonplaceholder.typicode.com/todos/1')
       .then(response => response.json())
       .then(json => TAInsert(elTA,JSON.stringify(json)))
@@ -10429,29 +10436,29 @@ function TAGetSelText(el){
 }
 function TAInsert(el,mStr){
   // 20240423: P4
-  var mStart = el.selectionStart;
-  var mEnd = el.selectionEnd;
-  var mText = el.value;
+  let mStart = el.selectionStart;
+  let mEnd = el.selectionEnd;
+  let mText = el.value;
   el.value = mText.slice(0,mStart) + mStr + mText.slice(mEnd);
   el.selectionStart = el.selectionEnd = mEnd + mStr.length;
   el.focus();
 }
 function TAInsertDocLen(el){
   // 20240427: P4
-  var elTA = TAGet(el);
-  var mHead = document.head.outerHTML.length;
-  var mBody = document.body.outerHTML.length;
+  let elTA = TAGet(el);
+  let mHead = document.head.outerHTML.length;
+  let mBody = document.body.outerHTML.length;
   try{
-    var mArchive = document.querySelector('archives').outerHTML.length;
+    let mArchive = document.querySelector('archives').outerHTML.length;
   }catch(e){
     mArchive = 0;
   }
-  var mHTML = DTSNow() + "|Head:"+ mHead + " Body:"+mBody + " Archive:" + mArchive + "\n";
+  let mHTML = DTSNow() + "|Head:"+ mHead + " Body:"+mBody + " Archive:" + mArchive + "\n";
   TAInsert(elTA,mHTML);
 }
 function TAInsertDTS(el){
   // 20240423: P4  
-  var elTA = TAGet(el);
+  let elTA = TAGet(el);
   TAInsert(elTA,DTSNow());
 }
 function TAInsertMsg(el){
@@ -10459,17 +10466,17 @@ function TAInsertMsg(el){
   // Use the selected speaker and icon at the NodeMaker widget.
   // If the clipboard has an URL, use it as an url in the message.
   // STEP: Locate the footer:
-  var mSPK = "";  var mIcon = "";
+  let mSPK = "";  let mIcon = "";
   try{
-    var elWidget = document.querySelector(".footer div[widget='20240416213800']");
-    var elIcon = elWidget.querySelector("input[nm-icon]");
+    let elWidget = document.querySelector(".footer div[widget='20240416213800']");
+    let elIcon = elWidget.querySelector("input[nm-icon]");
     mIcon = Default(elIcon.value,"📌");
-    var mSPK2 = elWidget.querySelector("div.mbav50trg");
-    var mSPKs = mSPK2.outerHTML.split(" ");
+    let mSPK2 = elWidget.querySelector("div.mbav50trg");
+    let mSPKs = mSPK2.outerHTML.split(" ");
     mSPK = mSPKs[1].slice(9);
   }catch{}
   navigator.clipboard.readText().then((mCBText)=>{
-    var mHTML = "<msg DTS=\"" + DTSNow() + "\" SPK=\"" + mSPK +"\" EXP Icon=\"" + mIcon +"\">";
+    let mHTML = "<msg DTS=\"" + DTSNow() + "\" SPK=\"" + mSPK +"\" EXP Icon=\"" + mIcon +"\">";
     if(mCBText.slice(0,4)=="http"){
       mHTML += " <url>" + mCBText + "</url>";
     }
@@ -10481,7 +10488,7 @@ function TAInsertResource(el){
   // 20240806: StarTree
   // If the clipboard has an URL, use it for the src field.
   navigator.clipboard.readText().then((mCBText)=>{
-    var mHTML = "<res item=\""+DTC(DTSNow())+"\" title=\"Title\" tags=\"\"";
+    let mHTML = "<res item=\""+DTC(DTSNow())+"\" title=\"Title\" tags=\"\"";
     if(mCBText.slice(0,4)=="http"){
       mHTML += " src=\"" + mCBText + "\"";
     }
@@ -10493,16 +10500,16 @@ function TAInsertResource(el){
 function TAInsertURL(el){
   // 20240806: StarTree: Assumes that the clipboard has an URL.
   navigator.clipboard.readText().then((mCBText)=>{
-    var mHTML = "<url>" + mCBText + "</url>";
+    let mHTML = "<url>" + mCBText + "</url>";
     TAInsert(TAGet(el),mHTML);
   });
 }
 function TAReplace(el,mStr){
   // 20240423: LRRH
   mStr = String(mStr);
-  var mStart = el.selectionStart;
-  var mEnd = el.selectionEnd;
-  var mText = el.value;
+  let mStart = el.selectionStart;
+  let mEnd = el.selectionEnd;
+  let mText = el.value;
   el.value = mText.slice(0,mStart) + mStr + mText.slice(mEnd);
   el.selectionStart = mStart;
   el.selectionEnd = mStart + mStr.length;
@@ -10596,9 +10603,9 @@ function TallyEL(elSource,elDisplay){
 }
 function TallyBoard(elButton){
   // 20251111: StarTree: Tallies the scores of the current node and display it in a div with attribute "tallyboard"
-  var elBoard = SearchPS(elButton,'board');
+  let elBoard = SearchPS(elButton,'board');
 
-  var elDisplay = elBoard.querySelector('[tallyboard]');
+  let elDisplay = elBoard.querySelector('[tallyboard]');
   TallyEL(elBoard,elDisplay);
   if(NotBlank(elDisplay.innerHTML)){
     elDisplay.classList.add('mbNotes');    
@@ -10609,16 +10616,16 @@ function TallyBoard(elButton){
 }
 function TallyPSN(el){
   // 20251101: StarTree: Assume the display div is the next div, and the source to tally is the last div of control.
-  var elControl = SearchPS(el,'control')  
-  var elSource = elControl.nextElementSibling;
-  var elDisplay = elControl.lastElementChild;
+  let elControl = SearchPS(el,'control')  
+  let elSource = elControl.nextElementSibling;
+  let elDisplay = elControl.lastElementChild;
   TallyEL(elSource,elDisplay);
 }
 function TextAreaUseCookie(el){
   // 20240330: StarTree: Cookie TextArea
-  var elWidget = SearchPS(el,"Widget");
-  var elTextArea = elWidget.querySelector('[textarea]');
-  var bCookieEnabled = (elWidget.getAttribute('CookieEnabled')=="true");
+  let elWidget = SearchPS(el,"Widget");
+  let elTextArea = elWidget.querySelector('[textarea]');
+  let bCookieEnabled = (elWidget.getAttribute('CookieEnabled')=="true");
 
   // 20240804: StarTree: Check if the current area has NodeEdit content.
   if(NotBlank(elWidget.getAttribute("NodeEditID"))){
@@ -10643,7 +10650,7 @@ function TextAreaUseCookie(el){
 }
 function ToggleCheckMark(el){
   // 20250211: StarTree: Toggles an unsaved check box.
-  var mIcon = Default(el.getAttribute("icon"),"□")
+  let mIcon = Default(el.getAttribute("icon"),"□")
   if(el.innerHTML.search("✅")>-1){
     el.innerHTML = MacroIcons(null,mIcon);    
   }else{
@@ -10661,8 +10668,8 @@ function ToggleStar(el){
 function ToggleHeight(el,iDefault){
   // 20240827: James: Toggle the height between the default and the full height.
   iDefault = Default(iDefault,"263px");
-  var elControl = SearchPS(el,"control");
-  var elContainer = elControl.nextElementSibling;
+  let elControl = SearchPS(el,"control");
+  let elContainer = elControl.nextElementSibling;
   if(elContainer.style.overflowY=="auto"){
     elContainer.style.overflowY = "visible";
     elContainer.style.resize = "none";
@@ -10687,14 +10694,14 @@ function ToggleHide(el){
 }
 function ToggleNextPN(elThis){
   // 20230313: Ledia: For Scoreboard
-  var elTarget = elThis.parentNode.nextElementSibling;
-  var elSource = elThis.nextElementSibling;
+  let elTarget = elThis.parentNode.nextElementSibling;
+  let elSource = elThis.nextElementSibling;
   ToggleTS(elSource,elTarget)
 }
 function ToggleNextPP(elThis){
   // 20240728: StarTree
-  var elTarget = elThis.parentNode.previousElementSibling;
-  var elSource = elThis.nextElementSibling;
+  let elTarget = elThis.parentNode.previousElementSibling;
+  let elSource = elThis.nextElementSibling;
   ToggleTS(elSource,elTarget)
 }
 function ToggleTS(elSource,elTarget){
@@ -10711,79 +10718,79 @@ function ShowLCInline(el){
   ShowElInline(el.lastElementChild);
 }
 function ShowNextP2N(elThis){
-  var elTarget = elThis.parentNode.parentNode;
+  let elTarget = elThis.parentNode.parentNode;
   elTarget = elTarget.nextElementSibling;
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   elTarget.innerHTML = elNext.innerHTML;
   elTarget.style.display= "block";
   elTarget.setAttribute("mQueryString", "");
 }
 function ShowNextP2NIL(elThis){
-  var elTarget = elThis.parentNode.parentNode;
+  let elTarget = elThis.parentNode.parentNode;
   elTarget = elTarget.nextElementSibling;
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   elTarget.innerHTML = elNext.innerHTML;
   elTarget.style.display= "inline";
   elTarget.setAttribute("mQueryString", "");
 }
 function ShowNextP2NH(elThis){
-  var elTarget = elThis.parentNode.parentNode;
+  let elTarget = elThis.parentNode.parentNode;
   HideOnPhone(elTarget);
   elTarget = elTarget.nextElementSibling;
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   elTarget.innerHTML = elNext.innerHTML;
   elTarget.style.display= "block";
   elTarget.setAttribute("mQueryString", "");
 }
 function ShowNextP3N(elThis){
-  var elTarget = elThis.parentNode.parentNode.parentNode;
+  let elTarget = elThis.parentNode.parentNode.parentNode;
   elTarget = elTarget.nextElementSibling;
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   elTarget.innerHTML = elNext.innerHTML;
   elTarget.style.display= "block";
   elTarget.setAttribute("mQueryString", "");
 }
 function ShowNextP3NIL(elThis){
-  var elTarget = elThis.parentNode.parentNode.parentNode;
+  let elTarget = elThis.parentNode.parentNode.parentNode;
   elTarget = elTarget.nextElementSibling;
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   elTarget.innerHTML = elNext.innerHTML;
   elTarget.style.display= "inline";
   elTarget.setAttribute("mQueryString", "");
 }
 function ShowNextP3NH(elThis){
-  var elTarget = elThis.parentNode.parentNode.parentNode;
+  let elTarget = elThis.parentNode.parentNode.parentNode;
   HideOnPhone(elTarget);
   elTarget = elTarget.nextElementSibling;
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   elTarget.innerHTML = elNext.innerHTML;
   elTarget.style.display= "block";
   elTarget.setAttribute("mQueryString", "");
 }
 function ShowNextP3NHIL(elThis){
-  var elTarget = elThis.parentNode.parentNode.parentNode;
+  let elTarget = elThis.parentNode.parentNode.parentNode;
   HideOnPhone(elTarget);
   elTarget = elTarget.nextElementSibling;
-  var elNext = elThis.nextElementSibling;
+  let elNext = elThis.nextElementSibling;
   elTarget.innerHTML = elNext.innerHTML;
   elTarget.style.display= "inline";
   elTarget.setAttribute("mQueryString", "");
 }
 function ShowNextHT(el){
-  var eNext = el.nextElementSibling;
+  let eNext = el.nextElementSibling;
   el.style.display = "none";
   eNext.style.display = "block";
 }
 function ShowNextHTIL(el){
-  var eNext = el.nextElementSibling;
+  let eNext = el.nextElementSibling;
   el.style.display = "none";
   eNext.style.display = "inline-block";
 }
 function ShowEl(eTar,bNoMacro){
   //20230220: StarTree: Fixed the double click bug with getComputedStyle
   // 20240827: James: Check flex direction to fix the scroll bug.
-  var elFrame = SearchPS(eTar,"sortby");  
-  var mSH1, mST, mSH2, mDiff;
+  let elFrame = SearchPS(eTar,"sortby");  
+  let mSH1, mST, mSH2, mDiff;
   if(NotBlank(elFrame)){
     mSH1 = elFrame.scrollHeight;
     mST = elFrame.scrollTop    ;
@@ -10817,8 +10824,8 @@ function ShowEl(eTar,bNoMacro){
 }
 function ShowElInline(eTar){
   // 20240827: James: Check flex direction to fix the scroll bug.
-  var elFrame = SearchPS(eTar,"sortby");  
-  var mSH1, mST, mSH2, mDiff;
+  let elFrame = SearchPS(eTar,"sortby");  
+  let mSH1, mST, mSH2, mDiff;
   if(NotBlank(elFrame)){
     mSH1 = elFrame.scrollHeight;
     mST = elFrame.scrollTop    ;
@@ -10847,35 +10854,35 @@ function ShowElInline(eTar){
   }
 }
 function ShowPLInline(el){
-  var eTar = el.parentNode.lastElementChild;
+  let eTar = el.parentNode.lastElementChild;
   ShowElInline(eTar);
   
 }
 function ShowPL(el){
-  var eTar = el.parentNode.lastElementChild;
+  let eTar = el.parentNode.lastElementChild;
   ShowEl(eTar);
 }
 function ShowPrev(el){
-  var ePrev = el.previousElementSibling;
+  let ePrev = el.previousElementSibling;
   ShowEl(ePrev);
 }
 function ShowPrevHT(el){
-  var ePrev = el.previousElementSibling;
+  let ePrev = el.previousElementSibling;
   el.style.display = "none";
   ePrev.style.display = "block";
 }
 function ShowPrevHTIL(el){
-  var ePrev = el.previousElementSibling;
+  let ePrev = el.previousElementSibling;
   el.style.display = "none";
   ePrev.style.display = "inline-block";
 }
 function ShowTargetHT(el,elTargetID){
-  var eTarget = document.getElementById(elTargetID);
+  let eTarget = document.getElementById(elTargetID);
   el.style.display = "none";
   eTarget.style.display = "block";
 }
 function ShowSkip(el) {
-  var eNext = el.nextElementSibling.nextElementSibling;
+  let eNext = el.nextElementSibling.nextElementSibling;
   if (eNext.style.display != "block") {
       Macro(eNext);
       eNext.style.display = "block";
@@ -10900,7 +10907,7 @@ function ShowBothInline(el){
   // 20230225: StarTree: No need to hide the previous for consistency
   // 20231224: StarTree: Also hide the last child of a board, which is the display area for discussion.
   ShowNextInline(el);
-  var mBoard = SearchPS(el,'board');
+  let mBoard = SearchPS(el,'board');
   // 20240909: StarTree: It is not cear what the following is for. Disabled it for profile node display.
   //ShowEl(mBoard.lastElementChild.previousElementSibling.lastElementChild,true);
 }
@@ -10908,11 +10915,11 @@ function ShowPrep(el){
   // 20230226: StarTree: Created for Side Listing layout.
   //           If the current next element is visible, show the next next element.
   // 20230307: StarTree: Search for the child of class "mbPrep" and swap its content with the next2 sibling.
-  var elNext = el.nextElementSibling;
-  var elPrep = elNext.getElementsByClassName("mbPrep");
+  let elNext = el.nextElementSibling;
+  let elPrep = elNext.getElementsByClassName("mbPrep");
 
   
-  var elNext2 = elNext.nextElementSibling; 
+  let elNext2 = elNext.nextElementSibling; 
   if(window.getComputedStyle(elNext).display === "none"){
     elNext2.classList.add("mbhide");
     elPrep[0].innerHTML = elNext2.innerHTML;
@@ -10925,7 +10932,7 @@ function ShowPrep(el){
 
 function ShowNextInline(el) {
   //20230220: StarTree: Upgrade with getComputedStyle
-  var eTar = el.nextElementSibling;
+  let eTar = el.nextElementSibling;
   if(window.getComputedStyle(eTar).display === "none"){
     Macro(eTar);
     eTar.style.display = "inline";
@@ -10943,12 +10950,12 @@ function ShowNextInline(el) {
   }*/
 }
 function ShowNextInlineHT(el) {
-  var eNext = el.nextElementSibling;
+  let eNext = el.nextElementSibling;
   eNext.style.display = "inline";
   el.style.display = "none";
 }
 function ShowTarget(elTargetID) {
-  var eTarget = document.getElementById(elTargetID);
+  let eTarget = document.getElementById(elTargetID);
   if (eTarget.style.display != "block") {
       eTarget.style.display = "block";
   } else {
@@ -10956,12 +10963,12 @@ function ShowTarget(elTargetID) {
   }
 }
 function ShowTargetF(elTargetID) {
-  var eTarget = document.getElementById(elTargetID);
+  let eTarget = document.getElementById(elTargetID);
   eTarget.style.display = "block";
 }
 function ShowTargetCB(elTargetID,elThis) {
   /* For Board Calendar */
-  var eTarget = document.getElementById(elTargetID);
+  let eTarget = document.getElementById(elTargetID);
   if (eTarget.style.display != "block") {
       eTarget.style.display = "block";
 	  elThis.style.backgroundColor = "lemonchiffon";
@@ -10971,7 +10978,7 @@ function ShowTargetCB(elTargetID,elThis) {
   }
 }
 function ShowTargetIB(elTargetID) {
-  var eTarget = document.getElementById(elTargetID);
+  let eTarget = document.getElementById(elTargetID);
   if (eTarget.style.display != "inline-block") {
       eTarget.style.display = "inline-block";
   } else {
@@ -10979,7 +10986,7 @@ function ShowTargetIB(elTargetID) {
   }
 }
 function ShowRefMB26(elRefID, elThis) {
-  var elRef = document.getElementById(elRefID);
+  let elRef = document.getElementById(elRefID);
   elNext = elThis.nextElementSibling;
   if(elNext.innerHTML != ""){
     elNext.innerHTML = "";
@@ -10992,8 +10999,8 @@ function ShowRefMB26(elRefID, elThis) {
   }
 }
 function ShowTextInWnd(elSourceID,elTargetID) {
-  var eSource = document.getElementById(elSourceID);
-  var eTarget = document.getElementById(elTargetID);
+  let eSource = document.getElementById(elSourceID);
+  let eTarget = document.getElementById(elTargetID);
   ShowTextInWndEL(eSource,eTarget);
 }
 function ShowTextInWndEL(eSource,eTarget) {
@@ -11013,14 +11020,14 @@ function ShowTextInWndEL(eSource,eTarget) {
   }
 }
 function ShowTextNext(elThis,elSourceID) {
-  var eTarget = elThis.nextElementSibling;
-  var eSource = document.getElementById(elSourceID);
+  let eTarget = elThis.nextElementSibling;
+  let eSource = document.getElementById(elSourceID);
   ShowTextInWndEL(eSource,eTarget)
 }
 function ShowAnswerMB24(elSourceID,elThis) {
   /* For MB24 Ask a Paladin */
-  var eSource = document.getElementById(elSourceID);
-  var eTarget = elThis.nextElementSibling;
+  let eSource = document.getElementById(elSourceID);
+  let eTarget = elThis.nextElementSibling;
   if(eSource.style.backgroundColor == "lemonchiffon"){
 	eSource.style.backgroundColor = "";  
     eTarget.innerHTML = "";
@@ -11043,9 +11050,9 @@ function TextFilter(iScope,iKeyword,iDOMType,bKeepHidden,bHide=false){
   // 20230307: StarTree: made the search only collapse div where its parent has the class mbSearch.
   // 20250526: Patricia: Added bKeepHidden to not show an entry that is already hidden.
   // 20260514: Lei: Adding the bHide argument to flip the search logic.
-  var els = iScope.getElementsByTagName(iDOMType);
+  let els = iScope.getElementsByTagName(iDOMType);
   for (i=0;i<els.length;i++){
-    var el = els[i];
+    let el = els[i];
     if(el.parentNode.classList.contains("mbSearch")){
       if(el.hasAttribute("show")){
         // This is for always showing the spacer.
@@ -11062,13 +11069,13 @@ function TextFilter(iScope,iKeyword,iDOMType,bKeepHidden,bHide=false){
   }
 }
 function AddElement(el,iType,iHTML){
-  var elTemp = document.createElement(iType);
+  let elTemp = document.createElement(iType);
   elTemp.innerHTML = iHTML;
   el.after(elTemp);
   return elTemp;
 }
 function AddElementFC(el,iType,iHTML){ // Add as a first child
-  var elTemp = document.createElement(iType);
+  let elTemp = document.createElement(iType);
   elTemp.innerHTML = iHTML;
   el.prepend(elTemp);
   return elTemp;
@@ -11076,22 +11083,22 @@ function AddElementFC(el,iType,iHTML){ // Add as a first child
 
 function TextQSL(elButton){
   // 20240401: StarTree: Run QSL with the text in the first input box in the control.
-  var elControl = SearchPS(elButton,'control');
-  var elInput = elControl.querySelector('input');
+  let elControl = SearchPS(elButton,'control');
+  let elInput = elControl.querySelector('input');
   // 20240410: StarTree: Changed implementation to do a general text search.
   QSL(elButton,"[id][date][time]:contains(" + elInput.value +")");
   return;
 }
 function TextQSLTag(elButton){
   // 20240401: StarTree: Run QSL with the text in the first input box in the control.
-  var elControl = SearchPS(elButton,'control');
-  var elInput = elControl.querySelector('input');
-  var mQuery = "[data-" + elInput.value + "]";
+  let elControl = SearchPS(elButton,'control');
+  let elInput = elControl.querySelector('input');
+  let mQuery = "[data-" + elInput.value + "]";
   QSL(elButton,mQuery);
 }
 function TextSearchPN(elSearchBox){  
-  var mKeyword = elSearchBox.value.toUpperCase().trim();
-  var mScope = elSearchBox.parentNode.nextElementSibling;
+  let mKeyword = elSearchBox.value.toUpperCase().trim();
+  let mScope = elSearchBox.parentNode.nextElementSibling;
   if(mKeyword==""){
     TextSearchEL(mScope,mKeyword,false);
   }else{
@@ -11107,7 +11114,7 @@ function TextSearchPS(elSearchBox,iKeyword,bKeepHidden, bHide){
   } else{
     iKeyword = iKeyword.toUpperCase();
   }
-  var mScope = SearchPS(elSearchBox,'control').nextElementSibling;
+  let mScope = SearchPS(elSearchBox,'control').nextElementSibling;
   TextSearchEL(mScope,iKeyword,bKeepHidden, bHide);
   QSLShowTag(mScope);
   SearchRecount(elSearchBox);
@@ -11119,8 +11126,8 @@ function TextSearchPNEV(e,elSearchBox){
     TextQSL(elSearchBox);
     return;
   }
-  var mKeyword = elSearchBox.value.toUpperCase().trim();
-  var mScope = elSearchBox.parentNode.nextElementSibling;
+  let mKeyword = elSearchBox.value.toUpperCase().trim();
+  let mScope = elSearchBox.parentNode.nextElementSibling;
   TextFilter(mScope,mKeyword,"div");
   TextFilter(mScope,mKeyword,"mbNote");
   TextFilter(mScope,mKeyword,"li");
@@ -11132,7 +11139,7 @@ function TextSearchEL(mScope,mKeyword,bKeepHidden, bHide){
   TextFilter(mScope,mKeyword,"li",bKeepHidden, bHide);
 }
 function ToggleNext(el) {
-  var eNext = el.nextElementSibling;
+  let eNext = el.nextElementSibling;
   if (eNext.style.display != "") {
       eNext.style.display = "";
   } else {
@@ -11191,10 +11198,10 @@ function getRandomInt(min, max, bTop) {
 }
 function JSONCheckPP(el){
   // 20230313: Arcacia: For Whose turn to pay
-  var elSource = el.parentNode.previousElementSibling;
-  var elReport = el.nextElementSibling;
+  let elSource = el.parentNode.previousElementSibling;
+  let elReport = el.nextElementSibling;
   try{
-    var mJSON = JSON.parse(elSource.value);
+    let mJSON = JSON.parse(elSource.value);
   }catch(e){
     elReport.innerHTML = "🚨 " + e.message;
     return;

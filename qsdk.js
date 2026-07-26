@@ -343,6 +343,20 @@ function EntryGeoMarkHTML(entry) {
     </svg>
   </button>`;
 }
+function EntryLike(e, elBtn) {
+  // 20260725: Zoey: Logs a quick like of the entry.
+  QuickLog(e,elBtn,true);
+}
+function EntryLikeButtonHTML(entry) {
+  // 20260725: Zoey: Creates a like button
+  let mLiked = LikedAlready(entry)? " liked" : "";
+  
+  const html = `<button class="like btn${mLiked}" title="Like" onclick="EntryLike(event,this)">
+    <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+  <path stroke="currentColor" stroke-width="3" fill="none" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+</svg></button>`;
+  return html;
+}
 function EntryListComments(questId, btn) {
   // 20260702: StarTree: This is run from an entry to list the comments of that entry in that entry. Gather the commetnts and put them 
   const logItem = btn.closest('.log-item');
@@ -771,7 +785,7 @@ function FormSetQuest(questId, btn) {
       activeEntry = null;
       document.getElementById('questId').value = "";
     }
-  }  
+  }
   reAPI.innerText = "";
   reTitle.innerText = "";
   reTitle.closest('.form-row').classList.add("hidden");
@@ -781,6 +795,22 @@ function isISOZTimestamp(s) {
   return typeof s === 'string'
     && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/.test(s)
     && !Number.isNaN(Date.parse(s));
+}
+function LikedAlready(entry,bExplain){
+  // 20260725: Sylvia: Given an entry, return true if the client has already liked it.
+  const clientBD = localStorage.getItem("clientBD");
+  // A clicent cannot see the clientBD of the other entries. So just use the name.
+  const mName = document.getElementById('MsgFormQuester').value;
+  const entryID = entry.dataset.timestamp;
+  const mMatch = document.querySelector(`.log-item.tag-like[data-quest-id='${entryID}'][data-quester='${mName}']`);
+  if(!mMatch){return false;}
+  if(mMatch){
+    if(bExplain){
+      confirm(`${mName} has liked this already.`);
+    }
+    return true;
+  }
+  return false;
 }
 function ListSolo(id) {
   // 20260706: Sasha: Show a specific entry given the id.
@@ -829,6 +859,59 @@ function MEMValue(elID, bLoad) {
     localStorage.setItem(elID, elControl.value);
   }
 }
+function PanelClose(elBtn) {
+  elBtn.closest('.panel')?.remove();
+}
+function PanelSpawn(elBtn) {
+  // 20260725: Ivy: Spawn a blank panel.
+  let elThisPanel = elBtn.closest('.panel');
+  // Add a blank <div class="panel"> before elThis.  
+  let elNewPanel = document.createElement('div');
+  elNewPanel.className = 'panel';
+  if (elThisPanel && elThisPanel.parentNode) {
+    elThisPanel.parentNode.insertBefore(elNewPanel, elThisPanel);
+  } else {
+    // Fallback: append to body if no panel found
+    document.body.appendChild(elNewPanel);
+  }
+  // Header div that holds the close button + title
+  let elHeader = document.createElement('div');
+  elHeader.className = 'panel-header';
+  elNewPanel.appendChild(elHeader);
+
+  // Float right button with class "close btn" that has onclick="PanelClose(this)"
+  let elCloseBtn = document.createElement('button');
+  elCloseBtn.type = 'button';
+  elCloseBtn.className = 'close right btn';
+  elCloseBtn.setAttribute('onclick', 'PanelClose(this)');
+  elCloseBtn.textContent = '×'; // or "Close"
+  elHeader.appendChild(elCloseBtn);
+
+  // <h3> title of Iframe
+  let elTitle = document.createElement('h3');
+  elTitle.textContent = 'Iframe';
+  elHeader.appendChild(elTitle);
+
+  // After header div, place the iframe
+  let elIframe = document.createElement('iframe');
+  elIframe.loading = 'lazy';
+  elIframe.setAttribute('frameborder', '0');
+  elIframe.style.width = '100%';
+  elIframe.style.height = 'calc(100vh - 30px)'; // fallback until we measure
+  elNewPanel.appendChild(elIframe);
+
+  // Get the link from clipboard and make an iframe of that link in the panel.
+  navigator.clipboard.readText().then((clipText) => {
+    const link = (clipText || '').trim();
+    elIframe.src = link;
+  }).catch(() => {
+    // If clipboard access fails, show a placeholder
+    let elErr = document.createElement('p');
+    elErr.textContent = 'Paste a link into clipboard to load the iframe.';
+    // Insert error right before iframe
+    elNewPanel.insertBefore(elErr, elIframe);
+  });
+}
 function parseQidToUTC(qid) {
   if (qid == null) return null;
   const s = String(qid).trim();
@@ -875,14 +958,26 @@ function parseQidToUTC(qid) {
     date: d
   };
 }
-async function QuickLog(e, elBtn) {
+async function QuickLog(e, elBtn,bLike) {
   e.stopPropagation();
   if (elBtn.classList.contains('sending')) { return; }
   elBtn.classList.add('sending');
   const entry = elBtn.closest('.log-item');
+  if(bLike){
+    //if(elBtn.classList.contains('liked')){return;}
+    elBtn.classList.add('liked');    
+    if(await LikedAlready(entry,true)){
+      elBtn.classList.remove('sending');
+      return;
+    }
+  }
   const scope = EntryScope(entry).toLocaleLowerCase();
+  let mTags = entry.querySelector('.entry-title').textContent + "quick log";
+  if(bLike){
+    mTags = "like";
+  }
 
-  var api = "";
+  let api = "";
   if (scope === "public") { api = QuestSDK.archives.public.api; }
   if (scope === "guild") { api = QuestSDK.archives.guild.api; }
   if (scope === "personal") { api = QuestSDK.archives.personal.api; }
@@ -894,8 +989,7 @@ async function QuickLog(e, elBtn) {
   const formData = new URLSearchParams();
   formData.append('submitterId', document.getElementById('MsgFormQuester').value.trim());
   formData.append('questId', entry.dataset.timestamp);
-  formData.append('tags', entry.querySelector('.entry-title').textContent + " quick log");
-  //formData.append('eventText', entry.querySelector('.entry-title').textContent + " quick log");
+  formData.append('tags', mTags);
   formData.append('cId', QuestSDK.BDtoQSID(localStorage.getItem("clientBD")));
   formData.append('cLv', localStorage.getItem("clientLV"));
 
@@ -908,11 +1002,14 @@ async function QuickLog(e, elBtn) {
   } catch (error) {
     elBtn.classList.add('error');
   } finally {
-    const starCounter = elBtn.querySelector('.starCount');
-    var count = Number(starCounter.textContent);
-    count++;
-    elBtn.dataset.count = count;
-    starCounter.textContent = count;
+    let count =0;
+    if(!bLike){
+      const starCounter = elBtn.querySelector('.starCount');
+      count = Number(starCounter.textContent);
+      count++;
+      elBtn.dataset.count = count;
+      starCounter.textContent = count;
+    }
     elBtn.classList.remove('error');
     elBtn.classList.remove('sending');
     elBtn.classList.add('done');
