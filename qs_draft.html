@@ -1148,7 +1148,7 @@
                             UTC
                         </button>
                         <button class="text btn edit" type="button" title="Toggle Edit Mode"
-                            onclick="Mode.edit = !Mode.edit;body.classList.toggle('edit',Mode.edit)">EDIT</button>
+                            onclick="Mode.Toggle('edit')">EDIT</button>
                         <button class="text btn" type="button" title="Spawn iframe panel"
                             onclick="PanelSpawn(this)">PNL</button>
                     </div>
@@ -2341,6 +2341,7 @@
                         html += EntryParentButton(item);
                         html += htmlTags
                         html += `<div class="entry-text">${item.eventText} ${EntryURL(item)}</div>`;
+                        html += EntrySortButtonHTML();
                         html += `<span class="entry-childTags"></span>`;
                         html += `<div class="commentsSection hidden" style="clear:both; margin:5px -5px -5px -5px;"></div>`;
 

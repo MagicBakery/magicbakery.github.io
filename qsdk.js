@@ -48,8 +48,14 @@ const Mode = (() => {
   return {
     get edit() { return edit; },
     set edit(value) { edit = Boolean(value); },
+
+    Toggle(iMode) {
+      this[iMode] = !this[iMode];
+      document.body.classList.toggle(iMode, this[iMode]);
+    }
   };
-})
+
+})();
 const QuestSDK = {
   // 1. Initialize the SDK with the user's specific configuration
   init(config) {
@@ -343,14 +349,30 @@ function EntryGeoMarkHTML(entry) {
     </svg>
   </button>`;
 }
+function EntryGetLikes(entry) {
+  // 20260726: Ledia: Returns the number of likes
+  let tagLikes = entry.querySelector(`.tag[data-tag='like']`);
+  if (!tagLikes) { return 0; }
+  return tagLikes.dataset.count;
+}
+function EntryGetTimestamp(entry) {
+  // 20260726: Ledia: Returns the timestamp.
+  return entry.dataset.timestamp;
+}
+function EntryGetTitle(entry) {
+  // 20260726: Ledia: Returns the title of a entry displayed in DOM.
+  let mTitle = entry.querySelector('.entry-title');
+  if (!mTitle) { return "" };
+  return mTitle.textContent;
+}
 function EntryLike(e, elBtn) {
   // 20260725: Zoey: Logs a quick like of the entry.
-  QuickLog(e,elBtn,true);
+  QuickLog(e, elBtn, true);
 }
 function EntryLikeButtonHTML(entry) {
   // 20260725: Zoey: Creates a like button
-  let mLiked = LikedAlready(entry)? " liked" : "";
-  
+  let mLiked = LikedAlready(entry) ? " liked" : "";
+
   const html = `<button class="like btn${mLiked}" title="Like" onclick="EntryLike(event,this)">
     <svg width="12" height="12" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
   <path stroke="currentColor" stroke-width="3" fill="none" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -537,12 +559,12 @@ function EntryStandardButtons(entry) {
             fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
       <path d="M5.2 6h5.6M5.2 8.2h3.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
     </svg></button>`;
-  var commentBtnHTML = `<button class="btn comment-add" title="Add a Comment" onclick="FormSetQuest('${entry.timestamp}',this)">
+  var commentBtnHTML = `<button class="btn comment-add" title="Add a Comment" onclick="FormSetQuest('${entry.timestamp}',this)" ondblclick="Mode.Toggle('edit')">
       <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
       <path d="M3.5 8h9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
       <path d="M8 3.5v9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </svg></button>`;
-  var addCommentBtnHTML = `<button class="btn comment-add" title="Add a Comment" onclick="FormSetQuest('${entry.timestamp}',this)">
+  var addCommentBtnHTML = `<button class="btn comment-add" title="Add a Comment" onclick="FormSetQuest('${entry.timestamp}',this)" ondblclick="Mode.Toggle('edit')">
 <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
       <path d="M2.8 2.8h10.4c.55 0 1 .45 1 1v6.3c0 .55-.45 1-1 1H7.1L4 13.7V11.1H2.8c-.55 0-1-.45-1-1V3.8c0-.55.45-1 1-1z"
             fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
@@ -552,6 +574,12 @@ function EntryStandardButtons(entry) {
 </button>`;
   // return showBtnHTML + commentBtnHTML;
   return addCommentBtnHTML;
+}
+function EntrySortButtonHTML() {
+  // 20260726: LRRH: Add a sort button   
+  const html = `<button class="sort btn right" title="Sort" onclick="SortChildren(this)">
+      ${SVGSortAlpha()}</button>`;
+  return html;
 }
 function EntryStatus(entry) {
   // 20260702: Fina: Returns the html code for displaying the status.
@@ -625,8 +653,6 @@ function EntryThumbnail(item, iClass, iDOM) {
   if (item) {
     imageUrl = item.img || item.IMG || "";
   } else if (iDOM) {
-    //const imgItem = iDOM.querySelector(`img.${iClass}`);
-    //DEBUG(imgItem);
     imageUrl = iDOM.querySelector(`img`)?.src || "";
 
   }
@@ -796,16 +822,16 @@ function isISOZTimestamp(s) {
     && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$/.test(s)
     && !Number.isNaN(Date.parse(s));
 }
-function LikedAlready(entry,bExplain){
+function LikedAlready(entry, bExplain) {
   // 20260725: Sylvia: Given an entry, return true if the client has already liked it.
   const clientBD = localStorage.getItem("clientBD");
-  // A clicent cannot see the clientBD of the other entries. So just use the name.
+  // A client cannot see the clientBD of the other entries. So just use the name.
   const mName = document.getElementById('MsgFormQuester').value;
   const entryID = entry.dataset.timestamp;
   const mMatch = document.querySelector(`.log-item.tag-like[data-quest-id='${entryID}'][data-quester='${mName}']`);
-  if(!mMatch){return false;}
-  if(mMatch){
-    if(bExplain){
+  if (!mMatch) { return false; }
+  if (mMatch) {
+    if (bExplain) {
       confirm(`${mName} has liked this already.`);
     }
     return true;
@@ -958,22 +984,22 @@ function parseQidToUTC(qid) {
     date: d
   };
 }
-async function QuickLog(e, elBtn,bLike) {
+async function QuickLog(e, elBtn, bLike) {
   e.stopPropagation();
   if (elBtn.classList.contains('sending')) { return; }
   elBtn.classList.add('sending');
   const entry = elBtn.closest('.log-item');
-  if(bLike){
+  if (bLike) {
     //if(elBtn.classList.contains('liked')){return;}
-    elBtn.classList.add('liked');    
-    if(await LikedAlready(entry,true)){
+    elBtn.classList.add('liked');
+    if (await LikedAlready(entry, true)) {
       elBtn.classList.remove('sending');
       return;
     }
   }
   const scope = EntryScope(entry).toLocaleLowerCase();
   let mTags = entry.querySelector('.entry-title').textContent + "quick log";
-  if(bLike){
+  if (bLike) {
     mTags = "like";
   }
 
@@ -1002,8 +1028,8 @@ async function QuickLog(e, elBtn,bLike) {
   } catch (error) {
     elBtn.classList.add('error');
   } finally {
-    let count =0;
-    if(!bLike){
+    let count = 0;
+    if (!bLike) {
       const starCounter = elBtn.querySelector('.starCount');
       count = Number(starCounter.textContent);
       count++;
@@ -1015,32 +1041,109 @@ async function QuickLog(e, elBtn,bLike) {
     elBtn.classList.add('done');
   }
 }
-function URLGuessDomain(url) {
-  const host = (() => {
-    try { return new URL(url).hostname; } catch { return String(url); }
-  })();
-  const h = host.replace(/^www\./i, '').toLowerCase();
-  // remove common TLDs (kept simple)
-  return h.replace(/\.(com|net|org|io|co|edu|gov|uk|us|ca|de|fr|au|in|info|biz|app|dev|ai)\s*$/i, '');
-}
-function URLLabel(url, index) {
-  var label = URLGuessDomain(url);
-  if (label) {
-    return `[${index + 1}:${label}]`;
-  }
-  return `[${index + 1}]`;
-}
-function URLTrim(iURL) {
-  // 20260706: StarTree: Trim the ? tail off an URL
-  if (iURL) { return iURL.split("?")[0]; }
-  // If iURL is blank, use the content from clipboard.
-  navigator.clipboard.readText().then((iURL) => {
-    if (iURL) {
-      iURL = URLTrim(iURL);
-      navigator.clipboard.writeText(iURL);
-      return iURL;
+function SortChildren(elBtn) {
+  // 20260726: StarTree: Sort the children based on the title of the button, and cycle to the next mode.
+  // Modes: 1:Alphabetical | 2:Likes | 3:Newest
+  const logItem = elBtn.closest?.('.log-item');
+  if (!logItem) return;
+  const commentsSection = logItem.querySelector?.('.commentsSection');
+  if (!commentsSection) return;
+  const currentMode = Number(elBtn.dataset?.sortMode || 1);
+  const nextMode = (currentMode % 3) + 1;
+  elBtn.dataset.sortMode = String(nextMode);
+
+  const entries = Array.from(commentsSection.querySelectorAll(':scope > .log-item'));
+
+  // Helper to normalize possibly string values
+  const toNum = (v) => {
+    const n = typeof v === 'number' ? v : Number(v);
+    return Number.isFinite(n) ? n : 0;
+  };
+
+  // Compare functions per mode
+  const cmp = (() => {
+    if (nextMode === 1) {
+      elBtn.innerHTML = SVGSortAlpha();
+      // Alphabetical
+      return (a, b) => {
+        const ta = (EntryGetTitle?.(a) ?? '').toString().trim().toLowerCase();
+        const tb = (EntryGetTitle?.(b) ?? '').toString().trim().toLowerCase();
+        return ta.localeCompare(tb);
+      };
     }
-  });
+
+    if (nextMode === 2) {
+      // Likes (desc)
+      elBtn.innerHTML = SVGSortHeart();
+
+      return (a, b) => {
+        const la = toNum(EntryGetLikes?.(a));
+        const lb = toNum(EntryGetLikes?.(b));
+        // tie-breaker: title asc
+        if (lb !== la) return lb - la;
+        const ta = (EntryGetTitle?.(a) ?? '').toString().trim().toLowerCase();
+        const tb = (EntryGetTitle?.(b) ?? '').toString().trim().toLowerCase();
+        return ta.localeCompare(tb);
+      };
+    }
+
+    // nextMode === 3: Newest (desc by timestamp)
+    elBtn.innerHTML = SVGSortSun();
+    return (a, b) => {
+      const ta = (EntryGetTimestamp?.(a) ?? '').toString().trim().toLowerCase();
+      const tb = (EntryGetTimestamp?.(b) ?? '').toString().trim().toLowerCase();
+      return tb.localeCompare(ta);
+    };
+  })();
+
+  entries.sort(cmp);
+
+  // Re-append in sorted order
+  const frag = document.createDocumentFragment();
+  for (const node of entries) frag.appendChild(node);
+  commentsSection.appendChild(frag);
+}
+function SVGSortAlpha() {
+  /*<!-- up arrow -->
+    <path d="M12 5 L7 10" />
+    <path d="M12 5 L17 10" />*/
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  
+  <!-- A -->
+  <path d="M12 5 L18 18" />
+  <path d="M12 5 L6 18" />
+  <path d="M9.5 13 L14.5 13" />
+  <!-- down arrow -->
+  <path d="M12 23 L9 20" />
+  <path d="M12 23 L15 20" />
+</svg>`;
+}
+function SVGSortHeart() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- Heart with tip at y=18 -->
+  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" transform="scale(0.75) translate(4, 4)" />
+  <!-- Down arrow -->
+  <path d="M12 23 L9 20" />
+  <path d="M12 23 L15 20" />
+</svg>`;
+}
+function SVGSortSun() {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <!-- Sun -->
+  <circle cx="12" cy="12" r="4" />
+  <path d="M12 2v2" />
+  <path d="M12 20v2" />
+  <path d="M2 12h2" />
+  <path d="M20 12h2" />
+  <path d="M4.93 4.93l1.41 1.41" />
+  <path d="M17.66 17.66l1.41 1.41" />
+  <path d="M4.93 19.07l1.41 -1.41" />
+  <path d="M17.66 6.34l1.41 -1.41" />
+
+  <!-- Down arrow -->
+  <path d="M12 23 L9 20" />
+  <path d="M12 23 L15 20" />
+</svg>`;
 }
 function TEST() {
   navigator.clipboard.readText().then((YYYY) => {
@@ -1095,6 +1198,7 @@ function ToggleListComments(elBar, bShow) {
       type="button" 
       class="btn tag" 
       data-tag="${dataTag}" 
+      data-count="${count}"
       onclick="CommentsFilterByTag(this)"
     >${tagText} (${count})</button>
   `;
@@ -1136,6 +1240,33 @@ function ToggleTab(elID) {
     tab.classList.add('hidden');
   });
   elTab.classList.remove('hidden');
+}
+function URLGuessDomain(url) {
+  const host = (() => {
+    try { return new URL(url).hostname; } catch { return String(url); }
+  })();
+  const h = host.replace(/^www\./i, '').toLowerCase();
+  // remove common TLDs (kept simple)
+  return h.replace(/\.(com|net|org|io|co|edu|gov|uk|us|ca|de|fr|au|in|info|biz|app|dev|ai)\s*$/i, '');
+}
+function URLLabel(url, index) {
+  var label = URLGuessDomain(url);
+  if (label) {
+    return `[${index + 1}:${label}]`;
+  }
+  return `[${index + 1}]`;
+}
+function URLTrim(iURL) {
+  // 20260706: StarTree: Trim the ? tail off an URL
+  if (iURL) { return iURL.split("?")[0]; }
+  // If iURL is blank, use the content from clipboard.
+  navigator.clipboard.readText().then((iURL) => {
+    if (iURL) {
+      iURL = URLTrim(iURL);
+      navigator.clipboard.writeText(iURL);
+      return iURL;
+    }
+  });
 }
 // #HELPER FUNCTION
 function getTagClasses(el) {

@@ -38,7 +38,9 @@
 .btn.right {
   float: right;
 }
-
+.btn.right.sort{
+  text-align: right;
+}
 .btn.text {
   width: 32px;
   height: 23px;
