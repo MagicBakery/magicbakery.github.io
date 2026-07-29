@@ -35,9 +35,6 @@
 .btn.like.liked path{
   fill:currentColor;
 }
-.btn.right {
-  float: right;
-}
 .btn.right.sort{
   text-align: right;
 }
@@ -50,14 +47,13 @@
   color: #808080;
   padding: 0;
 }
-
-
 body.edit .btn.edit,
 body.edit .comment-add {
   color: gold !important;
 }
-
-
 .hidden {
   display: none !important;
+}
+.right {
+  float:right;
 }

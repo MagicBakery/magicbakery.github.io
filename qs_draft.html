@@ -1007,15 +1007,10 @@
 
     <div id="formSection" class="panel hidden"
         style="max-height: calc(100vh - 140px); overflow-y: auto; overflow-x: hidden; padding-right: 4px;">
-
-
         <form id="eventForm" onsubmit="submitEvent(event)" oninput="MEMForm()">
             <!--@@2-->
-
             <div style="display:flex; align-items:center;justify-content: space-between;">
-
                 <h3>Message</h3>
-
                 <div class="submit-wrapper">
                     <select id="apiDest" class="scope-selector draft" onchange="ScopeSelect(this)">
                         <option value="public">To Public</option>
@@ -1026,11 +1021,19 @@
                     <button type="submit" id="submitBtn" class="submit-btn">Send</button>
                 </div>
             </div>
+            <div class="form-row right">
+                <label class="checkbox-container"
+                    style="color: green;text-align: right;font-weight: normal; justify-content: right;align-items: center;padding:0px; margin:-7px 0px 0px 3px;">
+                    To admin only
+                    <input type="checkbox" id="chkToAdminOnly">
+                </label>
+            </div>
             <div class="form-row hidden">
                 <div onclick="ListShowReOnly()" style="color:gold;font-size:12px;margin:-7px 0px 0px 3px"><span id="MsgFormReAction">Re</span>: <span
                         id="MsgFormReAPI"></span>: <span id="MsgFormReTitle"></span></div>
-            </div>
-            <div class="form-row">
+                </div>
+                
+            <div class="form-row" style="clear:right">
                 <div class="form-group col-50">
                     <input style="font-size:12px;padding:8px" type="text" id="questId" placeholder="Parent ID">
                 </div>
@@ -2112,6 +2115,7 @@
             const startTime = frmTimer.dataset.startUtcMs0;
             const submitterId = document.getElementById('MsgFormQuester').value;
             const title = document.getElementById('MsgFormTitle').value;
+            const toAdmin = document.getElementById('chkToAdminOnly').checked;
             let eventText = document.getElementById('MsgFormText').value || ``;
 
             DEBUG(startTime + " " + duration + " " + endTime);
@@ -2141,6 +2145,7 @@
             formData.append('cId', clientBD);
             formData.append('cLv', clientLV);
             formData.append('title', title);
+            formData.append('toAdmin', toAdmin);
             if(Mode.edit){
                 formData.append('action','edit');
                 formData.append('timestamp',timestamp);
