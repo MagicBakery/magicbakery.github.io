@@ -2757,5 +2757,17 @@
     "s": 630.0,
     "x": -442.0,
     "y": 75.0
+  },
+  {
+    "n": "DUCK",
+    "t": [
+      "DUCK",
+      "[ACTOR]",
+      "[STARTER PACK]"
+    ],
+    "p": "20260802194900",
+    "u": "https://magicbakery.github.io/sprites/Duck_%7B20260802194900%7D.png",
+    "s": 800.0,
+    "y": 70.0
   }
 ]
