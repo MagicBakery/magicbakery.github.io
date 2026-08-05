@@ -2160,7 +2160,7 @@
             formData.append('cId', clientBD);
             formData.append('cLv', clientLV);
             formData.append('title', title);
-            formData.append('toAdmin', toAdmin);
+            if(toAdmin){formData.append('toAdmin', toAdmin)}            
             if(Mode.edit){
                 formData.append('action','edit');
                 formData.append('timestamp',timestamp);

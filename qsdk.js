@@ -1013,7 +1013,7 @@ async function QuickLog(e, elBtn, bLike) {
     }
   }
   const scope = EntryScope(entry).toLocaleLowerCase();
-  let mTags = entry.querySelector('.entry-title').textContent + "quick log";
+  let mTags = entry.querySelector('.entry-title').textContent + " quick log";
   if (bLike) {
     mTags = "like";
   }
