@@ -471,6 +471,21 @@ function EntryParentShow(elThis) {
   parent.classList.remove("hidden");
   parent.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+function EntryDone(entry){
+  // 20260804: StarTree: Returns true if the entry is "done"
+  // Always return false if it has a todo status.
+  const status = entry.querySelector(".entry-status");
+  if(status && status.textContent.toLowerCase() === "todo"){ return true;}  
+  // Always return false if it has a todo tag.
+  if(entry.classList.contains('tag-todo')){return false;}
+  // Return True if it has a done, log, or like tag.
+  if(entry.classList.contains('tag-done')){return true;}
+  if(entry.classList.contains('tag-like')){return true;}  
+  if(entry.classList.contains('tag-log')){return true;}
+  // Returns True if its status is "done"  
+  if(status && status.textContent.toLowerCase() === "done"){ return true;}
+  return false;
+}
 function EntryQuickLogBtnHTML(entry) {
   // 20260707: StarTree: Returns the HTML for a quick log button.
   // The quick log button appears only when the entry has the tags #quick and #quest.

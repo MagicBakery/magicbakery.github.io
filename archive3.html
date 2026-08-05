@@ -537,7 +537,7 @@
             <div class="mbbuttonc" onClick="HideNext(this)" title="Quests of the Month"><hr></div>
             <ol>
               <li><lnk>202604152147|Upgrade</lnk> 
-                <note dts="20260628203727" icon="□🍀" node="202606271049">
+                <note dts="20260628203727" icon="✅🍀" node="202606271049">
                     Quest Society App Upgrade
                 </note>
                 <note icon="□🔮">
@@ -625,14 +625,15 @@
                 </div><!--@Arena / Fina-->
                 <div class="mbCB">
                   <span class="mbRankNone" style="float:right;"><lnk>202309142125|:Checker:</lnk></span>
-                  <macro>{"guildlog":"0","rank":"C","updates":"1","node":"202208161957","author":"StarTree","chapter":"@Board","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"B","updates":"2","node":"202208161957","author":"StarTree","chapter":"@Board","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <lnk>202207242047|📋</lnk><span></span><button class="mbbutton" onclick="XP_Tally(this)">XP Tally</button><br>
                     <span class="mbListCapNC mbRankS"></span>
-                    <macro>{"log":"","priority":"9","icon":"🍀","node":"202606271049","title":"Gadgets Lab","info":"","cmd":"quest"}</macro>
+                    
                     <macro>{"log":"","priority":"9","icon":"📯","node":"202302261915","title":"Poster Quest","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🧭","node":"202301242209","title":"Ethics Quiz Mode","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
+                    <macro>{"log":"0804","priority":"9","icon":"🍀","node":"202606271049","title":"Gadgets Lab","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","icon":":Checker:","node":"202309142125","title":"Custom Icons","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🎭","node":"202512210026","title":"Theater Code","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
@@ -1008,7 +1009,7 @@
                 </div><!--@Puzzle / Mikela-->  
                 <div class="mbCB">
                   <span style="float:right"><lnk>202301242209|⚡</lnk></span>
-                  <macro>{"guildlog":"0","rank":"S","updates":"1","node":"202604152147","author":"Black","chapter":"@Quest","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"S","updates":"2","node":"202604152147","author":"Black","chapter":"@Quest","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">
                     <span class="mbListCapNC mbRankS"></span> 
                     <macro>{"log":"0801","priority":"2","icon":"⚖️","node":"202608012126","title":"Employment","info":"","cmd":"quest"}</macro> 
@@ -1023,6 +1024,7 @@
                     <macro>{"log":"","priority":"0","icon":"🎃","node":"202606212100","title":"Parking","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"3","icon":"🎪","node":"202208180954","title":"Quest Society","info":"Populate the Quest Society section explanations.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
+                    <macro>{"log":"0803","priority":"0","icon":"⚓","node":"202207131009","title":"Crew Progress","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"🎒","node":"202401201702","title":"Adventure Gear","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🦉","node":"202403231454","title":"Academy Quotes","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"0","icon":"🧀","node":"202209241553","title":"Failure Analysis","info":"","cmd":"quest"}</macro>
@@ -4990,7 +4992,7 @@
                 </div><!--@Vacation / Helen-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202301242209|⚡</lnk></span>
-                  <macro>{"guildlog":"0","rank":"S","updates":"3","node":"202208180954","author":"Black","chapter":"@Whale","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"S","updates":"4","node":"202208180954","author":"Black","chapter":"@Whale","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">
                     <span class="mbListCapNC mbRankS"></span> 
                     <macro>{"log":"0506","priority":"2","icon":"🏘️","node":"202307231022","title":"NextDoor Workflow","info":"1225 Insights: Viewers estimation.","cmd":"quest"}</macro> 
@@ -102697,10 +102699,33 @@ Potential legal/tax risks and mitigations: private‑benefit (mitigate with obje
         </note>
       </res>
       <res icon="💗" item="26TTHA4C" title="Forum" star="" tags="">
-        <msg DTS="20260726174431" SPK="Evelyn" EXP Icon="💗">The forum feature supports discussionions and sharing preferences.</msg>
+        <msg DTS="20260726174431" SPK="Evelyn" EXP Icon="💗">The forum feature supports discussions and sharing preferences.</msg>
         <hr>
         <note dts="20260726175404" icon="🕰️" subtitle="Log">
           
+        </note>
+        <note dts="20260804213424" icon="🌱" subtitle="Filter Presets">
+          <note dts="20260804214703" icon="📌" subtitle="1:Status">
+            [1] Tanya<br>
+            <msg DTS="20260804215021" SPK="Tanya" EXP Icon="🔮">Have a dropdown filter box specifically for status.</msg>
+          </note>
+          <note dts="20260804221211" icon="📌" subtitle="2:Not Done">
+            [2] Tanya, LRRH<br>
+            <msg DTS="20260804221226" SPK="Tanya" EXP Icon="🔮">What the filter is to show all entries that do not have a done status?</msg>
+            <msg DTS='20260804221418' SPK='StarTree' EXP=2 Icon='⭐'>Now adding a Not Done preset</msg>
+            <msg DTS="20260804223622" SPK="LRRH" EXP Icon="🐤">I like this better than the todo filter. But I want it to also show entries with no status text, and don't show entries with a done tag.</msg>
+            <msg DTS='20260804223737' SPK='StarTree' EXP=2 Icon='⭐'>Done!</msg>
+            <msg DTS="20260804225140" SPK="LRRH" EXP Icon="🐤">This is better but it should filter out more entries "intelligently." For example, it shouldn't show quick log entries.</msg>
+            <msg DTS='20260804223737' SPK='StarTree' EXP=5 Icon='⭐'>Done!</msg>
+          </note>
+          <note dts="20260804213455" icon="📌" subtitle="2:Todo">
+            [2] 3B, Black<br>
+            <msg DTS="20260804213900" SPK="3B" EXP Icon="🐤">I think there should be a Todo filter. It should show the entries with "Todo" in its status.</msg>
+            <msg DTS="20260804214014" SPK="3B" EXP Icon="🔮">This is different from "Quests" becauase quests can have many todo, but it is annoying when the user needs to click on each quest to see the specific todo.</msg>
+            <msg DTS="20260804214437" SPK="Black" EXP Icon="🔮">I think it will make it easier to find things to do.</msg>
+            <msg DTS="20260804214749" SPK="Tanya" EXP Icon="🔮">If we are doing that, the status should prefill with 'todo' so the user doesn't need to type that everytime.</msg>
+            <msg DTS="20260804215205" SPK="StarTree" EXP=4 Icon="⭐">Now adding a Status:Todo preset.</msg>
+          </note>
         </note>
         <note dts="20260726175430" icon="💗" subtitle="Like">
           <msg DTS="20260726175420" SPK="Sylvia" EXP Icon="🎻">The like count is already in the tag. </msg>
@@ -102715,6 +102740,7 @@ Potential legal/tax risks and mitigations: private‑benefit (mitigate with obje
           <msg DTS='20260726180224' SPK='LRRH' EXP=3 Icon='🐾'>Testing</msg>
           <msg DTS='20260726181015' SPK='Duck' EXP=5 Icon='🦆'>Support</msg>
         </note>
+
         <note dts="20260727220317" icon="💬" subtitle="Reply">
           <msg DTS='20260705205653' SPK='StarTree' EXP=24 Icon='🌱'>Bug fixes. Reset the destination to draft after each send. Quest filter bug. Gold highlight</msg>
           <msg DTS='20260705232126' SPK='Patricia' EXP=5 Icon='🔮'>Testing for the active highlight.</msg>

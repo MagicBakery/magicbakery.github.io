@@ -982,9 +982,11 @@
             <select id="messageBoardFilter" onchange="fetchFromCacheOnFirstStart();filterMessageBoard()">
                 <option value="SHOW ALL">All</option>
                 <option value="about">About</option>
+                <option value="todo">Todo</option>
                 <option value="quest">Quests</option>
                 <option value="sighting">Sightings</option>
                 <option value="selected">Selected</option>
+                <option value="notdone">Not Done</option>
                 <!--<option value="comment">Comments</option>-->
                 <option value="dismissed">Dismissed</option>
             </select>
@@ -1500,6 +1502,7 @@
 
         }
         function filterMessageBoard(iTag) {
+            // 20260804: StarTree: The input iTag is optional. If it exists, filter by tag.
             const filter = document.getElementById('messageBoardFilter').value;
             const ledger = document.querySelector('#ledgerOutput');
             const entries = document.querySelectorAll('.log-item');
@@ -1509,7 +1512,16 @@
             }
             entries.forEach(entry => {
 
-                if (filter === "SHOW ALL" && !iTag) {
+                if (iTag) {
+                    // Clicking on a tag does not reveal entries they are already filtered out. // What if it does?
+                    if (entry.querySelector('.tag.' + iTag) && (entry.classList.contains('dismissed') == (filter === "dismissed"))) {
+                        ledger.append(entry);
+                        entry.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        entry.classList.add('hidden');
+                    }
+                }else if (filter === "SHOW ALL") {
                     if (!entry.classList.contains('dismissed')) {
                         ledger.append(entry);
                         entry.classList.remove('hidden');
@@ -1517,14 +1529,18 @@
                     } else {
                         entry.classList.add('hidden');
                     }
-                } else if (filter === "dismissed" && !iTag) {
+                } else if (filter === "dismissed") {
                     if (entry.classList.contains('dismissed')) {
                         entry.classList.remove('hidden');
                         visibleCount++;
                     } else {
                         entry.classList.add('hidden');
                     }
-                } else if (filter === "selected" && !iTag) {
+                } else if (filter === "notdone"){
+                    const bShow = !EntryDone(entry);
+                    entry.classList.toggle('hidden',!bShow);
+                    visibleCount += bShow?1:0;                    
+                } else if (filter === "selected") {
                     if (entry.classList.contains('selected')) {
                         entry.classList.remove('hidden');
                         ledger.append(entry);
@@ -1533,13 +1549,12 @@
                     } else {
                         entry.classList.add('hidden');
                     }
-                } else if (iTag) {
-                    // Clicking on a tag does not reveal entries they are already filtered out. // What if it does?
-                    if (entry.querySelector('.tag.' + iTag) && (entry.classList.contains('dismissed') == (filter === "dismissed"))) {
-                        ledger.append(entry);
+                }else if(filter === "todo"){
+                    const status = entry.querySelector(".entry-status");
+                    if(status && status.textContent.toLowerCase() === "todo"){
                         entry.classList.remove('hidden');
                         visibleCount++;
-                    } else {
+                    }else{
                         entry.classList.add('hidden');
                     }
                 } else {
