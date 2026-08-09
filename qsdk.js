@@ -32,6 +32,7 @@ class Archive {
     if (this.result === null) {
       await this.Fetch(bCacheBust); // fetch once
     }
+    if(this.result==null){return null;}
     if (!Array.isArray(this.result.data)) return null;
     const first = this.result.data[0];
     return this.result.data.find(entry => entry?.timestamp === id) ?? null;
