@@ -301,7 +301,6 @@ function AuthorButton(elAuthor){
   if(elBanner.classList.contains("mbhide")){mState += 2;}
   if(elSidePanel.classList.contains("mbhide")){mState += 1;}
 
-  
   // On Desktop:
   if(!AtMobile()){
     switch(mState){
@@ -548,15 +547,12 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     let mCardList = ResCardList(elRecord);
     // RES LIST SEARCH SECTION
     //let mResList = ResList(elRecord, IsBlank(mCardList)); 
-    let mResList = ResList(elRecord,true); 
+    let mResList = ResList(elRecord,IsBlank(mCardList)); 
     
     // 20251102: StarTree: Do not add a ResList when there is no author or image for the big button.
     if(NotBlank(mJSON.author) || NotBlank(mJSON.img)){
       mHTMLInner += mResList;
-    }
-    
-
-    
+    }        
     // 20240731: StarTree: If there is no RES or Card, but there is INV, show the content of INV.
     let mInv = elRecord.querySelector("inv");
     if(IsBlank(mResList) && IsBlank(mCardList) && NotBlank(mInv)){
@@ -577,13 +573,10 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
       mHasCard = true;
       mHTMLInner += "<div cardmat class='mbCardMat";      
       mHTMLInner += "'>";
-      
-      
+            
       // 20240723: StarTree: If the INV section contains RES objects, show a search section.      
       mHTMLInner += mCardList;      
       mHTMLInner += "<div contentarea class='mbCardMatText'>";
-      
-      
       
       // 20240721: StarTree: If there is no author, don't show the inv section.
       // This is done for the Sitemap node.
@@ -2017,7 +2010,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   let elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20260725 Enable IFrame";
+  elContainer.innerHTML = "20260810 Hide Res when there is Card";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -3965,10 +3958,6 @@ function ResList(elRecord,bShow){
     if(item.getAttribute("type")=="calendar"){return;}
     mResPack += item.outerHTML;
   });
-
-  
-  
-
   //DEBUG(mResPack);
   // Sub Step: Call the wrapper function
   return SearchWrapper(elRecord,mResPack,bShow,elResList.length);
