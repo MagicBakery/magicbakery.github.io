@@ -1133,8 +1133,8 @@
                 </button>
                 <button type="button" onclick="ToggleTab('tabAPISettings')">API</button>
                 <button type="button" onclick="ToggleTab('tabMAPSettings')">MAP</button>
+                <button type="button" onclick="ToggleTab('tabSYSSettings')">SYS</button>
                 <button type="button" onclick="ToggleTab('tabVERSettings')">VER</button>
-                <button type="button" onclick="ToggleTab('tabNEWSettings')">???</button>
             </div>
             <div class="form-group tab-group">
                 <div id="tabNotepad" class="tab">
@@ -1190,6 +1190,13 @@
                         Show crosshair on map (Persistent)
                     </label>
                 </div>
+                <div id="tabSYSSettings" class="tab hidden">
+                    <textarea id="terminal" class="terminal"></textarea>
+                    <!--<label class="checkbox-container" for="activeGold">
+                        <input type="checkbox" id="activeGold" style="cursor: pointer;">
+                        Highlight active entry with gold border.
+                    </label>-->
+                </div>
                 <div id="tabVERSettings" class="tab hidden">
                     <center>
                         Quest App
@@ -1216,12 +1223,7 @@
                         Show sighting reports on Quest Board
                     </label>
                 </div>
-                <div id="tabNEWSettings" class="tab hidden">
-                    <!--<label class="checkbox-container" for="activeGold">
-                        <input type="checkbox" id="activeGold" style="cursor: pointer;">
-                        Highlight active entry with gold border.
-                    </label>-->
-                </div>
+                
             </div>
         </div>
     </div>
@@ -1754,7 +1756,7 @@
             if (!el) { return; }
             el.value = iValue;
         }
-        async function showBoloSightings(e, questId, iSpecificAPI, iScope) {
+        async function showBoloSightings(e,questId, iSpecificAPI, iScope) {
             e.stopPropagation();
             if (!map || !sightingsLayerGroup) return 0;
             sightingsLayerGroup.clearLayers();
@@ -1823,6 +1825,8 @@
                 currentActiveSightingQuestId = null;
                 updateSightingButtonLabels();
             }
+            ECHO(1828,`${QuestSDK.QSID(questId)} Total Sightings: ${totalSightings}.`);
+            ShowCountNext(e.currentTarget,totalSightings);
             return totalSightings;
         }
 

@@ -287,7 +287,6 @@ const WakeLock = (() => {
     isActive: () => !!wakeLock
   };
 })();
-
 // Helper Functions in Alphabetical Order
 function CommentsFilterByTag(elBtn) {
   const entry = elBtn.closest('.log-item');
@@ -325,6 +324,12 @@ function DateSameLocalDay(UTC1, UTC2) {
 function DEBUG(iStr) {
   console.log(iStr);
 };
+function ECHO(iLine,iStr){
+  const terminal = document.getElementById("terminal");
+  if(!terminal){return;}
+  if(terminal.value != ""){terminal.value = "\n" + terminal.value;}
+  terminal.value = iLine + ": " + iStr + terminal.value;
+}
 function EntryDismiss(e, btn) {
   e.stopPropagation();
   const logItem = btn.closest('.log-item');
@@ -1057,6 +1062,24 @@ async function QuickLog(e, elBtn, bLike) {
     elBtn.classList.add('done');
   }
 }
+function ShowCountNext(el,iCount){
+  // 20260812: LRRH: For the given element el, check if the next element has class .counter. If so, update its text content with iCount. Otherwise, make a div with class .counter and set its text content to iCount.
+
+  const nextEl = el?.nextElementSibling;
+
+  if (nextEl && nextEl.classList && nextEl.classList.contains('counter')) {
+    nextEl.textContent = iCount;
+    return;
+  }
+
+  const div = document.createElement('div');
+  div.className = 'counter';
+  div.textContent = iCount;
+
+  // Insert after el (as next sibling)
+  if (el.parentNode) el.parentNode.insertBefore(div, el.nextSibling);
+
+}
 function SortChildren(elBtn) {
   // 20260726: StarTree: Sort the children based on the title of the button, and cycle to the next mode.
   // Modes: 1:Alphabetical | 2:Likes | 3:Newest
@@ -1255,7 +1278,7 @@ function ToggleTab(elID) {
   elTabGroup.querySelectorAll('.tab').forEach(tab => {
     tab.classList.add('hidden');
   });
-  elTab.classList.remove('hidden');
+  elTab.classList.remove('hidden');  
 }
 function URLGuessDomain(url) {
   const host = (() => {

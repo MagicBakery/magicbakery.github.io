@@ -51,9 +51,18 @@ body.edit .btn.edit,
 body.edit .comment-add {
   color: gold !important;
 }
+.counter{
+  color:gold;
+  display:inline;
+}
 .hidden {
   display: none !important;
 }
 .right {
   float:right;
+}
+
+textarea.terminal{
+  color:#00FF00;
+  height:100%;
 }
