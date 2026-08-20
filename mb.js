@@ -450,7 +450,6 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     let mJSON = JSON.parse(elNode.innerHTML);
     mNodeID = mJSON.id;
 
-
     // 20240908: Sylvia: If the node is a profile node, set the profile tag at the board.
     if(elRecord.hasAttribute("data-profile")){
       elBoard.setAttribute("Profile",mJSON.author);
@@ -2309,6 +2308,7 @@ function MacroIcons(el,iHTMLInner){
     ["Dragon","🐉"],
     ["Drum","🥁"],
     ["DryTree","🪾"],
+    ["Duck","🦆"],
     ["Dumpling",":Dumpling:"],
     ["Eagle","🦅"],
     ["Egg","🥚"],
@@ -2436,6 +2436,7 @@ function MacroIcons(el,iHTMLInner){
     ["SmileyMelt","🫠"],
     ["Snowflake","❄️"],
     ["Spell","💫"],
+    ["Sponge","🧽"],
     ["Square0","0️⃣"],
     ["Square1","1️⃣"],
     ["Square2","2️⃣"],

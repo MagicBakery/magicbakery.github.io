@@ -861,6 +861,7 @@
     let pendingUpdates = [];
     let activePan = false;
     let autoSyncTimer = null;
+    let lastInteraction = new Date();
     let lastAutoSync = new Date();
     let panViewport = null;
     let serverCopy = [];
@@ -1122,7 +1123,7 @@
     }
     function SpillAll() {
       const boxItems = document.querySelectorAll('.box-item');
-
+      autoSyncStart(false);
       boxItems.forEach(item => {
         const assetId = item.dataset.assetId;
         // Only spill items with the 
@@ -1138,6 +1139,7 @@
     }
     function Stow() {
       if (!confirm("Put the selected items back to the box?")) { return }
+      autoSyncStart(false);
       for (const id of selectedIds) {
         const a = assets.find(x => x.assetId === id);
         if (a) {
@@ -1150,6 +1152,7 @@
     }
     function StowAll() {
       if (!confirm("Put everything back into the box?")) { return }
+      autoSyncStart(false);
       assets.forEach(a => {
         markAssetPending(a.assetId);
         a.region = "BOX";
@@ -1217,10 +1220,10 @@
       }
       if (autoSyncTimer) return;
       btnResync.classList.add('auto');
-      WakeLock.requestScreen();
+      lastInteraction = new Date();
       autoSyncTimer = setInterval(() => {
         const t = new Date();
-        const diff = 120_000 - (t - WakeLock.lastInteraction);
+        const diff = 120_000 - (t - lastInteraction);
         if (diff <= 0) {
           autoSyncStart(false);
         } else if (!hasPendingUpdates()) {
@@ -1593,6 +1596,9 @@
 
       const cx = canvas.clientWidth / 2;
       let cy = (canvas.clientHeight * getTableSplitFactor()) / 2;
+      if(isHandHidden){
+        cy = (canvas.clientHeight) / 2;
+      }
       if (bPrecise) {
         cy = canvas.clientHeight * getTableSplitFactor() - 50;
       }
@@ -2803,6 +2809,7 @@
     // Example of how to send the batch from your HTML
     async function shuffleAssets() {
       if (!confirm("Reshuffle?")) { return; }
+      autoSyncStart(false);
       try {
         updateSyncStatus("saving");
         await tryWithResync(async () => {
@@ -2864,7 +2871,7 @@
     }
     function onPointerDown(e) {
       e.preventDefault();
-      WakeLock.requestScreen();
+      lastInteraction = new Date();
       //usePointerEvents = true;
       if (!chkPinchToZoom.checked) { usePointerEvents = true; }
 
@@ -3037,7 +3044,7 @@
     canvas.addEventListener('wheel', onWheel, { passive: false });
     canvas.addEventListener('touchstart', (e) => {
       // If we are already dragging a card (from your existing logic), don't pan/zoom
-      WakeLock.requestScreen();
+      lastInteraction = new Date();      
       if (!chkPinchToZoom.checked && e.touches.length !== 1) return;
       if (drag) return;
       if (e.touches.length > 0) {
