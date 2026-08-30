@@ -529,14 +529,27 @@
             <div widget class="mbhide">
               <div style="text-align:center">
                 <!--"01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31"-->
-                <res type="calendar" year="2026" month="08" icons="🧭|⚖️|👑|🐤|🔥|☁️|🕊️|🗃️|🕊️|☀️|⚔️|🦆|🧭|👑|🎧|✨|💗|🦆|🐣|:QuillPen:|🎁|🔮|🌷|24|25|26|27|28|29|30|31"></res>
+                <res type="calendar" year="2026" month="08" icons="🧭|⚖️|👑|🐤|🔥|☁️|🕊️|🗃️|🕊️|☀️|⚔️|🦆|🧭|👑|🎧|✨|💗|🦆|🐣|:QuillPen:|🎁|🔮|🌷|🧮|🧸|🧸|🍨|🧮|29|30|31"></res>
               </div>
               <div display class="mbStack"></div><!--For Scanner Record-->
               <div class="mbCalCB mbhide"></div> <!--For the old style record-->
             </div>
             <div class="mbbuttonc" onClick="HideNext(this)" title="Quests of the Month"><hr></div>
+            <!--<ul>
+              <li><lnk>202604152147|[S]</lnk>
+                <note dts="20260829222340" icon="🔮" title="Quest Society" node="202604152147">
+                  ✅ Articles of Incorporation<br>
+                  □ Bylaws<br>
+                  □ 501(c)(3) Registration<br>
+                </note>
+              </li>
+            </ul>-->
             <ol>
-              <li><lnk>202604152147|Upgrade</lnk> 
+              <li><lnk>202604152147|Upgrade</lnk>
+                <note dts="20260829110253" icon="□📯" node="202606271049">
+                  <msg DTS="20260829110434" SPK="Sylvia" EXP Icon="🧭">Prototype and digitize a visual quest board with relations.</msg>
+
+                </note>
                 <note dts="20260628203727" icon="✅🍀" node="202606271049">
                     Quest Society App Upgrade
                 </note>
@@ -549,7 +562,7 @@
 
               </li>
               
-              <li><lnk>202512210026|Board</lnk> 
+              <li><lnk>202303052122|Board</lnk> 
                 <note icon="✅📬" node="202405010908">
                   <msg DTS='20260801205913' SPK='Evelyn' EXP=2 Icon='📌'>Currently at: 6587 guild log entries, 145 since 2026-01-23, of which 107 are marked done.</msg>               
                 </note>
@@ -600,6 +613,7 @@
             <macro>{"cmd":"MC3"}</macro>
             <div class="mbMC3" onclick="MC3Resize(this)">
               <div style="display:flex;flex-direction: column;">
+                  
                 <div class="mbCB">
                   <macro>{"guildlog":"0","rank":"S","updates":"2","node":"202403231454","author":"Melody","chapter":"@Academy","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
@@ -623,9 +637,10 @@
                 </div><!--@Academy / LRRH-->                
                 <div class="mbCB">
                   <span class="mbRankNone" style="float:right;"><lnk>202208162133|🏆</lnk></span>
-                  <macro>{"guildlog":"0","rank":"S","updates":"1","node":"202208162133","author":"Fina","chapter":"@Arena","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"S","updates":"2","node":"202208162133","author":"Fina","chapter":"@Arena","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
+                    <macro>{"log":"0815","priority":"0","icon":"🗺️","node":"202309292127","title":"Zoning","info":"1225 Insights: Viewers estimation.","cmd":"quest"}</macro> 
                     <macro>{"log":"0801","priority":"0","icon":"🏆","node":"202208162133","title":"Ethics Championship","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"🎃","node":"202606212100","title":"Parking","info":"0622: Exported as HTML","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"⚖️","node":"202210032214","title":"Ethics","info":"","cmd":"quest"}</macro>
@@ -644,7 +659,7 @@
                 </div><!--@Arena / Fina-->
                 <div class="mbCB">
                   <span class="mbRankNone" style="float:right;"><lnk>202309142125|:Checker:</lnk></span>
-                  <macro>{"guildlog":"0","rank":"B","updates":"4","node":"202208161957","author":"StarTree","chapter":"@Board","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"B","updates":"6","node":"202208161957","author":"StarTree","chapter":"@Board","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <lnk>202207242047|📋</lnk><span></span><button class="mbbutton" onclick="XP_Tally(this)">XP Tally</button><br>
                     <span class="mbListCapNC mbRankS"></span>
@@ -653,12 +668,13 @@
                     <macro>{"log":"","priority":"1","icon":"🧭","node":"202301242209","title":"Ethics Quiz Mode","info":"","cmd":"quest"}</macro>
                     
                     <span class="mbListCapNC mbRankB"></span>
+                    <macro>{"log":"0826","priority":"0","icon":"📋","node":"202606271049","title":"Physical Prototype","info":"0721: Edit","cmd":"quest"}</macro>
                     <macro>{"log":"0804","priority":"9","icon":"🍀","node":"202606271049","title":"Gadgets Lab","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"0818","priority":"2","icon":":Checker:","node":"202309142125","title":"Custom Icons","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🎭","node":"202512210026","title":"Theater Code","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
                     <macro>{"log":"0801","priority":"1","icon":"📅","node":"202307150844","title":"Monthly Scores","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"0830","priority":"2","icon":"🐤","node":"202303052122","title":"Website Upgrades","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankD"></span>
                     <macro>{"log":"0821","priority":"0","icon":"📬","node":"202405010908","title":"Guild Inbox","info":"","cmd":"quest"}</macro> 
                   </div>
@@ -718,36 +734,27 @@
                 </div><!--@Cardinal / Cardinal-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202302261915|🌺</lnk></span>
-                  <macro>{"guildlog":"0","rank":"D","updates":"1","node":"202208181042","author":"Arcacia","chapter":"@Carrot","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"D","updates":"2","node":"202208181042","author":"Arcacia","chapter":"@Carrot","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"4","icon":"👑","node":"202210032214","title":"Posting Gallery","info":"Gallery for things that are posted.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankA"></span>
-                    <macro>{"log":"","priority":"0","icon":"🍔","node":"202512210026","title":"Theater GUI","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"👑","node":"202509032347","title":"Princess Squirrel","info":"","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"0","icon":"🎩","node":"202505171244","title":"Quest-Making Quest","info":"","cmd":"quest"}</macro> 
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"0","icon":"📯","node":"202509272021","title":"Arcacian Quest","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"5","icon":"🏅","node":"202212010903","title":"Arcacian Award","cmd":"quest","info":""}</macro>   
-                    <macro>{"log":"","priority":"0","icon":"❤️","node":"202207252131","title":"Cleric Skills","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"3","icon":"👑","node":"202209111200","title":"Is this Arcacian?","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
-                    <macro>{"log":"","priority":"0","icon":"🎀","node":"202207281948","title":"Anime Club","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"9","icon":"📯","node":"202302261915","title":"Poster Quest","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"1","icon":"☎️","node":"202405051137","title":"Help Center","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"1","icon":"🍀","node":"202207170956","title":"Alchemist Skills","info":"","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"0","icon":"🍰","node":"202409290016","title":"Bakery Wisdom","cmd":"quest"}</macro>
-                    
                     <span class="mbListCapNC mbRankD"></span>
                     <macro>{"log":"0811","priority":"0","icon":"📬","node":"202405010908","title":"Guild Inbox","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"5","icon":"🎀","node":"800000000000","title":"Layout upgrade","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"9","icon":"🎀","node":"202301251008","title":"Clearing old XP tags","info":"On Arcacia","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"1","icon":"🌺","node":"202207112218","title":"Search Visibility","info":"Follow up with discussion. Fix Index Errors","cmd":"quest"}</macro>
+                    <macro>{"log":"0827","priority":"1","icon":"🌺","node":"202207112218","title":"Search Visibility","info":"Follow up with discussion. Fix Index Errors","cmd":"quest"}</macro>
                   </div>
                 </div><!--@Carrot / Arcacia-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202207131009|♟️</lnk></span>
-                  <macro>{"guildlog":"0","rank":"B","updates":"2","node":"202208141844","author":"Sasha","chapter":"@Detective","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"B","updates":"4","node":"202208141844","author":"Sasha","chapter":"@Detective","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"1","icon":"🎭","node":"202512210026","title":"Magic Theater","info":"0707: Skit on Quest App","cmd":"quest"}</macro>
@@ -765,7 +772,7 @@
                     <span class="mbListCapNC mbRankC"></span>
                     <macro>{"log":"0810","priority":"0","icon":"🐤","node":"202303052122","title":"Website Upgrade","info":"","cmd":"quest"}</macro> 
                     <span class="mbListCapNC mbRankD"></span>
-                    <macro>{"log":"","priority":"0","icon":"📬","node":"202405010908","title":"Guild Inbox","info":"","cmd":"quest"}</macro> 
+                    <macro>{"log":"0827","priority":"0","icon":"📬","node":"202405010908","title":"Guild Inbox","info":"","cmd":"quest"}</macro> 
                   </div>
                 </div><!--@Detective / Sasha-->
                 <div class="mbCB">
@@ -790,13 +797,29 @@
                     <macro>{"log":"0825","priority":"0","icon":"📬","node":"202405010908","title":"Guild Inbox","info":"","cmd":"quest"}</macro>
                   </div>
                 </div><!--@Dungeon / Tanya-->
+                <div class="mbCB"><!--@Ethics-->
+                  <span style="float:right"><lnk>202301242209|📜</lnk></span>
+                  <macro>{"guildlog":"0","rank":"U","updates":"0","node":"202301242209","author":"","chapter":"Ethics Council","cmd":"pb"}</macro>
+                  <div class="mbPinner mbhide">
+                    <span class="mbListCapNC mbRankS"></span> 
+                    <macro>{"log":"","priority":"2","icon":"🏘️","node":"202307231022","title":"NextDoor Workflow","info":"1225 Insights: Viewers estimation.","cmd":"quest"}</macro> 
+                    <macro>{"log":"","priority":"2","icon":"🏡","node":"202209111548","title":"Housing Solutions","info":"0103: The Grace Gap","cmd":"quest"}</macro> 
+                    <macro>{"log":"","priority":"0","icon":"📯","node":"202509042224","title":"Case 20250904","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"","priority":"0","icon":"📯","node":"202504160003","title":"5th and J","info":"","cmd":"quest"}</macro>
+                    <span class="mbListCapNC mbRankA"></span>
+                    <macro>{"log":"","priority":"0","icon":"🎃","node":"202606212100","title":"Parking","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"","priority":"3","icon":"🎪","node":"202208180954","title":"Quest Society","info":"Populate the Quest Society section explanations.","cmd":"quest"}</macro>
+                  </div>
+                </div><!--Ethics Council / Black--> 
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202207141002|💎</lnk></span>
-                  <macro>{"guildlog":"0","rank":"S","updates":"2","node":"202208141916","author":"James","chapter":"@Freedom","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"S","updates":"3","node":"202208141916","author":"James","chapter":"@Freedom","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
-                    <span class="mbListCapNC mbRankS"></span>
+                    <span class="mbListCapNC mbRankS"></span> 
+                    <macro>{"log":"0801","priority":"2","icon":"⚖️","node":"202608012126","title":"Employment","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"0825","priority":"0","icon":"🗳️","node":"202311262034","title":"Election","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankA"></span>
+                    <macro>{"log":"0807","priority":"0","icon":"🍰","node":"202409290016","title":"Bakery Wisdom","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"4","icon":":QuillPen:","node":"202207211011","title":"News Club","cmd":"quest"}</macro>                            
                     <span class="mbListCapNC mbRankB"></span>  
                     <macro>{"log":"","priority":"0","icon":"🍀","node":"202606271049","title":"Gadgets Lab","info":"","cmd":"quest"}</macro>
@@ -814,6 +837,7 @@
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"0","icon":"🎃","node":"202606212100","title":"Parking","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
+                    <macro>{"log":"","priority":"0","icon":"🚀","node":"202209251051","title":"Gaia Council","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"🐾","node":"202307232251","title":"Lost Pets","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"🏡","node":"202209111548","title":"Housing","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"🍀","node":"202209251051","title":"Gaia Credits","info":"","cmd":"quest"}</macro>
@@ -892,8 +916,6 @@
                     <span class="mbListCapNC mbRankC"></span> 
                     <macro>{"log":"0825","priority":"2","icon":"🍁","node":"202510262210","title":"Internet Refund","info":"Check again on September 2 or 3.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"9","icon":"🎓","node":"202209282350","title":"Homemaking","info":"","cmd":"quest"}</macro>
-                    <span class="mbListCapNC mbRankD"></span>
-                    <macro>{"log":"","priority":"9","icon":"🧸","node":"202411171509","title":"Lost & Found","info":"Pending for September","cmd":"quest"}</macro>
                   </div>
                 </div><!--@Home / Kisaragi-->              
                 <div class="mbCB">
@@ -927,10 +949,9 @@
                   </div>
                 </div><!--@Manga / 3B-->   
                 <div class="mbCB" date="20240413">
-                  <macro>{"guildlog":"0","rank":"D","updates":"1","node":"202208071528","author":"Ledia","chapter":"@Mira","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"C","updates":"2","node":"202208071528","author":"Ledia","chapter":"@Mira","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">
                     <span class="mbListCapNC mbRankS"></span>
-                    
                     <macro>{"log":"","priority":"0","icon":"🦄","node":"202208071528","title":"Store Front Poster","cmd":"quest"}</macro>              
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"","priority":"0","icon":"🦅","node":"202606271049","title":"Game Table","info":"","cmd":"quest"}</macro> 
@@ -945,7 +966,8 @@
                     <macro>{"log":"","priority":"1","icon":"🏅","node":"202207242047","title":"Profiles upgrade","info":"0703: Miller, 0711: Chris","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"🎀","node":"202208071528","title":"Character Card","info":"2501: Skyle.","cmd":"quest"}</macro>     
                     <span class="mbListCapNC mbRankC"></span>
-                    <macro>{"log":"","priority":"0","icon":"🍀","node":"202606271049","title":"Gadgets Lab","info":"0628: Parking App Demo","cmd":"quest"}</macro>
+                    <macro>{"log":"0827","priority":"2","icon":"🧹","node":"202210032214","title":"Character Prompt","cmd":"quest"}</macro>
+                    
                     <macro>{"log":"","priority":"1","icon":"👒","node":"202310121020","title":"Style Inspirations","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"1","icon":"🪞","node":"202512210026","title":"Magic Theater","info":"0307: Added scene.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🌈","node":"202306132141","title":"Personalities","info":"","cmd":"quest"}</macro>
@@ -955,14 +977,14 @@
                 </div><!--@Mira / Ledia-->
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202207220710|🎧</lnk></span>
-                  <macro>{"guildlog":"0","rank":"C","updates":"2","node":"202208172107","author":"P4","chapter":"@Music","cmd":"pb"}</macro>       
+                  <macro>{"guildlog":"0","rank":"B","updates":"3","node":"202208172107","author":"P4","chapter":"@Music","cmd":"pb"}</macro>       
                   <div class="mbPinner mbhide">                         
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"1","icon":"💗","node":"202301140917","title":"YouTube Posting","info":"0208: Maple Wind","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"","priority":"4","icon":"🎼","node":"202401021825","title":"Chord Progressions","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
-                    <macro>{"log":"","priority":"4","icon":"🎹","node":"202301140917","title":"Music Upgrade","info":"","cmd":"quest"}</macro>                    
+                    <macro>{"log":"0827","priority":"4","icon":"🎹","node":"202301140917","title":"Music Upgrade","info":"","cmd":"quest"}</macro>                    
                     <macro>{"log":"","priority":"6","icon":"🧹","node":"202207141002","title":"Page cleanup","cmd":"quest"}</macro>  
                     <macro>{"log":"","priority":"3","icon":"🥁","node":"202303190920","title":"Instrument Study","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"9","icon":"📒","node":"202301140917","title":"Music Notes","cmd":"quest"}</macro>
@@ -973,9 +995,10 @@
                     <macro>{"log":"","priority":"1","icon":"🍯","node":"202301140917","title":"Entries Process","info":"Import quest entries from Cardinal Field Log to Guild Log.","cmd":"quest"}</macro>
                     <macro>{"log":"0812","priority":"1","icon":"🍯","node":"202301140917","title":"Field Import","info":"Import from field recordings.","cmd":"quest"}</macro>
                   </div>          
-                </div><!--@Music / P4-->    
+                </div><!--@Music / P4-->
+                
                 <div class="mbCB">
-                  <macro>{"guildlog":"0","rank":"C","updates":"1","node":"202406262226","author":"Vivi","chapter":"@Night","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"C","updates":"2","node":"202406262226","author":"Vivi","chapter":"@Night","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"2","icon":"🎃","node":"202303052122","title":"Website Upgrade","info":"","cmd":"quest"}</macro>
@@ -984,13 +1007,13 @@
                     <macro>{"log":"0808","priority":"1","icon":"🦇","node":"202406262226","title":"Typo Quest","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"9","icon":"🕸️","node":"202303052122","title":"Bug Fix","info":"0505: Format error for scanner with custom icon in note subtile.","cmd":"quest"}</macro>               
                     <span class="mbListCapNC mbRankD"></span>
-                    <macro>{"log":"","priority":"1","icon":"🔥","node":"202406262226","title":"Log Burning","cmd":"quest"}</macro>
+                    <macro>{"log":"0828","priority":"1","icon":"🔥","node":"202406262226","title":"Log Burning","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🌵","node":"202406262226","title":"Thousand Needles","info":"","cmd":"quest"}</macro>
                   </div>
                 </div><!--@Night / Vivi-->          
                 <div class="mbCB">
                   <span style="float:right"><lnk>202301011739|⚖️</lnk></span>
-                  <macro>{"guildlog":"0","rank":"C","updates":"3","node":"202208092007","author":"Natalie","chapter":"@Paladin","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"B","updates":"4","node":"202208092007","author":"Natalie","chapter":"@Paladin","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"0","icon":"🏡","node":"202209111548","title":"Housing Solutions","info":"","cmd":"quest"}</macro>
@@ -999,7 +1022,9 @@
                     <macro>{"log":"","priority":"0","icon":"🗺️","node":"202604152147","title":"Roadmap","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🎨","node":"202512210026","title":"Magic Theater","info":"Sprite.","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
-                    <macro>{"log":"","priority":"1","icon":"🏡","node":"202310232341","title":"Resolve Issues","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"0827","priority":"1","icon":"🚸","node":"202402030104","title":"Traffic Safety","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"0826","priority":"2","icon":"🧸","node":"202411171509","title":"Lost & Found","info":"Pending for September","cmd":"quest"}</macro>
+                    
                     <macro>{"log":"","priority":"0","icon":"⚔️","node":"202207142102","title":"Ageless Forest","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
                     <macro>{"log":"","priority":"0","icon":"🥋","node":"202407282208","title":"Martial Arts","info":"","cmd":"quest"}</macro>
@@ -1016,7 +1041,7 @@
                 </div><!--@Paladin / Natalie-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202208141928|🧩</lnk></span>
-                  <macro>{"guildlog":"0","rank":"C","updates":"1","node":"202208141928","author":"Mikela","chapter":"@Puzzle","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"C","updates":"2","node":"202208141928","author":"Mikela","chapter":"@Puzzle","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">
                     <span class="mbListCapNC mbRankA"></span>
                     <macro>{"log":"","priority":"1","icon":"🧩","node":"202208141928","title":"Puzzle Session","info":"","cmd":"quest"}</macro>
@@ -1028,43 +1053,28 @@
                     <macro>{"log":"","priority":"0","icon":"🕰️","node":"202403112121","title":"Timeline","info":"Play Session.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"4","cmd":"quest","title":"Add Search List","icon":"🔍","info":"Add puzzle categories for search."}</macro>
                     <span class="mbListCapNC mbRankC"></span>
+                    <macro>{"log":"0803","priority":"0","icon":"⚓","node":"202207131009","title":"Crew Progress","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"0812","priority":"0","icon":"🎲","node":"202207131009","title":"Game Library","info":"Maintain/promote the Board Game Library toward a sharing system.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"0","icon":"🧩","node":"202208141928","title":"Node Update","info":"","cmd":"quest"}</macro>
                     
                     
                   </div>
                 </div><!--@Puzzle / Mikela-->  
-                <div class="mbCB">
-                  <span style="float:right"><lnk>202301242209|⚡</lnk></span>
-                  <macro>{"guildlog":"0","rank":"S","updates":"4","node":"202604152147","author":"Black","chapter":"@Quest","cmd":"pb"}</macro>
-                  <div class="mbPinner mbhide">
-                    <span class="mbListCapNC mbRankS"></span> 
-                    <macro>{"log":"0801","priority":"2","icon":"⚖️","node":"202608012126","title":"Employment","info":"","cmd":"quest"}</macro> 
-                    <macro>{"log":"0815","priority":"0","icon":"🗺️","node":"202309292127","title":"Zoning","info":"1225 Insights: Viewers estimation.","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"2","icon":"🏘️","node":"202307231022","title":"NextDoor Workflow","info":"1225 Insights: Viewers estimation.","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"1","icon":"🗺️","node":"202604152147","title":"PC Roadmap","info":"0622: Started a group at Nextdoor","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"2","icon":"🏡","node":"202209111548","title":"Housing Solutions","info":"0103: The Grace Gap","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"0","icon":"🚀","node":"202209251051","title":"Gaia Council","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"📯","node":"202509042224","title":"Case 20250904","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"📯","node":"202504160003","title":"5th and J","info":"","cmd":"quest"}</macro>
+                <div class="mbCB"><!--@Quest Society-->
+                  <span class="mbRankNone" style="float:right;"><lnk>202403231454|🧭</lnk></span>
+                  <macro>{"guildlog":"0","rank":"B","updates":"2","node":"202604152147","author":"","chapter":"Quest Society","cmd":"pb"}</macro>
+                  <div class="mbPinner mbhide">                     
+                    <div class="mbPBInfo">Build Quest Society as a nonprofit.</div>
                     <span class="mbListCapNC mbRankA"></span>
-                    <macro>{"log":"0807","priority":"0","icon":"🍰","node":"202409290016","title":"Bakery Wisdom","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"🍀","node":"202606271049","title":"Gadgets Lab","info":"0721: Edit","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"🎃","node":"202606212100","title":"Parking","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"3","icon":"🎪","node":"202208180954","title":"Quest Society","info":"Populate the Quest Society section explanations.","cmd":"quest"}</macro>
+                    <macro>{"log":"","priority":"3","icon":":QuillPen:","node":"202604152147","title":"Registration","info":"501(c)(3) Registration","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
-                    <macro>{"log":"0803","priority":"0","icon":"⚓","node":"202207131009","title":"Crew Progress","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"0","icon":"🎒","node":"202401201702","title":"Adventure Gear","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"1","icon":"🦉","node":"202403231454","title":"Academy Quotes","info":"","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"0","icon":"🧀","node":"202209241553","title":"Failure Analysis","info":"","cmd":"quest"}</macro>
-                    <macro>{"log":"","priority":"2","icon":"🏘️","node":"202407310253","title":"Rules of Engagement","info":"Replying/Deploying.","cmd":"quest"}</macro>  
+                    <macro>{"log":"","priority":"2","icon":"📯","node":"202604152147","title":"Confirm Directors","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"","priority":"1","icon":":QuillPen:","node":"202604152147","title":"Bylaws","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"0820","priority":"1","icon":":QuillPen:","node":"202604152147","title":"Articles","info":"Articles of Incorporation","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
-                    <macro>{"log":"","priority":"0","icon":"🦅","node":"202606271049","title":"Game Table","info":"","cmd":"quest"}</macro> 
-                    <macro>{"log":"","priority":"0","icon":"🍋","node":"202307231931","title":"Productive Habits","info":"","cmd":"quest"}</macro>
-                    <span class="mbListCapNC mbRankD"></span>
-                    <macro>{"log":"","priority":"0","icon":"📬","node":"202405010908","title":"Guild Inbox","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"0830","priority":"0","icon":"🧹","node":"202604152147","title":"Layout/Merging","info":"Consolidate content from old @Quest listing.","cmd":"quest"}</macro>
                   </div>
-                </div><!--@Quest / Black--> 
+                </div><!--Quest Society / Tanya-->   
                 <div class="mbCB">
                   <span style="float:right;"><lnk>202301080924|✏️</lnk></span>
                   <macro>{"guildlog":"0","rank":"A","updates":"4","node":"202309200912","author":"Skyle","chapter":"@Scape","cmd":"pb"}</macro>
@@ -1094,16 +1104,15 @@
                   </div>
                 </div><!--@Scape / Skyle-->  
                 <div class="mbCB">
-                  <macro>{"guildlog":"0","rank":"C","updates":"2","node":"202208292208","author":"Zoey","chapter":"@Seed","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"C","updates":"3","node":"202208292208","author":"Zoey","chapter":"@Seed","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide"> 
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"6","icon":"🗺️","node":"202604152147","title":"Quest Society Blueprint","cmd":"quest"}</macro>
-                    <span class="mbListCapNC mbRankA"></span>
-                    <macro>{"log":"","priority":"0","icon":"🍀","node":"202606271049","title":"Gadgets Lab","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankB"></span>
                     <macro>{"log":"","priority":"1","icon":"🌱","node":"202306091009","title":"Artificial Intelligence","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"6","icon":"⚖️","node":"202208162144","title":"Philosophy Prompts","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
+                    <macro>{"log":"0829","priority":"0","icon":"💬","node":"202403050033","title":"Progressive Forum","cmd":"quest"}</macro>
                     <macro>{"log":"0820","priority":"1","icon":"🐣","node":"202404180036","title":"Self Care","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"📯","node":"202209031718","title":"Herald Skills","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🌱","node":"202309272109","title":"Table of Contents","info":"Follow up on Seed Quest for making a book. Organize table of contents.","cmd":"quest"}</macro>
@@ -1114,10 +1123,9 @@
                 </div><!--@Seed / Zoey-->
                 <div class="mbCB">
                   <span style="float:right"><lnk>202207170113|🏅</lnk></span>
-                  <macro>{"guildlog":"0","rank":"D","updates":"1","node":"202212090038","author":"Ivy","chapter":"@Skill","cmd":"pb"}</macro>
+                  <macro>{"guildlog":"0","rank":"B","updates":"3","node":"202212090038","author":"Ivy","chapter":"@Skill","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">
                     <span class="mbListCapNC mbRankA"></span>
-                    <macro>{"log":"","priority":"1","icon":":TreasureChest:","node":"202510250100","title":"Crafters Guild","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"1","icon":"📯","node":"202505171244","title":"Quest-Making Quest","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"1","icon":"🔔","node":"202502161912","title":"Quest Directory","info":"","cmd":"quest"}</macro> 
                     <span class="mbListCapNC mbRankB"></span>
@@ -1127,7 +1135,7 @@
                     <macro>{"log":"","priority":"1","icon":"📯","node":"202209031718","title":"Herald Skills","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"📯","node":"202405110903","title":"Communication","info":"","cmd":"quest"}</macro>
                     <span class="mbListCapNC mbRankC"></span>
-                    <macro>{"log":"","priority":"3","icon":"📻","node":"202404060014","title":"Podcasts","info":"","cmd":"quest"}</macro>
+                    <macro>{"log":"0827","priority":"3","icon":"📻","node":"202404060014","title":"Podcasts","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🎩","node":"202512210026","title":"Magic Theater","info":"Clerk Fix.","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🎪","node":"202208181056","title":"Quest Society","info":"","cmd":"quest"}</macro> 
                     <span class="mbListCapNC mbRankD"></span>
@@ -1193,7 +1201,7 @@
 
                 <div class="mbCB">
                   <span style="float:right"><lnk>202302160912|🍵</lnk></span>
-                  <macro>{"guildlog":"0","rank":"B","updates":"1","node":"202208180941","author":"LRRH","chapter":"@Wish","cmd":"pb"}</macro>            
+                  <macro>{"guildlog":"0","rank":"B","updates":"2","node":"202208180941","author":"LRRH","chapter":"@Wish","cmd":"pb"}</macro>            
                   <div class="mbPinner mbhide">
                     <span class="mbListCapNC mbRankS"></span>
                     <macro>{"log":"","priority":"0","icon":"👑","node":"202509032347","title":"Princess Quest","info":"Added profile to Fandom","cmd":"quest"}</macro>
@@ -1210,7 +1218,7 @@
                     <macro>{"log":"","priority":"1","icon":"🫖","node":"202306091009","title":"Artificial Intelligence","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"2","icon":":Checker:","node":"202309142125","title":"Custom Icons","info":"","cmd":"quest"}</macro>
                     <macro>{"log":"","priority":"1","icon":"🎲","node":"202207131009","title":"Game Library","info":"","cmd":"quest"}</macro>  
-                    <macro>{"log":"","priority":"0","icon":":JarStars:","node":"202207210907","title":"Rewards Inventory","info":"","cmd":"quest"}</macro> 
+                    <macro>{"log":"0826","priority":"0","icon":":JarStars:","node":"202207210907","title":"Rewards Inventory","info":"","cmd":"quest"}</macro> 
                     <macro>{"log":"","priority":"1","icon":"🥨","node":"202301151052","title":"Magic Theater","info":"0307: GUI Bug Fix.","cmd":"quest"}</macro>  
                     <macro>{"log":"","priority":"0","icon":"🥠","node":"202302011021","title":"Fortune Cookies","cmd":"quest"}</macro>                 
                     <span class="mbListCapNC mbRankD"></span>
@@ -42957,6 +42965,13 @@
       <res item="25ABP249" title="Adding Speed Hump" tags="Protocol">
         <msg DTS='20241120090618' SPK='Black' EXP=2 Icon='🐤'>Process to add a speed hump to a neighborhood: 1) 50% petition from a neighborhood, 2) Initial Assessment, 3) Sub Committee Consideration, 4) Prepare plans, 5) Neighborhood survey, 6) Installation. <url>https://nextdoor.com/p/K8NYL9MtXcb_/c/1259970464</url></msg>
       </res>
+      <res icon="📯" item="26UUP4CE" title="Patrol" star="" tags="">
+        <msg DTS="20260827232107" SPK="Tanya" EXP Icon="🔮">In general, quest credits should be awarded for the result and not the process. "Patrol" shouldn't be credited unless it is the reasonable cost for the result.</msg>
+        <hr>
+        <note dts="20260827232804" icon="📯" subtitle="Heat map">
+          <msg DTS='20260827121941' SPK='Black' EXP Icon='🔍'>A heat map where questers log issues would show hot spots where a quester would invest in patrolling for a result. <url>https://nextdoor.com/p/xdJMxgQLptK_/c/1691010015</url></msg>
+        </note>
+      </res>
     </topic>
 
     <topic dts="20240531205438" icon="🐣" title="Training">
@@ -46994,6 +47009,10 @@
         <note dts="20250316203810" subtitle="Campfire">
           <msg DTS="20250316203838" SPK="LRRH" EXP Icon="🥘">A campfire thread is meant for people to do chit-chat and heal, such as after questing.</msg>
           <msg DTS="20250316204109" SPK="LRRH" EXP Icon="🕰️">It is for people to reminescent without thinking about plans or how to make progress.</msg>
+          <hr>
+          <note dts="20260829103658" icon="📯" subtitle="Posting">
+            <msg DTS='20260828102226' SPK='Black' EXP=2 Icon='🦉'>In a forum without a designated purpose, it is not wrong if the main feed becomes the lounge. But it is better to have separate forums. <url>https://nextdoor.com/p/yt3MW6cTMFws/c/1691787823</url></msg>
+          </note>
         </note>
       </note>
     </topic>
@@ -53536,6 +53555,9 @@
   <content>
   </content>
   <inv>
+    <res icon="✨" item="26UUCAFE" title="Simon Sinek" star="" tags="" src="https://www.youtube.com/@SimonSinek">
+      <msg DTS="20260827124747" SPK="Sasha" EXP Icon="✨">This is the channel of the author of the book Together is Better.</msg>
+    </res>
     <res icon="🕰️" item="26E5N10C" title="StarTalk" star="" tags="">
       <msg DTS='20260404201556' SPK='StarTree' EXP Icon='📌'>StarTalk</msg>
     </res>
@@ -57819,7 +57841,7 @@
           <msg DTS='20260811211916' SPK='Duck' EXP=3 Icon='🦆'>0811:2 21</msg>
           <msg DTS='20260810143044' SPK='Evelyn' EXP=87 Icon='💗'>0810:3 11:9 12:3 14:6 15:3 16:6 20:3 21 22:41 23:4 24:4 25:4</msg>
           <msg DTS='20260811124045' SPK='Fina' EXP=5 Icon='⚔️'>0811:5</msg>
-          <msg DTS='20260810101842' SPK='Ivy' EXP=6 Icon='🥼'>0810:3 23:3</msg>
+          <msg DTS='20260810101842' SPK='Ivy' EXP=12 Icon='🥼'>0810:3 23:3 27:3 28:3</msg>
           <msg DTS='20260810195521' SPK='James' EXP=44 Icon='🍞'>0810:2 11:3 12:3 21:36</msg>
           <msg DTS='20260810173754' SPK='Ledia' EXP=8 Icon='⚔️'>0810:8</msg>
           <msg DTS='20260810101045' SPK='Lei' EXP=20 Icon='🗝️'>0810:3 11:13 25:4</msg>
@@ -57827,7 +57849,7 @@
           <msg DTS='20260810172942' SPK='Melody' EXP=10 Icon='📬'>0810:2 12:5 23:3</msg>
           <msg DTS='20260810182931' SPK='Natalie' EXP=1 Icon='🕊️'>0810</msg>
           <msg DTS='20260816111724' SPK='Patricia' EXP=6 Icon='🗝️'>0816:3 18:3</msg>
-          <msg DTS='20260805191743' SPK='Sasha' EXP=10 Icon='🔥'>0805:5 10:5</msg>
+          <msg DTS='20260805191743' SPK='Sasha' EXP=19 Icon='🔥'>0805:5 10:5 27:9</msg>
           <msg DTS='20260812114841' SPK='Skyle' EXP=3 Icon='🌾'>0812:3</msg>
           <msg DTS='20260816142756' SPK='StarTree' EXP=8 Icon='⭐'>0816:3 23:2 25:3</msg>
           <msg DTS='20260810191548' SPK='Sylvia' EXP=25 Icon='🎻'>0808:12 10:3 13:6 25:4</msg>
@@ -60815,7 +60837,8 @@
 
     <res item="25ALHD2A" icon="🌊" title="5S / Cleaning" star="" tags="Credits #Cleaning #Tidy">
       <note dts="20260110101250" subtitle="2026">
-        <div></div>        
+        <div></div>
+        <msg DTS='20260828143633' SPK='Albatross' EXP=8 Icon='🌪️'>0828:8</msg>
         <msg DTS='20260208192824' SPK='Arcacia' EXP=14 Icon='🧹'>0208:6 0821:8</msg>
         <msg DTS='20260429192639' SPK='Black' EXP=9 Icon='💧'>0429 0528 0616 0812:6</msg>
         <msg DTS='20260208192825' SPK='Cardinal' EXP=30 Icon='🧹'>0208:6 0817:24</msg>
@@ -60823,16 +60846,18 @@
         <msg DTS='20260721230441' SPK='Dorian' EXP=36 Icon='🧹'>0721:30</msg>
         <msg DTS='20260126205029' SPK='Evelyn' EXP=27 Icon='💗'>0126 0528 30 31 0608 16 0809:8 14 21:7 25:5</msg>
         <msg DTS='20260810093730' SPK='Fina' EXP=18 Icon='⚔️'>0810:4 21:5 24:9</msg>
+        <msg DTS='20260828230743' SPK='Ivy' EXP=13 Icon='🧹'>0828:13</msg>
         <msg DTS='20260528164603' SPK='King' EXP=12 Icon='🧹'>0528:12</msg>
         <msg DTS='20260107210639' SPK='Kisaragi' EXP=62 Icon=':MaidOutfit:'>0101 0107x3 09 21 0210:3 0320 24 31 0405:20 0531 0605 12 15 17 19 21 22 25:6 28 0720:3 24:12 0807:12:Blinds 13:3 16 21:3 23</msg>
-        <msg DTS='20260207183016' SPK='Lei' EXP=2 Icon='🗝️'>0207:2 0405:6</msg>
-        <msg DTS='20260108230511' SPK='LRRH' EXP=8 Icon='✨'>Cleaning: 0108 Tidying: 0525:5 0607 14</msg>
+        <msg DTS='20260207183016' SPK='Lei' EXP=20 Icon='🗝️'>0207:2 0405:6 0826:12</msg>
+        <msg DTS='20260108230511' SPK='LRRH' EXP=23 Icon='✨'>Cleaning: 0108 Tidying: 0525:5 0607 14 0826:12 28:3</msg>
         
         <msg DTS='20260210222422' SPK='Melody' EXP=2 Icon='🫧'>0210 0528</msg>
         <msg DTS='20260209202257' SPK='Natalie' EXP=2 Icon='☀️'>0209 0321</msg>
         <msg DTS='20260531091546' SPK='Patricia' EXP=6 Icon='🌊'>0531 0818:5</msg>
-        <msg DTS='20260626211902' SPK='Sasha' EXP Icon='✨'>0626</msg>
+        <msg DTS='20260626211902' SPK='Sasha' EXP=13 Icon='✨'>0626 0826:12</msg>
         <msg DTS='20260123210553' SPK='Skyle' EXP=14 Icon='🌊'>Washing: 0110:2 0123 0520:2 0820:9</msg>
+        <msg DTS='20260827174732' SPK='StarTree' EXP=15 Icon='✨'>0827:10 28:5</msg>
         <msg DTS='20260617110117' SPK='Sylvia' EXP Icon='🧹'>0617</msg>
         <msg DTS='20260609215435' SPK='Tanya' EXP=8 Icon='🧹'>0609 15:2 0725:6</msg>
         <msg DTS='20260314141630' SPK='Zoey' EXP=7 Icon='💧'>0314 0621:6</msg>
@@ -60882,7 +60907,7 @@
           <msg DTS='20260320103302' SPK='Cardinal' EXP=2 Icon='🔥'>0320 0701</msg>
           <msg DTS='20260223104024' SPK='Casey' EXP Icon='♻️'>0223</msg>
           <msg DTS='20260507105228' SPK='Evelyn' EXP=6 Icon='🌱'>0507 14 20 31 0608 30</msg>
-          <msg DTS='20260812134114' SPK='Ken' EXP=6 Icon='🧹'>0812:3 0820:3</msg>
+          <msg DTS='20260812134114' SPK='Ken' EXP=9 Icon='🧹'>0812:3 0820:3 26:3</msg>
           <msg DTS='20260526081154' SPK='Koyo' EXP=2 Icon='🧹'>0526 0603</msg>
           <msg DTS='20260413201519' SPK='LRRH' EXP=8 Icon='🧹'>0413 30 0511 17 29 0612 0701:2</msg>
           <msg DTS='20260226214534' SPK='Patricia' EXP=3 Icon='✨'>0226 0507 31</msg>
@@ -60900,7 +60925,8 @@
       <note dts="20241114232913" subtitle="Cooking"><!--#Cooking 2026--> 
         <note dts="20260811173100" icon="🍎" subtitle="Apple">
           <msg DTS='20260816102440' SPK='44' EXP Icon='🍎'>0815</msg>
-          <msg DTS="20260811173107" SPK="StarTree" EXP=10 Icon="🍎">0811 13 14 19:2 21 22 23 24 25</msg>
+          <msg DTS='20260710201812' SPK='Albatross' EXP Icon='🍎'>0710</msg>
+          <msg DTS="20260811173107" SPK="StarTree" EXP=31 Icon="🍎">0712 14 15:2 16:2 17 19:2 21 21 23 0805:2 08 09 11 13 14 18 19:2 21 22 23 24 25 26 27 28 29</msg>
         </note>
         <note dts="20260821204221" icon="🥦" subtitle="Broccoli">
           <msg DTS='20260821181300' SPK='StarTree' EXP=3 Icon='🥦'>0821 23 24</msg>
@@ -60908,6 +60934,7 @@
         <note dts="20260516234859" icon="🍔" subtitle="Burger">
           <msg DTS='20260320150023' SPK='Natalie' EXP Icon='🍔'>Burger: 0320</msg>
           <msg DTS='20260602205053' SPK='Koyo' EXP Icon='🍔'>0602</msg>
+          <msg DTS='20260723133701' SPK='Sylvia' EXP Icon='🍔'>0723</msg>
         </note>        
         <note dts="20260420215431" icon="🌯" subtitle="Burrito">
           <msg DTS='20260425190709' SPK='Evelyn' EXP Icon='🌯'>Burrito: 0425</msg>
@@ -60921,13 +60948,13 @@
           <msg DTS='20260209142926' SPK='Robert' EXP Icon='🍍'>Pineapple cake</msg>
         </note>
         <note dts="20260610205616" icon="🌾" subtitle="Cereal">
-          <msg DTS='20260609221604' SPK='StarTree' EXP=3 Icon='🌾'>0609 10 23</msg>
+          <msg DTS='20260609221604' SPK='StarTree' EXP=5 Icon='🌾'>0609 10 23 0710 15</msg>
         </note>
         <note dts="20260404211101" icon="🧀" subtitle="Cheese">
           <msg DTS='20260403214613' SPK='Sylvia' EXP Icon='🧀'>Cheese</msg>
         </note>
         <note dts="20260814165718" icon="🌽" subtitle="Corn">
-          <msg DTS="20260814165746" SPK="StarTree" EXP Icon="🌽">0814</msg>
+          <msg DTS="20260814165746" SPK="StarTree" EXP=2 Icon="🌽">0814 29</msg>
         </note>
         <note dts="20260525214246" icon=":Dumpling:" subtitle="Dumplings">
           <msg DTS='20260816120558' SPK='44' EXP=3 Icon='🥟'>0816</msg>
@@ -60949,7 +60976,7 @@
           <msg DTS='20260302124900' SPK='44' EXP=6 Icon='🍜'>Noodle: 0302:3 Udon: 0816:3</msg>
           <msg DTS='20260407183530' SPK='Cardinal' EXP Icon='🍜'>Ramen</msg>
           <msg DTS='20260624204422' SPK='Evelyn' EXP Icon='🍝'>0624</msg>
-          <msg DTS="20260102141241" SPK="Kisaragi" EXP=22 Icon="🍜">Noodle: 0102 13 0201 12 16 19 20 0308 15 25 29 30 0403 04 20 0503 28 0601 0810 11 14 20</msg>
+          <msg DTS="20260102141241" SPK="Kisaragi" EXP=24 Icon="🍜">Noodle: 0102 13 0201 12 16 19 20 0308 15 25 29 30 0403 04 20 0503 28 0601 0810 11 14 20 26 27</msg>
           <msg DTS="20260102141301" SPK="Kisaragi" EXP=5 Icon="🍝">Pasta 0101 0107 0128 0615 17</msg>
           <msg DTS='20260428211931' SPK='Natalie' EXP Icon='🍜'>Noodle</msg>
         </note>
@@ -60965,7 +60992,7 @@
           <msg DTS='20260523145330' SPK='44' EXP Icon='🍚'>Rice</msg>
           <msg DTS='20260523195051' SPK='Amelia' EXP Icon='🍛'>0523</msg>
           <msg DTS='20260418133210' SPK='Black' EXP Icon='🍛'>Rice</msg>
-          <msg DTS='20260114212905' SPK='Kisaragi' EXP=32 Icon='🍛'>Rice: 0114 16 19 20 21 29 30 0213 14 22 0306 07 11 0401 0506 14 17 30 0605 07 13 14 16 19 21 27 0813 22 23 24 25</msg>
+          <msg DTS='20260114212905' SPK='Kisaragi' EXP=35 Icon='🍛'>Rice: 0114 16 19 20 21 29 30 0213 14 22 0306 07 11 0401 0506 14 17 30 0605 07 13 14 16 19 21 27 0813 22 23 24 25 26 28 29</msg>
           <msg DTS='20260215134316' SPK='P4' EXP Icon='🍛'>Rice</msg>
           <msg DTS='20260216120510' SPK='Patricia' EXP Icon='🍛'>Rice</msg>
           <msg DTS="20260604224607" SPK="Robert" EXP Icon="🥡">0604</msg>
@@ -61050,7 +61077,7 @@
           <msg DTS="20260125104400" SPK="Evelyn" EXP=16 Icon="💧">0125 0501 11 12 17 28 30 0605 07 26 0809:5 21:3</msg>
           <msg DTS='20260113184205' SPK='Fina' EXP=3 Icon='🌾'>0113 0508 0824</msg>
           <msg DTS='20260619130629' SPK='Ivy' EXP Icon=':Potion:'>0619</msg>
-          <msg DTS="20260102141016" SPK="Kisaragi" EXP=21 Icon="🧺">0102 16 21 0313 0426 0514 17 22 29 31 0605 07 14 26 0810:3 14 21:2 23</msg>
+          <msg DTS="20260102141016" SPK="Kisaragi" EXP=24 Icon="🧺">0102 16 21 0313 0426 0514 17 22 29 31 0605 07 14 26 0810:3 14 21:2 23 28:3</msg>
           <msg DTS='20260504144844' SPK='Koyo' EXP Icon='💧'>0504</msg>
           <msg DTS='20260507234529' SPK='Lei' EXP=2 Icon='🌾'>0507 0508</msg>
           <msg DTS='20260516233159' SPK='Lei' EXP Icon='💧'>0516</msg>
@@ -64310,10 +64337,12 @@
       <msg DTS="20250208111228" SPK="Vivi" EXP Icon="🔮">Most of the data left in Guild Log are chores. We don't need to keep that much data.</msg>
       <msg DTS="20250208111412" SPK="Ivy" EXP Icon="🚀">But the system is supposed to scale. If the website can read from Google Sheet, then when you log credits by using the feedback form, the result will show automatically on the website.</msg>
       <hr>
+      <note dts="20260827235059" subtitle="Guild Log AIR">
+        <msg DTS="20260827235211" SPK="Patricia" EXP=5 Icon="🌪️">Currently at 504 entries. Reduced to 432.</msg>
+      </note>
       <note dts="20260505214233" subtitle="Guild Log LG">
         <msg DTS='20260505210839' SPK='|Cardinal|Vivi|Sylvia|' EXP=3 Icon='🔥'>Now at 6655</msg>
         <msg DTS="20260627121841" SPK="3B" EXP Icon="🌑">Now at 6483</msg>
-
       </note>
       <note dts="20250227003408" subtitle="Guild Log MSG">
         <msg DTS="20250227003431" SPK="Vivi" EXP Icon="🌑">Clear the message cache at Guild Log.</msg>
@@ -80858,11 +80887,21 @@
         </note>
         <note dts="20260825191513" icon="□🔒" subtitle="Private Property Impount Path">
           <msg DTS="20260825192003" SPK="|LRRH|Gemini|" EXP=2 Icon="🧭">Gemini says this is the sensible path because trying to possess the car would incur back registration fees. <url>https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml</url></msg>
+          <hr>
+          <note dts="20260827130120" icon="🕰️" subtitle="Log">
+            <msg DTS='20260826114858' SPK='Dawn' EXP=3 Icon='🔍'>Double checking for alternatives by Saturday</msg>
+          </note>
+          
 
         </note>
         <hr>
         <note dts="20260825182006" icon="□📯" subtitle="Post and Apraise">
           <msg DTS="20260825182051" SPK="LRRH" EXP Icon="📯">After getting the title, post and see who might want to buy it.</msg>
+          <hr>
+          <note dts="20260827130005" icon="🕰️" subtitle="Log">
+            <msg DTS='20260826113410' SPK='LRRH' EXP=1 Icon='🐾'>Calling to compare.</msg>
+          </note>
+          
         </note>
         <hr>
         <note dts="20260825182136" icon="□⚖️" subtitle="Decide">
@@ -80890,6 +80929,12 @@
         <hr>
         <note dts="20260825182926" icon="□:TreasureChest:" subtitle="Conclude">
           <msg DTS="20260825182948" SPK="LRRH" EXP Icon="🧭">Clean the space for a car or storage.</msg>
+          <hr>
+          <note dts="20260827130209" icon="🕰️" subtitle="Log">
+            <msg DTS='20260826114924' SPK='LRRH' EXP=2 Icon='🧹'>Tidying to prepare for 
+              towing</msg>
+              <msg DTS='20260826112739' SPK='P4' EXP Icon=':Shuriken:'>Cleaning</msg>
+          </note>
         </note>
         <hr>
         <note dts="20260825180938" icon="⭐" subtitle="Card">
@@ -80898,7 +80943,16 @@
             □📯 Get Buyers<br>
             □⚖️ Pick Buyer<br>
             □:TreasureChest: Conclude<br>
-          </card>
+          </card>          
+          <msg DTS='20260825172020' SPK='|Fina|Bing|' EXP=3 Icon='🖼️'>Image Rolling</msg>
+
+        </note>
+        <note dts="20260827125621" icon="🎓" subtitle="Study">
+          <msg DTS='20260825201032' SPK='Koyo' EXP=3 Icon='🐾'></msg>
+          <msg DTS='20260825172031' SPK='Lei' EXP=3 Icon='🗝️'></msg>
+          <msg DTS='20260825193136' SPK='LRRH' EXP=3 Icon='🐤'></msg>
+          <msg DTS='20260825201032' SPK='Tanya' EXP=3 Icon='🔮'></msg>
+          
         </note>
       </res>
     </topic>
@@ -99484,6 +99538,7 @@ Goal: Turn systemic 'shredding' into civilizational 'celebration.'"</msg>
           <msg DTS='20260811154311' SPK='Lei' EXP=2 Icon='⚡'>0811:2</msg>
           <msg DTS='20260824130353' SPK='LRRH' EXP=1 Icon='🐾'>Check refund: No email, no refund</msg>
           <msg DTS='20260825125416' SPK='Zoey' EXP=5 Icon='🏹'>Calling: Got an interaction number.</msg>
+          <msg DTS='20260829103307' SPK='Cardinal' EXP=1 Icon='🌛'>Refund received</msg>
         </note>
       </res>
     </topic>
@@ -103347,10 +103402,8 @@ All operations are conducted with strict neutrality, transparency, and accountab
           <msg DTS='20260704010523' SPK='|StarTree|LRRH|' EXP=10 Icon='📋'>Categorizing and arranging quests and kanban.</msg>
           <msg DTS='20260701101415' SPK='LRRH' EXP Icon='🐤'>Adding stock photos to quests.</msg>
           <msg DTS='20260702025319' SPK='Cardinal' EXP=6 Icon='🥁'>Adding a quest for Public Cleanup. Importing chat contents.</msg>
-          <msg DTS='20260809182926' SPK='|Sasha|LRRH|Evelyn|' EXP=12 Icon='🎀'>Physical Prototype</msg>
-          <msg DTS='20260810103539' SPK='Cardinal' EXP=3 Icon='🎩'>Physical Prototype</msg>
-          <msg DTS='20260822123418' SPK='Evelyn' EXP=5 Icon='💗'>Physical Prototype Icons</msg>
-          <msg DTS='20260822182511' SPK='P4' EXP=12 Icon='⚔️'>Cutting icons.</msg>
+          
+          
         </note>
         <note dts="20260825145027" icon="🔔" subtitle="GitHub MB">
           <msg DTS="20260825145105" SPK="Zoey" EXP Icon="🧭">This is about upgrading the Magic Bakery Site at Github to better support the digital version of the quest board.</msg>
@@ -103359,9 +103412,36 @@ All operations are conducted with strict neutrality, transparency, and accountab
             <msg DTS="20260825145212" SPK="Zoey" EXP Icon="📌">The area for public quests should be more distinct so people can tell them apart from guild quests.</msg>
           </note>
         </note>
+        <note dts="20260829111201" icon="❄️" subtitle="Digital Protoype: Hex">
+          <msg DTS="20260829111209" SPK="|Sylvia|Duck|" EXP Icon="❄️">When the length of a side is s, the height and width of a symmetrical pointy-up hex is height=2s, width=(√3)s=1.732s.</msg>
+          <hr>
+          <note dts="20260829192205" icon="✅" subtitle="3:Good">
+            [3] StarTree, Evelyn, LRRH<br>
+            <msg DTS="20260829192312" SPK="StarTree" EXP Icon="🌱">StarTree thinks that the hex map for quests looks good, but is it useful?</msg>
+            <msg DTS="20260829192731" SPK="Evelyn" EXP Icon="💗">it looks nice but it is a bit distracting.</msg>
+            <msg DTS="20260829214802" SPK="Tanya" EXP Icon="🔍">How do you "use" this hex map? What does it give beyond the existing list and nodes?</msg>
+            <msg DTS="20260829215048" SPK="Zoey" EXP Icon="🏹">It is just more like a game and less boring.</msg>
+            <msg DTS="20260829215323" SPK="StarTree" EXP Icon="🌱">The prototypes (both physical and digital), don't have the same quests as the quest GitHub Quest Board. Should they be the same for better comparison? What should happen to a quest on the quest board that is not on a prototype?</msg>
+            <msg DTS="20260829215605" SPK="Tanya" EXP Icon="🔮">We should reformat the @chapters to quests. In each @ section should be strictly the steps or subquests.</msg>
+            <msg DTS="20260829220729" SPK="Zoey" EXP Icon="🏹">If we are doing that we should drop the @ sign. But isn't this what the top section is for?</msg>
+            <msg DTS="20260829221203" SPK="Tanya" EXP Icon="🔮">The section on top doesn't auto sort.</msg>
+            <msg DTS="20260829223318" SPK="LRRH" EXP Icon="🥨">I think right now at least someone finds the hex map useful, so it can proceed with programming so the hex map is automatically generated.</msg>
+
+          </note>
+
+        </note>
         <note dts="20260825144839" icon="📋" subtitle="Physical Prototype">
           <msg DTS="20260825144856" SPK="Zoey" EXP Icon="🧭">This is about designing and printing components for a physical board for a quest map.</msg>
-
+          <hr>
+          <note dts="20260827134412" icon="✂️" subtitle="Crafting">
+            <msg DTS='20260809182926' SPK='|Sasha|LRRH|Evelyn|' EXP=12 Icon='🎀'>Physical Prototype</msg>
+            <msg DTS='20260810103539' SPK='Cardinal' EXP=3 Icon='🎩'>Physical Prototype</msg>
+            <msg DTS='20260822123418' SPK='Evelyn' EXP=5 Icon='💗'>Physical Prototype Icons</msg>
+            <msg DTS='20260822182511' SPK='P4' EXP=15 Icon=':Shuriken:'>0822:12:Cutting icons 0825:3</msg>           
+            <msg DTS='20260825165859' SPK='Patricia' EXP=3 Icon='🔮'>Physical Prototype</msg> 
+            <msg DTS='20260825143740' SPK='Zoey' EXP Icon='🏹'>Physical Prototype</msg>
+            
+          </note>
         </note>
       </res>
       <note dts="20260810184926" icon="🌾" subtitle="Back End">

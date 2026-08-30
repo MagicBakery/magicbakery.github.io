@@ -2009,7 +2009,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   let elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20260810 Hide Res when there is Card";
+  elContainer.innerHTML = "20260829 PB with Blank Author";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -4747,10 +4747,12 @@ function MMInner(el,mMacro){
       
     mHTML = "<a onclick=\"" + InterLink() + "'" + mMacro.node+ "');return false;\" class=\"mbbuttonIn mbILB35 mbRankBlk" + mRank + "\" href=\"" + ViewerPath() + "?id=P"+  mMacro.node  +"\" title='Quests Completed: "+ mUpdates +"\nHighest Rank: "+mRank+"\nRemaining: "+mGuildLogCount+"'>" + mRankIcon + "</a>";
     mHTML += "<span class='mbILB25 mbRankNone' style='margin-left:5px'>" + mStatusIcon + "</span>";
+    mHTML += "<span class='mbbutton' onclick=\"ToggleHidePN(this)\" style='padding:0px 7px 0px 4px'>";
     mAuthor = mMacro.author;
     if(NotBlank(mAuthor)){
-      mHTML += "<span class='mbbutton' onclick=\"ToggleHidePN(this)\" style='padding:0px 7px 0px 4px'><span class='mbILB25'><div class='mbavem mb"+ mAuthor+ "'></div></span> " + mMacro.chapter + "</span>";
+      mHTML += "<span class='mbILB25'><div class='mbavem mb"+ mAuthor+ "'></div></span> ";
     }
+    mHTML += mMacro.chapter + "</span>";
     
     AddElement(el,"span",mHTML);
     

@@ -912,6 +912,7 @@ span.mbIcon > icon{font-size: 0px;}
 .mbChatGPT {background-image:url('https://raw.githubusercontent.com/MagicBakery/Images/refs/heads/main/ChatGPT4.png');}
 .mbChris {background-image:url('https://raw.githubusercontent.com/MagicBakery/Images/refs/heads/main/Chris.png');}
 .mbClyde {background-image:url('https://raw.githubusercontent.com/MagicBakery/Images/refs/heads/main/Clyde.png');}
+.mbDawn {background-image:url('https://raw.githubusercontent.com/MagicBakery/Images/refs/heads/main/Dawn.png');}
 .mbDuck {background-image:url('https://raw.githubusercontent.com/MagicBakery/Images/refs/heads/main/Duck.png');}
 .mbEmi {background-image:url('https://raw.githubusercontent.com/MagicBakery/Images/refs/heads/main/Emi.png');}
 .mbEvelyn {background-image:url('https://raw.githubusercontent.com/MagicBakery/Images/refs/heads/main/Evelyn3.png');}
@@ -1637,6 +1638,7 @@ margin:5px 0px;
   margin-top:-2px;
   margin-bottom:2px;
 }  
+
 .mbIndent{
   padding-left:25px;
 }
@@ -1675,6 +1677,10 @@ margin:5px 0px;
   top:50%;
   left:50%;
   text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
+}
+.mbPBInfo{
+  margin-top:2px;margin-left:30px;font-size:14px;line-height: 12px;
+  clear:both;
 }
 .mbp{
   font-family:Bitter;
