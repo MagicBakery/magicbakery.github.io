@@ -2411,6 +2411,7 @@ function MacroIcons(el,iHTMLInner){
     ["Radio","📻"],
     ["Rainbow","🌈"],
     ["Ramen","🍜"],
+    ["RedCloak",":RedCloak:"],
     ["Ribbon","🎀"],
     ["Roadsign",":Roadsign:"],
     ["Rock","🪨"],
