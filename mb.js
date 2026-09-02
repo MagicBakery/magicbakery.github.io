@@ -2009,7 +2009,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   let elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20260829 PB with Blank Author";
+  elContainer.innerHTML = "20260902 var/let fix";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -7840,7 +7840,8 @@ function XP_DisplayEL(elFrame,bOrder){
   let mEXPList="";
   let mEXPMap = new Map();
   let mEXPDetective=0;
- 
+  let mEXPTotal = 0;
+  let mEXPStr = "";
 
   for(let i=1; i<=ArchiveNum();i++){
     $(document).ready(function(){
@@ -7866,8 +7867,8 @@ function XP_DisplayEL(elFrame,bOrder){
           });
           mEXPArray.sort((a,b)=>{return a[0] - b[0];});
           mEXPArray.reverse();
-          let mEXPTotal = 0;
-          let mEXPStr = "";
+          mEXPTotal = 0;
+          mEXPStr = "";
           mEXPArray.forEach((pair)=>{
             mEXPStr += pair[1] + pair[0] + " ";
             mEXPTotal += pair[0];
