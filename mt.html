@@ -3519,6 +3519,7 @@
 						<option value="⏯️ Script Resume">Resume playing the stage script</option>
 						<option value="⏹️ Script Stop">Stop the current stage script</option>
 						<option value="✉️ Send Message">Send feedback, give suggestion, or log bugs</option>
+						<option value="✨ Show Archived">Show archived cards</option>
 						<option value="🐣 Starter Pack">Reload the default content</option>
 						<option value="🏷️ Tag Cloud">Show/hide the tag cloud</option>
 						<option value="💼 Translate to Google Sheet">(Temp) Guild Utility that translate a text record
@@ -5275,6 +5276,7 @@
 			}
 			const rndCard = list[Math.floor(Math.random() * list.length)];
 			const data = DATAByID(rndCard.dataset.id);
+			// 20260912: StarTree: A custom text card does not have DATA in the archive.
 			if (data) {
 				createCard(data);
 			}
@@ -5464,6 +5466,9 @@
 				ScriptStart(null, false, true); hit = true;
 			} else if (choice.startsWith("✉️")) { // Send Message
 				window.open('https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform', '_blank');
+				hit = true;
+			} else if (choice.startsWith("✨")){ // Show Archived Cards
+				UnstowAllCards();
 				hit = true;
 			} else if (choice.startsWith("🐣")) { // Starter Pack
 				importFromURL(APP_DEFAULTPACK);
@@ -7607,7 +7612,6 @@
 			}
 
 		}
-
 		function Stage() {
 			return document.querySelector('.stage-area');
 		}
@@ -8454,6 +8458,17 @@
 			} catch (err) {
 				alert("Error accessing clipboard: " + err.message);
 			}
+		}
+		function UnstowAllCards(){
+			// 20260912: StarTree: For all .card div in div #storage, move it to a track.
+			const targetTrack = document.querySelector('.track');
+			let storedCards = document.getElementById('storage').querySelectorAll('div.card');
+			storedCards.forEach(a => {
+				targetTrack.append(a);
+				const c = new Card(a);
+				c.updateAssetListStatus(false);
+				DEBUG("8470");
+			});
 		}
 		function URLHotLink(url) {
 			// 20260205: LRRH: Converts a google drive link to a hotlink
