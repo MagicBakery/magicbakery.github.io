@@ -12,6 +12,7 @@
 	<link rel="icon" type="image/png" href="https://magicbakery.github.io/images/Star.png">
 	<link rel="apple-touch-icon" href="/icons/star_192.png">
 	<link rel="manifest" href="/mt_manifest.json">
+	<script src="qsdk.js"></script>
 	<script>
 		const APP_VERSION = "20260619212900"; //#Version
 		const APP_ANNOUNCEMENT = "20260618: Overflow-Wrap"
@@ -4633,6 +4634,10 @@
 
 			const loadedAC = document.querySelector(".card.is-active");
 			if (loadedAC) { setActiveCard(loadedAC); }
+
+			// 20260919: Sasha: Apply Wake Lock
+			
+
 		};
 
 		/* #ALPHABETICALLY SORTED CODE */
@@ -7892,6 +7897,7 @@
 				}
 			});
 			document.addEventListener('click', async (e) => {
+				await WakeLock.requestScreen();
 				if (await fairyRemovalCheck(e)) { return; }
 				if (await fairyBubblePopping(e)) { return; }
 				if (await fairyBlessCheck(e)) { return; }
