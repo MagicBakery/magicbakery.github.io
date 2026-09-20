@@ -5055,7 +5055,7 @@
 			bubble.innerText = ''; // Nondescript at first
 
 			// Random position within safe center area
-			const top = Math.floor(Math.random() * 80 + 10); // 10% to 90%
+			const top = Math.floor(Math.random() * 70 + 10); // 10% to 80%
 			const left = Math.floor(Math.random() * 80 + 10); // 10% to 90%
 			const size = Math.floor(Math.random() * 50 + 50);
 			let r = Math.random() > 0.25 ? 255 : 0;
@@ -5785,6 +5785,15 @@
 			// Then immediately commit the choice.
 			ScriptRun(null);
 
+		}
+		function fairyDelayedClick(el,ms){
+			ms = Number(ms);
+			if (!Number.isFinite(ms) || ms < 0) {
+				ms = 0;
+			}
+			return setTimeout(() => {
+    		el.click();
+  		}, ms);
 		}
 		async function fairyRemovalCheck(e) {
 			// 20251226: StarTree: Handle element removal
@@ -6582,6 +6591,11 @@
 				StageSet(tail1); return true;
 			} else if (command === 'TIMER') {
 				ScriptTimer(arg1, arg2, arg3); return true;
+			} else if (command ==='WAIT'){
+				// 20260919: Koyo: Wait for the specified number of seconds, then click the play button.
+				const playButton = document.querySelector('.stage-next-btn');
+				fairyDelayedClick(playButton,tail1);
+				return true;
 			}
 			return false;
 		}
