@@ -3944,7 +3944,7 @@
 	</div>
 
 	<div id="stage-ui" class="stage-ui">
-		<div class="stage-next-btn" onclick="ScriptRun(null,true)">
+		<div class="stage-next-btn" onclick="event.stopPropagation();ScriptRun(null,true)">
 			<svg viewBox="0 0 24 24" width="40" fill="white">
 				<path d="M8 5v14l11-7z" />
 			</svg>
@@ -4023,7 +4023,7 @@
 		let ALL_TAGS = [];
 		let activeTags = new Set(), sidebarIsGrid = false, currentDock = 'right', autoFlush = false;
 		let tagSortMode = 'alpha', savedPaths = [];
-
+		let fairyDelayedClickTimer = null;
 
 		class Card {
 			constructor(element) {
@@ -5786,14 +5786,30 @@
 			ScriptRun(null);
 
 		}
-		function fairyDelayedClick(el,ms){
+		function fairyDelayedClick(el,ms,bAbort){
+			// 20260920: Sasha: This is a unique timer. There can only be one. A new call replaces the old one.
+			if(bAbort){
+				if (fairyDelayedClickTimer !== null) {
+					clearTimeout(fairyDelayedClickTimer);
+					fairyDelayedClickTimer = null;
+				}
+				return;
+			}
+
 			ms = Number(ms);
 			if (!Number.isFinite(ms) || ms < 0) {
 				ms = 0;
 			}
-			return setTimeout(() => {
-    		el.click();
-  		}, ms);
+			// Cancel the previously scheduled click
+			if (fairyDelayedClickTimer !== null) {
+					clearTimeout(fairyDelayedClickTimer);
+			}
+			fairyDelayedClickTimer = setTimeout(() => {
+					fairyDelayedClickTimer = null;
+					el.click();
+			}, ms);
+
+			return fairyDelayedClickTimer;
 		}
 		async function fairyRemovalCheck(e) {
 			// 20251226: StarTree: Handle element removal
@@ -6546,6 +6562,7 @@
 			const tail3 = tail2.trim().rightOf(' ').trim();
 			const arg3 = tail3.leftOf(' ').trim().toUpperCase();
 
+			if (command === 'ANCHOR') { StageAnchorTags(); return true; }
 			if (command === 'BUTTON') { addButton(arg1, arg2, tail3); return true; }
 			if (command === 'CHOOSE') { ChoiceAdd(arg1); return true; }
 			if (command === 'CLEAR') {
@@ -6642,7 +6659,8 @@
 			return false;
 		}
 		function processScriptTag(line, bAdd) {
-			const tags = line.split(' ');
+			// 20260920: Sasha: Change to comma separated list because a tag could have a space.
+			const tags = line.split(',');
 			tags.forEach(rawTag => {
 				const tag = rawTag.trim();
 				const exactTag = ALL_TAGS.find(t => t.toLowerCase() === tag.toLowerCase());
@@ -7639,8 +7657,9 @@
 			// Deactivate all actors.
 			stageEl.querySelectorAll('.actor.active').forEach(a => { a.classList.remove('active'); });
 		}
-		async function StageChange(url, anchor = "center") {
+		async function StageChange(url, anchor = "center",iData) {
 			await fadeLoadingScreen(true);
+			
 			// 20260203: Auto hide all actors until they speak again.
 			StageActorsOff();
 			// Reset the narration streak
@@ -7650,10 +7669,26 @@
 			bubble.classList.remove('narrative-mode');
 
 			const stageEl = document.getElementById('stage-area');
+			// 20260920: Sasha: Store the ID of the scene if there is one.
+			if(iData){
+				stageEl.dataset.p = iData.p;
+			}else{
+				delete stageEl.dataset.p;
+			}
 			stageEl.style.backgroundImage = `url(${url})`;
 			stageEl.style.backgroundPosition = anchor;
 			await new Promise(r => setTimeout(r, 200));
 			await fadeLoadingScreen(false);
+		}
+		function StageAnchorTags(){
+			// 20260920: Sasha: Apply all the tags of the current scene if there is data for the tag.
+			const stageEl = document.getElementById('stage-area');
+			if(!stageEl.dataset.p){return;}
+			const mSceneData = DATAByID(stageEl.dataset.p);
+			if (!mSceneData || !Array.isArray(mSceneData.t)) {return;}
+			// mSceneData.t is an array of text. Add them all to the context
+			const tags = mSceneData.t.join(',');
+			processScriptTag(tags,true);
 		}
 		function StageFade() {
 			// 20260119: Sasha: Fades the stage area away.
@@ -7710,7 +7745,7 @@
 			let prefix = args.charAt(0);
 
 			if (argsU.startsWith("!BLANK")) {
-				StageChange('', anchor);
+				StageChange('', anchor, null);
 				stageEl.classList.add('active');
 				return true;
 			}
@@ -7740,8 +7775,8 @@
 				// Assume it is the ID
 				scene = DATAByID(args);
 			} else if (args.includes("/")) {
-				// if it contains /, assume that it is an URL.								
-				StageChange(args, anchor);
+				// if it contains /, assume that it is an URL.
+				StageChange(args, anchor, null);
 				stageEl.classList.add('active');
 				return true;
 			} else if (prefix === '+') {
@@ -7760,10 +7795,10 @@
 			}
 			if (!scene) { scene = getActiveCardData(); }
 			if (scene) {
-				StageChange(DATAFullResURL(scene), anchor);
+				StageChange(DATAFullResURL(scene), anchor, scene);
 			} else {
-				// If there is no match, reset the background image to nothing.				
-				StageChange('', anchor);
+				// If there is no match, reset the background image to nothing.
+				StageChange('', anchor, null);
 			}
 			stageEl.classList.add('active');
 			return true;
@@ -7911,6 +7946,7 @@
 				}
 			});
 			document.addEventListener('click', async (e) => {
+				fairyDelayedClick(null,null,true);
 				await WakeLock.requestScreen();
 				if (await fairyRemovalCheck(e)) { return; }
 				if (await fairyBubblePopping(e)) { return; }
