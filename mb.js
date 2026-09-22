@@ -436,8 +436,8 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
   // 20240720: StarTree: This function fills a board with content.
   // 20240509: Skyle: Added to handle Offline Archive.
   // 20231224: StarTree: If the node has a <content> section, then assume that this is the new node style that has <node>, <content>, and <ref> sections.
-  let elBanner; try{elBanner = elRecord.querySelector('banner');}catch(error){}        
-  let elContent = elRecord.querySelector('content');
+  let elBanner; try{elBanner = elRecord.querySelector('banner');}catch(error){}
+  let elContent; try{elContent = elRecord.querySelector('content');}catch(error){};
 
   let elNode = elRecord.querySelector('node');
   let mNodeID = "";
@@ -1272,6 +1272,7 @@ function IFrameURLSet(el){
       mTitle = mInput;
     }
   }
+  DEBUG(1275+" " + mInput);
   // 20230916: Always make a new iFrame 
   let mHTML = "<span class='mbRef'><a class='mbbutton' onClick='BoardRemove(this)' style='float:right' title='Close'>:Close:</a></span>";
   mHTML += `<a onClick='IFrameRefresh(this,"${mInput}")' title='Refresh'>${mIcon}</a> <a class='mbbutton' onClick='HideNext(this)' title='${mTip}'>${mTitle}</a>`;
@@ -3221,6 +3222,7 @@ function GetURLCode(mURL,mDesc, mLang){
   if(IsBlank(mDesc)){
     mDesc = "url";
     if(mURL.startsWith("https://magicbakery.github.io/mt.html?id=")){mDesc="▶";bIcon=true;}
+    if(mURL.startsWith("./mt.html?id=")){mDesc="▶";bIcon=true;}
     if(mURL.includes(".jpeg")){mDesc="JPEG"};
     if(mURL.includes(".pdf")){mDesc="PDF"};
     if(mURL.includes("amazon.com")){mDesc="Amazon"};

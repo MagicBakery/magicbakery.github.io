@@ -6921,12 +6921,12 @@
 
 			// 20260119: LRRH: When the script interpreter encounters a * command line it enters bubble spawning mode. During that mode, if it encounters a non * command line, it waits for the mode to be over. (The confirm button of a choice bubble allows the code to resume.
 			// Format of the * command line itself: *A* Text of choice A
-			// 20260207: StarTree: If 
+			// 20260207: StarTree: If the choice text contains |, it should use that as delimiter and just pick one option randomly.
 
 			const parts = line.split('*');
 			let code = parts[0].trim();
 			const prefix = code.charAt(0);
-			let choiceText = line.rightOf('*').trim();
+			let choiceText = line.rightOf('*').trim().oneOf().trim();
 			let choice = "";
 			if (!line.includes('*')) {
 				// If the line does not have a second *, just make an inert list.
