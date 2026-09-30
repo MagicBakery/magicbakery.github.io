@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter">
+  <link rel="stylesheet" href="mb.css">
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="mb.js"> </script>
+  <title>Magic Bakery</title>
+  <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+</head>
+<body id="MBJQSW">
+  <div class="header">
+    <div style="text-align: center;line-height:2px;margin-top:-5px">
+      <h4>
+        <!---->
+        <div class="mbIcon mbIconShift"
+          style="background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/WingL.png')">
+        </div>
+        <a class="mbpointer" title="About Magic Bakery" href="../" style="color:white;"
+          onclick="BoardLoadPF(this,'202208172056');return false">Magic Bakery</a>
+        <a class="mbbutton mbpointer" title="Visit Marker" onclick="NodeMarkUseCookie(this,true)"><span class="mbIcon"
+            style="Height:1.7em;Width:1.7em;position:relative;top:-5px;margin-bottom:-10px;background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png')">
+            <icon>🥨</icon>
+          </span></a>
+        <a class="mbpointer" title="About Panarcademy" href="../?id=P202403231454" style="color:white;"
+          onclick="BoardLoadPL(this,'202403231454');return false">Panarcademy</a>
+        <div class="mbIcon"
+          style="background-image:url('https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/WingR.png')">
+        </div>
+
+
+
+
+      </h4>
+
+      <small style="font-size: 10px;">
+        <a class="mbpointer" title="Website Updates" href="../?id=P202303052122" style="color:white;"
+          onclick="BoardLoadPF(this,'202303052122');return false">
+          <latestupdate></latestupdate>
+        </a>
+        <a class="mbpointer" title="Turn off Offline mode" d-offline onclick="Offline(null,true)"
+          style="color:gold"></a>
+      </small>
+    </div>
+    <hide>Arcacianism | Arcacian Principle | Let people help each other and reward those who do. | Peacemaker | Peace
+      Paradigm Ranking</hide>
+
+  </div>
+
+<div id="MainArea" main="" class="flex" style="padding-bottom:27px;padding-top:35px;justify-content:center;"><div class="mbPanel" panel="" serve="" style="flex: 1 1 50%;">      
+      <div control="" style="padding:0px 3px 2px 2px;">
+        <a class="mbbutton" onclick="IFrameURLSet(this)" title="Jquery Blogspot (Legacy)" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/MantleClock.png&quot;)"><icon>🕰️</icon></span></a>
+        <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;" inputmode="search"> 
+        
+        <a class="mbbutton" onclick="JQAdd(this,true)" title="Jquery GitHub" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Hatch.png&quot;)"><icon>🐣</icon></span></a>
+        <!--<a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board"><span class='mbIcon' style='background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pretzel.png&quot;)'><icon>🥨</icon></span></a>-->
+        
+        <a class="mbbutton" onclick="ShowNext(this)" style="float: right; cursor: text;" title="Panel Control"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pancake.png&quot;)"><icon>🥞</icon></span></a>
+        <div class="mbscroll mbhide" control="" style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">          
+          
+          <div control="" style="text-align: center;min-width:125px;font-size: 22px;">
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span></button>
+            <hide>              
+              <hr>    
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'800000000000',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P800000000000" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Magnifier.png&quot;)"><icon>🔍</icon></span> Search</a><br>    
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202405051137',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202405051137" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Phone.png&quot;)"><icon>☎️</icon></span> Help Center</a><br>    
+                       
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'Feedback');HC(this);return false;" target="_blank" title="Feedback" href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Kudookie.png&quot;)"><icon>💟</icon></span> Feedback</a><br>  
+
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202207131009',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202207131009" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Teddy.png&quot;)"><icon>🧸</icon></span> Board Games</a><br>   
+                
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202208172056',false, true);HC(this);return false;" title="Calendar" href="./?id=P202208172056" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Question.png&quot;)"><icon>:?:</icon></span> About</a><br>   
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202403231454',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202403231454" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/SquareCap.png&quot;)"><icon>🎓</icon></span> Academy</a><br>  
+                                                              
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Chick.png&quot;)"><icon>🐤</icon></span></button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'900000000000',false, true);HC(this);return false;" title="Quest Board" href="./?id=P900000000000" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Circus.png&quot;)"><icon>🎪</icon></span> Quest Board</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202310072314',false, true);HC(this);return false;" title="Calendar" href="./?id=P202310072314" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Calendar.png&quot;)"><icon>📅</icon></span> Calendar</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202207242047',false, true);HC(this);return false;" title="Roll Call" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/PostHorn.png&quot;)"><icon>📯</icon></span> Roll Call</a><br> 
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202404260005',false, true);HC(this);return false" title="Message Scanner" href="./?id=P202404260005" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Bell.png&quot;)"><icon>🔔</icon></span> Messages</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202301251008',false, true);HC(this);return false;" title="Scoreboard" href="./?id=P202301251008" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Crown.png&quot;)"><icon>👑</icon></span> Scoreboard</a><br>
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202405010908',false, true);HC(this);return false;" title="Guild Inbox" href="./?id=P202405010908" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Mailbox.png&quot;)"><icon>📬</icon></span> Guild Inbox</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202307161350',false, true);HC(this);return false;" title="Dice Roller" href="./?id=P202307161350" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Dice.png&quot;)"><icon>🎲</icon></span> Dice Roller</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="BoardLoad(this,'202303191144',false, true);HC(this);return false" title="Sitemap/Index" href="./?id=P202303191144" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/ShoppingCart.png&quot;)"><icon>🛒</icon></span> Supplies List</a><br>
+              
+              <a class="mbbutton mbIconShift" onclick="Offline(null,true);" title="Offline Mode" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Backpack.png&quot;)"><icon>🎒</icon></span> Offline Mode</a>
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span></button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onclick="PanelAddBefore(this);HC(this);" title="Add a panel before" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span> Add Before</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelAddAfter(this);HC(this);" title="Add a panel after" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/HeartBrown.png&quot;)"><icon>🤎</icon></span> Add After</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelToggleServe(this);HC(this);" title="Serve nodes to this panel" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Pancake.png&quot;)"><icon>🥞</icon></span> Serve Here</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelToggleWidth(this);HC(this);" title="Toggle the width of this panel" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Waffle.png&quot;)"><icon>🧇</icon></span> Toggle Width</a><br>
+              <a class="mbbutton mbIconShift" onclick="PanelRemove(this);" title="Close" style="cursor: text;"><span class="mbIcon" style="background-image:url(&quot;https://raw.githubusercontent.com/MagicBakery/Icons/refs/heads/main/Close.png&quot;)"><icon>:Close:</icon></span> Close Panel</a><br>
+              <div class="mbCB"></div>
+              <hr>
+            </hide>
+            
+          </div>
+          <div></div><!--DISPLAY AREA-->
+        </div>
+      </div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px">
+ <!--IMPORT POST-RENDER MAINAREA BELOW-->
+<div class='mbscroll' dts='20260930112015'><h1>Quest Society Bylaws</h1><hr><h2>1. Article I - Name and Offices</h2>
+<h3>1.1. Name</h3>
+<p>The name of this corporation is Quest Society (the "Society").</p>
+<h3>1.2. Type of Corporation</h3>
+<p>The Society is a California nonprofit public benefit corporation organized exclusively for charitable and educational purposes under Section 501(c)(3) of the Internal Revenue Code and the California Nonprofit Public Benefit Corporation Law, as stated in its Articles of Incorporation. It is not organized for private gain. The Society operates using the permitted subset of Quest Society Ethics consistent with these tax-exempt purposes; other entities may adopt Quest Society Ethics independently and without affiliation.</p>
+<h3>1.3. Principal Office</h3>
+The principal office of the Society shall be located at such place within the State of California as the Board of Directors may determine from time to time.</p>
+<h3>1.4. Registered Agent</h3>
+<p>The Society’s agent for service of process shall be the individual or corporation designated in the current official filing with the California Secretary of State.</p>
+<h3>1.5. Governing Law and Statutory References</h3>
+These Bylaws shall be governed by, and construed in accordance with, the laws of the State of California. Any reference in these Bylaws to a specific section of the California Corporations Code or other state law shall be deemed to include any equivalent or successor provision under the laws of any other jurisdiction in which the Society may subsequently be incorporated or re-domiciled.</p>
+<h2>2. Article II - Purposes</h2>
+<h3>2.1. Charitable Purposes</h3>
+<p>The Society is organized and operated exclusively for charitable and educational purposes within the meaning of Section 501(c)(3) of the Internal Revenue Code, as outlined in the Society's Articles of Incorporation. No part of these Bylaws shall be construed to expand, narrow, or conflict with the purposes stated in the Articles of Incorporation; in the event of any inconsistency, the Articles of Incorporation shall govern.</p>
+<h3>2.2. Mission</h3>
+<p>The Society accomplishes its charitable and educational purposes by identifying community needs, defining specific public-benefit 'Quests' with fixed, pre-published deliverables and objective acceptance criteria, and administering a program that funds the creation and delivery of educational and civic-improvement outputs, including open-source applications, publicly accessible materials, and the research, stewardship, and advancement of Quest Society Ethics.</p>
+<h3>2.3. Limitations</h3>
+<p>In furtherance of, but not in limitation of, the purposes outlined in the Articles of Incorporation:</p>
+<h4>✅ 2.3.1. Furtherance</h4>
+<p>The Society shall not engage in any activity that is not in furtherance of the purposes described in Section 2.1;</p>
+<h4>✅ 2.3.2. Earnings</h4>
+<p>No part of the net earnings of the Society shall inure to the benefit of any director, officer, or private individual, except that the Society may pay reasonable compensation for services rendered and make distributions in furtherance of its exempt purposes;</p>
+<h4>✅ 2.3.3. Apolitical</h4>
+<p>The Society shall not participate or intervene in any political campaign on behalf of, or in opposition to, any candidate for public office, and shall not devote a substantial part of its activities to attempting to influence legislation, except as permitted for organizations exempt under Section 501(c)(3); and</p>
+<h4>✅ 2.3.4. 501(c)(3)</h4>
+<p>Notwithstanding any other provision of these Bylaws, the Society shall not carry on any activity not permitted to be carried on by an organization exempt under Section 501(c)(3) of the Internal Revenue Code, or by an organization the contributions to which are deductible under Section 170(c)(2) of the Internal Revenue Code.</p>
+<h2>3. Article III - Membership</h2>
+<h3>3.1. No Statutory Members</h3>
+<p>The Society shall have no members within the meaning of California Corporations Code Section 5056. All corporate powers shall be exercised by or under the authority of the Board of Directors, and the Society's activities and affairs shall be managed under the Board's direction, as provided in the Articles of Incorporation.</p>
+<h3>3.2. Program Participants.</h3>
+<p>The Society operates under the objective foundational principles and framework of Quest Society Ethics, serving as its operational constitution. Individuals who participate in the Society's Quest program as questers, donors, or otherwise ("Participants") are not statutory members of the corporation. The sole governing authority of the Society is vested in the Board of Directors, whose primary mandate is the understanding, stewardship, and advancement of Quest Society Ethics. Participants hold no statutory rights of membership under the California Nonprofit Public Benefit Corporation Law, including voting rights regarding the election of directors, amendments to the Articles of Incorporation or these Bylaws, or the dissolution of the Society. Any reference in Society program materials to "the community" refers to Participants in this program capacity only.</p>
+<h3>3.3. Quest Credits</h3>
+<p>The Society may award "Quest Credits" to questers as a measure of participation and accomplishment within the Quest program. Quest Credits:</p>
+<h4>✅ 3.3.1. Program-Tracking</h4>
+<p>Are a program-tracking unit administered solely at the Society's discretion, not a form of equity, debt, deposit, or ownership interest in the Society;</p>
+<h4>✅ 3.3.2. No Voting Rights</h4>
+<p>Confer no voting rights over the Society's governance, corporate actions, or Board composition; and</p>
+<h4>✅ 3.3.3. Usages</h4>
+<p>May be used solely for the purpose described in Section 3.4, within the scope and limits the Board establishes.</p>
+<h3>3.4. Resolving Conflicting Quests</h3>
+<p>Where two or more pre-vetted, publicly posted Quests propose inconsistent or mutually exclusive uses of the same public-benefit opportunity (for example, competing proposals for the same location), questers may bid Quest Credits to select among the vetted alternatives, in accordance with procedures the Board establishes. This bidding process:</p>
+<h4>✅ 3.4.1. Purpose</h4>
+<p>Applies only among Quests that Quest Society has already determined satisfy the Society's charitable and educational purposes and acceptance-criteria standards;</p>
+<h4>✅ 3.4.2. Prioritizing</h4>
+<p>Is a program-administration mechanism for prioritizing among approved public-benefit options, not a corporate governance vote and does not constitute the exercise of any membership right; and</p>
+<h4>✅ 3.4.3. Effects</h4>
+<p>Does not authorize questers to approve a Quest that has not independently satisfied the Society's charitable-purpose review.</p>
+<h3>3.5. Board Authority</h3>
+<p>The Board of Directors may establish, modify, or discontinue the Quest Credit system and any bidding procedures under Section 3.4 by resolution and may adopt written policies governing eligibility, accrual, expiration, and use of Quest Credits.</p>
+<h2>4. Article IV - Board of Directors</h2>
+<h3>4.1. Number and Qualifications</h3>
+The authorized number of directors of the Society shall be not less than three (3), with the exact number to be determined by the number of qualified directors currently holding office and fixed by resolution of the Board of Directors from time to time. Directors shall be natural persons at least 18 years of age who support the charitable and educational purposes of the Society as outlined in Article II. To be qualified for appointment and to remain qualified to serve as a director, an individual must:</p>
+<h4>✅ 4.1.1. Quest Society Ethics</h4>
+Successfully complete the objective Quest Society Ethics (QSE) evaluation, achieve the required metric of program participation responsiveness, and hold the official Director-level QSE Certification Badge, which incorporates mastery of Choice Democracy decision mechanics.</p>
+<h4>✅ 4.1.2. Choice Democracy</h4>
+Comprehend and uphold the operational philosophy that the Society runs on Choice Democracy decision mechanics, wherein the Board of Directors serves as the executing arm of the collective decision process.</p>
+<h3>4.2. Term of Office and Appointment</h3>
+Each director shall hold office for a term of two (2) years (or three (3) years, as determined by Board resolution) or until a successor has been qualified and appointed, except in the case of resignation, disqualification, or death. Directors may be re-appointed for successive terms without limitation, unless otherwise determined by Board policy. Any qualified individual holding the official Director-level Quest Society Ethics (QSE) Certification Badge who consents to serve shall be formally appointed to an available board seat by a majority vote of the current directors then in office.</p>
+<h3>4.3. Ongoing Qualification and Automatic Vacancy</h3>
+Maintenance of the active Director-level Quest Society Ethics (QSE) Certification Badge and active program participation are continuous, ongoing qualifications for holding office. A director's seat shall automatically be declared vacant by the Board pursuant to California Corporations Code Section 5221 upon the formal revocation of their Director-level QSE badge.</p>
+<h3>4.4. Credential Revocation and Safe Harbors</h3>
+The credentialing body may revoke this badge—thereby terminating the director's ongoing qualification—if a director in practice demonstrates a fundamental lack of understanding of Choice Democracy, fails to meet required program participation responsiveness, or actively obstructs or votes against a Choice Democracy resolution, unless the director establishes with objective factual evidence that following the resolution would violate state or federal law, jeopardize the Society's 501(c)(3) tax-exempt status, or breach a mandatory fiduciary duty under California law. In the absence of such a verified legal, tax, or fiduciary safe harbor, a director's deliberate failure to execute a Choice Democracy mandate constitutes an objective failure of ongoing board qualifications, resulting in an immediate declaration of seat vacancy by the remaining directors.</p>
+<h3>4.5. Vacancies and Board Size Adjustments</h3>
+Since the Society utilizes an open, merit-based QSE qualification and appointment framework, the death, resignation, or removal of a director, or the addition of a newly qualified director holding the QSE Certification Badge, shall automatically adjust the total number of authorized and active directors in accordance with Section 4.1, without requiring a forced replacement. A formal "vacancy" requiring remedial appointment action shall only be deemed to exist if the total number of active directors falls below the statutory minimum of three (3). In such an event, the remaining director(s) shall promptly appoint qualified QSE-badged individuals to restore the board to at least the minimum required size.</p>
+<h3>4.6. Resignation</h3>
+Any director may resign effective upon giving written notice to the President, the Secretary, or the Board of Directors, unless the notice specifies a later effectiveness time.</p>
+<h3>4.7. Board Authority and Management</h3>
+Pursuant to California Corporations Code Section 5210 and Article III of these Bylaws, the activities and affairs of the Society shall be conducted, and all corporate powers shall be exercised, by or under the direction of the Board of Directors.</p>
+<h3>4.8. Regular Meetings</h3>
+<p>Regular meetings of the Board of Directors shall be held at least annually at such time and place as the Board may determine by resolution, without the necessity of separate notice when the time and place are fixed by the Board.</p>
+<h3>4.9. Special Meetings</h3>
+<p>Special meetings of the Board of Directors may be called by the President, the Secretary, or any two directors, upon delivery of notice to each director in accordance with Article V.</p>
+<h2>5. Article V - Board Meetings</h2>
+<h3>5.1. Regular Meetings</h3>
+<p>Regular meetings may be held without notice if the time and place are fixed by Board resolution. Otherwise, notice shall be given in the same manner as special meetings.</p>
+<h3>5.2. Special Meeting Procedures and Notice</h3>
+<p>Notice of any special meeting called pursuant to Section 4.8 shall state the time, place, and purpose of the meeting. Such notice shall be delivered personally, by telephone, or by electronic transmission to each director at least 48 hours in advance (or as otherwise provided by law).</p>
+<h3>5.3. Quorum</h3>
+<p>A majority of the authorized number of directors then in office shall constitute a quorum for the transaction of business at any meeting of the Board. Every act or decision done or made by a majority of the directors present at a meeting duly held at which a quorum is present shall be regarded as the act of the Board of Directors, unless a greater number is required by law, the Articles of Incorporation, or these Bylaws.</p>
+<h3>5.4. Participation by Electronic Means</h3>
+<p>Directors may participate in a meeting through use of conference telephone, electronic video screen communication, or other communications equipment, provided that all directors participating can hear one another. Participation in a meeting pursuant to this section constitutes presence in person at such meeting.</p>
+<h3>5.5. Waiver of Notice</h3>
+<p>Notice of a meeting need not be given to any director who signs a waiver of notice or a written consent to holding the meeting, whether before or after the meeting, or who attends the meeting without protesting prior to its commencement or at its commencement regarding the lack of notice.</p>
+<h3>5.6. Action Without a Meeting</h3>
+<p>Any action required or permitted to be taken by the Board of Directors may be taken without a meeting if all members of the Board individually or collectively consent in writing to such action. Such written consent shall be filed with the minutes of the proceedings of the Board and shall have the same force and effect as a unanimous vote of the Board.</p>
+<h2>6. Article VI - Officers</h2>
+<h3>6.1. Officers of the Society</h3>
+<p>The officers of the Society shall be a President, a Secretary, and a Chief Financial Officer (Treasurer). The Society may also have, at the discretion of the Board of Directors, a Chair of the Board, one or more Vice Presidents, Assistant Secretaries, Assistant Treasurers, and such other officers as may be appointed in accordance with Section 6.3. Any number of offices may be held by the same person, except that neither the Secretary nor the Treasurer may serve concurrently as the President or Chair of the Board.</p>
+<h3>6.2. Election of Officers</h3>
+<p>The officers of the Society, except those appointed under Section 6.3, shall be chosen annually by the Board of Directors, and each shall hold office until they resign, are removed, or are otherwise disqualified to serve, or until their successor is elected and qualified.</p>
+<h3>6.3. Appointment of Other Officers</h3>
+<p>The Board of Directors may appoint, and may empower the President to appoint, such other officers as the business of the Society may require, each of whom shall hold office for such period, have such authority, and perform such duties as are provided in these Bylaws or as the Board may from time to time determine.</p>
+<h3>6.4. Removal of Officers</h3>
+<p>Subject to the rights, if any, of an officer under any contract of employment, any officer may be removed, with or without cause, by the Board of Directors at any regular or special meeting of the Board, or, except in the case of an officer chosen by the Board of Directors, by any officer upon whom such power of removal may be conferred by the Board.</p>
+<h3>6.5.  Resignation of Officers</h3>
+<p>Any officer may resign at any time by giving written notice to the Society. Any such resignation shall take effect at the date of the receipt of such notice or at any later time specified therein; and, unless otherwise specified therein, the acceptance of such resignation shall not be necessary to make it effective. Any resignation is without prejudice to the rights, if any, of the Society under any contract to which the officer is a party.</p>
+<h3>6.6. Vacancies in Offices</h3>
+<p>A vacancy in any office because of death, resignation, removal, disqualification, or any other cause shall be filled in the manner prescribed in these Bylaws for regular appointments to such office.</p>
+<h3>6.7. Responsibilities of Officers</h3>
+Since the Society operates via a collaborative parliamentary and guild assembly structure, traditional executive management functions are distributed rather than centralized. The mandatory statutory officers shall fulfill only their designated legal duties as outlined below:</p>
+<h4>✅ 6.7.1. President</h4>
+Subject to the control of the Board of Directors and the collaborative assembly structure of the Society, the President shall serve as the legal corporate president and chief executive officer for purposes of California Corporations Code Section 5213. The President shall sign corporate legal documents as authorized by the Board and shall perform such other legal or statutory duties as are required by law. Operational direction, project management, and governance decisions shall vest collectively in the Board of Directors and the guild assemblies rather than in individual executive offices.</p>
+<h4>✅ 6.7.2. Secretary</h4>
+<p>The Secretary shall keep or cause to be kept, at the principal office or such other place as the Board may direct, a book of minutes of all meetings and actions of the Board, with the time and place of holding, whether regular or special, and, if special, how authorized, the notice given, the names of those present at Board meetings, and the proceedings thereof. The Secretary shall keep, or cause to be kept, at the principal office in California, a copy of the Articles of Incorporation and Bylaws, as amended to date. The Secretary shall give, or cause to be given, notice of all meetings of the Board required by these Bylaws or by law, and shall have such other powers and perform such other duties as may be prescribed by the Board or these Bylaws.</p>
+<h4>✅ 6.7.3. Treasurer</h4>
+<p>The Treasurer shall keep and maintain, or cause to be kept and maintained, adequate and correct books and accounts of the properties and financial transactions of the Society. The books of account shall be open to inspection by any director at all reasonable times. The Treasurer shall deposit all moneys and other valuables in the name and to the credit of the Society with such depositaries as may be designated by the Board; shall disburse the funds of the Society as may be ordered by the Board; shall render to the directors, whenever they request it, an account of all transactions as Treasurer and of the financial condition of the Society; and shall have such other powers and perform such other duties as may be prescribed by the Board or these Bylaws.</p>
+<h2>7. Article VII - Committees</h2>
+<h3>7.1. Board Committees</h3>
+<p>The Board of Directors may, by resolution adopted by a majority of the directors then in office, create one or more committees, each consisting of two or more directors, to serve at the pleasure of the Board. Appointments to such committees shall be made by a majority vote of the directors then in office. Any committee, to the extent provided in the resolution of the Board, shall have the authority of the Board, except that no committee, regardless of Board resolution, may:</p>
+<h4>✅ 7.1.1. Bypass Approval</h4>
+<p>Take any final action on matters that, under the California Nonprofit Public Benefit Corporation Law, also require approval of the directors or approval of a majority of all directors;</p>
+<h4>✅ 7.1.2. Fill Vacancy</h4>
+<p>Fill vacancies on the Board of Directors or on any committee that has the authority of the Board;</p>
+<h4>✅ 7.1.3. Fix Compensation</h4>
+<p>Fix compensation of directors for serving on the Board or on any committee;</p>
+<h4>✅ 7.1.4. Amend Bylaws</h4>
+<p>Amend or repeal Bylaws or adopt new Bylaws;</p>
+<h4>✅ 7.1.5. Amend Resolutions</h4>
+<p>Amend or repeal any resolution of the Board of Directors that by its express terms is not so amendable or repealable;</p>
+<h4>✅ 7.1.6. Create Committees</h4>
+<p>Create any other committees of the Board or appoint the members of committees of the Board; or</p>
+<h4>✅ 7.1.7. Self-Dealing</h4>
+<p>Approve any self-dealing transaction under California Corporations Code Section 5233, except as expressly permitted under those provisions.</p>
+<h3>7.2. Advisory Committees</h3>
+<p>The Board of Directors may establish one or more advisory committees composed of directors, officers, program participants, or other individuals who are not members of the Board. Such advisory committees shall not exercise corporate powers or act on behalf of the Board, but may provide guidance, make recommendations, and assist in carrying out the Society's charitable and educational programs.</p>
+<h3>7.3. Meetings and Actions of Committees</h3>
+<p>Meetings and actions of committees shall be governed by, and held and taken in accordance with, the provisions of Article V of these Bylaws concerning meetings of the Board of Directors, with such changes in the context of those provisions as are necessary to substitute the committee and its members for the Board of Directors and its members, except that the time for regular and special meetings of committees may be determined either by Board resolution or by the committee itself. Minutes of all committee proceedings shall be kept and reported to the Board of Directors.</p>
+<h2>8. Article VIII - CONFLICTS OF INTEREST AND SELF-DEALING TRANSACTIONS</h2>
+<h3>8.1. Purpose</h3>
+<p>This Article implements Quest Society's Conflict of Interest Policy and California Corporations Code §5233 governing self-dealing transactions between the corporation and its directors.</p>
+<h3>8.2. Director-Completed Quests</h3>
+<p>A director may complete a Quest only if:</p>
+<h4>✅ 8.2.1. Public</h4>
+<p>The Quest was posted publicly with pre-published, objective deliverables and acceptance criteria;</p>
+<h4>✅ 8.2.2. Approval</h4>
+<p>The Quest remained open to all qualified questers for a reasonable period before the director became eligible or applied;</p>
+<h4>✅ 8.2.3. Unclaimed</h4>
+<p>No other qualified quester accepted or completed the Quest;</p>
+<h4>✅ 8.2.4. Unaltered</h4>
+<p>The director did not participate in setting or altering the Quest's criteria or price after the director became eligible to apply; and</p>
+<h4>✅ 8.2.5. Equality</h4>
+<p>The payment is no greater than what a non-director quester would receive for the same deliverable.</p>
+<h3>8.3. Approval Required</h3>
+<p>Before a director-completed Quest is funded, the disinterested directors (a majority of directors then in office, excluding the interested director) must:</p>
+<h4>✅ 8.3.1. Disclosure</h4>
+<p>Receive disclosure of the director's interest and relevant facts;</p>
+<h4>✅ 8.3.2. Reasonable</h4>
+<p>Determine the arrangement is just and reasonable to the Society;</p>
+<h4>✅ 8.3.3. Alternatives</h4>
+<p>Determine that a more advantageous arrangement could not be obtained with reasonable effort under the circumstances; and</p>
+<h4>✅ 8.3.4. Documented</h4>
+<p>Document the determination and its basis in the minutes.</p>
+<h3>8.4. Recusal</h3>
+<p>An interested director shall not vote on, and should not be counted toward the quorum for, approval of their own Quest payment.</p>
+<h3>8.5. No Salary</h3>
+<p>Directors do not receive salaries or fixed compensation for board service. Any payment to a director must be for a completed Quest approved under this Article, or a reimbursement under Article 10.</p>
+<h2>9. Article IX - QUEST PROGRAM ADMINISTRATION</h2>
+<h3>9.1. Pledges vs. Donations</h3>
+<p> Contributions intended to fund a specific, not-yet-assigned Quest shall be accepted as non-binding pledges, not completed gifts, until a qualified quester is confirmed for that Quest. A pledge is called and converted to a donation only upon that confirmation.</p>
+<h3>9.2. Pledgor Becomes the Quester</h3>
+<p>If the person who pledged toward a Quest subsequently becomes the quester who completes it, that pledge is automatically void and shall not be called or applied toward funding that Quest's reward. The reward shall instead be paid from Quest Society's general funds or from pledges made by other parties.</p>
+<h3>9.3. Recordkeeping</h3>
+<p>For each Quest, Quest Society shall retain records sufficient to show: posting date, pledge dates and pledgors, eligibility/qualification determinations, the date criteria were finalized, and the identity of the completing quester, in order to document that the process was open and that criteria were not altered to favor any pledgor, donor, or director.</p>
+<h3>9.4. Donor Tax Notice</h3>
+<p>Quest Society shall advise pledgors that a pledge is not a completed, deductible contribution until called, and that a pledge voided under Section 9.2 was never a completed gift.</p>
+<h2>10. Article X - COMPENSATION AND REIMBURSEMENT</h2>
+<h3>10.1. Purpose</h3>
+<p>This Article governs all payments the Society makes to questers, directors, and other individuals in connection with completed Quests, consistent with the Society's status as an organization exempt under Section 501(c)(3) of the Internal Revenue Code.</p>
+<h3>10.2. Credit Categories</h3>
+<p>The Society tracks a quester's contribution to a Quest using three credit categories, which have different legal treatment:</p>
+<h4>✅ 10.2.1. Copper</h4>
+Copper Credits track a quester’s documented out-of-pocket expenses for completing a Quest. They exist solely as accrued records before reimbursement. Since they represent qualified unpaid expense reimbursements, they are neither taxable income nor tax-deductible donations.</p>
+<h4>✅ 10.2.2. Amber</h4>
+Amber Credits  are what Copper Credits become when the quester waives reimbursement and donates their Copper Credits to the Society. They come into existence upon this formal designation as a charitable contribution, making them tax-deductible subject to IRS substantiation rules.</p>
+<h4>✅ 10.2.3. Silver</h4>
+Silver Credits track a quester's use of personal tools, equipment, or space. Documented cost-of-use rates operate as unpaid expense reimbursements (like Copper Credits), while any excess economic value is treated as unpaid compensation under Section 10.3. Since they represent accrued expense tracking or unpaid compensation, they are neither taxable income nor tax-deductible donations.</p>
+<h4>✅ 10.2.4. Quartz</h4>
+Quartz Credits are what Silver Credits become when the quester waives compensation and donates their Silver Credits to the Society. They come into existence upon this formal designation of the economic value of the use as a charitable contribution. Since they represent a qualified donation of the use of property to a 501(c)(3) organization, they are tax-deductible charitable contributions for the quester, subject to applicable IRS substantiation rules.</p>
+<h4>✅ 10.2.5. Gold</h4>
+<p>Gold Credits track a quester's time spent on the Quest before compensation. Since they represent qualified unpaid labor, they are neither taxable income nor tax-deductible donations.</p>
+<h4>✅ 10.2.6. Ruby</h4>
+Ruby Credits are what Gold Credits become when the quester waives compensation. Because the IRS does not permit a charitable contribution deduction for the value of personal labor, time, or services rendered, Ruby Credits represent a pure waiver of compensation and are not tax-deductible charitable contributions.</p>
+<h3>10.3. Compensation and Deferral Terms</h3>
+Payments made for services rendered by questers are subject to structural governance and administrative limitations to ensure compliance with charitable purpose requirements:</p>
+<h4>✅ 10.3.1. Fair Market Value</h4>
+<p>Amounts payable for compensation for services rendered under Silver Credits and Gold Credits must be reasonable in relation to the fair market value of comparable work, determined at the time of payment.</p>
+<h4>✅ 10.3.2. Immediate Compensation</h4>
+<p>A quester may elect, at the time of accepting a Quest or at another time the Board's policy permits, to receive compensation immediately upon completion and verification of the Quest, or to defer receipt to a later date.</p>
+<h4>✅ 10.3.3. Deferred Compensation</h4>
+<p>A deferred amount under this Section is an unfunded, unsecured promise by the Society to pay — it is not held in trust, invested, or set aside in a segregated or funded account for the quester's benefit, and the quester has no ownership or security interest in any specific Society asset on account of it.</p>
+<h4>✅ 10.3.4. Inflation</h4>
+<p>A deferred amount may be adjusted for inflation only by reference to a published, independently administered index (such as the Consumer Price Index), applied uniformly to all deferred balances. No deferred amount shall accrue interest, investment return, dividend, profit share, or any return calculated by reference to the Society's investment performance or financial results.</p>
+<h4>✅ 10.3.5. Non-Transferability</h4>
+Quest Credits are strictly non-transferable and remain permanently bound to the individual quester who earned or accrued them. The Society does not recognize, record, or give effect to any private sale, trade, assignment, gift, or exchange of credits between questers, donors, or any third parties.</p>
+<h3>10.4. Directors</h3>
+<p>Compensation payable to a director under this Article is subject to Article 8 (Conflicts of Interest and Self-Dealing Transactions) in addition to this Article, and the disinterested-director approval process in Article 8 applies before any such payment, including any deferred payment, is made or credited.</p>
+<h3>10.5. Expense Reimbursement Policy</h3>
+<p>The Board shall adopt and maintain a written reimbursement policy governing documentation, approval, and payment of Copper Credits and the cost-of-use component of Silver Credits.</p>
+<h3>10.6. Prioritization When Funds Are Limited</h3>
+If funds available for a payment period are insufficient to pay all amounts then due, the Society shall pay reimbursement obligations and compensation obligations according to a neutral, objective priority policy based on the chronological date an obligation was last paid or serviced, utilizing the total amount of remaining unpaid credits as the mechanical tiebreaker for obligations sharing the same date, applied uniformly.</p>
+<h3>10.7. Contribution Recognition</h3>
+The Society may calculate and report to a quester the value the quester has forgone by electing deferred, non-interest-bearing compensation, as an informational measure of the quester's contribution to the Society's mission. Any such figure is provided for recognition purposes only and is not, by itself, a determination that the amount is a tax-deductible charitable contribution; questers should consult their own tax advisor regarding the tax treatment of deferred or waived compensation.</p>
+<h2>11. Article XI - Indemnification and Insurance</h2>
+<h3>11.1. Right of Indemnification</h3>
+To the fullest extent permitted by the California Nonprofit Public Benefit Corporation Law, the Society shall indemnify any person who was or is a party, or is threatened to be made a party, to any proceeding (including any action by or in the right of the Society), by reason of the fact that such person is or was a director, officer, employee, or other agent of the Society, against expenses, judgments, fines, settlements, and other amounts actually and reasonably incurred in connection with such proceeding, if such person acted in good faith and in a manner such person reasonably believed to be in the best interests of the Society and, in the case of a criminal proceeding, had no reasonable cause to believe the conduct was unlawful.</p>
+<h3>11.2. Approval of Indemnification</h3>
+Any indemnification under this Article shall be made by the Society only if authorized in the specific case, upon a determination that indemnification of the agent is proper under the circumstances because the applicable standard of conduct has been met, by: (a) A majority vote of a quorum consisting of directors who are not parties to the proceeding; or (b) The court in which the proceeding is or was pending, upon application by the Society, the agent, or the attorney or other person rendering services in connection with the defense.</p>
+<h3>11.3. Advancement of Expenses</h3>
+To the fullest extent permitted by law, expenses incurred in defending any proceeding may be advanced by the Society prior to the final disposition of such proceeding upon receipt of an undertaking by or on behalf of the agent to repay such amount unless it shall be determined ultimately that the agent is entitled to be indemnified as authorized in this Article.</p>
+<h3>11.4. Insurance</h3>
+The Society may purchase and maintain insurance on behalf of any director, officer, employee, or other agent of the Society against any liability asserted against or incurred by the agent in such capacity or arising out of the agent's status as such, whether or not the Society would have the power to indemnify the agent against such liability under the provisions of this Article; provided, however, that the Society shall not purchase or maintain insurance to indemnify any director or officer for a penalty imposed under Section 4958 of the Internal Revenue Code.</p>
+<h2>12. Article XII - Fiancial Controls, Books, and Records</h2>
+<h3>12.1. Fiscal Year</h3>
+The fiscal year of the Society shall begin on the first day of January and end on the thirty-first day of December in each year, unless otherwise established by resolution of the Board of Directors.</p>
+<h3>12.2. Maintenance of Books and Records</h3>
+The Society shall keep correct and complete books and accounts and shall keep minutes of the proceedings of its Board of Directors and committees of the Board. The Society shall keep at its principal office in California a record of the directors, giving their names and addresses. All books and records of the Society may be inspected by any director, or their agent or attorney, for any purpose reasonably related to the director's position as a director, at any reasonable time.</p>
+<h3>12.3. Annual Financial Reports and Audit</h3>
+The Board of Directors shall ensure that an annual financial report is prepared within 120 days of the close of the fiscal year. The report shall contain appropriate disclosures, including a balance sheet as of the close of the fiscal year and a statement of activities for the fiscal year, and shall be made available for inspection by any director. If required by California law or by the Board, the Society's financial statements shall be audited by an independent certified public accountant.</p>
+<h3>12.4. Execution of Corporate Instruments</h3>
+The Board of Directors may, by resolution, authorize any officer or officers, agent or agents, to enter into any contract or execute and deliver any instrument in the name of and on behalf of the Society. Unless so authorized by the Board, no officer, agent, or employee shall have any power or authority to bind the Society by any contract or engagement or to pledge its credit or to render it liable for any purpose or to any amount.</p>
+<h3>12.5. Checks, Drafts, and Loans</h3>
+All checks, drafts, or other orders for payment of money, notes, or other evidences of indebtedness issued in the name of the Society shall be signed by such officer or officers, agent or agents, and in such manner as shall from time to time be determined by resolution of the Board of Directors. No loans shall be contracted on behalf of the Society, and no evidences of indebtedness shall be issued in its name, unless authorized by the Board of Directors.</p>
+<h2>13. Article XIII - Amendment of Bylaws</h2>
+<h3>13.1. Restrictions on Amendments</h3>
+No amendment shall be adopted that would cause the Society to lose its status as an organization exempt from federal income taxation under Section 501(c)(3) of the Internal Revenue Code, or as a California nonprofit public benefit corporation under the California Nonprofit Public Benefit Corporation Law.</p>
+<h3>13.2. Amendment by Directors</h3>
+Subject to the restrictions outlined in Section 13.1, new bylaws may be adopted, or these Bylaws may be amended or repealed, by the approval of a majority of the directors then in office, provided that written notice of the proposed amendment is provided to all directors at least ten (10) days before the meeting at which the amendment is to be considered, unless such notice is waived in accordance with Article V.</p>
+<h2>14. Article XIV - Dissolution</h2>
+<h3>14.1. Prohibited Distribution</h3>
+No part of the net earnings or assets of the Society shall ever benefit or be distributed to any director, officer, or private individual upon dissolution.</p>
+<h3>14.2. Voluntary Dissolution and Disposition of Assets.</h3>
+Subject strictly to the prohibitions outlined in Section 14.1, the Society may be dissolved voluntarily upon the approval of the Board of Directors, in accordance with the provisions of the California Nonprofit Public Benefit Corporation Law. Upon the winding up and dissolution of the Society, after paying or adequately providing for the payment of all of the debts and obligations of the Society, the remaining assets of the Society shall be distributed exclusively for charitable or educational purposes to one or more organizations that are organized and operated exclusively for exempt purposes under Section 501(c)(3) of the Internal Revenue Code (or the corresponding section of any future federal tax code), or to the federal government, or to a state or local government, for a public purpose.</p>
+</div>
+ <!--IMPORT ABOVE-->
+      </div>
+    </div></div>
+
+  <div class="footer" onclick="ShowWidgets()">
+
+
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'90000000000000')" title="Quest Board">🔔</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;  overflow-y:auto;width:100%;max-width: 350px;">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240421014400')" title="Roll Call">📯</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 90vh; overflow-y:auto; max-width: 350px;">
+        </div>
+      </div>
+    </span>
+
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'80000000000000')" title="Search">🔍</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:350px;width:100%">
+        </div>
+      </div>
+    </span>
+
+    <button BB class="mbbutton" onClick="ShowNextFP(this,'20240904213516')" title="Music Player">🎧</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:350px;width:100%"></div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240330201200')" title="Notepad">📋</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:left;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; overflow-y:auto;max-width:700px;width:100%">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'Feedback')" title="Feedback">💌</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:center;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP board reserved
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh; ;max-width: 700px;width:100%">
+        </div>
+      </div>
+    </span>
+    <button BB class="mbbutton mbhide" onClick="ShowNextFP(this,'20240416213800')" title="Node Maker">🍞</button>
+    <span>
+      <div
+        style="position:absolute;bottom:36px;width:100%;display:flex;justify-content:right;margin-left:-10px;padding:0;pointer-events: none;">
+        <div class="mbscroll mbhide" onclick="BringToFrontFP(this)" FP
+          style="color:saddlebrown;margin:10px;pointer-events: auto;max-height: 50vh;max-width:350px; overflow-y:auto">
+        </div>
+      </div>
+    </span>
+
+
+
+  </div>
+  <hide><!--New Panel Template-->
+    <div id="NewPanelTemplate">
+
+      <div control style="padding:0px 3px 2px 2px;">
+        <a class="mbbutton" onClick="IFrameURLSet(this)" title="Jquery Blogspot (Legacy)">🕰️</a>
+        <input type="text" title="Input URL or Node ID" style="text-align: right;width:100px;" inputmode="search">
+
+        <a class="mbbutton" onClick="JQAdd(this,true)" title="Jquery GitHub">🐣</a>
+        <!--<a class="mbbutton" onClick="BoardLoad(this,'900000000000')" title="Quest Board">🥨</a>-->
+
+        <a class="mbbutton" onclick="ShowNext(this)" style="float:right;" title="Panel Control">🍞</a>
+        <div class="mbscroll mbhide" control
+          style="position:relative;width:auto;float:right;margin:25px -27px 0px -200px;z-index:100;line-height:28px;font-size: 16px;">
+
+          <div control style="text-align: center;min-width:125px;font-size: 22px;">
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🔍</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'800000000000',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P800000000000">🔍 Search</a><br>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202405051137',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202405051137">☎️ Help Center</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'Feedback');HC(this);return false;"
+                target="_blank" title="Feedback"
+                href="https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform">💟
+                Feedback</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202207131009',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202207131009">🧸 Board Games</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202208172056',false, true);HC(this);return false;" title="Calendar"
+                href="./?id=P202208172056">:?: About</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202403231454',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202403231454">🎓 Academy</a><br>
+
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🐤</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'900000000000',false, true);HC(this);return false;" title="Quest Board"
+                href="./?id=P900000000000">🎪 Quest Board</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202310072314',false, true);HC(this);return false;" title="Calendar"
+                href="./?id=P202310072314">📅 Calendar</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202207242047',false, true);HC(this);return false;" title="Roll Call">📯 Roll
+                Call</a><br>
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202404260005',false, true);HC(this);return false"
+                title="Message Scanner" href="./?id=P202404260005">🔔 Messages</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202301251008',false, true);HC(this);return false;" title="Scoreboard"
+                href="./?id=P202301251008">👑 Scoreboard</a><br>
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202405010908',false, true);HC(this);return false;" title="Guild Inbox"
+                href="./?id=P202405010908">📬 Guild Inbox</a><br>
+
+              <a class="mbbutton mbIconShift"
+                onClick="BoardLoad(this,'202307161350',false, true);HC(this);return false;" title="Dice Roller"
+                href="./?id=P202307161350">🎲 Dice Roller</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="BoardLoad(this,'202303191144',false, true);HC(this);return false"
+                title="Sitemap/Index" href="./?id=P202303191144">🛒 Supplies List</a><br>
+
+              <a class="mbbutton mbIconShift" onClick="Offline(null,true);" title="Offline Mode">🎒
+                Offline Mode</a>
+              <hr>
+            </hide>
+            <button class="mbbutton" onclick="ToggleNextPN(this)">🤎</button>
+            <hide>
+              <hr>
+              <a class="mbbutton mbIconShift" onClick="PanelAddBefore(this);HC(this);" title="Add a panel before">🤎 Add
+                Before</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelAddAfter(this);HC(this);" title="Add a panel after">🤎 Add
+                After</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelToggleServe(this);HC(this);"
+                title="Serve nodes to this panel">🥞 Serve Here</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelToggleWidth(this);HC(this);"
+                title="Toggle the width of this panel">🧇 Toggle Width</a><br>
+              <a class="mbbutton mbIconShift" onClick="PanelRemove(this);" title="Close">:Close: Close
+                Panel</a><br>
+              <div class="mbCB"></div>
+              <hr>
+            </hide>
+
+          </div>
+          <div></div><!--DISPLAY AREA-->
+        </div>
+      </div>
+      <div style="height:calc(100vh - 130px);overflow-y:auto;padding:0px 3px 3px 3px"></div>
+    </div>
+  </hide>
+</body>
+<script>
+  function URLViewer() {
+    MacroIcons(document.body);
+    LatestUpdate();
+  };
+  window.onload = URLViewer;
+</script>
+</html>
