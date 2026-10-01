@@ -504,7 +504,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     if(NotBlank(mPage)){
       let mPageURL = mPage + ".html";
       
-      mHTMLInner += "<a btnExport class='mbbutton mbRef' title='Export for AI as "+ mPageURL +"' onclick='ExportForAI(this)' href='./"+mPageURL+"' style='padding:0 5px'>📜</a>";
+      mHTMLInner += "<a btnExport class='mbbutton mbRef' title='Export for AI as "+ mPageURL +"' onclick='event.preventDefault();event.stopPropagation();ExportForAI(this)' href='./"+mPageURL+"' style='padding:0 5px'>📜</a>";
       let elVersionDTS = document.createElement("div");
       $(elVersionDTS).load(mPageURL + " [dts]", function(){
         let elFirstChild = elVersionDTS.firstElementChild;
@@ -2010,7 +2010,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   let elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20260902 var/let fix";
+  elContainer.innerHTML = "20260930 Done/Todo Flags";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2535,6 +2535,12 @@ function MacroIcons(el,iHTMLInner){
   }
   return mHTMLInner;
 }
+function MacroIconsDT(el){
+  // 20260930: StarTree: Override the icon for done and todo attributes  
+  if(el.hasAttribute("todo")){return "📌";}
+  if(el.hasAttribute("done")){return "✅";}
+  return Default(el.getAttribute("icon"),"");
+}
 function MacroImport(el){
   // 20251111: StarTree: Scan the content for any import attribute
   // 20251111: StarTree: If there is something to import, query then call Macro.
@@ -2584,7 +2590,7 @@ function MacroNote(el){
   for(let i=mTags.length-1;i>-1;i--){
     let mTag = mTags[i];
     let mDTS = mTag.getAttribute("dts");
-    let mIcon = Default(mTag.getAttribute("icon"),"");
+    let mIcon = MacroIconsDT(mTag);
     let mTitle = Default(mTag.getAttribute("title"),"");
     let mSubtitle = Default(mTag.getAttribute("Subtitle"),"");
     let mImport = Default(mTag.getAttribute("import"),"");
@@ -3085,7 +3091,8 @@ function MacroTopic(el){
   for(let i=mTags.length-1;i>-1;i--){
     let mTag = mTags[i];
     let mDTS = mTag.getAttribute("dts");
-    let mIcon = Default(mTag.getAttribute("icon"),"");    
+    let mIcon = MacroIconsDT(mTag);
+    if(mTag.hasAttribute("todo")){mIcon="📌"}
     let mImport = Default(mTag.getAttribute("import"),""); 
     let mNode = Default(mTag.getAttribute("node"),"");
     let mPrefix = Default(mTag.getAttribute("prefix"),"");
