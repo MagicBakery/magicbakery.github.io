@@ -5709,7 +5709,7 @@ We added new script on showing an answer and jumping to a section on the Ask a P
             <msg DTS="20260111194626" SPK="Evelyn" EXP Icon="📋">For the avatar calendar, use this as the macro template. <textarea class="mbCode"><res type="calendar" year="2026" month="01" names="||||||||||||||||||||||||||||||"></res></textarea> Replace <textarea class="mbCode"><td class="mbbuttonCal"[^>]*>\d+<br><div class="mbavem mb(.*)"></div></td></textarea> with <textarea class="mbCode">$1|</textarea>, then replace <textarea class="mbCode">[\n\r\t ]|<[^>]*></textarea> with nothing.</msg>
             <msg DTS="20260111194834" SPK="Evelyn" EXP Icon="📋">For the icon calendar, use this as the template: <textarea class="mbCode"><res type="calendar" year="2025" month="09" icons="||||||||||||||||||||||||||||||"></res></textarea> Then replace <textarea class="mbCode"><td[^>]*>\d+<br>(.*)<\/td></textarea> with <textarea class="mbCode">$1|</textarea>, then also replace <textarea class="mbCode">[\n\r\t ]|<[^>]*></textarea> with nothing.</msg>
           </note>
-          <note dts="20251101204129" icon="✅" subtitle="Months Done">
+          <note dts="20251101204129" done subtitle="Months Done">
             <msg DTS="20251101204202" SPK="Evelyn" EXP=2 Icon="💗" title="2025">Updated: 2025:AUG-SEP</msg>
             <msg DTS="20251101203846" SPK="Evelyn" EXP=3 Icon="💗" title="2024">Updated: 2024:JAN-MAR</msg>
           </note>
@@ -5742,7 +5742,7 @@ We added new script on showing an answer and jumping to a section on the Ask a P
     <topic dts="20240607234052" icon="🐣" title="Discussions">
       
       <ul>
-        <topic dts="20240608114734" icon="✅" title="2406 Auto Calendar">
+        <topic dts="20240608114734" done title="2406 Auto Calendar">
           <msg DTS='20240607094440' SPK='Tanya' EXP Icon='📌'>Update the query of kudo to query nodes with mbkudo</msg>
           <msg DTS="20240607235509" SPK="Sylvia" mode="make" EXP=2 Icon="🔍">Upgrading. Anything to be listed by the rolling calendar needs the date tag because JQuery  can only query the beginning or end of an attribute. If the MMDD substring is inside the ID or DTS, then it can't see it.</msg>
           <msg DTS="20240608002522" SPK="Ivy" EXP Icon="🌛">Either that or query without the date then filter for those with correct MMDD. <url>https://www.quora.com/How-do-you-write-a-jQuery-regex-selector-for-a-DOM-element-containing-substring-abcd</url></msg>
@@ -26114,10 +26114,10 @@ Quest Channel</small></center><hr class="mbhr">
                 <msg DTS="20240528095838" SPK="Sasha" EXP Icon="🔍">The site needs to be at least free to us. It is better if it is also free to the viewer.</msg>
     
                 <ul>
-                  <topic dts="20240528100451" icon="✅" title="Substack">
+                  <topic dts="20240528100451" done title="Substack">
                     <msg DTS="20240528100127" SPK="Sasha" EXP Icon="🔍">Substack makes money by subscription and promotes sites that has subscribers, but it also allow accounts that do not require a subscription. The account holder can decide which post is viewable without subscription.</msg>
                   </topic>
-                  <topic dts="20240528100804" icon="✅" title="Twitter/X">
+                  <topic dts="20240528100804" done title="Twitter/X">
                     <msg DTS="20240528100830" SPK="Sasha" EXP Icon="🔍">X is also free.</msg>
                   </topic>
                   <topic dts="20240528100718" icon="❌" title="Notion">
@@ -26129,7 +26129,7 @@ Quest Channel</small></center><hr class="mbhr">
               <topic dts="20240528101121" icon="🔍" title="Editable">
                 <msg DTS="20240528101143" SPK="Tanya" EXP Icon="🔍">The site should allow correction or updates, so we don't need to make new nodes for updates or delete an old node that has a typo.</msg>
                 <ul>
-                  <topic dts="20240528101549" icon="✅" title="Substack">
+                  <topic dts="20240528101549" done title="Substack">
                     <msg DTS="20240528101602" SPK="Tanya" EXP Icon="🔍">Substack allows editing after publishing. <url>https://substackcourse.com/can-you-edit-a-substack-post-after-publishing</url></msg>
                   </topic>
                   <topic dts="20240528101408" icon="❌" title="Twitter/X">
@@ -26140,7 +26140,7 @@ Quest Channel</small></center><hr class="mbhr">
               <topic dts="20240528101745" icon="🔍" title="Reach">
                 <msg DTS="20240528101805" SPK="Albatross" EXP Icon="🔍">The content needs to be world readable.</msg>
                 <ul>
-                  <topic dts="20240528101829" icon="✅" title="Substack">
+                  <topic dts="20240528101829" done title="Substack">
                     <msg DTS="20240528101910" SPK="Albatross" EXP Icon="🔍">Substack is world readable.</msg>
                   </topic>
                   <topic dts="20240528101934" icon="❌" title="NextDoor">
@@ -26201,8 +26201,8 @@ Quest Channel</small></center><hr class="mbhr">
       <topic dts="20240707231231" icon="🍀" title="How to make a term more searchable">
         <msg DTS="20240707231314" SPK="ChatGPT" EXP Icon="🍀">The key to making a term more searchable on Google is to provide high-quality, relevant content that is well-organized and easy for search engines to understand.</msg>
         <ol>
-          <topic dts="20240707231349" icon="✅" title="Use relevant keywords">
-            <msg DTS="20240707231410" SPK="ChatGPT" EXP Icon="✅">Make sure to use relevant keywords in your content. Think about the words and phrases that people would use to search for the topic you are writing about and incorporate them into your content.</msg>            
+          <topic dts="20240707231349" done title="Use relevant keywords">
+            <msg DTS="20240707231410" SPK="ChatGPT" EXP done>Make sure to use relevant keywords in your content. Think about the words and phrases that people would use to search for the topic you are writing about and incorporate them into your content.</msg>            
           </topic>
           <topic dts="20240707231505" icon="📌" title="Optimize your title and meta description">
             <msg DTS="20240707231548" SPK="ChatGPT" EXP Icon="📌">The title and meta description of your content are what appear in search results. Make sure they accurately reflect the content of your page and include relevant keywords.</msg>
@@ -26244,7 +26244,7 @@ Quest Channel</small></center><hr class="mbhr">
       </topic>
 
       <topic dts="20241005231200" icon="🎪" title="Google Search Console Steps">
-        <note dts="20241005231232" icon="✅" subtitle="Site Search">
+        <note dts="20241005231232" done subtitle="Site Search">
           <msg DTS="20241005231305" SPK="StarTree" EXP Icon="⭐">Search for the site's home URL on browser with command. If it is not found add it at Google Search Console. <url>https://search.google.com/search-console</url></msg>
           <div class="mbpuzzle">
             ✅ 20230716: site:http://panarcana.blogspot.com/ <br>
@@ -26252,7 +26252,7 @@ Quest Channel</small></center><hr class="mbhr">
             ❌ 20230806: site:https://magicbakery.github.io/<br>
           </div>
         </note>
-        <note dts="20241005231445" icon="✅" subtitle="Sitemap.xml">
+        <note dts="20241005231445" done subtitle="Sitemap.xml">
           <msg DTS="20241005231503" SPK="StarTree" EXP Icon="⭐">Confirm at Google Search Console. <url>https://search.google.com/search-console</url></msg>
           <div class="mbpuzzle">
             ✅ 20230716: http://panarcana.blogspot.com/: 2 sitemaps. 101 pages discovered.<br>
@@ -26261,7 +26261,7 @@ Quest Channel</small></center><hr class="mbhr">
           </div>  
           <msg DTS="20241005231544" SPK="StarTree" EXP Icon="⭐">To make a sitemap, use a crawler such as <url title="this">https://www.xml-sitemaps.com/</url> then upload the sitemap.xml to the domain. For blogspot, there is no need to make a sitemap. Instead, type "atom.xml?redirect=false&amp;start-index=1&amp;max-results=500" at the URL space and submit.</msg>
         </note>
-        <note dts="20241005231729" icon="✅" subtitle="Resolve GSC Errors">
+        <note dts="20241005231729" done subtitle="Resolve GSC Errors">
           <msg DTS="20241005231745" SPK="StarTree" EXP Icon="⭐">Go to Google Search Console <url>https://search.google.com/search-console</url> and resolve any indexing error</msg>
         </note>
       </topic>
@@ -26300,7 +26300,7 @@ Quest Channel</small></center><hr class="mbhr">
       <msg DTS='20250725163851' SPK='LRRH' EXP Icon='📌'>It seems AI can read Substack. Should we use that for Quest Society?</msg>
       <msg DTS="20250731110051" END="20250731113824" SPK="StarTree" EXP=8 Icon="⭐">Setting up Substack to run tests. <url>https://magicbakery.substack.com/p/ai-readability-test</url>. Only Copilot can see the content at the moment.</msg>
       <hr>
-      <note dts="20250731222947" icon="✅" subtitle="Can">
+      <note dts="20250731222947" done subtitle="Can">
         <msg DTS="20250731222959" SPK="StarTree" EXP Icon="🔍">Copilot was the first one that could read posting.</msg>
         <msg DTS="20250731223025" SPK="StarTree" EXP Icon="🔍">Within 12 hours, Gemini can also read the Substack posting.</msg>
         <msg DTS="20250809115109" SPK="Zoey" EXP Icon="🏹">Perplexity can see the content in about a week.</msg>
@@ -27353,7 +27353,7 @@ Quest Channel</small></center><hr class="mbhr">
               <msg DTS="20250829022736" SPK="StarTree" EXP Icon=":PaperCrane:" title="Chute">Fold the smaller piece of paper into its center line a few times to form a sturdy V-shaped chute and insert it to the slanted slots of the base. When inserting, point the pointy end of the hook outward, this will prevent the chute from shifting.</msg>
               <msg DTS="20250829022928" SPK="StarTree" EXP Icon=":PaperCrane:">The result looks like an "A" from the top, and it can be easily disassembled and flattened for storage.</msg>
               <hr>
-              <note dts="20250829024137" icon="✅" subtitle="4:Good">
+              <note dts="20250829024137" done subtitle="4:Good">
                 [4] StarTree, Ledia, Black, Zoey<br>
                 <msg DTS="20250829024212" SPK="|Ledia|StarTree|" EXP Icon="💟">This is the best one so far.</msg>
                 <msg DTS="20250829024321" SPK="|Black|StarTree|" EXP Icon="💟">Very sturdy and can be disassembled.</msg>
@@ -27380,7 +27380,7 @@ Quest Channel</small></center><hr class="mbhr">
               <msg DTS="20250829032700" SPK="StarTree" EXP Icon=":PaperCrane:">While keeping the middle portion flat, bent the two ends to insert one into the other.</msg>
               <msg DTS="20250829032754" SPK="StarTree" EXP Icon=":PaperCrane:">Fold the overlapped end into itself into another V, and interpolate the fold to the end of the bent at the end of flat portion.</msg>
               <hr>
-              <note dts="20250829033134" icon="✅" subtitle="2:Good">
+              <note dts="20250829033134" done subtitle="2:Good">
                 [2] Tanya, Zoey<br>
                 <msg DTS="20250829033341" SPK="|Tanya|StarTree|" EXP Icon="💟">True origami.</msg>
                 <msg DTS="20250829033929" SPK="|Zoey|StarTree|" EXP Icon="💟">Good Job! XD</msg>
@@ -27541,7 +27541,7 @@ Quest Channel</small></center><hr class="mbhr">
               <msg DTS="20250427223834" SPK="Sasha" EXP Icon="🥁">Inventory the board games we have at the guild.</msg>
               <msg DTS="20240503230223" SPK="Sasha" EXP Icon="🔍">So that we don't get duplicates.</msg>
               <hr>
-              <note dts="20250427224333" icon="✅" subtitle="Web List">
+              <note dts="20250427224333" done subtitle="Web List">
                 <msg DTS="20240503225758" SPK="Sasha">The game list is imported to GitHub archive from Google Sheet. </msg>
                 <hr>
                 <note dts="20240502222034" subtitle="Log">
@@ -27637,7 +27637,7 @@ Quest Channel</small></center><hr class="mbhr">
                   <msg DTS="20240609084924" SPK="Sasha" EXP=2 Icon="🗃️">Adding games to the list, updating info.</msg>
                   <msg DTS="20240609180556" SPK="Sylvia" EXP Icon="🧹">Changed the genre tag to tags to make it more general for item list.</msg>
                   <hr>
-                  <note dts="20250427231023" icon="✅" subtitle="Item ID">
+                  <note dts="20250427231023" done subtitle="Item ID">
                     <msg DTS='20240504053339' SPK='Sasha' EXP Icon='🎩'>Use a cipher to shorten the dts id.</msg>
                     <msg DTS="20240504095627" SPK="Sasha" EXP Icon="🔍">This morning I thought that the 14-digit item ID is too long when displayed, so I wanted to make a cipher to shorten it. But if I make it shorter, I can't just copy and search for it in the code, and I don't think the code should have both DTS and the Ciphered DTS. So maybe it should not be displayed and there should only be a bottom to copy the ID. What do you think?</msg>
                     <msg DTS="20240504100500" SPK="Tanya" EXP Icon="🔮">How much shorter do you want it to be?</msg>
@@ -27686,7 +27686,7 @@ Quest Channel</small></center><hr class="mbhr">
                 <msg DTS='20240504044542' SPK='Vivi' EXP Icon='📌'>Use ??? For unknown loc.</msg>  
                 <msg DTS='20240504044102' SPK='Vivi' EXP Icon='📌'>Use non-breaking space between field title and data.</msg> 
               </note>
-              <note dts="20250427224034" icon="✅" subtitle="Age">
+              <note dts="20250427224034" done subtitle="Age">
                 <msg DTS="20250427165907" SPK="Black" EXP Icon="🧭">Need to add a field and fill the minimum age of each game.</msg>
                 <hr>
                 <note dts="20250427205733" subtitle="Log">
@@ -29051,7 +29051,7 @@ Quest Channel</small></center><hr class="mbhr">
     </res>
     <res available year="1992" item="25AKJ56B" title="Wooden Mastermind" tags="Kids Logic" src="https://www.worthpoint.com/worthopedia/1992-mastermind-game-logic-deduction-1931815798" loc="Farm House" age="7" owner="Koyo" price="2.50">
     <msg DTS="20250119182712" SPK="Evelyn" EXP Icon="💗">Cute!!!</msg>
-    <note dts="20250119184940" icon="✅" subtitle="Parts">
+    <note dts="20250119184940" done subtitle="Parts">
     <msg DTS="20250119185006" SPK="Evelyn" EXP Icon="🐤">This set has 14 pins for each color and 21 pins for black and white.</msg>
     <msg DTS="20250119185305" SPK="Evelyn" EXP Icon="🔍">We got this set with a blue cloth bag for the pins but they fall out and it is difficult to get pins from the blind bag... So it is replaced with a chocolate box.</msg>
     </note>
@@ -29062,7 +29062,7 @@ Quest Channel</small></center><hr class="mbhr">
     </note>
     </res>
     <res available year="2021" item="25AHP12C" title="Happy Little Dinosaurs" tags="Competitive" src="https://boardgamegeek.com/boardgame/325414/happy-little-dinosaurs" loc="Air Caravan" age="8" owner="Sasha" price="2.99">
-    <note dts="20250117231138" icon="✅" subtitle="Parts">
+    <note dts="20250117231138" done subtitle="Parts">
     <msg DTS="20250117231250" SPK="Sasha" EXP Icon="💼">This set is complete.</msg>
     </note>
     </res>
@@ -29072,13 +29072,13 @@ Quest Channel</small></center><hr class="mbhr">
     </note>
     </res>
     <res available year="2020" item="25A8P2A7" title="Trekking the World" tags="Competitive" src="https://boardgamegeek.com/boardgame/300442/trekking-the-world" loc="Shelves" age="10" owner="Cardinal" price="4.99">
-    <note dts="20250108231242" icon="✅" subtitle="Parts">
+    <note dts="20250108231242" done subtitle="Parts">
     <msg DTS="20250108231306" SPK="Black" EXP Icon="💼">This set is new.</msg>
     </note>
     </res>
     <res available year="1998" item="25A8P0C3" title="Pit" tags="Competitive" src="https://boardgamegeek.com/boardgame/140/pit" loc="Air Caravan" age="7" owner="Black" price="1.99">
     <msg DTS="20250108230420" SPK="Black" EXP Icon="🐱">This is a competitive trading game. Review said it needs 5 or more player for it to be fun.</msg>
-    <note dts="20250108231200" icon="✅" subtitle="Parts">
+    <note dts="20250108231200" done subtitle="Parts">
     <msg DTS="20250108231228" SPK="Black" EXP Icon="💼">This set is complete with the bell.</msg>
     </note>
     <hr>
@@ -29090,7 +29090,7 @@ Quest Channel</small></center><hr class="mbhr">
     <msg DTS="20250106100702" SPK="Zoey" EXP Icon="🐱">I think this game is close to how I originally envisioned quest society to be, except with more quest varieties.</msg>
     <msg DTS="20250106100858" SPK="Zoey" EXP Icon="🔍">The tool and expert cards would both be our skill cards. And the rubbles and invaders would be quests.</msg>
     <msg DTS='20250106161550' SPK='Evelyn' EXP Icon='🐱'>I would be interested in playing but it seems that part of the fun is the urgency to finish in 20 minutes.</msg>
-    <note icon="✅" dts="20250106095114" subtitle="Parts">
+    <note done dts="20250106095114" subtitle="Parts">
     <msg DTS="20250106095150" SPK="Cardinal" EXP Icon="💼">This set is complete, but you need an app to play it.</msg>
     </note>
     <note dts="20250107011918" subtitle="GM">
@@ -29261,7 +29261,7 @@ Quest Channel</small></center><hr class="mbhr">
     <note dts="20241207162333" icon="🤍" subtitle="Rulebook">
     <msg DTS="20241207161942" SPK="Sasha" EXP Icon="🔍">This set is missing the game manual, which can be found here: <url>https://www.scorpionmasque.com/en/decrypto</url></msg>
     </note>
-    <note dts="20241207162458" icon="✅" subtitle="Accounted">
+    <note dts="20241207162458" done subtitle="Accounted">
     <msg DTS="20241207164628" SPK="Sasha" EXP Icon="💼">All other parts are accounted: Sand Timer, 2 Screens with 4 leg pieces, 110 keyword cards, 48 code cards, 8 round tokens, a book of note sheets.</msg>
     </note>
     </note>
@@ -31267,7 +31267,7 @@ Quest Channel</small></center><hr class="mbhr">
         <msg DTS="20250520001156" SPK="Cardinal" EXP Icon="🧭">These are suggested gamerules to play the game faster and in co-op without a zombie master.</msg>
         <hr>
         <note dts="20250520010423" subtitle="Zombie Turn">
-          <note dts="20250520010634" icon="✅" subtitle="1: Sun Track">
+          <note dts="20250520010634" done subtitle="1: Sun Track">
             <msg DTS="20250520010950" SPK="Cardinal" EXP Icon="🐤">Move the Sun Track Marker</msg>
           </note>
           <note dts="20250520011018" icon="🐇" subtitle="2: Zombie Cards">
@@ -31309,10 +31309,10 @@ Quest Channel</small></center><hr class="mbhr">
             <msg DTS="20250520020028" SPK="Cardinal" EXP Icon="🐇">A hero may choose to move 3 spaces or search (at a searchable location).</msg>
             <msg DTS="20250520030827" SPK="Cardinal" EXP Icon="🐇">If the hero has fewer than 5 zombie cards, they may also choose to draw 1 zombie card and move 1 more space or do 1 more search.</msg>
           </note>
-          <note dts="20250520022054" icon="✅" subtitle="2: Exchange Items">
+          <note dts="20250520022054" done subtitle="2: Exchange Items">
             (No change)
           </note>
-          <note dts="20250520022158" icon="✅" subtitle="3: Ranged Weapon">
+          <note dts="20250520022158" done subtitle="3: Ranged Weapon">
             (No change)
           </note>
           <note dts="20250520022619" icon="🐇" subtitle="4: Fight Zombies">
@@ -31587,7 +31587,7 @@ Quest Channel</small></center><hr class="mbhr">
       -->
       <res item="24XD9125" title="Goal: Blogger Pages" tags="Goal">
         <msg DTS="20240726001301" SPK="Sylvia" EXP Icon="💎">This quest is about turning each blogspot chapter post into nodes.</msg>
-        <note dts="20241013090600" icon="✅" subtitle="18 Completed">
+        <note dts="20241013090600" done subtitle="18 Completed">
           11@Carrot, 13@Seed, 14@Vacation, 15@Happy, 17@Music, 18@Board, 19@Puzzle, 20@Dungeon, 22@Wish,  23@Arena, 24@Paladin, 25@Whale, 26@Book, 27@Guild, 28@Freedom, 29@Mira, 30@Cardinal, 31@Detective.
         </note>
         <note dts="20241013090632" icon="📌" subtitle="3 Not Completed">
@@ -52802,7 +52802,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
   <card class="mbCardManga" img="https://pbs.twimg.com/media/G02-J6saQAAi05T?format=png&name=900x900"></card>
   <inv>
     <res item="24UNKD9F" icon="🔔" title="Daily Quest Routine" node="202502252241">
-      <note dts="20240822224335" icon="✅" subtitle="Confirm">
+      <note dts="20240822224335" done subtitle="Confirm">
         <msg DTS="20240822224408" SPK="StarTree" EXP Icon="🧹">At Guild Log, confirm that the scores of the previous day are archived.</msg>
         <msg DTS="20240822224930" SPK="Ivy" EXP Icon="📌">This is an administrative deadweight for the guild. We need to change the structure so we don't need to do this manually.</msg>
       </note>
@@ -53857,7 +53857,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
           <msg DTS="20250715235244" SPK="LRRH" EXP Icon="🧭">Virtues are good qualities that an ideal civilization should have a lot of.</msg>
           <msg DTS="20250715235450" SPK="LRRH" EXP Icon="🐣">To help reduce confusion, we define virtues as something where more is always better, which can form the basis of evaluation.</msg>
           <hr>
-          <note section dts="20250715235946" icon="✅" subtitle="List of Virtues">
+          <note section dts="20250715235946" done subtitle="List of Virtues">
             <msg DTS="20250716000142" SPK="LRRH" EXP Icon="🦉">Wisdom. This is a rational quality that includes adaptive, benevolence, discernment, effective, flexible, inspiring, nurturing, open-minded, progressive, prudence, self-awareness, sustainable, temperance, understanding, wholesome.</msg>
             <hr>
             <msg DTS="20250716000258" SPK="Ledia" EXP Icon="🦉">Fortitude. This is the emotional strength to be proactive and do the right thing. This includes courage, integrity, and resilience.</msg>
@@ -53895,10 +53895,10 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
             <p>The Celebration rank is the highest level in the peacemaking paradigm, where not only do groups and individuals cooperate, but the system itself actively encourages and rewards this cooperation, making it a joyful and deeply celebrated part of daily life. </p>
           </note>
           <div></div>
-          <note dts="20250712202129" icon="✅" subtitle="Cooperation">
+          <note dts="20250712202129" done subtitle="Cooperation">
             <p><b>Cooperation:</b> Here, groups or individuals work together towards shared goals, recognizing the beautiful mutual benefits that blossom from their efforts.</p>
           </note>
-          <note dts="20250712202155" icon="✅" subtitle="Coexistence">
+          <note dts="20250712202155" done subtitle="Coexistence">
             <b>Coexistence:</b> At this ranking, different groups or individuals simply tolerate each other, avoiding conflict but not necessarily weaving together in shared purpose.
           </note>
           <div></div>
@@ -54053,7 +54053,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
             
             <msg DTS="20250712073228" SPK="Chris" EXP Icon="🔍">Is there a means in Quest Society to accomplish a social optimization without asking people to explain what they need? <url>https://x.com/chris_j_handel/status/1943655775311949960</url></msg>
             <hr>
-            <note dts="20250712074318" icon="✅" subtitle="1:Yes">
+            <note dts="20250712074318" done subtitle="1:Yes">
               [3] Cardinal, Tanya, Zoey<br>
               <msg DTS="20250712074333" SPK="Cardinal" EXP Icon="⚖️">Just like choosing a game, it is not necessary for a person to explain what they need.</msg>
               <msg DTS="20250712074421" SPK="Cardinal" EXP Icon="🕊️">They are free to choose and try different societies until they are satisfied, or keep changing when their preference changes.</msg>
@@ -54188,7 +54188,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
           <note dts="20250708023203" icon="👑" subtitle="Gemini">
             <msg DTS="20250708023243" SPK="|StarTree|Gemini|" EXP Icon="⭐">20250708: <url>https://gemini.google.com/share/1c9335086e41</url></msg>
           </note>
-          <note dts="20250708025152" icon="✅" subtitle="Grok">
+          <note dts="20250708025152" done subtitle="Grok">
             <msg DTS="20250708025205" SPK="|StarTree|Grok|" EXP Icon="⭐">20250708: <url>https://grok.com/share/c2hhcmQtMg%3D%3D_043a7052-cc04-4796-a87e-de2ebfc5a908</url></msg>
           </note>
           <note dts="20250708020955" icon="👑" subtitle="Perplexity">
@@ -54457,7 +54457,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
           <note dts="20250722011414" icon="🎪" subtitle="Quest Channels">
             <msg DTS="20250722011423" SPK="Skyle" EXP Icon="🥁">These channels are for people actively questing. A quest channel might have a coordinator (a Quest Master) that runs the channel like a command center, or without a coordinator where each quester just mark which part they are doing.</msg>
           </note>
-          <note dts="20250722012226" icon="✅" subtitle="Completion Ticker">
+          <note dts="20250722012226" done subtitle="Completion Ticker">
             <msg DTS="20250722012257" SPK="LRRH" EXP Icon="🥁">The completion ticker shows the event when someone finishes a quest for people who are interested to get a sense of what people (or just their friends) are doing.</msg>
             <msg DTS="20250722012614" SPK="Evelyn" EXP Icon="💟">If you are not doing other quests, you can check the completion tickers for inspirations and give kudos. Did they do a quest a better way? You could learn from their reports.</msg>
           </note>
@@ -54561,7 +54561,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
           <note dts="20250712131409" icon="🔍" subtitle="Example">
             <msg DTS="20220828125002" SPK="LRRH" EXP Icon="🐤">If there is a quest to fix a pot hole, and a millionaire fixes it with robots before anyone else have a chance to try fixing it and get credit, does the millionaire get the credit?</msg>
             <hr>
-            <note dts="20250712131648" icon="✅" subtitle="1:Yes">
+            <note dts="20250712131648" done subtitle="1:Yes">
               [1] Ivy<br>
               <msg DTS="20250712131907" SPK="Ivy" EXP Icon=":QuillPen:">The millionaire would get the credit.</msg>
               <msg DTS="20250712132053" SPK="Ledia" EXP Icon="🔍">Shouldn't there be an algorithm where a helper with fewer credits get priority so they may get experience and skill up?</msg>
@@ -54861,13 +54861,13 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
         <note dts="20250712094032" icon="🧭" subtitle="Step 0: Goal">
           <msg DTS="20250713220114" SPK="StarTree" EXP Icon="🧭">The goals of this workflow is to maintain: GitHub Content; Google Doc; A webpage from Google Doc; and Gemini Canvas as artifact.</msg>          
           <hr>
-          <note dts="20250713220659" icon="✅" subtitle="GitHub Website">
+          <note dts="20250713220659" done subtitle="GitHub Website">
             <msg DTS="20250713220738" SPK="StarTree" EXP Icon="🧭">The GitHub Website (here, but not just this node) should be maintained because it this is where we expose the content for discussions to get the result to post to the Google Doc for AI.</msg>
             <msg DTS="20250713220959" SPK="StarTree" EXP Icon="🍒">We don't want to show the AI the discussions logs because it will confuse the AI.</msg>
             <msg DTS="20250713221043" SPK="StarTree" EXP Icon="🐣">If you add directly to the Google Doc, it is hard to know what changed. It is difficult to identify new content on the Google Doc to add back to GitHub. Much easier from GitHub to Google Doc.</msg>
             <msg DTS="20250713221217" SPK="StarTree" EXP Icon="⭐">Ideally everything in the Google Doc is copy pasted from GitHub.</msg>
           </note>
-          <note dts="20250712140446" icon="✅" subtitle="Google Doc">
+          <note dts="20250712140446" done subtitle="Google Doc">
             <msg DTS="20250713211920" SPK="StarTree" EXP Icon="🧭">The Google Doc should be maintained because it is our most convenient way to give an AI (Gemini) the context for discussion.</msg>
             <hr>
             <note dts="20250713211750" icon="🕰️" subtitle="Log">
@@ -54924,7 +54924,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
         <note dts="20250712093557" icon="🐤" subtitle="Step 2: Discuss with AI and Log here">
           <msg DTS="20250712094254" SPK="StarTree" EXP Icon="🦉">Since the goal is to make a self-contained webpage for the AI to answer questions about Quest Society correct, when you try to answer a question, first check what answer the AI will give.</msg>
           <hr>
-          <note dts="20250712094418" icon="✅" subtitle="If AI is Correct">
+          <note dts="20250712094418" done subtitle="If AI is Correct">
             <msg DTS="20250712094406" SPK="StarTree" EXP Icon="🦉">If the AI already understands correctly based on Quest Society's ethos, then just post the link to the answer.</msg>
           </note>
           <note dts="20250712094534" icon="🐣" subtitle="If AI is Wrong">
@@ -54968,7 +54968,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
             <note dts="20250707043140" icon="🐤" subtitle="Google Doc Base">
               <msg DTS="20250707043202" SPK="StarTree" EXP Icon="⚖️">Should the main location to save the document being edited be a Google Doc?</msg>
               <hr>
-              <note dts="20250707043249" icon="✅" subtitle="4: Yes">
+              <note dts="20250707043249" done subtitle="4: Yes">
                 [4] Black, LRRH, Zoey, StarTree<br>
                 <msg DTS="20250707043318" SPK="Black" EXP Icon="⚖️">I think it should because it allows for small changes. It will change the workflow a bit.</msg>
                 <msg DTS="20250707043445" SPK="LRRH" EXP Icon="🐤">If you share the google doc, you don't need to tell people where to get the latest. It is always the latest.</msg>
@@ -55098,14 +55098,14 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
             <msg DTS="20250713092303" SPK="Tanya" EXP Icon="🔍" title="Prompt">Please make a table that lists the section numbers, titles, and summaries of https://magicbakery.github.io/QuestSociety_02.html</msg>
             <hr>
             <div></div>
-            <msg DTS="20250713091357" END="20250713092431" SPK="Tanya" EXP=2 Icon="✅">Create a new webpage at Github with title QuestSociety_02. Confirm that js-based section naming allows Perplexity to see all section so far (up to 3). This version has an About box in the beginning to test if that would confuse Perplexity. Result: Perplexity can read all the sections correctly.</msg>
+            <msg DTS="20250713091357" END="20250713092431" SPK="Tanya" EXP=2 done>Create a new webpage at Github with title QuestSociety_02. Confirm that js-based section naming allows Perplexity to see all section so far (up to 3). This version has an About box in the beginning to test if that would confuse Perplexity. Result: Perplexity can read all the sections correctly.</msg>
             <msg DTS="20250713102712" SPK="Melody" EXP Icon="🐤">I wonder if 02 will run into the same memory limitation. Could we try add motion sections to 02 to see when Perplexity would break and unable to read all sections? When it breaks, it would be our cue to pick a section to summarize link to a node instead.</msg>
             <msg DTS="20250713102933" SPK="|Melody|Evelyn|" EXP Icon="💟">I am also curious.</msg>
             <msg DTS="20250713103049" SPK="Ledia" EXP Icon="⚡">Is the plan to keep both Google Doc and this summary webpage 02? For simple questions use 02 linked as a webpage. For deep comparison use Google Doc?</msg>
             <msg DTS="20250713103335" SPK="Natalie" EXP Icon="☀️">Maybe the webpage is enough and we don't need Google Doc.</msg>
             <msg DTS="20250713105632" SPK="LRRH" EXP=3 Icon="🥁">Quickly adding the rest of the top section headers. Perplexity can read all the sections so far.</msg>
             <msg DTS="20250713111357" SPK="Tanya" EXP Icon="🔮">We should check if Perplexity can be prompted to follow links in the section. For example, instead of posting the details about the Archetypes on the webpage, first post them at X, then link to that post. Then test whether Perplexity would follow that link to define the six Archetypes when prompted.</msg>
-            <msg DTS="20250713114144" SPK="LRRH" EXP Icon="✅">Confirmed that Perplexity can read Gemini's Narration in bubble style.</msg>
+            <msg DTS="20250713114144" SPK="LRRH" EXP done>Confirmed that Perplexity can read Gemini's Narration in bubble style.</msg>
             <msg DTS="20250713114409" SPK="|Evelyn|Melody|LRRH|" EXP Icon="💟">I think this webpage is enjoyable to look at. If it doesn't break anything I think [02] should be the Quest Society HTML.</msg>
             <msg DTS="20250713122911" SPK="Black" EXP Icon=":QuillPen:">Perplexity couldn't state the six peace paradigms correctly. Making changes.</msg>
             <msg DTS="20250713124133" SPK="|Black|Perplexity|" EXP Icon="🔍">Discovered that Perplexity cannot see emoji on our webpage, perhaps because our emoji has custom graphics code around them.</msg>
@@ -55129,7 +55129,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
             <msg DTS="20250713221620" SPK="StarTree" EXP Icon="🐣">Doing this will allow better visualization of the content in the Google Doc, since we can collapse sections here.</msg>
             <msg DTS="20250713221708" SPK="StarTree" EXP Icon="📯">Should this be done?</msg>
             <hr>
-            <note dts="20250713221728" icon="✅" subtitle="4:Yes">
+            <note dts="20250713221728" done subtitle="4:Yes">
               [4] Melody, Ivy, Casey, Tanya<br>
               <msg DTS="20250713221803" SPK="Melody" EXP Icon="🐤">I agree, and in the meantimes please use section numbers to reflect those at the Google Doc.</msg>
               <msg DTS="20250713224334" SPK="Ivy" EXP Icon="🔍">Please make the Google Doc index section collapsible so people don't need to scroll down to get to the quest section.</msg>
@@ -56315,18 +56315,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
       </topic>
     </topic>
     <topic dts="20241228133837" icon="🧹" Monthly title="Progress">
-      <res item="24ZVD91D" title="Game Room" tags="Area">
-        <msg DTS="20241228133917" SPK="Kisaragi" EXP Icon="📌">Tidy the Game Room.</msg>
-        <hr>
-        <note dts="20241228135229" icon="🔔" subtitle="Preparation">
-          <msg DTS="20241228135250" SPK="Kisaragi" EXP Icon="🔔">Remove rubberbands around board games when storing so that the rubberbands don't melt and leave marks on the boxes.</msg>
-          <msg DTS="20241228135606" SPK="Kisaragi" EXP Icon="🔔">Remove price stickers before storing.</msg>
-        </note>
-        <note dts="20241228133931" icon="🕰️" subtitle="Log">
-          <msg DTS="20241228133939" END="20241228150734" SPK="|Kisaragi|P4|" EXP=10 Icon="🧹">Organizing games above the shelves.</msg>
-          <msg DTS='20260619232156' SPK='Kisaragi' EXP=12 Icon=':MaidOutfit:'>Tidied to make room for crafting.</msg>
-        </note>
-      </res>
+      
       <res icon="✨" item="26V8D9D1" title="Bathrooms" star="" tags="Area">
         <note dts="20260908134212" icon="✨" subtitle="Blackout Light">
           <msg DTS='20260907153922' SPK='Patricia' EXP Icon='📌'>The south bathroom should have a blackout light.</msg>
@@ -56339,7 +56328,19 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
           <msg DTS='20260909210917' SPK='Casey' EXP=2 Icon='💧'>Added lubrication to the glass sliding door in the south bathroom.</msg>
         </note>
       </res>
-      <res item="25APNC82" title="Garage Area" star="" tags="Area">        
+      <res item="24ZVD91D" title="Game Room" tags="Area">
+        <msg DTS="20241228133917" SPK="Kisaragi" EXP Icon="📌">Tidy the Game Room.</msg>
+        <hr>
+        <note dts="20241228135229" icon="🔔" subtitle="Preparation">
+          <msg DTS="20241228135250" SPK="Kisaragi" EXP Icon="🔔">Remove rubberbands around board games when storing so that the rubberbands don't melt and leave marks on the boxes.</msg>
+          <msg DTS="20241228135606" SPK="Kisaragi" EXP Icon="🔔">Remove price stickers before storing.</msg>
+        </note>
+        <note dts="20241228133931" icon="🕰️" subtitle="Log">
+          <msg DTS="20241228133939" END="20241228150734" SPK="|Kisaragi|P4|" EXP=10 Icon="🧹">Organizing games above the shelves.</msg>
+          <msg DTS='20260619232156' SPK='Kisaragi' EXP=12 Icon=':MaidOutfit:'>Tidied to make room for crafting.</msg>
+        </note>
+      </res>
+      <res item="25APNC82" title="Garage Area" star="" tags="Area">
         <note dts="20250123225353" subtitle="Improvements">
           <msg DTS='20250122112941' SPK='Casey' EXP=3 Icon='✨'>Sorted trash, then added a trash sorting gripper nearby and secured the rack it is hanging from with zip ties.</msg>
         </note>
@@ -56382,6 +56383,21 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
           <msg DTS='20260903111230' SPK='Skyle' EXP=33 Icon='🧹'>0904:16 05:5 06:12</msg>
           <msg DTS='20260905092245' SPK='Sylvia' EXP=5 Icon='🧹'>0905:5</msg>
           <msg DTS='20260901111040' SPK='V' EXP=22 Icon='🦅'>0901:17 09:5:Cables</msg>
+        </note>
+      </res>
+      <res icon=":MaidOutfit:" item="26X1F2CB" title="Kitchen" star="" tags="Area">
+        <note dts="20261001151243" icon="✨" subtitle="Ant">
+          <msg DTS="20261001151300" SPK="Sylvia" EXP Icon="🔥">What is the best way to deter exploring ants in the kitchen?</msg>
+          <hr>
+          <note dts="20261001151828" subtitle="Seal Gaps">
+            <msg DTS="20261001151846" SPK="Casey" EXP Icon="🧱">Seal gaps where they might enter.</msg>
+          </note>
+          <note dts="20261001151506" subtitle="Soapy Water">
+            <msg DTS="20261001151602" SPK="Duck" EXP Icon="🫧">Use soapy water to erase their scent trail.</msg>
+          </note>
+          <note dts="20261001151914" subtitle="Sweep">
+            <msg DTS="20261001151930" SPK="Kisaragi" EXP Icon=":MaidOutfit:">Clear bread crumps that might attrack them.</msg>
+          </note>
         </note>
       </res>
       <res item="24ZVK4C4" title="Music Room" tags="Area">
@@ -56550,7 +56566,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
         </note>
         <res icon="🚲" item="24TUMB36" title="Green Bicycle" tags="Bicycle">
           <msg DTS='20240809185204' SPK='Casey' EXP Icon='🛎️'>Added a second bell. Now there is one on each side.</msg>
-          <note dts="20250719085852" icon="✅" subtitle="Intake">
+          <note dts="20250719085852" done subtitle="Intake">
             <msg DTS="20240513094951" SPK="Arcacia" EXP Icon="💗">Confirmed legality of the green bicycle.</msg>            
           </note>
           <note dts="20250719090022" subtitle="Bells">
@@ -58348,7 +58364,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
         <note dts="20260422224241" icon="🐤" subtitle="Entrance">
           <msg DTS="20260502131719" SPK="Vladanya" EXP Icon="📌">This should be submitted for reviewed, even if there is a backlog for the reviews.</msg>
         </note>
-        <note dts="20260422223544" icon="✅" subtitle="Cuckoo House">
+        <note dts="20260422223544" done subtitle="Cuckoo House">
           <msg DTS="20260502131641" SPK="StarTree" EXP Icon="⭐">Done and tested.</msg>
         </note>
         <note dts="20260422223339" icon="🐣" subtitle="Pendulum Stairwell">
@@ -58360,12 +58376,12 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
             <msg DTS="20260527220148" SPK="StarTree" EXP Icon="📌">The final rune didn't light up.</msg>
           </note>
         </note>
-        <note dts="20260422224558" icon="✅" subtitle="Pitch Tuning">
+        <note dts="20260422224558" done subtitle="Pitch Tuning">
           <msg DTS="20260423234655" SPK="Evelyn" EXP Icon="🐤">I think the next step is to make this testable. Although if we are lucky it could just work.</msg>
           <msg DTS="20260423234823" SPK="Tanya" EXP Icon="🔮">I think adding more prongs will make it easier to test.</msg>
           <msg DTS="20260502131602" SPK="StarTree" EXP Icon="⭐">Done and tested.</msg>
         </note>
-        <note dts="20260422223527" icon="✅" subtitle="Song Codex">
+        <note dts="20260422223527" done subtitle="Song Codex">
           <msg DTS="20260422225813" SPK="Tanya" EXP Icon="🧭">This is the chamber where the cuckoo's playlist can be set.</msg>
           <msg DTS="20260423235019" SPK="Evelyn" EXP Icon="🐤">I hope that this can be done by a simple translation.</msg>
           <msg DTS="20260502131517" SPK="StarTree" EXP Icon="⭐">Done and tested.</msg>
@@ -58650,7 +58666,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
         <msg DTS="20240824100513" SPK="Tanya" EXP Icon="📯">Each point of precaution needs to be investigated. This section is for reporting the investigation results.</msg>
         <msg DTS="20240824100724" SPK="Ledia" EXP Icon="🐣">I am very curious what the C section would be.</msg>
         <msg DTS="20240824100803" SPK="Tanya">I think it can be "Charting", or we can find a better term along the way.</msg>
-        <topic dts="20240824101550" icon="✅" title="Service Line for the Ley Node">
+        <topic dts="20240824101550" done title="Service Line for the Ley Node">
           <msg DTS="20240824101242" SPK="LRRH" EXP Icon="🐾">A concern was whether the service line from the city to the ley node is too small. So I go to the node to see it for myself.</msg>
           <msg DTS="20240824103326" SPK="LRRH" EXP Icon="🔍">Red finds that the Ley Node has its own crew and maintains the node locally. It doesn't need any material from the city. It only needs the messages.</msg>
         </topic>
@@ -58660,7 +58676,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
           <msg DTS="20240824105218" SPK="Evelyn" EXP Icon="🔍">Looking up the messenger familiar's abilities. I couldn't find any definite limit, only general guidelines to avoid interference.</msg>
           <msg DTS="20240824110712" SPK="Black" EXP Icon="💼">I think they can normally go way longer distance. If it doesn't work, we could change to a more direct path.</msg>
         </topic>
-        <topic dts="20240824111514" icon="✅" title="Substation Locations">
+        <topic dts="20240824111514" done title="Substation Locations">
           <msg DTS="20240824111640" SPK="Casey" EXP Icon="🔍">The concern was about the location of the substations, checking the maps: I found that one of the substations was being planned wrong.</msg>
           <msg DTS="20240824111831" SPK="Casey" EXP Icon="🗺️">Substation 2 is not supposed to be in the city, but in the cave with the ley node.</msg>
           <msg DTS="20240824120851" SPK="Casey" EXP Icon="🗺️">Other than that, I think we should avoid having the substation on the other side of the river. It was always a pain to go across the bridges.</msg>
@@ -58670,7 +58686,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
           <msg DTS="20240824121554" SPK="Black" EXP Icon="☁️">I think that city space is reserved for future development. We should just do the same as the pilot to be consistent.</msg>
           <msg DTS="20240824121819" SPK="Zoey" EXP Icon="⚖️">I side with avoiding foreseeable conflict and being consistent.</msg>
         </topic>
-        <topic dts="20240824123110" icon="✅" title="Protection Sizing">
+        <topic dts="20240824123110" done title="Protection Sizing">
           <msg DTS="20240824123213" SPK="Black" EXP Icon="🔍">I double checked the stats and the sizing seems correct. So overall we had done this three times:</msg>
           <msg DTS="20240824124623" SPK="Black" EXP Icon="🔍">1) For Arsenal; 2) Based on the pilot; 3) This double check.</msg>
         </topic>
@@ -64508,23 +64524,23 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
       <topic dts="20240601091632" icon="🐣" title="Philosophy Comparison">
         <msg DTS="202209111549" SPK="Evelyn" EXP Icon="📯">How does your philosophy handle housing? Does it try to house everyone who needs housing?</msg>
         
-        <topic dts="20240604113454" icon="✅" title="YES">
+        <topic dts="20240604113454" done title="YES">
           <ul>
-            <topic dts="20240604114054" icon="✅" title="Stewardism">
+            <topic dts="20240604114054" done title="Stewardism">
               <msg DTS="20240604113535" SPK="Fina" EXP Icon="🏛️">Stewardism prohibits hoarding of living space. As long as the living capacity has not maxed out, a person can claim stewardship of living space. A person can lose their right to stewardship if they harm the land.</msg>            
             </topic>
-            <topic dts="20240604121119" icon="✅" title="Gaia Land Library">
+            <topic dts="20240604121119" done title="Gaia Land Library">
               <msg DTS="20240604121135" SPK="Gaia" EXP Icon="🏛️">A land library is an implementation of Stewardism where each person has the same right to check out housing spaces.</msg>
               <msg DTS="20240604121403" SPK="Gaia" EXP Icon="🔍">So unless living space is actually maxed out, everyone should have at least a comfortable amount.</msg>
             </topic>
-            <topic dts="20240604114145" icon="✅" title="Arcacianism">
+            <topic dts="20240604114145" done title="Arcacianism">
               <msg DTS="20240604113700" SPK="Arcacia" EXP Icon="🏛️">Arcacianism lets people help themselves and each other building dwellings, and reward those who help others.</msg>
             </topic>
-            <topic dts="20240604114440" icon="✅" title="Hospitalianism">
+            <topic dts="20240604114440" done title="Hospitalianism">
               <msg DTS="20240604113731" SPK="Patricia" EXP Icon="🏛️">Hospitalianism uses on-going competition of hospitality to adjust boundaries.</msg>
               <msg spk="Patricia">Hospitalian Takeover: When a zone lets people from an overcrowed zone migrate, the zone with hospitality may takeover corresponding resource that should belong to the refugees.</msg>
             </topic>
-            <topic dts="20240604114555" icon="✅" title="Moralism">
+            <topic dts="20240604114555" done title="Moralism">
               <msg DTS="20240604113848" SPK="Black" EXP Icon="🏛️">Moralism has a priority of supporting housing:</msg>
               <msg DTS="20240604113849" spk="Black" EXP Icon="🏛️">1) Social Justice for Community Workers: A person has a right to live in a community they serve. The word “right” here means that if they can't afford it, the community has a responsibility to house them.</msg>
               <msg DTS="20240604113850" spk="Black" EXP Icon="🏛️">2) Social justice for local autonomy: A local community has a right to refuse incomers who are not their service workers. A government has no right to assign how many incomers a community must accommodate.</msg>
@@ -66249,7 +66265,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
             <msg DTS="20250420151407" SPK="Koyo" EXP Icon="🐾">This makes people who got funding more buying power compared to other innocent people.</msg>
           </note>
         </note>
-        <note dts="20250420142142" icon="✅" subtitle="Ethical Uses">
+        <note dts="20250420142142" done subtitle="Ethical Uses">
           <note dts="20250420142222" subtitle="Accounting debts among the people">
             <msg DTS="20250420142301" SPK="Black" EXP Icon="🏛️">A government could facilitate debt collection by issuing official IOUs that the people can trade. <url>https://nextdoor.com/p/PjWKZm6G2D6k/c/1344978946</url></msg>
             <msg DTS="20250420142342" SPK="Black" EXP Icon="🏛️">The government recognizes the violator or borrower as a debtor, and issues IOU (money) to the victim/lender.</msg>
@@ -70793,7 +70809,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
           <msg DTS="20250809164230" SPK="Zoey" EXP Icon="🌱">It is estimated that 6% of US population is vegan or vegetarian. <url>https://www.perplexity.ai/search/what-are-the-top-categories-of-XbYj4mcWRk2LttjjvJD8Jw#46</url> Applying that discount, the US needs at least 3.67E8 people outside the US to endorse its meat production.</msg>
           <msg DTS="20250809164757" SPK="StarTree" EXP Icon="⭐">This means that at most 47% of meat production land use in the US is covered by US people.</msg>
         </note>
-        <note dts="20250809164525" icon="✅" subtitle="Export">
+        <note dts="20250809164525" done subtitle="Export">
           <msg DTS="20250809164539" SPK="Zoey" EXP Icon="🔍">The endorsement gap of land used for meat production in the US needs to be covered by people endorsing from outside the US. Are there enough endorsers?</msg>
           <msg DTS="20250809165329" SPK="Perplexity" EXP Icon="🔍">Up to 6% of the total global meat consumed outside the US can be attributed to U.S. meat exports. <url>https://www.perplexity.ai/search/what-are-the-top-categories-of-XbYj4mcWRk2LttjjvJD8Jw#47</url></msg>
           <msg DTS="20250809170918" SPK="Zoey" EXP Icon="🔍">6% of global population outside the US is about 4.68E8. So that seems enough to cover the 3.67E8 shortfall.</msg>
@@ -70978,7 +70994,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
         <msg DTS="20240914094918" SPK="Sasha" EXP Icon="🔍">Confirm that the feedback you want to give is valid.</msg>
         <msg DTS="20240914095021" SPK="Sasha" EXP Icon="🔍">Do you understand the situation? Are you about to tell them something they already know? Are you trying to give feedback to the right person?</msg>
         <msg DTS="20240914095154" SPK="Sasha" EXP Icon="🎩">If you can't confirm, you may want to ask or start your feedback stating that you don't know if your feedback is relevant.</msg>
-        <note dts="20240914103019" icon="✅" subtitle="Good Signs">
+        <note dts="20240914103019" done subtitle="Good Signs">
           <note dts="20240914103039" subtitle="Rubric">
             <msg DTS="20240914103057" SPK="Black" EXP Icon="📋">Good signs that your point is valid are when you are the requester, the inspector, or you have a relevant rubric.</msg>
             <msg DTS="20240914103233" SPK="Black" EXP Icon="🔍">If the recipient is going off a tangent, you are in a good, or sometimes the only, position to give prompt feedback to avoid wasted efforts.</msg>
@@ -71021,7 +71037,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
       </note>
       <note dts="20240914094841" subtitle="Opportunity">
         <msg DTS="20240914095411" SPK="Evelyn" EXP Icon="💗">Check whether this is a good time or place to give feedback.</msg>
-        <note dts="20240914095824" icon="✅" subtitle="Good Signs">
+        <note dts="20240914095824" done subtitle="Good Signs">
           <note dts="20240914100402" icon="👑" subtitle="Ticket List">
             <msg DTS="20240914100416" SPK="Black" EXP Icon="📋">A ticket or petition list shows all the requests and their status.</msg>
             <msg DTS="20240914100557" SPK="Black" EXP Icon="⚖️">I think this is the best practice in handling feedbacks. A ticket list solves many problems such as duplicated requests, and people wondering where their requests stand among other priorities.</msg>
@@ -72812,7 +72828,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
               </note>
             </res>
           </note>
-          <note dts="20250111204157" icon="✅" subtitle="Completed">
+          <note dts="20250111204157" done subtitle="Completed">
             <ol reversed="">
               <li><lnk>202403290029|🏫 Everkindergarden</lnk> Tanya</li>
               <li><lnk>202309120012|🤖 Reclamation Corp</lnk> Casey &amp; Mech</li>
@@ -72950,7 +72966,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
           <msg DTS='20240920133228' SPK='Evelyn' EXP Icon='📌'>厳しすぎる人 anonymous. This is a manga page about a group meeting of people trying to be not so strict on other people.</msg>
           <msg DTS='20240921012450' SPK='Evelyn' EXP Icon='📌'>The dyslexic Arcacia <lnk>202409202347|Skit</lnk></msg>
         </note>
-        <note dts="20250507020405" icon="✅" subtitle="Lake Fairy">
+        <note dts="20250507020405" done subtitle="Lake Fairy">
           <msg DTS='20250123151703' SPK='Sasha' EXP Icon='🎩'>Lady of the lake recycling slime</msg>
           <msg DTS="20250507020455" SPK="3B" EXP Icon="📐">Checking if this can fit on one page...</msg>
           <msg DTS="20250511110729" SPK="3B" EXP=36 Icon="🎨">Finishing up with touch up and proof printing. Did two extra printing to fix issues on typo, text placement, and darkening the black lines...</msg>
@@ -72974,7 +72990,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
       <res item="24XL004D" date="20241018" title="CH20 @Quest Motoni Modoru" star="33" tags="Manga" node="202501130236">
         <msg DTS='20250117150548' SPK='3B' EXP=2 Icon='📌'>Wrench in cookie machine: This is a page manga on how humans still need to check the results of automation, with the analogy of a conveyor making bread. If a wrench is throw in the conveyor, it would be baked and there might not be a test in the automation to tell that something is wrong. The punchline is that P4 eats it and says "nothing is wrong."</msg>
         <hr>
-        <note dts="20241020191155" icon="✅" subtitle="Airdrop">
+        <note dts="20241020191155" done subtitle="Airdrop">
           <msg DTS='20241018113317' SPK='Black' EXP Icon='💡'>"I went to a Isekai that doesn't need to be saved so I returned to save ours."</msg>
           <note dts="20250118004919" subtitle="Concept">
             <msg DTS="20241020000840" SPK="3B" EXP Icon="🤍">I have this concept in my mind but it is very hard to draw. But I will try to make a draft.</msg>
@@ -73025,7 +73041,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
             <msg DTS='20250209125217' SPK='3B' EXP Icon='🎁'>Posted at shop.</msg>
           </note>
         </note>
-        <note dts="20250209163947" icon="✅" subtitle="Rez or Not?">
+        <note dts="20250209163947" done subtitle="Rez or Not?">
           <msg DTS='20250209152302' SPK='3B' EXP Icon='🐣'>This is a manga idea where P4 KO'ed someone by mistake and apologized.</msg>
           <msg DTS="20250209164101" SPK="3B" EXP Icon="🐣">Then acquintant of the KOed protests that an apology is not enough.</msg>
           <msg DTS="20250209164334" SPK="3B" EXP Icon="🐣">P4 said but Mama said it would be enough.</msg>
@@ -73040,10 +73056,10 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
         <note dts="20250517131226" icon="📌" subtitle="Quest Making Quest" node="202505171244">
           <msg DTS="20250517131241" SPK="Tanya" EXP Icon="📌">Make the poster / manga page to explain logging credits without a quest.</msg>
         </note>
-        <note dts="20250629172619" icon="✅" subtitle="Lunch" node="202506290028">
+        <note dts="20250629172619" done subtitle="Lunch" node="202506290028">
           <msg DTS="20250629173100" SPK="3B" EXP Icon="🐤">See the node.</msg>
         </note>
-        <note dts="20250701030213" icon="✅" subtitle="Tell Me" node="202507010208">
+        <note dts="20250701030213" done subtitle="Tell Me" node="202507010208">
           <msg DTS="20250701030257" SPK="3B" EXP Icon="🐤">See the node.</msg>
         </note>
   
@@ -73319,7 +73335,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
     <res icon="🐣" item="25F5N1E3" title="Miller" star="" tags="">
       <msg DTS='20250605141100' SPK='LRRH' EXP Icon='📌'>Need to add Miller.</msg>      
     </res>
-    <res icon="✅" item="25DE04D9" title="Archenemies / Artifacts" star="" tags="6A">
+    <res done item="25DE04D9" title="Archenemies / Artifacts" star="" tags="6A">
       <msg DTS="20250413025142" SPK="LRRH" EXP Icon="📌">I think the quest center should have six wanted posters with villains representing the issues that the six archetypes are trying to solve.</msg>
       <msg DTS="20250413031311" SPK="Tanya" EXP Icon="🔮">We need more concrete representation of each peacebreaking bias.</msg>
       <msg DTS="20250414004139" SPK="3B" EXP Icon="🐤">it seems that all of these "monsters" would bind to a person. Or maybe we just show them as following a person?</msg>
@@ -73410,7 +73426,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
         <msg DTS="20250408003405" SPK="3B" EXP Icon="🐣">Checking what happens if I ask ChatGPT to repose, chibi, or draw the backside of a character.</msg>
         <msg DTS="20250408004259" SPK="3B" EXP Icon="🐣">Should also try making "compilation" where ChatGPT makes many reference poses on a single file.</msg>
       </note>
-      <note dts="20250412194919" icon="✅" subtitle="Wallpaper">
+      <note dts="20250412194919" done subtitle="Wallpaper">
         <msg DTS="20250412195740" SPK="3B" EXP Icon="🎁">The first wallpaper is here <url>https://magicbakery.github.io/images/20250407_6A.png</url> and posted at DeviantArt: <url>https://www.deviantart.com/magicbakery/art/1182504618</url></msg>
         <hr>
         <note dts="20250405181826" icon="📐" subtitle="Draft / Layout">
@@ -73446,7 +73462,7 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
           
         </note>
       </note>
-      <note dts="20250412200006" icon="✅" subtitle="Poster">
+      <note dts="20250412200006" done subtitle="Poster">
         <msg DTS="20250412200215" SPK="3B" EXP Icon="🧭">This is for posting at bulletin board. Unlike the wallpaper this has a QR code.</msg>
         
         <hr>
@@ -73459,10 +73475,10 @@ Heroine? Saint? No, I'm an All-Works Maid (and Proud of It)!" src="https://en.wi
             <msg DTS="20250412192407" SPK="3B" EXP=3 Icon="📷">Added QR code. 0.5" square works if the contrast is high enough (black QR code with transparent background).</msg>                      
           </note>
         </note>
-        <note dts="20250412202114" icon="✅" subtitle="6x4 Landscape">
+        <note dts="20250412202114" done subtitle="6x4 Landscape">
           <msg DTS="20250412203627" SPK="3B" EXP Icon="🎨">Made a 6x4 size card for posting in landscape.</msg>
         </note>
-        <note dts="20250412214559" icon="✅" subtitle="6x4 Portrait">
+        <note dts="20250412214559" done subtitle="6x4 Portrait">
           <msg DTS="20250412232213" SPK="3B" EXP=10 Icon="🎨">Made a 6x4 portrait style for posting. This is like a book cover. <url>https://magicbakery.github.io/images/20250407_6A_6x4_Protrait.png</url> <url>https://www.deviantart.com/magicbakery/art/Six-Archetype-Poster-1182568709</url></msg>
           <msg DTS="20250412232401" SPK="|Zoey|3B|" EXP Icon="💟">This looks good! XD</msg>
           <msg DTS="20250412233047" SPK="Ledia" EXP Icon="🔍">I think Evelyn can be scaled slightly bigger. She looks small.</msg>
