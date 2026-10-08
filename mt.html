@@ -5928,6 +5928,7 @@
 			const bottomZone = h * 0.7;
 			let horiz = "center";
 			let vert = "center";
+			let {x:curh, y:curv} = fairyScenePanGet(sa);
 			// Horizontal logic
 			if (x < leftZone) {
 				horiz = "left";
@@ -5944,8 +5945,56 @@
 			} else if (y > bottomZone) {
 				vert = "bottom";
 			}
-			sa.style.backgroundPosition = `${horiz} ${vert}`;
+			if(horiz === "center" && vert==="center"){
+				horiz = "50";
+				vert = "50";
+			}else{
+				if(horiz==="left"){horiz = curh - 25;}
+				if(horiz==="right"){horiz = curh + 25;}
+				if(horiz==="center"){horiz = curh;}
+				horiz = Math.min(Math.max(horiz,0),100);
+				if(vert==="top"){vert = curv - 25;}
+				if(vert==="bottom"){vert = curv + 25;}
+				if(vert==="center"){vert = curv;}
+				vert = Math.min(Math.max(vert,0),100);
+			}
+			sa.style.backgroundPosition = `${horiz}% ${vert}%`;
 		}
+function fairyScenePanGet(element) {
+  const value = getComputedStyle(element).backgroundPosition
+    .split(",")[0]       // first background layer
+    .trim()
+    .split(/\s+/);
+
+  const axisValue = {
+    left: 0,
+    top: 0,
+    center: 50,
+    right: 100,
+    bottom: 100,
+  };
+
+  let x = 50;
+  let y = 50;
+
+  for (const part of value) {
+    if (part.endsWith("%")) {
+      const percent = parseFloat(part);
+      if (x === 50) x = percent;
+      else y = percent;
+    } else if (part in axisValue) {
+      if (part === "left" || part === "right") x = axisValue[part];
+      else if (part === "top" || part === "bottom") y = axisValue[part];
+      else {
+        // "center" fills whichever axis hasn't been specified yet
+        if (x === 50) x = 50;
+        else y = 50;
+      }
+    }
+  }
+
+  return { x, y };
+}
 
 		async function fairyStatusCheck(e) {
 			SPEC("20260214150700", "LRRH", "Change the icon to a checkmark and log the time for daily quest.");
@@ -6581,7 +6630,7 @@
 			} else if (command === 'IMAGE') {
 				return ScriptInsertImage(tail1);
 			} else if (command === 'GOTO') {
-				ScriptGoto(arg1);
+				ScriptGoto(trim(arg1.oneOf()));
 				return true;
 			} else if (command === 'LOOP') {
 				const se = ScriptEngine();
