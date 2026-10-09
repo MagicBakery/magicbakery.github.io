@@ -3771,7 +3771,7 @@
 							fill="none">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
 								stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-								<path d="M4 4h12v12H4z" fill="currentColor"/>
+								<path d="M4 4h12v12H4z" fill="currentColor" />
 								<path d="M16 8h4v12H8v-4" />
 							</svg>
 						</svg>
@@ -3794,7 +3794,7 @@
 							fill="none">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
 								stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
-								<path d="M4 4h12v12H4z" fill="currentColor"/>
+								<path d="M4 4h12v12H4z" fill="currentColor" />
 								<path d="M16 8h4v12H8v-4" />
 							</svg>
 						</svg>
@@ -4636,7 +4636,7 @@
 			if (loadedAC) { setActiveCard(loadedAC); }
 
 			// 20260919: Sasha: Apply Wake Lock
-			
+
 
 		};
 
@@ -5472,7 +5472,7 @@
 			} else if (choice.startsWith("✉️")) { // Send Message
 				window.open('https://docs.google.com/forms/d/e/1FAIpQLSeOpcxl7lS3R84J0P3cYZEbkRapkrcpTrRAtWA8HCiOTl6nTw/viewform', '_blank');
 				hit = true;
-			} else if (choice.startsWith("✨")){ // Show Archived Cards
+			} else if (choice.startsWith("✨")) { // Show Archived Cards
 				UnstowAllCards();
 				hit = true;
 			} else if (choice.startsWith("🐣")) { // Starter Pack
@@ -5786,9 +5786,9 @@
 			ScriptRun(null);
 
 		}
-		function fairyDelayedClick(el,ms,bAbort){
+		function fairyDelayedClick(el, ms, bAbort) {
 			// 20260920: Sasha: This is a unique timer. There can only be one. A new call replaces the old one.
-			if(bAbort){
+			if (bAbort) {
 				if (fairyDelayedClickTimer !== null) {
 					clearTimeout(fairyDelayedClickTimer);
 					fairyDelayedClickTimer = null;
@@ -5802,11 +5802,11 @@
 			}
 			// Cancel the previously scheduled click
 			if (fairyDelayedClickTimer !== null) {
-					clearTimeout(fairyDelayedClickTimer);
+				clearTimeout(fairyDelayedClickTimer);
 			}
 			fairyDelayedClickTimer = setTimeout(() => {
-					fairyDelayedClickTimer = null;
-					el.click();
+				fairyDelayedClickTimer = null;
+				el.click();
 			}, ms);
 
 			return fairyDelayedClickTimer;
@@ -5928,7 +5928,7 @@
 			const bottomZone = h * 0.7;
 			let horiz = "center";
 			let vert = "center";
-			let {x:curh, y:curv} = fairyScenePanGet(sa);
+			let { x: curh, y: curv } = fairyScenePanGet(sa);
 			// Horizontal logic
 			if (x < leftZone) {
 				horiz = "left";
@@ -5945,56 +5945,47 @@
 			} else if (y > bottomZone) {
 				vert = "bottom";
 			}
-			if(horiz === "center" && vert==="center"){
+			DEBUG(5948 + " " + horiz + " " + vert);
+			if (horiz === "center" && vert === "center") {
 				horiz = "50";
 				vert = "50";
-			}else{
-				if(horiz==="left"){horiz = curh - 25;}
-				if(horiz==="right"){horiz = curh + 25;}
-				if(horiz==="center"){horiz = curh;}
-				horiz = Math.min(Math.max(horiz,0),100);
-				if(vert==="top"){vert = curv - 25;}
-				if(vert==="bottom"){vert = curv + 25;}
-				if(vert==="center"){vert = curv;}
-				vert = Math.min(Math.max(vert,0),100);
+			} else {
+				if (horiz === "left") { horiz = curh - 25; }
+				if (horiz === "right") { horiz = curh + 25; }
+				if (horiz === "center") { horiz = curh; }
+				horiz = Math.min(Math.max(horiz, 0), 100);
+				if (vert === "top") { vert = curv - 25; }
+				if (vert === "bottom") { vert = curv + 25; }
+				if (vert === "center") { vert = curv; }
+				vert = Math.min(Math.max(vert, 0), 100);
 			}
+			DEBUG(5961 + " Current: " + curh + " " + curv);
+			DEBUG(5962 + " Result: " + horiz + " " + vert);
 			sa.style.backgroundPosition = `${horiz}% ${vert}%`;
 		}
-function fairyScenePanGet(element) {
-  const value = getComputedStyle(element).backgroundPosition
-    .split(",")[0]       // first background layer
-    .trim()
-    .split(/\s+/);
+		function fairyScenePanGet(element) {
+			const value = getComputedStyle(element).backgroundPosition
+				.split(",")[0]
+				.trim()
+				.split(/\s+/);
 
-  const axisValue = {
-    left: 0,
-    top: 0,
-    center: 50,
-    right: 100,
-    bottom: 100,
-  };
+			const axisValue = {
+				left: 0,
+				top: 0,
+				center: 50,
+				right: 100,
+				bottom: 100,
+			};
 
-  let x = 50;
-  let y = 50;
+			const parse = (part, fallback) =>
+				part?.endsWith("%") ? parseFloat(part) : (axisValue[part] ?? fallback);
 
-  for (const part of value) {
-    if (part.endsWith("%")) {
-      const percent = parseFloat(part);
-      if (x === 50) x = percent;
-      else y = percent;
-    } else if (part in axisValue) {
-      if (part === "left" || part === "right") x = axisValue[part];
-      else if (part === "top" || part === "bottom") y = axisValue[part];
-      else {
-        // "center" fills whichever axis hasn't been specified yet
-        if (x === 50) x = 50;
-        else y = 50;
-      }
-    }
-  }
+			return {
+				x: parse(value[0], 50),
+				y: parse(value[1], 50),
+			};
+		}
 
-  return { x, y };
-}
 
 		async function fairyStatusCheck(e) {
 			SPEC("20260214150700", "LRRH", "Change the icon to a checkmark and log the time for daily quest.");
@@ -6630,7 +6621,7 @@ function fairyScenePanGet(element) {
 			} else if (command === 'IMAGE') {
 				return ScriptInsertImage(tail1);
 			} else if (command === 'GOTO') {
-				ScriptGoto(trim(arg1.oneOf()));
+				ScriptGoto(arg1.oneOf().trim());
 				return true;
 			} else if (command === 'LOOP') {
 				const se = ScriptEngine();
@@ -6657,10 +6648,10 @@ function fairyScenePanGet(element) {
 				StageSet(tail1); return true;
 			} else if (command === 'TIMER') {
 				ScriptTimer(arg1, arg2, arg3); return true;
-			} else if (command ==='WAIT'){
+			} else if (command === 'WAIT') {
 				// 20260919: Koyo: Wait for the specified number of seconds, then click the play button.
 				const playButton = document.querySelector('.stage-next-btn');
-				fairyDelayedClick(playButton,tail1);
+				fairyDelayedClick(playButton, tail1);
 				return true;
 			}
 			return false;
@@ -7706,9 +7697,9 @@ function fairyScenePanGet(element) {
 			// Deactivate all actors.
 			stageEl.querySelectorAll('.actor.active').forEach(a => { a.classList.remove('active'); });
 		}
-		async function StageChange(url, anchor = "center",iData) {
+		async function StageChange(url, anchor = "center", iData) {
 			await fadeLoadingScreen(true);
-			
+
 			// 20260203: Auto hide all actors until they speak again.
 			StageActorsOff();
 			// Reset the narration streak
@@ -7719,9 +7710,9 @@ function fairyScenePanGet(element) {
 
 			const stageEl = document.getElementById('stage-area');
 			// 20260920: Sasha: Store the ID of the scene if there is one.
-			if(iData){
+			if (iData) {
 				stageEl.dataset.p = iData.p;
-			}else{
+			} else {
 				delete stageEl.dataset.p;
 			}
 			stageEl.style.backgroundImage = `url(${url})`;
@@ -7729,15 +7720,15 @@ function fairyScenePanGet(element) {
 			await new Promise(r => setTimeout(r, 200));
 			await fadeLoadingScreen(false);
 		}
-		function StageAnchorTags(){
+		function StageAnchorTags() {
 			// 20260920: Sasha: Apply all the tags of the current scene if there is data for the tag.
 			const stageEl = document.getElementById('stage-area');
-			if(!stageEl.dataset.p){return;}
+			if (!stageEl.dataset.p) { return; }
 			const mSceneData = DATAByID(stageEl.dataset.p);
-			if (!mSceneData || !Array.isArray(mSceneData.t)) {return;}
+			if (!mSceneData || !Array.isArray(mSceneData.t)) { return; }
 			// mSceneData.t is an array of text. Add them all to the context
 			const tags = mSceneData.t.join(',');
-			processScriptTag(tags,true);
+			processScriptTag(tags, true);
 		}
 		function StageFade() {
 			// 20260119: Sasha: Fades the stage area away.
@@ -7995,7 +7986,7 @@ function fairyScenePanGet(element) {
 				}
 			});
 			document.addEventListener('click', async (e) => {
-				fairyDelayedClick(null,null,true);
+				fairyDelayedClick(null, null, true);
 				await WakeLock.requestScreen();
 				if (await fairyRemovalCheck(e)) { return; }
 				if (await fairyBubblePopping(e)) { return; }
@@ -8564,7 +8555,7 @@ function fairyScenePanGet(element) {
 				alert("Error accessing clipboard: " + err.message);
 			}
 		}
-		function UnstowAllCards(){
+		function UnstowAllCards() {
 			// 20260912: StarTree: For all .card div in div #storage, move it to a track.
 			const targetTrack = document.querySelector('.track');
 			let storedCards = document.getElementById('storage').querySelectorAll('div.card');

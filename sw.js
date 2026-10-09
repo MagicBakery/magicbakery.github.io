@@ -1,5 +1,5 @@
 // Change this every time you deploy new assets
-const CACHE_NAME = 'mb-app-20261008-0154';
+const CACHE_NAME = 'mb-app-20261008-1742';
 const ASSETS_TO_CACHE = [
   '/',           // The root URL
   '/gb.html',     // Quest Board (Game Board)
