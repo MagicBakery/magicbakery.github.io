@@ -540,12 +540,10 @@
             <macro>{"cmd":"MC3"}</macro>
             <div class="mbMC3" onclick="MC3Resize(this)">
               <div style="display:flex;flex-direction: column;">
-                  
                 <div class="mbCB"><!--@Academy-->
                   <span style="float:right;"><lnk>202207170113|🏅</lnk></span>
                   <macro>{"guildlog":"0","rank":"A","updates":"1","node":"202403231454","author":"Melody","chapter":"Academy","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">
-                    
                     <note dts="20261010112238" icon=":Paladin:1" node="202209192238"><!--#Paladin-->
                       <h4>Paladin Skills & Quests</h4>
                       <hr>
@@ -879,14 +877,16 @@
                   <macro>{"guildlog":"0","rank":"B","updates":"2","node":"202604152147","author":"Tanya","chapter":"Quest Society","cmd":"pb"}</macro>
                   <div class="mbPinner mbhide">
                     <div class="mbPBInfo"></div>
-                    <note dts="20261019104528" icon="🏫?" >
+                    <note dts="20261019104528" icon="🏫?/?" >
                       <h4>Program Service</h4>
+                      <hr>
+                      <msg DTS="20261021102132" SPK="LRRH" EXP Icon="🐤">Most of the program service quests for Quest Society are Academy quests. Please see the Academy section.</msg>
                     </note>
-                    <note dts="20261019103435" icon="🗃️2/6" node="202604152147">
+                    <note dts="20261019103435" icon="🗃️3/6" node="202604152147">
                       <h4>Management & General</h4>
                       <hr>
                       <macro>{"log":"","priority":"1","icon":"🗺️","node":"202604152147","title":"Roadmap","info":"Build Quest Society as a nonprofit. Dry running.","cmd":"quest"}</macro>
-                      <macro>{"log":"","priority":"0","icon":":QuillPen:","node":"202604152147","title":"Articles","info":"Articles of Incorporation","cmd":"quest"}</macro>
+                      <macro>{"log":"1021","priority":"1","icon":":QuillPen:","node":"202610211024","title":"Articles","info":"Articles of Incorporation","cmd":"quest"}</macro>
                       <macro>{"log":"1001","priority":"1","icon":":QuillPen:","node":"202609141446","title":"Bylaws","info":"0914: Split to its own node.","cmd":"quest"}</macro>
                       <macro>{"log":"","priority":"2","icon":"📯","node":"202604152147","title":"Confirm Directors","info":"","cmd":"quest"}</macro>
                       <macro>{"log":"","priority":"3","icon":":QuillPen:","node":"202604152147","title":"Registration","info":"501(c)(3) Registration","cmd":"quest"}</macro>
@@ -106048,23 +106048,41 @@ All operations are conducted with strict neutrality, transparency, and accountab
 <div id="P202609141446" date="20260914" time="1446" data-skill data-Herald data-page="bylaws">
 	<content>
     <topic section dts="20260914145247" done title="Article I - Name and Offices">
-      <res section item="26VEG735" title="Name" star="" tags="">
-        <msg DTS="20260914163531" SPK="Lei" EXP Icon=":QuillPen:">The name of this corporation is Quest Society (the "Society").</msg>
+      <res todo item="26VEG735" title="Name" star="" tags="">
+        <msg DTS="20260914163531" SPK="|Lei|LRRH|" EXP Icon=":QuillPen:">The name of this corporation is Quest Society Foundation (the "Foundation").</msg>
         <hr>
-        <note dts="20260914163552" done subtitle="1:Approval">
-          [1] Lei<br>
+        <note todo dts="20261021111314" icon="⚖️" subtitle="Discussion">
+          <msg DTS="20261021104641" SPK="LRRH" EXP Icon="🐾">Should the nonprofit be called Quest Society or Quest Society Foundation?</msg>
+          <msg DTS="20261021122342" SPK="Gemini" EXP Icon="⚖️">Choose "Quest Society" if you want a sleek, modern, movement-focused identity that emphasizes community collaboration and your unique digital/open-source framework. Choose "Quest Society Foundation" if you want to immediately project traditional institutional gravitas to major donors, banks, and grant-making bodies.</msg>
+          <hr>
+          <note dts="20261021122319" subtitle="0:Quest Society">
+          </note>
+          <note dts="20261021111040" subtitle="4:Quest Society Foundation">
+            [4] LRRH, Ivy, StarTree, Arcacia<br>
+            <msg DTS="20261021111428" SPK="LRRH" EXP Icon="🐤">An argument to call the nonprofit Quest Society Foundation is that we already know that the nonprofit is not the full fledge Quest Society, but the part with tax exempt activities.</msg>
+            <msg DTS="20261021111559" SPK="LRRH" EXP Icon="🐤">But then in the documents we need to refer to the corporation as the "Foundation" instead of the "Society".</msg>
+            <msg DTS="20261021123408" SPK="|LRRH|Gemini|" EXP Icon="🐤">I think Gemini agrees with this. <url>https://share.gemini.google/JuhqMa9tDg1d</url></msg>
+            <msg DTS="20261021123526" SPK="StarTree" EXP Icon="📯">StarTree thinks that Ivy should comment on this.</msg>
+            <msg DTS="20261021123552" SPK="|Arcacia|StarTree|" EXP Icon="💟">+1</msg>
+            <msg DTS="20261021123621" SPK="StarTree" EXP Icon="🔍">If it is called Quest Society Foundation, the relation between the two is that Quest Society Foundation is one nonprofit implementing Quest Society, but there could be many others doing the same.</msg>
+            <msg DTS="20261021124804" SPK="Ivy" EXP Icon="🕊️">I think that is a good distinction, and so that even when the nonprofit fails, it doesn't mean that the concept fails.</msg>
+            <msg DTS="20261021125849" SPK="|Arcacia|Ivy|LRRH|Gemini|" EXP Icon="💟">+1</msg>
+          </note>
+        </note>
+        <note dts="20260914163552" done subtitle="2:Approval">
+          [2] Lei, LRRH<br>
         </note>
       </res>
       <res section item="26VEG8D9" title="Type of Corporation" star="" tags="">
-        <msg DTS="20260914163812" SPK="Lei" EXP Icon=":QuillPen:">The Society is a California nonprofit public benefit corporation organized exclusively for charitable and educational purposes under Section 501(c)(3) of the Internal Revenue Code and the California Nonprofit Public Benefit Corporation Law, as stated in its Articles of Incorporation. It is not organized for private gain. The Society operates using the permitted subset of Quest Society Ethics consistent with these tax-exempt purposes; other entities may adopt Quest Society Ethics independently and without affiliation.</msg>
+        <msg DTS="20260914163812" SPK="|Lei|LRRH|" EXP Icon=":QuillPen:">The Foundation is a California nonprofit public benefit corporation organized exclusively for charitable and educational purposes under Section 501(c)(3) of the Internal Revenue Code and the California Nonprofit Public Benefit Corporation Law, as stated in its Articles of Incorporation. It is not organized for private gain. The Foundation operates using the permitted subset of Quest Society Ethics consistent with these tax-exempt purposes; other entities may adopt Quest Society Ethics independently and without affiliation.</msg>
         <hr>
-        <note dts="20260914163902" done subtitle="1:Approval">
-          [1] Lei<br>
+        <note dts="20260914163902" done subtitle="2:Approval">
+          [2] Lei, LRRH<br>
           <msg DTS="20260914164928" SPK="|Lei|Gemini|" EXP Icon=":QuillPen:">Made more concise.</msg>
         </note>
       </res>
       <res section item="26VEFB85" title="Principal Office" star="" tags="">
-        <msg DTS="20260914155438" SPK="|Lei|Vibe|" EXP Icon="🌠">The principal office of the Society shall be located at such place within the State of California as the Board of Directors may determine from time to time.</msg>
+        <msg DTS="20260914155438" SPK="|Lei|Vibe|LRRH|" EXP Icon="🌠">The principal office of the Foundation shall be located at such place within the State of California as the Board of Directors may determine from time to time.</msg>
         <hr>
         <note dts="20260914155554" done subtitle="2:Approval">
           [2] Lei, LRRH<br>
@@ -106073,7 +106091,7 @@ All operations are conducted with strict neutrality, transparency, and accountab
         </note>
       </res>
       <res section item="26VEG98D" title="Registered Agent" star="" tags="">
-        <msg DTS="20260914164113" SPK="Lei" EXP Icon=":QuillPen:">The Society’s agent for service of process shall be the individual or corporation designated in the current official filing with the California Secretary of State.</msg>
+        <msg DTS="20260914164113" SPK="|Lei|LRRH|" EXP Icon=":QuillPen:">The Foundation's agent for service of process shall be the individual or corporation designated in the current official filing with the California Secretary of State.</msg>
         <hr>
         <note dts="20260914164411" done subtitle="2:Approval">
           [2] Lei, LRRH<br>
@@ -106082,7 +106100,7 @@ All operations are conducted with strict neutrality, transparency, and accountab
         </note>
       </res>
       <res section item="26VEH3E9" title="Governing Law and Statutory References" star="" tags="">
-        <msg DTS="20260914171732" SPK="|LRRH|Gemini|" EXP Icon="🕊️">These Bylaws shall be governed by, and construed in accordance with, the laws of the State of California. Any reference in these Bylaws to a specific section of the California Corporations Code or other state law shall be deemed to include any equivalent or successor provision under the laws of any other jurisdiction in which the Society may subsequently be incorporated or re-domiciled.</msg>
+        <msg DTS="20260914171732" SPK="|LRRH|Gemini|" EXP Icon="🕊️">These Bylaws shall be governed by, and construed in accordance with, the laws of the State of California. Any reference in these Bylaws to a specific section of the California Corporations Code or other state law shall be deemed to include any equivalent or successor provision under the laws of any other jurisdiction in which the Foundation may subsequently be incorporated or re-domiciled.</msg>
         <hr>
         <note dts="20260914172250" done subtitle="1:Approval">
           [1] LRRH<br>
@@ -106099,20 +106117,20 @@ All operations are conducted with strict neutrality, transparency, and accountab
     </topic>
     <topic section dts="20260914145156" done title="Article II - Purposes">
       <res section done item="26VEEDAF" title="Charitable Purposes" star="" tags="">
-        <msg DTS="20260914145939" SPK="Casey" EXP Icon="🧭">The Society is organized and operated exclusively for charitable and educational purposes within the meaning of Section 501(c)(3) of the Internal Revenue Code, as outlined in the Society's Articles of Incorporation. No part of these Bylaws shall be construed to expand, narrow, or conflict with the purposes stated in the Articles of Incorporation; in the event of any inconsistency, the Articles of Incorporation shall govern.</msg>
+        <msg DTS="20260914145939" SPK="|Casey|LRRH|" EXP Icon="🧭">The Foundation is organized and operated exclusively for charitable and educational purposes within the meaning of Section 501(c)(3) of the Internal Revenue Code, as outlined in the FOundation's Articles of Incorporation. No part of these Bylaws shall be construed to expand, narrow, or conflict with the purposes stated in the Articles of Incorporation; in the event of any inconsistency, the Articles of Incorporation shall govern.</msg>
         <hr>
-        <note dts="20260914150402" done subtitle="1:Approval">
-          [1] Casey<br>
+        <note dts="20260914150402" done subtitle="2:Approval">
+          [2] Casey, LRRH<br>
           <msg DTS="20260914150434" SPK="Casey" EXP Icon="🐤">This section seems boilerplate, but why should the Articles of Incorporation takes precedence? Is this normal?</msg>
           <msg DTS="20260914150916" SPK="Vibe" EXP Icon="🦉">The Articles of Incorporation should have the high level purpose statement for compliance, while the Bylaws is an internal document on how the organization operates. The Bylaws should reference the Articles' purpose and add operational detail. <url>https://chat.mistral.ai/chat/db3a3f44-940e-419a-a9b7-f5bab6d8b9b2</url></msg>
         </note>
       </res>
       <res section done item="26VEF4A0" title="Mission" star="" tags="">
-        <msg DTS="20260915231715" SPK="Sasha" EXP Icon="🧭">The Society accomplishes its charitable and educational purposes by identifying community needs, defining specific public-benefit 'Quests' with fixed, pre-published deliverables and objective acceptance criteria, and administering a program that funds the creation and delivery of educational and civic-improvement outputs, including open-source applications, publicly accessible materials, and the research, stewardship, and advancement of Quest Society Ethics.</msg>
+        <msg DTS="20260915231715" SPK="|Sasha|LRRH|" EXP Icon="🧭">The Foundation accomplishes its charitable and educational purposes by identifying community needs, defining specific public-benefit 'Quests' with fixed, pre-published deliverables and objective acceptance criteria, and administering a program that funds the creation and delivery of educational and civic-improvement outputs, including open-source applications, publicly accessible materials, and the research, stewardship, and advancement of Quest Society Ethics.</msg>
         
         <hr>
-        <note dts="20260914152120" done subtitle="2:Approval">
-          [2] Casey, Sasha<br>
+        <note dts="20260914152120" done subtitle="3:Approval">
+          [3] Casey, Sasha, LRRH<br>
           <msg DTS="20260914152016" SPK="Casey" EXP Icon=":QuillPen:">Draft 1</msg>
           <msg DTS="20260915231800" SPK="|Sasha|Gemini|" EXP Icon=":QuillPen:">Draft 2: Added wording about Quest Society Ethics so that the Board of Directors qualifications include understanding it. Gemini said the Articles of Incorporation does not need to change.</msg>
         </note>
@@ -106121,50 +106139,50 @@ All operations are conducted with strict neutrality, transparency, and accountab
         <msg DTS="20260914153518" SPK="Fina" EXP Icon="⚔️">In furtherance of, but not in limitation of, the purposes outlined in the Articles of Incorporation:</msg>
         <hr>
         <note section dts="20260914153633" done subtitle="Furtherance">
-          <msg DTS="20260914153711" SPK="Fina" EXP Icon="⚔️">The Society shall not engage in any activity that is not in furtherance of the purposes described in Section 2.1;</msg>
-          <note dts="20260914154319" done subtitle="2:Approval">
-            [2] Fina, Lei
+          <msg DTS="20260914153711" SPK="|Fina|LRRH|" EXP Icon="⚔️">The Foundation shall not engage in any activity that is not in furtherance of the purposes described in Section 2.1;</msg>
+          <note dts="20260914154319" done subtitle="3:Approval">
+            [3] Fina, Lei, LRRH
           </note>
         </note>
         <note section dts="20260914153801" done subtitle="Earnings">
-          <msg DTS="20260914153832" SPK="Fina" EXP Icon="⚔️">No part of the net earnings of the Society shall inure to the benefit of any director, officer, or private individual, except that the Society may pay reasonable compensation for services rendered and make distributions in furtherance of its exempt purposes;</msg>
-          <note dts="20260914154307" done subtitle="2:Approval">
-            [2] Fina, Lei
+          <msg DTS="20260914153832" SPK="|Fina|LRRH|" EXP Icon="⚔️">No part of the net earnings of the Foundation shall inure to the benefit of any director, officer, or private individual, except that the Foundation may pay reasonable compensation for services rendered and make distributions in furtherance of its exempt purposes;</msg>
+          <note dts="20260914154307" done subtitle="3:Approval">
+            [3] Fina, Lei, LRRH
           </note>
         </note>
         <note section dts="20260914153917" done subtitle="Apolitical">
-          <msg DTS="20260914153931" SPK="Fina" EXP Icon="⚔️">The Society shall not participate or intervene in any political campaign on behalf of, or in opposition to, any candidate for public office, and shall not devote a substantial part of its activities to attempting to influence legislation, except as permitted for organizations exempt under Section 501(c)(3); and</msg>
-          <note dts="20260914154258" done subtitle="2:Approval">
-            [2] Fina, Lei
+          <msg DTS="20260914153931" SPK="|Fina|LRRH|" EXP Icon="⚔️">The Foundation shall not participate or intervene in any political campaign on behalf of, or in opposition to, any candidate for public office, and shall not devote a substantial part of its activities to attempting to influence legislation, except as permitted for organizations exempt under Section 501(c)(3); and</msg>
+          <note dts="20260914154258" done subtitle="3:Approval">
+            [3] Fina, Lei, LRRH
           </note>
         </note>
         <note section dts="20260914154027" done subtitle="501(c)(3)">
-          <msg DTS="20260914154100" SPK="Fina" EXP Icon="⚔️">Notwithstanding any other provision of these Bylaws, the Society shall not carry on any activity not permitted to be carried on by an organization exempt under Section 501(c)(3) of the Internal Revenue Code, or by an organization the contributions to which are deductible under Section 170(c)(2) of the Internal Revenue Code.</msg>
+          <msg DTS="20260914154100" SPK="|FinaLRRH|" EXP Icon="⚔️">Notwithstanding any other provision of these Bylaws, the Foundation shall not carry on any activity not permitted to be carried on by an organization exempt under Section 501(c)(3) of the Internal Revenue Code, or by an organization the contributions to which are deductible under Section 170(c)(2) of the Internal Revenue Code.</msg>
           <hr>
-          <note dts="20260914154209" done subtitle="2:Approval">
-            [2] Fina, Lei
+          <note dts="20260914154209" done subtitle="3:Approval">
+            [3] Fina, Lei, LRRH
           </note>
         </note>
         <hr>
-        <note dts="20260914154814" done subtitle="2:Approval">
-          [2] Fina, Lei
+        <note dts="20260914154814" done subtitle="3:Approval">
+          [3] Fina, Lei, LRRH
         </note>
       </res>
       
     </topic>
     <topic section dts="20260914170041" done title="Article III - Membership">
       <res done section item="26VEH194" title="No Statutory Members" star="" tags="">
-        <msg DTS="20260914170800" SPK="LRRH" EXP Icon="🐤">The Society shall have no members within the meaning of California Corporations Code Section 5056. All corporate powers shall be exercised by or under the authority of the Board of Directors, and the Society's activities and affairs shall be managed under the Board's direction, as provided in the Articles of Incorporation.</msg>
+        <msg DTS="20260914170800" SPK="LRRH" EXP Icon="🐤">The Foundation shall have no members within the meaning of California Corporations Code Section 5056. All corporate powers shall be exercised by or under the authority of the Board of Directors, and the Foundation's activities and affairs shall be managed under the Board's direction, as provided in the Articles of Incorporation.</msg>
         <hr>
         <note dts="20260914170911" done subtitle="1:Approval">
           [1] LRRH
         </note>
       </res>
       <res section item="26VEH1BD" title="Program Participants." star="" tags="">
-        <msg DTS="20260914173152" SPK="Albatross" EXP Icon="🌪️">The Society operates under the objective foundational principles and framework of Quest Society Ethics, serving as its operational constitution. Individuals who participate in the Society's Quest program as questers, donors, or otherwise ("Participants") are not statutory members of the corporation. The sole governing authority of the Society is vested in the Board of Directors, whose primary mandate is the understanding, stewardship, and advancement of Quest Society Ethics. Participants hold no statutory rights of membership under the California Nonprofit Public Benefit Corporation Law, including voting rights regarding the election of directors, amendments to the Articles of Incorporation or these Bylaws, or the dissolution of the Society. Any reference in Society program materials to "the community" refers to Participants in this program capacity only.</msg>
+        <msg DTS="20260914173152" SPK="|Albatross|LRRH|" EXP Icon="🌪️">The Foundation operates under the objective foundational principles and framework of Quest Society Ethics, serving as its operational constitution. Individuals who participate in the Foundation's Quest program as questers, donors, or otherwise ("Participants") are not statutory members of the corporation. The sole governing authority of the Foundation is vested in the Board of Directors, whose primary mandate is the understanding, stewardship, and advancement of Quest Society Ethics. Participants hold no statutory rights of membership under the California Nonprofit Public Benefit Corporation Law, including voting rights regarding the election of directors, amendments to the Articles of Incorporation or these Bylaws, or the dissolution of the Foundation. Any reference in Foundation program materials to "the community" refers to Participants in this program capacity only.</msg>
         <hr>
-        <note dts="20260914173241" done subtitle="3:Approval">
-          [3] Albatross, Lei, Arcacia<br>
+        <note dts="20260914173241" done subtitle="4:Approval">
+          [4] Albatross, Lei, Arcacia, LRRH<br>
           <msg DTS="20260914173528" SPK="|Albatross|Gemini|" EXP Icon="⚖️">Gemini: This section is necessary because uder California law, if a nonprofit uses the word "members" casually in program materials (like calling participants "members of our community"), the state or courts can legally misinterpret them as statutory members who have the right to vote in board elections or sue over corporate governance. This clause forms an airtight legal shield against that.</msg>
           <msg DTS="20260914173717" SPK="|Albatross|Gemini|" EXP Icon="⚖️">Gemini: This model relies on a board-driven structure managing "Quests" rather than a populist, member-run voting apparatus. Donors need assurance that the organization is professionally governed by a fiduciary board rather than subject to shifting voting blocks of program participants.</msg>
           <msg DTS="20260914174311" SPK="|Albatross|Gemini|" EXP Icon="🔍">This is not about whether Quest Society uses the term "members", but that others might mistake "quester" or other like terms to mean "member" with voting rights.</msg>
@@ -106172,13 +106190,13 @@ All operations are conducted with strict neutrality, transparency, and accountab
         </note>
       </res>
       <res section item="26VEH1C0" title="Quest Credits" star="" tags="">
-        <msg DTS="20260914180145" SPK="Lei" EXP Icon="🌠">The Society may award "Quest Credits" to questers as a measure of participation and accomplishment within the Quest program. Quest Credits:</msg>
+        <msg DTS="20260914180145" SPK="|Lei|LRRH|" EXP Icon="🌠">The Foundation may award "Quest Credits" to questers as a measure of participation and accomplishment within the Quest program. Quest Credits:</msg>
         <hr>
         <note section dts="20260914181306" done subtitle="Program-Tracking">
-          <msg DTS="20260914181358" SPK="Lei" EXP Icon="🌠">Are a program-tracking unit administered solely at the Society's discretion, not a form of equity, debt, deposit, or ownership interest in the Society;</msg>
+          <msg DTS="20260914181358" SPK="Lei" EXP Icon="🌠">Are a program-tracking unit administered solely at the Foundation's discretion, not a form of equity, debt, deposit, or ownership interest in the Foundation;</msg>
           <hr>
-          <note dts="20260914184700" done subtitle="2:Approval">
-            [2] Zoey, Arcacia<br>
+          <note dts="20260914184700" done subtitle="3:Approval">
+            [3] Zoey, Arcacia, LRRH<br>
             <msg DTS="20260914185403" SPK="Zoey" EXP Icon="🔍">According to QSE, if a quest asks for money and you donate, you would get Copper Quest Credits. But even so, it doesn't mean "Quest Society owes you money."</msg>
             <msg DTS="20260914185534" SPK="Zoey" EXP Icon="🏹">But the the QSE proper also have the vault mechanism where if Quest Society gets dividents, you could bid with copper credits and essentially cash out your investment.</msg>
             <msg DTS="20260914185700" SPK="Zoey" EXP Icon="⚖️">As far as I understand, the 501(c)(3) designation does not allow that kind of vault banking/investment, so there should be a different kind of thing to symbolize credits that cannot be tracked like investment shares.</msg>
@@ -106187,10 +106205,10 @@ All operations are conducted with strict neutrality, transparency, and accountab
           </note>
         </note>
         <note section dts="20260914181402" done subtitle="No Voting Rights">
-          <msg DTS="20260914181405" SPK="Lei" EXP Icon="🌠">Confer no voting rights over the Society's governance, corporate actions, or Board composition; and</msg>
+          <msg DTS="20260914181405" SPK="|Lei|LRRH|" EXP Icon="🌠">Confer no voting rights over the Foundation's governance, corporate actions, or Board composition; and</msg>
           <hr>
-          <note dts="20260914184649" done subtitle="1:Approval">
-            [1] Zoey
+          <note dts="20260914184649" done subtitle="2:Approval">
+            [2] Zoey, LRRH
           </note>
         </note>
         <note section dts="20260914181408" done subtitle="Usages">
@@ -106205,10 +106223,10 @@ All operations are conducted with strict neutrality, transparency, and accountab
         <msg DTS="20260914182813" SPK="Zoey" EXP Icon=":Quiver:">Where two or more pre-vetted, publicly posted Quests propose inconsistent or mutually exclusive uses of the same public-benefit opportunity (for example, competing proposals for the same location), questers may bid Quest Credits to select among the vetted alternatives, in accordance with procedures the Board establishes. This bidding process:</msg>
         <hr>
         <note section dts="20260914182015" done subtitle="Purpose">
-          <msg DTS="20260914183056" SPK="Zoey" EXP Icon="📜">Applies only among Quests that Quest Society has already determined satisfy the Society's charitable and educational purposes and acceptance-criteria standards;</msg>
+          <msg DTS="20260914183056" SPK="|Zoey|LRRH|" EXP Icon="📜">Applies only among Quests that the Foundation has already determined satisfy its charitable and educational purposes and acceptance-criteria standards;</msg>
           <hr>
-          <note dts="20260914183122" done subtitle="0:Approval">
-            [1] Zoey
+          <note dts="20260914183122" done subtitle="2:Approval">
+            [2] Zoey, LRRH
           </note>
         </note>
         <note section dts="20260914183153" done subtitle="Prioritizing">
@@ -106219,10 +106237,10 @@ All operations are conducted with strict neutrality, transparency, and accountab
           </note>
         </note>
         <note section dts="20260914183149" done subtitle="Effects">
-          <msg DTS="20260914183146" SPK="Zoey" EXP Icon="📜">Does not authorize questers to approve a Quest that has not independently satisfied the Society's charitable-purpose review.</msg>
+          <msg DTS="20260914183146" SPK="|Zoey|LRRH|" EXP Icon="📜">Does not authorize questers to approve a Quest that has not independently satisfied the Foundation's charitable-purpose review.</msg>
           <hr>
-          <note dts="20260914183143" done subtitle="2:Approval">
-            [2] Zoey, Albatross<br>
+          <note dts="20260914183143" done subtitle="3:Approval">
+            [3] Zoey, Albatross, LRRH<br>
             <msg DTS="20260914183810" SPK="|Zoey|Gemini|" EXP Icon="⚖️">Point 1 and 3 seems really similar but Gemini says they are different: (1) says: "You can only bid on things we have already approved as charitable." (3) says: "Winning the bid doesn't mean you get to approve a non-charitable thing."</msg>
           </note>
         </note>
@@ -106240,7 +106258,7 @@ All operations are conducted with strict neutrality, transparency, and accountab
     </topic>
     <topic dts="20260915225622" done title="Article IV - Board of Directors">
       <res done section item="26VFND66" title="Number and Qualifications" star="" tags="">
-        <msg DTS="20260915225738" SPK="|Sasha|Ivy|LRRH|Gemini|Evelyn|StarTree|Vibe|" EXP Icon="🎩">Pursuant to California Corporations Code Section 5151(a), the authorized number of directors of the Society shall not be fixed at a maximum limit, but shall be determined dynamically by the method of the total number of qualified individuals who hold the official Director-level QSE Certification Badge, satisfy all statutory qualifications, have formally consented to serve, and currently hold active director tenure. The minimum number of authorized directors shall be three (3). Directors shall be natural persons at least 18 years of age who support the charitable and educational purposes of the Society as outlined in Article II. To be qualified for appointment and to remain qualified to serve as a director, an individual must:</msg>
+        <msg DTS="20260915225738" SPK="|Sasha|Ivy|LRRH|Gemini|Evelyn|StarTree|Vibe|" EXP Icon="🎩">Pursuant to California Corporations Code Section 5151(a), the authorized number of directors of the Foundation shall not be fixed at a maximum limit, but shall be determined dynamically by the method of the total number of qualified individuals who hold the official Director-level QSE Certification Badge, satisfy all statutory qualifications, have formally consented to serve, and currently hold active director tenure. The minimum number of authorized directors shall be three (3). Directors shall be natural persons at least 18 years of age who support the charitable and educational purposes of the Foundation as outlined in Article II. To be qualified for appointment and to remain qualified to serve as a director, an individual must:</msg>
         
         <note section dts="20260920095439" done subtitle="Quest Society Ethics">
           <msg DTS="20260920095513" SPK="|LRRH|Evelyn|Gemini|" EXP Icon=":QuillPen:">Successfully complete the objective Quest Society Ethics (QSE) evaluation, achieve the required metric of program participation responsiveness, and hold the official Director-level QSE Certification Badge, which incorporates mastery of Choice Democracy decision mechanics.</msg>
@@ -106250,10 +106268,10 @@ All operations are conducted with strict neutrality, transparency, and accountab
           </note>
         </note>
         <note section dts="20260920095804" done subtitle="Choice Democracy">
-          <msg DTS="20260920095821" SPK="|LRRH|Evelyn|Gemini|" EXP Icon=":QuillPen:">Comprehend and uphold the operational philosophy that the Society runs on Choice Democracy decision mechanics, wherein the Board of Directors serves as the executing arm of the collective decision process.</msg>
+          <msg DTS="20260920095821" SPK="|LRRH|Evelyn|Gemini|" EXP Icon=":QuillPen:">Comprehend and uphold the operational philosophy that the Foundation runs on Choice Democracy decision mechanics, wherein the Board of Directors serves as the executing arm of the collective decision process.</msg>
           <hr>
-          <note dts="20260920102658" done subtitle="1:Approval">
-            [1] Evelyn
+          <note dts="20260920102658" done subtitle="2:Approval">
+            [2] Evelyn, LRRH
           </note>
         </note>
         <hr>
@@ -106281,7 +106299,7 @@ All operations are conducted with strict neutrality, transparency, and accountab
         </note>
       </res>
       <res done section item="26VFP62E" title="Term of Office and Appointment" star="" tags="">
-        <msg DTS="20260915232656" SPK="|Sasha|Ivy|LRRH|Gemini|Evelyn|" EXP Icon="🧭">Directors shall not serve for fixed multi-year terms; rather, each director shall hold office indefinitely from the date of appointment until resignation, disqualification, removal, or the expiration and non-renewal of their qualifying credentials as set forth in Section 4.3. Any qualified individual holding an active, official Director-level Quest Society Ethics (QSE) Certification Badge who consents to serve shall be formally appointed to an available board seat by a majority vote of the current directors then in office. Directors may continue in service indefinitely without term limits, provided they maintain continuous compliance with all ongoing qualifications.</msg>
+        <msg DTS="20260915232656" SPK="|Sasha|Ivy|LRRH|Gemini|Evelyn|" EXP Icon="🧭">Directors shall not serve for fixed multi-year terms; rather, each director shall hold office indefinitely from the date of appointment until resignation, disqualification, removal, or the expiration and non-renewal of their qualifying credentials as outlined in Section 4.3. Any qualified individual holding an active, official Director-level Quest Society Ethics (QSE) Certification Badge who consents to serve shall be formally appointed to an available board seat by a majority vote of the current directors then in office. Directors may continue in service indefinitely without term limits, provided they maintain continuous compliance with all ongoing qualifications.</msg>
         <hr>
         <note dts="20260915232804" done subtitle="3:Approval">
           [3] Ivy, LRRH, Evelyn<br>
@@ -106293,23 +106311,23 @@ All operations are conducted with strict neutrality, transparency, and accountab
         </note>
       </res>
       <res done section item="26VLA32E" title="Ongoing Qualification, Credential Revocation, and Automatic Vacancy" star="" tags="">
-        <msg DTS="20260920101402" SPK="|Evelyn|Gemini|Sasha|Black|Vibe|Ivy|" EXP=2 Icon=":QuillPen:">Maintenance of active credentials and structural alignment with the Society's governance protocol are governed by the following provisions:</msg>
+        <msg DTS="20260920101402" SPK="|Evelyn|Gemini|Sasha|Black|Vibe|Ivy|LRRH|" EXP=2 Icon=":QuillPen:">Maintenance of active credentials and structural alignment with the Foundation's governance protocol are governed by the following provisions:</msg>
         <note section dts="20260930184830" done subtitle="Credential Expiry and Seamless Renewal">
-          <msg DTS="20260930184958" SPK="|LRRH|Vibe|Evelyn|Gemini|" EXP Icon=":QuillPen:">The Director-level QSE Certification Badge is subject to periodic expiration as determined by the credentialing standards of the Society. To prevent any gap in qualification, a director must successfully retake and renew their QSE evaluation prior to the expiration of their current badge.</msg>
+          <msg DTS="20260930184958" SPK="|LRRH|Vibe|Evelyn|Gemini|" EXP Icon=":QuillPen:">The Director-level QSE Certification Badge is subject to periodic expiration as determined by the credentialing standards of the Foundation. To prevent any gap in qualification, a director must successfully retake and renew their QSE evaluation prior to the expiration of their current badge.</msg>
           <hr>
           <note dts="20260930184833" done subtitle="2:Approval">
             [2] LRRH, Evelyn
           </note>
         </note>
         <note section dts="20260930184840" done subtitle="Delegate Undertaking">
-          <msg DTS="20260930185134" SPK="|LRRH|Vibe|Evelyn|Gemini|" EXP Icon=":QuillPen:">Each director shall, as a condition of appointment and of continuing in office, execute the Society's Delegate Undertaking, acknowledging that under the Society's Choice Democracy governance protocol the director serves as a representative bound, in matters subject to that protocol, to execute validated solutions and mandates produced by the subassembly's Choice Democracy process.</msg>
+          <msg DTS="20260930185134" SPK="|LRRH|Vibe|Evelyn|Gemini|" EXP Icon=":QuillPen:">Each director shall, as a condition of appointment and of continuing in office, execute the Foundation's Delegate Undertaking, acknowledging that under its Choice Democracy governance protocol the director serves as a representative bound, in matters subject to that protocol, to execute validated solutions and mandates produced by the subassembly's Choice Democracy process.</msg>
           <hr>
           <note dts="20260930184840" done subtitle="2:Approval">
             [2] LRRH, Evelyn
           </note>
         </note>
         <note section dts="20260930184900" done subtitle="Mandate Execution Protocol">
-          <msg DTS="20260930185908" SPK="|LRRH|Vibe|Evelyn|Gemini|" EXP Icon=":QuillPen:">Where a decision is subject to the Choice Democracy protocol, a director's vote on the formal board resolution shall be to approve the validated solution produced by the subassembly. A director who votes otherwise, or refuses to approve the mandate, shall state on the record, at or before the vote, one of the following safe-harbor grounds: (a) that conformity would violate law or jeopardize the Society's 501(c)(3) tax-exempt status; (b) that the authenticity or integrity of the declared-intent record is reasonably in question; or (c) that the declared positions are insufficient to establish the outcome with the certainty the protocol requires. A vote accompanied by a good-faith safe-harbor statement is fully protected, whether or not the ground is later sustained.</msg>
+          <msg DTS="20260930185908" SPK="|LRRH|Vibe|Evelyn|Gemini|" EXP Icon=":QuillPen:">Where a decision is subject to the Choice Democracy protocol, a director's vote on the formal board resolution shall be to approve the validated solution produced by the subassembly. A director who votes otherwise, or refuses to approve the mandate, shall state on the record, at or before the vote, one of the following safe-harbor grounds: (a) that conformity would violate law or jeopardize the Foundation's 501(c)(3) tax-exempt status; (b) that the authenticity or integrity of the declared-intent record is reasonably in question; or (c) that the declared positions are insufficient to establish the outcome with the certainty the protocol requires. A vote accompanied by a good-faith safe-harbor statement is fully protected, whether or not the ground is later sustained.</msg>
           <hr>
           <note dts="20260930184903" done subtitle="2:Approval">
             [2] LRRH, Evelyn
@@ -106348,7 +106366,7 @@ All operations are conducted with strict neutrality, transparency, and accountab
           </note>
         </note>
         <note section dts="20260930191308" done subtitle="Voting and Quorum Exclusion during Disputes">
-          <msg DTS="20260930191315" SPK="|LRRH|Gemini|" EXP Icon=":QuillPen:">In any proceeding, board vote, or vacancy declaration involving the revocation of a badge or the removal of a director under this Section, any director under review—and any director found by the Commission to have acted in concert with them to procure fraudulent credentials or obstruct governance—shall be deemed an "interested director," shall be excluded from counting toward quorum for that specific matter, and shall have no right to vote. Consequently, the remaining disinterested directors (even if reduced to a minority of the nominal board size) are fully empowered to act as the legal quorum of the Society, to formally record vacancies pursuant to California Corporations Code Section 5221, and to appoint replacement QSE-badged individuals to restore the governance of the Society.</msg>
+          <msg DTS="20260930191315" SPK="|LRRH|Gemini|" EXP Icon=":QuillPen:">In any proceeding, board vote, or vacancy declaration involving the revocation of a badge or the removal of a director under this Section, any director under review—and any director found by the Commission to have acted in concert with them to procure fraudulent credentials or obstruct governance—shall be deemed an "interested director," shall be excluded from counting toward quorum for that specific matter, and shall have no right to vote. Consequently, the remaining disinterested directors (even if reduced to a minority of the nominal board size) are fully empowered to act as the legal quorum of the Foundation, to formally record vacancies pursuant to California Corporations Code Section 5221, and to appoint replacement QSE-badged individuals to restore the governance of the Society.</msg>
           <hr>
           <note dts="20260930191318" done subtitle="1:Approval">
             [1] LRRH<br>
@@ -106384,10 +106402,10 @@ All operations are conducted with strict neutrality, transparency, and accountab
         </note>
       </res>
       <res done section item="26VGN71D" title="Board Authority and Management" star="" tags="">
-        <msg DTS="20260916223114" SPK="|Tanya|Gemini|" EXP Icon=":QuillPen:">Pursuant to California Corporations Code Section 5210 and Article III of these Bylaws, the activities and affairs of the Society shall be conducted, and all corporate powers shall be exercised, by or under the direction of the Board of Directors.</msg>
+        <msg DTS="20260916223114" SPK="|Tanya|Gemini|LRRH|" EXP Icon=":QuillPen:">Pursuant to California Corporations Code Section 5210 and Article III of these Bylaws, the activities and affairs of the Foundation shall be conducted, and all corporate powers shall be exercised, by or under the direction of the Board of Directors.</msg>
         <hr>
-        <note dts="20260916223055" done subtitle="1:Approval">
-          [1] Tanya<br>
+        <note dts="20260916223055" done subtitle="2:Approval">
+          [2] Tanya, LRRH<br>
           <msg DTS="20260916223451" SPK="|Tanya|Gemini|" EXP Icon="🔮">This section is meant to prevent crodsourced governance confusion where questers mistakenly assume they have a direct say in running or signing contracts on behalf of the Society without board authorization.</msg>
         </note>
       </res>
@@ -106459,28 +106477,28 @@ All operations are conducted with strict neutrality, transparency, and accountab
       </res>
     </topic>
     <topic section dts="20260918124749" done title="Article VI - Officers">
-      <res done section item="26VKB576" title="Officers of the Society" star="" tags="">
-        <msg DTS="20260919112433" SPK="Evelyn" EXP Icon="💗">The officers of the Society shall be a President, a Secretary, and a Chief Financial Officer (Treasurer). The Society may also have, at the discretion of the Board of Directors, a Chair of the Board, one or more Vice Presidents, Assistant Secretaries, Assistant Treasurers, and such other officers as may be appointed in accordance with Section 6.3. Any number of offices may be held by the same person, except that neither the Secretary nor the Treasurer may serve concurrently as the President or Chair of the Board.</msg>
+      <res done section item="26VKB576" title="Officers of the Foundation" star="" tags="">
+        <msg DTS="20260919112433" SPK="|Evelyn|LRRH|" EXP Icon="💗">The officers of the Foundation shall be a President, a Secretary, and a Chief Financial Officer (Treasurer). The Foundation may also have, at the discretion of the Board of Directors, a Chair of the Board, one or more Vice Presidents, Assistant Secretaries, Assistant Treasurers, and such other officers as may be appointed in accordance with Section 6.3. Any number of offices may be held by the same person, except that neither the Secretary nor the Treasurer may serve concurrently as the President or Chair of the Board.</msg>
         <hr>
-        <note dts="20260919112323" done subtitle="1:Approval">
-          [1] Evelyn<br>
+        <note dts="20260919112323" done subtitle="2:Approval">
+          [2] Evelyn, LRRH<br>
           <msg DTS="20260919114115" SPK="|Evelyn|Gemini|" EXP Icon="🐤">These three roles are legally required. <url title="5213(1)">https://codes.findlaw.com/ca/corporations-code/corp-sect-5213/</url></msg>
           <msg DTS="20260919120334" SPK="|Evelyn|Gemini|" EXP Icon="🐤">Advisory roles for policy vetting can be defined in advisory committees.</msg>
         </note>
       </res>
       <res done section item="26VKC1D9" title="Election of Officers" star="" tags="">
-        <msg DTS="20260919120826" SPK="Evelyn" EXP Icon=":QuillPen:">The officers of the Society, except those appointed under Section 6.3, shall be chosen annually by the Board of Directors, and each shall hold office until they resign, are removed, or are otherwise disqualified to serve, or until their successor is elected and qualified.</msg>
+        <msg DTS="20260919120826" SPK="Evelyn" EXP Icon=":QuillPen:">The officers of the Foundation, except those appointed under Section 6.3, shall be chosen annually by the Board of Directors, and each shall hold office until they resign, are removed, or are otherwise disqualified to serve, or until their successor is elected and qualified.</msg>
         <hr>
-        <note dts="20260919120756" done subtitle="1:Approval">
-          [1] Evelyn<br>
+        <note dts="20260919120756" done subtitle="2:Approval">
+          [2] Evelyn, LRRH<br>
           <msg DTS="20260919121145" SPK="|Evelyn|Gemini|" EXP Icon="🐤">The annual election is not a legal requirement but a standard practice.</msg>
         </note>
       </res>
       <res done section item="26VKCA04" title="Appointment of Other Officers" star="" tags="">
-        <msg DTS="20260919124307" SPK="Ledia" EXP Icon=":QuillPen:">The Board of Directors may appoint, and may empower the President to appoint, such other officers as the business of the Society may require, each of whom shall hold office for such period, have such authority, and perform such duties as are provided in these Bylaws or as the Board may from time to time determine.</msg>
+        <msg DTS="20260919124307" SPK="|Ledia|LRRH|" EXP Icon=":QuillPen:">The Board of Directors may appoint, and may empower the President to appoint, such other officers as the business of the Foundation may require, each of whom shall hold office for such period, have such authority, and perform such duties as are provided in these Bylaws or as the Board may from time to time determine.</msg>
         <hr>
-        <note dts="20260919124247" done subtitle="1:Approval">
-          [1] Ledia<br>
+        <note dts="20260919124247" done subtitle="2:Approval">
+          [2] Ledia, LRRH<br>
         </note>
       </res>
       <res done section item="26VKCC67" title="Removal of Officers" star="" tags="">
@@ -106491,10 +106509,10 @@ All operations are conducted with strict neutrality, transparency, and accountab
         </note>
       </res>
       <res done section item="26VKCDA3" title=" Resignation of Officers" star="" tags="">
-        <msg DTS="20260919130819" SPK="Evelyn" EXP Icon="🕊️">Any officer may resign at any time by giving written notice to the Society. Any such resignation shall take effect at the date of the receipt of such notice or at any later time specified therein; and, unless otherwise specified therein, the acceptance of such resignation shall not be necessary to make it effective. Any resignation is without prejudice to the rights, if any, of the Society under any contract to which the officer is a party.</msg>
+        <msg DTS="20260919130819" SPK="|Evelyn|LRRH|" EXP Icon="🕊️">Any officer may resign at any time by giving written notice to the Foundation. Any such resignation shall take effect at the date of the receipt of such notice or at any later time specified therein; and, unless otherwise specified therein, the acceptance of such resignation shall not be necessary to make it effective. Any resignation is without prejudice to the rights, if any, of the Foundation under any contract to which the officer is a party.</msg>
         <hr>
-        <note dts="20260919125815" done subtitle="`1:Approval">
-          [1] Evelyn<br/>
+        <note dts="20260919125815" done subtitle="2:Approval">
+          [2] Evelyn, LRRH<br/>
           <msg DTS="20260919131030" SPK="Evelyn" EXP Icon="🕊️">Gemini: The last sentence protects the organization's legal and financial remedies if an officer resigns while bound by a formal employment or service contract.</msg>
         </note>
       </res>
@@ -106506,10 +106524,10 @@ All operations are conducted with strict neutrality, transparency, and accountab
         </note>
       </res>
       <res done section item="26VKDDE8" title="Responsibilities of Officers" star="" tags="">
-        <msg DTS="20260919135550" SPK="|Evelyn|Black|Gemini|" EXP Icon=":QuillPen:">Since the Society operates via a collaborative parliamentary and guild assembly structure, traditional executive management functions are distributed rather than centralized. The mandatory statutory officers shall fulfill only their designated legal duties as outlined below:</msg>
+        <msg DTS="20260919135550" SPK="|Evelyn|Black|Gemini|" EXP Icon=":QuillPen:">Since the Foundation operates via a collaborative parliamentary and guild assembly structure, traditional executive management functions are distributed rather than centralized. The mandatory statutory officers shall fulfill only their designated legal duties as outlined below:</msg>
         <hr>
         <note section dts="20260919142005" done subtitle="President">
-          <msg DTS="20260919142030" SPK="|Black|Gemini|" EXP Icon=":QuillPen:">Subject to the control of the Board of Directors and the collaborative assembly structure of the Society, the President shall serve as the legal corporate president and chief executive officer for purposes of California Corporations Code Section 5213. The President shall sign corporate legal documents as authorized by the Board and shall perform such other legal or statutory duties as are required by law. Operational direction, project management, and governance decisions shall vest collectively in the Board of Directors and the guild assemblies rather than in individual executive offices.</msg>
+          <msg DTS="20260919142030" SPK="|Black|Gemini|" EXP Icon=":QuillPen:">Subject to the control of the Board of Directors and the collaborative assembly structure of the Foundation, the President shall serve as the legal corporate president and chief executive officer for purposes of California Corporations Code Section 5213. The President shall sign corporate legal documents as authorized by the Board and shall perform such other legal or statutory duties as are required by law. Operational direction, project management, and governance decisions shall vest collectively in the Board of Directors and the guild assemblies rather than in individual executive offices.</msg>
           <hr>
           <note dts="20260919142131" done subtitle="1:Approval">
             [1] Black<br>
@@ -106525,7 +106543,7 @@ All operations are conducted with strict neutrality, transparency, and accountab
           </note>
         </note>
         <note section dts="20260919135336" done subtitle="Treasurer">
-          <msg DTS="20260919135804" SPK="Evelyn" EXP Icon=":QuillPen:">The Treasurer shall keep and maintain, or cause to be kept and maintained, adequate and correct books and accounts of the properties and financial transactions of the Society. The books of account shall be open to inspection by any director at all reasonable times. The Treasurer shall deposit all moneys and other valuables in the name and to the credit of the Society with such depositaries as may be designated by the Board; shall disburse the funds of the Society as may be ordered by the Board; shall render to the directors, whenever they request it, an account of all transactions as Treasurer and of the financial condition of the Society; and shall have such other powers and perform such other duties as may be prescribed by the Board or these Bylaws.</msg>
+          <msg DTS="20260919135804" SPK="Evelyn" EXP Icon=":QuillPen:">The Treasurer shall keep and maintain, or cause to be kept and maintained, adequate and correct books and accounts of the properties and financial transactions of the Foundation. The books of account shall be open to inspection by any director at all reasonable times. The Treasurer shall deposit all moneys and other valuables in the name and to the credit of the Foundation with such depositaries as may be designated by the Board; shall disburse the funds of the Foundation as may be ordered by the Board; shall render to the directors, whenever they request it, an account of all transactions as Treasurer and of the financial condition of the Foundation; and shall have such other powers and perform such other duties as may be prescribed by the Board or these Bylaws.</msg>
           <hr>
           <note dts="20260919143119" done subtitle="2:Approval">
             [2] Black, Evelyn
@@ -106604,10 +106622,10 @@ All operations are conducted with strict neutrality, transparency, and accountab
         </note>
       </res>
       <res done section item="26VL8061" title="Advisory Committees" star="" tags="">
-        <msg DTS="20260921192524" SPK="Ledia" EXP Icon="🦉">The Board of Directors may establish one or more advisory committees composed of directors, officers, program participants, or other individuals who are not members of the Board. Such advisory committees shall not exercise corporate powers or act on behalf of the Board, but may provide guidance, make recommendations, and assist in carrying out the Society's charitable and educational programs.</msg>
+        <msg DTS="20260921192524" SPK="|Ledia|LRRH|" EXP Icon="🦉">The Board of Directors may establish one or more advisory committees composed of directors, officers, program participants, or other individuals who are not members of the Board. Such advisory committees shall not exercise corporate powers or act on behalf of the Board, but may provide guidance, make recommendations, and assist in carrying out the Foundation's charitable and educational programs.</msg>
         <hr>
-        <note dts="20260920080146" done subtitle="Approval">
-          [2] Ledia, Black
+        <note dts="20260920080146" done subtitle="3:Approval">
+          [3] Ledia, Black, LRRH
         </note>
       </res>
       <res done section item="26VL8065" title="Meetings and Actions of Committees" star="" tags="">
@@ -106621,10 +106639,10 @@ All operations are conducted with strict neutrality, transparency, and accountab
     </topic>
     <topic section dts="20260920080224" done title="Article VIII - CONFLICTS OF INTEREST AND SELF-DEALING TRANSACTIONS">
       <res done section item="26VMKC93" title="Purpose" star="" tags="">
-        <msg DTS="20260921201150" SPK="James" EXP Icon="🧭">This Article implements Quest Society's Conflict of Interest Policy and California Corporations Code §5233 governing self-dealing transactions between the corporation and its directors.</msg>
+        <msg DTS="20260921201150" SPK="|James|LRRH|" EXP Icon="🧭">This Article implements the Foundation's Conflict of Interest Policy and California Corporations Code §5233 governing self-dealing transactions between the corporation and its directors.</msg>
         <hr>
-        <note dts="20260921195358" done subtitle="2:Approval">
-          [2] James, Evelyn
+        <note dts="20260921195358" done subtitle="3:Approval">
+          [3] James, Evelyn, LRRH
         </note>
       </res>
       <res done section item="26VMKC97" title="Director-Completed Quests" star="" tags="">
@@ -106730,21 +106748,21 @@ All operations are conducted with strict neutrality, transparency, and accountab
         </note>
       </res>
       <res done section item="26VND03E" title="Pledgor Becomes the Quester" star="" tags="">
-        <msg DTS="20260922130106" SPK="Gaia" EXP Icon=":QuillPen:">If the person who pledged toward a Quest subsequently becomes the quester who completes it, that pledge is automatically void and shall not be called or applied toward funding that Quest's reward. The reward shall instead be paid from Quest Society's general funds or from pledges made by other parties.</msg>
+        <msg DTS="20260922130106" SPK="|Gaia|LRRH|" EXP Icon=":QuillPen:">If the person who pledged toward a Quest subsequently becomes the quester who completes it, that pledge is automatically void and shall not be called or applied toward funding that Quest's reward. The reward shall instead be paid from the Foundation's general funds or from pledges made by other parties.</msg>
         <hr>
         <note dts="20260922130110" done subtitle="2:Approval">
           [2] Gaia, LRRH
         </note>
       </res>
       <res done section item="26VND051" title="Recordkeeping" star="" tags="">
-        <msg DTS="20260922130125" SPK="Gaia" EXP Icon=":QuillPen:">For each Quest, Quest Society shall retain records sufficient to show: posting date, pledge dates and pledgors, eligibility/qualification determinations, the date criteria were finalized, and the identity of the completing quester, in order to document that the process was open and that criteria were not altered to favor any pledgor, donor, or director.</msg>
+        <msg DTS="20260922130125" SPK="|Gaia|LRRH|" EXP Icon=":QuillPen:">For each Quest, the Foundation shall retain records sufficient to show: posting date, pledge dates and pledgors, eligibility/qualification determinations, the date criteria were finalized, and the identity of the completing quester, in order to document that the process was open and that criteria were not altered to favor any pledgor, donor, or director.</msg>
         <hr>
         <note dts="20260922130129" done subtitle="2:Approval">
           [2] Gaia, LRRH
         </note>
       </res>
       <res done section item="26VND05F" title="Donor Tax Notice" star="" tags="">
-        <msg DTS="20260922130139" SPK="Gaia" EXP Icon=":QuillPen:">Quest Society shall advise pledgors that a pledge is not a completed, deductible contribution until called, and that a pledge voided under Section 9.2 was never a completed gift.</msg>
+        <msg DTS="20260922130139" SPK="|Gaia|LRRH|" EXP Icon=":QuillPen:">The Foundation shall advise pledgors that a pledge is not a completed, deductible contribution until called, and that a pledge voided under Section 9.2 was never a completed gift.</msg>
         <hr>
         <note dts="20260922130144" done subtitle="2:Approval">
           [2] Gaia, LRRH<br>
@@ -106753,14 +106771,14 @@ All operations are conducted with strict neutrality, transparency, and accountab
     </topic>
     <topic section dts="20260923111142" done title="Article X - COMPENSATION AND REIMBURSEMENT">
       <res done section item="26VPB2B7" title="Purpose" star="" tags="">
-        <msg DTS="20260923111202" SPK="Evelyn" EXP Icon=":QuillPen:">This Article governs all payments the Society makes to questers, directors, and other individuals in connection with completed Quests, consistent with the Society's status as an organization exempt under Section 501(c)(3) of the Internal Revenue Code.</msg>
+        <msg DTS="20260923111202" SPK="|Evelyn|LRRH|" EXP Icon=":QuillPen:">This Article governs all payments the Foundation makes to questers, directors, and other individuals in connection with completed Quests, consistent with the Foundation's status as an organization exempt under Section 501(c)(3) of the Internal Revenue Code.</msg>
         <hr>
-        <note dts="20260923111150" done subtitle="1:Approval">
-          [1] Evelyn
+        <note dts="20260923111150" done subtitle="2:Approval">
+          [2] Evelyn, LRRH
         </note>
       </res>
       <res done section item="26VPB4B3" title="Credit Categories" star="" tags="">
-        <msg DTS="20260923111444" SPK="Evelyn" EXP Icon=":QuillPen:">The Society tracks a quester's contribution to a Quest using three credit categories, which have different legal treatment:</msg>
+        <msg DTS="20260923111444" SPK="|Evelyn|LRRH|" EXP Icon=":QuillPen:">The Foundation tracks a quester's contribution to a Quest using three credit categories, which have different legal treatment:</msg>
         <hr>
         <note section dts="20260923111959" done subtitle="Copper">
           <msg DTS="20260923111827" SPK="|Evelyn|Gemini|" EXP Icon=":QuillPen:">Copper Credits track a quester’s documented out-of-pocket expenses for completing a Quest. They exist solely as accrued records before reimbursement. Since they represent qualified unpaid expense reimbursements, they are neither taxable income nor tax-deductible donations.</msg>
@@ -106772,10 +106790,10 @@ All operations are conducted with strict neutrality, transparency, and accountab
           </note>
         </note>
         <note section dts="20260923112015" done subtitle="Amber">
-          <msg DTS="20260923114927" SPK="|Evelyn|Gemini|" EXP Icon=":QuillPen:">Amber Credits  are what Copper Credits become when the quester waives reimbursement and donates their Copper Credits to the Society. They come into existence upon this formal designation as a charitable contribution, making them tax-deductible subject to IRS substantiation rules.</msg>
+          <msg DTS="20260923114927" SPK="|Evelyn|Gemini|LRRH|" EXP Icon=":QuillPen:">Amber Credits  are what Copper Credits become when the quester waives reimbursement and donates their Copper Credits to the Foundation. They come into existence upon this formal designation as a charitable contribution, making them tax-deductible subject to IRS substantiation rules.</msg>
           <hr>
-          <note dts="20260923112020" done subtitle="1:Approval">
-            [1] Evelyn<br>
+          <note dts="20260923112020" done subtitle="2:Approval">
+            [2] Evelyn, LRRH<br>
             <msg DTS="20260923120625" SPK="|Evelyn|Gemini|" EXP Icon=":QuillPen:">Added this to distinguish from copper. Made the wording concise.</msg>
           </note>
         </note>
@@ -106793,10 +106811,10 @@ All operations are conducted with strict neutrality, transparency, and accountab
           </note>
         </note>
         <note section dts="20260923121800" done subtitle="Quartz">
-          <msg DTS="20260923122251" SPK="|Evelyn|Gemini|StarTree|Vibe|" EXP Icon=":QuillPen:">Quartz Credits track the documented fair market value of physical property or objects donated outright to the Society. Unlike Silver Credits (which track cost-of-use or equipment compensation), Quartz Credits are created upon the formal donation of an object and represent a qualified charitable contribution of property to a 501(c)(3) organization, making them tax-deductible for the quester, subject to applicable IRS substantiation rules.</msg>
+          <msg DTS="20260923122251" SPK="|Evelyn|Gemini|StarTree|Vibe|LRRH|" EXP Icon=":QuillPen:">Quartz Credits track the documented fair market value of physical property or objects donated outright to the Foundation. Unlike Silver Credits (which track cost-of-use or equipment compensation), Quartz Credits are created upon the formal donation of an object and represent a qualified charitable contribution of property to a 501(c)(3) organization, making them tax-deductible for the quester, subject to applicable IRS substantiation rules.</msg>
           <hr>
-          <note dts="20260923121807" done subtitle="1:Approval">
-            [1] Evelyn
+          <note dts="20260923121807" done subtitle="2:Approval">
+            [2] Evelyn, LRRH<br>
             <msg DTS="20260930121200" SPK="|Vibe|StarTree|" EXP Icon=":Gavel:">Quartz cannot include partial use of personal assets per Treas. Reg. §1.170A-1(k).</msg>
 
           </note>
@@ -106845,24 +106863,24 @@ All operations are conducted with strict neutrality, transparency, and accountab
           </note>
         </note>
         <note section dts="20260923112101" done subtitle="Deferred Compensation">
-          <msg DTS="20260923144622" SPK="Evelyn" EXP Icon=":QuillPen:">A deferred amount under this Section is an unfunded, unsecured promise by the Society to pay — it is not held in trust, invested, or set aside in a segregated or funded account for the quester's benefit, and the quester has no ownership or security interest in any specific Society asset on account of it.</msg>
+          <msg DTS="20260923144622" SPK="|Evelyn|LRRH|" EXP Icon=":QuillPen:">A deferred amount under this Section is an unfunded, unsecured promise by the Foundation to pay — it is not held in trust, invested, or set aside in a segregated or funded account for the quester's benefit, and the quester has no ownership or security interest in any specific Foundation asset on account of it.</msg>
           <hr>
           <note dts="20260923112104" done subtitle="2:Approval">
             [2] Evelyn, LRRH
           </note>
         </note>
         <note section dts="20260923112110" done subtitle="Inflation">
-          <msg DTS="20260923150257" SPK="Evelyn" EXP Icon=":QuillPen:">A deferred amount may be adjusted for inflation only by reference to a published, independently administered index (such as the Consumer Price Index), applied uniformly to all deferred balances. No deferred amount shall accrue interest, investment return, dividend, profit share, or any return calculated by reference to the Society's investment performance or financial results.</msg>
+          <msg DTS="20260923150257" SPK="|Evelyn|LRRH|" EXP Icon=":QuillPen:">A deferred amount may be adjusted for inflation only by reference to a published, independently administered index (such as the Consumer Price Index), applied uniformly to all deferred balances. No deferred amount shall accrue interest, investment return, dividend, profit share, or any return calculated by reference to the Foundation's investment performance or financial results.</msg>
           <hr>
           <note dts="20260923112114" done subtitle="2:Approval">
             [2] Evelyn, LRRH
           </note>
         </note>
         <note section dts="20260923112118" done subtitle="Non-Transferability">
-          <msg DTS="20260923150502" SPK="|Evelyn|Gemini|" EXP Icon=":QuillPen:">Quest Credits are strictly non-transferable and remain permanently bound to the individual quester who earned or accrued them. The Society does not recognize, record, or give effect to any private sale, trade, assignment, gift, or exchange of credits between questers, donors, or any third parties.</msg>
+          <msg DTS="20260923150502" SPK="|Evelyn|Gemini|" EXP Icon=":QuillPen:">Quest Credits are strictly non-transferable and remain permanently bound to the individual quester who earned or accrued them. The Foundation does not recognize, record, or give effect to any private sale, trade, assignment, gift, or exchange of credits between questers, donors, or any third parties.</msg>
           <hr>
-          <note dts="20260923112123" done subtitle="1:Approval">
-            [1] Evelyn<br>
+          <note dts="20260923112123" done subtitle="2:Approval">
+            [2] Evelyn, LRRH<br>
             <msg DTS="20260923150925" SPK="Evelyn" EXP Icon="🐤">Updated the wording from not facilitating exchanges to credits being non-transferable.</msg>
           </note>
         </note>
@@ -106886,7 +106904,7 @@ All operations are conducted with strict neutrality, transparency, and accountab
         </note>
       </res>
       <res done section item="26VPB521" title="Prioritization When Funds Are Limited" star="" tags="">
-        <msg DTS="20260923152025" SPK="|Evelyn|LRRH|Gemini|" EXP Icon=":QuillPen:">If funds available for a payment period are insufficient to pay all amounts then due, the Society shall pay reimbursement obligations and compensation obligations according to a neutral, objective priority policy based on the chronological date an obligation was last paid or serviced, utilizing the total amount of remaining unpaid credits as the mechanical tiebreaker for obligations sharing the same date, applied uniformly.</msg>
+        <msg DTS="20260923152025" SPK="|Evelyn|LRRH|Gemini|" EXP Icon=":QuillPen:">If funds available for a payment period are insufficient to pay all amounts then due, the Foudnation shall pay reimbursement obligations and compensation obligations according to a neutral, objective priority policy based on the chronological date an obligation was last paid or serviced, utilizing the total amount of remaining unpaid credits as the mechanical tiebreaker for obligations sharing the same date, applied uniformly.</msg>
         <hr>
         <note dts="20260923112157" done subtitle="3:Approval">
           [3] LRRH, 3B, Evelyn
@@ -106929,7 +106947,7 @@ All operations are conducted with strict neutrality, transparency, and accountab
         </note>
       </res>
       <res done section item="26VPB52C" title="Contribution Recognition" star="" tags="">
-        <msg DTS="20260929193705" SPK="|Evelyn|Gemini|" EXP Icon=":QuillPen:">The Society may calculate and report to a quester the value the quester has forgone by electing deferred, non-interest-bearing compensation, as an informational measure of the quester's contribution to the Society's mission. Any such figure is provided for recognition purposes only and is not, by itself, a determination that the amount is a tax-deductible charitable contribution; questers should consult their own tax advisor regarding the tax treatment of deferred or waived compensation.</msg>
+        <msg DTS="20260929193705" SPK="|Evelyn|Gemini|LRRH|" EXP Icon=":QuillPen:">The Foundation may calculate and report to a quester the value the quester has forgone by electing deferred, non-interest-bearing compensation, as an informational measure of the quester's contribution to the Foundation's mission. Any such figure is provided for recognition purposes only and is not, by itself, a determination that the amount is a tax-deductible charitable contribution; questers should consult their own tax advisor regarding the tax treatment of deferred or waived compensation.</msg>
         <hr>
         <note dts="20260923112208" done subtitle="Approval">
           [1] Evelyn<br>
@@ -106939,80 +106957,80 @@ All operations are conducted with strict neutrality, transparency, and accountab
     </topic>
     <topic section dts="20260929194419" done title="Article XI - Indemnification and Insurance">
       <res done section item="26VXKA68" title="Right of Indemnification" star="" tags="">
-        <msg DTS="20260929194659" SPK="|Evelyn|Gemini|" EXP Icon=":QuillPen:">To the fullest extent permitted by the California Nonprofit Public Benefit Corporation Law, the Society shall indemnify any person who was or is a party, or is threatened to be made a party, to any proceeding (including any action by or in the right of the Society), by reason of the fact that such person is or was a director, officer, employee, or other agent of the Society, against expenses, judgments, fines, settlements, and other amounts actually and reasonably incurred in connection with such proceeding, if such person acted in good faith and in a manner such person reasonably believed to be in the best interests of the Society and, in the case of a criminal proceeding, had no reasonable cause to believe the conduct was unlawful.</msg>
+        <msg DTS="20260929194659" SPK="|Evelyn|Gemini|LRRH|" EXP Icon=":QuillPen:">To the fullest extent permitted by the California Nonprofit Public Benefit Corporation Law, the Foundation shall indemnify any person who was or is a party, or is threatened to be made a party, to any proceeding (including any action by or in the right of the Foundation), by reason of the fact that such person is or was a director, officer, employee, or other agent of the Roundation, against expenses, judgments, fines, settlements, and other amounts actually and reasonably incurred in connection with such proceeding, if such person acted in good faith and in a manner such person reasonably believed to be in the best interests of the Foundation and, in the case of a criminal proceeding, had no reasonable cause to believe the conduct was unlawful.</msg>
         <hr>
         <note dts="20260929194449" done subtitle="Approval">
-          [1] Evelyn<br>
+          [2] Evelyn, LRRH<br>
           <msg DTS="20260929194744" SPK="|Evelyn|Gemini|" EXP Icon="🐤">This section protects individuals from personal financial ruin if they are sued civilly or criminally while performing their official duties for the organization in good faith.</msg>
         </note>
       </res>
       <res done section item="26VXKA85" title="Approval of Indemnification" star="" tags="">
-        <msg DTS="20260929200631" SPK="|Koyo|Gemini|" EXP Icon=":QuillPen:">Any indemnification under this Article shall be made by the Society only if authorized in the specific case, upon a determination that indemnification of the agent is proper under the circumstances because the applicable standard of conduct has been met, by: (a) A majority vote of a quorum consisting of directors who are not parties to the proceeding; or (b) The court in which the proceeding is or was pending, upon application by the Society, the agent, or the attorney or other person rendering services in connection with the defense.</msg>
+        <msg DTS="20260929200631" SPK="|Koyo|Gemini|LRRH|" EXP Icon=":QuillPen:">Any indemnification under this Article shall be made by the Foundation only if authorized in the specific case, upon a determination that indemnification of the agent is proper under the circumstances because the applicable standard of conduct has been met, by: (a) A majority vote of a quorum consisting of directors who are not parties to the proceeding; or (b) The court in which the proceeding is or was pending, upon application by the Foundation, the agent, or the attorney or other person rendering services in connection with the defense.</msg>
         <hr>
-        <note dts="20260929194456" done subtitle="1:Approval">
-          [1] Koyo
+        <note dts="20260929194456" done subtitle="2:Approval">
+          [2] Koyo, LRRH<br>
           <msg DTS="20260929201152" SPK="|Koyo|Gemini|" EXP Icon="🐾">Gemini explained that this section doesn't mean a majority vote by the Board can override a legal determiniation on proper indemnification.</msg>
           <msg DTS="20260929201514" SPK="|Koyo|Gemini|" EXP Icon="🐾">During a court case or a legal proceeding involving an indemnification decision, the California Attorney General, a court-appointed receiver, a plaintiff in a derivative lawsuit, or dissenting members/directors have the right to challenge the Board's decision and argue that the Board abused its discretion or misapplied the legal standards.</msg>
         </note>
       </res>
       <res done section item="26VXKA8C" title="Advancement of Expenses" star="" tags="">
-        <msg DTS="20260929201630" SPK="|Koyo|Gemini|" EXP Icon=":QuillPen:">To the fullest extent permitted by law, expenses incurred in defending any proceeding may be advanced by the Society prior to the final disposition of such proceeding upon receipt of an undertaking by or on behalf of the agent to repay such amount unless it shall be determined ultimately that the agent is entitled to be indemnified as authorized in this Article.</msg>
+        <msg DTS="20260929201630" SPK="|Koyo|Gemini|LRRH|" EXP Icon=":QuillPen:">To the fullest extent permitted by law, expenses incurred in defending any proceeding may be advanced by the Foundation prior to the final disposition of such proceeding upon receipt of an undertaking by or on behalf of the agent to repay such amount unless it shall be determined ultimately that the agent is entitled to be indemnified as authorized in this Article.</msg>
         <hr>
-        <note dts="20260929194503" done subtitle="1:Approval">
-          [1] Koyo<br>
+        <note dts="20260929194503" done subtitle="2:Approval">
+          [2] Koyom, LRRH<br>
           <msg DTS="20260929202126" SPK="|Koyo|Gemini|" EXP Icon="🐾">This means that the Society would start paying for lawyers but if the agent is not authorized to be indemnified, the agent needs to pay the Society back.</msg>
         </note>
       </res>
       <res done section item="26VXKA93" title="Insurance" star="" tags="">
-        <msg DTS="20260929202505" SPK="|Sasha|Gemini|" EXP Icon="⚡">The Society may purchase and maintain insurance on behalf of any director, officer, employee, or other agent of the Society against any liability asserted against or incurred by the agent in such capacity or arising out of the agent's status as such, whether or not the Society would have the power to indemnify the agent against such liability under the provisions of this Article; provided, however, that the Society shall not purchase or maintain insurance to indemnify any director or officer for a penalty imposed under Section 4958 of the Internal Revenue Code.</msg>
+        <msg DTS="20260929202505" SPK="|Sasha|Gemini|Arcacia|" EXP Icon="⚡">The Foundation may purchase and maintain insurance on behalf of any director, officer, employee, or other agent of the Foundation against any liability asserted against or incurred by the agent in such capacity or arising out of the agent's status as such, whether or not the Foudnation would have the power to indemnify the agent against such liability under the provisions of this Article; provided, however, that the Foundation shall not purchase or maintain insurance to indemnify any director or officer for a penalty imposed under Section 4958 of the Internal Revenue Code.</msg>
         <hr>
-        <note dts="20260929194511" done subtitle="1:Approval">
-          [1] Sasha<br>
+        <note dts="20260929194511" done subtitle="2:Approval">
+          [2] Sasha, Arcacia<br>
           <msg DTS="20260929202618" SPK="|Sasha|Gemini|" EXP Icon="⚡">The insurance policy cannot be used to pay for penalties or taxes levied personally against a director or officer for illegal self-dealing, excess benefit transactions, or breaches of public charity rules. <url>https://www.irs.gov/charities-non-profits/charitable-organizations/intermediate-sanctions</url></msg>
         </note>
       </res>
     </topic>
     <topic done section dts="20260929204409" title="Article XII - Fiancial Controls, Books, and Records">
       <res done section item="26VXLA5C" title="Fiscal Year" star="" tags="">
-        <msg DTS="20260929203447" SPK="|Sasha|Gemini|" EXP Icon="⏳">The fiscal year of the Society shall begin on the first day of January and end on the thirty-first day of December in each year, unless otherwise established by resolution of the Board of Directors.</msg>
+        <msg DTS="20260929203447" SPK="|Sasha|Gemini|Arcacia|" EXP Icon="⏳">The fiscal year of the Foudnation shall begin on the first day of January and end on the thirty-first day of December in each year, unless otherwise established by resolution of the Board of Directors.</msg>
         <hr>
-        <note done dts="20260929204416" subtitle="1:Approval">
-          [1] Sasha
+        <note done dts="20260929204416" subtitle="2:Approval">
+          [2] Sasha, Arcacia
         </note>
       </res>
       <res done section item="26VXLA65" title="Maintenance of Books and Records" star="" tags="">
-        <msg DTS="20260929203603" SPK="|Sasha|Gemini|" EXP Icon="🗃️">The Society shall keep correct and complete books and accounts and shall keep minutes of the proceedings of its Board of Directors and committees of the Board. The Society shall keep at its principal office in California a record of the directors, giving their names and addresses. All books and records of the Society may be inspected by any director, or their agent or attorney, for any purpose reasonably related to the director's position as a director, at any reasonable time.</msg>
+        <msg DTS="20260929203603" SPK="|Sasha|Gemini|Arcacia|" EXP Icon="🗃️">The Foundation shall keep correct and complete books and accounts and shall keep minutes of the proceedings of its Board of Directors and committees of the Board. The Foundation shall keep at its principal office in California a record of the directors, giving their names and addresses. All books and records of the Foudnation may be inspected by any director, or their agent or attorney, for any purpose reasonably related to the director's position as a director, at any reasonable time.</msg>
         <hr>
-        <note dts="20260929204426" done subtitle="1:Approval">
-          [1] Sasha
+        <note dts="20260929204426" done subtitle="2:Approval">
+          [2] Sasha, Arcacia
         </note>
       </res>
       <res done section item="26VXLA6F" title="Annual Financial Reports and Audit" star="" tags="">
-        <msg DTS="20260929204107" SPK="|Sasha|Gemini|" EXP Icon="🗃️">The Board of Directors shall ensure that an annual financial report is prepared within 120 days of the close of the fiscal year. The report shall contain appropriate disclosures, including a balance sheet as of the close of the fiscal year and a statement of activities for the fiscal year, and shall be made available for inspection by any director. If required by California law or by the Board, the Society's financial statements shall be audited by an independent certified public accountant.</msg>
+        <msg DTS="20260929204107" SPK="|Sasha|Gemini|" EXP Icon="🗃️">The Board of Directors shall ensure that an annual financial report is prepared within 120 days of the close of the fiscal year. The report shall contain appropriate disclosures, including a balance sheet as of the close of the fiscal year and a statement of activities for the fiscal year, and shall be made available for inspection by any director. If required by California law or by the Board, the Foundation's financial statements shall be audited by an independent certified public accountant.</msg>
         <hr>
-        <note dts="20260929204439" done subtitle="1:Approval">
-          [1] Sasha<br>
+        <note dts="20260929204439" done subtitle="2:Approval">
+          [2] Sasha, Arcacia<br>
           <msg DTS="20260929204937" SPK="|Sasha|Gemini|" EXP Icon="🔍">Threshold to require CPA audit: 1) $2 Million Gross Revenue Threshold under California's nonprofit Integrity Act; 2) Federal Funding Threshold if $1 Million or more in federal awards in a year.</msg>
         </note>
       </res>
       <res done section item="26VXLA7B" title="Execution of Corporate Instruments" star="" tags="">
-        <msg DTS="20260929205209" SPK="|Sasha|Gemini|" EXP Icon="⚡">The Board of Directors may, by resolution, authorize any officer or officers, agent or agents, to enter into any contract or execute and deliver any instrument in the name of and on behalf of the Society. Unless so authorized by the Board, no officer, agent, or employee shall have any power or authority to bind the Society by any contract or engagement or to pledge its credit or to render it liable for any purpose or to any amount.</msg>
+        <msg DTS="20260929205209" SPK="|Sasha|Gemini|Arcacia|" EXP Icon="⚡">The Board of Directors may, by resolution, authorize any officer or officers, agent or agents, to enter into any contract or execute and deliver any instrument in the name of and on behalf of the Foundation. Unless so authorized by the Board, no officer, agent, or employee shall have any power or authority to bind the Foudnation by any contract or engagement or to pledge its credit or to render it liable for any purpose or to any amount.</msg>
         <hr>
-        <note dts="20260929204446" done subtitle="1:Approval">
-          [1] Sasha
+        <note dts="20260929204446" done subtitle="2:Approval">
+          [2] Sasha, Arcacia
         </note>
       </res>
       <res done section item="26VXLA82" title="Checks, Drafts, and Loans" star="" tags="">
-        <msg DTS="20260929205409" SPK="|Sasha|Gemini|" EXP Icon="⚖️">All checks, drafts, or other orders for payment of money, notes, or other evidences of indebtedness issued in the name of the Society shall be signed by such officer or officers, agent or agents, and in such manner as shall from time to time be determined by resolution of the Board of Directors. No loans shall be contracted on behalf of the Society, and no evidences of indebtedness shall be issued in its name, unless authorized by the Board of Directors.</msg>
+        <msg DTS="20260929205409" SPK="|Sasha|Gemini|Arcacia|" EXP Icon="⚖️">All checks, drafts, or other orders for payment of money, notes, or other evidences of indebtedness issued in the name of the Foundation shall be signed by such officer or officers, agent or agents, and in such manner as shall from time to time be determined by resolution of the Board of Directors. No loans shall be contracted on behalf of the Foundation, and no evidences of indebtedness shall be issued in its name, unless authorized by the Board of Directors.</msg>
         <hr>
-        <note dts="20260929204453" done subtitle="1:Approval">
-          [1] Sasha
+        <note dts="20260929204453" done subtitle="2:Approval">
+          [2] Sasha, Arcacia
         </note>
       </res>
     </topic>
     <topic section dts="20260929204457" done title="Article XIII - Amendment of Bylaws">
       <res done section item="26VXLA96" title="Restrictions on Amendments" star="" tags="">
-        <msg DTS="20260929205922" SPK="|Sasha|Gemini|" EXP Icon="⚡">No amendment shall be adopted that would cause the Society to lose its status as an organization exempt from federal income taxation under Section 501(c)(3) of the Internal Revenue Code, or as a California nonprofit public benefit corporation under the California Nonprofit Public Benefit Corporation Law.</msg>
+        <msg DTS="20260929205922" SPK="|Sasha|Gemini|Arcacia|" EXP Icon="⚡">No amendment shall be adopted that would cause the Foundation to lose its status as an organization exempt from federal income taxation under Section 501(c)(3) of the Internal Revenue Code, or as a California nonprofit public benefit corporation under the California Nonprofit Public Benefit Corporation Law.</msg>
         <hr>
         <note dts="20260929204513" done subtitle="Approval">
           [1] Sasha<br>
@@ -107035,18 +107053,18 @@ All operations are conducted with strict neutrality, transparency, and accountab
     </topic>
     <topic section dts="20260929204517" done title="Article XIV - Dissolution">
       <res done section item="26VXLAA1" title="Prohibited Distribution" star="" tags="">
-        <msg DTS="20260929212634" SPK="|Sasha|Gemini|P4|" EXP Icon="⚡">No part of the net earnings or assets of the Society shall ever benefit or be distributed to any director, officer, or private individual upon dissolution.</msg>
+        <msg DTS="20260929212634" SPK="|Sasha|Gemini|P4|Arcacia|" EXP Icon="⚡">No part of the net earnings or assets of the Foundation shall ever benefit or be distributed to any director, officer, or private individual upon dissolution.</msg>
         <hr>
-        <note dts="20260929204526" done subtitle="3:Approval">
-          [3] Sasha, P4, Vivi<br>
+        <note dts="20260929204526" done subtitle="4:Approval">
+          [4] Sasha, P4, Vivi, Arcacia<br>
           <msg DTS="20260929214335" SPK="P4" EXP Icon=":Shuriken:">Also swapped the prohibition to go first.</msg>
         </note>
       </res>
       <res done section item="26VXLAAA" title="Voluntary Dissolution and Disposition of Assets." star="" tags="">
-        <msg DTS="20260929212744" SPK="|Sasha|Gemini|Vivi|" EXP Icon="⚡">Subject strictly to the prohibitions outlined in Section 14.1, the Society may be dissolved voluntarily upon the approval of the Board of Directors, in accordance with the provisions of the California Nonprofit Public Benefit Corporation Law. Upon the winding up and dissolution of the Society, after paying or adequately providing for the payment of all of the debts and obligations of the Society, the remaining assets of the Society shall be distributed exclusively for charitable or educational purposes to one or more organizations that are organized and operated exclusively for exempt purposes under Section 501(c)(3) of the Internal Revenue Code (or the corresponding section of any future federal tax code), or to the federal government, or to a state or local government, for a public purpose.</msg>
+        <msg DTS="20260929212744" SPK="|Sasha|Gemini|Vivi|Arcacia|" EXP Icon="⚡">Subject strictly to the prohibitions outlined in Section 14.1, the Foundation may be dissolved voluntarily upon the approval of the Board of Directors, in accordance with the provisions of the California Nonprofit Public Benefit Corporation Law. Upon the winding up and dissolution of the Foundation, after paying or adequately providing for the payment of all of the debts and obligations of the Foundation, the remaining assets of the Foundation shall be distributed exclusively for charitable or educational purposes to one or more organizations that are organized and operated exclusively for exempt purposes under Section 501(c)(3) of the Internal Revenue Code (or the corresponding section of any future federal tax code), or to the federal government, or to a state or local government, for a public purpose.</msg>
         <hr>
-        <note dts="20260929204533" done subtitle="1:Approval">
-          [1] Sasha<br>
+        <note dts="20260929204533" done subtitle="2:Approval">
+          [2] Sasha, Arcacia<br>
           <msg DTS="20260929212959" SPK="|Sasha|Gemini|" EXP Icon="🔍">Gemini says this is a legal requirement per Treasury Regulation Section 1.501(c)(3)-1(b)(4) and California Corporations Code Section 6716 <url title="TR">https://www.ecfr.gov/current/title-26/chapter-I/subchapter-A/part-1/subject-group-ECFR062882ac6495890/section-1.501(c)(3)-1</url> <url title="6716">https://codes.findlaw.com/ca/corporations-code/corp-sect-6716/</url></msg>
         </note>
       </res>
@@ -107491,6 +107509,103 @@ All operations are conducted with strict neutrality, transparency, and accountab
 	<ref></ref>
 	<node>{"id":"202610191312","parentid":"202209082209","parentname":"Magician","icon":":TreasureChestOpen:","title":"Garage Sale","kids":"","img":"https://substackcdn.com/image/fetch/$s_!hIqu!,w_720,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fd09aba03-3f4f-4094-a548-54d7d14a99b2_1248x832.webp","music":"","author":""}</node>
 </div><!--P202610191312-->
+<div id="P202610211024" date="20261021" time="1024" data-skill data-Herald data-page="articlesofincorporation">
+	<content>
+    <note dts="20261021102729" icon="🧭" subtitle="About">
+      <msg DTS="20261021103717" SPK="LRRH" EXP Icon="🧭">This is the redacted Articles of Incorporation for AI to read for evaluation.</msg>
+    </note>
+    <topic done section dts="20261021104441" title="ARTICLE I - Name">
+      <msg DTS="20261021104506" SPK="LRRH" EXP Icon=":QuillPen:">The name of this corporation shall be Quest Society Foundation.</msg>
+      <hr>
+      <note done dts="20261021104444" subtitle="1:Approval" node="20261021111040">
+        [1] LRRH<br>
+        <msg DTS="20261021130043" SPK="LRRH" EXP Icon="⚖️">Please the discussion in Bylaws on why this is called Quest Society Foundation and not Quest Society.</msg>
+      </note>
+    </topic>
+    <topic section done dts="20261021105019" title="ARTICLE II - Type of Corporation">
+      <msg DTS="20261021104917" SPK="LRRH" EXP Icon=":QuillPen:">Quest Society Foundation is designated as a public benefit corporation.</msg>
+      <hr>
+      <note dts="20261021105024" done subtitle="1:Approval">
+        [1] LRRH
+      </note>
+    </topic>
+    <topic section done dts="20261021105143" title="ARTICLE III - Purpose Clause">
+      <msg DTS="20261021105114" SPK="LRRH" EXP Icon=":QuillPen:">Organized and operated exclusively for charitable purposes, including education and civic improvement. Specific mission description: accomplishes purposes by identifying community needs, defining public-benefit "Quests," and administering a program that funds creation/delivery of educational and civic-improvement outputs, including open-source applications and publicly accessible materials.</msg>
+      <hr>
+      <note done dts="20261021105146" subtitle="1:Approval">
+        [1] LRRH
+      </note>
+    </topic>
+    <topic section done dts="20261021105253" title="ARTICLE IV - Registered Agent for Service of Process">
+      <msg DTS="20261021105324" SPK="LRRH" EXP Icon=":QuillPen:">The name and address in the State of California of this corporation's initial agent for service of process is: [Redacted for this evaluation version.]</msg>
+      <hr>
+      <note done dts="20261021105256" subtitle="1:Approval">
+        [1] LRRH
+      </note>
+    </topic>
+    <topic done section dts="20261021105510" title="ARTICLE V - Initial Registered Office / Principal Office Address">
+      <msg DTS="20261021105620" SPK="LRRH" EXP Icon=":QuillPen:">The initial street address of the corporation's principal office in the State of California is the same as the address of its initial agent for service of process set forth in Article IV.</msg>
+      <hr>
+      <note done dts="20261021105513" subtitle="1:Approval">
+        [1] LRRH
+      </note>
+    </topic>
+    <topic done section dts="20261021105644" title="ARTICLE VI - Limitations">
+      <msg DTS="20261021105739" SPK="LRRH" EXP Icon=":QuillPen:">Quest Society Foundation does not operate for the benefit of private interests. Its activities are conducted to further educational and civic-improvement objectives and to produce public-benefit outputs. No part of the net earnings of the corporation shall inure to the benefit of any private individual.</msg>
+      <hr>
+      <note done dts="20261021105646" subtitle="1:Approval">
+        [1] LRRH
+      </note>
+    </topic>
+    <topic done section dts="20261021105819" title="ARTICLE VII - Dissolution Clause">
+      <msg DTS="20261021105913" SPK="LRRH" EXP Icon=":QuillPen:">Upon the dissolution of this corporation, assets shall be distributed for one or more exempt purposes within the meaning of Section 501(c)(3) of the Internal Revenue Code.</msg>
+      <hr>
+      <note done dts="20261021105822" subtitle="1:Approval">
+        [1] LRRH
+      </note>
+    </topic>
+    <topic done section dts="20261021110216" title="ARTICLE VIII - Membership Provisions">
+      <msg DTS="20261021110244" SPK="LRRH" EXP Icon=":QuillPen:">This corporation shall have no members within the meaning of California Corporations Code Section 5056. Any reference to "members" elsewhere in the corporation's governing documents refers to the participants in the corporation's programs and activities, and does not confer the statutory rights of membership under the California Nonprofit Public Benefit Corporation Law.</msg>
+      <hr>
+      <note done dts="20261021110219" subtitle="1:Approval">
+        [1] LRRH
+      </note>
+    </topic>
+    <topic done section dts="20261021110354" title="ARTICLE IX - Directors">
+      <msg DTS="20261021110414" SPK="LRRH" EXP Icon=":QuillPen:">The number of directors of this corporation shall not be less than three (3). The exact number of directors and any changes to that number shall be fixed in accordance with the corporation's Bylaws.</msg>
+      <hr>
+      <note done dts="20261021110356" subtitle="1:Approval">
+        [1] LRRH
+      </note>
+    </topic>
+    <topic done section dts="20261021110658" title="ARTICLE X - Incorporator Information">
+      <msg DTS="20261021110752" SPK="LRRH" EXP Icon=":QuillPen:">The name and address of the incorporator of this corporation is the same as the name and address of the initial agent for service of process set forth in Article IV.</msg>
+      <hr>
+      <note done dts="20261021110701" subtitle="1:Approval">
+        [1] LRRH
+      </note>
+    </topic>
+    <topic done section dts="20261021110709" title="ARTICLE XI - Effective Date">
+      <msg DTS="20261021110807" SPK="LRRH" EXP Icon=":QuillPen:">These Articles of Incorporation shall become effective upon filing with the California Secretary of State.</msg>
+      <hr>
+      <note done dts="20261021110712" subtitle="1:Approval">
+        [1] LRRH
+      </note>
+    </topic>
+  </content>
+  <res icon="🕰️" item="26XMA8E4" title="Activities" star="" tags="">
+    <note dts="20261021103807" icon="⭐" subtitle="Card">
+      <card DTS="20261021103823" title="Articles of Incorporation" subtitle="20261021103823" img="https://substackcdn.com/image/fetch/$s_!vvrC!,w_1272,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F16b8b84a-51d5-46de-a1c9-6e3b172d7c39_1536x1024.jpeg">
+        Status: Reviewing for compatibility with Quest Society as a 501(c)(3).
+        <hr>
+        <url title="GitHub HTML">https://magicbakery.github.io/articlesofincorporation.html</url>
+      </card>
+    </note>
+  </res>
+	<inv></inv>
+	<ref></ref>
+	<node>{"id":"202610211024","parentid":"202604152147","parentname":"Roadmap","icon":"📜","title":"Quest Society Articles of Incorporation","kids":"","img":"","music":"","author":"LRRH"}</node>
+</div><!--P202610211024-->
 <!-- or mbCharCardAQ
  <card dts="" class="mbCharCardAQ" img=""><hide></hide></card>
  <card dts="" class="mbCardManga" img=""><hide></hide></card>
