@@ -29483,6 +29483,11 @@ Mira Mira</small></center><hr class="mbhr">
               <msg DTS="20251118032530" SPK="|Evelyn|StarTree|" EXP Icon="💟">Fixed typos at Skill Tree. The updated button made it very easy to see the exported page to check spellings.</msg>
               <msg DTS="20251118033448" SPK="|LRRH|StarTree|" EXP Icon="💟">I like how you can now query all the nodes that have an exported page.</msg>
             </note>
+            <note dts="20261028151456" done subtitle="Hide">
+              <msg DTS='20260831100733' SPK='LRRH' EXP Icon='🐾'>A node without any section shouldn't have the export button.</msg>
+              <msg DTS="20261028152251" SPK="StarTree" EXP=2 Icon="⭐">Done!</msg>
+
+            </note>
           </note>
           <note dts="20251001230930" done subtitle="Sections">
             <msg DTS="20251104202808" SPK="StarTree" EXP Icon="🐤">What content to export is controlled by the section attribute. Only topics and notes with the section attribute is exported.</msg>
@@ -30432,6 +30437,11 @@ Mira Mira</small></center><hr class="mbhr">
       <hr>
       <note dts="20260627121122" done subtitle="Done">
         <msg DTS='20220626103614' SPK='Ivy' EXP=1 Icon='🥼'>Added mbCardRM style with media</msg>
+      </note>
+      <note dts="20261028161455" dones subtitle="Copy ID">
+        <msg DTS='20260914165245' SPK='Lei' EXP Icon='🗝️'>There should be a default card button so that it shows or copies the DTS of the card to help navigate to the card.</msg>
+        <msg DTS='20261028155444' SPK='Zoey' EXP=4 Icon='🏹'>A way to copy the card's ID to clipboard</msg>
+
       </note>
     </res>
     <res icon="🔔" item="25V7F529" title="Reexport Marker" star="" tags="">
@@ -32356,6 +32366,20 @@ Mira Mira</small></center><hr class="mbhr">
         <msg DTS='20260810082339' SPK='LRRH' EXP Icon='🐤'>The res items shouldn't display by default when there is a card.</msg>
         <msg DTS='20260810112104' SPK='Vivi' EXP=3 Icon='🔮'>Hiding the inv section</msg>
         <msg DTS='20260810113600' SPK='Sasha' EXP=4 Icon='🪄'>Hiding the inv section when there is a card.</msg>
+        <hr>
+        <note dts="20261028150709" todo subtitle="Default">
+          <msg DTS="20261028150734" SPK="StarTree" EXP Icon="🌱">What should be the default on whether the res list is shown?</msg>
+          <hr>
+          <note dts="20261028151016" todo subtitle="0:Show">
+            [0]<br>
+            <msg DTS="20261028151037" SPK="StarTree" EXP Icon="🌱">The current behavior is to show the res list if there are res items without a card.</msg>
+            <msg DTS="20261028151229" SPK="StarTree" EXP Icon="🔍">Having an card or having not author and no node img will hide the res list.</msg>
+          </note>
+          <note dts="20261028150753" todo subtitle="1:Hide">
+            [1] Lei<br>
+            <msg DTS='20260914163227' SPK='Lei' EXP=2 Icon='📌'>Node layout: Default to hide the inv list, add a node flag to specify when it should be shown. When the inv list is not shown initially, if big button image exists, it should still show the button so the user can click and show the inv list.</msg>
+          </note>
+        </note>
       </note>
       <note dts="20250907225800" subtitle="Title">
         <msg DTS="20250907225815" SPK="StarTree" EXP Icon="⭐">Adding automatic display of hidden title for AI.</msg>

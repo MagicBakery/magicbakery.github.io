@@ -647,7 +647,7 @@
     </div>
     <div class="footerBtnBar" style="justify-content: space-between;">
       <button id="btnToggleHand" class="btn" title="Toggle Hand Visibility" style="margin-bottom:-6px"
-        onclick="isHandHidden=!isHandHidden;draw();if(WakeLock.isActive()){spawnBubbleLayerBubble()}" ondblclick="SortInHand();">
+        onclick="HandToggleOrSort();">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
           stroke-linecap="round" stroke-linejoin="round">
           <defs>
@@ -852,8 +852,8 @@
     chkPinchToZoom.checked = localStorage.getItem('pinch-to-zoom') === 'true';
     const chkSeatingCompass = document.getElementById('seating-compass');
     chkSeatingCompass.checked = localStorage.getItem('seatingCompass') === 'true';
-    const DOUBLE_TAP_MS = 300;
-    let lastTapTs = 0;
+    const DOUBLE_TAP_MS = 300; // For handling double click in iPhone
+    let lastTapTs = 0; // For handling double click in iPhone
     let ignoreNextClick = false;
     let isHandHidden = true;
     let rotInterval = null;
@@ -1004,6 +1004,22 @@
 
       draw();
     }
+    function HandToggleOrSort(){
+      // Hand Toggle logic
+      isHandHidden=!isHandHidden;
+      draw();
+      if(WakeLock.isActive()){
+        spawnBubbleLayerBubble()
+      }
+      const now = Date.now();
+      if (now - lastTapTs < DOUBLE_TAP_MS) {
+        // Double tap
+        SortInHand();
+        lastTapTs = 0;
+        return;
+      }
+      lastTapTs = now;
+    }
     function PlaceOnTable(boxEl, e, bPrecise) {
       if (!boxEl || !boxEl.dataset.assetId) return;
       moveAssetToTable(boxEl.dataset.assetId, bPrecise);
@@ -1012,8 +1028,6 @@
       updateTrackedUIs();
       draw();
     }
-
-
     async function SaveMoves(moves, legacyPatch, legacyExpectedUpdatedAt) {
       if (!moves) return;
 
@@ -2353,7 +2367,21 @@
     }
 
     function drawCardToCtx(context, card, x, y, scale, isSelected, relativeToViewport) {
-      const { w, h, isPlaceholder, config } = getAssetDimensions(card);
+      const cachedPromise = imgCache.get(card.imageUrl);
+      const dims = getAssetDimensions(card);
+      let w = dims.w;
+      let h = dims.h;
+      let isPlaceholder = dims.isPlaceholder;
+      let config = dims.config;
+
+      if ((!w || !h) && cachedPromise?._image) {
+          w = cachedPromise._image.naturalWidth/8;
+          h = cachedPromise._image.naturalHeight/8;
+          card.w = w;
+          card.h = h;
+      }
+
+
       const radius = getCardRadiusFromCSS();
 
       context.save();
@@ -2415,7 +2443,7 @@
         }
         context.clip();
 
-        const cachedPromise = imgCache.get(card.imageUrl);
+        
         const hasValidImage = (!isPlaceholder && cachedPromise && cachedPromise._image && cachedPromise._loaded);
 
         if (config?.shape === 'wallpaper') {
@@ -3294,7 +3322,7 @@
 
       splashViewer.classList.remove('active');
 
-
+ 
     };
   </script>
 </body>

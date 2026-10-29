@@ -502,8 +502,7 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
     // 20250909: StarTree: Adding a save button to help export content for static HTML pages.
     // 20251118: StarTree: If the node as data-page, display differently.
     if(NotBlank(mPage)){
-      let mPageURL = mPage + ".html";
-      
+      let mPageURL = mPage + ".html";      
       mHTMLInner += "<a btnExport class='mbbutton mbRef' title='Export for AI as "+ mPageURL +"' onclick='event.preventDefault();event.stopPropagation();ExportForAI(this)' href='./"+mPageURL+"' style='padding:0 5px'>📜</a>";
       let elVersionDTS = document.createElement("div");
       $(elVersionDTS).load(mPageURL + " [dts]", function(){
@@ -527,7 +526,10 @@ function BoardFillEL(elBoard,elContainer,elRecord,iDoNotScroll,bOffline){
         elVersionDTS.remove();
       });
     }else{
-      mHTMLInner += "<button class='mbbutton mbRef' title='Export for AI' onclick='ExportForAI(this)'>📜</button>";
+      const hasSection = elRecord.querySelector("[section]");
+      if(hasSection){
+        mHTMLInner += "<button class='mbbutton mbRef' title='Export for AI' onclick='ExportForAI(this)'>📜</button>";
+      }
     }
     
 
@@ -2010,7 +2012,7 @@ function LatestDate(elScope){
 function LatestUpdate(){
   // 20240818: StarTree
   let elContainer = document.body.querySelector("LatestUpdate");
-  elContainer.innerHTML = "20260930 Done/Todo Flags";
+  elContainer.innerHTML = "20261028 Card ID Copy";
 }
 
 function LnkCode(iID,iDesc,iIcon,bMark,iTitle){
@@ -2166,7 +2168,7 @@ function MacroCard(el){
     mHTML += "<a href='" + mIMG + "' target='_blank' style='cursor:zoom-in'>";
 
     mHTML += "<div class='mbCharCardImg' style=\"background-position: 50% 50%; background-image:url('" + mIMG + "')\"></div></a>";
-    mHTML += "<div class='mbCharCardSubtitle'>"+ mSubTitle + "</div>";
+    mHTML += "<div class='mbCharCardSubtitle' onclick='navigator.clipboard.writeText(" + mDTS +")' style='cursor:help'>"+ mSubTitle + "</div>";
     mHTML += "<div class='mbCharCardDesc'><center><div class='mbCharCardDescInner'>";
     mHTML += mTag.innerHTML;
     mHTML += "</div></center></div></div>";

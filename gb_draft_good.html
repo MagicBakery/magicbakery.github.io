@@ -1,0 +1,3324 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+  <link rel="manifest" href="/qb_manifest.json">  
+  <title>Playground</title>
+  <script src="qsdk.js"></script>  
+  <style>
+    html,
+    body {
+      margin: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      color: #eee;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      --card-radius: 6px;
+      /*padding-bottom: 60px;*/
+      cursor: pointer;
+      /* Add this line to remove the blue flash */
+      -webkit-tap-highlight-color: transparent;
+      tap-highlight-color: transparent;
+    }
+
+    #app {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      touch-action: none;
+      overscroll-behavior: none;
+    }
+
+    #hud-left {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+      max-width: 320px;
+      width: 300px;
+      z-index: 100;
+    }
+
+    #hud-right {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      margin-right: 5px;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    #hud-right .btn {
+      background: none;
+      border: none;
+      color: #FFFFFFC0;
+      height: 80%;
+      pointer-events: auto;
+    }
+
+    #footerBar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: auto;
+      /* Adjust height as needed */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      /* Pushes items to opposite ends */
+      align-items: center;
+      padding: 0;
+      margin-bottom: -5px;
+      /* Adds space from the edges of the screen */
+      /*background: rgba(30, 30, 30, 0.9);*/
+      /* Semi-transparent dark background */
+      /*border-top: 1px solid #444;*/
+      box-sizing: border-box;
+      z-index: 100;
+      pointer-events: none;
+      touch-action: none;
+    }
+
+    .footerBtnBar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+      width: 100%;
+    }
+
+    #footerBar .btn {
+      background: none;
+      border: none;
+      color: #FFFFFFC0;
+      height: 80%;
+      pointer-events: auto;
+      touch-action: auto;
+    }
+
+    .panel {
+      pointer-events: auto;
+      background: rgba(0, 0, 0, .25);
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 10px;
+
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      transition: width 0.2s ease, height 0.2s ease, border-radius 0.2s ease;
+    }
+
+    #setupPanel:not(.collapsed) {
+      backdrop-filter: blur(12px);
+    }
+
+    #setupPanel.collapsed {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      border: none;
+    }
+
+    #setupPanel .panel-top {
+      display: none;
+      flex: 1;
+    }
+
+    #setupPanel:not(.collapsed) .panel-top {
+      display: block;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      user-select: none;
+      background: rgba(255, 255, 255, 0.02);
+      box-sizing: border-box;
+      color: #FFFFFFC0;
+    }
+
+    #setupPanel:not(.collapsed) .panel-header {
+      width: 100%;
+      justify-content: flex-start;
+      padding-left: 0px 4px 0px -1px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+
+    .panel-content {
+      padding: 0px 14px 14px 14px;
+      display: block;
+    }
+
+    #setupPanel.collapsed .panel-content {
+      display: none;
+    }
+
+    .tab-bar {
+      display: flex;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 12px;
+      gap: 4px;
+      justify-content: space-between;
+      /* This pushes the two inner divs to opposite sides */
+      align-items: center;
+      /* Vertically centers them */
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 6px 6px 0 0;
+      transition: color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .tab-btn.active {
+      color: gold;
+      border-bottom: 2px solid gold;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    #setupPanel.collapsed .tab-btn.active {
+      border: none;
+    }
+
+    .tab-buttons {
+      display: flex;
+      gap: 4px;
+    }
+
+    .tab-pane {
+      display: none;
+      max-height: calc(100vh - 145px);
+      overflow-y: auto;
+    }
+
+    .tab-pane.active {
+      display: block;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-top: 8px;
+    }
+
+    .row:first-child {
+      margin-top: 0;
+    }
+
+    .version-display {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.4);
+      font-family: monospace;
+      padding-right: 4px;
+    }
+
+    input[type="text"] {
+      background: #0d0d0d;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 8px;
+      padding: 6px 8px;
+      flex-grow: 1;
+    }
+
+    input[type="range"] {
+      flex-grow: 1;
+      accent-color: gold;
+      cursor: pointer;
+    }
+
+    button.action-btn {
+      background: #1f6feb80;
+      color: #fff;
+      border: 0;
+      border-radius: 8px;
+      padding: 7px 12px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    button.action-btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+
+    .icon-btn {
+      border-radius: 50%;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: auto;
+      transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.1s ease;
+      background-color: none;
+    }
+
+    .icon-btn:active {
+      transform: scale(0.96);
+    }
+
+    #btnResync.auto {
+      color: #00C000;
+      animation: blink-animation 5s ease-in-out infinite;
+    }
+
+    .icon-btn[data-status="normal"] {}
+
+    .icon-btn[data-status="reload"] {
+      color: #00C000 !important;
+    }
+
+    .icon-btn[data-status="pending"],
+    .icon-btn[data-status="saving"] {
+      color: gold !important;
+    }
+
+    .icon-btn[data-status="reload"] .icon,
+    .icon-btn[data-status="saving"] .icon {
+      animation: spin-ccw 5s linear infinite;
+      transform-origin: center;
+    }
+
+    @keyframes spin-ccw {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(-360deg);
+      }
+    }
+
+    .icon-btn[data-status="error"] {
+      color: darkred !important;
+    }
+
+    .icon-btn[data-status="reload"],
+    .icon-btn[data-status="pending"],
+    .icon-btn[data-status="error"] {
+      animation: blink-animation 3s ease-in-out infinite;
+    }
+
+    @keyframes blink-animation {
+      0% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.3;
+        /* The minimum opacity */
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    #msg {
+      margin-top: 8px;
+      font-size: 12px;
+      opacity: .9;
+    }
+
+    .debug-info {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 11px;
+      font-family: monospace;
+      color: #a5d6ff;
+      line-height: 1.4;
+    }
+
+    .tracking-section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: rgba(255, 255, 255, 0.4);
+      margin-top: 14px;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .player-count-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      font-family: monospace;
+      font-size: 12px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+    }
+
+    .player-count-row:last-child {
+      border-bottom: none;
+    }
+
+    .player-count-row .p-name {
+      color: #eee;
+    }
+
+    .player-count-row .p-count {
+      font-weight: bold;
+      color: #a5d6ff;
+    }
+
+    .qr-container {
+      display: flex;
+      justify-content: center;
+      /* Horizontally centers the image */
+      align-items: center;
+      /* Vertically centers the image */
+      height: 200px;
+      /* Optional: Set a height for the container */
+    }
+
+    .rot-btn {
+      position: absolute;
+      z-index: 50;
+      width: 40px;
+      height: 40px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: translateY(-50%);
+      /* Centers vertically on the border */
+      user-select: none;
+    }
+
+    .rot-btn:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    .rot-btn:active {
+      background: #1f6feb;
+    }
+
+    .box-item {
+      padding: 4px 6px;
+      font-size: 12px;
+      font-family: monospace;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 4px;
+      margin-bottom: 4px;
+      color: #fff;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    #btnResync {
+      position: relative;
+    }
+
+    #btnResync>div {
+      position: relative;
+      width: 32px;
+      /* match your svg width */
+      height: 32px;
+      /* match your svg height */
+      display: inline-block;
+    }
+
+    #btnResync>div>.label {
+      position: absolute;
+      top: 75%;
+      left: 75%;
+      transform: translate(-50%, -50%);
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1;
+      color: currentColor;
+      /* or set a color */
+      pointer-events: none;
+    }
+
+    #btnToggleHand {
+      color: inherit;
+      padding: 10px;
+      font-size: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid #444;
+      color: white;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    #bubbleLayer {
+      position: fixed;
+      /* full screen regardless of scroll */
+      inset: 0;
+      /* top:0 right:0 bottom:0 left:0 */
+      width: 100vw;
+      height: 100vh;
+
+      pointer-events: none;
+      /* so bubbles don’t block UI unless they handle click themselves */
+      overflow: hidden;
+      /* prevent bubbles leaving the screen */
+
+      /* adjust if needed */
+    }
+
+    #contextTarget {
+      position: absolute;
+      width: 64px;
+      height: 90px;
+      pointer-events: auto;
+      opacity: 0.01;
+      z-index: 9999;
+      display: none;
+    }
+
+    /* Fixed Aspect Ratio Dynamic Splash Screen Overlay */
+    #splashViewer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(5, 5, 5, 0.85);
+      backdrop-filter: blur(12px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: space-around;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #splashViewer.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #splashCanvas {
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+      border-radius: 12px;
+      display: block;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style><!--#CSS-->
+</head>
+
+<body>
+  <div id="bubbleLayer">
+
+  </div>
+  <div id="app">
+    <img id="contextTarget" src="" alt="card proxy" />
+    <canvas id="c" style="z-index: 10;"></canvas>
+
+  </div>
+  <div id="hud-right">
+    <button class="btn" title="Zoom In" onclick="TableZoom(0.25)">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="11" y1="8" x2="11" y2="14"></line>
+        <line x1="8" y1="11" x2="14" y2="11"></line>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+
+    </button>
+    <div style="width: 80px;
+    margin: -14px -14px -10px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;">
+      <button id="btnRotLeft" class="btn" title="Rotate Left"
+        ondblclick="event.preventDefault();rotateSelected(-1,true)">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 4v6h6" />
+          <path d="M3.51 15a9 9 0 1 0 2.12-9.36L1 10" />
+        </svg>
+      </button>
+      <button id="btnRotRight" class="btn" title="Rotate Right"
+        ondblclick="event.preventDefault();rotateSelected(1,true)">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 4v6h-6" />
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+        </svg>
+      </button>
+    </div>
+    <button class="btn" title="Zoom Out" onclick="TableZoom(-0.25)">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="8" y1="11" x2="14" y2="11"></line>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </button>
+    <button class="btn" id="btnFlipSelected" onclick="flipSelectedAssets()" ondblclick="BringToBottom()"
+      title="Flip the Selected">
+      <svg width="36" height="36" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+
+        <rect x="4" y="4" width="16" height="16" rx="1" />
+        <path d="M4 4h16v16z" fill="currentColor" />
+      </svg>
+    </button>
+  </div>
+  <div id="footerBar">
+    <div class="footerBtnBar" style="display:none;margin-top:10px;margin-bottom:-5px;justify-content: space-between;">
+
+      <button class="btn" title="Sort Cards in Hand" onclick="SortInHand()" oncontextmenu="return false">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="curren
+          tColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- Top: left-to-right arrow -->
+          <path d="M4 7h10"></path>
+          <path d="M18 5l2 2-2 2"></path>
+          <path d="M14 7h6"></path>
+
+          <!-- Bottom: cards side-by-side -->
+          <rect x="4" y="13" width="4" height="7" rx="1"></rect>
+          <rect x="10" y="13" width="4" height="7" rx="1"></rect>
+          <rect x="16" y="13" width="4" height="7" rx="1"></rect>
+
+          <!-- Small separators to suggest ordering -->
+          <path d="M10 13V20"></path>
+          <path d="M16 13V20"></path>
+        </svg>
+
+
+      </button>
+      <button class="btn" title="Bring to Bottom/Stow" onclick="BringToBottom()" ondblclick="Stow()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36" fill="none"
+          stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <!-- Fat arrow down -->
+          <path d="M12 4v12"></path>
+          <path d="M7 10l5 5 5-5"></path>
+
+          <!-- Flattened diamond (box-like) -->
+          <path d="M0 16L12 12L24 16L12 20Z"></path>
+        </svg>
+
+
+      </button>
+    </div>
+    <div class="footerBtnBar" style="justify-content: space-between;">
+      <button id="btnToggleHand" class="btn" title="Toggle Hand Visibility" style="margin-bottom:-6px"
+        onclick="HandToggleOrSort();">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <defs>
+            <mask id="cut" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+              <!-- start: keep everything -->
+              <rect x="0" y="0" width="24" height="24" fill="white" />
+
+              <!-- remove anything inside the filled rect regions -->
+              <rect x="3" y="3" width="12" height="16" rx="2" ry="2" transform="rotate(-15 9 11)" fill="black" />
+              <rect x="6" y="1" width="12" height="16" rx="2" ry="2" fill="black" />
+              <rect x="9" y="3" width="12" height="16" rx="2" ry="2" transform="rotate(15 15 11)" fill="black" />
+            </mask>
+          </defs>
+
+          <!-- strokes only, with the “fill-hidden” parts removed -->
+          <g mask="url(#cut)">
+            <rect x="3" y="3" width="12" height="16" rx="2" ry="2" transform="rotate(-15 9 11)" fill="none" />
+            <rect x="6" y="1" width="12" height="16" rx="2" ry="2" fill="none" stroke-width="2.5" />
+            <rect x="9" y="3" width="12" height="16" rx="2" ry="2" transform="rotate(15 15 11)" fill="none" />
+          </g>
+        </svg>
+      </button>
+      <button id="btnResync" class="icon-btn btn" title="Refresh State" data-status="normal" disabled
+        style="margin-right:24px;margin-bottom:24px" onclick="ResyncButton()">
+        <div class="btn-resync-content">
+          <svg class="icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+            <path d="M3 3v5h5" />
+            <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+            <path d="M16 16h5v5" />
+          </svg>
+          <span id="btnResyncCount" class="label"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+  <div id="hud-left">
+    <div class="panel" id="setupPanel">
+      <div style="display:flex">
+        <div class="panel-header" id="btnToggleSetup">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="12" y2="12"></line>
+            <line x1="4" x2="20" y1="6" y2="6"></line>
+            <line x1="4" x2="20" y1="18" y2="18"></line>
+          </svg>
+        </div>
+        <div class="tab-bar">
+          <div class="tab-buttons">
+            <button class="tab-btn active" data-tab="tab-general">Lobby</button>
+            <button class="tab-btn" data-tab="tab-box">Items</button>
+            <button class="tab-btn" data-tab="tab-settings">Settings</button>
+          </div>
+          <div class="version-display" style="text-align: right;" id="versionDisplay"></div>
+        </div>
+      </div>
+      <div class="panel-content">
+        <div class="tab-pane active" id="tab-general">
+          <div class="row">
+            <label style="font-size:12px; opacity:.9; width: 70px;">Room Name</label>
+            <input type="text" id="gameId" value="lunch" />
+          </div>
+          <div class="row">
+            <label style="font-size:12px; opacity:.9; width: 70px;">Player Name</label>
+            <input type="text" id="playerName" value="" />
+          </div>
+          <div class="row" style="margin-top:10px;">
+            <button class="action-btn" id="btnJoin" style="width: 80%;" onclick="GameEnter()">ENTER</button>
+            <button class="action-btn" style="width: 20%;"
+              onclick="triggerSplashView(null,false,'https://api.qrserver.com/v1/create-qr-code/?size=150x150&bgcolor=000000&color=FFFFFF&data=https://magicbakery.github.io/gb.html')">QR</button>
+          </div>
+
+          <div id="msg"></div>
+        </div>
+
+        <div class="tab-pane" id="tab-actions">
+          <div style="padding: 6px 0;">
+          </div>
+        </div>
+
+        <div class="tab-pane" id="tab-box">
+          <div style="display:flex;justify-content: space-evenly;">
+            <button class="action-btn" onclick="StowAll()">Stow All</button>
+            <button class="action-btn" onclick="Stow()">Stow Selected</button>
+            <button class="action-btn" onclick="SpillAll()">Spill All</button>
+            <button class="action-btn" onclick="shuffleAssets()">Reshuffle</button>
+
+          </div>
+          <div class="tracking-section-title">Items in Hands</div>
+          <div id="countsContainer" style="max-height: 120px; overflow-y: auto; margin-bottom: 6px;">
+            <div style="font-size: 11px; opacity: 0.5; font-style: italic;">No active card connections found...</div>
+          </div>
+          <div class="tracking-section-title" style="margin-top: 0;">Items in Box</div>
+          <div id="boxContainer" style="max-height: 160px; overflow-y: auto;">
+            <div style="font-size: 11px; opacity: 0.5; font-style: italic;">Box is currently empty...</div>
+          </div>
+        </div>
+
+        <div class="tab-pane" id="tab-settings">
+          <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px; color: rgba(255,255,255,0.7);">
+            Table : Hand Ratio
+          </div>
+          <div class="row" style="gap: 12px; margin-bottom: 12px;">
+            <input type="range" id="ratioSlider" min="0" max="6" step="1" value="2" />
+            <span id="ratioDisplay"
+              style="font-family: monospace; font-size: 13px; font-weight: 700; width: 30px; text-align: right;">33%</span>
+          </div>
+
+          <div style="font-size: 12px; font-weight: 600; margin-bottom: 4px; color: rgba(255,255,255,0.7);">
+            Seat Orientation
+          </div>
+          <div class="row" style="gap: 12px;">
+            <input type="range" id="seatSlider" min="0" max="360" step="1" value="0" />
+            <span id="seatDisplay"
+              style="font-family: monospace; font-size: 13px; font-weight: 700; width: 45px; text-align: right;">0°</span>
+          </div>
+          <label>
+            <input type="checkbox" id="seating-compass"
+              onchange="localStorage.setItem('seatingCompass', event.target.checked);">
+            Show seating compass
+          </label><br>
+          <label>
+            <input type="checkbox" id="pinch-to-zoom"
+              onchange="localStorage.setItem('pinch-to-zoom', event.target.checked);">
+            Pinch to Zoom
+          </label><br>
+          <label>
+            <input type="checkbox" id="chkAutoHideSplash"> Hide hand when showing card
+          </label><br>
+          <label>
+            <input type="checkbox" id="courtesy-flip"
+              onchange="localStorage.setItem('courtesyFlip', event.target.checked);">
+            Courtesy flip
+          </label><br>
+          <label>
+            <input id="useWallpaper" type="checkbox"
+              onchange="localStorage.setItem(STORAGE_USE_KEY, String(useCheckbox.checked));applyBackground();">
+            Use wallpaper background
+
+          </label><br>
+          <label>
+            <input id="wallpaperUrl" type="url" placeholder="Wallpaper url"
+              oninput="localStorage.setItem(STORAGE_URL_KEY, urlInput.value.trim());applyBackground();">
+            <button class="action-btn" onclick="triggerSplashView(null,true,urlInput.value)">Wallpaper QR
+              code</button>
+          </label>
+
+          <div class="debug-info"><!--</div>style="display:none">-->
+            <div>Assets: <span id="debugCount">0</span></div>
+            <div>Table Pan: <span id="debugTablePan">0, 0</span> | Zoom: <span id="debugTableZoom">1.0</span>x</div>
+            <div>Hand Pan: <span id="debugHandPan">0, 0</span> | Zoom: <span id="debugHandZoom">1.0</span>x</div>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+  <div id="splashViewer" class="splashViewer active">
+    <a id="splashLink" href="#" target="_blank" rel="noopener noreferrer" style="display:block;">
+      <canvas id="splashCanvas" class="hidden"></canvas>
+    </a>
+    <img id="splashWallpaperImg" style="
+      object-fit:cover;
+      object-position:center;
+      z-index:2;
+      pointer-events:none;
+      display:none;
+    " alt="">
+  </div>
+
+  <script>
+
+    const APPS_SCRIPTS = [
+      { id: "v24", label: "v24 Shuffle", url: "https://script.google.com/macros/s/AKfycbz8S_zW0BxVHihf5UUX3fgkYbSY2o80mltCoCBrGE7dX7STwxQz4soK5WejhJk1QWjU/exec" },
+      { id: "v14", label: "v14", url: "https://script.google.com/macros/s/AKfycbyusChcUVJEcJ4x74iDFhysLjU6lW3yqXRu88oELa0oOmtmh9r2xVjT7WVC714rRJ73/exec" },
+      { id: "v21", label: "v21", url: "https://script.google.com/macros/s/AKfycbyiBM2nM1WRlUOrmGj2fRA5tAwTJyUVUTa3CtVmTKQGV4ULAzziKGMUU1cu8TV3GTvf/exec" },
+      { id: "v26", label: "v26 Good", url: "https://script.google.com/macros/s/AKfycbxBo9n_LPsaFuxuhSCFOJN1KUK_JKRTGIDtM4uW8y_Ze7sBrK2JI2t3ADZyLt_m0YCe/exec" },
+      { id: "v27", label: "v27 Good with batchApplyMove", url: "https://script.google.com/macros/s/AKfycbxcQphH43unVIagBt2fG_0VAB5lrj9WgELoYd705oqVZEhldWLQk98P6iWQZ_MiPTPp/exec" },
+      { id: "v28", label: "v28 Fetch All for Hand Count", url: "https://script.google.com/macros/s/AKfycbxg3c7y-REebdm4mkL1qJKzZmevf0kM-iC6EZtzctmJhCm22_-zcEmhdtoWEbk_ncRO/exec" },
+      { id: "v29", label: "v29 Output tag", url: "https://script.google.com/macros/s/AKfycbyKOHtQ3Mv63LFLV9TM4ihLUtymbtQBgZf1XTQK2GrmvsIgfXQUdG7lA4d6chk_OyXD/exec" },
+      { id: "v30", label: "v30 Shuffle and Distribute", url: "https://script.google.com/macros/s/AKfycbxBEaxxHoISMMx607NCwZz531b7Nw4rlKXYGvJwl9VNy5vwohrusGJC5sDG3LY11J4q/exec" },
+      { id: "v31", label: "v31 Shuffle Bug Fix", url: "https://script.google.com/macros/s/AKfycbzmSNuHPon2M0fSFJl2fo2fA975Jsu54Md0wIKBGI9Pyw0PqZsxNjOgIyj3Nr8tmI8J/exec" }
+    ];
+    let selected = "v31";
+    const VERSIONID = "20260719161307";
+    const API_BASE = APPS_SCRIPTS.find(x => x.id === selected)?.url ?? APPS_SCRIPTS[0].url;
+    // Background Image ST
+    const STORAGE_URL_KEY = "wallpaperImageUrl";
+    const STORAGE_USE_KEY = "wallpaperEnabled";
+    const urlInput = document.getElementById("wallpaperUrl");
+    const useCheckbox = document.getElementById("useWallpaper");
+    // Background Image ED
+    
+    const btnRotLeft = document.getElementById('btnRotLeft');
+    const btnRotRight = document.getElementById('btnRotRight');
+    const chkCourtesyFlip = document.getElementById('courtesy-flip');
+    chkCourtesyFlip.checked = localStorage.getItem('courtesyFlip') === 'true';
+    const chkPinchToZoom = document.getElementById('pinch-to-zoom');
+    chkPinchToZoom.checked = localStorage.getItem('pinch-to-zoom') === 'true';
+    const chkSeatingCompass = document.getElementById('seating-compass');
+    chkSeatingCompass.checked = localStorage.getItem('seatingCompass') === 'true';
+    const DOUBLE_TAP_MS = 300; // For handling double click in iPhone
+    let lastTapTs = 0; // For handling double click in iPhone
+    let ignoreNextClick = false;
+    let isHandHidden = true;
+    let rotInterval = null;
+    let originalState = null;
+    let pendingUpdates = [];
+    let activePan = false;
+    let autoSyncTimer = null;
+    let lastInteraction = new Date();
+    let lastAutoSync = new Date();
+    let panViewport = null;
+    let serverCopy = [];
+    let serverCopyByID = {};
+    let usePointerEvents = false;
+
+    // #Alphabetical Core Functions 
+    function AssetsMerge() {
+      // 20260714: StarTree: User serverCopy to update assets, but don't change items in assets already on pendingUpdates list unless it became someone else's hand item.
+      const complexOwnerId = getServerOwnerId();
+      let cat1 = 0;
+      let cat2 = 0;
+      let cat3 = 0;
+      for (const s of serverCopy) {
+        // Step 1: Find s in assets by assetId. if it doesn't exist, add it to assets/
+        const id = s.assetId;
+        let a = assetById.get(id);
+        if (!a) {
+          assets.push(s);
+          assetById.set(id, s);
+          cat1++;
+          continue;
+        }
+        // Step 2: s.region==="HAND" and s.ownerId != complexOwnerId, set a.region="HAND" and remove that id from pendingUpdates
+        if (s.region === "HAND" && s.ownerId !== complexOwnerId) {
+          assetById.set(id, s);
+          Object.assign(a, s);
+          markAssetPending(id, null, true);
+          cat2++;
+          continue;
+        }
+        // Step 3: if s is not in pendingUpdates, copy or replace the corresponding a in assets with s content.
+        if (!isPendingUpdate(id)) {
+          assetById.set(id, s);
+          Object.assign(a, s);
+          cat3++;
+        } else {
+          a.updatedAt = s.updatedAt;
+        }
+      }
+      assets = Array.from(assetById.values());
+    }
+    function BringToBottom() {
+      const minDelta = 1;
+      const selected = new Set(selectedIds);
+
+      // Decide where the selected group should land: before the min z of unselected
+      let minZUnselected = Infinity;
+      for (const a of assets) {
+        if (!selected.has(a.assetId)) {
+          minZUnselected = Math.min(minZUnselected, Number(a.z || 0));
+        }
+      }
+      if (minZUnselected === Infinity) minZUnselected = 0;
+
+      // Give each selected a new z, keeping their relative order (by current z)
+      const selectedAssets = assets
+        .filter(a => selected.has(a.assetId))
+        .sort((a, b) => Number(a.z || 0) - Number(b.z || 0));
+
+      selectedAssets.forEach((a, i) => {
+        if (a.region != "HAND") {
+          markAssetPending(a.assetId);
+
+        }
+        a.z = minZUnselected - minDelta - (selectedAssets.length - 1 - i); // push below unselected
+        markAssetSelected(a.assetId, true);
+      });
+
+      draw();
+    }
+
+    function BringToTop() {
+      const minDelta = 1;
+      const selected = new Set(selectedIds);
+      // Decide where the selected group should land: after the max z of unselected
+      let maxZUnselected = -Infinity;
+      for (const a of assets) {
+        if (!selected.has(a.assetId)) {
+          maxZUnselected = Math.max(maxZUnselected, Number(a.z || 0));
+        }
+      }
+      if (maxZUnselected === -Infinity) maxZUnselected = 0;
+
+      // Give each selected a new z, keeping their relative order (by current z)
+      const selectedAssets = assets
+        .filter(a => selected.has(a.assetId))
+        .sort((a, b) => Number(a.z || 0) - Number(b.z || 0));
+
+      selectedAssets.forEach((a, i) => {
+        if (a.region != "HAND") {
+          markAssetPending(a.assetId);
+        }
+        a.z = maxZUnselected + minDelta + i; // mutate only selected
+      });
+
+      draw();
+    }
+    async function GameEnter(){
+      const gid = (gameIdEl.value || "").trim();
+      if (!gid) return;
+      gameId = gid; myJoined = true; btnJoin.disabled = true;
+      msgEl.textContent = "Joining…";
+      updateSyncStatus("saving");
+      await WakeLock.requestScreen();
+      try {
+        await fetchState(); await warmImages(); draw();
+        msgEl.textContent = "Connected."; btnResync.disabled = false;
+        setupPanel.classList.add('collapsed');
+        updateSyncStatus("normal");
+      } catch (err) {
+        msgEl.textContent = `Join failed: ${err.message || err}`; btnJoin.disabled = false;
+        //updateSyncStatus("error");
+      }
+    }
+    function Grab(boxEl, e) {
+      if (!boxEl) return;
+      const assetId = boxEl.dataset.assetId; // preferred
+      if (!assetId) return;
+
+      const a = assetById.get(assetId);
+      if (!a) return;
+      console.log("Found");
+
+      markAssetPending(assetId);
+
+      // move to table at pointer position
+      a.region = "TABLE";
+      a.x = e.clientX;  // or use your coordinate system conversion below
+      a.y = e.clientY;
+
+      // start dragging immediately
+      isDragging = true;
+      draggingAssetId = assetId;
+
+      // optional: if you have a drag offset, set it here
+      dragOffsetX = a.x - e.clientX;
+      dragOffsetY = a.y - e.clientY;
+
+      draw();
+    }
+    function HandToggleOrSort(){
+      // Hand Toggle logic
+      isHandHidden=!isHandHidden;
+      draw();
+      if(WakeLock.isActive()){
+        spawnBubbleLayerBubble()
+      }
+      const now = Date.now();
+      if (now - lastTapTs < DOUBLE_TAP_MS) {
+        // Double tap
+        SortInHand();
+        lastTapTs = 0;
+        return;
+      }
+      lastTapTs = now;
+    }
+    function PlaceOnTable(boxEl, e, bPrecise) {
+      if (!boxEl || !boxEl.dataset.assetId) return;
+      moveAssetToTable(boxEl.dataset.assetId, bPrecise);
+      isDragging = true;
+      draggingAssetId = boxEl.dataset.assetId;
+      updateTrackedUIs();
+      draw();
+    }
+    async function SaveMoves(moves, legacyPatch, legacyExpectedUpdatedAt) {
+      if (!moves) return;
+
+      const normalizedMoves = Array.isArray(moves)
+        ? moves
+        : [{
+          assetId: moves,
+          patch: legacyPatch,
+          expectedUpdatedAt: legacyExpectedUpdatedAt
+        }];
+
+      if (normalizedMoves.length === 0) return;
+
+      const complexOwnerId = getServerOwnerId();
+
+      const payload = {
+        action: "BATCH_APPLY_MOVE",
+        gameId,
+        playerId: complexOwnerId,
+        updates: JSON.stringify(
+          normalizedMoves.map(m => ({
+            assetId: m.assetId,
+            expectedUpdatedAt: String(m.expectedUpdatedAt || ""),
+            patch: JSON.stringify(m.patch)
+          }))
+        )
+      };
+
+      const formBody = Object.keys(payload)
+        .map(k => encodeURIComponent(k) + "=" + encodeURIComponent(payload[k]))
+        .join("&");
+      updateSyncStatus("saving");
+      const res = await fetch(API_BASE, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+        body: formBody,
+        redirect: "follow"
+      });
+      markAssetPending(null, true);
+
+      const text = await res.text();
+      let data = {};
+      try { data = JSON.parse(text); } catch (e) { }
+
+      if (!res.ok || !data.ok) {
+        const err = data.error || `HTTP ${res.status}`;
+        if (err === "CONFLICT") {
+          throw Object.assign(new Error("CONFLICT"), {
+            code: "CONFLICT",
+            currentUpdatedAt: data.currentUpdatedAt || ""
+          });
+        }
+        throw new Error(err);
+      }
+      updateSyncStatus("normal");
+      return data;
+    }
+    function SortInHand() {
+      view.hand.zoom = 1.0;
+      view.hand.panX = 0;
+      view.hand.panY = 0;
+      const complexOwnerId = getServerOwnerId();
+      const handCards = assets.filter(a => (a.region || "").toString().toUpperCase() === "HAND" && a.ownerId === complexOwnerId);
+      const n = handCards.length;
+      if (!n) return;
+
+      // Sort left-to-right by assetId
+      const sorted = handCards
+        .slice()
+        .sort((a, b) => String(a.assetId).localeCompare(String(b.assetId)));
+
+      // Screen-space hand viewport
+      const midY = canvas.clientHeight * getTableSplitFactor();
+      const handTop = midY;
+      const handBottom = canvas.clientHeight;
+      const handHeight = handBottom - handTop;
+
+      const zoom = Number(view.hand.zoom || 1);
+      const panX = Number(view.hand.panX || 0);
+      const panY = Number(view.hand.panY || 0);
+
+      // Choose left/right bounds in screen space (tweak padding as needed)
+      const pad = 30;
+      const leftScreenX = pad;
+      const rightScreenX = canvas.clientWidth - pad;
+
+      // Center in both X and Y within the hand viewport
+      const centerScreenY = handTop + handHeight / 2;
+
+      sorted.forEach((a, i) => {
+        //const t = (n === 1) ? 0.5 : i / (n - 1); space between
+        const t = (i + 0.5) / n; // Space evenly
+        const targetScreenX = leftScreenX + t * (rightScreenX - leftScreenX);
+        const targetScreenY = centerScreenY;
+
+        // Convert screen -> world (match your typical draw transform: screen = world*zoom + pan)
+        a.facedown = false;
+        a.rotationDeg = 0;
+        a.z = 0;
+        a.x = targetScreenX / zoom - panX - canvas.clientWidth / 2;
+        a.y = targetScreenY / zoom - panY - targetScreenY;// - canvas.clientHeight*(1-getTableSplitFactor())/2;
+      });
+
+      saveHandToLocalStorage();
+      updateTrackedUIs();
+      draw();
+    }
+    function SpillAll() {
+      const boxItems = document.querySelectorAll('.box-item');
+      autoSyncStart(false);
+      boxItems.forEach(item => {
+        const assetId = item.dataset.assetId;
+        // Only spill items with the 
+        if (assetId) {
+          moveAssetToTable(assetId);
+        }
+      });
+
+      // Update UI and Draw once after the entire loop finishes
+      updateTrackedUIs();
+      draw();
+    }
+    function Stow() {
+      if (!confirm("Put the selected items back to the box?")) { return }
+      autoSyncStart(false);
+      for (const id of selectedIds) {
+        const a = assets.find(x => x.assetId === id);
+        if (a) {
+          markAssetPending(id);
+          a.region = "BOX";
+        }
+      }
+      updateTrackedUIs();
+      draw();
+    }
+    function StowAll() {
+      if (!confirm("Put everything back into the box?")) { return }
+      autoSyncStart(false);
+      assets.forEach(a => {
+        markAssetPending(a.assetId);
+        a.region = "BOX";
+        a.ownerId = "";
+      });
+      updateTrackedUIs();
+      draw();
+    }
+
+    function TableCenter() {
+      view.table.panX = 0;
+      view.table.panY = 0;
+
+      updateTrackedUIs?.();
+      draw?.();
+    }
+    function TableZoom(delta, { minZoom = 0.5, maxZoom = 3 } = {}) {
+      const z = Number(view.table.zoom || 1);
+
+      // delta as percent: e.g. 0.1 => +10%, -0.1 => -10%
+      const next = z * (1 + delta);
+
+      view.table.zoom = Math.min(maxZoom, Math.max(minZoom, next));
+      updateTrackedUIs?.();
+      draw?.();
+    }
+
+    // #Alphabetical Listeners    
+    document.addEventListener('DOMContentLoaded', () => {
+      const versionEl = document.getElementById('versionDisplay');
+      if (versionEl) {
+        versionEl.textContent = `Apps\u00A0Script\u00A0${selected} ${VERSIONID}`;
+      }
+    });
+
+
+
+    // #Alphabetical #Helper Functions
+    function applyBackground() {
+      const url = urlInput.value.trim();
+      const enabled = useCheckbox.checked;
+
+      if (enabled && url) {
+        document.body.style.backgroundImage = `url("${url}")`;
+        document.body.style.backgroundColor = ""; // uses CSS black unless you override it
+      } else {
+        document.body.style.backgroundImage = "none"; // black background remains
+        document.body.style.backgroundColor = "#000";
+      }
+    }
+    function autoSyncStart(bStart) {
+      const mLabel = document.getElementById("btnResyncCount");
+      if (!bStart) {
+        if (!autoSyncTimer) return;
+        btnResync.classList.remove('auto');
+        clearInterval(autoSyncTimer);
+        autoSyncTimer = null;
+        if (!hasPendingUpdates()) {
+          mLabel.innerHTML = "";
+        } else if (btnResync.dataset.status != "saving") {
+          btnResync.dataset.status = "pending";
+        }
+        return;
+      }
+      if (autoSyncTimer) return;
+      btnResync.classList.add('auto');
+      lastInteraction = new Date();
+      autoSyncTimer = setInterval(() => {
+        const t = new Date();
+        const diff = 120_000 - (t - lastInteraction);
+        if (diff <= 0) {
+          autoSyncStart(false);
+        } else if (!hasPendingUpdates()) {
+          mLabel.innerHTML = Math.floor(diff / 1000);
+          if (btnResync.dataset.status === 'normal') {
+            if (t - lastAutoSync >= 3000) {
+              resync();
+              lastAutoSync = t;
+            }
+          }
+        } else {
+          autoSyncStart(false);
+        }
+      }, 500);
+    }
+    function countPlayers() {
+      let count = 0;
+      for (const a of assets) {
+        const tag = a?.tag ?? '';
+        const region = a?.region;
+        if (tag.includes('player') && region !== 'BOX') count++;
+      }
+      return count;
+    }
+    function drawCompass() {
+      if (!chkSeatingCompass.checked) { return; }
+      let colors = ["rgba(186,90,90,1)", "rgba(247,228,155,1)", "rgba(164,208,139,1)", "rgba(134,188,189,1)", "rgba(159,161,255,1)", "rgba(255,255,255,1)"];
+      let greys = ["rgba(40,40,40,1)", "rgba(50,50,50,1)", "rgba(60,60,60,1)", "rgba(70,70,70,1)", "rgba(80,80,80,1)", "rgba(90,90,90,1)"];
+
+      const withBG = useCheckbox.checked;
+      if (withBG) {
+        colors = colors.map(c => c.replace(/,\s*1\s*\)$/, ",0.75)"));
+        greys = ["#00000060", "#000000A0", "#00000080", "#000000A0", "#00000080", "#000000A0"];
+      }
+
+      const r0 = withBG ? 2000 : 400; // Player area limit
+      const r1 = 100; // Compass Radius
+      const r2 = 5; // 100
+      const r3 = 20; // 118
+      const r4 = 12; // 106
+      const ctr = worldToScreen('table', 0, 0);
+      /*ctx.strokeStyle = "rgba(255,255,255,0.25)";
+      ctx.beginPath();
+      ctx.arc(ctr.x, ctr.y, r0 * view.table.zoom, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.strokeStyle = "rgba(255,255,255,0.1)";
+      ctx.beginPath();
+      ctx.arc(ctr.x, ctr.y, r1 * view.table.zoom, 0, Math.PI * 2);
+      ctx.stroke();*/
+
+      ctx.lineWidth = 3 * view.table.zoom;
+      let players = countPlayers();
+
+      let deg = 30;
+      let deg2 = (360 / players / 2) * Math.PI / 180;
+      let deg3 = getSeatOrientationDegrees() * Math.PI / 180;
+      const step = (Math.PI) / players;      // radians per orientation
+      const rot = getSeatOrientationDegrees() * Math.PI / 180;
+      for (let i = 0; i < players; i++) {
+        ctx.strokeStyle = colors[i];
+        ctx.fillStyle = colors[i];
+        ctx.lineWidth = 1 * view.table.zoom;
+
+
+
+        // The center arrow. Don't draw them when there is background.
+        if (!withBG) {
+          ctx.beginPath();
+          let pt1 = wtsPolar(r3, -i * 360 / players);
+          let pt2 = wtsPolar(r4, -deg - i * 360 / players);
+          let pt3 = wtsPolar(r4, +deg - i * 360 / players);
+          let pt4 = wtsPolar(r4 + 2, -i * 360 / players);
+          ctx.moveTo(pt4.x, pt4.y);
+          ctx.lineTo(pt2.x, pt2.y);
+          ctx.lineTo(pt1.x, pt1.y);
+          ctx.lineTo(pt3.x, pt3.y);
+          ctx.closePath();
+          ctx.stroke();
+          ctx.fill();
+        } else {
+          // Draw radial lines when there is a background.
+
+        }
+
+        // The dark disk sections.
+        let cr = (i * 2 * step) + rot + Math.PI / 2;
+
+        /*
+        ctx.lineWidth = withBG ? 900 * view.table.zoom : 300 * view.table.zoom;
+        //ctx.strokeStyle = withBG? "#00000060": greys[i];
+        ctx.strokeStyle = greys[i];
+        ctx.beginPath();
+        ctx.arc(ctr.x, ctr.y, (r1 + (r0 - r1) / 2) * view.table.zoom, cr - step, cr + step);
+        ctx.stroke();*/
+
+
+        const zoom = view.table.zoom;
+
+        // geometry in screen space
+        const R = (r1 + (r0 - r1) / 2) * zoom; // you were using the mid radius for the stroke
+        const outerR = r0 * zoom;
+        const innerR = (r1 + 5) * zoom;
+
+        // If your r0/r1 are “inner/outer” already, great.
+        // If they’re reversed, swap outerR/innerR below.
+        ctx.fillStyle = greys[i];
+
+        // Wedge angles
+        const a0 = cr - step;
+        const a1 = cr + step;
+
+        // Build an annulus slice path: outer arc (a0->a1) then inner arc (a1->a0)
+        const wedge = new Path2D();
+        wedge.moveTo(ctr.x + outerR * Math.cos(a0), ctr.y + outerR * Math.sin(a0));
+        wedge.arc(ctr.x, ctr.y, outerR, a0, a1, false);
+        wedge.lineTo(ctr.x + innerR * Math.cos(a1), ctr.y + innerR * Math.sin(a1));
+        wedge.arc(ctr.x, ctr.y, innerR, a1, a0, true);
+        wedge.closePath();
+
+        ctx.fill(wedge);
+
+
+
+        // The color arcs.
+        ctx.lineWidth = 10 * view.table.zoom;
+        ctx.strokeStyle = colors[i];
+        ctx.beginPath();
+        ctx.arc(ctr.x, ctr.y, r1 * view.table.zoom, cr - step, cr + step);
+        ctx.stroke();
+
+      }
+      ctx.lineWidth = 3 * view.table.zoom;
+
+    }
+    function ensureImageInCache(url) {
+      url = normalizeImageUrl(url);
+      if (!url) return Promise.resolve(null);
+
+      const existing = imgCache.get(url);
+      if (existing?._loaded && existing._image) return Promise.resolve(existing);
+      if (existing?._promise) return existing._promise;
+
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.decoding = "async";
+
+      const p = new Promise((resolve, reject) => {
+        img.onload = () => {
+          const entry = { _image: img, _loaded: true, _promise: p };
+          imgCache.set(url, entry);
+          resolve(entry);
+        };
+        img.onerror = () => {
+          reject(new Error(`Image failed to load: ${url}`));
+        };
+      });
+
+      // placeholder entry
+      imgCache.set(url, { _image: null, _loaded: false, _promise: p });
+      img.src = url;
+      return p;
+    }
+    function getOrCreateSplashWallpaperImg() {
+      let img = document.getElementById('splashWallpaperImg');
+      if (img) return img;
+
+      img = document.createElement('img');
+      img.id = 'splashWallpaperImg';
+
+      img.style.position = 'absolute';
+      img.style.left = '50%';
+      img.style.top = '50%';
+      img.style.transform = 'translate(-50%, -50%)';
+
+      img.style.objectFit = 'cover';      // fill frame
+      img.style.objectPosition = 'center';
+
+      img.style.zIndex = '2';
+      img.style.pointerEvents = 'none';   // don’t block clicks
+
+      // ensure stacking works
+      splashViewer.style.position = 'relative';
+      splashViewer.appendChild(img);
+
+      return img;
+    }
+    function handleClickAtClientXY(clientX, clientY) {
+      const rect = canvas.getBoundingClientRect();
+      const sx = clientX - rect.left;
+      const sy = clientY - rect.top;
+      const hit = hitTest(sx, sy);
+      if (!touchGesture.didPinch) {
+        if (hit) {
+          triggerSplashView(hit);
+        } else {
+          TableCenter();
+        }
+      }
+
+    }
+    function handleDragMove(e) {
+      if (!drag) return false;
+      const rect = canvas.getBoundingClientRect();
+      let clientX, clientY;
+
+      // Touch move
+      if (e.touches && e.touches.length) {
+        // Find the touch that belongs to this drag
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else if (e.changedTouches && e.changedTouches.length) { // fallback
+        clientX = e.changedTouches[0].clientX;
+        clientY = e.changedTouches[0].clientY;
+      } else {                                         // mouse
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+      //console.log(1423 + " " + clientX + " " + clientY);
+      const currentX = clientX - rect.left;
+      const currentY = clientY - rect.top;
+      pointer.x = currentX;
+      pointer.y = currentY;
+      drag.hasMovedSignificantAmount = true;
+      markAssetSelected(drag.assetId);
+      BringToTop();
+
+      const currentVp = getViewportForPointer(pointer.x, pointer.y);
+      const a = assetById.get(drag.assetId);
+
+      // Detect if we crossed the border
+      if (currentVp !== drag.viewport && a) {
+        drag.viewport = currentVp;
+        a.region = currentVp === "hand" ? "HAND" : "TABLE";
+
+        if (a.region === "HAND") {
+          a.rotationDeg = 0; // Upright to player in hand
+        } else {
+          // Rotate to match table orientation
+          if (chkCourtesyFlip.checked) {
+            a.rotationDeg = (360 - getSeatOrientationDegrees() + 180) % 360;
+          } else {
+            a.rotationDeg = (360 - getSeatOrientationDegrees()) % 360;
+          }
+        }
+      }
+      if (a && a.region === "TABLE") {
+        markAssetPending(drag.assetId);
+      }
+
+      // Apply movement
+      const world = screenToWorld(drag.viewport, pointer.x, pointer.y);
+      if (a) {
+        a.x = drag.startAsset.x + (world.x - drag.startPointerWorld.x);
+        a.y = drag.startAsset.y + (world.y - drag.startPointerWorld.y);
+        draw();
+      }
+
+      return true;
+    }
+    function isSelected(id) {
+      return Array.isArray(selectedIds) && selectedIds.includes(id);
+    }
+    function isPendingUpdate(id) {
+      return Array.isArray(pendingUpdates) && pendingUpdates.includes(id);
+    }
+    function hasPendingUpdates() {
+      return Array.isArray(pendingUpdates) && pendingUpdates.length > 0;
+    }
+    function hasSelected() {
+      return Array.isArray(selectedIds) && selectedIds.length > 0;
+    }
+    function loadFromStorage() {
+      const savedUrl = localStorage.getItem(STORAGE_URL_KEY) || "https://substackcdn.com/image/fetch/$s_!hwJo!,w_1537,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe2d77ecd-00d7-49ca-93a6-9ecd056768be_1537x1023.png";
+      const savedEnabled = localStorage.getItem(STORAGE_USE_KEY);
+      urlInput.value = savedUrl;
+
+      // Default behavior: if not set yet, don't enable wallpaper
+      useCheckbox.checked = savedEnabled ? (savedEnabled === "true") : true;
+
+      applyBackground();
+    }
+    function loadImageWithCache(imgCache, url) {
+      const finalUrl = normalizeImageUrl(url);
+
+      if (imgCache.has(finalUrl)) return imgCache.get(finalUrl);
+
+      const p = new Promise((resolve, reject) => {
+        const img = new Image();
+        // Must be set BEFORE src
+        img.crossOrigin = "anonymous";
+
+        img.onload = () => resolve(img);
+        img.onerror = () => {
+          reject(new Error(`Image failed to load: ${url}`));
+        };
+
+        img.src = finalUrl;
+      });
+
+      const record = p.then(img => {
+        record._image = img;
+        record._loaded = true;
+        return img;
+      });
+
+      record._image = null;
+      record._loaded = false;
+      imgCache.set(finalUrl, record);
+      return record;
+    }
+    function markAssetPending(id, bClear, bRemoveIfFound) {
+      const mLabel = document.getElementById("btnResyncCount");
+      if (bClear) {
+        pendingUpdates = [];
+        originalStatesById = [];
+        if (!btnResync.classList.contains('auto')) {
+          mLabel.innerHTML = "";
+        }
+        updateSyncStatus("normal");
+
+        return;
+      }
+      if (!id) return;
+      if (!Array.isArray(pendingUpdates)) return;
+      const a = assetById.get(id);
+      if (!a) { return; }
+
+      if (bRemoveIfFound) {
+        if (isPendingUpdate(id)) {
+          pendingUpdates = pendingUpdates.filter(x => x !== id);
+        }
+      } else {
+        if (!isPendingUpdate(id)) {
+          originalStatesById[id] = JSON.stringify({
+            x: a.x, y: a.y, z: a.z, rotationDeg: a.rotationDeg,
+            facedown: a.facedown, region: a.region, ownerId: a.ownerId
+          });
+        }
+        if (!isPendingUpdate(id)) {
+          pendingUpdates.push(id);
+          spawnBubbleLayerBubble();
+        }
+      }
+
+      selectedId = selectedIds.length ? selectedIds[selectedIds.length - 1] : null;
+      const mPend = pendingUpdates.length;
+      if (mPend > 0) {
+        mLabel.innerHTML = mPend;
+        updateSyncStatus("pending");
+      } else {
+        mLabel.innerHTML = "";
+        updateSyncStatus("normal");
+      }
+    }
+    function markAssetSelected(id, bRemove) {
+      if (!id) return;
+      if (!Array.isArray(selectedIds)) return;
+      selectedIds = selectedIds.filter(x => x !== id);
+      if (!bRemove) {
+        selectedIds.push(id);
+      }
+      selectedId = selectedIds.length ? selectedIds[selectedIds.length - 1] : null;
+    }
+    function moveAssetToTable(assetId, bPrecise) {
+      const a = assetById.get(assetId);
+      if (!a) return;
+
+      markAssetPending(assetId);
+
+      const cx = canvas.clientWidth / 2;
+      let cy = (canvas.clientHeight * getTableSplitFactor()) / 2;
+      if(isHandHidden){
+        cy = (canvas.clientHeight) / 2;
+      }
+      if (bPrecise) {
+        cy = canvas.clientHeight * getTableSplitFactor() - 50;
+      }
+      const world = screenToWorld("table", cx, cy);
+
+      const size = Math.min(canvas.clientWidth, canvas.clientHeight) / 2.5;
+      const angle = Math.random() * 2 * Math.PI;
+      let radius = Math.max(150, Math.sqrt(Math.random()) * size);
+      if (a.tag.includes("player")) {
+        radius = 55;
+      } else if (a.tag == "") {
+        radius = 0;
+      }
+
+      if (bPrecise) {
+        a.x = world.x;
+        a.y = world.y;
+        a.rotationDeg = (360 - getSeatOrientationDegrees()) % 360
+      } else {
+        a.x = world.x + (Math.cos(angle) * radius);
+        a.y = world.y + (Math.sin(angle) * radius);
+        a.rotationDeg = Math.floor(Math.random() * 360);
+      }
+
+
+      a.z = 0;
+      a.region = "TABLE";
+    }
+    function normalizeImageUrl(u) {
+      return u ? String(u).trim() : u;
+    }
+    function setOriginalStateForAsset(assetId) {
+      const a = assetById.get(assetId);
+      if (!a) return;
+      originalStatesById[assetId] = JSON.stringify({
+        x: a.x, y: a.y, z: a.z, rotationDeg: a.rotationDeg,
+        facedown: a.facedown, region: a.region, ownerId: a.ownerId
+      });
+    }
+    function setSplashWallpaperOverlay(imgEl, { src, widthPx, heightPx, show }) {
+      if (!imgEl) return;
+
+      if (!show || !src) {
+        imgEl.style.display = 'none';
+        imgEl.src = '';
+        return;
+      }
+
+      imgEl.style.display = 'block';
+      imgEl.src = src;
+      imgEl.style.width = `${Math.round(widthPx)}px`;
+      imgEl.style.height = `${Math.round(heightPx)}px`;
+    }
+    function spawnBubbleLayerBubble({
+      containerId = "bubbleLayer",
+      minSize = 16,
+      maxSize = 64,
+      minRiseMs = 3500,
+      maxRiseMs = 9000,
+      minLifetimeMs = 2500,
+      maxLifetimeMs = 12000,
+      clickToDestroy = true,
+    } = {}) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      const cs = getComputedStyle(container);
+      if (cs.position === "static") container.style.position = "relative";
+      container.style.overflow = cs.overflow === "visible" ? "visible" : "hidden";
+
+      const rect = container.getBoundingClientRect();
+      if (rect.height <= 0) {
+        console.warn(`#${containerId} has height ${rect.height}. Bubbles won't be visible.`);
+        return;
+      }
+
+      const rand = (a, b) => a + Math.random() * (b - a);
+      const rint = (a, b) => Math.floor(rand(a, b));
+
+      const size0 = rand(minSize, maxSize);
+      const size1 = rand(minSize * 0.50, maxSize * 2);
+      const riseMs = rint(minRiseMs, maxRiseMs);
+      const lifetimeMs = rint(minLifetimeMs, maxLifetimeMs);
+
+      const x = rand(0, Math.max(0, rect.width - size0));
+      const risePx = Math.max(60, rect.height * rand(0.35, 0.85));
+
+      // keep alpha as-is (low)
+      const alpha = rand(0.08, 0.22); // low alpha for the fill (tweak if needed)
+      // const hue = rint(180, 320); // no longer needed
+
+      const bubble = document.createElement("div");
+      const animName = `bubbleRise_${Math.random().toString(16).slice(2)}`;
+
+      bubble.style.position = "absolute";
+      bubble.style.left = `${x}px`;
+      bubble.style.bottom = rint(-100, -50) + "px";
+      bubble.style.width = `${size0}px`;
+      bubble.style.height = `${size0}px`;
+      bubble.style.borderRadius = "50%";
+      bubble.style.pointerEvents = "auto";
+      bubble.style.cursor = "none";
+
+      // White fill with low alpha
+      bubble.style.background = `rgba(255, 255, 255, ${alpha})`;
+
+      // White border (slightly transparent)
+      bubble.style.border = `2px solid rgba(255, 255, 255, ${Math.min(1, alpha * 1.8)})`;
+
+      // White glow
+      bubble.style.boxShadow = `0 0 18px rgba(255, 255, 255, ${Math.min(1, alpha * 1.0)})`;
+
+      bubble.style.backdropFilter = "blur(2px)";
+      bubble.style.opacity = "1";
+
+      const style = document.createElement("style");
+      style.textContent = `
+    @keyframes ${animName} {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1);
+        width: ${size0}px;
+        height: ${size0}px;
+        opacity: 1;
+      }
+      100% {
+        transform: translate3d(0, ${-risePx}px, 0) scale(1);
+        width: ${size1}px;
+        height: ${size1}px;
+        opacity: 0;
+      }
+    }
+  `;
+      document.head.appendChild(style);
+
+      let destroyed = false;
+      const destroy = () => {
+        if (destroyed) return;
+        destroyed = true;
+        bubble.removeEventListener("click", destroy);
+        bubble.removeEventListener("pointerdown", destroy);
+        bubble.remove();
+        style.remove();
+      };
+
+      bubble.style.animation = `${animName} ${riseMs}ms linear forwards`;
+
+      const timer = setTimeout(destroy, lifetimeMs);
+
+      if (clickToDestroy) {
+        bubble.addEventListener("click", () => {
+          clearTimeout(timer);
+          destroy();
+        }, { once: true });
+
+        bubble.addEventListener("pointerdown", () => {
+          clearTimeout(timer);
+          destroy();
+        }, { once: true });
+      }
+
+      container.appendChild(bubble);
+    }
+
+    function toggleInList(list, id) {
+      const i = list.indexOf(id);
+      if (i >= 0) list.splice(i, 1);
+      else list.push(id);
+    }
+    
+    function wrapText(ctx, text, maxWidth) {
+      const words = String(text).split(/\s+/);
+      const lines = [];
+      let line = "";
+
+      for (const word of words) {
+        const test = line ? `${line} ${word}` : word;
+        if (ctx.measureText(test).width <= maxWidth) {
+          line = test;
+        } else {
+          if (line) lines.push(line);
+          line = word; // start new line with the word that overflowed
+        }
+      }
+
+      if (line) lines.push(line);
+      return lines;
+    }
+    function wtsPolar(r, deg) {
+      // 0 deg is at the bottom of the circle
+      // 90 deg is on the right side of the circle.
+      return point = worldToScreen('table', r * Math.sin(deg * Math.PI / 180), r * Math.cos(deg * Math.PI / 180));
+    }
+
+    //==Vibe Code Results==
+    let deviceId = localStorage.getItem("ClientBD");
+    if (!deviceId) {
+      deviceId = String(Date.now());
+      localStorage.setItem("ClientBD", deviceId);
+    }
+    const savedName = localStorage.getItem("playerNameCache");
+    if (savedName) {
+      document.getElementById('playerName').value = savedName;
+    }
+    const chkAutoHide = document.getElementById('chkAutoHideSplash');
+    const storedValue = localStorage.getItem('hideHandOnSplash');
+    const isChecked = storedValue === null ? true : storedValue === 'true';
+    chkAutoHide.checked = isChecked;
+    if (storedValue === null) {
+      localStorage.setItem('hideHandOnSplash', 'true');
+    }
+    chkAutoHide.addEventListener('change', () => {
+      localStorage.setItem('hideHandOnSplash', chkAutoHide.checked);
+    });
+    document.getElementById('playerName').addEventListener('input', (e) => {
+      localStorage.setItem("playerNameCache", e.target.value);
+    });
+
+    function bringToFront(assetId) {
+      const index = assets.findIndex(a => a.assetId === assetId);
+      if (index > -1) {
+        // Remove the asset from its current position
+        const asset = assets.splice(index, 1)[0];
+        // Add it to the end of the array so it draws last (on top)
+        assets.push(asset);
+      }
+    }
+    function getServerOwnerId() {
+      const currentDisplayName = document.getElementById('playerName').value.trim() || "Player";
+      return `${deviceId}|${currentDisplayName}`;
+    }
+    async function flipSelectedAssets(bFaceUp) {
+      if (!hasSelected()) return;
+      let bInHand = false;
+      for (const id of selectedIds) {
+        const a = assetById.get(id);
+        if (!a) continue;
+        let bNext = a.facedown;
+        // Toggle / set facedown
+        if (bFaceUp == null) {
+          bNext = !a.facedown;
+        } else if (bFaceUp) {
+          bNext = false;
+        } else {
+          bNext = true;
+        }
+        // Force whatever local HAND behavior you had
+        bInHand |= (a.region === "HAND");
+        if (a.region === "HAND") {
+          // NO need to report to server when the card is in a user's hand.
+        } else if (bNext != a.facedown) {
+          markAssetPending(a.assetId);
+        }
+        a.facedown = bNext;
+      }
+      if (bInHand) { saveHandToLocalStorage(); }
+      updateTrackedUIs();
+      draw();
+    }
+
+    function parseDisplayName(rawOwnerId) {
+      if (!rawOwnerId) return "Unknown Player";
+      const splitIdx = rawOwnerId.indexOf('|');
+      if (splitIdx === -1) return rawOwnerId;
+      return rawOwnerId.substring(splitIdx + 1);
+    }
+
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+    const contextTarget = document.getElementById('contextTarget');
+    const splashViewer = document.getElementById('splashViewer');
+    const splashCanvas = document.getElementById('splashCanvas');
+    const splashCtx = splashCanvas.getContext('2d');
+
+    const setupPanel = document.getElementById('setupPanel');
+    document.getElementById('btnToggleSetup').addEventListener('click', () => {
+      setupPanel.classList.toggle('collapsed');
+    });
+
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        tabButtons.forEach(t => t.classList.remove('active'));
+        tabPanes.forEach(p => p.classList.remove('active'));
+
+        btn.classList.add('active');
+        document.getElementById(btn.getAttribute('data-tab')).classList.add('active');
+      });
+    });
+
+    // Config ratio mappings
+    const ratioSlider = document.getElementById('ratioSlider');
+    const ratioDisplay = document.getElementById('ratioDisplay');
+    const RATIO_MAP = [
+      { label: "0%", table: 1.00, hand: 0.00 },
+      { label: "25%", table: 0.75, hand: 0.25 },
+      { label: "33%", table: 0.67, hand: 0.33 },
+      { label: "50%", table: 0.50, hand: 0.50 },
+      { label: "67%", table: 0.33, hand: 0.67 },
+      { label: "75%", table: 0.25, hand: 0.75 },
+      { label: "100%", table: 0.0, hand: 1.00 }
+    ];
+
+    const savedRatioIndex = localStorage.getItem("sandbox_ratio_index");
+    if (savedRatioIndex !== null) {
+      ratioSlider.value = savedRatioIndex;
+      ratioDisplay.textContent = RATIO_MAP[parseInt(savedRatioIndex, 10)].label;
+    }
+
+    function getTableSplitFactor() {
+      return RATIO_MAP[parseInt(ratioSlider.value, 10)].table;
+    }
+
+    ratioSlider.addEventListener('input', () => {
+      ratioDisplay.textContent = RATIO_MAP[parseInt(ratioSlider.value, 10)].label;
+      localStorage.setItem("sandbox_ratio_index", ratioSlider.value);
+      draw(); updateButtonPositions();
+    });
+
+    // Update the button handlers
+    function rotateSelected(delta, bToNext) {
+      // Rotate all selected cards
+      const players = countPlayers();
+      const rOriginal = seatSlider.value;
+      if (Array.isArray(selectedIds) && selectedIds.length) {
+        for (const id of selectedIds) {
+          const a = assetById.get(id);
+          if (!a) continue;
+          markAssetPending(id);
+          a.rotationDeg = (a.rotationDeg + delta + 360) % 360;
+        }
+      } else {
+        // Nothing selected -> rotate the table
+        let current = parseInt(seatSlider.value, 10);
+        let next = (current + delta + 360) % 360;
+        if (bToNext && players > 1) {
+          const step = 360 / players;
+          const idxFloat = next / step;
+          const idx = (delta >= 0)
+            ? Math.ceil(idxFloat) % players
+            : (Math.floor(idxFloat) + players) % players;
+          next = idx * step;
+          next = (next + 360) % 360;
+
+        }
+
+
+
+        seatSlider.value = next;
+        seatDisplay.textContent = `${next}°`;
+        localStorage.setItem("sandbox_seat_value", next);
+
+        // Fix the world center as if the player is going around the center, and not the player looking around.
+        const deltaDeg = ((next - current + 360) % 360);
+        const d = -(deltaDeg * Math.PI) / 180;
+        const { panX, panY } = view.table;
+        view.table.panX = panX * Math.cos(d) - panY * Math.sin(d);
+        view.table.panY = panX * Math.sin(d) + panY * Math.cos(d);
+      }
+
+      draw();
+    }
+
+    // Press and hold logic (replaces your previous startRotation)
+    function startRotation(delta) {
+      if (rotInterval) clearInterval(rotInterval);
+      rotateSelected(delta);
+      rotInterval = setInterval(() => rotateSelected(delta), 50);
+    }
+
+    function stopRotation() {
+      clearInterval(rotInterval);
+      rotInterval = null;
+    }
+    // Add Event Listeners
+    [btnRotLeft, btnRotRight].forEach(btn => {
+      const delta = (btn === btnRotLeft) ? -5 : 5;
+      btn.addEventListener('mousedown', () => startRotation(delta));
+      btn.addEventListener('touchstart', (e) => { startRotation(delta); });
+      btn.addEventListener('mouseup', stopRotation);
+      btn.addEventListener('mouseleave', stopRotation);
+      btn.addEventListener('touchend', stopRotation);
+    });
+
+    // Sync button position with the Table/Hand border
+    // Update this inside your resize() or whenever TableSplitFactor changes
+    function updateButtonPositions() {
+      const midY = canvas.clientHeight * getTableSplitFactor();
+      btnRotLeft.style.top = midY + 'px';
+      btnRotRight.style.top = midY + 'px';
+    }
+
+    // Attach to existing resize function
+    window.addEventListener('resize', () => {
+      resize();
+      updateButtonPositions();
+    });
+    // Initial call
+    updateButtonPositions();
+
+    // Seating Config mapping rules
+    const seatSlider = document.getElementById('seatSlider');
+    const seatDisplay = document.getElementById('seatDisplay');
+    const SEAT_DEGREES = [0, 90, 180, 270, 360];
+
+    // Load saved value directly
+    const savedSeatValue = localStorage.getItem("sandbox_seat_value");
+    if (savedSeatValue !== null) {
+      seatSlider.value = savedSeatValue;
+      seatDisplay.textContent = `${seatSlider.value}°`;
+    }
+
+    function getSeatOrientationDegrees() {
+      return parseInt(seatSlider.value, 10);
+    }
+
+    seatSlider.addEventListener('input', () => {
+      seatDisplay.textContent = `${seatSlider.value}°`;
+      localStorage.setItem("sandbox_seat_value", seatSlider.value);
+      draw();
+    });
+
+
+
+
+    function resize() {
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      canvas.width = Math.floor(canvas.clientWidth * dpr);
+      canvas.height = Math.floor(canvas.clientHeight * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function tableRect() {
+      if (isHandHidden) {
+        return { x: 0, y: 0, w: canvas.clientWidth, h: canvas.clientHeight };
+      } else {
+        return { x: 0, y: 0, w: canvas.clientWidth, h: canvas.clientHeight * getTableSplitFactor() };
+      }
+    }
+    function handRect() {
+      const r = tableRect();
+      return { x: 0, y: r.h, w: r.w, h: canvas.clientHeight - r.h };
+    }
+
+    const view = { table: { zoom: 1.0, panX: 0, panY: 0 }, hand: { zoom: 1.0, panX: 0, panY: 0 } };
+
+    function screenToWorld(viewport, sx, sy) {
+      const r = viewport === 'table' ? tableRect() : handRect();
+      const v = view[viewport];
+
+      let dx = sx - r.x - r.w * 0.5;
+      let dy = sy - r.y - r.h * 0.5;
+
+      if (viewport === 'table') {
+        const angleRad = -getSeatOrientationDegrees() * Math.PI / 180;
+        const rx = dx * Math.cos(angleRad) - dy * Math.sin(angleRad);
+        const ry = dx * Math.sin(angleRad) + dy * Math.cos(angleRad);
+        dx = rx; dy = ry;
+      }
+
+      return { x: (dx - v.panX) / v.zoom, y: (dy - v.panY) / v.zoom };
+    }
+
+    function getCardRadiusFromCSS() {
+      const value = window.getComputedStyle(document.documentElement).getPropertyValue('--card-radius').trim();
+      const parsed = parseFloat(value);
+      return isNaN(parsed) ? 6 : parsed;
+    }
+
+    function worldToScreen(viewport, wx, wy) {
+      const r = viewport === 'table' ? tableRect() : handRect();
+      const v = view[viewport];
+
+      let lx = wx * v.zoom + v.panX;
+      let ly = wy * v.zoom + v.panY;
+
+      if (viewport === 'table') {
+        const angleRad = getSeatOrientationDegrees() * Math.PI / 180;
+        const rx = lx * Math.cos(angleRad) - ly * Math.sin(angleRad);
+        const ry = lx * Math.sin(angleRad) + ly * Math.cos(angleRad);
+        lx = rx; ly = ry;
+      }
+
+      return { x: r.x + r.w * 0.5 + lx, y: r.y + r.h * 0.5 + ly };
+    }
+
+    const gameIdEl = document.getElementById('gameId');
+    const btnJoin = document.getElementById('btnJoin');
+    const btnResync = document.getElementById('btnResync');
+    const btnFlipSelected = document.getElementById('btnFlipSelected');
+    const msgEl = document.getElementById('msg');
+    const countsContainer = document.getElementById('countsContainer');
+    const boxContainer = document.getElementById('boxContainer');
+
+    const debugCountEl = document.getElementById('debugCount');
+    const debugTablePanEl = document.getElementById('debugTablePan');
+    const debugTableZoomEl = document.getElementById('debugTableZoom');
+    const debugHandPanEl = document.getElementById('debugHandPan');
+    const debugHandZoomEl = document.getElementById('debugHandZoom');
+
+    let gameId = ""; let myJoined = false;
+    let assets = []; let assetById = new Map();
+    let selectedIds = []; // new
+    let originalStatesById = {};
+    let selectedId = null; // keep existing name for legacy
+    let drag = null; let panDrag = null; let pointer = { x: 0, y: 0 };
+    let touchGesture = {
+      active: false,
+      lastDistance: 0,
+      lastTouches: [],
+      targetView: null // Will be 'table' or 'hand'
+    };
+    function updateSyncStatus(status) {
+      btnResync.setAttribute('data-status', status);
+    }
+
+    window.addEventListener('beforeunload', (e) => {
+      if (selectedId || hasPendingUpdates()) {
+        trySaveAsset(selectedId);
+      }
+      if (myJoined) {
+        e.preventDefault();
+        e.returnValue = 'Are you sure you want to exit? Local modifications inside your hand region may be forgotten.';
+        return e.returnValue;
+      }
+    });
+
+    function getStorageKey() {
+      return `cardsandbox_${gameId}_${deviceId}_hand`;
+    }
+    function saveHandToLocalStorage() {
+      if (!gameId || !deviceId) return;
+      const complexOwnerId = getServerOwnerId();
+      const handData = assets
+        .filter(a => (a.region || "").toString().toUpperCase() === "HAND" && a.ownerId === complexOwnerId)
+        .map(a => ({ assetId: a.assetId, x: a.x, y: a.y, z: a.z, rotationDeg: a.rotationDeg, facedown: a.facedown }));
+      localStorage.setItem(getStorageKey(), JSON.stringify(handData));
+      updateTrackedUIs();
+    }
+    function applyHandFromLocalStorage() {
+      try {
+        const raw = localStorage.getItem(getStorageKey());
+        if (!raw) return;
+        const localHand = JSON.parse(raw);
+        const complexOwnerId = getServerOwnerId();
+        for (const item of localHand) {
+          const match = assetById.get(item.assetId);
+          if (match && match.region === "HAND" && match.ownerId == complexOwnerId) {
+            match.x = item.x;
+            match.y = item.y;
+            match.rotationDeg = item.rotationDeg;
+            match.facedown = item.facedown;
+          }
+        }
+      } catch (e) { console.error("Hand recovery crash", e); }
+    }
+
+    function updateTrackedUIs() {
+      const metrics = new Map();
+      const boxItems = [];
+
+      for (const asset of assets) {
+        const reg = (asset.region || "").toString().toUpperCase();
+        if (reg === "HAND") {
+          const rawOwner = asset.ownerId || "";
+          const displayName = parseDisplayName(rawOwner);
+          metrics.set(displayName, (metrics.get(displayName) || 0) + 1);
+        } else if (reg === "BOX") {
+          boxItems.push({
+            label: asset.name || `Asset (${asset.assetId})`,
+            id: asset.assetId
+          });
+        }
+      }
+
+      if (metrics.size === 0) {
+        countsContainer.innerHTML = `<div style="font-size: 11px; opacity: 0.5; font-style: italic;">No active card connections found...</div>`;
+      } else {
+        let html = "";
+        const sortedPlayers = [...metrics.keys()].sort();
+        for (const player of sortedPlayers) {
+          html += `
+              <div class="player-count-row">
+                <span class="p-name">${player}</span>
+                <span class="p-count">${metrics.get(player)} cards</span>
+              </div>
+            `;
+        }
+        countsContainer.innerHTML = html;
+      }
+
+      if (boxItems.length === 0) {
+        boxContainer.innerHTML = `<div style="font-size: 11px; opacity: 0.5; font-style: italic;">Box is currently empty...</div>`;
+      } else {
+        boxContainer.innerHTML = boxItems.map(item => `<div class="box-item" data-asset-id="${item.id}" onclick="PlaceOnTable(this, event,true)">${item.id}: ${item.label}</div>`).join('');
+      }
+
+      btnFlipSelected.disabled = !selectedId;
+    }
+
+    const imgCache = new Map();
+    function loadImage(url) {
+      if (!url || url.includes('|')) return Promise.resolve(null);
+      if (imgCache.has(url)) return imgCache.get(url);
+      const im = new Image();
+      const p = new Promise((resolve) => {
+        im.onload = () => { p._loaded = true; draw(); resolve(im); };
+        im.onerror = () => { p._loaded = false; resolve(null); };
+        im.src = url;
+      });
+      p._image = im; p._loaded = false;
+      imgCache.set(url, p);
+      return p;
+    }
+
+    function formatColorString(rawColor) {
+      if (!rawColor) return "rgba(45, 110, 210, 0.4)";
+      let cleaned = rawColor.trim();
+      if (cleaned.startsWith('0x') || cleaned.startsWith('0X')) {
+        return '#' + cleaned.slice(2);
+      }
+      return cleaned;
+    }
+
+    function parsePlaceholder(urlStr) {
+      if (!urlStr || !urlStr.includes('|')) return null;
+
+      const front = { shape: 'card', size: 64, color: 'rgba(45, 110, 210, 0.4)', number: null };
+      const back = { shape: null, size: null, color: 'saddlebrown' };
+      const tokens = urlStr.split('|');
+      const counts = { shape: 0, size: 0, color: 0 };
+
+      for (const token of tokens) {
+        const [key, val] = token.split(':');
+        if (key && val) {
+          const k = key.trim().toLowerCase();
+          const v = val.trim();
+
+          if (k === 'shape') {
+            counts.shape++;
+            if (counts.shape === 1) front.shape = v.toLowerCase();
+            else if (counts.shape === 2) back.shape = v.toLowerCase();
+          } else if (k === 'size') {
+            counts.size++;
+            const parsedSize = parseFloat(v) || 64;
+            if (counts.size === 1) front.size = parsedSize;
+            else if (counts.size === 2) back.size = parsedSize;
+          } else if (k === 'color') {
+            counts.color++;
+            const formattedColor = formatColorString(v);
+            if (counts.color === 1) front.color = formattedColor;
+            else if (counts.color === 2) back.color = formattedColor;
+          } else if (k === 'number') {
+            // 2. Add the number argument
+            front.number = v;
+          }
+        }
+      }
+
+      if (!back.shape) back.shape = front.shape;
+      if (!back.size) back.size = front.size;
+      if (!back.color) back.color = "#141414";
+
+      return { front, back };
+    }
+
+    function getAssetDimensions(card) {
+      const definition = parsePlaceholder(card.imageUrl);
+      if (definition) {
+        const target = !!card.facedown ? definition.back : definition.front;
+        if (target.shape === 'card') {
+          return { w: target.size, h: target.size * 1.4, isPlaceholder: true, config: target };
+        }
+        return { w: target.size, h: target.size, isPlaceholder: true, config: target };
+      }
+      if (card) {
+        return { w: card.w, h: card.h, isPlaceholder: false, config: card.config };
+      } else {
+        return { w: 64, h: 64 * 1.4, isPlaceholder: false, config: null };
+      }
+    }
+    function getDistance(t1, t2) {
+      const dx = t1.clientX - t2.clientX;
+      const dy = t1.clientY - t2.clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+    function apiUrl(action, params) {
+      const u = new URL(API_BASE);
+      u.searchParams.set("action", action);
+      for (const [k, v] of Object.entries(params || {})) u.searchParams.set(k, v);
+      u.searchParams.set("_t", Date.now().toString());
+      return u.toString();
+    }
+
+    async function fetchState() {
+      const complexOwnerId = getServerOwnerId();
+      const url = apiUrl("GET_STATE", { gameId, playerId: complexOwnerId });
+      const res = await fetch(url, { method: 'GET', redirect: "follow" });
+      if (!res.ok) throw new Error(`GET_STATE failed: ${res.status}`);
+      const rawText = await res.text();
+      let data = JSON.parse(rawText);
+      if (!data.ok && data.error) throw new Error(data.error);
+
+      // Store the data from server to serverCopy.
+      serverCopy = data.assets || [];
+      serverCopyById = new Map(serverCopy.map(s => [s.assetId, s]));
+
+      AssetsMerge();
+      //assets = data.assets || [];
+      //assetById = new Map(assets.map(a => [a.assetId, a]));
+
+      applyHandFromLocalStorage();
+      debugCountEl.textContent = assets.length;
+      updateTrackedUIs();
+      draw();
+    }
+
+    async function tryWithResync(fn) {
+      try { return await fn(); } catch (e) {
+        if (e && e.code === "CONFLICT") { await fetchState(); return await fn(); }
+        throw e;
+      }
+    }
+
+    async function resync() {
+      msgEl.textContent = "Refreshing…";
+      btnResync.disabled = true;
+      updateSyncStatus("reload");
+      try {
+        await fetchState();
+        await warmImages();
+        msgEl.textContent = "Refreshed.";
+      } catch (err) {
+        //updateSyncStatus("error");
+        throw err;
+      } finally {
+        btnResync.disabled = false;
+        applyHandFromLocalStorage();
+        updateTrackedUIs();
+        if (!hasPendingUpdates()) { draw() }
+      }
+    }
+
+    function getViewportForPointer(sx, sy) {
+      if (isHandHidden) { return "table"; }
+      return (sy < canvas.clientHeight * getTableSplitFactor()) ? "table" : "hand";
+    }
+
+    function drawCardToCtx(context, card, x, y, scale, isSelected, relativeToViewport) {
+      const cachedPromise = imgCache.get(card.imageUrl);
+      const dims = getAssetDimensions(card);
+      let w = dims.w;
+      let h = dims.h;
+      let isPlaceholder = dims.isPlaceholder;
+      let config = dims.config;
+
+      if ((!w || !h) && cachedPromise?._image) {
+          w = cachedPromise._image.naturalWidth/8;
+          h = cachedPromise._image.naturalHeight/8;
+          card.w = w;
+          card.h = h;
+      }
+
+
+      const radius = getCardRadiusFromCSS();
+
+      context.save();
+      context.translate(x, y);
+      context.scale(scale, scale);
+
+      let finalRotation = (card.rotationDeg || 0);
+      if (relativeToViewport === 'table') {
+        finalRotation += getSeatOrientationDegrees();
+      }
+      context.rotate(finalRotation * Math.PI / 180);
+
+      // --- Selection / Background Drawing ---
+      if (isSelected) {
+        context.shadowBlur = 12;
+        context.shadowColor = "#ffd700";
+        context.strokeStyle = "#ffd700";
+        context.lineWidth = 3;
+      } else {
+        //Shadow
+        context.globalAlpha = 0.35;
+        context.fillStyle = "#000";
+        context.beginPath();
+        if (isPlaceholder && config.shape === 'disk') {
+          context.arc(0, 0, w / 2 + 1, 0, Math.PI * 2);
+        } else {
+          context.roundRect(-w / 2 + -1, -h / 2 + -1, w + 2, h + 2, radius);
+        }
+        context.fill();
+        context.globalAlpha = 1;
+        context.shadowBlur = 0;
+      }
+      // --- Card Face Rendering ---
+      if (!!card.facedown && !isPlaceholder) {
+        context.fillStyle = "saddlebrown";
+        context.beginPath();
+        context.roundRect(-w / 2, -h / 2, w, h, radius);
+        context.fill();
+
+        context.strokeStyle = "#ffffff";
+        context.lineWidth = 1.5;
+        context.beginPath();
+        context.roundRect(-w / 2 + 4, -h / 2 + 4, w - 8, h - 8, Math.max(1, radius - 3));
+        context.stroke();
+
+        if (isSelected) {
+          context.strokeStyle = "#ffd700";
+          context.lineWidth = 3;
+          context.beginPath();
+          context.roundRect(-w / 2, -h / 2, w, h, radius);
+          context.stroke();
+        }
+      } else {
+        context.beginPath();
+        if (isPlaceholder && config.shape === 'disk') {
+          context.arc(0, 0, w / 2, 0, Math.PI * 2);
+        } else {
+          context.roundRect(-w / 2, -h / 2, w, h, radius);
+        }
+        context.clip();
+
+        
+        const hasValidImage = (!isPlaceholder && cachedPromise && cachedPromise._image && cachedPromise._loaded);
+
+        if (config?.shape === 'wallpaper') {
+          // Draw wallpaper while preserving image aspect ratio
+          const img = (cachedPromise && cachedPromise._image && cachedPromise._loaded)
+            ? cachedPromise._image
+            : null;
+
+          // Background behind the image (shows through letterboxing)
+          context.fillStyle = "#000";
+          context.fillRect(-w / 2, -h / 2, w, h);
+
+          if (img) {
+            const iw = img.naturalWidth || img.width;
+            const ih = img.naturalHeight || img.height;
+
+            if (iw > 0 && ih > 0) {
+              // "Contain": fit image entirely inside w x h, preserve aspect ratio
+              const s = Math.max(w / iw, h / ih);
+              const dw = iw * s;
+              const dh = ih * s;
+
+              const dx = -w / 2 + (w - dw) / 2;
+              const dy = -h / 2 + (h - dh) / 2;
+
+              context.drawImage(img, dx, dy, dw, dh);
+            }
+          }
+        } else if (hasValidImage) {
+          context.drawImage(cachedPromise._image, -w / 2, -h / 2, w, h);
+        } else {
+          const displayValue = card.number || (isPlaceholder ? config.number : null);
+          context.fillStyle = isPlaceholder ? config.color : "rgba(45, 110, 210, 0.4)";
+          if (isPlaceholder && config.shape === 'disk') {
+            context.beginPath(); context.arc(0, 0, w / 2, 0, Math.PI * 2); context.fill();
+          } else {
+            context.fillRect(-w / 2, -h / 2, w, h);
+          }
+
+          // --- New Logic for Number vs Name ---          
+
+          if (!hasValidImage && !card.facedown) {
+            if (displayValue) {
+              // Draw Small Number (Top-Left)
+              context.fillStyle = "rgba(255,255,255,1)"; // Slightly dimmer than the big one
+              context.font = `bold ${w * 0.25}px sans-serif`; // Small font (20% of width)
+              context.textAlign = "left";
+              context.textBaseline = "top";
+              // Position: -w/2 (left edge) + padding, -h/2 (top edge) + padding
+              context.fillText(displayValue, -w / 2 + (w * 0.07), -h / 2 + (h * 0.05));
+
+              // Display BIG number
+              context.fillStyle = "rgba(255,255,255,1)";
+              context.font = `bold ${w}px sans-serif`;
+              context.textAlign = "center";
+              context.textBaseline = "middle";
+              context.fillText(displayValue, 0, h / 15);
+
+              if (displayValue === "6" || displayValue === "9") {
+                // Line under the number
+                const y = h / 15 + w * 0.4;      // tweak if needed
+                const lineW = w * 0.5;            // tweak if needed
+                context.strokeStyle = "rgba(255,255,255,1)";
+                context.lineWidth = Math.max(2, w * 0.1); // tweak if needed
+                context.beginPath();
+                context.moveTo(-lineW / 2, y);
+                context.lineTo(lineW / 2, y);
+                context.stroke();
+              }
+            } else {
+              // Fallback to name
+              context.fillStyle = "rgba(255,255,255,1)";
+              context.font = "bold 10px system-ui";
+              context.textAlign = "center";
+              context.textBaseline = "middle";
+
+              const maxWidth = w * 0.9; // leave some padding; adjust as needed
+              const lines = wrapText(context, card.name, maxWidth);
+
+              // draw lines centered around y=0
+              const lineHeight = 12; // adjust to match your font size
+              const startY = -(lines.length - 1) * (lineHeight / 2);
+
+              for (let i = 0; i < lines.length; i++) {
+                context.fillText(lines[i], 0, startY + i * lineHeight);
+              }
+            }
+          }
+        }
+
+        context.beginPath();
+        if (isPlaceholder && config.shape === 'disk') {
+          context.arc(0, 0, w / 2, 0, Math.PI * 2);
+        } else {
+          context.roundRect(-w / 2, -h / 2, w, h, radius);
+        }
+        context.strokeStyle = isSelected ? "#ffd700" : (isPlaceholder ? "#ffffff" : "rgba(255,255,255,0.20)");
+        context.lineWidth = isSelected ? 3 : (isPlaceholder ? 3 : 1);
+        context.stroke();
+      }
+      context.restore();
+    }
+
+    function drawCard(card, viewport) {
+      const v = view[viewport];
+      const screen = worldToScreen(viewport, card.x, card.y);
+      drawCardToCtx(ctx, card, screen.x, screen.y, v.zoom, isSelected(card.assetId), viewport);
+    }
+
+    // High-Fidelity Maximized Un-distorted Splash Magnifier Component
+    async function triggerSplashView(card, bQR, iImageURL) {
+      const hasCard = !!card;
+      const imageUrl = normalizeImageUrl((hasCard && card.imageUrl) ? card.imageUrl : iImageURL);
+
+      console.log("2170: PRELOAD URL:", imageUrl);
+      const splashWallpaperImg = document.getElementById('splashWallpaperImg');
+
+      try {
+        if (!card && imageUrl) {
+          await ensureImageInCache(imageUrl); // will still fail for CORS URLs, but that's okay
+        }
+      } catch (e) {
+        console.error("Preload failed:", e);
+      }
+
+      if (!imageUrl) return;
+
+      const splashLink = document.getElementById('splashLink');
+      splashLink.href = imageUrl;
+      splashLink.target = '_blank';
+
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+
+      let w = 0, h = 0, isPlaceholder = true, config = null;
+
+      if (hasCard) {
+        ({ w, h, isPlaceholder, config } = getAssetDimensions(card));
+      } else {
+        w = 150;
+        h = 150;
+        isPlaceholder = false;
+      }
+
+      let finalW = w;
+      let finalH = h;
+
+      const splashCanvasW = finalW;
+      const splashCanvasH = finalH;
+
+      if (hasCard && !isPlaceholder) {
+        const cachedPromise = imgCache.get(card.imageUrl);
+        if (cachedPromise && cachedPromise._image && cachedPromise._loaded) {
+          finalW = cachedPromise._image.naturalWidth || w;
+          finalH = cachedPromise._image.naturalHeight || h;
+        }
+      }
+
+      const maxAllowedW = window.innerWidth * 0.85;
+      const maxAllowedH = window.innerHeight * 0.85;
+      let targetScale = Math.min(maxAllowedW / finalW, maxAllowedH / finalH);
+
+      if (!isFinite(targetScale) || targetScale <= 0) targetScale = 1;
+
+      splashCanvas.width = Math.floor(finalW * targetScale * dpr);
+      splashCanvas.height = Math.floor(finalH * targetScale * dpr);
+      splashCanvas.style.width = `${Math.floor(finalW * targetScale)}px`;
+      splashCanvas.style.height = `${Math.floor(finalH * targetScale)}px`;
+
+      splashCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      splashCtx.clearRect(0, 0, splashCanvas.width, splashCanvas.height);
+
+      const scaleRender = (finalW * targetScale) / (w || finalW);
+
+      // ---- Wallpaper overlay for "card is null" case ----
+      if (!card && imageUrl) {
+        // match what you show in the canvas sizing
+        const overlayW = Math.floor(finalW * targetScale);
+        const overlayH = Math.floor(finalH * targetScale);
+
+        splashCanvas.style.display = 'none';
+        splashWallpaperImg.style.display = 'block';
+        splashWallpaperImg.src = imageUrl;
+        splashWallpaperImg.style.width = `${overlayW}px`;
+        splashWallpaperImg.style.height = `${overlayH}px`;
+      } else {
+        splashWallpaperImg.style.display = 'none';
+        splashCanvas.style.display = 'block';
+        splashWallpaperImg.src = '';
+      }
+
+      const container = document.getElementById('splashViewer');
+      const containerWidth = container.getBoundingClientRect().width;
+
+      const baseW = containerWidth * 0.85;
+
+      let iw = 0, ih = 0;
+      const cached = imgCache.get(imageUrl);
+
+      if (cached?._image && cached?._loaded) {
+        iw = cached._image.naturalWidth || cached._image.width || 0;
+        ih = cached._image.naturalHeight || cached._image.height || 0;
+      }
+
+      const aspect = (iw > 0 && ih > 0) ? (iw / ih) : 1;
+      const wMock = baseW;
+      const hMock = wMock / aspect;
+
+      const cardMock = hasCard
+        ? Object.assign({}, card, { rotationDeg: 0 })
+        : {
+          imageUrl,
+          rotationDeg: 0,
+          facedown: false,
+          number: null,
+          name: "",
+          isPlaceholder: false,
+          w: wMock,
+          h: hMock,
+          config: { shape: 'wallpaper' }
+        };
+
+      drawCardToCtx(
+        splashCtx,
+        cardMock,
+        (finalW * targetScale) / 2,
+        (finalH * targetScale) / 2,
+        scaleRender,
+        false,
+        'splash'
+      );
+
+      splashViewer.classList.add('active');
+
+      // ---------- QR handling ----------
+      const splashQRContainerId = 'splashQRContainer';
+      let qrContainer = document.getElementById(splashQRContainerId);
+
+      if (!qrContainer) {
+        qrContainer = document.createElement('div');
+        qrContainer.id = splashQRContainerId;
+        qrContainer.style.display = 'flex';
+        qrContainer.style.justifyContent = 'center';
+        qrContainer.style.marginTop = '10px';
+        splashViewer.appendChild(qrContainer);
+      }
+
+      if (!bQR) {
+        qrContainer.innerHTML = '';
+      } else {
+        const dataToEncode = imageUrl;
+        const qrImgSrc =
+          'https://api.qrserver.com/v1/create-qr-code/' +
+          `?size=150x150&data=${encodeURIComponent(dataToEncode)}` +
+          '&bgcolor=000000&color=FFFFFF';
+
+        qrContainer.innerHTML = '';
+        const qrImg = document.createElement('img');
+        qrImg.src = qrImgSrc;
+        qrImg.alt = 'QR code';
+        qrImg.width = 150;
+        qrImg.height = 150;
+        qrContainer.appendChild(qrImg);
+      }
+      splashCanvas.classList.remove('hidden');
+
+      if (chkAutoHide.checked) {
+        isHandHidden = true;
+        draw();
+      }
+    }
+
+    splashViewer.addEventListener('click', () => {
+      splashViewer.classList.remove('active');
+    });
+
+
+
+    async function warmImages() {
+      const unique = [...new Set(assets.map(a => a.imageUrl).filter(Boolean))];
+      await Promise.all(unique.map(loadImage));
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+      const midY = canvas.clientHeight * getTableSplitFactor();
+      // Create a list of assets that ARE NOT being dragged
+      const draggingId = drag ? drag.assetId : null;
+
+      // 1. Draw Table base components
+      if (midY > 0) {
+        ctx.fillStyle = "rgba(255,255,255,0.15)"; ctx.font = "10px monospace";
+
+
+        // Draw compass
+        drawCompass();
+
+        const tCards = assets.filter(a => (a.region || "").toString().toUpperCase() === "TABLE" && a.assetId !== draggingId);
+        tCards.sort((a, b) => Number(a.z || 0) - Number(b.z || 0));
+
+        const cap = assetById.get("E5");
+
+        for (const c of tCards) {
+          drawCard(c, 'table');
+        }
+      }
+
+      // 2. Draw Hand background layer
+      if (!isHandHidden && midY < canvas.clientHeight) {
+        ctx.save();
+        ctx.fillStyle = "rgba(0, 0, 0, 0.7)"; // Transparent hand
+        ctx.fillRect(0, midY, canvas.clientWidth, canvas.clientHeight - midY);
+        ctx.strokeStyle = "rgba(255,255,255,0.12)"; ctx.beginPath(); ctx.moveTo(0, midY); ctx.lineTo(canvas.clientWidth, midY); ctx.stroke();
+        ctx.restore();
+        const complexOwnerId = getServerOwnerId();
+        const hCards = assets.filter(a => (a.region || "").toString().toUpperCase() === "HAND" && a.assetId !== draggingId && a.ownerId === complexOwnerId);
+        hCards.sort((a, b) => (Number(a.y || 0) + Number(a.x || 0)) - (Number(b.y || 0) + Number(b.x || 0)));
+        for (const c of hCards) drawCard(c, 'hand');
+      }
+
+      // 3. Draw Dragged Asset LAST (Top Z)
+      if (drag) {
+        const a = assetById.get(drag.assetId);
+        if (a) drawCard(a, drag.viewport);
+      }
+
+      debugTablePanEl.textContent = `${view.table.panX.toFixed(0)}, ${view.table.panY.toFixed(0)}`;
+      debugTableZoomEl.textContent = view.table.zoom.toFixed(1);
+      debugHandPanEl.textContent = `${view.hand.panX.toFixed(0)}, ${view.hand.panY.toFixed(0)}`;
+      debugHandZoomEl.textContent = view.hand.zoom.toFixed(1);
+    }
+    // 1. New helper: Checks a specific region (TABLE or HAND) for a card
+    function getCardAtPointInRegion(regionName, sx, sy) {
+      let cards = [];
+      const complexOwnerId = getServerOwnerId();
+      if (regionName === "TABLE") {
+        cards = assets.filter(a => (a.region || "").toString().toUpperCase() === regionName);
+      } else if (regionName === "HAND") {
+        cards = assets.filter(a => (a.region || "").toString().toUpperCase() === regionName && a.ownerId === complexOwnerId);
+      } else {
+        return null;
+      }
+
+
+
+      // We use the view associated with the region name
+      const v = view[regionName.toLowerCase()];
+      const ordered = cards.slice().sort((a, b) => Number(a.z || 0) - Number(b.z || 0)).reverse();
+
+      for (const c of ordered) {
+        const { w, h, isPlaceholder, config } = getAssetDimensions(c);
+        const scaledW = w * v.zoom;
+        const scaledH = h * v.zoom;
+        const sc = worldToScreen(regionName.toLowerCase(), c.x, c.y);
+        const dx = sx - sc.x;
+        const dy = sy - sc.y;
+
+        let finalRotation = (c.rotationDeg || 0);
+        if (regionName === 'TABLE') {
+          finalRotation += getSeatOrientationDegrees();
+        }
+        const ang = finalRotation * Math.PI / 180;
+        const lx = dx * Math.cos(-ang) - dy * Math.sin(-ang);
+        const ly = dx * Math.sin(-ang) + dy * Math.cos(-ang);
+
+        if (isPlaceholder && config.shape === 'disk') {
+          if ((lx * lx + ly * ly) <= (scaledW * scaledW) / 4) return c;
+        } else {
+          if (Math.abs(lx) <= scaledW / 2 && Math.abs(ly) <= scaledH / 2) return c;
+        }
+      }
+      return null;
+    }
+
+    // 2. Updated hitTest: Orchestrates the search
+    function hitTest(sx, sy) {
+      const viewport = getViewportForPointer(sx, sy);
+      const factor = getTableSplitFactor();
+
+      // If the hand is NOT hidden, try to find a card in the hand first
+      if (!isHandHidden && viewport === "hand" && factor !== 1) {
+        const handCard = getCardAtPointInRegion("HAND", sx, sy);
+        if (handCard) return handCard;
+        return null;
+      }
+
+      // Always try to find a card on the table
+      // (This works even if the click is in the "hand" overlay area)
+      if (factor !== 0) {
+        return getCardAtPointInRegion("TABLE", sx, sy);
+      }
+
+      return null;
+    }
+    // Example of how to send the batch from your HTML
+    async function shuffleAssets() {
+      if (!confirm("Reshuffle?")) { return; }
+      autoSyncStart(false);
+      try {
+        updateSyncStatus("saving");
+        await tryWithResync(async () => {
+          const body = new URLSearchParams({
+            action: "BATCH_SHUFFLE",
+            gameId: gameId,
+            tag: "shuffle",
+          });
+          const response = await fetch(API_BASE, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: body.toString(),
+          });
+          const data = await response.json();
+          console.log("Shuffle complete:", data);
+        });
+        await fetchState(); // Sync state after save
+        updateSyncStatus("normal");
+        draw();
+      } catch (err) {
+        console.error("Failed to shuffle:", err);
+        updateSyncStatus("error");
+      }
+    }
+
+    function onPointerMove(e) {
+      if (!activePan) return;
+      const rect = canvas.getBoundingClientRect();
+      const currentX = e.clientX - rect.left;
+      const currentY = e.clientY - rect.top;
+      pointer.x = currentX;
+      pointer.y = currentY;
+
+      if (handleDragMove(e)) { return; }
+
+      
+      if (panDrag) {
+        const v = view[panDrag.viewport];
+
+        // 1. Calculate raw delta and scale by zoom
+        // We calculate (current - last) to get accurate distance regardless of browser
+        let dx = (e.clientX - panDrag.lastX);
+        let dy = (e.clientY - panDrag.lastY);
+
+        // 2. Update last position for the next frame
+        panDrag.lastX = e.clientX;
+        panDrag.lastY = e.clientY;
+
+        // 3. Apply rotation (only if viewport is 'table')
+        if (isHandHidden || panDrag.viewport === 'table') {
+          const angleRad = getSeatOrientationDegrees() * Math.PI / 180;
+          const rx = dx * Math.cos(angleRad) + dy * Math.sin(angleRad);
+          const ry = -dx * Math.sin(angleRad) + dy * Math.cos(angleRad);
+          v.panX += rx;
+          v.panY += ry;
+          draw();
+        }
+      }
+    }
+    function onPointerDown(e) {
+      e.preventDefault();
+      lastInteraction = new Date();
+      //usePointerEvents = true;
+      if (!chkPinchToZoom.checked) { usePointerEvents = true; }
+
+      activePan = true;
+
+      contextTarget.style.display = 'none';
+      const rect = canvas.getBoundingClientRect();
+      const sx = e.clientX - rect.left;
+      const sy = e.clientY - rect.top;
+      const viewport = getViewportForPointer(sx, sy);
+
+      const hit = hitTest(sx, sy);
+
+      // Record panning start coordinate
+      if (!hit) {
+        selectAsset(null);
+        panDrag = {
+          viewport,
+          lastX: e.clientX, // Store raw client coordinates
+          lastY: e.clientY
+        };
+        canvas.setPointerCapture(e.pointerId);
+        return; // Exit here because we are panning
+      }
+
+      // Hand object selection
+      selectAsset(hit.assetId);
+
+      // Set Setup Drag coordinates
+      canvas.setPointerCapture(e.pointerId);
+      updateTrackedUIs();
+      draw();
+
+      const sc = worldToScreen(viewport, hit.x, hit.y);
+      drag = {
+        viewport,
+        assetId: hit.assetId,
+        hasMovedSignificantAmount: false,
+        startPointerWorld: screenToWorld(viewport, sx, sy),
+        startAsset: {
+          x: hit.x,
+          y: hit.y,
+          rotationDeg: hit.rotationDeg || 0,
+          facedown: !!hit.facedown,
+          region: hit.region
+        },
+        mouseOffsetScreen: { x: sx - sc.x, y: sy - sc.y }
+      };
+    }
+
+    function onPointerUp(e) {
+      activePan = false;
+      usePointerEvents = false;
+      // 1. Handle Panning cleanup
+      if (panDrag && (e.button === 2 || e.button === 0)) {
+        canvas.releasePointerCapture(e.pointerId);
+        panDrag = null;
+        return;
+      }
+
+      canvas.releasePointerCapture(e.pointerId);
+      if (panDrag) { panDrag = null; return; }
+      if (!drag) return;
+
+      const localDragRef = drag; drag = null;
+      const a = assetById.get(localDragRef.assetId); if (!a) return;
+
+      if (!localDragRef.hasMovedSignificantAmount) return;
+
+      const endVp = getViewportForPointer(pointer.x, pointer.y);
+      const wasInHand = (localDragRef.startAsset.region || "").toString().toUpperCase() === "HAND";
+      const nowInHand = endVp === "hand";
+
+      // 2. Update Position
+      if (localDragRef.viewport !== endVp) {
+        const dropCenterScreenX = pointer.x - localDragRef.mouseOffsetScreen.x;
+        const dropCenterScreenY = pointer.y - localDragRef.mouseOffsetScreen.y;
+        const targetWorld = screenToWorld(endVp, dropCenterScreenX, dropCenterScreenY);
+        a.x = Math.round(targetWorld.x);
+        a.y = Math.round(targetWorld.y);
+      } else {
+        a.x = Math.round(a.x);
+        a.y = Math.round(a.y);
+      }
+
+      // 3. Update Region and Owner
+      a.region = nowInHand ? "HAND" : "TABLE";
+      a.ownerId = nowInHand ? getServerOwnerId() : "";
+
+      // 4. Update Rotation logic
+      if (wasInHand && !nowInHand) {
+        // Moved from Hand to Table: adjust to seat orientation
+        if (chkCourtesyFlip.checked) {
+          a.rotationDeg = (360 - getSeatOrientationDegrees() + 180) % 360;
+        } else {
+          a.rotationDeg = (360 - getSeatOrientationDegrees()) % 360;
+        }
+
+        bringToFront(a.assetId);
+        BringToTop();
+      } else if (!wasInHand && nowInHand) {
+        // Moved from Table to Hand: reset to 0
+        a.rotationDeg = 0;
+        bringToFront(a.assetId);
+      }
+
+      // 5. Local Storage (if the card touched the hand area)
+      if (wasInHand || nowInHand) {
+        saveHandToLocalStorage();
+        bringToFront(a.assetId);
+      }
+
+      // 6. Update Display
+      draw();
+      // No server API calls here anymore!
+    }
+
+    function onWheel(e) {
+      e.preventDefault();
+      const rect = canvas.getBoundingClientRect();
+      const sx = e.clientX - rect.left; const sy = e.clientY - rect.top;
+      const viewport = getViewportForPointer(sx, sy);
+
+      const v = view[viewport];
+      const r = viewport === 'table' ? tableRect() : handRect();
+
+      // Screen-to-world logic extracted locally to maintain anchor regardless of live table seating rotations 
+      let dx = sx - r.x - r.w * 0.5;
+      let dy = sy - r.y - r.h * 0.5;
+      if (viewport === 'table') {
+        const angleRad = -getSeatOrientationDegrees() * Math.PI / 180;
+        const rx = dx * Math.cos(angleRad) - dy * Math.sin(angleRad);
+        const ry = dx * Math.sin(angleRad) + dy * Math.cos(angleRad);
+        dx = rx; dy = ry;
+      }
+
+      const worldX = (dx - v.panX) / v.zoom;
+      const worldY = (dy - v.panY) / v.zoom;
+
+      v.zoom *= Math.exp(-e.deltaY * 0.0015);
+      v.zoom = Math.max(0.5, Math.min(3.0, v.zoom));
+
+      v.panX = dx - worldX * v.zoom; // @@
+      v.panY = dy - worldY * v.zoom;
+      //console.log("1945")
+      draw();
+    }
+
+    canvas.addEventListener('dblclick', (e) => {
+      handleClickAtClientXY(e.clientX, e.clientY);
+    });
+    splashCanvas.addEventListener('click', (e) => {
+      event.preventDefault();
+      if (ignoreNextClick) {
+        ignoreNextClick = false;
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+
+      // else: normal click behavior (if you have one)
+    });
+
+
+    contextTarget.addEventListener('mouseleave', () => { contextTarget.style.display = 'none'; });
+
+    canvas.addEventListener('pointermove', onPointerMove);
+    canvas.addEventListener('pointerdown', onPointerDown);
+    canvas.addEventListener('pointerup', onPointerUp);
+    canvas.addEventListener('wheel', onWheel, { passive: false });
+    canvas.addEventListener('touchstart', (e) => {
+      // If we are already dragging a card (from your existing logic), don't pan/zoom
+      lastInteraction = new Date();
+      if (!chkPinchToZoom.checked && e.touches.length !== 1) return;
+      if (drag) return;
+
+
+      if (e.touches.length > 0) {
+        touchGesture.active = true;
+        touchGesture.lastTouches = Array.from(e.touches);
+
+        // Determine if we are interacting with Table or Hand
+        const firstY = e.touches[0].clientY;
+        touchGesture.targetView = getViewportForPointer(e.touches[0].clientX,e.touches[0].clientY);
+
+        if (e.touches.length === 2) {
+          touchGesture.didPinch = true;
+          touchGesture.lastDistance = getDistance(e.touches[0], e.touches[1]);
+        }
+      }
+    }, { passive: false });
+    canvas.addEventListener('touchmove', (e) => {
+      if (usePointerEvents) return;
+
+      if (!activePan) return;
+      const t = e.touches[0];
+      if (!touchGesture.active && !drag) return;
+      if (e.cancelable) e.preventDefault();
+
+      const v = view[touchGesture.targetView];
+      if (handleDragMove(e)) { return; }
+      // Panning (1 finger)
+      if (e.touches.length === 1) {
+        if(touchGesture.targetView==="hand"){return}
+
+        const dx = e.touches[0].clientX - touchGesture.lastTouches[0].clientX;
+        const dy = e.touches[0].clientY - touchGesture.lastTouches[0].clientY;
+        const angleRad = getSeatOrientationDegrees() * Math.PI / 180;
+        const rx = dx * Math.cos(angleRad) + dy * Math.sin(angleRad);
+        const ry = -dx * Math.sin(angleRad) + dy * Math.cos(angleRad);
+        v.panX += rx;
+        v.panY += ry;
+
+      }
+      // Zooming (2 fingers)
+      else if (e.touches.length === 2) { 
+        if (!chkPinchToZoom.checked) return;
+        if (!isHandHidden && touchGesture.targetView !== 'table') return;
+        const dist = getDistance(e.touches[0], e.touches[1]);
+        const zoomDelta = dist / touchGesture.lastDistance;
+        v.zoom *= zoomDelta;
+        v.zoom = Math.min(3,Math.max(0.5,v.zoom));
+        touchGesture.lastDistance = dist;
+      }
+
+      touchGesture.lastTouches = Array.from(e.touches);
+      draw();
+    }, { passive: false });
+    canvas.addEventListener('touchend', (e) => {
+      if (!chkPinchToZoom.checked && e.changedTouches.length > 1) return;
+      const t = e.changedTouches[0];
+      const now = Date.now();
+      // (tune this if needed)
+      if (now - lastTapTs < 300) {
+        ignoreNextClick = true;
+        handleClickAtClientXY(t.clientX, t.clientY);
+      }
+      lastTapTs = now;
+
+      if (e.touches.length === 0) {
+        touchGesture.active = false;
+        touchGesture.didPinch = false;
+      } else {
+        // Update last touches so jump isn't huge if one finger lifts
+        touchGesture.lastTouches = Array.from(e.touches);
+        if (e.touches.length === 2) {
+          touchGesture.lastDistance = getDistance(e.touches[0], e.touches[1]);
+        }
+      }
+    }, { passive: false });
+    async function flipAsset(a) {
+      if (!a) return;
+      a.facedown = !a.facedown;
+      if ((a.region || "").toString().toUpperCase() === "HAND") {
+        saveHandToLocalStorage();
+      }
+      draw(); // Local change only
+    }
+    // Helper to save a specific asset's rotation to the server
+    // NOTHING is calling this function. Is it.
+    async function saveAssetRotation(assetId) {
+      const a = assetById.get(assetId);
+      if (!a) return;
+
+      // Only save if it's on the table, as requested
+      if (a.region !== "TABLE") return;
+
+      try {
+        updateSyncStatus("saving");
+        const patch = { rotationDeg: a.rotationDeg };
+        await tryWithResync(async () => {
+          await SaveMoves(a.assetId, patch, a.updatedAt);
+        });
+        await fetchState(); // Sync state after save
+        updateSyncStatus("normal");
+      } catch (err) {
+        console.error("Failed to save rotation:", err);
+        //updateSyncStatus("error");
+      }
+    }
+
+    async function trySaveAsset(assetIds) {
+      if (!originalStatesById) return;
+      if (!assetIds && !Array.isArray(assetIds)) {
+        assetIds = [assetIds].filter(Boolean);
+      }
+
+      // mark all touched assets pending (deduped)
+      if (assetIds) { for (const id of assetIds) markAssetPending(id); }
+      if (!hasPendingUpdates()) return;
+
+      // build per-asset moves using each asset's own originalState
+      const moves = [];
+
+      for (const assetId of pendingUpdates) {
+        const a = assetById.get(assetId);
+        const originalState = originalStatesById[assetId];
+        if (!a || !originalState) continue;
+
+        const originalStateObj = JSON.parse(originalState);
+
+        const wasInHand = (originalStateObj.region || "").toString().toUpperCase() === "HAND";
+        const nowInHand = (a.region || "").toString().toUpperCase() === "HAND";
+
+        // skip Hand-Internal
+        if (wasInHand && nowInHand) continue;
+
+        const currentState = JSON.stringify({
+          x: a.x, y: a.y, z: a.z, rotationDeg: a.rotationDeg,
+          facedown: a.facedown, region: a.region, ownerId: a.ownerId
+        });
+        if (currentState === originalState) continue;
+
+        moves.push({
+          assetId: a.assetId,
+          expectedUpdatedAt: a.updatedAt,
+          patch: {
+            x: a.x, y: a.y, z: a.z, rotationDeg: a.rotationDeg,
+            facedown: a.facedown, region: a.region, ownerId: a.ownerId
+          }
+        });
+      }
+
+      if (moves.length === 0) {
+        markAssetPending(null, true);
+        return;
+      }
+
+      msgEl.textContent = "Saving...";
+      updateSyncStatus("saving");
+      try {
+        await tryWithResync(async () => SaveMoves(moves));
+        await fetchState();
+        await warmImages();
+        msgEl.textContent = "Saved.";
+        updateSyncStatus("normal");
+
+        // refresh originals for assets we just saved (optional but usually desirable)
+        for (const m of moves) setOriginalStateForAsset(m.assetId);
+      } catch (err) {
+        msgEl.textContent = `Error: ${err.message}`;
+        //updateSyncStatus("error");
+
+      }
+    }
+    async function selectAsset(id) {
+      // If user clicked on nothing: save old one (legacy behavior) and clear selection.
+      if (id == null) {
+        // 20260712: StarTree: This could be an option of whether to save when clicking on blank area.
+        selectedIds = [];
+        selectedId = null;
+        if (hasPendingUpdates() || selectedId) {
+          await trySaveAsset();
+          autoSyncStart(true);
+        }
+        updateTrackedUIs();
+        draw();
+        return;
+      }
+
+      // Toggle selection (multi-select)
+      if (selectedIds.includes(id)) {
+        //if (selectedId || hasPendingUpdates()) trySaveAsset(selectedId); // legacy save
+        selectedIds = selectedIds.filter(x => x !== id);
+
+        // remove original for that asset
+        //delete originalStatesById[id];
+      } else {
+        markAssetSelected(id);
+      }
+      // Legacy: latest selected *still selected*
+      selectedId = selectedIds.length ? selectedIds[selectedIds.length - 1] : null;
+      // Legacy single originalState mirrors the latest selected one
+      if (selectedId) {
+        originalState = originalStatesById[selectedId] || null;
+      } else {
+        originalState = null;
+      }
+      updateTrackedUIs();
+      draw();
+    }
+
+    window.addEventListener('keydown', async (e) => {
+      if (!myJoined || !selectedId) return;
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+      const a = assetById.get(selectedId); if (!a) return;
+    });
+
+    
+    async function ResyncButton() {
+      selectAsset(null);
+      if (hasPendingUpdates()) {
+        await trySaveAsset();
+        autoSyncStart(true);
+      } else {
+        try {
+          await resync(); draw();
+        } catch (err) {
+          msgEl.textContent = `Refresh failed: ${err.message || err}`;
+        }
+        autoSyncStart(true);
+      }
+    }
+    window.onload = () => {
+      // Auto Cache-bust
+      const u = new URL(location.href);
+      if (!new URLSearchParams(location.search).has('cb')) {
+        // If there is no URL param, reload with a cache busting URL PARAM cb=Date.now
+        u.searchParams.set('cb', Date.now());
+        history.pushState({}, '', u.pathname + u.search + u.hash);
+        location.reload();
+      } else {
+        // If it arrive with the cb URL param, clear the URL param
+        history.pushState({}, '', u.pathname + u.hash);
+      }
+      loadFromStorage();
+
+      // Remove splash screen
+      splashViewer.classList.remove('active');
+
+    };
+  </script>
+</body>
+
+</html>
