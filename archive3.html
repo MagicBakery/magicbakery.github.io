@@ -642,7 +642,7 @@
                       <macro>{"log":"","priority":"1","icon":"🧰","node":"202208212113","title":"Maintenance","info":"0901:Garage Layout. 0905:Grid Shelves. 0906:New Cabinet, Bed Frame. 0907:Bed Tent. 0909:Bath Door Rail","cmd":"quest"}</macro>
                       <macro>{"log":"","priority":"1","icon":"🍂","node":"202305202124","title":"Yard Quest","info":"This is a physical quest of maintaining the guild yard.","cmd":"quest"}</macro>
                     </note>
-                    <note icon="🍰2" node="202302160912">
+                    <note icon="🍰3" node="202302160912">
                       <h4>Lounge Quests</h4>
                       <hr>
                       <macro>{"log":"1103","priority":"0","icon":"🎀","node":"202207281948","title":"Anime Club","cmd":"quest"}</macro>
@@ -650,11 +650,13 @@
                       <macro>{"log":"1101","priority":"1","icon":"🌛","node":"202401122118","title":"Dreaming","info":"","cmd":"quest"}</macro>
                       <macro>{"log":"","priority":"0","icon":"🏰","node":"202208032157","title":"LEGO Club","info":"","cmd":"quest"}</macro>
                       <macro>{"log":"","priority":"0","icon":"🎬","node":"202212041019","title":"Movie Club","cmd":"quest"}</macro>
-                      <macro>{"log":"","priority":"1","icon":"🎧","node":"202207220710","title":"Playlist Check","info":"Check playlist embedding","cmd":"quest"}</macro>
+                      <macro>{"log":"1104","priority":"1","icon":"🎧","node":"202207220710","title":"Playlist Check","info":"Check playlist embedding","cmd":"quest"}</macro>
                       <macro>{"log":"","priority":"1","icon":"🏅","node":"202207242047","title":"Profiles upgrade","info":"0703: Miller, 0711: Chris","cmd":"quest"}</macro>
                       <macro>{"log":"","priority":"0","icon":"🎁","node":"202207210907","title":"Reward Inventory","info":"","cmd":"quest"}</macro>
                       <macro>{"log":"","priority":"1","icon":"📯","node":"202308240930","title":"The Story So Far","info":"","cmd":"quest"}</macro>
-                      <macro>{"log":"","priority":"0","icon":"🎄","node":"202208180941","title":"Post wish board","info":"Upgrade and post wish boards.","cmd":"quest"}</macro> 
+                      
+                      <macro>{"log":"","priority":"3","icon":"🌾","node":"202309200912","title":"Wheatfield","info":"Dive session","cmd":"quest"}</macro>
+                      <macro>{"log":"","priority":"0","icon":"🎄","node":"202208180941","title":"Wish board","info":"Upgrade and post wish boards.","cmd":"quest"}</macro>
                     </note>
                     <note icon="🎨0" node="202210032214">
                       <h4>Art Quests</h4>
@@ -41373,8 +41375,11 @@
         <res icon="🏫" item="26XUF0B3" title="Festival" star="" tags="School Music">
           <msg DTS='20261026091407' SPK='Evelyn' EXP Icon='💗'>I was in a school trip and found a classmate who was a beginner violin player to play Glory to the World. I was planning to ask her to play for school festival after returning from school trip.</msg>
         </res>
-        <res icon="🌊" item="26Y3K870" title="Ocean Research" star="" tags="">
+        <res icon="🌊" item="26Y3K870" title="Ocean Research" star="" tags="School">
           <msg DTS='20261102085708' SPK='Ivy' EXP Icon='🌊'>There was a prodigy ocean researcher in the kids class with links to a research institute in Japan. It was kind of like cheating.</msg>
+        </res>
+        <res icon="🎓" item="26Y4BDC9" title="Seminar" star="" tags="School Food">
+          <msg DTS='20261101064201' SPK='LRRH' EXP Icon='🧺'>Getting lunch at a diner after attending a seminar.</msg>
         </res>
       </note>
       <note dts="20261027212350" icon=":TreasureChest:" subtitle="Thrift Store">
@@ -43325,14 +43330,14 @@
       <msg DTS="20260719101447" SPK="Cardinal" EXP Icon="🎩">0719</msg>
       <msg DTS='20260823160551' SPK='Casey' EXP=14 Icon='🎒'>0823 0924:12 25</msg>
       <msg DTS='20260721195447' SPK='Dawn' EXP Icon='🎒'>0721</msg>
-      <msg DTS='20260724095311' SPK='Evelyn' EXP=8 Icon='🎒'>0708 0803 0905 13 16:2 20 29</msg>
+      <msg DTS='20260724095311' SPK='Evelyn' EXP=10 Icon='🎒'>0708 0803 0905 13 16:2 20 29 1103:2</msg>
       <msg DTS='20260904103933' SPK='Ivy' EXP=2 Icon='🌱'>Maintenance: 0904:2</msg>
       <msg DTS='20261004103626' SPK='James' EXP Icon='🥋'>1004</msg>
       <msg DTS='20260715105948' SPK='Kisaragi' EXP=5 Icon=':MaidOutfit:'>0715 0828 0907 16 1011</msg>
       <msg DTS='20260727084048' SPK='Koyo' EXP=2 Icon='🎒'>0727 0911</msg>
       <msg DTS='20260722093016' SPK='Ledia' EXP Icon=':MaidOutfit:'>0722</msg>
       <msg DTS='20261028203217' SPK='Lei' EXP Icon='🧊'>1028</msg>
-      <msg DTS='20260708090146' SPK='LRRH' EXP=18 Icon='🧺'>0708 09 16 20 21 23 0804 15 21 0902 19 23 1008 09 16 18 21 1102</msg>
+      <msg DTS='20260708090146' SPK='LRRH' EXP=19 Icon='🧺'>0708 09 16 20 21 23 0804 15 21 0902 19 23 1008 09 16 18 21 1101 02</msg>
       <msg DTS='20260903194935' SPK='Melody' EXP Icon='🍎'>0903</msg>
       <msg DTS='20260808095728' SPK='Natalie' EXP=8 Icon='💧'>0808 0918:5 29 1103</msg>
       <msg DTS='20260805114646' SPK='Skyle' EXP=2 Icon='🌾'>0805 0920</msg>
@@ -57431,7 +57436,7 @@
             <a class="mbbutton" onclick="ToggleNextPP(this)" title="Food">🧇</a>
             <hide>
               <macro>{"cmd":"ButtonList","func":"NMMsg",
-                "list":"🍒|🍎|🍅|🍓|🌶️|🍉|🌰|🍊|🥭|🍑|🍠|🥕|🥧|🍌|🧅|🍪|🥘|🥯|🍩|🍔|🥞|🍯|🧀|🍰|🍕|:Checker:|🧇|🍞|🥐|🥨|🥖|🍋|🥠|🥪|🍮|🌽|🍍|🌾|🍈|🍐|🍏|🥦|🥑|🥝|🍵|🫖|🧊|🫐|🍇|🍆|:Ube:|🥔|🥜|🍄‍🟫|🥥|☕|:Dumpling:|🥟|🍟|🍜|🥗|🥘|🍛|🍨|🍹|🍚|🍄|🧋|🍶|🍱|🍳|🍖"}</macro>
+                "list":"🍒|🍎|🍅|🍓|🌶️|🍉|🌰|🍊|🥭|🍑|🍠|🥕|🥧|🍌|🧅|🍪|🥘|🥯|🍩|🍔|🥞|🍯|🧀|🍰|🍕|:Checker:|🧇|🍞|🥐|🥨|🥖|🍋|🥠|🥪|🍮|🌽|🍍|🌾|🍈|🍐|🍏|🥦|🥑|🥝|🍵|🫖|🧊|🫐|🍇|🍆|:Ube:|🧄|🥔|🥜|🍄‍🟫|🥥|☕|:Dumpling:|🥟|🍟|🍜|🥗|🥘|🍛|🍨|🍹|🍚|🍄|🧋|🍶|🍱|🍳|🍖"}</macro>
             </hide><!--Animal Icons-->
             |
             <a class="mbbutton" onclick="ToggleNextPP(this)" title="Faces & Hands">😀</a>
@@ -59726,7 +59731,7 @@
           <msg DTS='20260822093520' SPK='Cardinal' EXP=25 Icon='📬'>0822 0904:2 08:10 10:2 15:3 1004:3 09:3 20</msg>
           <msg DTS='20260906185459' SPK='Casey' EXP=2 Icon='📬'>Physical Archive</msg>
           <msg DTS='20260811211916' SPK='Duck' EXP=3 Icon='🦆'>0811:2 21</msg>
-          <msg DTS='20260810143044' SPK='Evelyn' EXP="321" Icon='💗'>0810:3 11:9 12:3 14:6 15:3 16:6 20:3 21 22:41 23:4 24:4 25:4 29:5 31:2 0906:3 10:3 11:10 12:3 13:12 15:7 16:7 17:34 18:15 19:9 21:9 23:5 24:3 29:11 30:2 1001:2 03:6 06:11 10:13 13:6 17:9 18:10 19:15 20:5 21:2 23:10 25:3 28:3 31 1102:3</msg>
+          <msg DTS='20260810143044' SPK='Evelyn' EXP="324" Icon='💗'>0810:3 11:9 12:3 14:6 15:3 16:6 20:3 21 22:41 23:4 24:4 25:4 29:5 31:2 0906:3 10:3 11:10 12:3 13:12 15:7 16:7 17:34 18:15 19:9 21:9 23:5 24:3 29:11 30:2 1001:2 03:6 06:11 10:13 13:6 17:9 18:10 19:15 20:5 21:2 23:10 25:3 28:3 31 1102:3 03:3</msg>
           <msg DTS='20260811124045' SPK='Fina' EXP=67 Icon='⚔️'>0811:5 0902 1024</msg>
           <msg DTS='20261003093629' SPK='Gaia' EXP=5 Icon='🌰'>1003:5</msg>
           <msg DTS='20260908090712' SPK='Helen' EXP=1 Icon='📬'>0908</msg>
@@ -59742,7 +59747,7 @@
           <msg DTS='20260810182931' SPK='Natalie' EXP=16 Icon='🕊️'>0810 0929:3 1026:12</msg>
           <msg DTS='20260907230230' SPK='P4' EXP=4 Icon='📬'>0907 18:3</msg>
           <msg DTS='20260816111724' SPK='Patricia' EXP=36 Icon='🗝️'>0816:3 18:3 31:6 0908:2 17:3 21:15</msg>
-          <msg DTS='20260805191743' SPK='Sasha' EXP=33 Icon='🔥'>0805:5 10:5 27:9 31 0906:2 0908:4 1029:8 1102:3</msg>
+          <msg DTS='20260805191743' SPK='Sasha' EXP=37 Icon='🔥'>0805:5 10:5 27:9 31 0906:2 0908:4 1029:8 1102:3 03:4</msg>
           <msg DTS='20260919095054' SPK='Sirius' EXP=9 Icon='🐾'>0919:9</msg>
           <msg DTS='20260812114841' SPK='Skyle' EXP=42 Icon='🌾'>0812:3 0906:2 16:12 17:3 21:6 29 1004 07 09:2 16:2 21:4 28:2 30:3</msg>
           <msg DTS='20260816142756' SPK='StarTree' EXP=117 Icon='⭐'>0816:3 23:2 25:3 31:3 0908:4 12:6 13 16:7 17:16 19:4 29:2 1002 03:2 04:2 11:5 12:3 16:20 18:15 21:2 22:6 26:5</msg>
@@ -62857,7 +62862,7 @@
             <msg DTS='20260927204648' SPK='Amelia' EXP Icon='🍜'>Noodle</msg>
             <msg DTS='20260407183530' SPK='Cardinal' EXP Icon='🍜'>Ramen</msg>
             <msg DTS='20260624204422' SPK='Evelyn' EXP Icon='🍝'>0624</msg>
-            <msg DTS="20260102141241" SPK="Kisaragi" EXP=52 Icon="🍜">Noodle: 0102 13 0201 12 16 19 20 0308 15 25 29 30 0403 04 20 0503 28 0601 0707 13 14 22 23 0808-11 14 18 20 26 27 0907 29 30 1003 04 06 16-20 22 24-27 29-31 1101</msg>
+            <msg DTS="20260102141241" SPK="Kisaragi" EXP=54 Icon="🍜">Noodle: 0102 13 0201 12 16 19 20 0308 15 25 29 30 0403 04 20 0503 28 0601 0707 13 14 22 23 0808-11 14 18 20 26 27 0907 29 30 1003 04 06 16-20 22 24-27 29-31 1101 03-04</msg>
             <msg DTS="20260102141301" SPK="Kisaragi" EXP=7 Icon="🍝">Pasta 0101 0107 0128 0615 17 1023:2</msg>
             <msg DTS='20260428211931' SPK='Natalie' EXP Icon='🍜'>Noodle</msg>
             <msg DTS='20261002193216' SPK='Sylvia' EXP Icon='🍜'>Noodle: 1002</msg>
@@ -62866,7 +62871,7 @@
           </note>
           <note dts="20260531151534" icon="🍟" subtitle="Potato">
             <msg DTS='20261005181030' SPK='Gaia' EXP Icon='🍟'>Fries: 1005</msg>
-            <msg DTS='20260108230601' SPK='Kisaragi' EXP=5 Icon='🍟'>Fries: 0106 15 22 26 0531</msg>
+            <msg DTS='20260108230601' SPK='Kisaragi' EXP=7 Icon='🍟'>Fries: 0106 15 22 26 0531 1103 04</msg>
             <msg DTS='20260628110748' SPK='Kisaragi' EXP Icon='🧅'>Onion rings: 0628</msg>
             <msg DTS='20260921205443' SPK='StarTree' EXP Icon='🍟'>Potato: 0921</msg>
             <msg DTS='20260901202550' SPK='Upert' EXP=4 Icon='🍟'>0915 23 28 1028</msg>
@@ -62918,14 +62923,17 @@
             <msg DTS='20261030130105' SPK='Kisaragi' EXP Icon='🥥'>Coconut: 1030</msg>
           </note>
           <note dts="20261031120532" icon="🍛" subtitle="Curry">
-            <msg DTS='20261031105730' SPK='Kisaragi' EXP=3 Icon='🍛'>Curry: 1030-31 1101</msg>
+            <msg DTS='20261031105730' SPK='Kisaragi' EXP=5 Icon='🍛'>Curry: 1030-31 1101 03 04</msg>
+          </note>
+          <note dts="20261104145800" icon="🧄" subtitle="Garlic">
+            <msg DTS="20261104145833" SPK="Kisaragi" EXP Icon="🧄">1104</msg>
           </note>
         </note>
         <note dts="20261009160947" icon="🍈" subtitle="Fruit">
           <note dts="20260811173100" icon="🍎" subtitle="Apple">
             <msg DTS='20260816102440' SPK='44' EXP Icon='🍎'>0815</msg>
             <msg DTS='20260710201812' SPK='Albatross' EXP Icon='🍎'>0710</msg>
-            <msg DTS="20260811173107" SPK="StarTree" EXP=85 Icon="🍎">0712 14 15:2 16:2 17 19:2 21-23 0805:2 08 09 11 13 14 18 19:2 21-30 0907-30 1001:2 02-25 30 31 1101-02</msg>
+            <msg DTS="20260811173107" SPK="StarTree" EXP=87 Icon="🍎">0712 14 15:2 16:2 17 19:2 21-23 0805:2 08 09 11 13 14 18 19:2 21-30 0907-30 1001:2 02-25 30 31 1101-04</msg>
             <msg DTS='20261028185534' SPK='Upert' EXP Icon='🍎'>1028</msg>
           </note>
           <note dts="20261028114203" icon="🍈" subtitle="Cantaloupe">
@@ -62941,7 +62949,7 @@
         </note>
         <note dts="20261019161844" icon="🍖" subtitle="Proteins">
           
-          <msg DTS='20261018143229' SPK='Kisaragi' EXP=8 Icon='🍖'>Sausage: 1018-22 24 25 1102</msg>
+          <msg DTS='20261018143229' SPK='Kisaragi' EXP=9 Icon='🍖'>Sausage: 1018-22 24 25 1102 04</msg>
           <msg DTS='20261028185535' SPK='Upert' EXP Icon='🍖'>Pork</msg>
           <msg DTS='20261028185536' SPK='Upert' EXP Icon='🍥'>Salmon</msg>
           <hr>
@@ -63000,15 +63008,15 @@
           
           <msg DTS='20260915184707' SPK='Gaia' EXP Icon='🥦'>Broccoli: 0915</msg>
           <msg DTS='20260929141514' SPK='Ivy' EXP Icon='🥦'>Spinach: 0929</msg>
-          <msg DTS='20261008162238' SPK='Kisaragi' EXP=8 Icon='🥦'>Broccoli: 1008 10-13 17-18 31</msg>
-          <msg DTS='20261003132016' SPK='Kisaragi' EXP=11 Icon='🥦'>Spinach: 1003 04 06 14-16 19 20 22 26 1101</msg>
+          <msg DTS='20261008162238' SPK='Kisaragi' EXP=9 Icon='🥦'>Broccoli: 1008 10-13 17-18 31 1103</msg>
+          <msg DTS='20261003132016' SPK='Kisaragi' EXP=12 Icon='🥦'>Spinach: 1003 04 06 14-16 19 20 22 26 1101 04</msg>
           
           
           <msg DTS='20260821181300' SPK='StarTree' EXP=7 Icon='🥦'>Broccoli: 0821 23 24 0909 10 1001 02</msg>
           <msg DTS='20260921205441' SPK='StarTree' EXP Icon='🥦'>Spinach: 0921</msg>
           <msg DTS='20261021185523' SPK='Upert' EXP=7 Icon='🥦'>Broccoli: 1021</msg>
           <hr>
-          <note dts="20261029214932" icon="🫛" subtitle="Log">
+          <note dts="20261029214932" icon="🫛" subtitle="Beans">
             <msg DTS='20260930190343' SPK='Gaia' EXP=2 Icon='🫛'>Beans: 0930 1024</msg>
             <msg DTS='20261007132102' SPK='StarTree' EXP=4 Icon='🫛'>Beans: 1007:2 29 30</msg>
           </note>
@@ -63021,6 +63029,7 @@
           <note dts="20260814165718" icon="🌽" subtitle="Corn">
             <msg DTS="20260814165746" SPK="StarTree" EXP=10 Icon="🌽">0814 29 0909 10 17 25-27 29 30</msg>
           </note>
+
           <note dts="20261007201925" icon="🍅" subtitle="Tomato">
             <msg DTS='20261005180955' SPK='Gaia' EXP Icon='🍅'>1005</msg>
             <msg DTS='20261007193441' SPK='StarTree' EXP Icon='🍅'>1007</msg>
@@ -63145,7 +63154,7 @@
         <msg DTS='20260714094308' SPK='|Black|Sirius|' EXP=2 Icon='🕊️'>0714 28</msg>
         <msg DTS='20260621132635' SPK='Cardinal' EXP=3 Icon='🕊️'>0621 0701 19</msg>
         <msg DTS='20260518110359' SPK='Casey' EXP=8 Icon='💫'>0518 0823 0928:6</msg>
-        <msg DTS='20260428120003' SPK='Evelyn' EXP=51 Icon='🕊️'>0428 0501 07 08 11 12 13 14 19 20 23:7:Packing 27 0601 08:2 09 11 14:2 16 18 22 24:4 25 26 30 0724 30:3 31:3 0804 06:2 0902:3 05 13 20</msg>
+        <msg DTS='20260428120003' SPK='Evelyn' EXP=52 Icon='🕊️'>0428 0501 07 08 11 12 13 14 19 20 23:7:Packing 27 0601 08:2 09 11 14:2 16 18 22 24:4 25 26 30 0724 30:3 31:3 0804 06:2 0902:3 05 13 20 1103</msg>
         <msg DTS='20260715192008' SPK='|Evelyn|Sirius|' EXP=3 Icon='💗'>0715 0803:2</msg>
         <msg DTS='20260508185108' SPK='Fina' EXP=5 Icon='💠'>0508 0604 17 22 0821</msg>
         <msg DTS='20260915184800' SPK='Gaia' EXP=11 Icon='🐾'>0915:8 28:3</msg>
@@ -63159,7 +63168,7 @@
         <msg DTS='20260722093010' SPK='|Ledia|Sirius|' EXP=2 Icon='🐾'>0722 23</msg>
         <msg DTS='20260516230734' SPK='Lei' EXP=18 Icon='🌠'>0516 17 19 29:5 0618 1021:3 1028:6</msg>
         <msg DTS='20260708193125' SPK='|Lei|Sirius|' EXP Icon='🌠'>0708</msg>
-        <msg DTS='20260430190835' SPK='|LRRH|Sirius|' EXP=93 Icon='🐾'>0429:5 30 0303:2 04 08 11 12 16 17 28 29 31 0602:2 12 14 0701:2 08 10:2 12:2 16 17 19 20:2 21:2 22 23 24 26:2 27 28 0804 07:2 09 21:2 23 28 0901:10 02:5 19:4 23:6 28:6 1008:3 1009 16:2 18-21:3 1102:2</msg>
+        <msg DTS='20260430190835' SPK='|LRRH|Sirius|' EXP=94 Icon='🐾'>0429:5 30 0303:2 04 08 11 12 16 17 28 29 31 0602:2 12 14 0701:2 08 10:2 12:2 16 17 19 20:2 21:2 22 23 24 26:2 27 28 0804 07:2 09 21:2 23 28 0901:10 02:5 19:4 23:6 28:6 1008:3 1009 16:2 18-21:3 1101 02:2</msg>
         <msg DTS='20260615183415' SPK='Melody' EXP=2 Icon='🕊️'>0615 0903</msg>
         <msg DTS='20260628104109' SPK='Natalie' EXP=12 Icon='🕊️'>0628 0717 0905 15:3 18:5 1103</msg>
         <msg DTS='20260808095716' SPK='|Natalie|Sirius|' EXP Icon='🌠'>0808</msg>
@@ -63177,7 +63186,7 @@
         <msg DTS='20260522125211' SPK='Tanya' EXP=4 Icon='🚀'>0522 0609 11 15</msg>
         <msg DTS='20260714194111' SPK='|Tanya|Sirius|' EXP Icon='🌠'>0714</msg>
         <msg DTS='20260518225539' SPK='Vivi' EXP Icon='🦇'>0518</msg>
-        <msg DTS='20260621103350' SPK='Zoey' EXP=4 Icon='🕊️'>0621 0710 17 0902</msg>
+        <msg DTS='20260621103350' SPK='Zoey' EXP=5 Icon='🕊️'>0621 0710 17 0902 1025</msg>
       </note>
     </res>
     <res icon=":Potion:" item="26D9P9F1" title="Supplies" star="" tags="">
@@ -104547,6 +104556,11 @@ Potential legal/tax risks and mitigations: private‑benefit (mitigate with obje
         </res>
         <res icon="🌱" item="26FNMB2E" title="Nextdoor Group" star="" tags="" src="https://nextdoor.com/p/sW5fpYx4KppF">
           <msg DTS='20260622090819' SPK='Black' EXP Icon='🌱'>Started a Quest Society group at Nextdoor<url>https://nextdoor.com/p/sW5fpYx4KppF</url></msg>
+        </res>
+      </note>
+      <note dts="20261104120214" icon=":TreasureChest:" subtitle="Fund Raising">
+        <res icon=":TreasureChest:" item="26Y4C0A0" title="The Giving Pledge" star="" tags="" src="https://www.givingpledge.org/">
+          <msg DTS='20261101130056' SPK='Upert' EXP Icon='🧭'>Solicit donors at the Giving Pledge, especially certain old folks. <url>https://www.givingpledge.org/</url></msg>
         </res>
       </note>
       <hr>
