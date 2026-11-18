@@ -43348,8 +43348,9 @@
       <msg DTS='20261116152656' SPK='Robert' EXP Icon='💧'>1116</msg>
       <msg DTS='20261002143624' SPK='Sasha' EXP Icon='🎩'>1109</msg>
       <msg DTS='20260805114646' SPK='Skyle' EXP=2 Icon='🌾'>0805 0920</msg>
+      <msg DTS='20261115092208' SPK='StarTree' EXP Icon='⭐'>1115</msg>
       <msg DTS='20261002143624' SPK='Sylvia' EXP Icon='🎻'>1002</msg>
-      <msg DTS='20260717104401' SPK='Zoey' EXP=3 Icon='🌾'>0717 1025 1117</msg>
+      <msg DTS='20260717104401' SPK='Zoey' EXP=4 Icon='🌾'>0717 1025 1117:2</msg>
     </note>
   </res>
   <ref></ref>
@@ -63292,7 +63293,7 @@
         <msg DTS='20260427090725' SPK='Skyle' EXP=11 Icon='🪽'>0427:2 0505:2 17 20 0616 29:2 30 0920</msg>
         <msg DTS="20260502112443" SPK="Skyle" EXP=8 Icon="🔔">Reminders: 0216 26:2 0427 0501 13 0805:2</msg>
         <msg DTS='20260713105521' SPK='|Sasha|Sirius|' EXP Icon='🌠'>0713</msg>
-        <msg DTS='20260522195454' SPK='StarTree' EXP=7 Icon='💫'>0520 22:2 27 07 0610 1101</msg>
+        <msg DTS='20260522195454' SPK='StarTree' EXP=8 Icon='💫'>0520 22:2 27 07 0610 1101 15</msg>
         <msg DTS='20260508090254' SPK='Sylvia' EXP=9 Icon='🔥'>0508 14 27 0603 05 08 17 1002:2</msg>
         <msg DTS='20260716201808' SPK='|Sylvia|Sirius|' EXP Icon='🌠'>0716</msg>
         <msg DTS='20260522125211' SPK='Tanya' EXP=4 Icon='🚀'>0522 0609 11 15</msg>
@@ -108622,18 +108623,25 @@ All operations are conducted with strict neutrality, transparency, and accountab
         <note dts="20261114162330" icon="🦅" subtitle="Full Test">
           <msg DTS="20261114162429" SPK="|Koyo|Vibe|" EXP Icon="🧭">This prompt runs the full test. <textarea class="mbCode">Act as a quiz proctor on the article at https://magicbakery.github.io/ethics.html — read it first and cover all its major topics. Begin every reply with a timestamp in YYYY-MM-DD HH:MM:SS format (24-hour clock, from the system clock, never a placeholder). Ask me to type "start" and record that moment as the session start time, then present 32 multiple-choice questions one per reply, each with exactly 4 options (A–D), exactly one correct answer, and varied correct letters. After each of my answers, reply only "Correct!" or "Incorrect." with no explanation or answer reveal, then show the next question. If I type anything other than A, B, C, or D, ask for a letter without advancing; if I type "quit", end early treating unanswered questions as incorrect. Keep a running tally, and after question 32 (or "quit") show a results screen with a timestamp, the session duration in HH:MM:SS, my score, and a letter grade on the scale S 31–32, A 30, B 28–29, C 24–27, D 16–23, F 0–15, plus a one-line message matching the grade, and only then reveal the full answer key with the correct letter and a one-sentence explanation per question, highlighting the ones I got wrong.</textarea></msg>
           <hr>
+          <note dts="20261118114333" icon=":QuillPen:" subtitle="Prompt Design">
+            <msg DTS='20261117141911' SPK='Evelyn' EXP=1 Icon='📌'>The test runs a risk of a test taker remembering the keywords for the correct answer without understanding the meaning.</msg>
+            <msg DTS='20261117142201' SPK='Evelyn' EXP=1 Icon='📌'>Maybe we need to separate a section that shouldn't be on the test. It shouldn't ask the link notation question.</msg>
+          </note>
           <note dts="20261114164808" subtitle="-1:Duck">
             [-1] Evelyn<br>
             <msg DTS="20261114164836" SPK="Evelyn" EXP Icon="🥚">Duck AI couldn't do the time stamp properly, got two questions wrong, and got the final grade wrong. 31/32 should be S, but it gave an A.</msg>
             <msg DTS="20261114171825" SPK="Evelyn" EXP=2 Icon="🔍">The questions that Duck got wrong are: "Q:Which option gives the article’s four stages of democracy in order? A:Proposal, debate, voting, and enforcement" and "Q:What role does bidding play in the Quest Credits system? A:It provides a voluntary way to allocate or offer Quest Credits."</msg>
           </note>
-
+          <note dts="20261118114057" subtitle="-1:Gemini">
+            [-1] Evelyn<br>
+            <msg DTS='20261117144220' SPK='Evelyn' EXP=1 Icon='🔍'>Gemini forgot what was asked at about question 20 and started repeating the similar questions. It also got a wrong question. Because it forgot the prompt, it could not compute the test duration and the letter grade.</msg>
+          </note>
         </note>
         <note dts="20261115180840" icon="🕰️" subtitle="Log">
           <msg DTS='20261114172008' SPK='Albatross' EXP=2 Icon='🔍'>Testing</msg>
-          <msg DTS='20261114164237' SPK='Arcacia' EXP=2 Icon='💗'>Testing</msg>
+          <msg DTS='20261114164237' SPK='Arcacia' EXP=9 Icon='💗'>Testing: 1114:2 17:7</msg>
           <msg DTS='20261114163132' SPK='Duck' EXP=3 Icon='🦆'>Simulating a test.</msg>
-          <msg DTS='20261114163649' SPK='Evelyn' EXP=7 Icon='🐤'>Testing</msg>
+          <msg DTS='20261114163649' SPK='Evelyn' EXP=14 Icon='🐤'>Testing: 1114:7 17:7</msg>
           <msg DTS='20261114161216' SPK='Koyo' EXP=6 Icon='🐾'>Reviewing</msg>
           <msg DTS='20261114153625' SPK='Lei' EXP=4 Icon='🗝️'>Reviewing</msg>
           <msg DTS='20261114161220' SPK='LRRH' EXP=3 Icon='🔍'>Testing</msg>
