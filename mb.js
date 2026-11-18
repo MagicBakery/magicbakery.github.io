@@ -2487,7 +2487,7 @@ function MacroIcons(el,iHTMLInner){
     ["Tulip","🌷"],
     ["Turtle","🐢"],
     ["Ube",":Ube:"],
-    ["Unicorn",":🦄"],
+    ["Unicorn","🦄"],
     ["Violin","🎻"],
     ["Vote","🗳️"],
     ["Waffle","🧇"],
