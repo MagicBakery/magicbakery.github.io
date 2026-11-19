@@ -4043,22 +4043,22 @@
 			}
 			seemsImportant() {
 				SPEC("20260220212300", "Skyle", "Returns a reason string if the card should be protected from accidental deletion.");
-				if (this.el.classList.contains("pinned")) { return "This card has a ⭐."; }
-				if (this.el.dataset.o && this.el.dataset.o.trim() != "") { return "This card has user notes."; }
-				if (this.el.querySelector(".status-banner")) { return "This card has a caption."; }
+				
+				const mThisCard = "The card [" + this.el.dataset.n +"] ";
+				if (this.el.classList.contains("pinned")) { return mThisCard + "has a ⭐."; }
+				if (this.el.dataset.o && this.el.dataset.o.trim() != "") { return mThisCard + "has user notes."; }
+				if (this.el.querySelector(".status-banner")) { return mThisCard + "has a caption."; }
 				if (this.el.querySelector(".daily")) {
 					const icons = this.el.querySelector(".status-icons").innerText;
-					return "This card has quest status: " + icons + ".";
+					return mThisCard + "has quest status: " + icons + ".";
 				}
 				const data = DATAByID(this.el.dataset.id)
 				if (data) {
 					if ((data.cosmic || "") == this.el.dataset.c) { return ""; }
 				}
 				if (this.el.dataset.v && this.el.dataset.v.trim() != "") {
-					return "This card has a last modified UTC version stamp " + this.el.dataset.v + ", which is " + UTCshowLocal(this.el.dataset.v) + " in your local time.";
+					return mThisCard + "has a last modified UTC version stamp " + this.el.dataset.v + ", which is " + UTCshowLocal(this.el.dataset.v) + " in your local time.";
 				}
-
-
 				return "";
 			}
 			sendToStorage() {
